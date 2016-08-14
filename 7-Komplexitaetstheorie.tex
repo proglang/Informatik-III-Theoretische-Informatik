@@ -1,0 +1,229 @@
+\section[Komplexitätstheorie]{Komplexitätstheorie\datenote{29.01.15}}
+\subsection{Komplexitätsklassen und P/NP}
+
+\begin{Def}[name={[$\NTIME$ Klasse]}]
+	Sei $f:\N\->\N$ eine Funktion.\\
+	Die Klasse $\NTIME(f(n))$ besteht aus allen Sprachen, die von einer (Mehrkanal-)\ac{TM} $M$ in $T_M(w)\leq f(|w|)$ akzeptiert werden.\\
+	Dabei $T_M(w) =
+	\begin{cases}
+		\mathrlap{\text{Anzahl der Schritte einer kürzesten akzeptierenden Berechnung von $M$ auf }w}\\
+		1 & \text{falls }\nexists
+	\end{cases}$\\
+\end{Def}
+\begin{Def}[name={[Polynom]}]
+	Ein Polynom ist eine Funktion $p:\N\->\N$ mit $\exists k\in \N\ a_0,\dots,a_k\in\N$ und \mbox{$p(n)=\sum_i^k a_in^k$}
+\end{Def}
+\begin{Def}[name={[$NP$ Klasse]}]
+	Die Klasse $NP$ besteht aus allen Sprachen, die von \ac{NTM} in polynomieller Zeit akzeptiert werden können.
+	\[ NP = \cup_{p\text{ Polynom}} \NTIME(p(n)) \]
+\end{Def}
+Analog für deterministische TM:
+\begin{Def}[name={[$\DTIME$ Klasse]}]
+	Sei $f:\N\->\N$ Funktion\\
+	$\DTIME(f(n)) =$ Klasse der Sprachen, die von \ac{DTM} in $T_M(w)\leq f(|w|)$ Schritten akzeptiert wird.
+	\[ P = \cup_{p\text{ Polynom}} DTIME(P(n)) \qedhere \]
+\end{Def}
+Offenbar $P\leq NP$. Seit 1970 weiß man nicht, ob $P=NP$ oder $P\neq NP$
+\begin{description}
+\item[Praktische Relevanz:] Es existieren wichtige Probleme, die offensichtlich in $NP$ liegen, aber die besten bekannten Algorithmen sind exponentiell.\\
+	Beispiel: Traveling Salesman ($O(2^n)$), Erfüllbarkeit der Aussagenlogik.
+\item[Struktur:] Viele der $NP$-Probleme haben sich als gleichwertig erwiesen, in dem Sinn, dass eine $P$-Lösung für alle anderen liefert.\\
+	$\leadsto NP$-Vollständigkeit.
+\end{description}
+\begin{Def}[name={[Polynominell reduzeduzierbare Sprache $A\preceq_p B$]}]
+	Seien $A,B\subseteq\Sigma^*$ Sprachen. $A$ ist polynominell reduzierbar auf $B$, $A\preceq_p B$, falls $\exists$ totale berechenbare Funktion $f:\Sigma^*\->\Sigma^*$, deren Konfigurationszeit durch ein Polynom beschränkt ist und $w\in A \<==> f(w)\in B\quad \forall w\in\Sigma^*$
+\end{Def}
+\begin{lemma}\label{lem:A<B + BinP => AinP}
+	Falls $A\preceq_p B$ und $B\in P$ ($NP$) dann auch $A\in P$ ($NP$).
+\end{lemma}
+\begin{proof}
+	$B\in P: \exists M$, die $B$ in $p(n)$ Schritten akzeptiert.\\
+	$\exists M_f$, die die Reduktion $A\preceq_p B$ implementiert. Die Laufzeit von $M_f$ sei durch $q$ Polynom beschränkt.\\
+	Betrachte $M'=$"'erst $M_f$, dann $M$ auf dem Ergebnis"'
+	$M'$ akzeptiert $A$.\\
+	$w\in A\ M_f(w)$ liefert $f(w)$ in $\subseteq q(|w|)$ Schritten ohne $|f(m)|\subseteq q(|w|)$\\
+	$M(f(w))$ benötigt $\leq p(|f(w)|)\leq p(q(|w|))$ Schritte zum akzeptieren.\\
+	$\curvearrowright A\in \DTIME(q(w)+p(q(w))\subseteq P$
+\end{proof}
+\begin{lemma}[name={[$\preceq_p$ ist reflexiv und transitiv]}]
+	$\preceq_p$ ist reflexiv und transitiv.
+\end{lemma}
+\begin{proof}
+	Identität; ähnlich wie Beweis von \autoref{lem:A<B + BinP => AinP}.
+\end{proof}
+\begin{Def}[name={[$NP$-hart und $NP$-vollständig]}]\
+	\begin{itemize}
+	\item Eine Sprache $A$ heißt \underline{$NP$-hart} ($NP$-schwer), falls $\forall L\in NP : L\preceq_p A$.
+	\item Eine Sprache $A$ heißt \underline{$NP$-vollständig}, wenn $A$ $NP$-hart und $A\in NP$. \qedhere
+	\end{itemize}
+\end{Def}
+\begin{Bem}
+	Sobald eine $NP$-hartes Problem $A$ bekannt ist, reicht es $A\preceq_p B$ zu finden, um zu teigen, dass $B$ ebenfalls $NP$-hart ist.
+\end{Bem}
+\begin{Satz}
+	Sei $A\ NP$-vollständig.
+	\[ A\in P \<==> P=NP \]
+\end{Satz}
+\begin{proof}\ \\
+	"`\<=="' trivial.\\
+	"`\==>"' $A\in P\subseteq NP\quad \forall L\in NP: L\preceq_p A$. Nach \autoref{lem:A<B + BinP => AinP} : $L\in P$
+\end{proof}
+Ein erstes $NP$-vollständiges Problem.
+\begin{Def}[name={[$SAT$: Erfüllbarkeitsproblem der \acs*{AL}]}]
+	$SAT$, das Erfüllbarkeitsproblem der \acf{AL} ist  definiert durch
+	\begin{description}
+	\item[Eingaben:] Formal $F$ der \acl{AL}.
+	\item[Frage:] Ist $F$ erfüllbar, d.h. existiert eine Belegung $\beta$ der Variablen mit $\{0,1\}$, so dass $F[\beta]=1$ ist.
+	\end{description}
+	$SAT=\{\code(F) \mid F\text{ist erfüllbare Formel der \acs{AL}}\}$
+\end{Def}
+\begin{Satz}[Cook]
+	$SAT$ ist $NP$-vollständig.
+\end{Satz}
+\begin{proof}\
+	\begin{enumerate}
+	\item $SAT\in NP$\\
+		Rate nicht deterministisch eine Belegung $\beta$\\
+		Werte $F[\beta]$ aus\\
+		$\curvearrowright$ in $\NTIME(n)$ polynomiell
+	\item $SAT$ ist $NP$-hart.\\
+		Zeige: $\forall L\in NP : L \preceq_p SAT$\\
+		$L\in NP : \exists p$ Polynom, \ac{NTM} $M$ mit $L=L(M)$ mit Zeitschranke $T_M(w)\leq p(|w|)$.
+		
+		Sei $w = x_1\dots x_n\in\Sigma^*$ Eingabe für $M$.\\
+		Definiere $F$, so dass $F$ erfüllbar $\<==> M$ akzeptiert $w$
+		
+		Sei $Q=Q(M)$ mit $\{q_1,\dots,q_k\}=Q$\\
+		Sei $\Gamma = \Gamma(M)$ mit $\{a_i,\dots,a_l\} = \Gamma$\\
+		Definiere folgende Variablen zur Ver. in $F$
+		\begin{itemize}
+		\item $\mathrm{state}(t,q) = 1$, genau dann wenn $M$ nach $T$ Schritten im Zustand $q$
+		\item $\mathrm{pos}(t,i) = 1$, gdw. der Kopf von $M$ steht nach $t$ Schritten auf Position $i$.\\
+		$t\in\{0,\dots P(n)\}$\\
+		$i\in \{-p(n),\dots,0,1,\dots,p(n)\}$
+		\item $\mathrm{tape}(t,i,a) = 1$, gdw. nach $t$ Schritten befindet sich $a$ an Position $i$ auf dem Band.\\
+		$t\in\{0,\dots,p(n)\}$\\
+		$i\in\{-p(n),\dots,p(n)\}$\\
+		$a\in\Gamma$ \qedhere
+		\end{itemize}
+	\end{enumerate}
+\end{proof}
+\begin{lemma}
+	Für jedes $k\in\N\ \exists$ Formel $G$ mit $G(x_i,\dots,x_k)=1$ gdw. einer der $x_i,\dots,x_k = 1$ ist. Die Größe von $G$ ist polynomiell in $k$.
+\end{lemma}
+\begin{proof}
+	\[ G(x_i,\dots,x_k) = \bigvee_{i=1}^k x_i\land \bigwedge_{i\neg j}\neg (x_i\land x_j) \]
+\datenote{03.02.15}
+	$M=(Q,\Sigma,\Gamma,\delta,q_0,\blank,F)$ erkennt $L$ in $\NTIME(p),\ p$ Polynom.
+	
+	Ziel: Konstruiere aus $M,w$ eine Formel $F$, so dass
+	\begin{align*}
+		F\text{ erfüllbar} &\<-> M\text{ akzeptiert }w\\
+		\state(t,q) &\phantom{\<->} t\in 0,\dots,p(n), q\in Q\\
+		&\<=>\text{ nach $t$ Schritten ist $M$ in Zeile }q\\
+		\pos(t,i) &\<=>\text{ nach $t$ Schritten ist Kopf amn Pos } i\quad,\quad -p(n)\leq i\leq p(n)\\
+		\tape(t,i,a) &\<=>\text{ nach $t$ Schritten enthält Band}[i] = q\in\Gamma\\
+		F &= R \land A\land T_1
+	\end{align*}
+	\begin{enumerate}
+	\item Randbedingungen
+		\begin{align*}
+			R =&\phantom{\land}\, \bigwedge_t G(\state(t,q1),\dots,\state(t,q_k))\\
+			& \land \bigwedge_t G(\pos(t,-p(n)),\dots,\pos(t,D),\dots,\pos(t,p(n)))\\
+			& \land \bigwedge_{t,i} G(\tape(t,i,a_1),\dots,\tape(t,i,a_l)
+		\end{align*}
+	\item Anfangskonfiguration
+		\begin{align*}
+			A =&\phantom{\land}\; \state(0,q_1)\land \pos(0,1)\\
+			&\land\tape(0,1,x_1)\land\dots\land\tape(0,n,x_n)\\
+			&\land\bigwedge_{-p(n)\leq i\leq p(n)} \tape(0,i,\blank)
+		\end{align*}
+	\item Transitionsschritte
+	\begin{align*}
+		T_1 =& \bigwedge_{\substack{t\in 0,\dots,p(n)-1,\\i,n}} \state(t,q)\land \pos(t,i) \land \tape(t,i,a)\\
+		&\-> \state(z+1,q')\land \pos(t+1,i+d) \land \tape(t+1,i,a')\\
+		&\delta(q,a)\ni(q',a',d)\\
+		&d\in\{-1,a,1\}\\
+		T_2 =& \bigwedge_{\substack{t,i,q\\t<p(n)}} \neg \pos(t,i)\land \tape(t,i,a) \-> \tape(t+1,i,a)
+	\end{align*}
+	\item Endkonfiguration
+		\[ E = \bigvee_{q\in F} \state(p(n),q) \]
+		$|F|$ ist polznomiell beschränkt in $|M,w|$, also $L\preceq_p \mathrm{SAT}$\\
+		$\curvearrowright\ \mathrm{SAT}$ ist $NP$-vollständig.
+	\end{enumerate}
+\end{proof}
+
+\subsection{Weitere \textit{NP}-vollständige Probleme}
+\begin{Def}[name={[$3SAT$]}]
+	$3SAT$ ist das Erfüllbarkeitsproblem der \ac{AL} für Formeln in \ac{CNF} mit höchstens drei Literalen pro Klausel
+\end{Def}
+\begin{Satz}[name={[$3SAT$ ist $NP$-vollständig]}]
+	$3SAT$ ist $NP$-vollständig.
+\end{Satz}
+\begin{proof}
+	$3SAT \in NP$ offensichtlich.\\
+	Reduktion $SAT \preceq_p 3SAT$. Sei $F$ eine Formel der \ac{AL}.\\
+	Definiere $\phi: $ Formel $\->\{0,1\}^*\->$ Formel, sodass $F' = \phi(F,\epsilon)$ erfüllbar ist, gdw. $F$ erfüllbar.
+	\begin{align*}
+		\phi(\text{true},\pi) &= [y_\pi] \qquad, y_\pi\text{ neue Variable, nicht aus }F\\
+		\phi(\text{false},\pi) &= [\overline{y_\pi}]\\
+		\phi(x_i,\pi) &= [y_\pi \<-> x_i]\\
+		\phi(F_0\land F_1,\pi) &= \phi(F_0,\pi_0)\land\phi(F_1,\pi_1)\land [y_\pi\<->y_{\pi_0}\land y_{\pi_1}]\\
+		\phi(F_0\lor F_1,\pi) &= \phi(F_0,\pi_0)\land\phi(F_1,\pi_1)\land [y_\pi\<->y_{\pi_0}\lor y_{\pi_1}]\\
+		\phi(F,\pi) &\text{ ist min. um einen linearen Faktor größer als }F\\
+		&\text{ ist Konj. von eingeklammerten Termen }[\dots]
+	\end{align*}
+	\begin{itemize}
+	\item $y_\pi \<-> x_i = (\overline{y_\pi}\lor x_i)\land(y_\pi\lor \overline{x_i})$
+	\item $y_\pi\<-> y_{\pi_0}\land y_{\pi_1}
+		= (\overline{y_\pi}\lor y_{\pi_0}y_{\pi_1})
+		\land (y_\pi\lor \overline{y_{\pi_0}y_{\pi_1}})
+		= (\overline{y_\pi}\lor y_{\pi_0})
+		\land (\overline{y_\pi}\lor y_{\pi_1})$
+	\item $y_\pi\<-> y_{\pi_0}\lor y_{\pi_1}
+		= (y_\pi\lor \overline{y_{\pi_0}})
+		\land (y_\pi\lor\overline{y_{\pi_1}})
+		\land (\overline{y_\pi}\lor y_{\pi_0}\lor y_{\pi_1})
+		\land (y_\pi \lor \overline{y_{\pi_0}} \lor \overline{y_{\pi_1}})$
+	\end{itemize}
+\end{proof}
+\begin{Def}[$\CLIQUE$]
+	Sei $\mathcal{G}=(V,E)$ ein ungerichteter Graph und $k\in\N$.\\
+	$(\mathcal{G},k)\in\CLIQUE$, falls $\exists$ Clique der Größe $k$ in $\mathcal{G}$.\\
+	Eine Clique $C\subseteq V$, so dass $\forall u\neq v\in C: \{u,v\in E\}$
+\end{Def}
+\begin{Satz}[name={[$\CLIQUE$ ist $NP$-vollständig]}]
+	$\CLIQUE$ ist $NP$-vollständig.
+\end{Satz}
+\begin{proof}
+	Durch Reduktion: $3SAT \preceq_p \CLIQUE$\\
+	Sei $F$ eine Formel in 3\acs{CNF}, erweitert, so dass jede Klausel 3 Literale
+	\begin{align*}
+		(x\lor y) &\leadsto (x\lor y\lor x)\\
+		x &\leadsto (x\lor x\lor x)
+	\end{align*}
+	Jetzt $F = \bigwedge\limits_{i=1}^m (z_{i,1}\lor z_{i,2}\lor z_{i,3})$ \qquad $z_{i,j}\in \{x_i,\dots,x_n\}\cup\{\overline{x}_1,\dots,\overline{x}_n\}$
+	
+	Definiere $\mathcal{G} = (V,E)$ und $k$ wie folgt:
+	\begin{align*}
+		V &= \{ (i,j) \mid 1\leq i\leq m, j\in\{1,2,3\} \}\\
+		E &= \{\{(i,j),(p,q)\} \mid i\neq p, z_{i,j}\neq\neg z_{p,q}\\
+		k &= m
+	\end{align*}
+	$F$ ist erfüllbar.\\
+	\<==> in jeder Klausel $i$ muss mindestens ein Literal $= 1$ sein, unter Bedingung $\beta$.\\
+	$\<==> \exists$ Folge $z_{1,j_2},\dots,z_{m,j_m}$ mit $z_{i,j_2}[\beta]=1$\\
+	$\<==>\exists$ Folge $z_{1,j_1},\dots,z_{m,j_m}$, sodass $\forall i\neq p: z_{i,j_i}\neq \neg z_{p,j_p}$\\
+	$\<==>\exists$ Menge von Knoten $\{(1,j_1),\dots,(m,j_m)\}$ die paarweise durch Kanten verbunden sind.\\
+	$\<==>\exists$ Clique der Größe $k=m$ in $\mathcal{G}$
+\end{proof}
+\begin{Bsp*}
+	\begin{align*}
+	F &= (\underbrace{x\lor y\lor \overline{y}}_1) \land (\underbrace{z\lor \overline{y} \lor \overline x}_2)\\
+	\mathcal{G} &: \tikz[baseline=(11.base),label distance=-.5em]\graph[math nodes, chain shift={(0,-1)}, group shift={(1,0)}]{
+		{x[label={[name=11](1,1)}], y[label={(1,2)}], "\overline y"[label={(1,3)}]}
+		--[complete bipartite] 
+		{z[label={below:(2,1)}], 22/\overline y[label={below:(2,2)}], "\overline x"[label={below:(2,3)}]}
+	};
+	\end{align*}\rlnote{Grafik überprüfen}
+\end{Bsp*}

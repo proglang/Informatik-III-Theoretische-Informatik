@@ -1,0 +1,751 @@
+\section{Turing und Church}
+%\section{\acf{TM}}
+1930er Jahre\\
+Suche nach formalem Modell für maschinelle Berechenbarkeit
+\begin{description}
+	\item[Alaen Turing:] (1912-1954) Turingmaschine 1936
+	\item[Church:] Lambdakalkül 1936
+	\item[Kleene Sturgis:] partielle rekursive Funktionen
+	\item[Chomsky:] Typ-0-Grammatiken 1956
+\end{description}
+\underline{Alan Turing:}\begin{minipage}[t]{.8\textwidth}
+\begin{itemize}[parsep=0pt]
+	\item Informatik, Logik
+	\item Kryptographie (Enigma Entschlüsselung, Sprachverschlüsselung)
+	\item KI (Turing-Test)
+\end{itemize}\end{minipage}
+
+außerdem: Turing-Award
+
+\subsection{Turingmaschine \normalfont(informell)}
+Ein primitives Rechenmodell:
+\begin{figure}[H]\centering
+	\begin{tikzpicture}[every node/.style={block}]
+		\node (1) {\blank};
+		\node (2) [right=of 1] {b};
+		\node (3) [right=of 2] {a};
+		\node (4) [right=of 3] {n};
+		\node (5) [right=of 4] {a};
+		\node (6) [right=of 5] {n};
+		\node (7) [right=of 6] {e};
+		\node (8) [right=of 7] {\blank};
+		\node (9) [right=of 8] {\blank};
+		\node (10) [right=of 9] {\blank};
+		\node (11) [right=of 10] {\blank};
+		\node (last) [right=of 11] {\blank};
+		
+		\node (Kopf) [below=1.5em of 2, draw=none, text height=.5em] {Kopf}
+		edge [->, shorten >=.5ex, semithick] (2);
+		
+		\node (TB) [below=.5em of 9, draw=none, text height=.5em,  anchor=north west] {Turingband};
+		
+		\draw (8.south) -- ($(8.south)-(0,1em)$) -- ($(TB.north west)-(0,.5em)$);
+		
+		% Open begin and end.
+		\draw (1.north west) -- ++(-1cm,0) (1.south west)
+		-- ++ (-1cm,0) (last.north east)
+		-- ++ ( 1cm,0) (last.south east)
+		-- ++ ( 1cm,0);
+	\end{tikzpicture}
+	\vspace{-1em}
+	\caption{Turingband}
+	\framebox{q} = Zustand
+\end{figure}
+\vspace{-.5em}
+\begin{tabu}{>{\bfseries}X[.22]X[.72]}
+	Turingband & \vspace{-1em}\begin{itemize}[leftmargin=1em,parsep=0pt,topsep=0pt]
+	\item unendliches Band
+	\item Jedes Feld enthält ein Symbol aus einem Bandalphabet $\Gamma$
+	\item uninitialisiert: Blank \blank ist ein spezielles Symbol $\blank\in\Gamma$
+	\end{itemize}
+	\\
+	Kopf & \vspace{-1em}\begin{itemize}[leftmargin=1em,parsep=0pt,topsep=0pt]
+	\item zeigt immer auf ein Feld
+	\item nur am Kopf kann die \ac{TM} ein Zeichen lesen und schreiben
+	\item kann nach rechts /links bewegt werden
+	\item kann verändert werden
+	\end{itemize}\\
+	Zustand & \vspace{-1em}\begin{itemize}[leftmargin=1em,parsep=0pt,topsep=0pt]
+	\item kann verändert werden
+	\item kann gelesen werden
+	\item es gibt nur endlich viele Zustände
+	\end{itemize}\\
+	Turingtabelle\newline\normalfont
+	\begin{tabular}{|*5{c|}}
+		q & a & q' & a' & d \\\hline
+		&&&&\\
+		&&&&
+	\end{tabular}
+	& $\sim$ Programm $\sim$ Transitionsfunktion \newline
+	$\rightarrow$ Wenn \ac{TM} in Zustand $q$ und Kopf liest gerade Symbol $a\in\Gamma$ dann wechsle in Zustand $q'$. Schreibe $a'$ (über altes $a$) und bewege den Kopf gemäß $d\in\{L,R,N\}$
+\end{tabu}\
+
+\begin{samepage}
+	\begin{Bsp*}\ 
+		\vspace{-2em}
+		\begin{figure}[H]\centering
+			\begin{tikzpicture}[every node/.style={block}]
+				\node (1) {\blank};
+				\node (2) [right=of 1] {\blank};
+				\node (3) [right=of 2] {\cancel{b}};
+				\node (4) [right=of 3] {a};
+				\node (5) [right=of 4] {n};
+				\node (6) [right=of 5] {a};
+				\node (7) [right=of 6] {n};
+				\node (8) [right=of 7] {e};
+				\node (9) [right=of 8] {\cancel{\blank}};
+				\node (10) [right=of 9] {\blank};
+				\node (last) [right=of 10] {\blank};
+				
+				\node (q1) [draw=none, above=-2pt of 3] {\blank};
+				\node (q3) [draw=none, above=-2pt of 9] {b};
+				
+				% Open begin and end.
+				\draw (1.north west) -- ++(-1cm,0) (1.south west)
+				-- ++ (-1cm,0) (last.north east)
+				-- ++ ( 1cm,0) (last.south east)
+				-- ++ ( 1cm,0);
+			\end{tikzpicture}
+			\caption{Bsp.: Turingmaschine}
+			\vspace{.5em}
+			\begin{tabu}{|*5{M{c}|}l}\tabucline{1-5}
+				\everyrow{\tabucline{1-5}}
+				q_1 & b & q_2 & \blank & R\\
+				q_1 & x\pm b & q_1 & x & N\\
+				q_2 & \blank & q_3 & b & L\\
+				q_2 & x+\blank & q_2 & x & R\\
+				q_3 & x+\blank & q_3 & x & L\\
+				q_3 & \blank & q_4 & \blank & L\\
+				q_4 & x & q_4 & x & N & \-> Endzustand
+			\end{tabu}
+		\end{figure}
+	\end{Bsp*}
+\end{samepage}
+%
+\datenote{28.10.15}
+Was kann die \ac{TM} ausrechnen?
+\begin{enumerate}
+	\item Die \ac{TM} kann eine Sprache $L\subseteq\Sigma^*$ erkennen.
+	\begin{itemize}
+		\item Wörter müssen auf Band repräsentierbar sein $\Sigma\subseteq\Gamma\setminus\{\blank\}$
+	\end{itemize}
+	Ein Wort $w$ wird von einer \ac{TM} erkannt, wenn
+	\begin{itemize}
+		\item zu Beginn steht nur $w$ auf dem Band, alle anderen Zellen $=\blank$
+		\item Kopf auf erstem Zeichen von $w$
+		\item Zustand ist Startzustand $q_0$
+		\item Abarbeitung der \ac{TT}
+		\item Falls \ac{TM} nicht terminert: $w\notin L$
+		\item Falls \ac{TM} terminert betrachte den errechneten Zustand $q$.\\
+		Falls $q\in F$ (akzeptierter Zustand), dann $w\in L$, anderenfalls $w\notin L$
+	\end{itemize}
+	
+	\begin{Bsp*}
+		\begin{flalign*}
+			\Sigma &=\{0,1\} &\\
+			L &=\left\{w\in\Sigma^* \mid \,w\text{ ist Palindrom}\right\}\\
+			Q &= \{q_0,q_1,q_r^0, q_r^1, {q_r^0}', {q_r^1}', q_l^0, q_l^1 \} \quad F=\{q_1\}
+		\end{flalign*}
+		\begin{tabular}{@{}*6{M{l}}}
+			q_0      & \blank & q_1      & \blank & N & q_1 \x q_1\x N\\
+			q_0      & 0      & q_r^0    & \blank & R\\
+			q_0      & 1      & q_r^1    & \blank & R
+			\\ \cmidrule{1-5}
+			q_r^0    & \blank & q_1      & \blank & N\\
+			q_r^0    & 0      & {q_r^0}' & 0      & R\\
+			q_r^0    & 1      & {q_r^0}' & 1      & R\\
+			{q_r^0}' & \blank & q_l^0    & \blank & L & q_l\->\text{prüfe $0$, fahre zum linken Rand und weiter mit }q_0\\
+			{q_r^0}' & 0      & {q_r^0}' & 0      & R & \multirow{2}{*}{\hspace{-1em}$\begin{rcases}\\[1em]\end{rcases}$ Rechtslauf} \\
+			{q_r^0}' & 1      & {q_r^0}' & 1      & R
+		\end{tabular}\\[.5em]
+		\begin{tabular}{@{}*6{M{l}}|}
+			\multicolumn{6}{@{}l|}{Alternative 1:}\\
+			\multicolumn{6}{@{}l|}{\ac{TM} hält bei jeder Eingabe an.}\\[.5em]
+			q_l^0 & \blank & q_l^0  & \blank & N & \<-\text{Halt}\\
+			& 0   & q_l    & \blank & L &\\
+			& 1   & q_l^0  & 1      & N & \<-\text{Halt}
+		\end{tabular}\quad\begin{tabular}{@{}*5{M{l}}@{ }l}
+		\multicolumn{6}{@{}l}{Alternative 2:}\\
+		\multicolumn{6}{@{}l}{\ac{TM} hält nur bei Palindrom an.}\\[.5em]
+		q_l^0 & \blank & q_l^0 & 1      & N & \multirow{3}{*}{\scalebox{2.9}{\rotatebox[origin=rb]{-90}{$\curvearrowleftright$}}}\\
+		q_l^0 & 0      & q_l   & \blank & L\\
+		q_l^0 & 1      & q_l^0 & \blank & N
+		\end{tabular}
+	\end{Bsp*}
+	
+	\item Die \ac{TM} errechnet Funktion $f: \Sigma^*\-->\Sigma^*$\\
+	Die Berechnung von $f(w),\ w\in\Sigma^*$
+	\begin{itemize}
+		\item $w$ auf leeres Band
+		\item Kopf auf erstes Zeichen, Standardzustand $q_0$
+		\item Abarbeitung der \ac{TT}
+		\item Falls terminiert, dann Kopf zuerst auf erste Symbol von $v\in\Sigma^*$\\
+		Dann $f(w)=v$
+	\end{itemize}
+\end{enumerate}
+\begin{alignat*}{3}
+	\text{Schreibe}&\quad& A &\-->B &\quad& \text{totale Funktion von $A$ nach $B$}\\
+	&& A&\dashrightarrow B && \text{partielle Funktion von $A$ nach $B$}
+\end{alignat*}
+\begin{Bsp} % 2.1
+	$\Sigma=\{0,1\}$\\
+	Gesucht die \ac{TM}, die die Nachfolgefunktion auf natürliche Zahlen in Binärdarstellung berechnet.\\
+	Ausnahme: niederwertigste Stelle von der Zahl.\medskip\\
+	\begin{tabular}{@{}M{l}@{ } *5{M{l}} @{ }l}
+		\xrightarrow{\text{Start}} & q_0 & \blank & q_2 & 1 & L \\
+		& q_0 & 0      & q_1 & 1 & L \\
+		& q_1 & 1      & q_0 & 0 & R \\[.5em]
+		& q_1 & \blank & q_1 & \blank & N & \<-Halt\\
+		& q_1 & 0      & q_2 & 0 & L & \multirow{2}{*}{$\begin{rcases}\\[1em]\end{rcases}$ Linksmaschine}\\
+		& q_1 & 1      & q_2 & 1 & L
+	\end{tabular}
+\end{Bsp}
+
+\subsection{Formalisierung der \ac{TM}} % 2.2
+\begin{Def}[name={[\acs*{TM}]}] % 2.1
+	Eine \ac{TM} ist ein 7-Tupel
+	\begin{equation*}
+		\mathcal{A}=\left(Q,\Sigma,\Gamma,\delta,q_0,\blank,F\right)\\
+	\end{equation*}
+	\begin{itemize}
+		\item $Q$ ist endliche Menge der Zustände
+		\item $\Sigma$ ist endliches Alphabet
+		\item $\Gamma\supsetneq\Sigma$ ist endliches Bandalphabet
+		\item $\delta: Q\times\Gamma\-->Q\times\Gamma\times\{R,L,N\}$
+		\item $q_0\in Q$ Standardzustand
+		\item $\blank\in\Gamma\setminus\Sigma$ das Blank
+		\item $F\subseteq Q$ Menge der akzeptierenden Zustände
+	\end{itemize}
+\end{Def}
+Im Folgenden sei $\A=(Q, \Sigma, \Gamma, \delta, q_0, \blank, F)$ eine \ac{TM}.
+
+\begin{Def}[name={[Konfiguration einer \acs*{TM}]}] % 2.2
+	Eine Konfiguration einer \ac{TM}
+	ist ein Tupel
+	\[ (v,q,w) \in \Konf(\A)=\Gamma^*\times Q\times\Gamma^+  \]
+\end{Def}
+%
+\begin{itemize}
+	\item $v$ linke Bandhälfte,
+	\item $q$ Zustand,
+	\item $w$ rechte Bandhälfte,
+	\item Kopfpos auf erstem Symbol von $w$
+\end{itemize}
+
+Abk"urzend $ v qw \in \Konf(\mathcal{A}) $ steht für Band:
+\begin{figure}[H]\centering
+	\begin{tikzpicture}[every node/.style={block}, decoration={brace, amplitude=5pt}]
+		\node (A) {$v$};
+		\node (B) [right=of A] {$a$};
+		\node (C) [right=of B] {$w'$};
+		\node (D) [below=1em of B, draw=none] {Kopf; Zustand $q$}
+		edge [->, shorten >=.5ex, semithick] (B);
+		
+		\draw [decorate, semithick] (B.north west) -- (C.north east)
+		node [draw=none,above,midway] {$w$};
+		\draw (A.north west) -- ++(-1cm,0) (A.south west)
+		-- ++ (-1cm,0) (C.north east)
+		-- ++ ( 1cm,0) (C.south east)
+		-- ++ ( 1cm,0);
+	\end{tikzpicture}
+	\caption{$vqw$-Band}
+\end{figure}
+%
+\paragraph{Forts.:} Die \underline{Startkonfiguration} bei Eingabe $w$ ist:
+$\begin{cases}
+q_0\,w &, w\neq\epsilon\\
+q_0\,\blank &, w=\epsilon
+\end{cases}$\\
+Eine \underline{Haltekonfiguration} hat folgende Form: $vqaw$, so dass $\delta(q,a)=(q,a,N)$
+
+\begin{Def}[name={[Rechenschrittrelation]}] % 2.3
+	Die \underline{Rechenschrittrelation}
+	\[ \vdash\, \subseteq \Konf(\A)\x\Konf(A) \]
+	ist definiert durch
+	\begin{alignat*}{3}
+		1.&\ & v qaw &\vdash v q'a'w &\quad& \text{falls }\delta(q,a)=(q',a',N)\\
+		2.&& v qaw &\vdash v a'q'w && \text{falls }\delta(q,a)=(q',a',R), w\neq \epsilon\\
+		&&&\phantom{{}\vdash{}} v a'q'\blank && \ruleplaceholder{\widthof{falls $\delta(q,a)=(q',a',R)$}}, w=\epsilon\\
+		3.&& qaw &\vdash q'\blank a'w && \delta(q,a)=(q',a',L)\\
+		&& vbqaw &\vdash vq'ba'w && \ruleplaceholder{\widthof{$\delta(q,a)=(q',a',L)$}}\  b\in\Gamma
+	\end{alignat*}
+	$\vdash$ Einzelschritt, gesuchte Relation für endlich viele Schritte \smallskip\\
+	$\vdash^* \subseteq \Konf(\A) \x \Konf(\A)$ die reflexive transitive Hülle von $\vdash$
+\end{Def}
+
+
+\datenote{30.10.15}
+$\vdash$ Relation auf $\Konf(\A)\hat=$ Berechnungsschritt\\
+$\vdash^*$ reflexiv, transitiver Abschluss $\hat=$ endl.\ viele Berechnungsschritte
+%
+\paragraph{Exkurs:} binäre Relationen\\
+$A$ Menge, jedes $R\subseteq A\x A$ ist binäre Relation auf A\\
+\begin{Bsp*}\ \\
+	\begin{tabular}{M{r}l}
+		\varnothing & leere Relation \\
+		A\x A     & volle Relation \\
+		\1_A =\{(x,x) \mid x\in A\} & Gleichheit auf $A$\\
+		\leq\,\subseteq\N\x\N\quad <\, \subseteq \N\x\N\quad & $\mid\, \subseteq\N\x\N$
+	\end{tabular}\medskip\\
+	Mengenoperationen auf Rel. ok
+	\begin{align*}
+		R_1 &=\, <\cup\, \1_\N =\, \leq\\
+		(x,y) &\in R_1 \<=> x<y\ \lor\ x=y\\
+		R_2 &= <\cap\, \1_\N = \varnothing\\
+		F_3 &= \{(x,y)\mid y=3x\}\subseteq \N\x\N
+		% y durchgestrichen
+	\end{align*}
+\end{Bsp*}
+\refstepcounter{Def}
+\begin{subDef}[name={[$R,S\subseteq A\x A$ Relation]}] %2.4.1
+	$R,S\subseteq A\x A$ Relation\\
+	Die Verkettung (Komposition) von $R$ und $S$
+	\[ R\circ S = \{(x,y)\in A\times A \mid \exists z\in A: (x,z)\in R,(z,y)\in S)\} \]
+\end{subDef}
+\begin{Bsp*}
+	\begin{align*}
+		&\underbrace{<\circ\1_\N}_{=S_1} =\, <\\
+		&(x,y)\in S_1\\
+		\<=>\ & \exists z: x<z\ ,z=y\\
+		\<=>\ & x<y\\
+		&F_3\circ F_3\\
+		&(x,y)\in F_3\circ F_3\\
+		\<=>\ & \exists z: (x,z)\in F_3\ ,\ (z,y)\in F_3\\
+		\<=>\ & \exists z: z=3x\ \land\ y=3z\\
+		\<=>\ & y=9x
+	\end{align*}
+\end{Bsp*}
+\begin{subDef}[name={[$R\subseteq A\x A$]}] % 2.4.2
+	$R\subseteq A\x A$
+	\begin{enumerate}[label={\alph*)}]
+		\item R ist \underline{reflexiv}, falls $\1_A\subseteq R$
+		\item R ist \underline{transitiv}, falls $R\circ R \subseteq R$
+	\end{enumerate}
+\end{subDef}
+\begin{Bsp*}
+	\begin{tabular}[t]{M{l}ll}
+		\1_A & refl. & trans.\\
+		\leq_\N & refl. & trans.\\
+		\varnothing & nicht refl. & trans.\\
+		\mid & refl. & trans.\\
+	\end{tabular}
+\end{Bsp*}
+\begin{subDef}[name={[$R\subseteq A\x A$ Relation]}] % 2.4.3
+	$R\subseteq A\x A$ Relation\\
+	Der reflexiv transitive Abschluss (Hülle) von $R$ ist
+	\begin{align*}
+		R^* &=\bigcup\limits_{n\in\N} R^n\\
+		\shortintertext{mit}
+		R^0 &=\1_A \quad,\ R^{n+1}=R\circ R^n
+	\end{align*}
+\end{subDef}
+%
+Bem:\quad $R^* =1\cup R\circ R^*$ gilt auch.
+
+Es gilt: Für bel. $R$:
+\begin{itemize}
+	\item $R^*$ refl. \quad:\quad $\1 = R^0\subseteq\bigcup\limits_{n\in\N}R^n=R^*$
+	\item $R^*$ trans.
+	\begin{align*}
+		R^* &\circ R^* \subseteq R^*\\
+		R^* &\circ \bigcup_n R^n\\
+		\forall n: R^* &\circ R^n \subseteq R^*\\
+		\=> R^* &\circ \bigcup_n R^n \subseteq R^*
+	\end{align*}
+%	\rlerror*{Wortkorrektur nötig}{Refvim?}
+\end{itemize}
+${\vdash^2} = {\vdash}\circ\vdash$ zwei Schritte\\
+$\vdash^*$ endl. viele Schritte
+%
+\begin{Def}[Die von \acs*{TM} $\A$ erkannte Sprache] % 2.5
+	\begin{align*}
+		L(\A)=\{ w\in\Sigma^* \mid{}
+		& q_0 w \vdash^*uqv\\
+		&uqv \text{ Haltekonfiguration}\\
+		&q\in F\}
+	\end{align*}
+\end{Def}
+\underline{Beachte:}
+$w\notin L(\A)\begin{casesarrows}
+\A\text{ kann anhalten}          \\
+\A\text{ kann nicht terminieren}
+\end{casesarrows}$
+
+\begin{Def}[Die von \ac{TM} $\A$ berechnete Funktion] % 2.6
+	\begin{alignat*}{3}
+		&&&f_\A:\Sigma^*- \->\Sigma^*\\
+		&&&f_\A(w)=v\\
+		&\text{ falls } &&q_0w \vdash^*uqv'&\quad&\text{Haltekonf.}\\
+		&\text{ und } &&v=\out( v')\\[.5em]
+		&\out:\Gamma^* &&\-> \Sigma^*\\
+		&\out(\epsilon) &&= \epsilon\\
+		&\out(au) &&= a\cdot\out(u) &\quad& a\in\Sigma\\
+		&\out(bu) &&= \epsilon && b\in\Gamma\setminus\Sigma
+	\end{alignat*}
+\end{Def}
+\underline{Beachte:} Falls $q_0 w$ nicht terminiert, dann ist $f_\A(w)$ nicht definiert.
+
+Eine \ac{TM} $\A$ terminiert nicht bei Eingabe $w$, falls für alle $uq'v$, so dass $q_0w\vdash^*uq'v$\\
+$uq'v$ ist keine Haltekonfiguration.
+
+\subsection{Techniken zur \ac{TM} Programmierung}
+\begin{itemize}
+	\item Endlicher Speicher\\
+	Zum Abspeichern eines Elements aus endl. Menge $A$ verwende
+	\[ Q'=Q\x A \]
+	\item Mehrspurmachinen
+	\begin{figure}[H]\centering
+		{\renewcommand{\arraystretch}{0.8}
+		\begin{tabu} to .5\textwidth {X[.35]|X[.65]}
+			&\\\hline
+			&\\\hline
+			&\\\hline
+			&\\\hline
+			&
+		\end{tabu}}
+		\caption{Mehrspurmachine}
+	\end{figure}
+	
+	Eine $k$-Spur \ac{TM} kann gleichzeitig $k\geq 1$ Symbole $\<- \Gamma$ unter dem Kopf lesen.\\
+	Kann durch Standard \ac{TM} simuliert werden:
+	\[ \Gamma' = \Sigma \overset{.}{\cup} \Gamma^k\text{ mit } \blank'=\blank^k \]
+	\dots vereinfacht die Programmierung\\
+	\begin{Bsp*}
+		Schulalg. für binäre Addition, Multiplikation
+	\end{Bsp*}
+	\item \underline{Mehrbandmachinenen}\\
+	Eine $k$-Band \ac{TM} besitzt $k\geq1$ Bänder und $k$ Köpfe, die bei jedem Schritt lesen, schreiben und sich unabhängig voneinander bewegen.
+	\[ \delta_K:Q\x\Gamma^k \-> Q\x\Gamma^k\x \{R,L,N\}^k \]
+	\item keine herkömmliche \ac{TM} (für $k>1$)
+	\item kann durch $2k+1$ Spur \ac{TM} simuliert werden:\\
+	\begin{tabular}{lll}
+		Spur\\
+		1 & \ruleplaceholder[ Band 1 ]{.5\linewidth}\\
+		2 & \hspace{.23\linewidth}\# Kopf für Band 1\\
+		3 & \ruleplaceholder[ Band 2 ]{.5\linewidth}\\
+		4 & \multicolumn1r{\# Kopf\qquad\ }\\
+		& \vdots\\
+		$2k$ & \hspace{.09\linewidth}\dots\hspace{.09\linewidth} \# Kopf $k$\\
+		$2k+1$ & \# &\#\#\\
+		& linker Rand & rechter Rand
+	\end{tabular}
+\end{itemize}
+\vspace{1em}
+
+\datenote{04.11.15}
+\begin{Satz}[name={[Simulation von $k$-Band \acs*{TM} durch 1-Band \acs*{TM}]}]
+	Eine $k$-Band \ac{TM} kann durch eine 1-Band \ac{TM} simuliert werden.\quad $M=(Q\dots)$
+\end{Satz}
+\begin{proof}
+	Zeige: ein Schritt der $k$-Band \ac{TM} wird durch endlich viele Schritte auf einer 1-Band \ac{TM} simuliert.
+	\begin{enumerate}
+		\item Schritt: Kodierung der Konfiguration der $k$-Band \ac{TM}\\
+		Definiere $M'$ als \ac{TM} mit $2k+1$ Spuren und $\Gamma'=\Gamma\cup\{\#\}$
+		\begin{itemize}
+			\item Die Spuren $1,3,\dots,2k-1$ enthalten das entspr. Band von $M$: Band $i\<->$ Spur $2i-1$
+			\item Die Spuren $2,4,\dots,2k$ sind leer bis auf eine Marke \#, die auf Spur $2i$ die Position des Kopfes auf Band $i$ markiert
+			\item Spur $2k+1$ enthält\\
+			\#\phantom{\#} Marke für linken Rand\\
+			\#\# Marke für rechten Rand\\
+			Zwischen den beiden Marken befindet sich der bearbeitete Bereich des Bands. D.h. die \ac{TM} arbeitet zwischen der linken und rechten Marke und schiebt die Marken bei Bedarf weiter.
+		\end{itemize}
+		
+		\item Schritt: Herstellen der Start-Konfiguration.\\
+		Annahme: Eingabe für $M$ auf Band 1\\
+		Jetzt Eingabe (für $M'$) $w = a_1\dots a_n$
+		\begin{enumerate}
+			\item Kopiere $w$ auf Spur 1
+			\item Kopf setzen auf Spur $2,\dots,2k$ an die Position des ersten Symbols von $w$
+			\item auf Spur $2k+1$: \verb*!# ##!
+	\end{enumerate}
+	\begin{tabular}{*2{M{l}}}
+		2k+1 & \#\blank\#\#\\
+		2k & \#\\
+		2k-1 & \blank\\
+		\vdots\\
+		4 & \#\\
+		3 & \blank\\
+		2 & \#\\
+		\text{Spur }1 & a_1a_2\dots a_2
+	\end{tabular} 
+	
+	Springe nach Sim($q_0$), der Zustand in $M'$, an dem die Simulation des Zustands $q$ aus $M$ beginnt.
+	
+	\item Simulation eines Rechnerschritts im Zustand Sim($q$):\\
+	Kopf auf linker Begrenzung, d.h. linker \# auf Spur $2k+1$
+	\begin{itemize}
+		\item Durchlauf bis rechter Rand, sammle dabei Symbole unter den Köpfen, speichern in endl. Zustand $\overrightarrow{\gamma} \in \Gamma^k$
+		\item Berechne $\delta(q,\overrightarrow{\gamma})=(q',\overrightarrow{\gamma'},\overrightarrow{d})$\\
+		neuer Zustand, für jeden Kopf ein neues Symbol $\overrightarrow{\gamma'}$ und Richtung $\overrightarrow{d}$.
+		\item Rücklauf nach links, dabei Schreiben um $\overrightarrow{\gamma}'$ und Versetzen der Köpfe gem"a"s $\overrightarrow{d}$.
+	\end{itemize}
+	Falls eine Kopfbewegung den Rand auf Spur $2k+1$ überschreitet, dann verschiebe Randmarke entsprechend.
+	
+	Beim Rücklauf: Test auf Haltekonfiguration der $k$-Band \ac{TM}.\\
+	Falls ja, dann Sprung in Haltekonf. von $M'$
+	
+	Weiter im Zustand Sim$(q')$.
+	\end{enumerate}
+\end{proof}
+
+\begin{Korollar*}
+	Beim Erkunden eines Worts der Länge $n$ benötige die $k$-Band Maschine $M\ T(n)$ Schritte und $S(n)$ Zellen auf den Bändern.
+	\begin{itemize}
+		\item $M'$ benötigt $O(S(n))$ Zellen
+		\item $M'$ benötigt $O(S(n\cdot T(n)))$ Schritte $=O(T(n)^2)$
+	\end{itemize}
+	Weitere \ac{TM}-Booster
+	\begin{itemize}
+		\item Unbeschränkt großer Speicher
+		\begin{itemize}[label=\->]
+			\item für jede "`Variable"' ein neues Band
+	\end{itemize}
+	\item Datenstrukturen
+	\begin{itemize}[label={\rotatebox[origin=c]{180}{$\Lsh$}}]
+		\item ensprechend kodieren.
+	\end{itemize}
+	\end{itemize}
+\end{Korollar*}
+
+\subsection{Registermaschinen}
+\begin{figure}[H]\centering
+	\begin{tikzpicture}[every node/.style={block}, decoration={brace, amplitude=5pt}]
+		\node (A) {};
+		\node (A1) [draw=none, below=of A] {$r_1$};
+		\node (B) [right=of A] {};
+		\node (B1) [draw=none, below=of B] {$r_2$};
+		\node (C) [right=of B] {};
+		\node (C1) [draw=none, below=of C] {\dots};
+		\node (D) [right=of C] {};
+		\node (E) [right=of D] {};
+		\draw (E.north east)
+		-- ++ ( 1cm,0) (E.south east)
+		-- ++ ( 1cm,0);
+	\end{tikzpicture}
+	\caption{Registermaschine}
+\end{figure}
+\vspace{-1em}
+Register:
+\begin{itemize}
+	\item unendlich viele Register
+	\item jedes enthält natürliche Zahl
+\end{itemize}
+\framebox{pc} Befehlszähler $\in\N$\\
+Programm = \underline{endliche} Tabelle von Instruktionen.
+
+Folgende Instruktionen gibt es:
+\begin{itemize}
+	\item $\inc(i)$ \ Inkrementiere $r_i$
+	\item $\dec(i)$ \ Dekrementiere $r_i$
+	\item if0($i$) goto $j$ \ Falls $r_i=0$ springe nach Instruktion $j$
+\end{itemize}
+\begin{Bsp}
+	Addiere $r_1$ und $r_2$ Ergebnis in Register $r_1$.
+	
+	0: if0(2) goto 4\\
+	1: dec(2)\\
+	2: inc(1)\\
+	3: if0(3) goto 0
+	
+	Terminert, falls $pc$ nicht mehr auf Instruktion zeigt.
+\end{Bsp}
+\begin{Def}[\acf{RM}]
+	Die \underline{\ac{RM}-Instruktion} sind gegeben durch
+	\[ \text{Instr} = \{\inc, \dec\}\x\N\ \cup\ \{\text{if0}\}\x\N\x\N \]
+	Ein \underline{\ac{RM}-Programm} ist eine Abbildung\\
+	$P:[0\dots m]\->\Instr$
+\end{Def}
+\begin{Def}[Semantik der \ac{RM} bezüglich eines Programms $P$]\
+	
+	Der Zustandsraum der \ac{RM} ist
+	\begin{align*}
+		Z ={} &\N\x\N^\N\\
+		&pc \quad \text{Registerinhalte entspr. }\N\->\N
+	\end{align*}
+	Die Semantik eines \ac{RM}-Befehls:
+	\begin{align*}
+		\llbracket\cdot\rrbracket &: \Instr \-> Z\-> Z\\
+		\llbracket\inc(i)\rrbracket(pc,r) &= (pc+1,r[i\mapsto r(i)+1])\\
+		\llbracket\dec(i)\rrbracket(pc,r) &= (pc+1,r[i\mapsto r(i)\overset{\text{\normalsize .}}-1])\\
+		\llbracket\text{if0($i$) goto }j\rrbracket(pc,r) &= 
+		\begin{cases}
+			(pc+1, r) &, r(i)\neq 0\\
+			(j,r) &, r(i)=0
+		\end{cases}
+	\end{align*}
+	%
+	Semantik eines Programms
+	\begin{align*}
+		\llbracket\cdot\rrbracket &: \text{Prog} \-> Z- \-> Z\\
+		\llbracket P \rrbracket(pc,r) &=
+		\begin{cases}
+			\llbracket P \rrbracket \left(\llbracket \text{ins} \rrbracket(pc,r)\right) &P(pc)=\text{ins}\\
+			(pc,r) &P(pc)\text{ nicht definiert}
+		\end{cases}
+	\end{align*}
+\end{Def}
+Dabei wird verwendet: 
+\begin{enumerate}
+	\item 
+	Funktionsupdate $f[a \mapsto b]$ 
+	\begin{align*}
+		f&: A\->B\\
+		f[a\mapsto b] &=: f'\\
+		\text{mit } f'(x) &=
+		\begin{cases}
+			b & x=a \\
+			f(x) & x\ne a
+		\end{cases}
+	\end{align*}
+	\item abgeschnittene Subtraktion
+	\begin{align*}
+		m \overset{\text{\normalsize .}}- n &=
+		\begin{cases}
+			m-n &,m\geq n\\
+			0 &, m<n
+		\end{cases}
+	\end{align*}
+\end{enumerate}
+
+
+\subsection*{\acl{RM}\datenote{06.11.15}}
+\[ P:([0\dots m] \-> \text{Instr}) = \text{Prog} \]
+Die Ein- und Ausgabefunktionen seien wie folgt definiert:
+\begin{align*}
+	\text{in}^{(n)} &:\N^n \-> Z & \text{in}^{(n)}(\overrightarrow{x}) &= \left( 0,r_0[i\->x_i] \right) \quad \forall n: r_0(n)=0\\
+	\out^{(m)} &: Z \-> \N^m & \out^{(m)}(pc,r) &= \left( r(1),\dots,r(m) \right)\\
+	\shortintertext{Die von $P$ berechnete Funktion}
+	f_P: &\N^n \->\N^m & f_P &= \out^{(m)} \circ [[P]]\circ \text{in}^{(n)}
+\end{align*}
+
+\subsection{Simulation} % 2.5
+\begin{Satz}[name={[Simulation von \acs*{RM} durch \acs*{TM}]}] % 2.2
+	Jedes \ac{RM}-Programm kann durch eine \ac{TM} simuliert werden.
+\end{Satz}
+\begin{proof}
+	Das \ac{RM}-Programm benutzt nur Register $[0\dots K]$\\
+	Verwende eine $K+2$-Band \ac{TM}:
+	\begin{itemize}
+		\item Band $1\dots k+1$: Registerinhalt binär kodiert
+		\item Band 0: Ein-/Ausgabe
+		\item Kodiere $pc\ [0\dots m]$ im Zustand der \ac{TM}
+	\end{itemize}
+	Initialzustand
+	\begin{itemize}
+		\item Dekodiere Eing. $v_1\#v_2\dots \#{v_n}$\\
+		Kopiere $v_i\->\operatorname{Band}_i$
+		\item Lösche Band 0
+		\item Initialisiere weitere Bänder 0
+		\item Zustand $\curvearrowright\Sim(pc=0)$
+	\end{itemize}
+	\paragraph{Schritt:}
+	\begin{itemize}
+		\item Falls $P(pc)=\operatorname{Inc}(i)$ wende \ac{TM} aus Beispiel 2.2 %\ref{bsp:2.2}
+		auf Band $i+1$ an
+		\item Zustand $\curvearrowright \Sim(pc+1)$
+		\item Falls $P(pc)=\operatorname{Dec}(i)$
+		\begin{itemize}
+			\item wende \ac{TM} für Dec auf Band $i+1$ an
+			\item Zustand $\curvearrowright \Sim(pc+1)$
+	\end{itemize}
+	\item Falls $P(pc) =$ If $O(i)$ goto $j$
+	\begin{itemize}
+		\item Teste ob Band $i+1=0$:\\
+		Zustand $\curvearrowright \begin{cases}
+		\Sim(pc=j) & ,\text{Band inf 0}\\
+		\Sim(pc+1)
+		\end{cases}$
+	\end{itemize}
+	\item Falls $P(pc)$ nicht definiert ist\\
+	Kopiere Ausgaben von Band $1-n$ nach Band 0\\
+	$\->$ Haltezustand
+	\end{itemize}
+\end{proof}
+
+\begin{Satz}[name={[Simulation von \acs*{TM} durch \acs*{RM}]}]
+	Jede \ac{TM} kann durch ein \ac{RM}-Programm simuliert werden.
+\end{Satz}
+\begin{proof}
+	Wir nummerieren:
+	\begin{itemize}
+		\item die Zustände $Q=\{q_0,\dots,q_z\}$
+		\item die Elemente des Bandalphabets $\Gamma=\{a_0,\dots,a_s\}$ wobei $a_0=\blank$ (Blank hat Nummer 0)
+	\end{itemize}
+	Nun können wir Zustände/Elemente des Bandalphabets als Zahlen $[0\dots z]/[0\dots s]$ interpretieren.\\[1em]
+	\begin{minipage}{.5\textwidth}
+		\begin{itemize}
+			\item Register 0 rechter Teil des Bandes
+			\item Register 1 linker Teil des Bandes
+			\item Register $Z$ enthält Zustand
+		\end{itemize}
+	\end{minipage}\begin{minipage}{.4\textwidth}\centering
+	    \captionsetup{type=figure}
+		\begin{tikzpicture}[every node/.style={block}]
+			\node (b) {$b_1$};
+			\node (l) [draw=none, left=of b] {\dots};
+			\node (r) [draw=none, right=of b] {\dots};
+			
+			\draw [{Bar[]}-{Bar[]},semithick] ($(b.north west)+(0,.5em)$) -- ($(b.north east)+(1cm,.5em)$);
+			
+			\draw [->,semithick,shorten >=.5ex] ($(b.south)-(0,1.5em)$) -- (b.south);
+			
+			% Open begin and end.
+			\draw (b.north west) -- ++(-1cm,0) (b.south west)
+			-- ++ (-1cm,0) (b.north east)
+			-- ++ ( 1cm,0) (b.south east)
+			-- ++ ( 1cm,0);
+		\end{tikzpicture}
+		\captionof{figure}{\ac{TM} Simulation durch \ac{RM}}
+	\end{minipage}
+	
+	Allgemein wird Konfiguration $c_m\dotsc\ c_1\ q\ b_1\dots b_n$ repräsentiert als
+	\begin{align*}
+		r_0 &= b_1\cdot (s+1)^0+b_2\cdot(s+1)^1+ \dots +b_n\cdot(s+1)^{n-1}\\
+		r_1 &= c_1\cdot (s+1)^0+c_2\cdot(s+1)^1+ \dots +c_m\cdot(s+1)^{m-1}
+	\end{align*}
+	\paragraph{Initialisierung:}
+	\begin{itemize}[label=\textbullet]
+		\item Eingabe von $b_1,\dots,b_n$ kodiert als Zahl in $r_0=b_1+b_2(s+1)+\dots+b_n(s+1)^{n-1}$
+		\item $r_1=0$
+		\item $r_2=0$ Startzustand $q_0$
+	\end{itemize}
+	Schritt
+	\begin{align*}
+		r_3 &:= r_0 \mod(s+1) &&\text{erstes Symbol}\\
+		r_0 &:= r_1 \div(s+1) &&"(r_0<<1)"\\
+		\delta(q,a) &= (q',a',d) &&\text{Hält, falls }q=q',a=a',d=N\\
+		\phantom{\delta(}r_2,r_3\\
+		r_2 &:= q'\\
+		r_3 &:= a'
+	\end{align*}
+	\begin{itemize}
+		\item If $d=N$
+		\[ r_0 := r_3+(s+1)r_0 \]
+		\item else if $d=R$
+		\[ r_1 := r_3+(s+1)r_1 \quad "(r_1>>1)" \]
+		\item else if $d=L$
+		\begin{align*}
+			r_0 &:= r_3+(s+1)r_0\\
+			r_3 &:= r_1\mod(s+1)\\
+			r_1 &:= r_1\div(s+1)\\
+			r_0 &:\phantom{=} r_3+(s+1)r_0
+		\end{align*}
+	\end{itemize}
+\end{proof}
+
+\subsection{Das Gesetz von Church-Turing (Churchsche These)} % 2.6
+\begin{Satz}[name={[Intuitiv berechenbare Funktionen sind mit \acs*{TM} berechenbar]}]
+	Jede intuitiv berechenbare Funktion ist mit \ac{TM} (in formalem Sinn) berechenbar.
+	
+	"`Intuitiv berechenbar"' $\equiv$ man kann Algorithmus hinschreiben
+	\begin{itemize}
+		\item endliche Beschreibung
+		\item jeder Schritt effektiv durchführbar
+		\item klare Vorschrift
+	\end{itemize}
+	Status wie Naturgesetz -- nicht beweisbar
+	\begin{itemize}[label=\->]
+		\item allgemein anerkannt
+		\item weitere Versuche Berechenbarkeit zu formulieren, äquivalent zu \ac{TM}en erwiesen.
+	\end{itemize}
+\end{Satz}

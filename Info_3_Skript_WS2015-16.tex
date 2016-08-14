@@ -1,0 +1,342 @@
+% Compiled with pdflatex -enable-write18 -synctex=1 -interaction=nonstopmode
+\RequirePackage[l2tabu,orthodox]{nag}
+\documentclass[11pt,paper=a4,DIV=12,titlepage,headsepline,ngerman,listof=totoc]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\usepackage{babel}
+%
+\usepackage{acronym}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{array}
+\usepackage{booktabs} % Better rules: \toprule, \midrule, \bottomrule
+\usepackage{calc}
+\usepackage{cancel}
+\usepackage[iso]{datetime} % Date format
+\usepackage{enumitem}
+\usepackage{float} % H - option for figure
+\usepackage{graphicx}
+\usepackage{listings} % Source printing & syntax highlighting
+\usepackage{mathtools}
+\usepackage{multirow}
+\usepackage{placeins} % \FloatBarrier
+\usepackage{stmaryrd} % Symbols like \llbracket for [[
+\usepackage{tabu}
+
+% physics package, without redefinitions
+\usepackage[log-declarations=false]{xparse} % Fix for invalid error file reference for errors in log file (because of parentheses in d() arguments).
+\usepackage[notrig]{physics}
+\let\div\divisionsymbol             % \div = tex: \div | physics: \divergence
+\let\Real\Re \let\Re\real           % \Re = tex: \Re   | physics: \Re => \Real
+\let\Imaginary\Im \let\Im\imaginary % \Im = tex: \Im   | physics \Im => \Imaginary
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{ulem}  % emph = \underline
+\newcommand\coloruline[2]{\colorlet{colorsave}{.}{\color{#1}\uline{{\color{colorsave}#2}}}}
+%\usepackage{xhfill}
+
+% References
+\usepackage[bookmarksnumbered,colorlinks=false,linkbordercolor={0 0 0},pdfborder={0 0 0}]{hyperref}
+%\usepackage{hypcap}
+\usepackage[hypcap]{caption} % \captionof + hypcap = link at begin of figure etc.
+\usepackage{subcaption} % subfigure
+%\usepackage{lastpage}
+
+% Custom packages and macros
+%\usepackage{import} \subimport{..\}{latexmacros.tex}
+\input{latexmacros.tex}
+
+
+% == fixme ==
+\usepackage{fixme}
+% Register users for user commands
+\FXRegisterAuthor{rl}{anrl}{RL} % Ralph Lesch  => \rlnote = \txnote[user=RL]
+\FXRegisterAuthor{pt}{anpt}{\bfseries PT} % Peter Thiemann
+\FXRegisterAuthor{date}{andate}{\color{black}Vorlesung} % \datenote = Lecture date
+%
+\fxsetup{
+	status=draft,
+	multiuser,
+	theme=color,
+	innerlayout={layout=marginnote}, % fxnotes also in displaymath...
+%	targetface=\color{red},
+%	marginface=\color{red},
+%	inlineface=\color{red}
+}
+\fxloadlayouts{marginnote}
+% For color theme/layout:
+\definecolor{fxnote}{named}{Green}
+\definecolor{fxwarning}{named}{Orange}
+\definecolor{fxerror}{named}{red}
+\definecolor{fxfatal}{named}{BrickRed}
+\renewcommand*{\marginfont}{\color{red}}
+%\renewcommand*{\fxnotename}[1]{\!} % Not named for noncolor theme
+%\definecolor{fxtarget}{named}{red} % color for target with color layout/theme
+\renewcommand\germanlistfixmename{Anmerkungsverzeichnis}
+% Customisation
+\makeatletter
+% target color = note (type) color
+\renewcommand\FXTargetLayoutColor[2]{\@fxuseface{target}\color{fx#1}#2}
+% Inline: with braces []
+\renewcommand*\FXLayoutInline[3]{%
+    \@fxdocolon{#3}{\@fxuseface{inline}\color{fx#1}[\ignorespaces#3\@fxcolon#2]}%
+}
+% Color theme: marginnote like marginpar
+\renewcommand*\FXLayoutMarginNote[3]{%
+	\@fxdocolon{#3}%
+	\marginnote[%
+		\raggedleft\@fxuseface{margin}\color{fx#1}\ignorespaces#3\@fxcolon#2%
+	]{%
+		\raggedright\@fxuseface{margin}\color{fx#1}\ignorespaces#3\@fxcolon#2%
+	}%
+}
+\makeatother
+% ====
+
+% == tikz ==
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{arrows.meta,automata,calc,decorations.pathmorphing,decorations.pathreplacing,graphs,positioning%
+%,external
+}
+%\tikzexternalize
+\tikzset{>=stealth,
+	block/.style={% Nodes as blocks with aligned text, e.g. for Turing machines
+		draw, rectangle,
+		%minimum height=1em,
+		minimum width=1.5em,
+		outer sep=0pt,
+		node distance=0pt,
+		text height=2ex,
+		text depth=.5ex,
+		align=center
+	},
+	circle/.style={
+		draw,
+		shape=circle,
+		minimum size=0.5cm,
+		text=black, 
+		text width=0.5cm,
+		align=center
+	}
+}
+% ====
+
+% == Header and footer ==
+\usepackage{scrlayer-scrpage}
+\automark[subsection]{section}
+\pagestyle{scrheadings}
+\clearscrheadfoot
+\setkomafont{pageheadfoot}{\normalfont\sffamily}
+\ohead{\pagemark}
+\ihead{\rightmark}
+%\ofoot{\usekomafont{pagenumber}\pagemark/\pageref{LastPage}} % Site number
+
+% == Style ==
+\setkomafont{captionlabel}{\bfseries}
+\let\dashlabel=\labelitemii
+\setlist[itemize]{label=\dashlabel}
+% Paragraph
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\medskipamount}
+
+% == Environments ==
+\usepackage{amsthm,thmtools}
+% Fix for theoream key "restate" with name={[short name]}
+\makeatletter
+\kv@set@family@handler{restate phase 2}{%
+%  \ifthmt@restatethis
+%  \@xa\@xa\@xa\g@addto@macro\@xa\@xa\@xa\thmt@storedoptargs\@xa\@xa\@xa{\@xa\@xa\@xa,%
+%    \@xa\kv@key\@xa=\kv@value}%
+%  \fi
+}
+\makeatother
+% German "continues" text
+\renewcommand\thmcontinues[1]{%
+	\ifcsname hyperref\endcsname%
+		\hyperref[#1]{Fortsetzung}%
+	\else%
+		Fortsetzung%
+	\fi%
+	von S.\,\pageref{#1}%
+}
+% Theorem Styles
+\declaretheoremstyle[
+	headfont=\bfseries,%\scshape
+	notefont=\normalfont,
+	bodyfont=\normalfont,
+	headpunct={:\ },
+	qed={},
+	spaceabove=\bigskipamount,
+	spacebelow=\parskip
+]{basic}
+\declaretheoremstyle[
+	headfont=\bfseries,%\scshape
+	notefont=\normalfont,
+	bodyfont=\normalfont,
+	headpunct={:\ },
+	qed={\ensuremath{\bigoplus}},
+	spaceabove=\bigskipamount,
+	spacebelow=\parskip
+]{definition}
+\declaretheoremstyle[
+	headfont=\scshape,%\bfseries,
+	notefont=\normalfont,
+	bodyfont=\normalfont,
+	headpunct={:\ },
+	qed=\openbox,
+	spaceabove=\parskip,
+	spacebelow=\parskip
+]{proofstyle}
+
+%\theoremstyle{theorem}
+\declaretheorem[style=basic,numbered=no,name=Bemerkung]{Bemerkung}
+\declaretheorem[style=basic,numbered=no,name=Bem.]{Bem}
+\declaretheorem[style=basic,numbered=no,name=Beobachtung]{Beobachtung}
+\declaretheorem[style=basic,parent=section,name=Bsp.]{Bsp}
+\declaretheorem[style=basic,name=Bsp.,numbered=no]{Bsp*}
+\declaretheorem[style=definition,parent=section,name=Def.]{Def}
+\declaretheorem[style=definition,name=Def.,numbered=no]{Def*}
+\declaretheorem[style=definition,parent=Def,name=Def.]{subDef}
+\declaretheorem[style=definition,numbered=no,name=Erinnerung]{Erinnerung}
+\declaretheorem[style=basic,parent=section,name=Satz]{Satz}
+\declaretheorem[style=basic,name=Satz,numbered=no]{Satz*}
+\declaretheorem[style=basic,numbered=no,name=Lemma]{lemma*}
+\declaretheorem[style=basic,sibling=Satz,name=Lemma]{lemma}
+\declaretheorem[style=definition,sibling=Satz,name=Korollar]{Korollar}
+\declaretheorem[style=definition,numbered=no,name=Korollar]{Korollar*}
+\let\proof=\relax
+\AtBeginDocument{% For \proofname as of babel.
+	\declaretheorem[style=proofstyle,name=\proofname,numbered=no]{proof}
+}
+
+% cases environment with 2 arrows
+% Source: https://tex.stackexchange.com/questions/89250/modify-case-equations-brace/89257#89257
+% \splitlines[->] for arrow
+\newcommand*{\splitlines}[1][]{
+\begin{tikzpicture}[baseline=-0.5ex]
+\draw[#1] (0,0) -- (0.4,0.25);
+\draw[#1] (0,0) -- (0.4,-0.15);
+\end{tikzpicture}
+}
+\newenvironment{casesarrows}[1][->]%
+{\;\splitlines[#1]\;\begin{array}{@{}l@{}}}%
+{\end{array}}
+
+
+% == Custom commands ==
+
+% Source: https://tex.stackexchange.com/questions/164506/how-to-get-a-curved-arrow-pointing-left-and-right/164511#164511
+%\newcommand{\curvearrowleftright}{\scalebox{1.2}[2]{$\mathclap{\curvearrowleft}\mkern2.2mu\mathclap{\curvearrowright}$}}
+\newcommand{\curvearrowleftright}{\mathrel{\curvearrowleft\mkern-2.7mu\mathllap{\curvearrowright}}}
+
+% \dash of given length
+\newcommand*{\xdash}[1]{\rule[0.5ex]{#1}{0.55pt}}
+
+% \ruleplaceholder["]{width} = --"--
+\newcommand*{\ruleplaceholder}[2][\text{\texttt{ " }}]{%
+    \setlength{\dimen0}{(#2-\widthof{#1})/2}%
+    \xdash{\dimen0}\text{#1}\xdash{\dimen0}}
+
+% Math operators and abbreviations
+\usepackage{forloop}
+% Define \mcX = \mathcal{X}, with X = A-Z
+% and \mbX = \mathbb{X}
+\newcounter{ct}
+\newcommand*\mc[1]{\mathcal{#1}}
+\newcommand*\mb[1]{\mathbb{#1}}
+\forloop{ct}{1}{\value{ct} < 27}{%
+	\expandafter\edef\csname mc\Alph{ct}\endcsname{\noexpand\mathcal{\Alph{ct}}}%
+	\expandafter\edef\csname mb\Alph{ct}\endcsname{\noexpand\mathbb{\Alph{ct}}}%
+}
+%
+\newcommand*{\blank}{\raisebox{1pt}{\texttt{\char32}}}
+\newcommand*\A{\mathcal{A}}
+\newcommand*\dotcup{\mathrel{\dot\cup}}
+\DeclareMathOperator\Konf{Konf}
+\DeclareMathOperator\out{out}
+\DeclareMathOperator\Sim{Sim}
+\DeclareMathOperator\Instr{Instr}
+\DeclareMathOperator\inc{inc}
+\DeclareMathOperator\dec{dec}
+\DeclareMathOperator\DTAPE{DTAPE}
+\DeclareMathOperator\NTAPE{NTAPE}
+\DeclareMathOperator\NTIME{NTIME}
+\DeclareMathOperator\DTIME{DTIME}
+\DeclareMathOperator\code{code}
+\DeclareMathOperator\pos{pos}
+\DeclareMathOperator\state{state}
+\DeclareMathOperator\tape{tape}
+\DeclareMathOperator\CLIQUE{CLIQUE}
+\DeclareMathOperator\PREC{PREC} % Def. 8.2
+\DeclareMathOperator\add{add} % Bsp. zu 8.2
+\DeclareMathOperator\mult{mult} % Bsp. zu 8.2
+
+% Faster compilation: one section / file.
+%\includeonly{6-Berechenbarkeit}
+
+%========================%
+\begin{document}
+\title{Vorlesung Informatik III -- Theoretische Informatik}
+\author{Prof. Dr. Peter Thiemann\\\normalsize{\LaTeX\ von Ralph Lesch\thanks{ralph.lesch@neptun.uni-freiburg.de}}}
+\date{WS\,2014/15\\2015-10-21 -- 2016-02-22}%\today}
+
+\maketitle
+\vspace{\baselineskip}
+\tableofcontents
+
+\include{1-Vorspann_Sprachen}
+\include{2-Turing_und_Church}
+\include{3-Regulaere_Sprachen_und_endliche_Automaten}
+\include{4-Grammatiken_und_kontextfreie_Sprachen}
+\include{5-Kellerautomaten}
+\include{6-Berechenbarkeit}
+\include{7-Komplexitaetstheorie}
+\include{8-Rekursive_Funktionen}
+
+%\renewcommand{\listtheoremname}{Liste der Sätze und Definitionen}
+\renewcommand{\listtheoremname}{Liste der Definitionen}
+\listoftheorems[ignoreall,show={Def,Def*,subDef},numwidth=2.8em]
+\renewcommand{\listtheoremname}{Liste der Sätze}
+\listoftheorems[ignoreall,show={Satz,Satz*,lemma,lemma*,Korollar,Korollar*},numwidth=2.8em]
+%\renewcommand{\listtheoremname}{Liste der Beispiele}
+%\listoftheorems[ignoreall,show={Bsp,Bsp*},numwidth=2.8em]
+\listoffigures
+\addsec{Abkürzungsverzeichnis}
+\begin{acronym}[MPCP]
+	\acro{AL}{Aussagenlogik}
+	\acro{CFL}{Menge der kontextfreien Sprachen}
+	\acro{CFG}{Menge der kontextfreien Grammatiken}
+	\acro{CNF}{Chomsky Normalform}
+	\acro{CP}{Korrespondenzproblem}
+	\acro{CYK}{Cocke, Younger, Kasami}
+	\acro{DAG}{gerichteter azyklischer Graph}
+	\acro{DCFG}{deterministische \acs*{CFG}}
+	\acro{DCFL}{deterministische \acs*{CFL}}
+	\acro{DEA}{deterministischer endlicher Automat}
+	\acro{DFA}{\acroextra{engl.: }deterministic finite automaton}
+	\acro{DPDA}{deterministischer Kellerautomat}
+	\acro{DTM}{deterministische \acs*{TM}}
+	\acro{EA}{endlicher Automat}
+	\acro{LBA}{Linear Bounded Automaton}
+	\acro{MPCP}{Das modifizierte \acs*{PCP}}
+	\acro{ND}{Nicht-Determinismus}
+	\acro{NEA}{nichtdeterministischer endlicher Automat}
+	\acro{NFA}{\acroextra{engl.: }nondeterministic finite automaton}
+	\acro{NPDA}{nichtdeterministischer Kellerautomat}
+	\acro{NT}{Nichtterminal}
+	\acroplural{NT}[NT]{Nichtterminale}
+	\acro{NTM}{Eine nichtdeterministische \acs*{TM}}
+	\acro{PCP}{Das Postsche Korrespondenzproblem}
+	\acro{PDA}{pushdown automaton\acroextra{ (Kellerautomat)}}
+	\acro{PL}{Pumping Lemma}
+	\acro{RE}[\textit{RE}]{Menge der regulären Ausdrücke}
+	\acro{REG}[\textit{REG}]{Menge der regulären Sprachen}
+	\acro{RM}{Registermaschine}
+	\acro{TM}{Turing-Maschine}
+	\acro{TT}{Turingtabelle}
+\end{acronym}
+\listoffixmes
+
+\end{document}

@@ -1,0 +1,165 @@
+\section[Vorspann: Sprachen]{Vorspann: Sprachen\datenote{23.10.15}}
+Zeichen, Symbole: Buchstaben, Ziffern\\
+hier: abstrakte Zeichen
+\begin{Def}[name={[Alphabet $\Sigma$]}]
+	Ein \underline{Alphabet} $\Sigma$ ist eine endl. Menge von Zeichen.
+	
+	Aus Zeichen \-> Wörter durch Hintereinanderschreiben.
+\end{Def} % 1.1
+\begin{Bsp*} $\Sigma = \{a,\dots,z\}$\\
+	Worte: rambo (5 Zeichen), ist, hungrig, \qquad $\epsilon$ (0 Zeichen) = leeres Wort\\
+	Wörter verketten = konkatenieren
+\end{Bsp*}
+\begin{Bsp*} rambo$\cdot$ist$\cdot$hungrig\\
+	"`$\cdot$"' ist Konkat.-Operator
+	
+	Wörter potenzieren: $\begin{aligned}[t]
+	(\text{la})^3 &= \text{la}\cdot\text{la}\cdot\text{la} = \text{lalala}\\
+	(\text{rambo})^0 &= \epsilon
+	\end{aligned}$
+\end{Bsp*}
+
+\begin{Def}[name={[Wort $w$ über $\Sigma$]}]\label{def:1.2}
+	Ein Wort $w$ über $\Sigma$ ist eine endliche Folge von Zeichen $w=a_1a_2\dots a_n$ mit $n\in\N$ und $a_i\in\Sigma\ (1\leq i\leq n)$.\\
+	Schreibe $\epsilon$ falls $n=0$\\
+	$|w|=n$ ist die Länge des Wortes $w$.\\
+	$\Sigma^*$ ist die Menge aller Wörter über $\Sigma$.
+\end{Def}
+\begin{Def}[Konkatenation von Wörtern]
+	\begin{align*}
+		\text{Sei }u &= a_1\dots a_n\in\Sigma^*\\
+		v &= b_1\dots b_m\in\Sigma^*\\
+		\shortintertext{dann ist $u\cdot v=c_1\cdots c_{n+m}\ ,\ c_i \in \Sigma$}
+		c_i &= \begin{cases}
+		a_i & 1\leq i\leq n\\
+		b_{i-n} & n+1\leq i\leq n+m
+		\end{cases}
+	\end{align*}
+	Eigenschaften von "`$\cdot$"':
+	\begin{itemize}
+		\item assoziativ
+		\item $\epsilon$ ist neutrales Element
+	\end{itemize}
+	Die Potenz $v^k$ , $v\in \Sigma^*,k\in\N^*$ ist def. durch
+	\[ v^0=\epsilon,\ v^{k+1}=v\cdot v^k \]
+\end{Def}
+%
+Eine Sprache ist Menge von Wörtern über $\Sigma=\{a,\dots,z,"a,"o,"u\}$
+\begin{align*}
+	L_\text{obst} &= \{\text{banane,aprikose,orange,\dots}\}\\
+	L_\text{farbe} &= \{\text{rot,gelb,grün}\}\\
+	L_\text{krach} &= \{\text{ra}\cdot(\text{ta})^n\cdot\text{mm} \mid n\in\N \}\\
+	L &= \{\} \quad\text{leere Sprache}\\
+	L &= \Sigma^*
+\end{align*}
+
+\begin{Def}[name={[Sprache über $\Sigma$]}]
+	Eine \underline{Sprache über $\Sigma$} ist Menge $L\subseteq\Sigma^*$.
+	\[ L_\text{lala} = \{(\text{la})^n \mid n\in\N\} \ni\Sigma
+	\qedhere \]
+\end{Def}
+sämtliche Mengenoperationen sind auch Sprachoperationen, insbesondere:\medskip\\
+\begin{tabular}{lllll}
+	$L_1\cap L_2$ &,& $L_1\cup L_2$ &,& $\Sigma^*\setminus L$\\
+	Schnitt && Verein. && Komplement
+\end{tabular}\medskip\\
+$\rightsquigarrow$ Weitere Operationen auf Sprachen: Konkatenation
+\begin{Bsp*}
+	\begin{align*}
+		L_\text{farbe}\cdot L_\text{obst} &\subseteq \{\text{rotbanane, rotaprikose, gelbbanane, gelbaprikose,}\\
+		&\phantom{{}\subseteq \{}\text{gelborange, grünbanane, grünaprikose, grünorange}\}\\
+		L_\text{farbe}\cdot\{\epsilon\}\cdot L_\text{obst} &\subseteq \{ \text{rot\textbf{e}banane, rot\textbf{e}aprikose, rot\textbf{e}orange, gelb\textbf{e}banane, \dots} \}
+	\end{align*}
+\end{Bsp*}
+\begin{Def}[Konkatenation von Sprachen] % 1.5
+	Sei $U,V\subseteq \Sigma^*$ dann ist
+	\[ U\cdot V = \{uv \mid u\in U, v\in V \} \qedhere \]
+\end{Def}
+Potenzieren
+\begin{align*}
+	L_\text{farbe}^2 &= L_\text{farbe}\cdot L_\text{farbe}\\
+	&= \{ \text{rotorot, rotgelb, rotgrün, gelbrot, gelbgelb, \dots} \}\\
+	L^0 &=\{\epsilon\} \qquad \{\epsilon\}\cdot L = \{\epsilon\cdot w \mid w\in L\} = L \qedhere
+\end{align*}
+%
+\begin{Def}[Potenzierung von Sprachen] Sei $U\subseteq\Sigma^*$
+	\begin{align*}
+		U^0 &= \{\epsilon\} & U^{n+1}= U \cdot U^n
+	\end{align*}
+\end{Def}
+Gegeben $L$, sind sämtliche Kombinationen von Worten aus $L$ gesucht.
+\begin{Bsp*}
+	$\{(la)^n \mid n\in\N\}\cdot\{la\}^*$
+\end{Bsp*}
+\vspace{.5em}
+\begin{Def}[Stern-Operator, Abschluss, Kleene-Stern]
+	Sei $U\in\Sigma^*$ dann ist
+	\begin{align*}
+		U^* &= \bigcup_{n\in\N} U^n \quad [\ni\epsilon] && \text{Leeres Wort ist darin }n=0\\
+		U^+ &= \bigcup_{n\ge1} U^n && \text{wenn $\epsilon\in U$ \=> auch in $U^*$} \qedhere
+	\end{align*}
+\end{Def}
+\begin{Bemerkung}
+	$\Sigma^*=\bigcup_{n\in\N}\Sigma^n \text{ ebenso } \Sigma^+ = \bigcup_{n\ge1}\Sigma^n$
+\end{Bemerkung}
+\begin{Def}[Alternative Definition von $\Sigma^*$]\label{def:1.8}\ \\
+	Die Menge $\Sigma^*$ ist kleinste Menge, so dass
+	\begin{enumerate}[label={(\arabic*)}]
+		\item $\epsilon\in\Sigma^*$
+		\item\label{def:1.8.2} $a\in\Sigma\ ,w\in\Sigma^*\ \=> aw\in\Sigma^*$\qedhere
+	\end{enumerate}
+\end{Def}
+Die Definitionen \ref{def:1.8} und \ref{def:1.2} sind gleichwertig.
+\begin{proof}\ 
+	\begin{itemize}
+		\item "`\autoref{def:1.2}"' \=> "`\autoref{def:1.8}"':\\
+		$\forall n\in\N\ w=a_1\dots a_n \quad, a_i\in\Sigma$
+		
+		Zeige $w\in\Sigma^*$ (gemäß \autoref{def:1.8})
+		
+		\underline{I.A.: $n=0$} $\=> w = \epsilon \in \Sigma^*$ \ (\autoref{def:1.8})\\
+		\underline{$n\->n+1$} $w = a_1\dots a_{n+1}$ nach \autoref{def:1.2} $w'=\overbrace{a_2\dots a_{n+1}}^{\smash{n\text{ Buchstaben}}} \in \Sigma^*$\\
+		\-> Nach \autoref{def:1.8} \ref{def:1.8.2} $a_1a_2\dots a_{n+1} \in\Sigma^*$ (\autoref{def:1.8})
+		\item "`\autoref{def:1.8}"' \=> "`\autoref{def:1.2}"':\\
+		Induktion über $w\in\Sigma^*$ \ (\ref{def:1.8})
+		Zeige: f"ur jedes $w\in\Sigma$ gibt es ein $n\in\N$ und $a_1, \dots, a_n \in \Sigma$, so dass $w=a_1\dots a_n$.
+		\begin{itemize}
+			\item $\epsilon\in\Sigma^*$ Wähle $n=0$ dann $w=\epsilon$.
+			\item $aw':\ a\in\Sigma,\ w'\in\Sigma^*$ (\ref{def:1.8})\\
+			Nach Induktionsbehauptung $w'\in\Sigma^*$ (\autoref{def:1.2})\\
+			Also $\exists n: w'=a_1\dots a_n\in\Sigma^*$ (\autoref{def:1.2})\\
+			W"ahle (als neues $n$) $m = n+1$ und $b_1, \dots b_{n+1} \in\Sigma$
+			mit $b_1 = a$ und $b_{i+1} = a_i$ f"ur $1\le i\le n$.\\
+			Dann ist $w = b_1b_2\dots b_{n+1}\in\Sigma^*$ (\ref{def:1.2}) \qedhere
+	\end{itemize}
+	\end{itemize}
+\end{proof}
+Alternative Definition von Konkatenation:
+\begin{align*}
+	\epsilon\cdot v &= v\\
+	(aw)\cdot v &= a(w\cdot v)
+\end{align*}
+%
+\begin{Bsp*} Für Eigenschaft von Sprachen:
+	\begin{align*}
+		U^* &= \{\epsilon\}\cup U\cdot U^*
+	\end{align*}
+	Beweis durch Kalkulation:
+	$U^*=\{\epsilon\}\cup U\cdot U^*\subseteq U^*\cup U\cdot\bigcup_n U^n = U^*\cup\bigcup_n U^{n+1} \subseteq U^*\cup U^* = U^*$
+\end{Bsp*}
+Elementarer Beweis:
+\begin{enumerate}[label={Zeige (\arabic*)},leftmargin=*,itemindent=*]
+	\item $U^*\subseteq \{\epsilon\}\cup U\cdot U^*$\\
+	Sei $w\in U^*=\bigcup_{n\in\N} U^n$\\
+	$\curvearrowright \exists n: w\subset U^n$
+	\begin{itemize}
+		\item Falls $n=0: w=\epsilon\subset\{\epsilon\}\cup U\cdot U^*$
+		\item Falls $n= n'+1: w\in U\cdot U^n\subseteq U\cdot U^*\cup \{\epsilon\}$
+	\end{itemize}
+	\item $\{\epsilon\}\cup U\cdot U^*\subseteq U^*$\\
+	Sei $w\in\{\epsilon\} \cup U\cdot U^*$
+	\begin{itemize}
+		\item Falls $w=\epsilon: w=\epsilon\in U^*$
+		\item Falls $w\in U\cdot U^n: \exists n\ w\in U\cdot U^n = U^{n+1}\subseteq U^*$
+	\end{itemize}
+\end{enumerate}

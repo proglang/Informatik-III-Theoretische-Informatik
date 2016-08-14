@@ -1,0 +1,90 @@
+% Arrow macros
+% 
+% (c) Ralph Lesch
+%
+%% This program can be redistributed and/or modified under the terms
+%% of the LaTeX Project Public License Distributed from CTAN archives
+%% in directory macros/latex/base/lppl.txt.
+% 
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{arrowmacros}[2016/01/04 v1.2 LaTeX package for arrow macros]
+
+\RequirePackage{xparse}
+
+% Arrow shortcuts with \arr and <-, <--, <->, ->, -->, <=, <==, <==>, =>, ==>
+\NewDocumentCommand{\arr}{t< m t- t= t>}{%
+	\newif\iferror
+	\count0=0%
+	\IfBooleanTF#1{}{\IfBooleanTF#5{}{\errortrue}}%
+	\if#2-\IfBooleanTF#4{\errortrue}{}%
+	\else\if#2=\IfBooleanTF#3{\errortrue}{}%
+	\else\count=1%
+	\fi\fi%
+	\iferror% Unknown arrow
+		\PackageError{arrowmacros}{\IfBooleanTF#1{<}{}#2%
+			\IfBooleanTF#3{-}{}\IfBooleanTF#4{=}{}\IfBooleanTF#5{>}{}: unknown arrow type!}{valid arrows: <-, <--, <->, ->, -->, <=, <==, <==>, =>, ==>}
+	\else\ensuremath{%
+		\IfBooleanTF#1{% leftarrows: <...
+			\if#2-% single arrows: <-...
+				\IfBooleanTF#3{%
+					\IfBooleanTF#5{\longleftrightarrow}{\longleftarrow}% <-->, <--
+				}{\IfBooleanTF#5{\leftrightarrow}{\leftarrow}}% <->, <-
+			\else% double arrows: <=...
+				\IfBooleanTF#3{%
+					\IfBooleanTF#5{\Longleftrightarrow}{\Longleftarrow}% <==>, <==
+				}{\IfBooleanTF#5{\Leftrightarrow}{\Leftarrow}}% <=>, <=
+			\fi%
+		}{% rightarrows: ...>
+			\if#2-\IfBooleanTF#3{\longrightarrow}{\rightarrow}% -->, ->
+			\else\IfBooleanTF#4{\Longrightarrow}{\Rightarrow}% ==>, =>
+			\fi%
+		}%
+	}\fi
+}
+
+% \- \->, \-->
+\NewDocumentCommand{\minushyphenarrow}{m t- t>}{\IfBooleanTF{#3}{%
+	\ensuremath{\IfBooleanTF{#2}{\longrightarrow}{\rightarrow}}%
+}{#1}}
+\makeatletter
+\let\@oldminus=\-
+\def\-{\minushyphenarrow{\@oldminus}}
+\let\@olddischyph=\@dischyph % Fix for minipage, parbox, ...
+\def\@dischyph{\minushyphenarrow{\@olddischyph}}
+\makeatother
+
+% \=, \=>, \==>
+% Does not work in minipage, parbox, ...
+\let\equalaccent\=
+\DeclareDocumentCommand{\=}{t= t>}{\IfBooleanTF{#2}{%
+	\ensuremath{\IfBooleanTF{#1}{\Longrightarrow}{\Rightarrow}}%
+}{\equalaccent}}
+
+% \<-, \<--, \<->, \<-->, \<=, \<==, \<=>, \<==>
+\NewDocumentCommand{\<}{m t- t= t>}{%
+	\if#1-\ensuremath{% <-, <--, <->, <-->
+		\IfBooleanTF{#4}{% <->, <-->
+			\IfBooleanTF{#2}{\longleftrightarrow}% <-->
+			{\IfBooleanTF{#3}{\leftarrow=>}% <-=>: the trailing '=>' is ignored = <-'=>'
+				{\leftrightarrow}}% <->
+		}{% <-, <--
+			\IfBooleanTF{#2}{\longleftarrow}% <--
+			{\IfBooleanTF{#3}{\leftarrow=}% <-=: the trailing '=' is ignored = <-'='
+				{\leftarrow}}% <-
+		}%
+	}\else\if#1=\ensuremath{% <=, <==, <=>, <==>
+		\IfBooleanTF{#4}{% <=>, <==>
+			\IfBooleanTF{#3}{\Longleftrightarrow}% <==>
+			{\IfBooleanTF{#2}{\Leftarrow}% <=->: the trailing '->' is ignored = <='->'
+				{\Leftrightarrow}}% <=>
+		}{% <=, <==
+			\IfBooleanTF{#3}{\Longleftarrow}% <==
+			{\IfBooleanTF{#2}{\Leftarrow}% <=-: the trailing '-' is ignored = <='-'
+				{\Leftarrow}}% <=
+		}%
+	}\fi\fi%
+}
+
+\endinput
+%%
+%% End of file `arrowmacros.sty'.

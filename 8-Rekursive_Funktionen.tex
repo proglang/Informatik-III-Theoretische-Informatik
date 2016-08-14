@@ -1,0 +1,196 @@
+\section[Rekursive Funktionen]{Rekursive Funktionen\datenote{10.02.16}}
+\begin{Def}[Schema der primitiven Rekursion]
+	\begin{align*}
+		\text{Sei } \mathcal{G}&: \N^k \-> \N \qquad,\ k\geq 0\\
+		h&: \N^{k+R}\->\N\\
+		\text{Sei } f&: \N^{k+1}\->\N\text{ eine Funktion, die folgende Gleichungen erfüllt:}\\
+		f(0,\overline{x}) &= g(\overline{x}) \qquad,\ \overline{x}\in\N^k\\
+		\begin{split}
+			f(n+1,\overline{x}) &= h(f(n,\overline{x}),n,\overline{x})
+		\end{split} \numbereq\label{eq:rekursives f}
+	\end{align*}
+	Dann sei
+	\[ f =: PR(g,h) \]
+	aus $g$ und $h$ durch primitive Rekursion definiert.
+\end{Def}
+\begin{lemma}[name={[$PR(g,h)$ ist wohldefiniert.]}]
+	$PR(g,h)$ ist wohldefiniert.
+\end{lemma}
+\begin{proof}
+	\begin{align*}
+		\text{Angenommen } f&=PR(g,h)\\
+		\text{und } f' &= PR(g,h)\\
+	\shortintertext{d.h. $f$ und $f'$ erfüllen \eqref{eq:rekursives f}.}
+		\text{Zeige } \forall n\in\N,&\ \forall \overline{x}\in\N^k:\\
+		f(n,\overline{x}) &= f'(n,\overline{x})\\
+		\text{I.A. }n=0: f(0,\overline{x}) &\overset{\eqref{eq:rekursives f}}= g(\overline{x}) \overset{\eqref{eq:rekursives f}}= f'(0,\overline{x})\\
+		\text{I.S. }n\->n+1: f(n+1,\overline{x}) &\overset{\eqref{eq:rekursives f}}= h(f(n,\overline{x}),n,\overline{x})\\
+		&\overset{\text{I.V.}}= h(f'(n,\overline{x}),n,\overline{x})\\
+		&\overset{\eqref{eq:rekursives f}}= f'(n+1,\overline{x}) \tag*{\qedhere}
+	\end{align*}
+\end{proof}
+\begin{Def}[name={[$\PREC$ primitiv rekursiven Funktionen über $\N$]}]\label{def:PREC}
+	Die $\PREC$ der \emph{primitiv rekursiven Funktionen} über $\N$, ist induktiv definiert:
+	\begin{enumerate}
+	\item\label{itm:Nullfunktion} $\forall k\in\N:
+		\begin{aligned}[t]
+			&\mathcal{O}^k : \N^k\->\N\\
+			&\mathcal{O}^k(\overline{x}) = 0\\
+		\end{aligned}$\\
+		$\mathcal{O}^k\in\PREC$ (die Nullfunktion)
+	\item\label{itm:Projektion} $\forall k\geq1: \forall 1\leq j\leq k:
+		\begin{aligned}[t]
+			&\pi^k_j : \N^k\->\N\\
+			\pi^k_j(x_1,\dots,x_k) = x_j
+		\end{aligned}$\\
+		$\pi^k_j\in\PREC$ (Projektionen)
+	\item\label{itm:Nachfolgerfunktion} $S:\N\->\N\ \in\PREC$ (Nachfolgerfunktion)
+	\pagebreak[3]
+	\item\label{itm:Komposition} Feld $g:\N^k\->\N\ \PREC$
+		\begin{align*}
+			\forall 1\leq i\leq k: h_i:\N^m\->\N \quad&\in\PREC\\
+			\text{dann ist }g\circ[h_1,\dots,h_k]:\N^m\->\N \quad&\in\PREC\\
+			(g\circ[h_1,\dots,h_k])(\overline{x}) = g(h_1(\overline{x}),\dots,h_k(\overline{x})) \quad\x&\in\N^m
+		\end{align*}
+		(Funktionskomposition)
+	\item\label{itm:Rekursion} Falls $g:\N^k\->\N$ und $h:\N^{k+2}\->\N\quad\in\PREC$\\
+		dann ist auch $PR(g,h)\in\PREC$ \quad(Rekursion) \qedhere
+	\end{enumerate}
+\end{Def}
+\begin{Bsp*}\
+	\begin{enumerate}
+	\item Addition $\in\PREC$
+		\begin{align*}
+			\add(0,x) &=x\\
+			\add(n+1,x) &= \add(n,x)+1\\
+			&= h(\add(n,x),n,x)\\
+			\add &= PR(g,h)\\
+			\text{mit }g(x) &= x \quad ; g=\pi'_1\\
+			h(y,n,x) &= y+1 \quad ; h= S\circ \pi^S_1\\
+			\add &= PR(\pi'_1,S\circ\pi^3_1)
+		\end{align*}
+	\item Multiplikation:
+		\begin{alignat*}{2}
+			&&\mult&: \N^2\->\N\\
+			&&\mult(0,x) &=0\\
+			&&\mult(n+1,x) &= \add(x,\mult(n,x))\\
+			&&\mult &= PR(g,h)\\
+			\text{mit}&\ & g&= \mathcal{O}^1\\
+			&&h(y,n,x) &= \add(x,y)\\
+			\text{d.h.}&& h &=\add\circ[\pi^3_3,\pi^3_1]
+		\end{alignat*}
+	\end{enumerate}
+\end{Bsp*}
+\begin{Beobachtung}
+	Alle primitiv rekursiven Funktionen sind total.\\
+	Aber: $\exists$ totale Funktion, die nicht primitiv rekursiv ist.
+\end{Beobachtung}
+\begin{Def}[Minimierung]\label{def:Minimierung}
+	Sei $f:\N^{k+1}-\->\N$\\
+	dann ist $\mu f:= g\in\N^k-\->\N$\\
+	definiert durch:
+	\begin{align*}
+		g(\overline{x}) &= \min\{n \mid f(n,\overline{x})=0\text{ und }\forall j<n: f(j,\overline{x})\text{ def. und }\neq 0\} \tag*{\qedhere}\\[.5em]
+		\text{Falls }f(n,\overline{x}) &\neq 0\ \forall n: g(\overline{x})\text{ undef.}\\
+		\text{Falls }f(n,\overline{x}) &=0\text{ aber }\exists j< n\ f(j,\overline{x})\text{ undef.}\\
+		&\curvearrowright g(\overline{x})\text{ undef.}
+	\end{align*}
+\end{Def}
+\begin{Def}[name={[Klasse der $\mu$-rekursiven Funktionen]}]
+	Die Klasse der \emph{$\mu$-rekursiven Funktionen} über $\N$ ist die kleinste Klasse von Funktionen, die die Basisfunktionen (1,2,3 aus der \autoref{def:PREC}) enthalten und abgeschlossen ist unter \hyperref[itm:Komposition]{Komposition \ref*{itm:Komposition}} \hyperref[itm:Rekursion]{Rekursion \ref*{itm:Rekursion}} und \hyperref[def:Minimierung]{Minimierung}
+\end{Def}
+\begin{Satz}[name={[$\mu$-Funktionen-Klasse $\hat=$ Klasse der \acs*{TM}-berechenbaren Fkt.]}]
+	Die Klasse der $\mu$-Funktionen stimmt mit der Klasse der \ac{TM}-berechenbaren Funktionen über $\N$ überein.
+\end{Satz}
+\begin{proof}\
+	\begin{itemize}
+	\item simuliere \rlerror*{URM = unbeschränkte Registermaschine?}{URM} mit $\mu$-Rekursion.
+	\item simuliere $\mu$-Rekursion mit $\ac{TM}$ (analog zur universellen \ac{TM}) \qedhere
+	\end{itemize}
+\end{proof}
+\begin{Satz}[Kleene]
+	Für jede $\mu$-rekursive Funktion $F: \N^k-\->\N$ gibt es zwei primitiv rekursive Funktionen $p,q:\N^{k+1}\->\N$, sodass $f(\overline{x})=p(\overline{x},\mu q(\overline{x}))$
+\end{Satz}
+$\curvearrowright$ Jede berechenbare Funktion über $\N$ kann mit einer WHILE-Schleife programmiert werden.
+\begin{Def}[name={[Ackermannfunktion]}]
+	Die \emph{Ackermannfunktion}
+	\begin{align*}
+		&A:\N^2\->\N\\
+		&A(0,y)=y+1\\
+		x>0:\ &A(x,y)=A(x-1,1)\\
+		y>0:\ &A(x,y)=A(x-1,A(x.y-1)) \tag*{\qedhere}
+	\end{align*}
+\end{Def}
+\begin{Satz}
+	Sei $\A$ die Menge der Funktionen, die durch $A$ majorisiert werden.
+	\[ \text{Es gilt: }\PREC\subseteq \A \]\vspace{-2em}
+\end{Satz}
+\begin{proof}
+	$A=\{f:\N^k\->\N \mid \exists n \forall\overline{x}:f(\overline{x})< A(m,\max\overline{x})\}$.\\
+	Induktion über $\PREC$:
+	\begin{enumerate}
+	\item $\mathcal{O}(\overline{x})=0 < A(0,\max\overline{x})=\max \overline{x}+1,\quad \mathcal{O}\in\A$
+	\item $S(x)=\A+1 < x+2 = A(\uuline{1},x)$, also $S\in \mathcal A$
+	\item $\pi^k_j(x_1,\dots,x_k) = x_j\leq \max\overline{x} < \max \overline{x} +1 = A(\uuline{0},\max \overline{x})$, also $\pi^k_j\in\A$
+	\item\ \vspace{-2em}
+		\begin{align*}
+			&\left.\begin{array}{rr<{{}}@{}l}
+				\text{Sei } & g_1,\dots,g_m : &\N^k\;\->\N\\
+				& h : &\N^m\->\N
+			\end{array}\right\rbrace \in\A\\
+			&\begin{array}{rr@{}>{{}}l@{\qquad}r@{\;}l}
+				\text{also } &g_i(\overline{x}) &< A(r_i,\max\overline{x}) & r_i &\exists \text{ nach I.V.}\\
+				&h(\overline{x}) &< A(s,\max\overline{y}) &s &\exists \text{ nach I.V.}
+			\end{array}
+		\end{align*}
+		\newpage
+		Betrachte $f= h\circ [g_i,\dots,g_m]$\\
+		Wähle $j$ sodass $r_j=\max r_i$\\
+		$\curvearrowright\ g_i(x) < A(r_j,\max\overline{x})$
+		\begin{align*}
+			\text{Dann }f(\overline{x}) &= h(g_1(\overline{x}),\dots,g_m(\overline{x})\\
+			&< A(s,\max(g_1(\overline{x}),\dots,g_m(\overline{x}))\\
+			&< A(s,\max(A(r_1,\max\overline{x}), \dots, A(r_m,\max\overline{x}))\\
+			&= A(s,A(r_j,\max\overline{x}))\\
+			&\overset!< A(\uuline{s+r_j+2},\max\overline{x})\\
+			\text{Also }f\in\A
+		\end{align*}
+	\item Sei $g:\N^k\->\N,\ h:\N^[k+2]\->\N\qquad \in\A$
+		\begin{align*}
+			\curvearrowright \exists r,s :{}& g(\overline{x}< A(r,\max\overline{x}))\\
+			& h(\overline{y}< A(s,\max\overline{y}))
+		\end{align*}
+		Sei $f= PR(g,h)$. Zeige $f\in\A$\\
+		Zunächst $\forall n\in\N: f(n,\overline{x}) < A(q,n+\max\overline x)$, wobei $q$ nicht von $n$ oder $\overline{x}$ abhängt.\\
+		Wähle $q=\max(r,s)+1$.
+		
+		Induktion über $n$:
+		\begin{description}
+		\item[$n=0:$]\qquad $f(0,\overline{x}) = g(\overline{x}) < A(r,\max\overline{x}) < A(g,\max x)$
+		\item[$n\->n+1:$]\ \vspace{-2em}
+			\begin{align*}
+				f(n+1,\overline{x}) &= h(f(n,\overline{x}),n,\overline{x}) < A(s,z) &&,\ z=\max(f(n,\overline{x}),n,\overline{x})\\
+				\text{nach I.V.\,:}\quad f(n,\overline{x}) &< A(g,n+\max\overline{x})\\
+				\max(n,\overline{x}) \leq n+\max\overline{x} &< A(q,n+\max\overline{x})\\
+				\curvearrowright z &< A(q,n+\max\overline{x})\\
+				f(n+1,\overline{x}) &< A(s,z)\\
+				&< A(s,A(q,n+\max\overline{x}))\\
+				&\leq A(q-1,A(q,n+\max\overline{x}))\\
+				&= A(q,A(q,n+1+\max\overline{x})) \tag*{\qedsymbol\ Ind. $n$}
+			\end{align*}
+		\end{description}
+		\begin{align*}
+			\text{Nun setze }w &=\max(n,\overline{x})\\
+			f(n,\overline{x}) < A(q,n+\max\overline{x})\\
+			&\leq A(q,2w)\\
+			&\overset!< A(\uuline{q+2},w)\\
+			\text{Also }f\in\A \tag*{\qedhere}
+		\end{align*}
+	\end{enumerate}
+\end{proof}
+\begin{Korollar}
+	Die Ackermannfunktion $A$ ist nicht primitiv rekursiv.
+\end{Korollar}
+\begin{proof}
+	$A\notin\A$
+\end{proof}

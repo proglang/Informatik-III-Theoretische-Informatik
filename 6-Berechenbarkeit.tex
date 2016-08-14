@@ -1,0 +1,721 @@
+\section[Berechenbarkeit]{Berechenbarkeit\datenote{08.01.16}}
+\subsection{Typ-0 und Typ-1 Sprachen}
+\ptnote{checkpoint}
+\begin{Def}[name={[NTM]}]
+	\acf{NTM} ist ein Tupel $(Q,\Sigma,\Gamma,\delta,q_0,\blank,F)$, wobei alles wie bei einer \ac{DTM} außer $\delta: Q\x\Gamma\-> \wp(Q\x\Gamma\x\{N,L,R\})$.\\
+	Konfiguration und Berechnungsrelation wie gehabt.
+\end{Def}
+
+\begin{Def}[name={[Eigenschaften einer \acs*{TM} bzgl. Sprachen]}]
+	Sei $M$ \ac{TM}.
+	\begin{itemize}
+	\item $M$ \emph{akzeptiert} $w\in\Sigma^*$, falls $q_0w \vdash^* uq'v \ ,q'\in F$
+	\item $M$ \emph{akzeptiert} $L\subseteq\Sigma^*$, falls $M$ akzeptiert $w \<-> w\in L$
+	\item $M$ \emph{entscheidet} $L\subseteq\Sigma^*$, falls $M$ akzeptiert $L$ und $M$ hält für jede Eingabe an.
+	\item $L\subseteq\Sigma^*$ ist \emph{semi-entscheidbar} (rekursiv aufzählbar), falls $\exists M$, so dass diese $L$ akzeptiert.
+	\item $L\subseteq\Sigma^*$ ist \emph{entscheidbar} (rekursiv), falls $\exists M$, so dass diese $L$ entscheidet.
+	\end{itemize}
+\end{Def}
+\begin{Def}[name={[Laufzeit und Platzbedarf einer \acs*{TM}]}]
+	Laufzeit und Platzbedarf einer \ac{TM} $M:$
+	
+	Laufzeit : $T_M(w) =
+	\begin{cases}
+		\parbox{.74\textwidth}{\raggedleft Anzahl der Schritte einer kürzesten Berechnung, die zur Akz. von $w$ führt (falls $\exists$)}\\[-1em]
+		\text{1, sonst}
+	\end{cases}
+	$\\
+	Platzbedarf : $S_M(w) =
+	\begin{cases}
+		\parbox{.7\textwidth}{\raggedleft geringster Platzbedarf (Länge einer Konf.) einer akz. Berechnung von $w$ (falls $\exists$)}\\[-1em]
+		\text{1, sonst}
+	\end{cases}
+	$
+\textbf{Zeitbeschränkt mit $t(n)$}: $\forall w\in\Sigma^*: |w|\leq n \=> T_M(w)\leq t(n)$,\\
+platzbeschränkt analog.
+\end{Def}
+\begin{Satz}[name={[Zu jeder \acs*{NTM} gibt es \acs*{DTM}]}]\label{satz:6.1}
+	Zu jeder \ac{NTM} gibt es eine \ac{DTM} $M'$, so dass
+	\begin{itemize}
+	\item $M$ akzeptiert $L(M)$
+	\item $M'$ terminiert gdw. $M$ terminiert
+	\item Falls $M$ Zeit- und platzbeschränkt ist, mit $t(n)$ bzw. $s(n)$ ($n=$ Länge der Eingabe), dann ist $M'$ zeitbeschränkt mit $2^{O(t(n))}$ und platzbeschränkt mit $O(s(n)\cdot t(n))$.
+	\end{itemize}
+\end{Satz}\vspace{-2em}
+\begin{proof}
+	Die Konfiguration von $M$ bilden einen Baum, dessen Kanten durch $\vdash$ gegeben sind. Er ist endlich verzweigt, hat aber ggf. unendlich lange Äste.
+	
+	Definiere eine (Mehrband-)\ac{DTM}, die den Konfigurationsbaum systematisch durchläuft und akzeptiert, sobald eine Konf. erreicht ist, in der $M$ akzeptiert.
+	
+	Die \ac{DTM} terminiert ebenfalls, wenn alle Blätter des Baumes besucht worden sind, ohne dass eine akzeptierende Konfiguration gefunden wurde.
+	
+	Baumsuche mit Kontrollinformation und bereits besuchten Konf. auf ein Extraband.
+	\begin{itemize}
+	\item Tiefensuche? Nicht geeignet, sie könnte in unendlichen Ast laufen.
+	\item Breitensuche? OK, aber Platzbedarf $O(2^{t(n)}\cdot s(n))$
+	\item iterative deepending\,: Tiefensuche mit vorgegebener Schranke, bei erfolgloser Suche Neustart mit erhöhter Schranke. \qedhere
+	\end{itemize}
+\end{proof}
+Nächstes Ziel: Charakterisierung von Typ-1 Sprachen.
+\begin{Def}[name={[$\DTAPE$ und $\NTAPE$]}]\
+\begin{itemize}
+\item $\DTAPE(s(n)):$ Menge der Sprachen, die von einer \ac{DTM} in Platz $s(n)$ akzeptiert werden können.
+\item $\NTAPE(s(n)):$ Wie für $\DTAPE$, aber mit \ac{NTM}. \qedhere
+\end{itemize}
+\end{Def}
+\begin{Bemerkung}\
+	\newcommand{\underarrowset}[2]{%
+		\underset{%
+			\mathclap{%
+				\overset{\displaystyle\uparrow}{\mathclap{#1}}%
+			}%
+		}{#2}%
+	}
+	\begin{enumerate}
+	\item Für "`$s(n)\leq n$"' betrachte 2-Band \ac{TM}, bei denen die Eingabe read-only ist und nur das zweite Arbeitsband der Platzschranke unterliegt (so ist $s(n)$ sublinear möglich).
+	\item Jede Platzbeschränkung impliziert Laufzeitschranke.\\
+	Angenommen Platzschranke $s(n)$\\
+	$\curvearrowright$ \ac{TM} hat nur endlich viele Konfigurationen
+	\[ N := \underarrowset{%
+			\parbox{\widthof{\scriptsize Eingabeband}}{\raggedright\scriptsize Kopfpos. im Eingabeband}\hspace{1cm}
+		}{n\vphantom{|}}
+		|Q| \quad\cdot\quad
+		\underarrowset{\parbox{2.2cm}{\scriptsize\centering mögliche Inhalte des Arbeitsbands}}{|\Gamma|}^{s(n)}
+		\ \cdot\
+v		\underarrowset{\hspace{1.7cm}\parbox{2cm}{\scriptsize Kopfpos. auf\\ Arbeitsband}}{s(n)}
+		\in 2^{O(\log n + s(n))}
+	\]
+	\item \ac{DTM} mit Platzschranke\,: $M$ entscheidet,\\
+	falls sie akzeptiert, dann in weniger als $N$ Schritten,\\
+	falls nach $N$ Schritten keine Termination erfolgt\\
+	\quad$\curvearrowright$ Endlosschleife -- Abbruch
+	\item \ac{NTM}\,: nutze den \ac{ND} optimistisch aus\,:\\
+	falls eine akzeptierende Berechnung existiert, dann muss es eine Berechnung ohne wiederholte Konfiguration geben.
+	\end{enumerate}
+\end{Bemerkung}
+\begin{Satz}[name={[$L\in\DTAPE(n),\ L\in\NTAPE(n)$]}]\label{satz:6.2}\
+	\begin{itemize}
+	\item $L\in\DTAPE(n) \curvearrowright\ \exists$ \ac{DTM}, die $L$ in Zeit $2^{O(n)}$ entscheidet.
+	\item $L\in\NTAPE(n)$ analog.
+	\end{itemize}
+\end{Satz}\vspace{-2em}
+\begin{proof}
+	siehe oben.
+\end{proof}
+\begin{Bemerkung}
+	Die Klasse $\NTAPE$ heißt auch \ac{LBA}.
+\end{Bemerkung}
+%
+\begin{Satz}\label{satz:6.3}
+	$L=\mathrm{NTAPE}(n)$
+\end{Satz}
+\begin{proof}\
+\begin{itemize}
+	\item["`\=>"'\,:] Sei $G=(N,\Sigma,P,S)$ Typ-1 Grammatik für $L$.\\
+		Konstruiere \ac{NTM} $M$ mit $L=L(M),\ \Gamma = \Sigma\cup N\cup\{\blank\}$
+		\begin{enumerate}
+		\item $M$ rät (\ac{ND}) eine Position auf dem Band und Produktion $\alpha\-> \beta$. Falls $\beta$ gefunden wird, ersetze durch $\alpha$, weiter bei 1.
+		\item Falls Bandinhalt $=S$ \quad stop, akzeptiert.
+		\end{enumerate}
+		\
+	\item["`\<="'\,:] \datenote{13.01.16}%
+	Gegeben: \ac{NTM} $M$ linear beschränkt.\\
+	Gesucht: Typ-1 Grammatik $\mathcal{G}$ mit $L(\mathcal{G})=L(M)$\\
+	Idee: 
+	\begin{align*}
+		a_1\cdot a_n &\-->
+			\pmqty{a_1\\a_1} \pmqty{a_2\\a_2} \pmqty{(q,a)\\a_3} \pmqty{a_4\\a_4} \pmqty{a_n\\a_n}
+			&&\begin{matrix}\text{Spur 1}\\\text{Spur 2}\end{matrix}\\
+	\shortintertext{ad\footnotemark\ Spur 1: Alphabet $\Gamma\cup(Q\x\Gamma) = \triangle$}
+		P' &\begin{cases}
+			(q,a) &\-> (q',a')   \quad q\in Q,a\in\Gamma\\
+			(q,a)b &\-> a'(q',b) \quad b\in\Gamma\\
+			b(q,a) &\-> (q',b)a'
+		\end{cases}
+		& &\begin{aligned}
+			\delta(q,a) &\ni (q',a',N)\\
+			\delta(q,a) &\ni (q',a',R)\\
+			\delta(q,a) &\ni (q',a',L)
+		\end{aligned}
+	\end{align*}\footnotetext{ad $\approx$ zur}%
+	Def. $\widetilde{uqav} = u(q,a)v\ ,\ u,v\in\Gamma^*,a\in\Gamma$\\
+	Es gilt: $uqav\vdash^* k' \curvearrowleftright \widetilde{uqav} \overset{*}{\=>} \widetilde{k'}$ mit Produktion $P'$.
+	
+	Def. $\mathcal{G}$ durch $N = \{S\}\dotcup\triangle\x\Sigma$
+	\begin{align*}
+		\text{mit } P &= \\
+		S &\-> \pmqty{(q_0,a)\\a} &&\forall a\in\Sigma\\
+		S &\-> S\pmqty{a\\a} &&\forall a\in\Sigma\\
+		\pmqty{\alpha\\a}
+			&\-> \pmqty{\beta\\a}
+			&&\begin{aligned}
+				\forall \alpha\->\beta &\in P'\\
+				\alpha,\beta &\in\triangle
+			\end{aligned}\\
+		\pmqty{\alpha_1\\a_1}\pmqty{\alpha_2\\a_2}
+			&\-> \pmqty{\beta_1\\a_1}\pmqty{\beta_2\\a_2}
+			&&\begin{aligned}
+				\forall \alpha_1\alpha_2\->\beta_1\beta_2 &\in P'\\
+				\alpha_i,\beta_i &\in\triangle
+			\end{aligned}\\
+		\pmqty{x\\a} &\-> a
+			&&\begin{aligned}
+				x&\in\Gamma\\
+				a&\in\Sigma
+			\end{aligned}\\
+		\pmqty{(q',x)\\a} &\-> a
+			&&\begin{aligned}
+				x&\in\Gamma\\
+				a&\in\Sigma
+			\end{aligned}
+	\end{align*}
+	\begin{align*}
+		S &\xRightarrow{*} \pmqty{(q_0,a_1)\\a_1}\pmqty{a_2\\a_2}\dots\pmqty{a_n\\a_n}\\
+		&\phantom{{}\xRightarrow{*}{}}\ \acs*{TM}\ \,\dots\\
+		&\xRightarrow{*} \pmqty{x_1\\a_1}\dots\pmqty{(q',x_i)\\a_i}\dots\pmqty{x_n\\a_n}\\
+		&\xRightarrow{*} a_1\dots a_i\dots a_n
+	\end{align*}
+	Damit gesehen $L(\mathcal{G})\subseteq L(M)$\\
+	Rückrichtung: selbst \qedhere
+	\end{itemize}
+\end{proof}
+
+\begin{Satz}
+	Die Typ-1 Sprachen sind abgeschlossen unter {\thinmuskip=6mu$\cup,\cap,\cdot,{}^*$} und Komplement.
+\end{Satz}
+\begin{proof}
+	Zu $\cup$ und $\cap$ betrachte \ac{NTM}.\\
+	Für $\cdot$ und $^*$ konstruiere Grammatik.\\
+	ad Komplement "`2. \acsu{LBA}-Problem\footnote{\acs*{LBA} = \acl*{LBA} -- 1964 Kuroda}"' bis 1987, dann gelöst durch Immerman und Szelepcsényi.
+	
+	1. \ac{LBA}-Problem (1964): Ist $\mathrm{NTAPE}(n) = \mathrm{DTAPE}(n)$? Bisher ungelöst.
+\end{proof}
+\begin{Satz}
+	Das Wortproblem für Typ-1 Sprachen ist entscheidbar.
+\end{Satz}
+\begin{proof}
+	\begin{align*}
+		L\in\mathcal{L}_1 &\curvearrowleftright L\in\mathrm{NTAPE}(n)\\
+		&\curvearrowright \text{\autoref{satz:6.2} $L$ entscheidbar}
+	\end{align*}
+	Nach \autoref{satz:6.1} sogar mit \ac{DTM}.
+\end{proof}
+Die Umkehrrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1 Sprache"' gilt nicht!
+
+\begin{Satz}\label{satz:6.6}
+	$\mathcal{L}_0 = \ac{NTM}$
+\end{Satz}
+\begin{proof}
+	\begin{itemize}
+	\item["'\=>"'] Kontruktion einer \ac{NTM} $M$ wie in \autoref{satz:6.3}, aber ohne Platzbeschränkung.
+	\item["'\<="'] Konstruktion analog zu \autoref{satz:6.3} + Startsymbol $S'$
+	\begin{align*}
+		S' &\-> \pmqty{\blank\\\epsilon} S' \pmqty{\blank\\\epsilon} &&\text{Schaffe Platz für Berechnung von }M\\
+		S' &\-> S\\
+	\shortintertext{Erweitere $N$}
+		&= \{S',S\}\cup\triangle\x(\Sigma\cup\{\epsilon\})\\
+	\shortintertext{Neue Löschregeln:}
+		\pmqty{x\\\epsilon} &\-> \epsilon &&\forall x\in\Gamma\\
+		\rotatebox{90}{$\Rsh$}\ &\mathrlap{\text{einzigen Regeln, die Typ-0 einsetzen.}} \tag*{\qedhere}
+	\end{align*}
+	\end{itemize}
+\end{proof}
+
+\begin{Satz}[name={[Abgeschlossenheit von Typ-0 Sprachen]}]\label{satz:Typ-0-abgeschl}
+	Die Typ-0 Sprachen sind unter $\thinmuskip=6mu\cup,\cap,\cdot,{}^*$ abgeschlossen.
+\end{Satz}
+\begin{proof}
+	Konstruiere \ac{NTM} für $\thinmuskip=6mu\cup,\cap$ ; Typ-0-Grammatiken für $\cdot$ und $^*$.
+\end{proof}
+
+\begin{Bem}
+	Typ-0 Sprachen sind \emph{nicht} unter Komplement abgeschlossen!
+\end{Bem}
+
+\subsection{Universelle \acs*{TM} und das Halteproblem}
+Ziel: Universelle \ac{TM} (eine \ac{TM}, die \ac{TM}s interpretiert) ist eine \ac{TM} $U$, die zwei Eingaben minimiert:
+\begin{enumerate}
+\item Kodierung einer (anderen) \ac{TM} $M_0$
+\item Eingabe $w$ für $M_0$
+\end{enumerate}
+so dass
+\begin{align*}
+	w\in L(M_0) &\curvearrowleftright (M_0,w) \in L(U)\\
+	\text{$M_0$ terminiert mit $w$} &\curvearrowleftright \text{$U$ terminiert mit $(M_0,w)$}
+\end{align*}
+Zur Vereinfachung:
+\begin{align*}
+	\Sigma &= \{0,1\}\\
+	\Gamma &=\{\blank,0,1\}\\
+\shortintertext{Die Kodierung von $M_0$}
+	&= (Q,\dots,q_1,\delta,\dots,\{q_2\})
+\end{align*}
+mit $Q=\{q_1,q_2,\dots,q_t\}$ ist im wesentlichen die Kodierung von $\delta$. Dazu zwei Hilfsfunktionen:
+\begin{tabular}{M{c} | M{c}}
+	x\in\Gamma & f(x) \\ \hline
+	0          & 1    \\
+	1          & 2    \\
+	\blank     & 3    \\
+\end{tabular}
+\quad
+\begin{tabular}{M{c} | M{c}}
+	D & g(D) \\
+\hline
+	L & 1    \\
+	N & 2    \\
+	R & 3
+\end{tabular}
+
+Kodiere $\delta$ Zeilenweise:
+\begin{align*}
+	\delta(q_i,X) &= (q_k,Y,D) \ (= \text{Zeile} z)\\
+\shortintertext{durch}
+	\mathrm{code}(z) &= 0^i10^{f(x)}10^k10^{f(y)}10^{g(D)}\\
+\shortintertext{Wenn $\delta$ durch $s$ Zeilen $z_1\dots z_s$ gegeben, dann setze}
+	\ulcorner M_0 \urcorner &= 111 \mathrm{code}(z_1) 11 \mathrm{code}(z_2) 11 \dots 11 \mathrm{code}(z_s) 111\\
+\shortintertext{ist die \emph{Gödelnummer} von $M_0$}
+\end{align*}
+Definiere $U$ als 3-Band Maschine mit
+\begin{itemize}
+\item[$B_1:$] Eingabe + Arbeitsband (für $M_0$)
+\item[$B_2:$] $\ulcorner M_0 \urcorner$
+\item[$B_3:$] $0^k$ für Zustand $q_k$
+\end{itemize}
+1. Schritt: Transformierte Eingabe
+$\ulcorner M_0 \urcorner$
+\begin{itemize}
+\item Beginnt die Eingabe mit gültiger Gödelnummer?
+\item Gleichzeitig: Verschiebe $\ulcorner M_0 \urcorner$ auf $B_2$
+\item Wenn Ende von $\ulcorner M_0 \urcorner$ erreicht, schiebe 0 auf $B_3$.
+\end{itemize}
+Jetzt:
+\begin{itemize}
+\item[$B_1:$] $w$
+\item[$B_2:$] $\ulcorner M_0 \urcorner$
+\item[$B_3:$] $0' \sim Z,q$
+\end{itemize}
+
+
+\datenote{14.01.16} % Danke @ Lars Nitzke
+\vspace{1em}
+
+\begin{Satz}
+	Es gibt eine universelle \ac{TM} $U$ mit $L(U) = \{ \ulcorner M \urcorner w\mid w \in L(M)\}$
+\end{Satz}
+\begin{proof}
+	Initialisierung:
+	\begin{itemize}
+		\item[$B_1:$] $w$ Eingabewort/Arbeitsband
+		\item[$B_2:$] $\ulcorner M \urcorner$ Gödelnummer
+		\item[$B_3:$] 0 Zustand
+	\end{itemize}
+	Hauptschleife von U:
+	\begin{itemize}
+		\item Test auf Haltekonfiguration.
+		\item Falls ja: 
+		\begin{tabular}[t]{@{}r@{\,}l}
+			Falls in $qz$ &: akzeptiert.\\
+			sonst&: nicht
+		\end{tabular}
+		\item Ausführung des nächsten Schritts:\\
+		Suche Zeile in $\ulcorner M \urcorner$ gemäß Zustand und aktuellem Symbol auf Arbeitsband.
+		Ändere $B_1$ und $B_3$ gemäß $\delta$.\\
+		$B_2, B_3$: Kopf zurück zum Anfang.
+	\end{itemize}
+\end{proof}
+\begin{Def}[name={[length-lexicographic order]}]
+	Die \emph{length-lexicographic order} auf $\{0, 1\}^*$ (mit $0<1$) ist definiert durch
+	\begin{align*}
+		v \leq w \<=> &\ |v| < |w|\\
+		\vee &\ v = w\\
+		\vee &\ |v| = |w| \text{ und } \exists u\in \{0, 1\}^*\\
+		& \text{mit } v = u0v' \text{ und } w = u1w'
+	\end{align*}
+\end{Def}
+\begin{Satz}[name={[$\leq:$ totale Ordnung]}]\
+	\begin{itemize}
+		\item $\leq$ ist totale Ordnung auf $\{0, 1\}^*$
+		\item $\exists$ bijektive Abbildung $w: \N \to \{0, 1\}^*$ mit $i \leq j \to w(i) \leq w(j)$
+	\end{itemize}
+\end{Satz}
+\begin{Def}[name={[Diagonalsprache]}]
+	Sei $M_i$ die Turingmaschine mit Gödelnummer $\ulcorner M_i\urcorner = w(i)$.
+	(falls $w(i)$ kein gültiger Code, dann sei $M_i$ eine beliebige \ac{TM} mit $L(M_i) = \varnothing$). Die \emph{Diagonalsprache}
+	\[D = \{w(i) \mid w(i) \notin L(M_i)\}\]
+	das heißt $M_i$ akzeptiert $w(i)$ nicht.
+\end{Def}
+\begin{Satz}[name={[$D$ ist nicht entscheidbar]}]\label{satz:6.10}
+	$D$ ist nicht entscheidbar.
+\end{Satz}
+\begin{proof}
+	Angenommen $\exists M$, die $D$ entscheidet.\\
+	$M$ muss in Aufzählung vorkommen, das heißt $\exists j\in \N$, sodass $M = M_j$.
+	Wende $M_j$ auf $w(j)$ an:
+	\begin{itemize}
+		\item $M_j$ stoppt/ja: $w(j) \in L(M_j) = D \qquad \lightning$ Def. von $D$
+		\item $M_j$ stoppt/nein: $w(j) \notin L(M_j) = D \quad \lightning$ Def. von $D$ \qedhere
+	\end{itemize}
+\end{proof}
+\begin{Korollar}\label{kor:6.11}
+	$\overline{D} = \{w(i) \mid M_i\text{ akzepztiert }w(i) \}$ ist nicht entscheidbar.
+\end{Korollar}
+\begin{proof}
+	Angenommen $\overline{D}$ sei entscheidbar durch $M$. Dann entscheidet $M'\ D$. $M'$ führt 
+	zuerst $M$ aus und negiert das Ergebnis. $\lightning$ \autoref{satz:6.10}
+\end{proof}
+\begin{lemma}[name={[$\overline{D}$ ist semi-entscheidbar]}]
+	$\overline{D}$ ist semi-entscheidbar.
+\end{lemma}
+\begin{proof}
+	Bei Eingabe $w$
+	\begin{itemize}
+		\item Falls $w$ kein gültiger Code: stop mit Ergebnis nein.
+		\item Falls $w$ gültiger Code, dann $\exists i$, sodass $ww = \left\ulcorner M_j
+		\right\urcorner w(i) \qquad w = w(i)$
+	\end{itemize}
+	Wende $U$ auf $ww$ an.\\
+	Insgesamt: \ac{TM}, die $\overline{D}$ akzeptiert.
+\end{proof}
+\begin{Satz}[name={[{$L,\overline{L}$ semi-entscheidbar $\=> L$ entscheidbar}]},restate={[name=Wiederholung]repeatSatz613}]\label{satz:6.13}
+	Falls $L$ semi-entscheidbar und $\overline{L}$ semi-entscheidbar, dann ist $L$ entscheidbar.
+\end{Satz}
+\begin{proof}
+	Sei $M$ die \ac{TM} für $L$, $\overline{M}$ die \ac{TM} für $\overline{L}$.\\
+	Führe $M$ und $\overline{M}$ "`parallel"' mit der gleichen Eingabe aus.\\
+	Falls $M$ akzeptiert $\Rightarrow$ Ja\\
+	Falls $\overline{M}$ akzeptiert $\Rightarrow$ Nein.\\
+	Eine muss anhalten, wegen Voraussetzung.
+\end{proof}
+$D$ \quad nicht entscheidbar\\
+$\overline{D}$ \quad nicht entscheidbar\\
+$\overline{D}$ \quad semi-entscheidbar (Typ-0)\\
+$D$ \quad nicht-semientscheidbar (keine Typ-0)
+\begin{Def}[name={[Halteproblem]}]
+	Das \underline{Halteproblem} ist definiert durch
+	\[H = \{\ulcorner M\urcorner w \mid M \text{ hält bei Eingabe } w \text{ an}\} \qedhere\]
+\end{Def}
+\begin{Satz}[name={[$H$ ist unentscheidbar]}]\label{satz:H ist unentscheidbar}
+	$H$ ist unentscheidbar.
+\end{Satz}
+\begin{proof}
+	Angenommen $M_0$ entscheidet $H$.\\
+	Konstruiere $M'$ wie folgt:\\
+	Bei Eingabe $w$ bestimme $i$, sodass $w = w(i)$\\
+	Verwende $M_0$ um festzustellen, ob $\ulcorner M_i\urcorner w$ anhält.\\
+	Antwort von $M_0:$\\
+	nein: $\begin{aligned}[t]
+		&\curvearrowright w(i) \notin L(M_i)\\
+		&\curvearrowright M'\text{ akzeptiert }w\text{ nicht}.
+	\end{aligned}$\\
+	ja: Führe $\ulcorner M_i\urcorner w$ mit $U$ aus (muss ja terminieren) und akzeptiere entsprechend das Ergebnis von $U$.\\
+	Insgesamt: $M'$ entscheidet $\overline{D} \qquad \lightning$ \autoref{kor:6.11}\\
+	$\curvearrowright M_0$ existiert nicht.
+\end{proof}
+\begin{Satz}[name={[$H$ ist semi-entscheidbar]}]
+	$H$ ist semi-entscheidbar.
+\end{Satz}
+\begin{proof}
+	Modifiziere $U$, sodass sie jede Eingabe akzeptiert, bei der sie anhält.
+\end{proof}
+\begin{Korollar}
+	$\mathcal{L}_0 \supsetneqq \mathcal{L}_1$
+\end{Korollar}
+\begin{proof}
+	$\overline{D}$ ist unentscheidbar (also $\notin \mathcal{L}_1$), aber semi-entscheidbar (also $\in \mathcal{L}_0$)
+\end{proof}
+\underline{\textbf{Fragen:}}
+\begin{enumerate}
+	\item Ist $\mathcal{L}_1$ = Menge der entscheidbaren Sprachen?
+	\item[--] Nein:\\
+	\begin{minipage}[t]{.7\linewidth}
+	Konstruiere eine Aufzählung aller Typ-1 Grammatiken. \medskip\\
+	$D_1 = \{w(i) \mid w(i)\notin L(G_i)\}$ ist entscheidbar, weil das Wortproblem für Typ-1 
+	Sprachen entscheidbar, aber es $\nexists j$, sodass $L(G_j) = D_1$s
+	\end{minipage}\quad
+	\begin{tabular}[t]{M{c} | *4{M{c}@{ }}}
+		\ &w_1&w_2&w_3&\cdots\\\hline
+		G_1 &\\
+		G_2 &\\
+		G_3 &\\
+		\vdots&
+	\end{tabular}
+	\item Ist $\mathcal{L}_0$ = Menge aller Sprachen?
+	\item[--] Nein: $D \notin \mathcal{L}_0$
+\end{enumerate}
+\begin{Def}[name={[Spezielles Halteproblem $H_\varepsilon$]}]
+	Das spezielle Halteproblem $H_\varepsilon = \{\ulcorner M\urcorner \mid M 
+	\text{ terminiert auf leeren Band}\}$
+\end{Def}
+\begin{Satz}[name={[$H_\varepsilon$ ist unentscheidbar]}]
+	$H_\varepsilon$ ist unentscheidbar.
+\end{Satz}
+\begin{proof}
+	Angenommen $M_\varepsilon$ entscheidet $H_\varepsilon$.\\
+	Konstruiere $M'$ (mit Hilfe von $M_\varepsilon$), sodass $M'$ entscheidet $H$.\\
+	\begin{tabular}{r@{ }l}
+	$M':$ & Bei Eingabe $\ulcorner M\urcorner w$.\\
+	& Konstruiere $M^*$, $M^*$ schreibt zuerst $w$ aufs (leere) Band und 
+	startet dann $M$ auf $w$.\\
+	& Wende $M_\varepsilon$ auf $\ulcorner M^*\urcorner$ an.
+	\end{tabular}\\
+	$\curvearrowright M'$ entscheidet $H \qquad \lightning$ \autoref{satz:H ist unentscheidbar}
+\end{proof}
+
+\datenote{20.01.15} % Latex-Qelle von M. Geffken
+Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
+(partiellen) Funktionen. Sei $R$ die Menge der von \ac{TM}s berechneten
+Funktionen.
+
+\begin{Satz}[Satz von Rice]\ \\
+  Sei $R$ die Menge aller partiellen \ac{TM}-berechenbaren Funktionen und
+  $\varnothing \neq S \subsetneq R$ eine nichttriviale (nicht-leere,
+  echte) Teilmenge davon.\\
+  Dann ist $L(S)=\{\ulcorner M \urcorner \mid M \text{ berechnet Funkt. aus
+  }S\}$ unentscheidbar.
+\end{Satz}
+\begin{proof}
+  Angenommen $M_S$ entscheidet $L(S)$.\\
+  Sei $\Omega \in R$ die überall
+  undefinierte Funktion. Wir nehmen an, dass $\Omega \in S$ (anderenfalls betrachten wir $\overline{L(S)}$).
+  
+  Da $R \setminus S \neq \varnothing$ folgt $\exists f \in R \setminus
+  S$ und $f$ werde von \ac{TM} $M_f$ berechnet.
+  
+  Definiere $M'=M'_{(M, f)}$ wie folgt: $M'$ führt zunächst $M$ (beliebige \ac{TM}) auf leerer Eingabe aus. Falls $M$ anhält, wendet $M'$ dann $M_f$ auf die tatsächliche Eingabe an.\\
+  Die von $M'$ berechnete Funktion ist also
+  $f_{M'}=\begin{cases}
+    f & \text{falls } M \text{ auf leerem Band hält,}\\
+    \Omega & \text{sonst.}
+  \end{cases}$
+  
+  Definiere nun $M''$ wie folgt:
+  \begin{itemize}
+  \item Bei Eingabe $\ulcorner M \urcorner$ berechne die Gödelnummer von $M'$.
+  \item Wende nun $M_S$ auf $\ulcorner M' \urcorner$ an.
+    \begin{align*}
+      M_s\text{ akzeptiert }\ulcorner M' \urcorner
+      &\iff M' \text{ berechnet Funktion in }S\\
+      &\iff M' \text{ berechnet }\Omega \text{ ($f_{M'} \in \{\Omega, f\}, \Omega \in S, f \notin S$ )}\\
+      &\iff M \text{ hält \emph{nicht} auf leerem Band an}
+    \end{align*}
+  \end{itemize}
+  Also entscheidet $M''$ $H_\varepsilon$.$\qquad\lightning$
+\end{proof}
+
+\subsection{Eigenschaften von entscheidbaren und semi-entscheidbaren Sprachen}
+\begin{Satz}[name={[Eigenschaften von Entscheidbarkeit]}]
+\label{thm:eigensch-von-entsch}
+  Seien $L_1$ und $L_2$ entscheidbar. Dann sind $\overline{L_1}$, $\overline{L_2}$, $L_1 \cup L_2$ und $L_1 \cap L_2$ entscheidbar.
+\end{Satz}\vspace{-1.5em}
+\begin{proof}
+  Übung oder selbst.
+\end{proof}
+\begin{Satz}[name={[Eigenschaften von Semi-Entscheidbarkeit]}]
+  Seien $L_1$ und $L_2$ semi-entscheidbar. Dann sind $L_1 \cup L_2$ und $L_1 \cap L_2$ semi-entscheidbar.
+\end{Satz}
+\begin{proof}
+  vgl. \autoref{satz:Typ-0-abgeschl}.
+\end{proof}
+\csname repeatSatz613\endcsname*
+\begin{Satz}
+  Die Menge der semi-entscheidbaren Sprachen ist \emph{nicht}
+  unter Komplement abgeschlossen.
+\end{Satz}
+\begin{proof}
+  Laut \autoref{satz:6.10} und \autoref{kor:6.11} sind Diagonalsprache $D$ und $\overline{D}$ nicht entscheidbar.
+  
+  $\overline{D}$ ist semi-entscheidbar: Verwende universelle \ac{TM} $U$ um $\ulcorner M_i \urcorner w(i)$ auszuführen.
+  
+  Angenommen, $D=\overline{\overline{D}}$ ist ebenfalls semi-entscheidbar\\ $\curvearrowright$ (mit \autoref{satz:6.13}) $D$ ist entscheidbar. $\qquad\lightning$
+\end{proof}
+
+
+\subsection{Weitere unentscheidbare Probleme}
+\paragraph[\acf*{PCP}]{\acf{PCP}}\ \\
+\underline{Gegeben:}\\
+Endliche Folge von Wortpaaren $K=((x_1, y_1), \dots, (x_k, y_k))$ mit $x_i, y_i \in \Sigma^+$
+
+\underline{Gesucht:}\\
+Indexfolge $i_1, \dots, i_n \in \{1, \dots, k\}\ (n \geq 1)$, so dass $x_{i_1} \cdots x_{i_n}=y_{i_1} \cdots y_{i_n}$
+
+Die Folge $i_1, \dots, i_n$ (falls diese existiert) heißt \underline{Lösung} des Korrespondenzproblems $K$.
+\begin{Bsp*}
+\begin{align*}
+	K &=((\underbrace{1,101}_{x_1, y_1}), (\underbrace{10, 00}_{x_2, y_2}), (\underbrace{011, 11}_{x_3, y_3}))\\
+\shortintertext{besitzt die Lösung $(1,3,2,3)$, denn}
+	x_1 x_3 x_2 x_3 &= \underbrace{1 \cdot 01}_{y_1}\underbrace{1 \cdot 1}_{y_3}\underbrace{0 \cdot 0}_{y_2}\underbrace{11}_{y_3} = y_1 y_3 y_2 y_3
+\end{align*}
+\end{Bsp*}\vspace{-1em}
+\underline{Frage:}
+\begin{align*}
+  x_1&=001 & x_2&=01 & x_3&=01 & x_2&=10\\
+  y_1&=0  & y_2&=011 & y_3&=101  & y_2&=001\\
+\end{align*}
+Besitzt dieses \ac{PCP} eine Lösung? [Schöning, S.124]
+\begin{Bemerkung}\ \\
+  Offensichtlich ist das \ac{PCP} semi-entscheidbar: Systematisches
+  Ausprobieren von Indexfolgen findet Lösung nach endlicher Zeit,
+  \underline{sofern es eine gibt}.
+\end{Bemerkung}
+Ziel: \ac{PCP} ist unentscheidbar. Vorbereitung:
+Es interessiert uns ab hier nur, ob das Problem eine Lösung hat oder nicht.
+\begin{Def}[Reduktion]\ \\
+  Seien $U, V \subseteq \Sigma^*$ Sprachen.\\
+  \underline{$U$ ist auf $V$ reduzierbar ($U \preceq V$)}, falls eine totale berechenbare Funktion
+  $f:\Sigma^* \to \Sigma^*$ existiert, so dass $\forall x \in \Sigma^*:x \in U \iff f(x) \in V$.
+\end{Def}
+\begin{lemma}
+  Falls $U \preceq V$ und $V$ \mbox{(semi-)entscheidbar}, dann ist auch $U$
+  \mbox{(semi-)entscheidbar}.
+\end{lemma}\vspace{-1.5em}
+\begin{proof}
+  Wenn $M$ ein (Semi-)Entscheidungsverfahren für $V$ ist, dann konstruiere $M'$ wie folgt
+  \begin{itemize}
+  \item wende erst $f$ auf die Eingabe $x$ an ($f$ ist Funktion gemäß Reduktion)
+  \item führe $M$ auf dem Ergebnis $f(x)$ aus
+  \end{itemize}
+  $\curvearrowright$ $M'$ ist (Semi-)Entscheidungsverfahren für $U$
+\end{proof}
+\underline{Anwendung:} $U \preceq V$ und $U$
+unentscheidbar $\curvearrowright$ $V$ unentscheidbar.
+\paragraph[\acf*{MPCP}]{\acf{MPCP}}\ \\
+\underline{Gegeben:} wie bei \ac{PCP}
+
+\underline{Gesucht:} Lösung des \acsu{CP} mit $i_1=1$
+\begin{lemma}[name={[MPCP $\preceq$ PCP]}]
+    \ac{MPCP} $\preceq$ \ac{PCP}
+\end{lemma}
+\begin{proof}
+	Betrachte \ac{MPCP} $K=((x_1,y_1),\dots(x_k,y_k))$ über $\Sigma$.\\
+	Sei $\Sigma'=\Sigma\cup\{\#,\$\}$ mit neuen Symbolen.\\
+	Für ein Wort $w=a_1\dots a_n\in\Sigma^+$ sei
+	\begin{align*}
+		\bar w &= \#a_1\#a_2\#\dots\#a_n\#\\
+		\grave w &= \#a_1\#a_2\#\dots\#a_n &&\text{(am Ende kein \#)}\\
+		\acute w &= \phantom{\#}a_1\#a_2\#\dots\#a_n\# &&(\text{am Anfang kein }\#)
+	\end{align*}
+	Definiere nun
+	\[ f(K) = (\underbrace{(\bar x_1,\grave y_1)}_1, \underbrace{(\acute x_1, \grave y_1)}_2, \underbrace{(\acute x_2,\grave y_2)}_{2+1}, \dots, \underbrace{(\acute x_k,\grave y_k)}_{k+1}, \underbrace{(\$,\#\$)}_{k+2}) \]
+	eine totale berechenbare Funktion.
+	
+	Zeige $K \in \ac{MPCP} \<==> f(K) \in \ac{PCP}$:
+	
+	"`$\==>$"': $1, i_2, \dots, i_n$ Lösung für $K$\\
+	$\curvearrowright\ 1, i_{2}+1, \dots, i_{n}+1, k+2$ Lösung für $f(K)$
+	
+	"`$\<==$"': $i_1, \dots, i_n$ Lösung für $f(K)$\\
+	$\curvearrowright i_1=1,\ i_n=k+2 \qquad,\ 1 < j < n: i_j \in \{2, \dots, k+1\}$\\
+	$\curvearrowright 1, i_{2}-1, \dots, i_{n-1}-1$ Lösung für $K$
+\end{proof}
+Es reicht nun zu zeigen, dass \ac{MPCP} unentscheidbar ist!
+
+\begin{lemma}[name={[H $\preceq$ \ac{MPCP}]}] \datenote{28.01.16}
+	H $\preceq$ \ac{MPCP}
+\end{lemma}
+\begin{proof}
+	\ac{TM} $M=(Q,\Sigma,\Gamma,\delta,q_0,\blank,F)$ und Eingabewort $w\in\Sigma^*$.
+	
+	Gesucht: totale berechenbare Funktion, die $(\ulcorner M \urcorner, w) \mapsto \underbrace{(x_1,y_1),\dots,(x_k,y_k)}_k$, sodass\\
+	$\ulcorner M \urcorner w\in H \<=> K$ eine Lösung als \ac{MPCP} besitzt.
+	
+	Idee: Definiere $K$ so, dass die Berechnung von $M$ simuliert wird.\\
+	Alphabet für $K: \triangle = \Gamma\cup Q\cup\{\#\}$\\
+	$(x_1,y_1) = (\#,\#q_0w\#)$
+	\begin{enumerate}
+	\item Kopieren
+		\[ (a,a)\quad, a\in\Gamma\cup\{\#\} \]
+	\item Transition
+		\begin{alignat*}{2}
+			(qa,q'a') &\quad& \forall q,a:\delta(q,a) &\ni(q',a',N)\\
+			(qa,a'q') && \dots\quad &\ni(q',a',R)\\
+			(bqa,q'ba') &&  &\ni(q',a',L),b\in\Gamma\\
+			(q\#,q'a'\#) && \forall q: \delta(q,\blank)&\ni(q',a',N)\\
+			(q\#,a'q'\#) && &\ni(q',a',R)\\
+			(bq\#,q'ba'\#) && &\ni(q',a',L),b\in\Gamma\\
+			(\#qa,\#q'\blank a')&& \forall q,a:\delta(q,a) &\ni(q',a',L)\\
+			(\#q\#,\#q'\blank a'\#)&& \forall q:\delta(q,\blank) &\ni(q',a',L)
+		\end{alignat*}
+	\item Löschen
+		\begin{align*}
+			\forall q\in \Gamma\\
+			\forall q\in F &:(aq,a)\\
+			&\phantom{{}:{}}(qa,a)
+		\end{align*}
+	\item Abschluss
+		\[ \forall q\in F: (q\#\#,\#) \]
+	\end{enumerate}
+	$\ulcorner M \urcorner w\in H \<==>$ Folge von $\Konf$ von $M,\ k_0\dots k_t$ mit $k_0 =q_0w$ und $k_t = uq'v$ mit $q'\in F$\\
+	mit $h_{i-1}\vdash k_i\quad \forall 1\leq i\leq t$
+	\<==> Die Instanz $K$ von \ac{MPCP} besitzt Lösung und ein Lösungswort der Form
+	\[ \#k_0\#k_1\# \dots \#h_t\#k_t^1\#k_t^2\# \dots \#q'\#\# \]
+	wobei die $k_t^j$ durch Streichen eines Bandsymbols rechts oder links von $q'$ aus ihrem Vorgänger entsteht.
+\end{proof}
+\begin{Satz}[name={[\ac{PCP} ist unentscheidbar.]}]
+	\ac{PCP} ist unentscheidbar.
+\end{Satz}
+\begin{proof}
+	$\text{H}\leq\ac{MPCP}$ und $\ac{MPCP}\leq\ac{PCP}$
+\end{proof}
+
+
+\begin{Satz}
+	Das Schnittproblem "`$L(\mathcal{G}_1)\cap L(\mathcal{G}_2)\neq \varnothing$?"' für \ac{CFL} ist unentscheidbar.
+\end{Satz}
+\begin{proof} Durch Reduktion $\ac{PCP}\leq{}$Schnittproblem.\\
+	Sei $K=\{(x_i,y_i) \mid 1\leq i\leq k\}$ Instanz von \ac{PCP} über $\Sigma$.\\
+	Berechne aus $K$ zwei \ac{CFG} $\mathcal{G}_1$ und $\mathcal{G}_2$, so dass $K$ eine Lösung hat $\<==> L(\mathcal{G}_1)\cap L(\mathcal{G}_2)\neq \varnothing$
+	\begin{align*}
+		\mathcal{G}_1: S_1\-> &1x_1 |\dots |kx_k &&\text{Alphabet}: \Sigma\cup\{1\dots k\}\\
+		& |1S_1x_1|\dots|kS_1x_k\\
+		\mathcal{G}_2: S_2\-> &1y_1 |\dots |ky_k\\
+		&|1S_2x_1|\dots|kS_2y_k
+	\end{align*}
+	\begin{alignat*}{2}
+		&&w&\in L(\mathcal{G}_1)\cap L(\mathcal{G}_2)\\
+		\<==>&\ &  w &= k_n\dots k_1,xk_1\dots xk_n\\
+		&&&= k_n\dots k_1,yk_1\dots yk_n\\
+		\<==>&& \mathrlap{\hspace{-1ex}(k_1\dots k_n)\text{ ist Indexfolge zur Lösung von \ac{PCP} } k} \tag*{\qedhere}
+	\end{alignat*}
+\end{proof}
+\paragraph{Folgerung :}Schnittproblem für Typ 1 und Typ 0 Sprachen ist ebenfalls unentscheidbar.
+
+\begin{Korollar}
+	Das Schnittproblem ist auch für \ac{DCFL} unentscheidbar.
+\end{Korollar}
+\begin{proof}
+	$L(G_1)$ ist auch \ac{DPDA} erkennbar.
+\end{proof}
+
+\begin{Satz}
+	Das Äquivalenzproblem für \ac{CFL} ist unentscheidbar.
+\end{Satz}
+\begin{proof}
+	Sei $A=\{\mcG_1,\mcG_2 \mid L(\mcG_1)=L(\mcG_2)\}$\\
+	Angenommen $\mcG_1,\mcG_2$ sind Typ 2 Grammatiken für \ac{DCFL}.\\
+	Dann ist $(\mcG_1,\mcG_2)\in{}$Schnittproblem.
+	\begin{align*}
+		\<==> L(\mcG_1) &\cap L(\mcG_2)=\varnothing\\
+		\<==> L(\mcG_1) &\subseteq \overline{L(\mcG_2)}
+	\end{align*}
+	Da $\mcG_2$ eine \ac{DCFG} $\exists\,\mcG_2$ mit $L(\mcG'_2)=\overline{L(\mcG_2)}$ (Abschluss unter Komplement).
+	\begin{align*}
+		\<==>\quad & L(\mcG_1) \subseteq L(\mcG'_2) \quad\leadsto\text{Inklusionsproblem} \tag{$*$}\label{eq:Inklusionsproblem}\\
+		\<==>\quad & L(\mcG_1) \cup L(\mcG'_2) = L(\mcG'_2)\\
+	\shortintertext{Wegen Abschluss unter $\cup:\exists\,\mcG_3\in\ac{CFG}$ mit $L(\mcG_3)=L(\mcG_1)\cup L(\mcG'_2)$}
+		\<==>\quad & L(\mcG_3)=L(\mcG'_2)\\
+		\<==>\quad & (\mcG_3,\mcG'_2)\in A
+	\end{align*}
+	$\curvearrowright$ Äquivalenzproblem ist unentscheidbar.\\
+	\eqref{eq:Inklusionsproblem} \-> (Inklusionsproblem ist ebenfalls unentscheidbar.)
+\end{proof}
+
+\begin{Satz}
+	Das Leerheitsproblem für Typ 1 Sprachen ist unentscheidbar.
+\end{Satz}
+\begin{proof}
+	Reduktion auf Schnittproblem für \ac{CFL}.\\
+	Sei $(\mcG_1,\mcG_2)\in{}$Schnittproblem (Typ 1).\\
+	Insbesondere $\mcG_1,\mcG_2$ Typ 1 Grammatiken.\\
+	Typ 1 Sprachen sind unter $\cap$ abgeschlossen, also $\exists\, \mcG$ Typ 1 Gramatik mit $L(\mcG)=L(\mcG_1)\cap L(\mcG_2)$\\
+	Also "`$L(\mcG)=\varnothing$"' unentscheidbar.
+\end{proof}
