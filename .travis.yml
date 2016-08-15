@@ -1,6 +1,6 @@
 before_install:
 - sudo apt-get update
-- sudo apt-get install -qq texlive
+- sudo apt-get install -qq texlive-full
 
 script:
 - pdflatex Info_3_Skript_WS2015-16
