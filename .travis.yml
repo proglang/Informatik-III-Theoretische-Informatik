@@ -2,7 +2,7 @@ sudo: required
 dist: trusty
 before_install:
 - sudo apt-get update
-- sudo apt-get install -qq texlive texlive-latex-extra texlive-lang-german
+- sudo apt-get install -qq texlive texlive-latex-extra texlive-lang-german texlive-math-extra
 
 script:
 - pdflatex Info_3_Skript_WS2015-16
