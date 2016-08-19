@@ -3,6 +3,7 @@ dist: trusty
 before_install:
 - sudo apt-get update
 - sudo apt-get install -qq texlive texlive-latex-extra texlive-lang-german texlive-math-extra texlive-science
+- cd tmp; curl 'http://downloads.sourceforge.net/project/pgf/pgf/version%203.0.1/pgf_3.0.1.tds.zip?r=&ts=1471627324&use_mirror=vorboss'
 
 script:
 - pdflatex Info_3_Skript_WS2015-16
