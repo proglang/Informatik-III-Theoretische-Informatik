@@ -4,7 +4,8 @@ before_install:
 - sudo apt-get update
 - sudo apt-get install -qq texlive texlive-latex-extra texlive-lang-german texlive-math-extra texlive-science
 - curl -o /tmp/pgf_3.01.tds.zip 'http://vorboss.dl.sourceforge.net/project/pgf/pgf/version%203.0.1/pgf_3.0.1.tds.zip' 
-- cd /tmp; unzip pdf_3.0.1.tds.zip
+- cd /tmp; unzip pgf_3.0.1.tds.zip
+- export TEXINPUTS=/tmp/pgf_3.0.1.tds/tex//:$TEXINPUTS
 
 script:
 - pdflatex Info_3_Skript_WS2015-16
