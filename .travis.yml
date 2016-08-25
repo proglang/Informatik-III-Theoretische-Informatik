@@ -9,7 +9,7 @@ before_install:
 - unzip -d /tmp/KOMA /tmp/koma-script.tds.zip
 
 env:
-- TEXTINPUTS=.:/tmp/KOMA/tex/latex//:/tmp/PGF/tex//:
+- TEXTINPUTS=.:/tmp/KOMA/tex/latex//:/tmp/PGF/tex//::$TEXINPUTS
 
 script:
 - pdflatex Info_3_Skript_WS2015-16
