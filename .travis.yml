@@ -12,6 +12,7 @@ env:
 - TEXTINPUTS=.:/tmp/KOMA/tex/latex//:/tmp/PGF/tex//::$TEXINPUTS
 
 script:
+- kpsewhich tikzlibraryarrows.meta.code.tex
 - pdflatex Info_3_Skript_WS2015-16
 - pdflatex Info_3_Skript_WS2015-16
 
