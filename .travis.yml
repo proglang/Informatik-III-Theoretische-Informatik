@@ -3,9 +3,13 @@ dist: trusty
 before_install:
 - sudo apt-get update
 - sudo apt-get install -qq texlive texlive-latex-extra texlive-lang-german texlive-math-extra texlive-science
-- cd tmp; curl 'http://downloads.sourceforge.net/project/pgf/pgf/version%203.0.1/pgf_3.0.1.tds.zip?r=&ts=1471627324&use_mirror=vorboss'
+- curl -o /tmp/pgf.tds.zip 'http://mirrors.ctan.org/install/graphics/pgf/base/pgf.tds.zip'
+- curl -o /tmp/koma-script.tds.zip 'http://mirrors.ctan.org/install/macros/latex/contrib/koma-script.tds.zip'
+- unzip -d /tmp/PGF /tmp/pgf.tds.zip
+- unzip -d /tmp/KOMA /tmp/koma-script.tds.zip
 
 script:
+- export TEXTINPUTS=.:/tmp/KOMA/tex/latex//:/tmp/PGF/tex//:
 - pdflatex Info_3_Skript_WS2015-16
 - pdflatex Info_3_Skript_WS2015-16
 
