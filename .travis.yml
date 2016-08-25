@@ -8,8 +8,10 @@ before_install:
 - unzip -d /tmp/PGF /tmp/pgf.tds.zip
 - unzip -d /tmp/KOMA /tmp/koma-script.tds.zip
 
+env:
+- TEXTINPUTS=.:/tmp/KOMA/tex/latex//:/tmp/PGF/tex//:
+
 script:
-- export TEXTINPUTS=.:/tmp/KOMA/tex/latex//:/tmp/PGF/tex//:
 - pdflatex Info_3_Skript_WS2015-16
 - pdflatex Info_3_Skript_WS2015-16
 
