@@ -5,14 +5,8 @@ before_install:
 - sudo apt-get install -qq texlive texlive-latex-extra texlive-lang-german texlive-math-extra texlive-science
 - wget -q -O /tmp/pgf.tds.zip 'http://mirrors.ctan.org/install/graphics/pgf/base/pgf.tds.zip'
 - wget -q -O /tmp/koma-script.tds.zip 'http://mirrors.ctan.org/install/macros/latex/contrib/koma-script.tds.zip'
-- unzip -d /tmp/PGF /tmp/pgf.tds.zip
-- unzip -d /tmp/KOMA /tmp/koma-script.tds.zip
-- cd /tmp/PGF/tex && ls -LAR ./ > ls-R
-- cd /tmp/KOMA/tex/latex && ls -LAR ./ > ls-R
-- cd
-
-env:
-- TEXINPUTS=.:/tmp/KOMA/tex/latex//:/tmp/PGF/tex//::$TEXINPUTS
+- unzip -d $HOME/texmf/tex/PGF /tmp/pgf.tds.zip
+- unzip -d $HOME/texmf/tex/KOMA /tmp/koma-script.tds.zip
 
 script:
 - pdflatex Info_3_Skript_WS2015-16
