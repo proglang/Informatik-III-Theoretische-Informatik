@@ -7,12 +7,15 @@ before_install:
 - wget -q -O /tmp/koma-script.tds.zip 'http://mirrors.ctan.org/install/macros/latex/contrib/koma-script.tds.zip'
 - unzip -d /tmp/PGF /tmp/pgf.tds.zip
 - unzip -d /tmp/KOMA /tmp/koma-script.tds.zip
+- cd /tmp/PGF/tex && ls -LAR ./ > ls-R
+- cd /tmp/KOMA/tex/latex && ls -LAR ./ > ls-R
+- cd
 
 env:
 - TEXTINPUTS=.:/tmp/KOMA/tex/latex//:/tmp/PGF/tex//::$TEXINPUTS
 
 script:
-- kpsewhich tikzlibraryarrows.meta.code.tex
+- kpsewhich -debug -1 tikzlibraryarrows.meta.code.tex
 - pdflatex Info_3_Skript_WS2015-16
 - pdflatex Info_3_Skript_WS2015-16
 
