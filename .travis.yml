@@ -12,12 +12,12 @@ env:
 - TEXINPUTS=.:/tmp/KOMA/tex/latex//:/tmp/PGF/tex//::$TEXINPUTS
 script:
 - echo $TEXINPUTS
-- pdflatex Info_3_Skript_WS2015-16
-- pdflatex Info_3_Skript_WS2015-16
+- pdflatex Info_3_Skript_WS2016-17
+- pdflatex Info_3_Skript_WS2016-17
 deploy:
   provider: releases
   api_key:
     secure: hfpaifjlgUdSWkx6MfAssOHsuL5NKFzBKHjlQRL0SZEzWvtmuOcnqDBVSXKF2yRISTXGmrIaDwUKvRoZ5kdhFsrlmRxIIp0bKvVyAVfh4H8AjDeRFvL26+jZK8qeBdoFEikgxCL78Z1xa4pespPzEIyhJQpPi5vBw7CQ9CPUwtkdnPkFqAS+S6/e7HxHCEHPeODd9ztuC8dbeUc8DOy6ziFUd6XLFSB4iilieWxjMtmLIbsthmnVajk2ywKwrI8/sGSVUIMHz9DtdWe2Q/lzzbdbAVTgNAHOrkz0VuLhVfHRfOpcSEONEsZCf2Br2B8TMhUuq4JDXKA/mjmSfkRcBkDiVLBwq4J2HEkCvu/ysVTgXeGHS4rFFcnLhNhJwHBhtl2UePYyXawV2FZ8iRd8HZZ5HB4Dgd7qDby/olI+9JGUk2tVJ7mRQ2JVMmVKmS8P+CLZGNSa7vr0eCZW0qcq3cO5mYGVKeN2pEdpQ9hzzzR80q92za6euU4Q/HCw1/E5B1HPObuI6NphPNR5tDpb0FY0dDtbT0u27XRDKs6BmMQO7vlgq4p3t5iPwZaNiMTaE9TaaFzDztgUVYkc/0ajveMl6tGrt7Bf58jBRLdh0tKEGFQ1KWigaEK0HLhpCEX9KjhqRd+N1wKJMxV6nqL2qXbkZ2NyfxEzYOez+VYIIvk=
-  file: Info_3_Skript_WS2015-16.pdf
+  file: Info_3_Skript_WS2016-17.pdf
   on:
     repo: proglang/Informatik-III-Theoretische-Informatik
