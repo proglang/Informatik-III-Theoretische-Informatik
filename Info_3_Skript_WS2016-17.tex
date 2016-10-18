@@ -48,7 +48,7 @@
 \let\Imaginary\Im \let\Im\imaginary % \Im = tex: \Im   | physics \Im => \Imaginary
 
 \usepackage[dvipsnames]{xcolor}
-\usepackage{ulem}  % emph = \underline
+% \usepackage{ulem}  % emph = \underline
 \newcommand\coloruline[2]{\colorlet{colorsave}{.}{\color{#1}\uline{{\color{colorsave}#2}}}}
 %\usepackage{xhfill}
 
@@ -289,6 +289,8 @@
 \DeclareMathOperator\add{add} % Bsp. zu 8.2
 \DeclareMathOperator\mult{mult} % Bsp. zu 8.2
 
+\newcommand{\Eps}{\varepsilon}
+
 % Faster compilation: one section / file.
 %\includeonly{6-Berechenbarkeit}
 
@@ -297,60 +299,62 @@
 \title{Vorlesung Informatik III -- Theoretische Informatik}
 \author{Prof. Dr. Peter Thiemann\\\normalsize{Basierend auf einem Mitschrieb im WS\, 2015/16\ von Ralph Lesch\thanks{ralph.lesch@neptun.uni-freiburg.de}}}
 \date{WS\,2016/17%\\2015-10-21 -- 2016-02-22
-}%\today}
+  \\
+  \vspace{10ex}
+\small\sffamily Zuletzt aktualisiert: \today}
 
 \maketitle
 \vspace{\baselineskip}
 \tableofcontents
 
 \include{1-Vorspann_Sprachen}
-% \include{2-Turing_und_Church}
-% \include{3-Regulaere_Sprachen_und_endliche_Automaten}
-% \include{4-Grammatiken_und_kontextfreie_Sprachen}
-% \include{5-Kellerautomaten}
+\include{2-Regulaere_Sprachen_und_endliche_Automaten}
+% \include{3-Grammatiken_und_kontextfreie_Sprachen}
+% \include{4-Kellerautomaten}
+% \include{5-Turing_und_Church}
 % \include{6-Berechenbarkeit}
 % \include{7-Komplexitaetstheorie}
 % \include{8-Rekursive_Funktionen}
 
-% \renewcommand{\listtheoremname}{Liste der Definitionen}
-% \listoftheorems[ignoreall,show={Def,Def*,subDef},numwidth=2.8em]
-% \renewcommand{\listtheoremname}{Liste der Sätze}
-% \listoftheorems[ignoreall,show={Satz,Satz*,lemma,lemma*,Korollar,Korollar*},numwidth=2.8em]
-% \listoffigures
-% \addsec{Abkürzungsverzeichnis}
-% \begin{acronym}[MPCP]
-% 	\acro{AL}{Aussagenlogik}
-% 	\acro{CFL}{Menge der kontextfreien Sprachen}
-% 	\acro{CFG}{Menge der kontextfreien Grammatiken}
-% 	\acro{CNF}{Chomsky Normalform}
-% 	\acro{CP}{Korrespondenzproblem}
-% 	\acro{CYK}{Cocke, Younger, Kasami}
-% 	\acro{DAG}{gerichteter azyklischer Graph}
-% 	\acro{DCFG}{deterministische \acs*{CFG}}
-% 	\acro{DCFL}{deterministische \acs*{CFL}}
-% 	\acro{DEA}{deterministischer endlicher Automat}
-% 	\acro{DFA}{\acroextra{engl.: }deterministic finite automaton}
-% 	\acro{DPDA}{deterministischer Kellerautomat}
-% 	\acro{DTM}{deterministische \acs*{TM}}
-% 	\acro{EA}{endlicher Automat}
-% 	\acro{LBA}{Linear Bounded Automaton}
-% 	\acro{MPCP}{Das modifizierte \acs*{PCP}}
-% 	\acro{ND}{Nicht-Determinismus}
-% 	\acro{NEA}{nichtdeterministischer endlicher Automat}
-% 	\acro{NFA}{\acroextra{engl.: }nondeterministic finite automaton}
-% 	\acro{NPDA}{nichtdeterministischer Kellerautomat}
-% 	\acro{NT}{Nichtterminal}
-% 	\acroplural{NT}[NT]{Nichtterminale}
-% 	\acro{NTM}{Eine nichtdeterministische \acs*{TM}}
-% 	\acro{PCP}{Das Postsche Korrespondenzproblem}
-% 	\acro{PDA}{pushdown automaton\acroextra{ (Kellerautomat)}}
-% 	\acro{PL}{Pumping Lemma}
-% 	\acro{RE}[\textit{RE}]{Menge der regulären Ausdrücke}
-% 	\acro{REG}[\textit{REG}]{Menge der regulären Sprachen}
-% 	\acro{RM}{Registermaschine}
-% 	\acro{TM}{Turing-Maschine}
-% 	\acro{TT}{Turingtabelle}
-% \end{acronym}
-% \listoffixmes
+\renewcommand{\listtheoremname}{Liste der Definitionen}
+\listoftheorems[ignoreall,show={Def,Def*,subDef},numwidth=2.8em]
+\renewcommand{\listtheoremname}{Liste der Sätze}
+\listoftheorems[ignoreall,show={Satz,Satz*,lemma,lemma*,Korollar,Korollar*},numwidth=2.8em]
+\listoffigures
+\addsec{Abkürzungsverzeichnis}
+\begin{acronym}[MPCP]
+	\acro{AL}{Aussagenlogik}
+	\acro{CFL}{Menge der kontextfreien Sprachen}
+	\acro{CFG}{Menge der kontextfreien Grammatiken}
+	\acro{CNF}{Chomsky Normalform}
+	\acro{CP}{Korrespondenzproblem}
+	\acro{CYK}{Cocke, Younger, Kasami}
+	\acro{DAG}{gerichteter azyklischer Graph}
+	\acro{DCFG}{deterministische \acs*{CFG}}
+	\acro{DCFL}{deterministische \acs*{CFL}}
+	\acro{DEA}{deterministischer endlicher Automat}
+	\acro{DFA}{\acroextra{engl.: }deterministic finite automaton}
+	\acro{DPDA}{deterministischer Kellerautomat}
+	\acro{DTM}{deterministische \acs*{TM}}
+	\acro{EA}{endlicher Automat}
+	\acro{LBA}{Linear Bounded Automaton}
+	\acro{MPCP}{Das modifizierte \acs*{PCP}}
+	\acro{ND}{Nicht-Determinismus}
+	\acro{NEA}{nichtdeterministischer endlicher Automat}
+	\acro{NFA}{\acroextra{engl.: }nondeterministic finite automaton}
+	\acro{NPDA}{nichtdeterministischer Kellerautomat}
+	\acro{NT}{Nichtterminal}
+	\acroplural{NT}[NT]{Nichtterminale}
+	\acro{NTM}{Eine nichtdeterministische \acs*{TM}}
+	\acro{PCP}{Das Postsche Korrespondenzproblem}
+	\acro{PDA}{pushdown automaton\acroextra{ (Kellerautomat)}}
+	\acro{PL}{Pumping Lemma}
+	\acro{RE}[\textit{RE}]{Menge der regulären Ausdrücke}
+	\acro{REG}[\textit{REG}]{Menge der regulären Sprachen}
+	\acro{RM}{Registermaschine}
+	\acro{TM}{Turing-Maschine}
+	\acro{TT}{Turingtabelle}
+\end{acronym}
+\listoffixmes
 
 \end{document}

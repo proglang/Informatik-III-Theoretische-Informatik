@@ -1,14 +1,8 @@
-\section[Reguläre Sprachen und endliche Automaten]{Reguläre Sprachen und endliche Automaten\datenote{11.11.15}}
-\begin{itemize}
-	\item \ac{TM} mächtig
-	\item Wir werden sehen, dass Fragen, wie
-	\begin{itemize}
-		\item $w\in L(\ac{TM})$ ? (Wortproblem),
-		\item $L(\ac{TM})\neq\varnothing$ ? (Leerheitsproblem)
-\end{itemize}
-f"ur Turingmaschinen im Allgemeinen nicht beantwortbar sind. Daher beschneiden wir die F"ahigkeiten der \ac{TM} und betrachten ein sehr einfaches Maschinenmodell, den endlichen Automaten, wo all diese Fragen entscheidbar sind.
-D.h. f"ur jede dieser Fragen existiert ein Algorithmus.
-\end{itemize}
+\section[Reguläre Sprachen und endliche Automaten]{Reguläre Sprachen und endliche Automaten\datenote{21.10.16}}
+Endliche Automaten sind ein einfaches, formales Maschinenmodell.
+Ein endlicher Automat $A$ berechnet, für eine bestimmte Sprache $L(A)$, ob ein gegebenes Wort $w$ in ihr enthalten ist (Wortproblem, $w \in L(A)$ ?).
+Die Berechnungen, die sich mit endliche Automaten ausdrücken lassen sind stark beschränkt, allerdings erlaubt diese Einschränkung \emph{die Entscheidung} von Fragen wie dem Wortploblem oder dem Leerheitsproblem ($L(A)\neq\varnothing$).
+D.h.\ f"ur jede dieser Fragen existiert ein Algorithmus.
 
 \subsection{Endliche Automaten}
 \underline{Endliches Band} (read-only, jede Zelle enth"alt ein $a_i\in\Sigma$)
@@ -112,7 +106,7 @@ Der endliche Automat akzeptiert eine Eingabe, falls er in einem akzeptierenden Z
 	Die Erweiterung von $\delta:Q\x\Sigma\->Q$ auf Worte
 	\begin{align*}
 		\hat{\delta}: Q\x\Sigma^*&\->Q\ \rlap{ist induktiv def. durch:}\\
-		\hat\delta(q,\epsilon) &=q & \hat\delta(q,aw)=\hat\delta(\delta(q,a),w)\\
+		\hat\delta(q,\Eps) &=q & \hat\delta(q,aw)=\hat\delta(\delta(q,a),w)\\
 		(\text{Wortende\ }&\text{erreicht}) & (\text{Rest im Folgezustand verarbeiten})
 	\end{align*}
 \end{Def}
@@ -283,7 +277,7 @@ Dabei ist $[q]=\{p\in Q \mid p\equiv q\}$
 		\item Wohldefiniert: zu zeigen $\delta'([q],a) =[\delta(q,a)]$ ist nicht abhängig von der Wahl des Repräsentanten $q\in [q]$. Das folgt direkt aus \eqref{eqn:delta-wohldefiniert} gezeigt.
 		\item $L(M)=L(M')$ zeige für alle $w\in\Sigma^*$ und alle $q$: $\hat\delta(q,w)\in F \<=> \hat\delta'([q],w)\in F'$\\
 		Induktion über $w$:\\
-		I.A. $w=\epsilon$: $\hat\delta(q,\epsilon)=q\in F \<=> \hat\delta'([q],\epsilon)=[q]\in F'$ nach Definition.\\
+		I.A. $w=\Eps$: $\hat\delta(q,\Eps)=q\in F \<=> \hat\delta'([q],\Eps)=[q]\in F'$ nach Definition.\\
 		I.V.: $\forall w'\in\Sigma$, $\forall q\in Q$, $\hat\delta(q,w')\in F \<=> \hat\delta'([q],w')\in F'$\\
 		I.S.: \begin{align*}
 		\hat\delta(q,aw')\in F &\<==> \hat\delta(\delta(q,a),w')\in F\\ &\xLeftrightarrow{I.V.} \hat\delta'([\delta(q,a)],w')\in F'\\
@@ -320,7 +314,7 @@ Warum ist nun der Äquivalenzklassenautomat minimal?\\
 		\item ist rechtsinvariant. Sei $(u,v)\in R_L$\\
 		Zeige $\forall w\in\Sigma^*\ (uw,vw)\in R_L$\\
 		Induktion:\\
-		I.A. $w=\epsilon$: $ (u\epsilon,v\epsilon)=(u,v)\in R_L$\\
+		I.A. $w=\Eps$: $ (u\Eps,v\Eps)=(u,v)\in R_L$\\
 		I.S. $w=w'a$:\\
 		I.V.: $(uw', vw') \in R_L $
 		\begin{align*}
@@ -334,8 +328,8 @@ Warum ist nun der Äquivalenzklassenautomat minimal?\\
 
 \begin{alignat*}{2}
 	&\begin{rcases}
-	L=\{\epsilon\} & [\epsilon]\equiv[\epsilon]\\
-	w,v\in\Sigma^*,\ w,v\ne\epsilon & [w]=[v]
+	L=\{\Eps\} & [\Eps]\equiv[\Eps]\\
+	w,v\in\Sigma^*,\ w,v\ne\Eps & [w]=[v]
 	\end{rcases} &\ &\text{Index}= 2\\
 	&L = \varnothing, L= \Sigma^* &&\text{Index}= 1
 \end{alignat*}
@@ -373,26 +367,26 @@ Warum ist nun der Äquivalenzklassenautomat minimal?\\
 		\begin{alignat*}{3}
 			&&Q' &= \{ [w]_{R_L} \mid w\in \Sigma^* \} &\quad& \text{endlich, weil index($R_L$) endl.}\\
 			&&\delta'([w],a) &= [wa] && \text{wohldefiniert, da $R_L$ rechtsinvariant}\\
-			&&q_0' &= [\epsilon]\\
+			&&q_0' &= [\Eps]\\
 			&&F' &= \{ [w] \mid w\in L \}\\
 			\shortintertext{Zeige $L(\A')=L$, d.h. }
-			&\forall w\in \Sigma^* &: w\in L(\A') &\<=> \hat\delta([\epsilon],w)\in F'\\
+			&\forall w\in \Sigma^* &: w\in L(\A') &\<=> \hat\delta([\Eps],w)\in F'\\
 			&&&\overset{???}{\<=>} [w]\in F' \\
 			&&&\<=> w\in L
 		\end{alignat*}
-		Zeige nun noch, dass $???$ gilt: $\hat\delta([\epsilon], w) = [w]$. 
+		Zeige nun noch, dass $???$ gilt: $\hat\delta([\Eps], w) = [w]$. 
 		Daf"ur m"ussen wir wie folgt verallgemeinern um eine funktionierende Induktionsvoraussetzung zu erhalten.
 		\begin{alignat*}{3}
 			&&\forall w\in\Sigma^* &:
 			\forall v\in\Sigma^* : \hat\delta'([v],w) = [v\cdot w]\\
 			\shortintertext{Induktion über $w$}
-			&\text{I.A.: }& \epsilon &: \hat\delta'([v],\epsilon) = [v]=[v\cdot\epsilon]\\
+			&\text{I.A.: }& \Eps &: \hat\delta'([v],\Eps) = [v]=[v\cdot\Eps]\\
 			&\text{I.S.: }& \hat\delta'([v],aw') &= \hat\delta'(\delta'([v],a),w')\\
 			&&&= \hat\delta'([v\cdot a],w')\\
 			&&&\overset{\mathrlap{\text{I.V.}}}{=} [va\cdot w']\\
 			&&&= [v\cdot \underbrace{aw'}_{=w}]
 		\end{alignat*}
-		Das gewünschte Ergebnis \framebox{???} ergibt sich für $v=\epsilon$. \qedhere
+		Das gewünschte Ergebnis \framebox{???} ergibt sich für $v=\Eps$. \qedhere
 \end{proof}
 %
 \setcounter{Korollar}{4}
@@ -706,8 +700,8 @@ Wähle $z=0^p \in L_2$
 	\begin{description}
 	\item[I.A.]
 		\begin{alignat*}{2}
-			\epsilon:\\
-			&&\forall q'\in Q'\ \hat\delta(&q',\epsilon)\cap F\neq \varnothing\\
+			\Eps:\\
+			&&\forall q'\in Q'\ \hat\delta(&q',\Eps)\cap F\neq \varnothing\\
 			\<=>&& &q'\cap F\neq \varnothing
 		\end{alignat*}
 		Wähle einen beliebigen Zustand $p_0=p_n\in q'\cap F$
@@ -857,7 +851,7 @@ Also: Eine Sprache $L$ ist regulär, falls
 	\begin{align*}
 		\llbracket\cdot \rrbracket &: RE(\Sigma) \-> \mathcal{P}(\Sigma^*)\text{ ist induktiv def. durch}\\
 		\llbracket \0 \rrbracket &= \varnothing\\
-		\llbracket \1 \rrbracket &= \{\epsilon\}\\
+		\llbracket \1 \rrbracket &= \{\Eps\}\\
 		\llbracket a \rrbracket &= \{a\} \quad a\in\Sigma\\
 		\llbracket r+s \rrbracket &= \llbracket r\rrbracket \cup \llbracket s\rrbracket\\
 		\llbracket r\cdot s \rrbracket &= \llbracket r\rrbracket \cdot \llbracket s\rrbracket\\
@@ -929,7 +923,7 @@ $L$ ist regulär\\
     		\item[I.A.:]
     		\begin{align*}
     			\0 &: \varnothing\text{ ist reg.}\\
-    			\1 &: \{\epsilon\}\text{ ist reg.}\\
+    			\1 &: \{\Eps\}\text{ ist reg.}\\
     			a &: \{a\} \tikz[>=stealth, shorten >=1pt, initial text=,
     					on grid, baseline=-.6ex,
     					every state/.style={minimum size=0pt,inner sep=0pt}
@@ -962,17 +956,17 @@ $L$ ist regulär\\
 				\end{cases}
 		\end{alignat*}
 		Also: $\A$ berechnet die Lösung eines Gleichungssystems
-		\[ L_i=N(q_i) + \sum_j A_{ij}L_j \quad\text{mit }\epsilon\notin A_{ij} \]
+		\[ L_i=N(q_i) + \sum_j A_{ij}L_j \quad\text{mit }\Eps\notin A_{ij} \]
 		Zur L"osung dieses Gleichungssystems verwenden wir das Lemma von Arden:
 	\end{description}
 \end{proof}
 \begin{lemma}[Arden's Lemma]\label{lem:arden}\ \\
 	Sei $X=A\cdot X+B$ für $\underset{\vphantom{\big(}\ \mathrlap{\hspace{-4pt}\rotatebox[origin=c]{90}{$\Rsh$}\ \text{Unbekannte}}}{X} ,A,B\subseteq \Sigma^*$\\
-	dann ist $X=A^*B$ falls $\epsilon\notin A$.
+	dann ist $X=A^*B$ falls $\Eps\notin A$.
 %	\begin{align*}
 %		&& B &\subseteq X\\
 %		&& B+AB &\subseteq X\\
-%		X&=\epsilon\cdot X+B & AAB &\subseteq X\\
+%		X&=\Eps\cdot X+B & AAB &\subseteq X\\
 %		&& \forall n : A^nB &\subseteq X
 %	\end{align*}
 \end{lemma}
@@ -983,11 +977,11 @@ $L$ ist regulär\\
 	\begin{enumerate}[label=(\arabic*)]
 		\item Falls Gleichung für $L_n$ rekursiv
 			\begin{align*}
-				\text{dann hat sie die Form}:\quad L_n &= \underbrace{\Big( N(q_n)+\sum_{j\neq n} A_{nj}\cdot L_j \Big)}_{=: B} + \underbrace{A_{nn}}_{=: A \not\ni \epsilon}\cdot L_n\\
-				\text{Nach Ardens Lemma}:\quad L_n &= A_{nn}^*\cdot \Big( N(q_n)+\sum_{j\neq n} \underbrace{A_{nj}}_{\not\ni\epsilon} \cdot L_j \Big)\\
-				&= A_{nn}^*\cdot N(q_n) + \sum_{j\neq n} \underbrace{A_{nn}^*\cdot A_{nj}}_{\not\ni\epsilon} \cdot L_j
+				\text{dann hat sie die Form}:\quad L_n &= \underbrace{\Big( N(q_n)+\sum_{j\neq n} A_{nj}\cdot L_j \Big)}_{=: B} + \underbrace{A_{nn}}_{=: A \not\ni \Eps}\cdot L_n\\
+				\text{Nach Ardens Lemma}:\quad L_n &= A_{nn}^*\cdot \Big( N(q_n)+\sum_{j\neq n} \underbrace{A_{nj}}_{\not\ni\Eps} \cdot L_j \Big)\\
+				&= A_{nn}^*\cdot N(q_n) + \sum_{j\neq n} \underbrace{A_{nn}^*\cdot A_{nj}}_{\not\ni\Eps} \cdot L_j
 			\end{align*}
-			Gleichungssystem der gleichen Form: linear in den $L_j$ mit Koeffizienten, die nicht $\epsilon$ enthalten.
+			Gleichungssystem der gleichen Form: linear in den $L_j$ mit Koeffizienten, die nicht $\Eps$ enthalten.
 		\item Gleichung für $L_n$ nicht rekursiv:\\
 		Setze rechte Seite für $L_n$ in die Gleichungen $L_0, L_1, \dots, L_{n-1}$ ein. \--> Gleichungssystem der gleichen Form.
 	\end{enumerate}
@@ -995,7 +989,7 @@ $L$ ist regulär\\
 \end{proof}
 \begin{proof}(Arden's Lemma)
 	\begin{alignat*}{3}
-		\text{Sei}&\quad& X&= AX+B\text{ mit }\epsilon\notin A.\\
+		\text{Sei}&\quad& X&= AX+B\text{ mit }\Eps\notin A.\\
 		\text{Zeige}&& A^*B&\subseteq X.\\
 		&& A^*B &= (\1+AA^*)B = B+A(A^*B) \quad\checkmark\\
 		\shortintertext{Angenommen $A^*B \subsetneq X$, d.h. $\exists w\in X$ mit $w\notin A^*B$, davon sei $w$ das kürzeste.}
