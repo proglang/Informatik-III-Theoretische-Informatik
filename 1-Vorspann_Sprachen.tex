@@ -1,4 +1,4 @@
-\section[Vorspann: Sprachen]{Vorspann: Sprachen\datenote{23.10.15}}
+\section[Vorspann: Sprachen]{Vorspann: Sprachen\datenote{19.10.16}}
 Zeichen, Symbole: Buchstaben, Ziffern\\
 hier: abstrakte Zeichen
 \begin{Def}[name={[Alphabet $\Sigma$]}]
@@ -40,6 +40,11 @@ hier: abstrakte Zeichen
 		\item assoziativ
 		\item $\epsilon$ ist neutrales Element
 	\end{itemize}
+  Der Konkatenationsoperator ,,$\cdot$'' wird oft weggelassen (ähnlich wie in der Mulitplikationsoperator in der Arithmetik):
+  \begin{displaymath}
+    a_1a_2a_3 \quad \text{ heißt also } \quad a_1\cdot a_2\cdot a_3
+  \end{displaymath}
+  
 	Die Potenz $v^k$ , $v\in \Sigma^*,k\in\N^*$ ist def. durch
 	\[ v^0=\epsilon,\ v^{k+1}=v\cdot v^k \]
 \end{Def}
@@ -68,13 +73,16 @@ $\rightsquigarrow$ Weitere Operationen auf Sprachen: Konkatenation
 	\begin{align*}
 		L_\text{farbe}\cdot L_\text{obst} &\subseteq \{\text{rotbanane, rotaprikose, gelbbanane, gelbaprikose,}\\
 		&\phantom{{}\subseteq \{}\text{gelborange, grünbanane, grünaprikose, grünorange}\}\\
-		L_\text{farbe}\cdot\{\epsilon\}\cdot L_\text{obst} &\subseteq \{ \text{rot\textbf{e}banane, rot\textbf{e}aprikose, rot\textbf{e}orange, gelb\textbf{e}banane, \dots} \}
+		L_\text{farbe}\cdot\{\text{e}\}\cdot L_\text{obst} &\subseteq \{ \text{rot\textbf{e}banane, rot\textbf{e}aprikose, rot\textbf{e}orange, gelb\textbf{e}banane, \dots} \}
 	\end{align*}
 \end{Bsp*}
 \begin{Def}[Konkatenation von Sprachen] % 1.5
 	Sei $U,V\subseteq \Sigma^*$ dann ist
 	\[ U\cdot V = \{uv \mid u\in U, v\in V \} \qedhere \]
 \end{Def}
+Wie bei der Konkatenation von Wörtern lässt man den Konkatenationsoperator oft weg.
+
+
 Potenzieren
 \begin{align*}
 	L_\text{farbe}^2 &= L_\text{farbe}\cdot L_\text{farbe}\\
@@ -93,7 +101,7 @@ Gegeben $L$, sind sämtliche Kombinationen von Worten aus $L$ gesucht.
 \end{Bsp*}
 \vspace{.5em}
 \begin{Def}[Stern-Operator, Abschluss, Kleene-Stern]
-	Sei $U\in\Sigma^*$ dann ist
+	Sei $U\subseteq\Sigma^*$ dann ist
 	\begin{align*}
 		U^* &= \bigcup_{n\in\N} U^n \quad [\ni\epsilon] && \text{Leeres Wort ist darin }n=0\\
 		U^+ &= \bigcup_{n\ge1} U^n && \text{wenn $\epsilon\in U$ \=> auch in $U^*$} \qedhere
