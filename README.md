@@ -1,4 +1,6 @@
-# Informatik-III-Theoretische-Informatik
+# Informatik III: Theoretische-Informatik
+
+[![Build Status](https://travis-ci.org/proglang/Informatik-III-Theoretische-Informatik.svg)](https://travis-ci.org/proglang/Informatik-III-Theoretische-Informatik)
 
 Vorlesungsskript / -mitschrieb zu Informatik III - Theoretische Informatik,
 gehalten von Prof. Dr. Peter Thiemann im WS 2016/17. Basierend auf einem
