@@ -2,8 +2,7 @@ sudo: required
 dist: trusty
 before_install:
 - sudo apt-get update
-- sudo apt-get install -qq texlive texlive-latex-extra texlive-lang-german texlive-math-extra
-  texlive-science
+- sudo apt-get install -qq texlive texlive-latex-extra texlive-lang-german texlive-math-extra	texlive-science
 - wget -q -O /tmp/pgf.tds.zip 'http://mirrors.ctan.org/install/graphics/pgf/base/pgf.tds.zip'
 - wget -q -O /tmp/koma-script.tds.zip 'http://mirrors.ctan.org/install/macros/latex/contrib/koma-script.tds.zip'
 - unzip -d /tmp/PGF /tmp/pgf.tds.zip
@@ -14,10 +13,18 @@ script:
 - echo $TEXINPUTS
 - pdflatex Info_3_Skript_WS2016-17
 - pdflatex Info_3_Skript_WS2016-17
+- mkdir generated
+- cp Info_3_Skript_WS2016-17.pdf generated
 deploy:
-  provider: releases
-  api_key:
-    secure: hfpaifjlgUdSWkx6MfAssOHsuL5NKFzBKHjlQRL0SZEzWvtmuOcnqDBVSXKF2yRISTXGmrIaDwUKvRoZ5kdhFsrlmRxIIp0bKvVyAVfh4H8AjDeRFvL26+jZK8qeBdoFEikgxCL78Z1xa4pespPzEIyhJQpPi5vBw7CQ9CPUwtkdnPkFqAS+S6/e7HxHCEHPeODd9ztuC8dbeUc8DOy6ziFUd6XLFSB4iilieWxjMtmLIbsthmnVajk2ywKwrI8/sGSVUIMHz9DtdWe2Q/lzzbdbAVTgNAHOrkz0VuLhVfHRfOpcSEONEsZCf2Br2B8TMhUuq4JDXKA/mjmSfkRcBkDiVLBwq4J2HEkCvu/ysVTgXeGHS4rFFcnLhNhJwHBhtl2UePYyXawV2FZ8iRd8HZZ5HB4Dgd7qDby/olI+9JGUk2tVJ7mRQ2JVMmVKmS8P+CLZGNSa7vr0eCZW0qcq3cO5mYGVKeN2pEdpQ9hzzzR80q92za6euU4Q/HCw1/E5B1HPObuI6NphPNR5tDpb0FY0dDtbT0u27XRDKs6BmMQO7vlgq4p3t5iPwZaNiMTaE9TaaFzDztgUVYkc/0ajveMl6tGrt7Bf58jBRLdh0tKEGFQ1KWigaEK0HLhpCEX9KjhqRd+N1wKJMxV6nqL2qXbkZ2NyfxEzYOez+VYIIvk=
-  file: Info_3_Skript_WS2016-17.pdf
   on:
-    repo: proglang/Informatik-III-Theoretische-Informatik
+    branch: master
+  provider: s3
+  bucket: info3
+  skip_cleanup: true
+  acl: public_read
+  region: eu-central-1
+  local_dir: generated
+  access_key_id:
+    secure: RFiDTdu6CnW81K6cEzj3AJjcC6Tz4r0+Vnn/QO28IBAwu09ZpP4lE0+KlbpOUUARkULh12wX9Fwl1KRBa+HLSj93F5yeNs3ms2QBM3gKmGJvOPfa6SkAgRxFENGFA2HVAgbYSPPpEKGjVoNHMWbW2/QyVoWQ+55ldqvK/hKw2IlyC6kuVMeppKyG6N6oeYblIILJ/u3MocygumsMNImiFicRgrmjwf3hCKtpjQAJ76eKLgMQWkTVhyMg04edjsegQI71tVYA0vZvOSzHn/NQgmPY4nUP9IWqdsXKkiai3xsMV5BOa2T7w24+VTX2cKJ/KVt8CrlBMUS/1U1X9/hqyebm5gcswq+qROSJog/NhkonH2pl8aQcjAK98uiaUxlhcNZMMqsWvRJ8jtUozzz7npstmsY+ACxpJTEcXRQugq0WgFvh0dsm+J7LEEO7C00l97gTC7U4l7GKOM0tcsGG6q6qiIa2gJO3Hk9hiVAV/Y79u4H2AcnSj0LsQRHqa3WoxBLhlEYXof6NBK5jqWGjxHUb4s16SyNGil7BIuVZrdyS1coHBKBjmsuIWQEEPXyKCR+QegPGFZlk+XN4IJVv2GewQGYDo+H7E1hGoVvGUES2WPlXxxJyiZoruyPBovg/7l40NKcH++0sK1bmmFk3g+dOx/RsFubvCnijdZJLYNQ=
+  secret_access_key:
+    secure: fsN6gzN5SyZ9wPGJcNgLQ3OWKgc3noBEbk+64Uo9nb/ObXPfyd1e2BP1m/2b4Q06RMEqhccJtXzkjoiHt/Zi1P51tfe+Ti6QMwxGItMG/51EyPej6nWzyqjWUM3oOso2LzHEpLuES79FnWW/0AUvB9XpD0dQny3sv0Q3bj0qH/TFznMyT6LK9ZdZJ/wjzzKtG3MN+axt/+7N1TaZJaCpGbP0rh6HvfQgGooLE775RbTLaM9VHyD/KJAqQaEQcd00HOdzM5NBtoEif8pL/tdOO5HTqm6Up0n+y+HeRLjYNKUBDBkpUu25wASqhq9l229fxM6l32weZq428kwaap3txmrIl9o/Uk5CXzKCULfQCgDpg7TdxSf93Ny7xc4EGOhXUK+2mDrB5k0Sq06OxCD1xjZ5wC2nfWodd66Ddk0fA0Bft6f0WTr5RVmIKn9fWp33vcDPAVjEAZBKBEgofBq32vLiB2nIfySCzd0R2Zt3UiE689LAty84U16ScfQZYO+ri8jZbx2RtkcdIXPN3Dj58ghli7faCbBvmLLCHMnucC9grxzn+Zv1X7bS8+R261IEhnPQRIUZlQcJ0e//mjGwD3ESCepJeGRaEeqob349UqfNL9Yng+Uir/wv/rJdy/3cachPD1yI7j247j3qEIyYwGIWfxzd15nEckjltc2t+Jc=
