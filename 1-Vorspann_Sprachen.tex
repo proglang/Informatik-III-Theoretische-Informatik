@@ -53,52 +53,52 @@ Eigenschaften von "`$\cdot$"':
 \item \emph{nicht} kommutativ
 \end{itemize}
 \begin{lemma}
-  Für alle $w \in \Sigma^*$ gilt
-  \begin{displaymath}
-    w \cdot \Eps = w
-  \end{displaymath}
+  Für alle $w \in \Sigma^*$ gilt $w \cdot \Eps = w$.
 \end{lemma}
 \begin{proof}
   Per struktureller Induktion über das Wort $w$:
   \begin{description}
-  \item[IA] $w = \Eps$.
+  \item[IA] $w = \Eps$. \\
       Es folgt aus Fall 1 der Definition von ,,$\cdot$'': $\Eps \cdot \Eps = \Eps$.
   \item[IV] $w' \cdot \Eps = w'$.
   \item[IS] $w = aw'$.
-    Mit Fall 2 von ,,$\cdot$'' folgt: $aw' \cdot \Eps = a (w' \cdot \Eps) \stackrel{\mathsf{IV}}{=} aw'$
+    \\
+    Mit Fall 2 von ,,$\cdot$'' folgt $aw' \cdot \Eps = a (w' \cdot \Eps) \stackrel{\mathsf{IV}}{=} aw'$
   \end{description}
 \end{proof}
 \begin{proof}
   Alternativ, per Induktion über $n = |w|$:
   \begin{description}
   \item[IA] $n = 0$.
+
     Es folgt aus der Definition von ,,$|\cdot|$'' (und dem arithmetischen Fakt, dass $1 + x \not = 0$), dass $w = \Eps$.
-    Es folgt aus Fall 1 der Definition von ,,$\cdot$'': $\Eps \cdot \Eps = \Eps$.
+
+    Es folgt aus Fall 1 der Definition von ,,$\cdot$'', dass $\Eps \cdot \Eps = \Eps$.
   \item[IV] Für alle $w'$ mit $|w'| = n'$ gilt $w' \cdot \Eps = w'$.
   \item[IS] $n = n' + 1$.
+
     Es folgt aus der Definition von ,,$|\cdot|$'' (und dem arithmetischen Fakt, dass $1 + x \not = 0$), dass $w = aw'$.
+
     Somit gilt $|aw'| = 1 + |w'| = 1 + n'$ und daher auch $|w'| = n'$.
-    Mit Fall 2 von ,,$\cdot$'' folgt: $aw' \cdot \Eps = a (w' \cdot \Eps) \stackrel{\mathsf{IV}}{=} aw'$
+
+    Mit Fall 2 von ,,$\cdot$'' folgt $aw' \cdot \Eps = a (w' \cdot \Eps) \stackrel{\mathsf{IV}}{=} aw'$
   \end{description}
 \end{proof}
 \begin{lemma}
-  Für $v,w \in \Sigma^*$ gilt
-  \begin{displaymath}
-    |v\cdot w| = |v| + |w|
-  \end{displaymath}
+  Für $v,w \in \Sigma^*$ gilt $|v\cdot w| = |v| + |w|$.
 \end{lemma}
 \begin{proof}
   Per Induktion über $v$.
   \begin{description}
   \item[IA] $v = \Eps$.
+
     Nach Def.\ von ,,$\cdot$'' gilt $|\Eps \cdot w| = |w|$.
-    Mit Def.\ von ,,$|\cdot|$'', Fall 1 folgt:
-    \begin{displaymath}
-     |w| = 0 + |w| = |\Eps| + |w|
-   \end{displaymath}
+
+    Mit Def.\ von ,,$|\cdot|$'', Fall 1 folgt $|w| = 0 + |w| = |\Eps| + |w|$
  \item[IV] $|v' \cdot w| = |v'| + |w'|$.
  \item[IS] $v = av'$.
-   Mit Def.\ von ,,$|\cdot|$'' und ,,$\cdot$'' und Assoziativität von ,,$\cdot$'' folgt:
+
+   Mit Def.\ von ,,$|\cdot|$'' und ,,$\cdot$'' folgt:
    \begin{displaymath}
    |av'\cdot w| = |a(v'\cdot w)| = 1 + |v' \cdot w| \stackrel{\mathsf{IV}}{=} 1 + |v'| + |w| = (1 + |v'|) + |w| = |v| + |w|
    \end{displaymath}
@@ -153,7 +153,7 @@ Weitere Operationen auf Sprachen sind Konkatenation und Potenzierung, sowie der 
   und die \emph{Potenzierung} von $U$ induktiv definiert durch
   \begin{enumerate}
   \item $U^0 = \{\Eps\}$
-  \item $U^{n_1} = U \cdot U^{n}$
+  \item $U^{n+1} = U \cdot U^{n}$
   \end{enumerate}
 \end{Def}
 \begin{Bsp*}~
@@ -166,12 +166,12 @@ Weitere Operationen auf Sprachen sind Konkatenation und Potenzierung, sowie der 
 Wie bei der Konkatenation von Wörtern lässt man den Konkatenationsoperator oft weg.
 %
 \begin{Def}[Kleene-Abschluss, Kleene-Stern]
-	Sei $U\subseteq\Sigma^*$ dann ist
-	\begin{align*}
-		U^* &= \bigcup_{n\in\N} U^n \quad [\ni\Eps] && \text{Leeres Wort ist darin }n=0\\
-		U^+ &= \bigcup_{n\ge1} U^n && \text{wenn $\Eps\in U$ \=> auch in $U^*$} \qedhere
-	\end{align*}
+	Sei $U\subseteq\Sigma^*$.
+  Der \emph{Kleene-Abschluss} ist induktiv definiert als
+  \begin{enumerate}
+  \item 
+    $U^* = \bigcup_{n\in\N} U^n \quad [\ni\Eps]$
+  \item
+		$U^+ = \bigcup_{n\ge1} U^n$
+  \end{enumerate}
 \end{Def}
-\begin{Bemerkung}
-	$\Sigma^*=\bigcup_{n\in\N}\Sigma^n \text{ ebenso } \Sigma^+ = \bigcup_{n\ge1}\Sigma^n$
-\end{Bemerkung}

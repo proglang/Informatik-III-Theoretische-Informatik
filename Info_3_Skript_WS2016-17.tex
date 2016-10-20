@@ -16,7 +16,7 @@
 
 % Compiled with pdflatex -enable-write18 -synctex=1 -interaction=nonstopmode --shell-escape %.tex
 %\RequirePackage[l2tabu,orthodox]{nag}
-\documentclass[11pt,paper=a4,DIV=12,titlepage,headsepline,ngerman,listof=totoc]{scrartcl}
+\documentclass[11pt,paper=a4,titlepage,headsepline,ngerman,listof=totoc]{scrartcl}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -39,6 +39,9 @@
 \usepackage{placeins} % \FloatBarrier
 \usepackage{stmaryrd} % Symbols like \llbracket for [[
 \usepackage{tabu}
+
+% \usepackage[charter]{mathdesign}
+% \KOMAoptions{DIV=calc}
 
 % physics package, without redefinitions
 \usepackage[log-declarations=false]{xparse} % Fix for invalid error file reference for errors in log file (because of parentheses in d() arguments).
@@ -153,8 +156,6 @@
 
 % == Style ==
 \setkomafont{captionlabel}{\bfseries}
-\let\dashlabel=\labelitemii
-\setlist[itemize]{label=\dashlabel}
 % Paragraph
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{\medskipamount}
