@@ -1,106 +1,171 @@
-\section[Vorspann: Sprachen]{Vorspann: Sprachen\draftnote{19.10.16}}
-Zeichen, Symbole: Buchstaben, Ziffern\\
-hier: abstrakte Zeichen
+\section[Vorspann: Sprachen]{Vorspann: Sprachen\datenote{19.10.16}}
 \begin{Def}[name={[Alphabet $\Sigma$]}]
-	Ein \underline{Alphabet} $\Sigma$ ist eine endl. Menge von Zeichen.
-	
-	Aus Zeichen \-> Wörter durch Hintereinanderschreiben.
+	Ein \emph{Alphabet} $\Sigma$ ist eine endliche Menge von \emph{Zeichen}.
 \end{Def} % 1.1
-\begin{Bsp*} $\Sigma = \{a,\dots,z\}$\\
-	Worte: rambo (5 Zeichen), ist, hungrig, \qquad $\Eps$ (0 Zeichen) = leeres Wort\\
-	Wörter verketten = konkatenieren
+Zeichen sind hier beliebige abstrakte Symbole.
+Im Folgenden steht $\Sigma$ immer für ein Alphabet.
+\begin{Bsp*} ~
+  \begin{itemize}
+  \item $\Sigma = \{a,\dots,z\}$
+  \item $\Sigma = \{0, 1\}$
+  \end{itemize}
 \end{Bsp*}
-\begin{Bsp*} rambo$\cdot$ist$\cdot$hungrig\\
-	"`$\cdot$"' ist Konkat.-Operator
-	
-	Wörter potenzieren: $\begin{aligned}[t]
-	(\text{la})^3 &= \text{la}\cdot\text{la}\cdot\text{la} = \text{lalala}\\
-	(\text{rambo})^0 &= \Eps
-	\end{aligned}$
-\end{Bsp*}
-
 \begin{Def}[name={[Wort $w$ über $\Sigma$]}]\label{def:1.2}
-	Ein Wort $w$ über $\Sigma$ ist eine endliche Folge von Zeichen $w=a_1a_2\dots a_n$ mit $n\in\N$ und $a_i\in\Sigma\ (1\leq i\leq n)$.\\
-	Schreibe $\Eps$ falls $n=0$\\
-	$|w|=n$ ist die Länge des Wortes $w$.\\
-	$\Sigma^*$ ist die Menge aller Wörter über $\Sigma$.
+	Die Menge $\Sigma^*$ der \emph{Worte} über $\Sigma$ ist induktiv definiert durch:
+  \begin{enumerate}
+  \item $\Eps \in \Sigma^*$
+  \item Wenn $a \in \Sigma$ und $w \in \Sigma^*$ dann auch $aw \in \Sigma^*$
+  \end{enumerate}
+  Die \emph{Länge} eines Wortes, $|\cdot| : \Sigma^* \to \N$, ist induktiv definiert durch
+  \begin{enumerate}
+  \item $|\Eps| = 0$
+  \item $|aw| = 1 + |w|$
+  \end{enumerate}
 \end{Def}
+Ein Wort ist also immer eine endliche Folge von Zeichen.
+\begin{Bsp*} ~
+  \begin{itemize}
+  \item \verb/rambo/ (Länge $5$)
+  \item \verb/pizza/, \verb/zipza/ (ungleich) 
+  \item $\Eps$ (Länge $0$)
+  \item \verb/rambopizza/
+  \end{itemize}
+\end{Bsp*}
+Wörter lassen sich ,,verketten''/,,hintereinanderreihen''.
+Die entsprechende Operation heißt \emph{Konkatenation}, geschrieben ,,$\cdot$'' (wie Multiplikation).
+\begin{Bsp*} ~
+  \begin{itemize}
+  \item $\mathtt{rambo}\cdot\mathtt{pizza} = \mathtt{rambopizza}$
+  \item $\mathtt{rambo} \cdot \Eps = \mathtt{rambo} = \Eps \cdot \mathtt{rambo}$ 
+  \end{itemize}
+\end{Bsp*}
 \begin{Def}[Konkatenation von Wörtern]
-	\begin{align*}
-		\text{Sei }u &= a_1\dots a_n\in\Sigma^*\\
-		v &= b_1\dots b_m\in\Sigma^*\\
-		\shortintertext{dann ist $u\cdot v=c_1\cdots c_{n+m}\ ,\ c_i \in \Sigma$}
-		c_i &= \begin{cases}
-		a_i & 1\leq i\leq n\\
-		b_{i-n} & n+1\leq i\leq n+m
-		\end{cases}
-	\end{align*}
-	Eigenschaften von "`$\cdot$"':
-	\begin{itemize}
-		\item assoziativ
-		\item $\Eps$ ist neutrales Element
-	\end{itemize}
-  Der Konkatenationsoperator ,,$\cdot$'' wird oft weggelassen (ähnlich wie in der Mulitplikationsoperator in der Arithmetik):
-  \begin{displaymath}
-    a_1a_2a_3 \quad \text{ heißt also } \quad a_1\cdot a_2\cdot a_3
-  \end{displaymath}
-  
-	Die Potenz $v^k$ , $v\in \Sigma^*,k\in\N^*$ ist def. durch
-	\[ v^0=\Eps,\ v^{k+1}=v\cdot v^k \]
+  Die \emph{Konkatenation}, $\mathord{\cdot} : \Sigma^* \times \Sigma^* \to \Sigma^*$, ist induktiv definiert durch:
+  \begin{enumerate}
+  \item $\Eps\cdot v = v$
+  \item $(aw)\cdot v = a(w\cdot v)$
+  \end{enumerate}
 \end{Def}
-%
-Eine Sprache ist Menge von Wörtern über $\Sigma=\{a,\dots,z,"a,"o,"u\}$
-\begin{align*}
-	L_\text{obst} &= \{\text{banane,aprikose,orange,\dots}\}\\
-	L_\text{farbe} &= \{\text{rot,gelb,grün}\}\\
-	L_\text{krach} &= \{\text{ra}\cdot(\text{ta})^n\cdot\text{mm} \mid n\in\N \}\\
-	L &= \{\} \quad\text{leere Sprache}\\
-	L &= \Sigma^*
-\end{align*}
+Eigenschaften von "`$\cdot$"':
+\begin{itemize}
+\item Assoziativität
+\item $\Eps$ ist neutrales Element
+\item \emph{nicht} kommutativ
+\end{itemize}
+\begin{lemma}
+  Für alle $w \in \Sigma^*$ gilt
+  \begin{displaymath}
+    w \cdot \Eps = w
+  \end{displaymath}
+\end{lemma}
+\begin{proof}
+  Per struktureller Induktion über das Wort $w$:
+  \begin{description}
+  \item[IA] $w = \Eps$.
+      Es folgt aus Fall 1 der Definition von ,,$\cdot$'': $\Eps \cdot \Eps = \Eps$.
+  \item[IV] $w' \cdot \Eps = w'$.
+  \item[IS] $w = aw'$.
+    Mit Fall 2 von ,,$\cdot$'' folgt: $aw' \cdot \Eps = a (w' \cdot \Eps) \stackrel{\mathsf{IV}}{=} aw'$
+  \end{description}
+\end{proof}
+\begin{proof}
+  Alternativ, per Induktion über $n = |w|$:
+  \begin{description}
+  \item[IA] $n = 0$.
+    Es folgt aus der Definition von ,,$|\cdot|$'' (und dem arithmetischen Fakt, dass $1 + x \not = 0$), dass $w = \Eps$.
+    Es folgt aus Fall 1 der Definition von ,,$\cdot$'': $\Eps \cdot \Eps = \Eps$.
+  \item[IV] Für alle $w'$ mit $|w'| = n'$ gilt $w' \cdot \Eps = w'$.
+  \item[IS] $n = n' + 1$.
+    Es folgt aus der Definition von ,,$|\cdot|$'' (und dem arithmetischen Fakt, dass $1 + x \not = 0$), dass $w = aw'$.
+    Somit gilt $|aw'| = 1 + |w'| = 1 + n'$ und daher auch $|w'| = n'$.
+    Mit Fall 2 von ,,$\cdot$'' folgt: $aw' \cdot \Eps = a (w' \cdot \Eps) \stackrel{\mathsf{IV}}{=} aw'$
+  \end{description}
+\end{proof}
+\begin{lemma}
+  Für $v,w \in \Sigma^*$ gilt
+  \begin{displaymath}
+    |v\cdot w| = |v| + |w|
+  \end{displaymath}
+\end{lemma}
+\begin{proof}
+  Per Induktion über $v$.
+  \begin{description}
+  \item[IA] $v = \Eps$.
+    Nach Def.\ von ,,$\cdot$'' gilt $|\Eps \cdot w| = |w|$.
+    Mit Def.\ von ,,$|\cdot|$'', Fall 1 folgt:
+    \begin{displaymath}
+     |w| = 0 + |w| = |\Eps| + |w|
+   \end{displaymath}
+ \item[IV] $|v' \cdot w| = |v'| + |w'|$.
+ \item[IS] $v = av'$.
+   Mit Def.\ von ,,$|\cdot|$'' und ,,$\cdot$'' und Assoziativität von ,,$\cdot$'' folgt:
+   \begin{displaymath}
+   |av'\cdot w| = |a(v'\cdot w)| = 1 + |v' \cdot w| \stackrel{\mathsf{IV}}{=} 1 + |v'| + |w| = (1 + |v'|) + |w| = |v| + |w|
+   \end{displaymath}
+  
+  \end{description}
+\end{proof}
+
+Der Konkatenationsoperator ,,$\cdot$'' wird oft weggelassen (ähnlich wie der Mulitplikationsoperator in der Arithmetik).
+Ebenso können durch die Assoziativität Klammern weggelassen werden:
+\begin{displaymath}
+  w_1w_2w_3 \quad \text{ heißt also } \quad w_1\cdot w_2\cdot w_3 \quad = (w_1 \cdot w_2) \cdot w_3 = w_1 \cdot (w_2 \cdot w_3)
+\end{displaymath}
+
+Wörter lassen sich außerdem \emph{potenzieren}:
+\begin{Def}
+  Die \emph{Potenzierung} von Worten, $\cdot ^ \cdot: \Sigma^*\times \N \to \Sigma^*$, ist induktiv definiert durch
+  \begin{enumerate}
+  \item $w^0 = \Eps$ 
+  \item $w^{n+1} = w \cdot w^n$
+  \end{enumerate}
+\end{Def}
+\begin{Bsp*} ~
+  \begin{itemize}
+  \item $\mathtt{rambo}^1 = \mathtt{rambo}$
+  \item $\mathtt{rambo}^0 = \Eps$
+  \item $\mathtt{rambo}^3 = \mathtt{ramboramborambo}$
+  \end{itemize}
+\end{Bsp*}
 
 \begin{Def}[name={[Sprache über $\Sigma$]}]
-	Eine \underline{Sprache über $\Sigma$} ist Menge $L\subseteq\Sigma^*$.
-	\[ L_\text{lala} = \{(\text{la})^n \mid n\in\N\} \ni\Sigma
-	\qedhere \]
+	Eine \emph{Sprache} über $\Sigma$ ist eine Menge $L\subseteq\Sigma^*$.
 \end{Def}
-sämtliche Mengenoperationen sind auch Sprachoperationen, insbesondere:\medskip\\
-\begin{tabular}{lllll}
-	$L_1\cap L_2$ &,& $L_1\cup L_2$ &,& $\Sigma^*\setminus L$\\
-	Schnitt && Verein. && Komplement
-\end{tabular}\medskip\\
-$\rightsquigarrow$ Weitere Operationen auf Sprachen: Konkatenation
-\begin{Bsp*}
-	\begin{align*}
-		L_\text{farbe}\cdot L_\text{obst} &\subseteq \{\text{rotbanane, rotaprikose, gelbbanane, gelbaprikose,}\\
-		&\phantom{{}\subseteq \{}\text{gelborange, grünbanane, grünaprikose, grünorange}\}\\
-		L_\text{farbe}\cdot\{\text{e}\}\cdot L_\text{obst} &\subseteq \{ \text{rot\textbf{e}banane, rot\textbf{e}aprikose, rot\textbf{e}orange, gelb\textbf{e}banane, \dots} \}
-	\end{align*}
+\begin{Bsp*}~ 
+  \begin{itemize}
+  \item 
+	$\{\mathtt{banane}, \mathtt{aprikose},\mathtt{orange},\dots\}$
+  \item
+    $\{\mathtt{rot},\mathtt{gelb},\mathtt{grün}\}$
+  \item
+    $\{\mathtt{rambo}, \mathtt{pizza}, \Eps, \mathtt{blümchen}\}$
+  \item $\{\}$ (die ,,leere Sprache'')
+  \item $\{ \Eps \}$
+  \item $\Sigma^*$
+  \end{itemize}
 \end{Bsp*}
-\begin{Def}[Konkatenation von Sprachen] % 1.5
-	Sei $U,V\subseteq \Sigma^*$ dann ist
-	\[ U\cdot V = \{uv \mid u\in U, v\in V \} \qedhere \]
+Sämtliche Mengenoperationen sind auch Sprachoperationen, insbesondere Schnitt ($L_1 \cap L_2$), Vereinigung ($L_1 \cup L_2$), Differenz ($L_1 \setminus L_2$) und Komplement ($L_1^{-1} = \Sigma^* \setminus L_1$).
+
+Weitere Operationen auf Sprachen sind Konkatenation und Potenzierung, sowie der \emph{Kleene Abschluss}.
+\begin{Def}[Konkatenation und Potenzierung von Sprachen] % 1.5
+	Sei $U,V\subseteq \Sigma^*$ dann ist die \emph{Konkatenation} $U$ und $V$ definiert durch
+	\[ U\cdot V = \{uv \mid u\in U, v\in V \} \]
+  und die \emph{Potenzierung} von $U$ induktiv definiert durch
+  \begin{enumerate}
+  \item $U^0 = \{\Eps\}$
+  \item $U^{n_1} = U \cdot U^{n}$
+  \end{enumerate}
 \end{Def}
+\begin{Bsp*}~
+  \begin{itemize}
+  \item $\{\mathtt{rambo}, \mathtt{pizza}\} \cdot \{\mathtt{rot}, \mathtt{gelb}\} = \{\mathtt{ramborot}, \mathtt{pizzarot}, \mathtt{rambogelb}, \mathtt{pizzagelb}\}$
+  \item $\{\mathtt{rambo}, \mathtt{pizza}\} \cdot \{\Eps, \mathtt{gelb}\} = \{\mathtt{rambo}, \mathtt{pizza}, \mathtt{rambogelb}, \mathtt{pizzagelb}\}$
+  \item $\{\mathtt{rambo, \Eps}\}^3 = \{\mathtt{\Eps}, \mathtt{rambo}, \mathtt{ramborambo}, \mathtt{ramboramborambo}\}$
+  \end{itemize}
+\end{Bsp*}
 Wie bei der Konkatenation von Wörtern lässt man den Konkatenationsoperator oft weg.
-
-
-Potenzieren
-\begin{align*}
-	L_\text{farbe}^2 &= L_\text{farbe}\cdot L_\text{farbe}\\
-	&= \{ \text{rotorot, rotgelb, rotgrün, gelbrot, gelbgelb, \dots} \}\\
-	L^0 &=\{\Eps\} \qquad \{\Eps\}\cdot L = \{\Eps\cdot w \mid w\in L\} = L \qedhere
-\end{align*}
 %
-\begin{Def}[Potenzierung von Sprachen] Sei $U\subseteq\Sigma^*$
-	\begin{align*}
-		U^0 &= \{\Eps\} & U^{n+1}= U \cdot U^n
-	\end{align*}
-\end{Def}
-Gegeben $L$, sind sämtliche Kombinationen von Worten aus $L$ gesucht.
-\begin{Bsp*}
-	$\{(la)^n \mid n\in\N\}\cdot\{la\}^*$
-\end{Bsp*}
-\vspace{.5em}
-\begin{Def}[Stern-Operator, Abschluss, Kleene-Stern]
+\begin{Def}[Kleene-Abschluss, Kleene-Stern]
 	Sei $U\subseteq\Sigma^*$ dann ist
 	\begin{align*}
 		U^* &= \bigcup_{n\in\N} U^n \quad [\ni\Eps] && \text{Leeres Wort ist darin }n=0\\
@@ -110,86 +175,3 @@ Gegeben $L$, sind sämtliche Kombinationen von Worten aus $L$ gesucht.
 \begin{Bemerkung}
 	$\Sigma^*=\bigcup_{n\in\N}\Sigma^n \text{ ebenso } \Sigma^+ = \bigcup_{n\ge1}\Sigma^n$
 \end{Bemerkung}
-\begin{Def}[Alternative Definition von $\Sigma^*$]\label{def:1.8}\ \\
-	Die Menge $\Sigma^*$ ist kleinste Menge, so dass
-	\begin{enumerate}[label={(\arabic*)}]
-		\item $\Eps\in\Sigma^*$
-		\item\label{def:1.8.2} $a\in\Sigma\ ,w\in\Sigma^*\ \=> aw\in\Sigma^*$\qedhere
-	\end{enumerate}
-\end{Def}
-Die Definitionen \ref{def:1.8} und \ref{def:1.2} sind gleichwertig, d.h.:
-\begin{displaymath}
-w \in \Sigma^* \text{ gemäß \autoref{def:1.2} \emph{genau dann wenn} } w \in \Sigma^* \text{ gemäß \autoref{def:1.8}}
-\end{displaymath}
-\begin{proof}\ 
-  Im folgenden Beweis bezeichnen wir $\Sigma^* $ gemäß \autoref{def:1.2} als $\Sigma^\star$ und $\Sigma^*$ gemäß \autoref{def:1.8} als $\Sigma^\circledast$
-	\begin{itemize}
-  \item wenn $w \in \Sigma^\star$ dann $w \in \Sigma^\circledast$: \\
-    Sei $n \in \N$, $w = a_1\dots a_n$ und $a_i\in\Sigma$ für $i \in \{1, \ldots, n\}$.
-    \\
-		Per Induktion über $n = |w|$.
-    \begin{itemize}
-    \item \underline{$n=0$}:
-      $w = \Eps$, und daher $w \in \Sigma^\circledast$ nach \autoref{def:1.8}, Fall $(1)$
-    \item \underline{$n\->n'+1$}:
-      $w = a_1\dots a_{n'} a_{n'+1}$ wobei
-      \begin{equation}
-        \label{eq:sigma-star-alt-1}
-        a_{n'+1} \in \Sigma
-      \end{equation}
-      nach \autoref{def:1.2}.
-      Da $|a_2\dots a_{n'+1}| = n'$, gilt per Induktionsvoraussetzung:
-      \begin{equation}
-        \label{eq:sigma-star-alt-2}
-        a_2 \dots a_{n'+1} \in \Sigma^\circledast
-      \end{equation}
-      Aus \eqref{eq:sigma-star-alt-1} und \eqref{eq:sigma-star-alt-2} folgt $w \in \Sigma^\circledast$ aus Fall (2) von \autoref{def:1.8}.
-    \end{itemize}
-		
-  \item $\Sigma^\circledast$ \=> $\Sigma^\star$:\\
-		Induktion über $w\in\Sigma^\circledast$.\\
-		Zeige: f"ur jedes $w\in\Sigma$ gibt es ein $n\in\N$ und $a_1, \dots, a_n \in \Sigma$, so dass $w=a_1\dots a_n$.
-		\begin{itemize}
-    \item \underline{$w = \Eps$}: (Fall (1), \autoref{def:1.8})
-      Wähle $n=0$, dann $w=\Eps$.
-    \item \underline{$w = aw' \text{ wobei }\ a\in\Sigma,\ w'\in\Sigma^\star$} (Fall (2), \autoref{def:1.8}):\\
-        Nach Induktionsvoraussetzung:
-        \begin{displaymath}
-          w'\in\Sigma^\star \text{ gemäß \autoref{def:1.2}}
-        \end{displaymath}
-			Also existiert $n' \in \N$, so dass $w'=a_1\dots a_{n'}$ (\autoref{def:1.2}).
-			W"ahle $n = n'+1$ und $b_1, \dots b_{n+1} \in\Sigma$
-			mit $b_1 = a$ und $b_{i+1} = a_i$ f"ur $1\le i\le n$.\\
-			Dann ist $w = b_1b_2\dots b_{n+1}\in\Sigma^\star$ (\ref{def:1.2}) \qedhere
-	\end{itemize}
-	\end{itemize}
-\end{proof}
-Alternative Definition von Konkatenation:
-\begin{align*}
-	\Eps\cdot v &= v\\
-	(aw)\cdot v &= a(w\cdot v)
-\end{align*}
-%
-\begin{Bsp*} Für Eigenschaft von Sprachen:
-	\begin{align*}
-		U^* &= \{\Eps\}\cup U\cdot U^*
-	\end{align*}
-	Beweis durch Kalkulation:
-	$U^*=\{\Eps\}\cup U\cdot U^*\subseteq U^*\cup U\cdot\bigcup_n U^n = U^*\cup\bigcup_n U^{n+1} \subseteq U^*\cup U^* = U^*$
-\end{Bsp*}
-Elementarer Beweis:
-\begin{enumerate}[label={Zeige (\arabic*)},leftmargin=*,itemindent=*]
-	\item $U^*\subseteq \{\Eps\}\cup U\cdot U^*$\\
-	Sei $w\in U^*=\bigcup_{n\in\N} U^n$\\
-	$\curvearrowright \exists n: w\subset U^n$
-	\begin{itemize}
-		\item Falls $n=0: w=\Eps\subset\{\Eps\}\cup U\cdot U^*$
-		\item Falls $n= n'+1: w\in U\cdot U^n\subseteq U\cdot U^*\cup \{\Eps\}$
-	\end{itemize}
-	\item $\{\Eps\}\cup U\cdot U^*\subseteq U^*$\\
-	Sei $w\in\{\Eps\} \cup U\cdot U^*$
-	\begin{itemize}
-		\item Falls $w=\Eps: w=\Eps\in U^*$
-		\item Falls $w\in U\cdot U^n: \exists n\ w\in U\cdot U^n = U^{n+1}\subseteq U^*$
-	\end{itemize}
-\end{enumerate}
