@@ -5,40 +5,38 @@ Die Berechnungen, die sich mit endliche Automaten ausdrücken lassen sind stark 
 D.h.\ f"ur jede dieser Fragen existiert ein Algorithmus.
 
 \subsection{Endliche Automaten}
-\underline{Endliches Band} (read-only, jede Zelle enth"alt ein $a_i\in\Sigma$)
+Wir beschreiben zunächst die Bestandteile eines endlichen Automaten:
+
+
+\begin{description}
+\item[Endliches Band] 
+(read-only, jede Zelle enth"alt ein $a_i\in\Sigma$, der Inhalt des Bandes ist das \emph{Eingabewort}, bzw.\ die \emph{Eingabe})
 
 \begin{figure}[H]\centering
-	\begin{tikzpicture}[every node/.style={block}, decoration={brace, amplitude=5pt}]
-		\node (A) {$a_0$};
-		\node (B) [right=of A] {$\dots$};
-		\node (C) [right=of B] {$a_n$};
+	\begin{tikzpicture}
+		\node (A) [block]{$a_0$};
+		\node (B) [block,right=of A] {$\dots$};
+		\node (C) [block,right=of B] {$a_n$};
+
+    \node (L) [above=of A, node distance = 0.25cm] {Lesekopf};
+    \draw[->] (L) -- (A);
 	\end{tikzpicture}
 	\caption{Endliches Band}
 \end{figure}
 \vspace{-1em}
-\underline{Lesekopf}
-\begin{itemize}
-	\item ein Zeichen
-	\item nur Bewegung nach rechts
-	\item kann auch hinter Eingabe zeigen: Eingabeende = Maschine stoppt.
-\end{itemize}
-\underline{Eingabeband}
-\begin{itemize}
-	\item read-only
-	\item start mit $w\in\Sigma^*$
-\end{itemize}
-\framebox{q} Zustand aus endl. Zustandsmenge
-
-\underline{Startzustand:} $q_0$\\
-Ein Teil $F$ davon sind \underline{akzeptierende} Zustände.
-
-Transitionsfunktion: Im Zustand $q$ beim Lesen von $a$ gehe nach Zustand $q'$ \medskip\\
-\begin{tabular}{|*3{M{l}|}} \hline
-	q & a & q'\\ \hline
-	&&\\
-	&&
-\end{tabular}
-
+\item[Lesekopf] ~\\
+  \vspace{-\baselineskip}
+  \begin{itemize}
+	\item Der \emph{Lesekopf} zeigt auf ein Feld des Bandes, oder hinter das letzte Feld.
+	\item Er bewegt sich feldweise nach rechts; andere Bewegungen (vor- bzw.\ zurückspulen) sind nicht möglich.
+	\item Wenn er hinter das letzte Zeichen zeigt, \emph{stoppt} der Automat.
+    Er muss sich nun ,,entscheiden'' ob er das Wort \emph{akzeptiert} oder nicht.
+  \end{itemize}
+\item[Zustände] $q$ aus \emph{endlicher} Zustandsmenge $Q$.
+\item[Startzustand] $q_0 \in Q$.
+\item[Akzeptierende Zustände] $F \subseteq Q$ 
+\item[Transitionsfunktion] Im Zustand $q$ beim Lesen von $a$ gehe nach Zustand $\delta(q) = q'$.
+\end{description}
 Der endliche Automat akzeptiert eine Eingabe, falls er in einem akzeptierenden Zustand stoppt.
 
 \begin{Bsp}
@@ -116,9 +114,11 @@ Der endliche Automat akzeptiert eine Eingabe, falls er in einem akzeptierenden Z
 	\[ L(M) = \{ w\in\Sigma^* \mid \hat\delta(q_0,w)\in F \} \]
 	Eine durch einen \ac{DEA} erkannte Sprache heißt \underline{regulär}.
 \end{Def}
-\begin{Bsp} für reg. \underline{Sprachen}
+Es folgen zwei Beispiele für reguläre Sprachen:
+\begin{Bsp} 
+\label{bsp:3.1}
 	\begin{equation*}
-		L=\{ w\in\{0,1\}^* \mid w\text{ enthält höchstens eine 1} \} \tag{3.1}\label{bsp:3.1}
+		L=\{ w\in\{0,1\}^* \mid w\text{ enthält höchstens eine 1} \} 
 	\end{equation*}
 	\begin{figure}[H]\centering
 		\begin{tikzpicture}
@@ -135,10 +135,12 @@ Der endliche Automat akzeptiert eine Eingabe, falls er in einem akzeptierenden Z
 		\end{tikzpicture}
 		\caption{Endlicher Automat, der die reguläre Sprache $L$ erkennt. Sobald mehr als eine $1$ gelesen wurde, wird in den Zustand $q_2$, eine sogenannte \emph{Senke}, gewechselt, von der alle ausgehenden Kanten in sich selbst enden.}
 	\end{figure}
+\end{Bsp}
+\begin{Bsp}\label{bsp:3.2}
 	
 	Sei $A>=0$ nat. Zahl, $\Sigma=\{0,1,\dots,A\}$
 	\begin{equation*}
-		L = \{ a_1\dots a_n \mid \exists J\subseteq \{1,\dots,n \},\ \sum_{i\in J} a_i = A \} \subseteq \Sigma^* \tag{3.2}\label{bsp:3.2}
+		L = \{ a_1\dots a_n \mid \exists J\subseteq \{1,\dots,n \},\ \sum_{i\in J} a_i = A \} \subseteq \Sigma^* 
 	\end{equation*}
 	D.h. gegeben eine Liste von Zahlen $\in\Sigma$.
 	Akzeptiere diejenigen Listen, für die eine Teilliste existiert, deren Summe genau $A$ ist.
@@ -148,10 +150,11 @@ Der endliche Automat akzeptiert eine Eingabe, falls er in einem akzeptierenden Z
 		q_0 &=\{0\} \\
 		F &= \{ q\in Q \mid A \in q \}
 	\end{align*}
-	
+\end{Bsp}
+\begin{Bsp}\label{bsp:3.3}
 	Beispiel f"ur eine nicht-regul"are Sprache.
 	\begin{equation*}
-		L = \{ 0^n1^n \mid n\in\N \} \tag{3.3}\label{bsp:3.3}
+		L = \{ 0^n1^n \mid n\in\N \} 
 	\end{equation*}
 	erkennbar durch \ac{TM} die immer anhält, \underline{aber nicht} von einem \ac{DEA} [\underline{nicht} regulär] akzeptiert werden kann.
 	\begin{proof}
@@ -166,7 +169,58 @@ Der endliche Automat akzeptiert eine Eingabe, falls er in einem akzeptierenden Z
 	\end{proof}
 \end{Bsp}
 
-\datenote{13.11.15}
+\subsection{Minimierung endlicher Automaten}
+ \datenote{2016-10-27}
+
+Betrachte den Automaten aus Beispiel \ref{bsp:3.2}.
+Sei $A =4$, $\Sigma = \{0, 1, 2, 3, 4\}$ mit Zustandsmenge $Q = \Powerset(\Sigma)$.
+D.h.\ unter anderem: $\{0, 1, 3\} \in Q$.
+Hier ist ein Ausschnitt aus dem Zustandsdiagramm:
+
+\begin{center}
+\begin{tikzpicture}[node distance = 2cm]
+  \node (0) at (0, 0) {$\{0\}$};
+  \node[below of = 0] (03) {$\{0,3\}$};
+  \node[right of = 03] (02) {$\{0,2\}$};
+  \node[below of = 02] (0134) {$\{0,1,3,4\}$};
+  \node[right of = 0] (01) {$\{0,1\}$};
+  \node[right of = 01] (012) {$\{0,1,2\}$};
+  \node[below of = 012] (0123) {$\{0,1,2, 3\}$};
+
+   \draw[->] (- 0.8, 0) to (0);
+  \draw[->] (0) to node[left] {$3$} (03);
+  \draw[->] (0) to node[above] {$2$} (02);
+  \draw[->] (0) to node[above] {$1$} (01);
+  \draw[->] (03) to node[left] {$1$} (0134);
+  \draw[->] (01) to node[above] {$1$} (012);
+  \draw[->] (02) to node[above] {$1$} (0123);
+\end{tikzpicture}
+\end{center}
+Es ist zu bemerken, dass manche Zustände von $Q$ nie erreicht werden können, z.B.\ $\emptyset$.
+Sei für die folgenden Überlegungen $M = (Q, \Sigma, \delta, q_0, F)$ ein DEA.
+
+\begin{Def}
+  Ein Zustand $q \in Q$ ist \emph{erreichbar}, falls ein $w \in \Sigma^*$ existiert, so dass $\hat \delta(q_0, w) = q$.
+  $M$ heißt \emph{reduziert}, falls alle Zustände erreichbar sind.
+\end{Def}
+\begin{Satz}
+  Die Menge der erreichbaren Zustände kann in $O(|Q|*|\Sigma|)$ berechnet werden.
+\end{Satz}
+\begin{proof}~\\
+  \vspace{-\baselineskip}
+  \begin{itemize}
+  \item Fasse $A$ als Graphen auf.
+  \item Wende Tiefensuche an, markiere dabei alle besuchten Zustände.
+  \item Die markierten Zustände ist die Menge der erreichbaren Zustände.
+  \end{itemize}
+\end{proof}
+
+\ldots 
+
+
+
+\draftnote{2016-10-28}
+
 \underline{Beobachtung:} Auch ein Automat mit lauter erreichbaren Zuständen muss nicht minimal sein
 
 \begin{Bsp}\label{Bsp:3.4}\
