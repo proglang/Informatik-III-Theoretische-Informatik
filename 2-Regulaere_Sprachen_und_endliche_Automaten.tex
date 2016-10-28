@@ -1,4 +1,4 @@
-\section[Reguläre Sprachen und endliche Automaten]{Reguläre Sprachen und endliche Automaten\draftnote{21.10.16}}
+\section[Reguläre Sprachen und endliche Automaten]{Reguläre Sprachen und endliche Automaten\datenote{21.10.16}}
 Endliche Automaten sind ein einfaches, formales Maschinenmodell.
 Ein endlicher Automat $A$ berechnet, für eine bestimmte Sprache $L(A)$, ob ein gegebenes Wort $w$ in ihr enthalten ist (Wortproblem, $w \in L(A)$ ?).
 Die Berechnungen, die sich mit endliche Automaten ausdrücken lassen sind stark beschränkt, allerdings erlaubt diese Einschränkung \emph{die Entscheidung} von Fragen wie dem Wortploblem oder dem Leerheitsproblem ($L(A)\neq\varnothing$).
@@ -39,11 +39,147 @@ Wir beschreiben zunächst die Bestandteile eines endlichen Automaten:
 \end{description}
 Der endliche Automat akzeptiert eine Eingabe, falls er in einem akzeptierenden Zustand stoppt.
 
-\begin{Bsp}
-	$L=\{w\in\{0,1\}^* \mid w \text{ enthält gerade Anzahl von 0 und gerade Anzahl von 1}\}$
+% Spiral - By Keven Law - originally posted to Flickr as What's your Colour???, CC BY-SA 2.0, https://commons.wikimedia.org/w/index.php?curid=6851868
+% Bunch - By Mariajudit - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=48726001
+% Almond - By Michelle Naherny - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=44361114
+\needspace{5\baselineskip}
+\begin{Bsp}Aufgabe: 
+  \label{Bsp:3.1}
 
-	\begin{minipage}[t]{.4\textwidth}\centering\vspace{0pt}
-	    \captionsetup{type=figure}
+  ,,Erkenne alle Stapel von Maccarons in denen höchstens ein grüner Maccaron vorkommt.''
+\begin{center}
+  \includegraphics[scale=0.4]{macaron-stacks.png}
+\end{center}
+Ein passendes Alphabet wäre $\Sigma = \{\mathtt{grün} , \mathtt{nicht-grün} \}$.
+Wir definieren die folgenden Zustände.
+(die Metapher hier ist: ,,wenn ich mehr als einen grünen Maccaron esse wird mir übel, und das wäre nicht akzeptabel'')
+\begin{center}
+\begin{tabular}{cl}
+  Zustand & Bedeutung \\
+  \hline
+  $q_0$& ,,alles gut'' \\
+  $q_1$& ,,mir wird schon flau'' \\
+  $q_2$& ,,mir ist übel''
+\end{tabular}
+\end{center}
+Der Startzustand ist $q_0$.
+Akzeptierende Zustände sind $q_0$ und $q_1$.
+Die Transistionsfunktion $\delta$ ist
+\begin{center}
+\begin{tabular}{cccl}
+  &\texttt{grün} & \texttt{nicht-grün} \\
+  \hline
+  $q_0$ & $q_1$ & $q_0$ & wechsle nach $q_1$ falls \texttt{grün}, ansonsten verweile \\
+  $q_1$ & $q_2$ & $q_1$ & wechsle nach $q_2$ falls \texttt{grün}, ansonsten verweile \\
+  $q_2$  & $q_2$ & $q_2$ & verweile, da es nichts mehr zu retten gibt
+\end{tabular}
+\end{center}
+\end{Bsp}
+
+% \begin{Bsp}
+% 	$L=\{w\in\{0,1\}^* \mid w \text{ enthält gerade Anzahl von 0 und gerade Anzahl von 1}\}$
+
+% 	\begin{minipage}[t]{.4\textwidth}\centering\vspace{0pt}
+% 	    \captionsetup{type=figure}
+% 		\begin{tikzpicture}[circle/.style={
+% 			shape=circle,
+% 			minimum size=0.5cm,
+% 			text=black, draw,
+% 			text width=0.5cm,
+% 			align=center}]
+% 			\node (v1) at (-3.5,3.5) {};
+% 			\node [circle,double] (v2) at (-2.5,3) {$q_{00}$};
+% 			\node [circle] (v3) at (0.5,3) {$q_{01}$};
+% 			\node [circle] (v4) at (0.5,0.5) {$q_{10}$};
+% 			\node [circle] (v5) at (-2.5,0.5) {$q_{11}$};
+% 			\draw [->] (v1) edge (v2);
+% 			\draw [->] (v2) edge [bend left=15] node[auto] {1} (v3);
+% 			\draw [->] (v3) edge [bend left=15] node[auto] {1} (v2);
+% 			\draw [->] (v3) edge [bend left=15] node[auto] {0} (v4);
+% 			\draw [->] (v4) edge [bend left=15] node[auto] {0} (v3);
+% 			\draw [->] (v2) edge [bend left=15] node[auto] {0} (v5);
+% 			\draw [->] (v5) edge [bend left=15] node[auto] {0} (v2);
+% 			\draw [->] (v5) edge [bend left=15] node[auto] {1} (v4);
+% 			\draw [->] (v4) edge [bend left=15] node[auto] {1} (v5);
+% 		\end{tikzpicture}
+% 		\captionof{figure}{Automat zu $L$}
+% 	\end{minipage}\begin{minipage}[t]{.55\textwidth}\vspace{0pt}
+% 	Graphische Darstellung $\hat=$ gerichteter Graph mit Knoten $Q$ und markierten Kanten gemäß $\delta$.\\
+% 	$Q=\{q_{00},q_{01},q_{10},q_{11}\}$\\
+% 	$q_{00}$ einziger akzeptierender Zustand ($F=\{q_{00}\}$)
+% 	\end{minipage}
+	
+% 	\begin{tabular}{M{l}|M{l}|M{l}l @{\quad}l}
+% 		& 0 & 1 &\\ \cline{1-3}
+% 		q_{00} & q_{10} & q_{01} && gerade Anzahl von 0 und 1 gesehen\\
+% 		q_{01} & q_{11} & q_{00} && gerade \ruleplaceholder{\widthof{Anzahl von 0}}, ungerade Anzahl von 1 gesehen\\
+% 		q_{10} & q_{00} & q_{11} && ungerade \ruleplaceholder{\widthof{Anzahl von 0}}, gerade \ruleplaceholder{\widthof{Anzahl von 1 gesehen}} \\
+% 		q_{11} & q_{01} & q_{10} && ungerade \ruleplaceholder{\widthof{Anzahl von 0}}, ungerade \ruleplaceholder{\widthof{Anzahl von 1 gesehen}}
+% 	\end{tabular}
+% \end{Bsp}
+\begin{Def}[\acs*{DEA}]
+	Ein \emph{\acf{DEA}}, (\acsu{DFA} $\hat=$ \acl{DFA}) ist ein 5-Tupel
+	\[ M= (Q,\Sigma,\delta,q_0,F) \]
+	\begin{itemize}
+		\item $Q$ \emph{endliche} Zustandsmenge
+		\item $\Sigma$ \emph{endl.} Alphabet
+		\item $\delta:Q\x\Sigma\->Q$ Transitionsfunktion
+		\item $q_0\in Q$ Startzustand
+		\item $F\subseteq Q$ akzeptierende Zustande
+	\end{itemize}
+\end{Def}
+
+DEAs lassen sich auch graphisch darstellen.
+Dabei gibt man für den Automaten einen gerichteten Graphen an.
+Die Knoten Graphen sind die Zustände und mit Zeichen gelabelte Kanten zeigen welchen Zustandsübergang die Transitionsfunktion für das nächste Zeichen erlaubt.
+Der Startzustand ist mit einem ungelabelten Pfeil markiert und finale Zustände sind doppelt eingekreist.
+Hier ist die graphische Darstellung von $A_{\mathtt{Maccaron}}$ aus Beispiel \ref{Bsp:3.1}
+
+\begin{center}
+\begin{tikzpicture}[node distance = 3cm]
+  \node[state, accepting] (0) {$q_0$};
+  \node[state, accepting, right of = 0] (1) {$q_1$};
+  \node[state, right of = 1] (2) {$q_2$};
+
+  \node[left of = 0, node distance = 1cm] (start){}; 
+  \draw[->] (start) to (0);
+
+  \draw[->] (0) to node[above] {\texttt{grün}} (1);
+  \draw[->, loop above] (0) to node[above] {\texttt{nicht-grün}} (0);
+
+  \draw[->] (1) to node[above] {\texttt{grün}} (2);
+  \draw[->, loop above] (1) to node[above] {\texttt{nicht-grün}} (1);
+
+  \draw[->, loop right] (2) to node[right]{\texttt{grün}, \texttt{nicht-grün}} (2);
+\end{tikzpicture}
+\end{center}
+
+DEAs charakterisieren die Sprachen durch die Menge an Wörtern, die sie akzeptieren.
+\begin{Bsp}
+    Sei $M=(Q,\Sigma,\delta,q_0,F)$ ein DEA.
+    \begin{itemize}
+    \item Wenn $F=Q$, dann ist $L(M)=\Sigma^*$.
+    \item Wenn $F=\emptyset$, dann ist $L(M)=\emptyset$.
+    \end{itemize}
+\end{Bsp}
+\begin{Def}[name={[Erweiterung von $\delta$ auf Worte]}]
+	Die Erweiterung von $\delta:Q\x\Sigma\->Q$ auf Worte $\hat{\delta}: Q\x\Sigma^*\->Q$ ist induktiv definiert durch
+  \begin{enumerate}
+  \item $\hat\delta(q,\Eps) =q$ (Wortende erreicht)
+  \item $\hat\delta(q,aw)=\hat\delta(\delta(q,a),w)$ (Rest im Folgezustand verarbeiten)
+  \end{enumerate}
+\end{Def}
+\begin{Def}[name={[Die durch einen \acs*{DEA} erkannte Sprache]}]
+	Sei $M=(Q,\Sigma,\delta,q_0,F)$\\
+	Die \emph{von $M$ erkannte Sprache} ist
+	\[ L(M) = \{ w\in\Sigma^* \mid \hat\delta(q_0,w)\in F \} \]
+	Eine durch einen \ac{DEA} erkannte Sprache heißt \emph{regulär}.
+\end{Def}
+Es folgen zwei Beispiele für reguläre Sprachen:
+\begin{Bsp} 
+\label{bsp:3.1}
+	$L=\{w\in\{0,1\}^* \mid w \text{ enthält gerade Anzahl von 0 und gerade Anzahl von 1}\}$
+  \begin{center}
 		\begin{tikzpicture}[circle/.style={
 			shape=circle,
 			minimum size=0.5cm,
@@ -65,98 +201,31 @@ Der endliche Automat akzeptiert eine Eingabe, falls er in einem akzeptierenden Z
 			\draw [->] (v5) edge [bend left=15] node[auto] {1} (v4);
 			\draw [->] (v4) edge [bend left=15] node[auto] {1} (v5);
 		\end{tikzpicture}
-		\captionof{figure}{Automat zu $L$}
-	\end{minipage}\begin{minipage}[t]{.55\textwidth}\vspace{0pt}
-	Graphische Darstellung $\hat=$ gerichteter Graph mit Knoten $Q$ und markierten Kanten gemäß $\delta$.\\
-	$Q=\{q_{00},q_{01},q_{10},q_{11}\}$\\
-	$q_{00}$ einziger akzeptierender Zustand ($F=\{q_{00}\}$)
-	\end{minipage}
-	
-	\begin{tabular}{M{l}|M{l}|M{l}l @{\quad}l}
-		& 0 & 1 &\\ \cline{1-3}
-		q_{00} & q_{10} & q_{01} && gerade Anzahl von 0 und 1 gesehen\\
-		q_{01} & q_{11} & q_{00} && gerade \ruleplaceholder{\widthof{Anzahl von 0}}, ungerade Anzahl von 1 gesehen\\
-		q_{10} & q_{00} & q_{11} && ungerade \ruleplaceholder{\widthof{Anzahl von 0}}, gerade \ruleplaceholder{\widthof{Anzahl von 1 gesehen}} \\
-		q_{11} & q_{01} & q_{10} && ungerade \ruleplaceholder{\widthof{Anzahl von 0}}, ungerade \ruleplaceholder{\widthof{Anzahl von 1 gesehen}}
-	\end{tabular}
-\end{Bsp}
-\
-\begin{Def}[\acs*{DEA}]
-	Ein \underline{\acf{DEA}}, (\acsu{DFA} $\hat=$ \acl{DFA}) ist ein 5-Tupel
-	\[ M= (Q,\Sigma,\delta,q_0,F) \]
-	\begin{itemize}
-		\item $Q$ \underline{endliche} Zustandsmenge
-		\item $\Sigma$ \underline{endl.} Alphabet
-		\item $\delta:Q\x\Sigma\->Q$ Transitionsfunktion
-		\item $q_0\in Q$ Startzustand
-		\item $F\subseteq Q$ akzeptierende Zustande
-	\end{itemize}
-\end{Def}
-
-\begin{Bsp}
-    Sei $M=(Q,\Sigma,\delta,q_0,F)$ ein DEA.
-    \begin{itemize}
-    \item Wenn $F=Q$, dann ist $L(M)=\Sigma^*$.
-    \item Wenn $F=\emptyset$, dann ist $L(M)=\emptyset$.
-    \end{itemize}
-\end{Bsp}
-\begin{Def}[name={[Erweiterung von $\delta$ auf Worte]}]
-	Die Erweiterung von $\delta:Q\x\Sigma\->Q$ auf Worte
-	\begin{align*}
-		\hat{\delta}: Q\x\Sigma^*&\->Q\ \rlap{ist induktiv def. durch:}\\
-		\hat\delta(q,\Eps) &=q & \hat\delta(q,aw)=\hat\delta(\delta(q,a),w)\\
-		(\text{Wortende\ }&\text{erreicht}) & (\text{Rest im Folgezustand verarbeiten})
-	\end{align*}
-\end{Def}
-\begin{Def}[name={[Die durch einen \acs*{DEA} erkannte Sprache]}]
-	Sei $M=(Q,\Sigma,\delta,q_0,F)$\\
-	Die \underline{von $M$ erkannte Sprache} ist
-	\[ L(M) = \{ w\in\Sigma^* \mid \hat\delta(q_0,w)\in F \} \]
-	Eine durch einen \ac{DEA} erkannte Sprache heißt \underline{regulär}.
-\end{Def}
-Es folgen zwei Beispiele für reguläre Sprachen:
-\begin{Bsp} 
-\label{bsp:3.1}
-	\begin{equation*}
-		L=\{ w\in\{0,1\}^* \mid w\text{ enthält höchstens eine 1} \} 
-	\end{equation*}
-	\begin{figure}[H]\centering
-		\begin{tikzpicture}
-			\node (start) at (-4,1.5) {};
-			\node (q0) [circle,double] at (-3,1) {$q_0$};
-			\node (q1) [circle,double] at (-0.5,1) {$q_1$};
-			\node (q2) [circle] at (2,1) {$q_2$};
-			\draw [->] (start) edge (q0);
-			\draw [->] (q0) edge[loop above] node {0} (q0);
-			\draw [->] (q1) edge[loop above] node {0} (q1);
-			\draw [->] (q2) edge[loop above] node {0,1} (q2);
-			\draw [->] (q0) edge node [auto] {1} (q1);
-			\draw [->] (q1) edge node [auto] {1} (q2);
-		\end{tikzpicture}
-		\caption{Endlicher Automat, der die reguläre Sprache $L$ erkennt. Sobald mehr als eine $1$ gelesen wurde, wird in den Zustand $q_2$, eine sogenannte \emph{Senke}, gewechselt, von der alle ausgehenden Kanten in sich selbst enden.}
-	\end{figure}
+  \end{center}
 \end{Bsp}
 \begin{Bsp}\label{bsp:3.2}
 	
-	Sei $A>=0$ nat. Zahl, $\Sigma=\{0,1,\dots,A\}$
+	Sei $A\ge 0$ nat. Zahl, $\Sigma=\{0,1,\dots,A\}$
 	\begin{equation*}
 		L = \{ a_1\dots a_n \mid \exists J\subseteq \{1,\dots,n \},\ \sum_{i\in J} a_i = A \} \subseteq \Sigma^* 
 	\end{equation*}
 	D.h. gegeben eine Liste von Zahlen $\in\Sigma$.
 	Akzeptiere diejenigen Listen, für die eine Teilliste existiert, deren Summe genau $A$ ist.
 	\begin{align*}
-		Q &=\mathbb{P}\{0,1,\dots,A\} \ \text{Menge der möglichen Summen}\\
+		Q &=\Powerset\{0,1,\dots,A\} \\
 		\delta(q,a) &= q \cup \{ x\in \{0,\dots,A\} \mid x-a \in q \} \\
 		q_0 &=\{0\} \\
 		F &= \{ q\in Q \mid A \in q \}
 	\end{align*}
+  $q \in Q$ bezeichnet die Menge an möglichen Summen $\le A$, die mit den bisher gelesenen Zeichen gebildet werden kann.
+  Die Transitionsfunktion $\delta$ fügt die Summen zum aktuellen Zustand hinzu, die sich durch addieren der aktuell gelesenen Ziffer zu den alten Möglichkeiten ergeben.
 \end{Bsp}
 \begin{Bsp}\label{bsp:3.3}
 	Beispiel f"ur eine nicht-regul"are Sprache.
 	\begin{equation*}
 		L = \{ 0^n1^n \mid n\in\N \} 
 	\end{equation*}
-	erkennbar durch \ac{TM} die immer anhält, \underline{aber nicht} von einem \ac{DEA} [\underline{nicht} regulär] akzeptiert werden kann.
+	erkennbar durch \ac{TM} die immer anhält, \emph{aber nicht} von einem \ac{DEA} [\underline{nicht} regulär] akzeptiert werden kann.
 	\begin{proof}
 		Angenommen $L=L(M)$ für \ac{DEA} $M=(Q,\Sigma,q_0,\delta,F)$
 		
