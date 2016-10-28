@@ -225,7 +225,7 @@ Es folgen zwei Beispiele für reguläre Sprachen:
 	\begin{equation*}
 		L = \{ 0^n1^n \mid n\in\N \} 
 	\end{equation*}
-	erkennbar durch \ac{TM} die immer anhält, \emph{aber nicht} von einem \ac{DEA} [\underline{nicht} regulär] akzeptiert werden kann.
+	erkennbar durch \ac{TM} die immer anhält, \emph{aber nicht} von einem \ac{DEA} [\emph{nicht} regulär] akzeptiert werden kann.
 	\begin{proof}
 		Angenommen $L=L(M)$ für \ac{DEA} $M=(Q,\Sigma,q_0,\delta,F)$
 		
@@ -290,7 +290,7 @@ Sei für die folgenden Überlegungen $M = (Q, \Sigma, \delta, q_0, F)$ ein DEA.
 
 \draftnote{28.10.16}
 
-\underline{Beobachtung:} Auch ein Automat mit lauter erreichbaren Zuständen muss nicht minimal sein
+\emph{Beobachtung:} Auch ein Automat mit lauter erreichbaren Zuständen muss nicht minimal sein
 
 \begin{Bsp}\label{Bsp:3.4}\
 	\begin{figure}[H]\centering
@@ -314,14 +314,14 @@ Sei für die folgenden Überlegungen $M = (Q, \Sigma, \delta, q_0, F)$ ein DEA.
 	\end{figure}
 	Erkennt die gleiche Sprache wie in \eqref{bsp:3.1}, hat nur erreichbare Zustände, aber mehr Zustände als in \eqref{bsp:3.1}.
 	
-	\underline{Beobachtung:} $q_2$ und $q_3$ verhalten sich gleich in dem Sinn, dass
+	\emph{Beobachtung:} $q_2$ und $q_3$ verhalten sich gleich in dem Sinn, dass
 	\[ \forall w: \hat\delta(q_2,w) \notin F\text{ und }\hat\delta(q_3,w)\notin F \]
 \end{Bsp}
 %
 %\stepcounter{Def}
 %
 \begin{Def}[name={[Äquivalenz von \acs*{DFA}-Zuständen]}] %\rlnote{Def.-Num. überprüfen}
-	Zwei Zustände $q,p\in Q$ eines \ac{DFA} sind \underline{äquivalent}, geschrieben $p\equiv q$, falls $\forall w\in\Sigma^*$, $\hat\delta(p,w)\in F \<=> \hat\delta(q,w)\in F$
+	Zwei Zustände $q,p\in Q$ eines \ac{DFA} sind \emph{äquivalent}, geschrieben $p\equiv q$, falls $\forall w\in\Sigma^*$, $\hat\delta(p,w)\in F \<=> \hat\delta(q,w)\in F$
 \end{Def}
 %\stepcounter{lemma}
 
@@ -410,7 +410,7 @@ Dabei ist $[q]=\{p\in Q \mid p\equiv q\}$
 		Also f"ur $q=q_0$: $\forall w\in\Sigma^*$, $w\in L(M)\<==> \hat\delta(q_0,w) \in F \<=> \hat\delta'([q_0],w) \in F' \<==> w\in L(M')$
 	\end{enumerate}
 \end{proof}
-\underline{Bem:} Die Konstruktion von $M'$ kann in $O(|Q||\Sigma|\log|Q|)$ passieren.
+\emph{Bem:} Die Konstruktion von $M'$ kann in $O(|Q||\Sigma|\log|Q|)$ passieren.
 
 Warum ist nun der Äquivalenzklassenautomat minimal?\\
 \-> Satz von Myhill-Nerode
@@ -461,8 +461,8 @@ Warum ist nun der Äquivalenzklassenautomat minimal?\\
 	Die folgende Aussagen sind äquivalent:
 	\begin{enumerate}
 		\item\label{itm:Nerode1} $L\subseteq \Sigma^*$ wird von \ac{DEA} akzeptiert.
-		\item\label{itm:Nerode2} $L$ ist Vereinigung von Äquivalenzklassen einer rechtsinvarianten Äquivalenzrel. mit \underline{endl.} Index.
-		\item\label{itm:Nerode3} Die Nerode Relation $R_L$ hat \underline{endl.} Index
+		\item\label{itm:Nerode2} $L$ ist Vereinigung von Äquivalenzklassen einer rechtsinvarianten Äquivalenzrel. mit \emph{endlichem} Index.
+		\item\label{itm:Nerode3} Die Nerode Relation $R_L$ hat \emph{endlichen} Index
 	\end{enumerate}
 \end{Satz}
 
@@ -516,7 +516,7 @@ Warum ist nun der Äquivalenzklassenautomat minimal?\\
 	Der im Beweisschritt (3) \=> (1) konstruierte Automat $\A'$ ist minimaler Automat für $L$.
 \end{Korollar}
 \begin{proof}
-	$L$ regulär. Sei $\A$ \underline{beliebiger \ac{DFA} mit $L=L(\A)$}\\
+	$L$ regulär. Sei $\A$ \emph{beliebiger \ac{DFA} mit $L=L(\A)$}\\
 	$\begin{rcases}
 	\A\text{ induziert }R_\A\text{ mit}\\
 	|Q|\geq\text{index}(R_\A)
@@ -649,7 +649,7 @@ Wähle $z=0^p \in L_2$
 
 \subsection[\acf{NEA}]{\acf{NEA}\draftnote{2.11.16}}
 \begin{Bsp*} Mustererkennung\\
-	kommt $\underset{\text{konsistent}}{\text{\underline{ein String}}}$ in einem anderen vor?
+	kommt ein String (konsistent) in einem anderen vor?
 	
 	Gegeben: festes Wort $w$.\\
 	Gesucht: Sprache aller Worte, in denen $w$ als Teilwort vorkommt.
@@ -803,9 +803,9 @@ Wähle $z=0^p \in L_2$
 	\end{itemize}
 \end{Def}
 \begin{Def}[name={[Lauf eines Automaten]}]
-	Ein \underline{Lauf des Automaten $\A$ auf $w=a_1\dots a_n$} ist eine Folge $q_0q_1\dots q_n$ mit $q_i\in Q$, $q_0$ Startzustand,\\
+	Ein \emph{Lauf des Automaten $\A$ auf $w=a_1\dots a_n$} ist eine Folge $q_0q_1\dots q_n$ mit $q_i\in Q$, $q_0$ Startzustand,\\
 	$\forall 1\leq i\leq n,\ q_i\in\delta(q_{i-1},a_i)$\\
-	Ein Lauf heißt \underline{akzeptierend}, falls $q_n\in F$.
+	Ein Lauf heißt \emph{akzeptierend}, falls $q_n\in F$.
 \end{Def}
 \begin{Def}[name={[NFA zu DFA]}]
 	$L(\A)=\{ w\in\Sigma^* \mid \exists\text{ akzeptierender Lauf von $\A$ auf }w \}$
@@ -924,7 +924,7 @@ Also: Eine Sprache $L$ ist regulär, falls
             \caption{\acs{NFA} f"ur Vereinigung}
             \label{fig:reg-closure-union}
         \end{figure}
-		\underline{DFA :}
+		DFA:
 		\begin{align*}
 			Q &= Q_1\x Q_2\\
 			\delta((q_1,q_2),a) &= (\delta_1(q_1,a),\delta_2(q_2,a))\\
@@ -1186,7 +1186,7 @@ $L$ ist regulär\\
 \end{proof}
 
 \begin{Satz}[name={[Leerheitsproblem]}]\label{satz:leerheitsproblem}
-	Das \underline{Leerheitsproblem} ist für reg. Sprachen entscheidbar.
+	Das \emph{Leerheitsproblem} ist für reg. Sprachen entscheidbar.
 	Falls $L$ reg. Sprache, dann existiert ein Algorithmus, der entscheidet, ob $L=\varnothing$.
 \end{Satz}
 \begin{proof}
@@ -1226,7 +1226,7 @@ $L$ ist regulär\\
 	\begin{description}[font=\normalfont,labelwidth=\widthof{"'\<="':},leftmargin=!]
 	\item["'\<="':] $w$ erfüllt Voraussetzung des \ac{PL}, also $w=uvx$ mit $|uv|\leq n$ und $|v|\geq 1$.\\
 		Nach \ac{PL}: $\forall i\in\N$, $uv^ix\in L$, also $L$ unendlich.
-	\item["'\=>"'] \underline{Angenommen} $L$ unendlich, aber $\forall w\in L : |w|<n$ oder $|w|\geq 2 n$\\
+	\item["'\=>"'] \emph{Angenommen} $L$ unendlich, aber $\forall w\in L : |w|<n$ oder $|w|\geq 2 n$\\
 	Sei $w\in L$ minimal gewählt, so dass $|w|\geq 2n$.
 	
 	$w$ erfüllt Voraussetzung vom \ac{PL}, also $w=xyz$ mit $|xy|\leq n$ und $|y|\geq 1$\\
@@ -1246,7 +1246,7 @@ $L$ ist regulär\\
 \end{proof}
 
 \begin{Satz}[name={[Schnittproblem]}]\label{satz:schnittproblem}
-	Das \underline{Schnittproblem} ist für REG entscheidbar.\\
+	Das \emph{Schnittproblem} ist für REG entscheidbar.\\
 	D.h. $L_1,L_2$ reguläre Sprachen. Ist $L_1\cap L_2 = \varnothing$?
 \end{Satz}
 \begin{proof}
@@ -1254,7 +1254,7 @@ $L$ ist regulär\\
 \end{proof}
 
 \begin{Satz}[name={[Äquivalenzproblem]}]\label{satz:äquivalenzproblem}
-	Das \underline{Äquivalenzproblem} ist für REG entscheidbar.\\
+	Das \emph{Äquivalenzproblem} ist für REG entscheidbar.\\
 	D.h. gegeben \ac{DFA}s für $L_1$ und $L_2$, $\A_1$ und $\A_2$
 	\[ L_1 = L(\A_1) = L(\A_2) = L_2\ ? \qquad \framebox{Inklusionsproblem}\]
 \end{Satz}
