@@ -239,7 +239,7 @@ Es folgen zwei Beispiele für reguläre Sprachen:
 \end{Bsp}
 
 \subsection{Minimierung endlicher Automaten}
- \datenote{2016-10-27}
+ \datenote{26.10.16}
 
 Betrachte den Automaten aus Beispiel \ref{bsp:3.2}.
 Sei $A =4$, $\Sigma = \{0, 1, 2, 3, 4\}$ mit Zustandsmenge $Q = \Powerset(\Sigma)$.
@@ -288,7 +288,7 @@ Sei für die folgenden Überlegungen $M = (Q, \Sigma, \delta, q_0, F)$ ein DEA.
 
 
 
-\draftnote{2016-10-28}
+\draftnote{28.10.16}
 
 \underline{Beobachtung:} Auch ein Automat mit lauter erreichbaren Zuständen muss nicht minimal sein
 
@@ -483,7 +483,6 @@ Warum ist nun der Äquivalenzklassenautomat minimal?\\
 		&\=>&&\text{\#Klassen($R_L$)$\leq$\#Klassen($R$)}<\infty
 	\end{alignat*}
 
-\datenote{18.11.15}
 
     (3) \=> (1) Gegeben $R_L$\\
 		Konstruiere $\A'=(Q,\Sigma,\delta',q_0',F')$
@@ -533,15 +532,12 @@ Angenommen $\exists\,\A$ mit $L=L(\A)$ und $|\A|<|\A'|$\\
 Nach Folgerung gilt aber
 \[ |\A'| \leq |\A|\ \lightning \]
 
-\begin{minipage}{\textwidth} % prevent pagebreak
-%
-%\setcounter{subsection}{2}
 \subsection{\acf{PL} für reguläre Sprachen} %\rlnote{subsection \# (3.3)?}
+\datenote{26.10.16 (Eingeschoben)}
 Suche: Notwendiges Kriterium für Regularität
-	\begin{Bsp*}
-		$L = \{ w\in \{0,1\}^* \mid \text{bin}(w)=0\mod 3 \}$ ist regulär, dabei ist "`bin"' die Dekodierung von einem Bitstring in eine nat"urliche Zahl.
-	\end{Bsp*}
-	\begin{figure}[H]\centering
+\begin{Bsp*}
+		$L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$ ist regulär, dabei ist "`bin"' die Dekodierung von einem Bitstring in eine nat"urliche Zahl.
+    \begin{center}
 		\begin{tikzpicture}
 			\node (start) at (-4,1.5) {};
 			\node (q0) [circle, double] at (-3,1) {$q_0$};
@@ -555,17 +551,15 @@ Suche: Notwendiges Kriterium für Regularität
 			\draw [->] (q2) edge [bend left] node [auto] {0} (q1);
 			\draw [->] (q2) edge [loop above] node {1} (q2);
 		\end{tikzpicture}
-		\caption{Automat: \acl{PL}}
-	\end{figure}
-\end{minipage}
-%
-\begin{align*}
-	1 \underline{0 0} 1 &\in L\\
-	\hat\delta(\overset{\rlap{Schleife}}{q_1,00}) &= q_1\\
-	11 &\in L\\
-	100001 &\in L\\
-	\forall i\in\N: 1(00)^i1 &\in L
-\end{align*}
+  \end{center}
+  \begin{itemize}
+  \item Es gilt offensichtlich, dass $11 \in L$
+  \item Es auch, dass $1 \underline{0 0} 1 \in L$.
+  \item Der Automat hat eine Schleife bei $\hat\delta({q_1,00}) = q_1$, die mehrfach ,,abgelaufen'' werden kann ohne die Akzeptanz zu beinflussen.
+  \item Also gilt auch $100001 \in L$,
+  \item und im Allgemeinen $\forall i\in\N: 1(00)^i1 \in L$
+  \end{itemize}
+\end{Bsp*}
 
 \begin{lemma}[Pumping Lemma]\label{lem:pumping}
 	Sei $L$ regulär:
@@ -601,25 +595,43 @@ Suche: Notwendiges Kriterium für Regularität
 \end{proof}
 %
 \begin{Bsp*}
-	$L=\{0^n1^n \mid n\in\N\}$ ist nicht regulär.\\
+	$L=\{0^n10^n \mid n\in\N\}$ ist nicht regulär.\\
 	Sei $n$ die Konstante aus dem \ac{PL}.
 	
-	Wähle $z=0^n1^n \quad |z|=2n\geq n$\\
+	Wähle $z=0^n10^n$. Also $|z|=2n+1\geq n$\\
 	Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N$ $uv^iw \in L$. Nach Wahl von $z$ gilt nun
-	{\setlength\belowdisplayskip{0pt}
-	\begin{alignat*}{2}
-		uv &= 0^m &\quad m&\leq n\\
-		v &= 0^k & k&\geq 1\\
-		\text{Betr. } uv^2w &= 0^{n+k}1^n \notin L\\
-		\=> L\text{ nicht regulär}
-	\end{alignat*}
+  \begin{itemize}
+  \item $uv = 0^m$ mit $m\leq n$
+  \item $v = 0^k$ mit $k\geq 1$
+  \item $w = 0^{n-m}10^n$ 
+  \end{itemize}
+  Betrachte $uv^2w = 0^{m+k}0^k0^{n-m}10^n = 0^{n+k}10^n \notin L$.
+  Also ist $L$ nicht regulär.
+  Zur Illustration:
 	\begin{gather*}
 		\underbrace{0\ \dots\dots\ 0}_{n} \ \underbrace{1\ \dots\dots\ 1}_{n}\\
 		|\!\ruleplaceholder[u]{\widthof{0\ \dots }} \!|\! \ruleplaceholder[v]{\widthof{\dots 0}}\!|% 
 		\ruleplaceholder[w]{\widthof{\ \ \ $1\ \dots\dots\ 1$}}\!|
 	\end{gather*}
-	}
+  
 \end{Bsp*}
+\begin{Bsp*}
+	$L=\{0^{x^2} \mid x\in\N\}$ ist nicht regulär.\\
+	Sei $n$ die Konstante aus dem \ac{PL}.
+	
+	Wähle $z=0^{n^2}$. Also $|z|=n^2\geq n$\\
+	Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N$ $uv^iw \in L$. Nach Wahl von $z$ gilt nun
+  \begin{itemize}
+  \item $uv = 0^m$ mit $m\leq n$
+  \item $v = 0^k$ mit $k\geq 1$
+  \item $w = 0^{n^2 - m}$ mit $k\geq 1$
+  \end{itemize}
+  Betrachte $uv^2w = 0^{m+k}0^k0^{n^2-m} = 0^{n^2+k}$.
+  Da $n^2+k$ keine Quadratzahl sein kann ist $uv^2w \not \in L$, und somit ist $L$ nicht regulär.
+  Begründung: betrachte $(n+1)^2 - n^2 = n^2 + 2n + 1 - n^2 = 2n + 1$.
+  Aber $k \le m \le n \le 2n + 1$.
+\end{Bsp*}
+
 \begin{Bsp*}
 $L_2 = \{0^p \mid p\text{ ist Primzahl}\}$ ist nicht regulär.
 
@@ -635,7 +647,7 @@ Wähle $z=0^p \in L_2$
 \end{align*}
 \end{Bsp*}
 
-\subsection[\acf{NEA}]{\acf{NEA}\datenote{25.11.15}}
+\subsection[\acf{NEA}]{\acf{NEA}\draftnote{2.11.16}}
 \begin{Bsp*} Mustererkennung\\
 	kommt $\underset{\text{konsistent}}{\text{\underline{ein String}}}$ in einem anderen vor?
 	
@@ -923,7 +935,6 @@ Also: Eine Sprache $L$ ist regulär, falls
 	\item Komplement: Ang. $\A_1$ ist \ac{DFA}.\\
 		Ersetze $F_1$ durch $Q_1\setminus F_1$.
 %
-\datenote{27.11.15}
 %
 	\item Produkt: Seien $L_1$, $L_2$ regulär.\\
 		Zeige $L_1\cdot L_2$ regulär.
@@ -955,6 +966,7 @@ Also: Eine Sprache $L$ ist regulär, falls
 \end{proof}
 %
 \subsection{Reguläre Ausdrücke}
+\draftnote{4.11.16}
 \begin{Def}[name={[RE($\Sigma$)]}]
 	Die Menge $RE(\Sigma)$ der \emph{regulären Ausdrücke über $\Sigma$} ist induktiv definiert durch:
 	\begin{itemize}
@@ -1126,7 +1138,6 @@ $L$ ist regulär\\
 	\end{alignat*}
 \end{proof}
 
-\datenote{02.12.15}
 \begin{Bsp*} für Konv. \ac{DFA}\-> $RE$
 	\begin{figure}[H]\centering
 		\begin{tikzpicture}[>=stealth, shorten >=1pt, on grid, node distance=2cm, initial text=]
@@ -1265,7 +1276,6 @@ $L$ ist regulär\\
 \end{proof}
 
 
-\datenote{04.12.15}
 Anwendungsbeispiel f"ur regul"are Sprachen.
 
 $N$ -- liest vom Netz\\
