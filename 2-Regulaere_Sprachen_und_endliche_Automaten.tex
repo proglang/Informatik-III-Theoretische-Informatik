@@ -239,7 +239,7 @@ Es folgen zwei Beispiele für reguläre Sprachen:
 	\begin{proof}
 		Angenommen $L=L(M)$ für \ac{DEA} $M=(Q,\Sigma,q_0,\delta,F)$
 		
-		Beobachtung: $\exists m\neq n$, sodass $\hat\delta(q_0,0^m)=\hat\delta(q_0,0^n)=q'$ weil $Q$ endlich.
+		Beobachtung: $\exists m\neq n$, so dass $\hat\delta(q_0,0^m)=\hat\delta(q_0,0^n)=q'$ weil $Q$ endlich.
 		\begin{itemize}
 			\item Falls nun $\hat\delta(q',1^m)\in F$, dann ist auch $\hat\delta(q_0,0^n1^m)\in F$ und somit $0^n1^m\in L(M)$ mit $n\neq m\ \lightning$
 			\item Falls $\hat\delta(q',1^m)\notin F$, dann gilt auch $\hat\delta(q_0,0^m1^m)\notin F$ und somit $0^m1^m \notin L$ $\lightning$
