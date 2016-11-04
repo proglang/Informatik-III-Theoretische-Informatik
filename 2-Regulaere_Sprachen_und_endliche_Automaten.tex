@@ -430,6 +430,7 @@ Warum ist nun der Äquivalenzklassenautomat minimal?\\
 \end{Def}
 %\setcounter{Bsp}{5}
 \begin{Bsp} %\rlnote{Bsp.-Num. überprüfen (3.6)}
+  \label{Bsp:R_m}
 	Für einen \ac{DEA} $M$ definiere
 	\[ R_M = \{(u,v) \mid \hat\delta(q_0,u)=\hat\delta(q_0,v)\} \]
 	\begin{itemize}
@@ -471,30 +472,49 @@ Warum ist nun der Äquivalenzklassenautomat minimal?\\
 	Die folgende Aussagen sind äquivalent:
 	\begin{enumerate}
 		\item\label{itm:Nerode1} $L\subseteq \Sigma^*$ wird von \ac{DEA} akzeptiert.
-		\item\label{itm:Nerode2} $L$ ist Vereinigung von Äquivalenzklassen einer rechtsinvarianten Äquivalenzrel. mit \emph{endlichem} Index.
+		\item\label{itm:Nerode2} $L$ ist Vereinigung von Äquivalenzklassen einer rechtsinvarianten Äquivalenzrelation mit \emph{endlichem} Index.
 		\item\label{itm:Nerode3} Die Nerode Relation $R_L$ hat \emph{endlichen} Index
 	\end{enumerate}
 \end{Satz}
 
+\draftnote{2.11.16}
 \begin{proof}
-	(1) \=> (2): Sei $M$ ein \ac{DEA} mit $L(M)=\{w \mid \hat\delta(q_0,w)\in F \} = \bigcup\limits_{q\in F}[q]_M$
-	wenn $[q]_M =\{ w \mid \hat\delta(q_0,w)=q \}$\\
-	Äquivalenzklassen und \#Klassen$\leq|Q|$ endl.
-	
-	(2) \=> (3): Sei $R$ rechtsinv. Äquivrel. mit endl. Index sodass $L=\bigcup R$-Äquivalenzklassen
-	
-	Sei $(u,v)\in R$. Zeige $(u,v)\in R_L $.\\
-	Wegen $R$ rechtsinv. $\forall w\in\Sigma^*\ (uw,vw)\in R$
-	\begin{alignat*}{2}
-		&&&\forall w\in\Sigma^*: (uw,vw)\in R\\
-		&\<=>&\quad&\forall w\in\Sigma^*\quad uw\text{ und $vw$ in gleicher $R$-Klasse}\\
-		&\=>&&\forall w\in\Sigma^* \quad uw\in L\<=>vw\in L\\
-		&\<=>&& (u,v)\in R_L\\
-		&\=>&&\text{\#Klassen($R_L$)$\leq$\#Klassen($R$)}<\infty
-	\end{alignat*}
+  Wir beweisen die gegenseitige Äquivalenz in drei Schritten:
 
+  \begin{center}
+    (1) \=> (2) \quad \mbox{(2) \=> (3)} \quad (3) \=> (1)
+  \end{center}
 
-    (3) \=> (1) Gegeben $R_L$\\
+	\paragraph{(1) \=> (2)}: Sei $M$ ein \ac{DEA} mit
+  \begin{displaymath}
+    L(M)=\{w \mid \hat\delta(q_0,w)\in F \} = \bigcup_{q \in F} \{ w \mid \hat\delta(q_0,w) = q\}
+\end{displaymath}
+
+Nun sind $\{ w \mid \hat\delta(q_0,w)=q \} = [q]_M$ genau die Äquivalenzklassen von $R_M$ aus Bsp \ref{Bsp:R_m}, einer rechtsinvarianten Äquivalenzrelation.
+Der Index ist die Anzahl der erreichbaren Zustände.
+
+Also: $\operatorname{Index}(R_M) \le |Q| < \infty$.
+	
+\paragraph{(2) \=> (3)} Sei $R$ rechtsinvariante Äquivalenzrelation mit endlichem Index, so dass $L=\bigcup R$-Äquivalenzklassen
+	
+Es genügt zu zeigen, dass wenn $(u,v)\in R$ auch $(u,v)\in R_L $.\footnote{
+Zur Erklärung: falls $R \subseteq R'$, dann $\operatorname{Index}(R) \ge \operatorname{Index}(R_L)$.
+Intuitiv: $R$ unterscheidet mehr Elemente und hat demnach auch mehr unterschiedliche Klassen.}
+
+\begin{itemize}
+\item[] $R$ rechtsinvariant
+\item[gdw] für alle  $w\in\Sigma^*$ : $(uw,vw)\in R$ 
+\item[gdw] für alle $w\in\Sigma^*$: $uw\text{ und $vw$ in gleicher $R$-Klasse}$
+\end{itemize}
+Da $L$ aus der Vereinigung von $R$-Klassen besteht folgt daraus:
+\begin{itemize}
+  \item[] für alle $w\in\Sigma^*$: $uw\in L\<=>vw\in L$
+  \item[gdw] $(u, v) \in R_L$ (per Definition von $R_L$)
+\end{itemize}
+
+Also gilt: $\text{\#Klassen($R_L$)$\leq$\#Klassen($R$)}<\infty$
+
+\paragraph{(3) \=> (1)} Gegeben $R_L$\\
 		Konstruiere $\A'=(Q,\Sigma,\delta',q_0',F')$
 		\begin{alignat*}{3}
 			&&Q' &= \{ [w]_{R_L} \mid w\in \Sigma^* \} &\quad& \text{endlich, weil index($R_L$) endl.}\\
@@ -657,7 +677,7 @@ Wähle $z=0^p \in L_2$
 \end{align*}
 \end{Bsp*}
 
-\subsection[\acf{NEA}]{\acf{NEA}\draftnote{2.11.16}}
+\subsection[\acf{NEA}]{\acf{NEA}\draftnote{2.11.16} (Vortsetzung)}
 \begin{Bsp*} Mustererkennung\\
 	kommt ein String (konsistent) in einem anderen vor?
 	
@@ -823,6 +843,7 @@ Wähle $z=0^p \in L_2$
 \begin{Satz}[Rabin]
 	Zu jedem \ac{NFA} $\A$ mit $n$ Zuständen gibt es einen \ac{DFA} $\A'$ mit $2^n$ Zuständen, so dass $L(\A)=L(\A')$.
 \end{Satz}
+\draftnote{4.11.16}
 \begin{proof}[Potenzmengenkonstruktion]
 	Definiere $\A'$ durch
 	\begin{align*}
