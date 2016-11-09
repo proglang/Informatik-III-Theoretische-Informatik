@@ -477,7 +477,7 @@ Warum ist nun der Äquivalenzklassenautomat minimal?\\
 	\end{enumerate}
 \end{Satz}
 
-\draftnote{2.11.16}
+\datenote{2.11.16}
 \begin{proof}
   Wir beweisen die gegenseitige Äquivalenz in drei Schritten:
 
@@ -516,29 +516,40 @@ Also gilt: $\text{\#Klassen($R_L$)$\leq$\#Klassen($R$)}<\infty$
 
 \paragraph{(3) \=> (1)} Gegeben $R_L$\\
 		Konstruiere $\A'=(Q,\Sigma,\delta',q_0',F')$
-		\begin{alignat*}{3}
-			&&Q' &= \{ [w]_{R_L} \mid w\in \Sigma^* \} &\quad& \text{endlich, weil index($R_L$) endl.}\\
-			&&\delta'([w],a) &= [wa] && \text{wohldefiniert, da $R_L$ rechtsinvariant}\\
-			&&q_0' &= [\Eps]\\
-			&&F' &= \{ [w] \mid w\in L \}\\
-			\shortintertext{Zeige $L(\A')=L$, d.h. }
-			&\forall w\in \Sigma^* &: w\in L(\A') &\<=> \hat\delta([\Eps],w)\in F'\\
-			&&&\overset{???}{\<=>} [w]\in F' \\
-			&&&\<=> w\in L
-		\end{alignat*}
-		Zeige nun noch, dass $???$ gilt: $\hat\delta([\Eps], w) = [w]$. 
+    \begin{itemize}
+    \item $Q' = \{ [w]_{R_L} \mid w\in \Sigma^* \}$ \quad endlich, weil index($R_L$) endlich
+    \item $\delta'([w],a) = [wa]$ wohldefiniert, da $R_L$ rechtsinvariant
+    \item $q_0' = [\Eps]$
+    \item $F' = \{ [w] \mid w\in L \}$
+    \end{itemize}
+    Zeige $L(\A')=L$, d.h.
+    \begin{enumerate}
+    \item \label{eq:nerode 3->1.1} $\forall w\in \Sigma^* : w\in L(\A')$ gdw $\hat\delta([\Eps],w)\in F'$
+    \item \label{eq:nerode 3->1.2} $w\in L$ gdw $[w]\in F'$ 
+    \end{enumerate}
+    
+    Um zu zeigen, dass \ref{eq:nerode 3->1.1} gdw \ref{eq:nerode 3->1.2} genügt zu zeigen, dass $\hat\delta([\Eps], w) = [w]$.
 		Daf"ur m"ussen wir wie folgt verallgemeinern um eine funktionierende Induktionsvoraussetzung zu erhalten.
-		\begin{alignat*}{3}
-			&&\forall w\in\Sigma^* &:
-			\forall v\in\Sigma^* : \hat\delta'([v],w) = [v\cdot w]\\
-			\shortintertext{Induktion über $w$}
-			&\text{I.A.: }& \Eps &: \hat\delta'([v],\Eps) = [v]=[v\cdot\Eps]\\
-			&\text{I.S.: }& \hat\delta'([v],aw') &= \hat\delta'(\delta'([v],a),w')\\
-			&&&= \hat\delta'([v\cdot a],w')\\
-			&&&\overset{\mathrlap{\text{I.V.}}}{=} [va\cdot w']\\
-			&&&= [v\cdot \underbrace{aw'}_{=w}]
-		\end{alignat*}
-		Das gewünschte Ergebnis \framebox{???} ergibt sich für $v=\Eps$. \qedhere
+    \begin{displaymath}
+      \forall w\in\Sigma^* :
+			\forall v\in\Sigma^* : \hat\delta'([v],w) = [v\cdot w]
+    \end{displaymath}
+    Induktion über $w$:
+    \begin{description}
+    \item[IA] $(w = \Eps)$: $\hat\delta'([v],\Eps) = [v]=[v\cdot\Eps]$
+    \item[IV] 
+      $\forall v\in\Sigma^* : \hat\delta'([v],w') = [v\cdot w]$
+    \item [IS] $w = aw'$:
+      \begin{displaymath}
+        \begin{array}{lcl}
+        \hat\delta'([v],aw') &=& \hat\delta'(\delta'([v],a),w') \\
+                             &=& \hat\delta'([v\cdot a],w') \\
+                             &\stackrel{\text{I.V.}}{=}&[va\cdot w'] \\
+                             &=& [v\cdot \underbrace{aw'}_{=w}]
+        \end{array}
+      \end{displaymath}
+    \end{description}
+		Das gewünschte Ergebnis $\hat\delta([\Eps], w) = [w]$ ergibt sich für $v=\Eps$. \qedhere
 \end{proof}
 %
 \setcounter{Korollar}{4}
@@ -546,21 +557,18 @@ Also gilt: $\text{\#Klassen($R_L$)$\leq$\#Klassen($R$)}<\infty$
 	Der im Beweisschritt (3) \=> (1) konstruierte Automat $\A'$ ist minimaler Automat für $L$.
 \end{Korollar}
 \begin{proof}
-	$L$ regulär. Sei $\A$ \emph{beliebiger \ac{DFA} mit $L=L(\A)$}\\
-	$\begin{rcases}
-	\A\text{ induziert }R_\A\text{ mit}\\
-	|Q|\geq\text{index}(R_\A)
-	\end{rcases}$ $\ref{itm:Nerode1} \overset{vgl.}{\<=>} \ref{itm:Nerode2}$
-	
-	In \ref{itm:Nerode2} \=> \ref{itm:Nerode3}: $R_\A\subseteq R_L$,\ index($R_\A$) $\geq$ index($R_L$)\\
+	$L$ regulär. Sei $\A$ \emph{beliebiger} \ac{DEA} mit $L=L(\A)$
+
+	$\A$ induziert $R_\A$ mit $|Q|\geq\text{index}(R_\A)$ (da $\ref{itm:Nerode1} {\<=>} \ref{itm:Nerode2}$)
+
+	In \ref{itm:Nerode2} \=> \ref{itm:Nerode3}: $R_\A\subseteq R_L$,\ index($R_\A$) $\geq$ index($R_L$)
+
 	In \ref{itm:Nerode3} \=> \ref{itm:Nerode1} $A'$ mit $|Q'|=\text{index}(R_L) \leq \text{index}(R_\A)\leq |Q|$
 	
-	Minimalität von $A'$ folgt aus freier Wahl von $\A$
+	Minimalität von $A'$ folgt aus freier Wahl von $\A$: 
+  Angenommen $\exists\,\A$ mit $L=L(\A)$ und $|\A|<|\A'|$.
+  Nach Folgerung gilt aber $|\A'| \leq |\A|$; ein Widerspruch.
 \end{proof}
-
-Angenommen $\exists\,\A$ mit $L=L(\A)$ und $|\A|<|\A'|$\\
-Nach Folgerung gilt aber
-\[ |\A'| \leq |\A|\ \lightning \]
 
 \subsection{\acf{PL} für reguläre Sprachen} %\rlnote{subsection \# (3.3)?}
 \datenote{26.10.16 (Eingeschoben)}
