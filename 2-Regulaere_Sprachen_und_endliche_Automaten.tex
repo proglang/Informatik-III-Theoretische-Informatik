@@ -1005,7 +1005,7 @@ Also: Eine Sprache $L$ ist regulär, falls
 \end{proof}
 %
 \subsection{Reguläre Ausdrücke}
-\draftnote{4.11.16}
+\draftnote{9.11.16}
 \begin{Def}[name={[RE($\Sigma$)]}]
 	Die Menge $RE(\Sigma)$ der \emph{regulären Ausdrücke über $\Sigma$} ist induktiv definiert durch:
 	\begin{itemize}
@@ -1088,9 +1088,9 @@ $+,\cdot ,*$ reguläre Operatoren.\\
 $L$ ist regulär\\
 \<=> $L$ ist Sprache eines regulären Ausdrucks.
 \end{Satz}
-\begin{proof}\
-	\begin{description}[labelwidth=\widthof{\<=},leftmargin=!]
-	\item["`\<="'] Sei $L=\llbracket r \rrbracket$ für $r\in RE(\Sigma)$\\
+
+\begin{proof}[Kleene, $\<=$]
+  Sei $L=\llbracket r \rrbracket$ für $r\in RE(\Sigma)$\\
 		Zeige per Induktion über $r: \forall r\in RE(\Sigma) : \llbracket r \rrbracket$ regulär.
     	\begin{description}[font=\normalfont]
     		\setlength{\abovedisplayskip}{-1em}
@@ -1115,7 +1115,34 @@ $L$ ist regulär\\
     			r^* &:& \llbracket r* \rrbracket &= \llbracket r \rrbracket^* && \ruleplaceholder{\dimen1}
     		\end{alignat*}}
 		\end{description}
-	\item["`\=>"'] Sei $L=L(\A)$ für einen \ac{DFA} $\A=(\underoverbrace{=\{q_0,q_1,\dots,q_n\}}{Q},\Sigma,\delta,q_0,F)$.\\[.5em]
+\end{proof}
+
+Zum Beweis (bzw.\ zur Konstruktion) der Richtung ,,\=>'' benötigen wir eine Rechenregel zum Lösen von Gleichungen zwischen regulären Sprachen und Ausdrücken:
+\begin{lemma}[Ardens Lemma]\label{lem:arden}\ \\
+	Sei $X=A\cdot X+B$ für $\underset{\vphantom{\big(}\ \mathrlap{\hspace{-4pt}\rotatebox[origin=c]{90}{$\Rsh$}\ \text{Unbekannte}}}{X} ,A,B\subseteq \Sigma^*$\\
+	dann ist $X=A^*B$ falls $\Eps\notin A$.
+\end{lemma}
+
+\begin{proof}(Arden's Lemma)
+	\begin{alignat*}{3}
+		\text{Sei}&\quad& X&= AX+B\text{ mit }\Eps\notin A.\\
+		\text{Zeige}&& A^*B&\subseteq X.\\
+		&& A^*B &= (\1+AA^*)B = B+A(A^*B) \quad\checkmark\\
+		\shortintertext{Angenommen $A^*B \subsetneq X$, d.h. $\exists w\in X$ mit $w\notin A^*B$, davon sei $w$ das kürzeste.}
+		\exists n\geq 1: && X &= \underbrace{A^nX}_{\ni w} + \underbrace{A^{n-1}B+\dots +AB+B}_{\not\ni w}\\
+		\curvearrowright && w &= u_1\dots u_n w'\text{ mit } u_1,\dots,u_n\in A\text{ und } w'\in X\\
+		\curvearrowright && |w'| &< |w|\\
+		\text{Falls}&& w'&\in A^*B \curvearrowright w\in A^nA^*B\subseteq A^*B \quad \lightning\\
+		\text{Also} && w'&\notin A^*B \quad\lightning\text{ gegen Minimalität von }w\\
+		\curvearrowright && X&\subseteq A^*B\\
+		\-> && X &= A^*B \tag*{\qedhere}
+	\end{alignat*}
+\end{proof}
+
+\draftnote{11.11.16}
+
+\begin{proof}[Kleene, \=>]
+	 Sei $L=L(\A)$ für einen \ac{DFA} $\A=(\underoverbrace{=\{q_0,q_1,\dots,q_n\}}{Q},\Sigma,\delta,q_0,F)$.\\[.5em]
 		Def. $L_i=\{ w \mid \hat\delta(q_i,w)\in F \}$\quad(Also $L(\A)=L_0$)
 		\begin{alignat*}{2}
 			&\text{Betrachte }\quad & \delta(q_i,a) &=q_j\\
@@ -1132,20 +1159,7 @@ $L$ ist regulär\\
 		Also: $\A$ berechnet die Lösung eines Gleichungssystems
 		\[ L_i=N(q_i) + \sum_j A_{ij}L_j \quad\text{mit }\Eps\notin A_{ij} \]
 		Zur L"osung dieses Gleichungssystems verwenden wir das Lemma von Arden:
-	\end{description}
-\end{proof}
-\begin{lemma}[Arden's Lemma]\label{lem:arden}\ \\
-	Sei $X=A\cdot X+B$ für $\underset{\vphantom{\big(}\ \mathrlap{\hspace{-4pt}\rotatebox[origin=c]{90}{$\Rsh$}\ \text{Unbekannte}}}{X} ,A,B\subseteq \Sigma^*$\\
-	dann ist $X=A^*B$ falls $\Eps\notin A$.
-%	\begin{align*}
-%		&& B &\subseteq X\\
-%		&& B+AB &\subseteq X\\
-%		X&=\Eps\cdot X+B & AAB &\subseteq X\\
-%		&& \forall n : A^nB &\subseteq X
-%	\end{align*}
-\end{lemma}
-\begin{proof}[Fortsetzung]
-    Verfahren zur L"osung des Gleichungssystems:
+
     
 	Eliminiere sukzessive die Gleichung für $L_n$ (bis nur noch eine Gleichung f"ur $L_0$ "ubrig ist)
 	\begin{enumerate}[label=(\arabic*)]
@@ -1160,21 +1174,6 @@ $L$ ist regulär\\
 		Setze rechte Seite für $L_n$ in die Gleichungen $L_0, L_1, \dots, L_{n-1}$ ein. \--> Gleichungssystem der gleichen Form.
 	\end{enumerate}
     Nach $n+1$ Iterationen erhalten wir ein Gleichungssytem der Form $L_0=r$. \hfill$\bigoplus$
-\end{proof}
-\begin{proof}(Arden's Lemma)
-	\begin{alignat*}{3}
-		\text{Sei}&\quad& X&= AX+B\text{ mit }\Eps\notin A.\\
-		\text{Zeige}&& A^*B&\subseteq X.\\
-		&& A^*B &= (\1+AA^*)B = B+A(A^*B) \quad\checkmark\\
-		\shortintertext{Angenommen $A^*B \subsetneq X$, d.h. $\exists w\in X$ mit $w\notin A^*B$, davon sei $w$ das kürzeste.}
-		\exists n\geq 1: && X &= \underbrace{A^nX}_{\ni w} + \underbrace{A^{n-1}B+\dots +AB+B}_{\not\ni w}\\
-		\curvearrowright && w &= u_1\dots u_n w'\text{ mit } u_1,\dots,u_n\in A\text{ und } w'\in X\\
-		\curvearrowright && |w'| &< |w|\\
-		\text{Falls}&& w'&\in A^*B \curvearrowright w\in A^nA^*B\subseteq A^*B \quad \lightning\\
-		\text{Also} && w'&\notin A^*B \quad\lightning\text{ gegen Minimalität von }w\\
-		\curvearrowright && X&\subseteq A^*B\\
-		\-> && X &= A^*B \tag*{\qedhere}
-	\end{alignat*}
 \end{proof}
 
 \begin{Bsp*} für Konv. \ac{DFA}\-> $RE$
