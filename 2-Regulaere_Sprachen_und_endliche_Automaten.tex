@@ -1123,7 +1123,7 @@ Zum Beweis (bzw.\ zur Konstruktion) der Richtung ,,\=>'' benötigen wir eine Rec
 	dann ist $X=A^*B$ falls $\Eps\notin A$.
 \end{lemma}
 
-\begin{proof}(Arden's Lemma)
+\begin{proof}(Ardens Lemma)
 	\begin{alignat*}{3}
 		\text{Sei}&\quad& X&= AX+B\text{ mit }\Eps\notin A.\\
 		\text{Zeige}&& A^*B&\subseteq X.\\
@@ -1139,42 +1139,72 @@ Zum Beweis (bzw.\ zur Konstruktion) der Richtung ,,\=>'' benötigen wir eine Rec
 	\end{alignat*}
 \end{proof}
 
-\draftnote{11.11.16}
+\datenote{11.11.16}
 
 \begin{proof}[Kleene, \=>]
-	 Sei $L=L(\A)$ für einen \ac{DFA} $\A=(\underoverbrace{=\{q_0,q_1,\dots,q_n\}}{Q},\Sigma,\delta,q_0,F)$.\\[.5em]
-		Def. $L_i=\{ w \mid \hat\delta(q_i,w)\in F \}$\quad(Also $L(\A)=L_0$)
-		\begin{alignat*}{2}
-			&\text{Betrachte }\quad & \delta(q_i,a) &=q_j\\
-			&\quad\curvearrowright & L_i &\supseteq a_i\cdot L_j\\
-			&\text{Betrachte} &  & \text{alle Transitionen ab }q_i \\
-			&\quad\curvearrowright & L_i &= N(q_i)+\sum_{0 \le j \le n} A_{ij}\cdot L_j\\
-			&& A_{ij} &= \sum_{a \in \Sigma, \delta(q_i,a) = q_j} a \\
-			&& N(q_i) &= 
-				\begin{cases}
-					\1 &, q_i\in F\\
-					\0 &, q_i\notin F
-				\end{cases}
-		\end{alignat*}
-		Also: $\A$ berechnet die Lösung eines Gleichungssystems
-		\[ L_i=N(q_i) + \sum_j A_{ij}L_j \quad\text{mit }\Eps\notin A_{ij} \]
-		Zur L"osung dieses Gleichungssystems verwenden wir das Lemma von Arden:
+  Sei $L=L(\A)$ für einen \ac{DEA} $\A=({Q},\Sigma,\delta,q_0,F)$ mit $Q = \{q_0,q_1,\dots,q_n\}$.
+	Definiere $L_i=\{ w \mid \hat\delta(q_i,w)\in F \}$ als die Sprache der Worte, die von Zustand $q_i$ aus in einen akzeptierenden Zustand führen.
+  Insbesondere gilt $L_0 = L$.
 
+  Wir leiten nun ein lineares Gleichungssystem zwischen den Sprachen $L_i$ her.
+  Zunächst teilen wir $Li$ in den Teil der (potentiell) das leere Wort enthält und den, der die nicht-leeren Wörter enthält.
+  \begin{align*}
+    L_i & =  \{ w \mid \hat\delta(q_i,w)\in F \} \\
+        & =  \{ \Eps \mid \hat\delta(q_i, \Eps) \in F \} \cup \{a w' \mid a \in \Sigma, w' \in \Sigma^*, \hat\delta(\delta(q_i, a), w') \in F\} \\
+        & =  \{ \Eps \mid q_i \in F \} \cup \{a w' \mid a \in \Sigma, w' \in \Sigma^*, \hat\delta(\delta(q_i, a), w') \in F\}
+    \end{align*}
+    Die nicht-leeren Wörter hängen von den Sprachen der Folgezustände ab:
+    \begin{align*}
+      \{a w' \mid a \in \Sigma, w' \in \Sigma^*, \hat\delta(\delta(q_i, a), w') \in F\} & =
+         \bigcup_{a \in \Sigma} \{a\} \{w' \mid a \in \Sigma, w' \in \Sigma^*, \hat\delta(\delta(q_i, a), w') \in F\}
+      \\
+      & = \bigcup_{a \in \Sigma} \{a\} (L_j \text{ wobei  $q_j = \delta(q_i, a)$}) 
+    \end{align*}
+    Anstatt die Vereinigung über die Transitionen $a$ und Folgezustandssprachen $L_j$ zu bilden, lassen sich die nicht-leeren Worte von $L_i$ auch als Vereinigung über aller Zustände mit entsprechend gewählten \emph{Koeffizienten} formulieren; die Zustände die keine Folgezustände sind, habe den Koeffizienten $\emptyset$.
+    \begin{align*}
+      \bigcup_{a \in \Sigma} \{a\} (L_j \text{ wobei  $q_j = \delta(q_i, a)$}) & = \bigcup_{j = 0}^{n} \underbrace{\{a \mid a \in \Sigma, \delta(q_i, a) = q_j\}}_{A_{ij} \not \ni \Eps} L_j
+    \end{align*}
+    Man beachte das die Koeffizienten $A_{ij}$ nie das leere Wort enthalten.
+    Nach diesen Überlegungen ergibt sich also für die Sprachen $L_i$ das lineare Gleichungssystem
+    \begin{displaymath}
+      L_i = \{ \Eps \mid q_i \in F \} \cup \bigcup_{j = 0}^{n} \underbrace{\{a \mid a \in \Sigma, \delta(q_i, a) = q_j\}}_{A_{ij} \not \ni \Eps} L_j
+    \end{displaymath}
+    Diese Gleichungen lassen sich analog als Gleichungen von regulären Ausdrücken $r_i$ formulieren:
+    \begin{align*}
+      r_i &= N(q_i) + \sum_{j = 0}^n R_{ij} r_j
+    \end{align*}
+    wobei $\llbracket r_i \rrbracket = L_i$ und $R_{ij } = \sum \{a \mid a \in \Sigma, \delta(q_i, a) = q_j\}$ mit $\Eps \not \in \llbracket R_{ij} \rrbracket$ und
+    \begin{displaymath}
+      N(q_i) =
+      \begin{cases}
+        \1 & q_i\in F\\
+        \0 & q_i\notin F
+      \end{cases}
+    \end{displaymath}
+    Dieses Gleichungssystem lässt sich, wie lineare Gleichungssysteme in der Arithmetik, mit dem \emph{Substituitionsverfahren} lösen (,,auflösen nach einer Variablen und einsetzen'').
+    Dazu werden Ardens Lemma und weitere Rechenregeln für Sprachen, wie Distributivität, verwendet.
+    Wir beginnen mit Gleichung $r_n$:
+    \begin{align*}
+      r_n &= N(q_n) + \sum_{j = 0}^n R_{nj} r_j \\
+          &= \underbrace{N(q_n) + \left (\sum_{j = 0}^{n-1} R_{nj} r_j \right)}_{r_B} + \underbrace{R_{nn}}_{r_A} r_n
+    \end{align*}
+    Wie oben angedeutet ist nach dem Herausziehen des $n$ten Summenglieds Ardens Lemma anwendbar (merke, $\Eps \not \in \llbracket R_{nn} \rrbracket$), und wir setzen:
+    \begin{displaymath}
+      r_n := R_{nn}^*\left(N(q_n) + \sum_{j = 0}^{n-1} R_{nj} r_j  \right)
+    \end{displaymath}
+    Dieses Ergebnis in $r_0,\ldots,r_{n-1}$ eingesetzt ergibt:
+    \begin{align*}
+      r_i &= N(q_i) + \left (\sum_{j = 0}^{n-1} R_{nj} r_j \right) + R_{in}R_{nn}^*\left(N(q_n) + \sum_{j = 0}^{n-1} R_{nj} r_j  \right) \\
+      \intertext{(Ausmultiplizieren von $R_{in}R_{nn}^*$)}
+          &= N(q_i) + \left (\sum_{j = 0}^{n-1} R_{nj} r_j \right) + R_{in}R_{nn}^*N(q_n) + \sum_{j = 0}^{n-1} R_{in}R_{nn}^*R_{nj} r_j  \\
+      \intertext{(Zusammenlegen der Summen und Ausklammern von $r_j$)}
+          &= N(q_i) + R_{in}R_{nn}^*N(q_n) + \sum_{j = 0}^{n-1} (R_{nj} + R_{in}R_{nn}^*R_{nj}) r_j  \\
+    \end{align*}
+  Nach diesen Umformungen ergeben sich $\Eps$-freie Koeffizienten $R_{nj} + R_{in}R_{nn}^*R_{nj}$ für $r_j$ und wir mit dem Auflösen von $n-1$ analog zu $n$ fortfahren.
+  Am Ende erhalten wir einen regulären Ausdruck als Lösung für $r_0$.
+  Per Konstruktion haben wir immer noch $\llbracket r_0 \rrbracket = L_0 = L$.
+  \end{proof}
     
-	Eliminiere sukzessive die Gleichung für $L_n$ (bis nur noch eine Gleichung f"ur $L_0$ "ubrig ist)
-	\begin{enumerate}[label=(\arabic*)]
-		\item Falls Gleichung für $L_n$ rekursiv
-			\begin{align*}
-				\text{dann hat sie die Form}:\quad L_n &= \underbrace{\Big( N(q_n)+\sum_{j\neq n} A_{nj}\cdot L_j \Big)}_{=: B} + \underbrace{A_{nn}}_{=: A \not\ni \Eps}\cdot L_n\\
-				\text{Nach Ardens Lemma}:\quad L_n &= A_{nn}^*\cdot \Big( N(q_n)+\sum_{j\neq n} \underbrace{A_{nj}}_{\not\ni\Eps} \cdot L_j \Big)\\
-				&= A_{nn}^*\cdot N(q_n) + \sum_{j\neq n} \underbrace{A_{nn}^*\cdot A_{nj}}_{\not\ni\Eps} \cdot L_j
-			\end{align*}
-			Gleichungssystem der gleichen Form: linear in den $L_j$ mit Koeffizienten, die nicht $\Eps$ enthalten.
-		\item Gleichung für $L_n$ nicht rekursiv:\\
-		Setze rechte Seite für $L_n$ in die Gleichungen $L_0, L_1, \dots, L_{n-1}$ ein. \--> Gleichungssystem der gleichen Form.
-	\end{enumerate}
-    Nach $n+1$ Iterationen erhalten wir ein Gleichungssytem der Form $L_0=r$. \hfill$\bigoplus$
-\end{proof}
 
 \begin{Bsp*} für Konv. \ac{DFA}\-> $RE$
 	\begin{figure}[H]\centering
@@ -1212,6 +1242,8 @@ Zum Beweis (bzw.\ zur Konstruktion) der Richtung ,,\=>'' benötigen wir eine Rec
 	\end{align*}
 \end{Bsp*}
 %
+
+\draftnote{11.11.16}
 \subsection{Entscheidungsprobleme}
 \begin{Satz}[name={[Wortproblem]}]\label{satz:wortproblem}
 	Das Wortproblem ist für reguläre Sprachen entscheidbar.
