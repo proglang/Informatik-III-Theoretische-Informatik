@@ -128,7 +128,7 @@ Die Transistionsfunktion $\delta$ ist
 % 	\end{tabular}
 % \end{Bsp}
 \begin{Def}[\acs*{DEA}]
-	Ein \emph{\acf{DEA}}, (\acsu{DFA} $\hat=$ \acl{DFA}) ist ein 5-Tupel
+	Ein \emph{\acf{DEA}}, (\acsu{DEA} $\hat=$ \acl{DEA}) ist ein 5-Tupel
 	\[ M= (Q,\Sigma,\delta,q_0,F) \]
 	\begin{itemize}
 		\item $Q$ \emph{endliche} Zustandsmenge
@@ -330,8 +330,8 @@ Sei für die folgenden Überlegungen $M = (Q, \Sigma, \delta, q_0, F)$ ein DEA.
 %
 %\stepcounter{Def}
 %
-\begin{Def}[name={[Äquivalenz von \acs*{DFA}-Zuständen]}] %\rlnote{Def.-Num. überprüfen}
-	Zwei Zustände $q,p\in Q$ eines \ac{DFA} sind \emph{äquivalent}, geschrieben $p\equiv q$, falls $\forall w\in\Sigma^*$, $\hat\delta(p,w)\in F \<=> \hat\delta(q,w)\in F$
+\begin{Def}[name={[Äquivalenz von \acs*{DEA}-Zuständen]}] %\rlnote{Def.-Num. überprüfen}
+	Zwei Zustände $q,p\in Q$ eines \ac{DEA} sind \emph{äquivalent}, geschrieben $p\equiv q$, falls $\forall w\in\Sigma^*$, $\hat\delta(p,w)\in F \<=> \hat\delta(q,w)\in F$
 \end{Def}
 %\stepcounter{lemma}
 
@@ -610,7 +610,7 @@ Suche: Notwendiges Kriterium für Regularität
 \end{lemma}
 \vspace{-1em}
 \begin{proof}
-	Sei $\A=(Q,\Sigma,\delta,q_0,F)$ ein \ac{DFA} für $L$.\\
+	Sei $\A=(Q,\Sigma,\delta,q_0,F)$ ein \ac{DEA} für $L$.\\
 	Wähle $n=|Q|$ und $z\in L$ mit $|z|\geq n$.
 	
 	Beim Erkunden von $z$ durchläuft $\A\ \underbrace{|z|+1}_{\geq n+1}$ Zustände.\\
@@ -722,10 +722,10 @@ Wähle $z=0^p \in L_2$
 				(q4) edge [loop right]    node [auto]  {$\Sigma$} ()
 			;
 		\end{tikzpicture}
-	\caption{DFA für $L$}
+	\caption{DEA für $L$}
 	\label{fig:dfa-teilwort}
 	\end{figure}
-	\hyperref[fig:dfa-teilwort]{Abbildung~\ref*{fig:dfa-teilwort}} enthält einen \ac{DFA} für die Sprache $L$. Beobachtung: nicht-trivial zu konstruieren.
+	\hyperref[fig:dfa-teilwort]{Abbildung~\ref*{fig:dfa-teilwort}} enthält einen \ac{DEA} für die Sprache $L$. Beobachtung: nicht-trivial zu konstruieren.
 	\begin{figure}[tp]\centering
 		\begin{tikzpicture}[>=stealth,shorten >=1pt,
 				node distance=2cm,on grid,
@@ -767,11 +767,11 @@ Wähle $z=0^p \in L_2$
 				(q2) edge              node [auto] {$a$} (q3)
 			;
 		\end{tikzpicture}
-	\caption{Potenzmengenkonstruktion auf dem NFA}
+	\caption{Potenzmengenkonstruktion auf dem NEA}
 	\label{fig:nfa-teilwort-powerset}
 	\end{figure}
 	
-	\hyperref[fig:nfa-teilwort-powerset]{Abbildung~\ref{fig:nfa-teilwort-powerset}} zeigt (einen Ausschnitt) aus dem deterministischen Automaten, der schematisch aus dem \acsu{NFA} in \autoref{fig:nfa-teilwort} konstruiert werden kann. Idee: bei Schritt mit Symbol $a$ ist der \ac{NFA} gleichzeitig in allen Zuständen, die durch $a$ von (der Menge der) aktuellen Zustände erreichbar sind.
+	\hyperref[fig:nfa-teilwort-powerset]{Abbildung~\ref{fig:nfa-teilwort-powerset}} zeigt (einen Ausschnitt) aus dem deterministischen Automaten, der schematisch aus dem \acsu{NEA} in \autoref{fig:nfa-teilwort} konstruiert werden kann. Idee: bei Schritt mit Symbol $a$ ist der \ac{NEA} gleichzeitig in allen Zuständen, die durch $a$ von (der Menge der) aktuellen Zustände erreichbar sind.
 	
 	Variante: erkenne \textbf{Subwort} $w=a_1,\dots,a_n$
 	\[ L' = \{ v\in\Sigma^* \mid \exists x_0,\dots,x_n\in\Sigma^*, v=x_0a_1x_1a_2\dots a_nx_n \} \]
@@ -831,7 +831,7 @@ Wähle $z=0^p \in L_2$
 \end{Bsp*}
 
 \begin{Def}[name={[NEA]}]
-	Ein \ac{NEA} (\acsu{NFA} = \acl{NFA}) $\A = (Q,\Sigma,\delta,q_0,F)$ mit
+	Ein \ac{NEA} (\acsu{NEA} = \acl{NEA}) $\A = (Q,\Sigma,\delta,q_0,F)$ mit
 	\begin{itemize}
 		\item $Q$ endliche Zustandsmenge
 		\item $\Sigma$ endl. Alphabet
@@ -845,11 +845,11 @@ Wähle $z=0^p \in L_2$
 	$\forall 1\leq i\leq n,\ q_i\in\delta(q_{i-1},a_i)$\\
 	Ein Lauf heißt \emph{akzeptierend}, falls $q_n\in F$.
 \end{Def}
-\begin{Def}[name={[NFA zu DFA]}]
+\begin{Def}[name={[NEA zu DEA]}]
 	$L(\A)=\{ w\in\Sigma^* \mid \exists\text{ akzeptierender Lauf von $\A$ auf }w \}$
 \end{Def}
 \begin{Satz}[Rabin]
-	Zu jedem \ac{NFA} $\A$ mit $n$ Zuständen gibt es einen \ac{DFA} $\A'$ mit $2^n$ Zuständen, so dass $L(\A)=L(\A')$.
+	Zu jedem \ac{NEA} $\A$ mit $n$ Zuständen gibt es einen \ac{DEA} $\A'$ mit $2^n$ Zuständen, so dass $L(\A)=L(\A')$.
 \end{Satz}
 \draftnote{4.11.16}
 \begin{proof}[Potenzmengenkonstruktion]
@@ -898,9 +898,9 @@ Wähle $z=0^p \in L_2$
 \end{proof}
 Also: Eine Sprache $L$ ist regulär, falls
 \begin{itemize}
-\item $L = L(\A)$ für einen \ac{DFA}\\
+\item $L = L(\A)$ für einen \ac{DEA}\\
 	oder
-\item $L = L(\A)$ für \ac{NFA}
+\item $L = L(\A)$ für \ac{NEA}
 \end{itemize}
 
 \subsection{Abschlusseigenschaften}
@@ -912,7 +912,7 @@ Also: Eine Sprache $L$ ist regulär, falls
 	Die Menge $REG$ der regulären Sprachen ist abgeschlossen unter $\cup$ (Vereinigung), $\cap$ (Durchschnitt), $\overline{\phantom{X}}$ (Komplement), Produkt (Konkatenation), Stern.
 \end{Satz}
 \begin{proof}
-	Sei $\A_i:=(Q_i,\Sigma,\delta_i,q_{0i},F_i)\quad i=1,2$ \acs{NFA}s
+	Sei $\A_i:=(Q_i,\Sigma,\delta_i,q_{0i},F_i)\quad i=1,2$ \acs{NEA}s
 	\begin{itemize}
 	\item $\cup:$ Def $\A$ durch (vgl.\ Abb.~\ref{fig:reg-closure-union})
 		\begin{align*}
@@ -960,10 +960,10 @@ Also: Eine Sprache $L$ ist regulär, falls
                 \draw (2.75,1.5) ellipse (1.75 and 1.35);
                 \node at (5,-1) {$A_2$};
             \end{tikzpicture}
-            \caption{\acs{NFA} f"ur Vereinigung}
+            \caption{\acs{NEA} f"ur Vereinigung}
             \label{fig:reg-closure-union}
         \end{figure}
-		DFA:
+		DEA:
 		\begin{align*}
 			Q &= Q_1\x Q_2\\
 			\delta((q_1,q_2),a) &= (\delta_1(q_1,a),\delta_2(q_2,a))\\
@@ -971,7 +971,7 @@ Also: Eine Sprache $L$ ist regulär, falls
 			F &= F_1\x F_2\\
 			\text{Zeige }L(\A) &= &L(\A_1)\cap L(\A_2)
 		\end{align*}
-	\item Komplement: Ang. $\A_1$ ist \ac{DFA}.\\
+	\item Komplement: Ang. $\A_1$ ist \ac{DEA}.\\
 		Ersetze $F_1$ durch $Q_1\setminus F_1$.
 %
 %
@@ -1105,7 +1105,7 @@ $L$ ist regulär\\
     				\node [state,initial] (a) {}; \node [state,accepting] (b) [right=of a] {};
     				\path [->] (a) edge node [auto] {a} (b);
     			}
-    			 \quad\acs{NFA}
+    			 \quad\acs{NEA}
     		\end{align*}
     		\item[I.S.:]
     		{\settowidth{\dimen1}{reg. nach \autoref{satz:3.8}}
@@ -1206,7 +1206,7 @@ Zum Beweis (bzw.\ zur Konstruktion) der Richtung ,,\=>'' benötigen wir eine Rec
   \end{proof}
     
 
-\begin{Bsp*} für Konv. \ac{DFA}\-> $RE$
+\begin{Bsp*} für Konv. \ac{DEA}\-> $RE$
 	\begin{figure}[H]\centering
 		\begin{tikzpicture}[>=stealth, shorten >=1pt, on grid, node distance=2cm, initial text=]
 			\node[state, initial, accepting] (q0) {$q_0$};
@@ -1221,7 +1221,7 @@ Zum Beweis (bzw.\ zur Konstruktion) der Richtung ,,\=>'' benötigen wir eine Rec
 			         edge[bend left]  node[auto] {0} (q1)
 			;
 		\end{tikzpicture}
-		\caption{\ac{DFA} "`modulo 3"'}
+		\caption{\ac{DEA} "`modulo 3"'}
 	\end{figure}
 	lineares Gleichungssystem mit 3 Unbekannten.
 	\begin{align*}
@@ -1251,8 +1251,8 @@ Zum Beweis (bzw.\ zur Konstruktion) der Richtung ,,\=>'' benötigen wir eine Rec
 	D.h. Falls $L$ reg. Sprache und $w\in\Sigma^*$, dann ex. Algorithmus, der entscheidet, ob $w\in L$.
 \end{Satz}
 \begin{proof}
-	$L$ sei durch \ac{DFA} gegeben.\\
-	Berechnung von $\hat\delta(q_0,w)$ entspricht Durchlauf durch Graph des \ac{DFA} + Test ob erreichter Zustand $\in F$ in Zeit $O(n)\ ,\ n=|w|$.
+	$L$ sei durch \ac{DEA} gegeben.\\
+	Berechnung von $\hat\delta(q_0,w)$ entspricht Durchlauf durch Graph des \ac{DEA} + Test ob erreichter Zustand $\in F$ in Zeit $O(n)\ ,\ n=|w|$.
 \end{proof}
 
 \begin{Satz}[name={[Leerheitsproblem]}]\label{satz:leerheitsproblem}
@@ -1260,7 +1260,7 @@ Zum Beweis (bzw.\ zur Konstruktion) der Richtung ,,\=>'' benötigen wir eine Rec
 	Falls $L$ reg. Sprache, dann existiert ein Algorithmus, der entscheidet, ob $L=\varnothing$.
 \end{Satz}
 \begin{proof}
-	Sei $\A$ \ac{DFA} für $L$.\\
+	Sei $\A$ \ac{DEA} für $L$.\\
 	Setze Tiefensuche auf den Graphen von $\A$ an. Start bei $q_0$.\\
 	Falls die Suche einem akzeptierenden Zustand findet: Nein.\\
 	Ansonsten: Ja: $L=\varnothing$\\
@@ -1278,7 +1278,7 @@ Zum Beweis (bzw.\ zur Konstruktion) der Richtung ,,\=>'' benötigen wir eine Rec
 	
 	[Reicht nicht, liefert nur eine Richtung]
 	
-	Falls $L$ durch \ac{DFA} $\A$ gegeben.
+	Falls $L$ durch \ac{DEA} $\A$ gegeben.
 	
 	\begin{tikzpicture}[>=stealth]
 		\node (q0) {$q_0$};
@@ -1325,7 +1325,7 @@ Zum Beweis (bzw.\ zur Konstruktion) der Richtung ,,\=>'' benötigen wir eine Rec
 
 \begin{Satz}[name={[Äquivalenzproblem]}]\label{satz:äquivalenzproblem}
 	Das \emph{Äquivalenzproblem} ist für REG entscheidbar.\\
-	D.h. gegeben \ac{DFA}s für $L_1$ und $L_2$, $\A_1$ und $\A_2$
+	D.h. gegeben \ac{DEA}s für $L_1$ und $L_2$, $\A_1$ und $\A_2$
 	\[ L_1 = L(\A_1) = L(\A_2) = L_2\ ? \qquad \framebox{Inklusionsproblem}\]
 \end{Satz}
 \vspace{-2em}
