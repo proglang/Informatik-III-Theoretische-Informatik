@@ -1139,6 +1139,18 @@ Zum Beweis (bzw.\ zur Konstruktion) der Richtung ,,\=>'' benötigen wir eine Rec
 	\end{alignat*}
 \end{proof}
 
+\begin{Korollar}
+  Ardens Lemma lässt sich auch für reguläre Ausdrücke formulieren: Seien $r_X,r_A,r_B$ reguläre Ausdrücke mit $\Eps \not \in \llbracket r_A \rrbracket$ für die die folgende Gleichung gilt:
+  \begin{displaymath}
+    \llbracket r_x \rrbracket = \llbracket r_A \cdot r_x + r_B \rrbracket
+  \end{displaymath}
+  Dann ist 
+  \begin{displaymath}
+    r_x := r_A^*r_B
+  \end{displaymath}
+  eine Lösung für $r_x$, die die Gleichung erfüllt.
+\end{Korollar}
+
 \datenote{11.11.16}
 
 \begin{proof}[Kleene, \=>]
