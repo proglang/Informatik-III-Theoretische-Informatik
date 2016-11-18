@@ -49,9 +49,11 @@
 \newcommand*\Q{\mathbb{Q}} % Rational numbers
 \newcommand*\R{\mathbb{R}} % Real numbers
 \newcommand*\C{\mathbb{C}} % Complex numbers
-\DeclareMathAlphabet{\mathbbn}{U}{bbold}{m}{n} % bbold font for numbers.
-\newcommand*{\1}{\mathbbn{1}} % Symbol for identity
-\newcommand*{\0}{\mathbbn{0}} % Symbol for empty element
+%\DeclareMathAlphabet{\mathbbn}{U}{bbold}{m}{n} % bbold font for
+%numbers.
+% \RequirePackage{bbm}
+\newcommand*{\1}{\mathbf{1}} % Symbol for identity
+\newcommand*{\0}{\mathbf{0}} % Symbol for empty element
 
 % == Column types for tables (tabular/array/tabu) ==
 \newcolumntype{M}[1]{>{$}#1<{$}} % Math mode for column, e.g. M{c}
@@ -65,7 +67,7 @@
 \newcommand*\numbereq{\refstepcounter{equation}\tag{\theequation}}
 % Inline numbering (for $math mode$), s: * without \hfill
 \DeclareDocumentCommand\numberinlineeq{s}{
-	\IfBooleanTF#1{}{\hfill}\refstepcounter{equation}(\theequation)%
+        \IfBooleanTF#1{}{\hfill}\refstepcounter{equation}(\theequation)%
 }
 
 % == Equation labeling ==
@@ -103,10 +105,10 @@
 %
 %\AtBeginDocument{%
 %\declaretheoremstyle[
-%	headfont=\scshape,
-%	bodyfont=\normalfont,
-%	headpunct={:\ },
-%	qed=\openbox
+%       headfont=\scshape,
+%       bodyfont=\normalfont,
+%       headpunct={:\ },
+%       qed=\openbox
 %]{proofstyle}
 %\newtheorem*{proof}{\csname proofname\endcsname} % \proofname from babel for babel
 %}
@@ -114,15 +116,15 @@
 % with amsthm
 %\RequirePackage{amsthm,thmtools}
 %\declaretheoremstyle[
-%	headfont=\bfseries,
-%	notefont=\normalfont,
-%	bodyfont=\normalfont,
-%	headpunct={:\ },
-%	qed=\openbox,
-%	spacebelow=
+%       headfont=\bfseries,
+%       notefont=\normalfont,
+%       bodyfont=\normalfont,
+%       headpunct={:\ },
+%       qed=\openbox,
+%       spacebelow=
 %]{proofstyle}
 %\let\proof=\relax
 
 %\AtBeginDocument{%
-%	\declaretheorem[style=proofstyle,name=\proofname,numbered=no]{proof}
+%       \declaretheorem[style=proofstyle,name=\proofname,numbered=no]{proof}
 %}
