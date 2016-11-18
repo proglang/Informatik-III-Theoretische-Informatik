@@ -1,4 +1,5 @@
 \section{Grammatiken und kontextfreie Sprachen}
+\draftnote{18.11.16}
 Wechsel des Standpunkts Spracherkennung \-> Spracherzeugung\\
 Werkzeug: Phasenstrukturgrammatiken\\
 Ansatz: Neben Alphabet gibt es weitere Symbole (Variable) und ein Regelsystem mit dem Worte, die Variable enthalten, geändert werden können.
@@ -74,7 +75,7 @@ Die Chomsky-Hierarchie teilt die Grammatiken in vier Typen unterschiedlicher Mä
 	\item Jede Grammatik ist eine \underline{Typ-0 Grammatik}.
 	\item Eine Grammatik ist \underline{Typ-1} oder \underline{kontextsensitiv}, falls alle Regeln expansiv sind, d.h. $\alpha\->\beta\in P$, dann ist $|\alpha|\leq |\beta|$ mit einer Ausnahme: falls $S$ nicht in einer rechten Regelseite auftritt, dann ist $S\->\epsilon$ erlaubt.
 	\item Eine Grammatik heißt \underline{Typ-2} oder \underline{kontextfrei}, falls alle Regeln die Form $A\->\alpha$ mit $A\in N$ und $\alpha\in(N\cup\Sigma)^*$ haben.
-	\item Eine Grammatik heißt \uline{Typ-3} oder \uline{regulär}, falls alle Regeln die Form
+	\item Eine Grammatik heißt \emph{Typ-3} oder \emph{regulär}, falls alle Regeln die Form
 	\begin{alignat*}{2}
 		\text{Form}\quad &A\->w &\quad w&\in\Sigma^*\\
 		\text{oder}\quad &A\->aB& a&\in\Sigma,\ B\in N
@@ -129,7 +130,6 @@ Es gilt $\mathcal{L}_3 \subsetneq \mathcal{L}_2 \subsetneq\mathcal{L}_1 \subsetn
 	\end{description}
 \end{proof}
 
-\datenote{09.12.15}
 
 \begin{lemma}
 	$\mathcal{L}_3 \subsetneq \mathcal{L}_2$
@@ -165,7 +165,7 @@ Es gilt $\mathcal{L}_3 \subsetneq \mathcal{L}_2 \subsetneq\mathcal{L}_1 \subsetn
 \begin{align*}
 	\mathcal{G}: S &\-> 1S0S \mid 0S1S \mid \epsilon\\
 	L(\mathcal{G}) &\subseteq L \quad \text{klar}\\
-	\uline{\text{Def.:}}\quad d:\Sigma^* &\-> \Z\\
+	\emph{\text{Def.:}}\quad d:\Sigma^* &\-> \Z\\
 	d(\epsilon) &= 0\\
 	d(1w) &= d(w) + 1\\
 	d(0w) &= d(w) - 1\\
@@ -196,7 +196,7 @@ Der Fall $1w$ geht analog.
 %\phantom{Abk.:} \aclu{CFG}: \acs{CFG}
 
 \begin{Def}[name={[Ableitungsbaum]}] Sei $\mathcal{G}$ \ac{CFG}.\\
-	Ein \uline{Ableitungsbaum} zu $w\in L(\mathcal{G})$ ist ein geordneter, markierter Baum $B$.
+	Ein \emph{Ableitungsbaum} zu $w\in L(\mathcal{G})$ ist ein geordneter, markierter Baum $B$.
 	\begin{itemize}
 	\item Die Wurzel von $B$ ist mit $S$ markiert.
 	\item Die inneren Knoten von $B$ sind mit Nichtterminalen markiert.
@@ -237,8 +237,8 @@ Der Fall $1w$ geht analog.
 \end{Bsp}
 \begin{Def}[name={[Eindeutigkeit von \acs*{CFG} und \acs*{CFL}]}]\
 	\begin{itemize}
-	\item $\mathcal{G}\in$ \ac{CFG} heißt \uline{eindeutig}, falls es für jedes Wort $\in L(\mathcal{G})$ genau einen Ableitungsbaum gibt.
-	\item Eine kontextfreie Sprache heißt \uline{eindeutig}, falls $\exists$ eindeutige \ac{CFG} für sie.
+	\item $\mathcal{G}\in$ \ac{CFG} heißt \emph{eindeutig}, falls es für jedes Wort $\in L(\mathcal{G})$ genau einen Ableitungsbaum gibt.
+	\item Eine kontextfreie Sprache heißt \emph{eindeutig}, falls $\exists$ eindeutige \ac{CFG} für sie.
 	\end{itemize}
 \end{Def}
 \begin{Bsp}
@@ -268,7 +268,7 @@ d.h. jede Regel hat die Form
 	A&\-> A_1\dots A_n &\qquad A_i&\in N,n\geq 0\\
 	\text{oder}\quad A &\-> a & a&\in\Sigma
 \end{alignat*}
-\uline{Verfahren:}
+\emph{Verfahren:}
 \begin{itemize}
 \item Erweitere $N$ um neue \acs{NT} $\{Y_a \mid a\in\Sigma\}$
 \item Zusätzliche neue Regeln $Y_a\-> a$
@@ -303,9 +303,9 @@ Zeige noch $M\subseteq \bigcup\limits_{i\in\N} M_i$
 
 Sei $A\in M : A\xRightarrow{*} \epsilon$ mit Ableitungsbaum der Höhe $h+1$, dann: $A\in M_h$
 
-\uline{h=0:} Ableitungsbaum \quad \tikz[baseline=(a.base)]{\Tree [.\node (a) {$A$}; $\epsilon$ ]} \quad $A\->\epsilon \curvearrowright A\in M_0$
+\emph{h=0:} Ableitungsbaum \quad \tikz[baseline=(a.base)]{\Tree [.\node (a) {$A$}; $\epsilon$ ]} \quad $A\->\epsilon \curvearrowright A\in M_0$
 
-\uline{h>0:}
+\emph{h>0:}
 \tikz[baseline=(a.base)]{
     \Tree [.\node (a) {$A$}; [.$A_1$ \edge[roof]; {$\epsilon$} ]
                              [.$A_2$ \edge[roof]; {$\epsilon$} ]
@@ -320,7 +320,6 @@ Nach I.V. $A_j\in M_{h-1}$ und $A \-> A_1\dots A_n \in P$, so dass $ A \in M_h$.
 
 
 %
-\datenote{11.12.15}
 %
 Transformation im \ac{CNF} (Fortsetzung)
 \begin{enumerate}
@@ -503,7 +502,7 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
 				\draw  (v5) edge (v8.north east);
 				\draw  (v1) edge (v6.north west);
 				\draw  (v1) edge (v10.north east);
-				\node[align=left, text height=3em,inner sep=2pt] at (2.1,-1.5) {$A\rightarrow BC$\\[-3pt]\small{ist Binärbaum}} edge[->,shorten >=.1cm] (v3);
+				\node[align=left, text height=3em,inner sep=2pt] at (2.1,-1.5) {$A\rightarrow BC$\small{ist Binärbaum}} edge[->,shorten >=.1cm] (v3);
 				\node[inner sep=0pt] at (2.75,-3.5) {$A\rightarrow a$} edge[->] (v10);
 				\node (v11) at (0,-4) {$z$};
 				\draw[semithick]
@@ -559,7 +558,6 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
 	\end{align*}
 \end{Bsp}
 
-\datenote{18.12.15}
 	$\begin{aligned}[t]
 		S &\-> XY\\
 		X &\-> AB\\
@@ -609,9 +607,9 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
 		\caption[$w=aaa\ bbb\ cc$]{$w=aaa\ bbb\ cc$ \protect\footnotemark}
 		\begin{tabular}[t]{M{c}|*8{M{c}|}}
 		\cline{2-9}
-			M = & A               & \bullet & \bullet & \bullet & \bullet & \color{Green}X & \coloruline{Green}{S} & S       \\
+			M = & A               & \bullet & \bullet & \bullet & \bullet & \color{Green}X & \color{Green}\emph{S} & S       \\
 		\cline{2-9}
-			\multicolumn{2}{c|}{} & \color{Blue}A       & \bullet & \bullet & \color{Red}\coloruline{Blue}{X} & \coloruline{Red}{Z} & \bullet & \bullet \\
+			\multicolumn{2}{c|}{} & \color{Blue}A       & \bullet & \bullet & \color{Red}\color{Blue}{X} & \color{Red}{Z} & \bullet & \bullet \\
 		\cline{3-9}
 			     \multicolumn{3}{c|}{}      & A       & X       & \color{Blue}Z       & \bullet & \bullet & \bullet \\
 		\cline{4-9}
@@ -743,7 +741,6 @@ $.
 \end{proof}
 %\rlerror{Vorlesung 18.12.15 unvollständig (Aufschrieb vorhanden)}
 %
-\datenote{21.12.15}
 \vspace{-.5em}
 %
 %Zuletzt: $\acsu{CFL}\land\acsu{REG}=\ac{REG}$
