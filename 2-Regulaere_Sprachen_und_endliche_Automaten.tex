@@ -1093,27 +1093,29 @@ $L$ ist regulär\\
   Sei $L=\llbracket r \rrbracket$ für $r\in RE(\Sigma)$\\
 		Zeige per Induktion über $r: \forall r\in RE(\Sigma) : \llbracket r \rrbracket$ regulär.
     	\begin{description}[font=\normalfont]
-    		\setlength{\abovedisplayskip}{-1em}
-    		\item[I.A.:]
-    		\begin{align*}
-    			\0 &: \varnothing\text{ ist reg.}\\
-    			\1 &: \{\Eps\}\text{ ist reg.}\\
-    			a &: \{a\} \tikz[>=stealth, shorten >=1pt, initial text=,
+      \item[I.A.:] \hfill
+        \vspace{-\baselineskip}
+        \begin{itemize}
+        \item $r = \0$, $\llbracket r \rrbracket = \emptyset$ ist regulär
+        \item $r = \1$, $\llbracket r \rrbracket = \{ \Eps \}$ ist regulär
+        \item $r = a$, $\llbracket r \rrbracket = \{ a \}$ ist regulär \\
+          (\tikz[>=stealth, shorten >=1pt, initial text=,
     					on grid, baseline=-.6ex,
     					every state/.style={minimum size=0pt,inner sep=0pt}
     				]{
     				\node [state,initial] (a) {}; \node [state,accepting] (b) [right=of a] {};
-    				\path [->] (a) edge node [auto] {a} (b);
+    				\path [->] (a) edge node [auto] {$a$} (b);
     			}
-    			 \quad\acs{NEA}
-    		\end{align*}
-    		\item[I.S.:]
-    		{\settowidth{\dimen1}{reg. nach \autoref{satz:3.8}}
-    		\begin{alignat*}{3}
-    			r+s &:{}& \llbracket r+s \rrbracket &= \llbracket r \rrbracket \cup \llbracket s \rrbracket &\quad &\text{reg. nach \autoref{satz:3.8}}\\
-    			r\cdot s &:& \llbracket r\cdot s \rrbracket &= \llbracket r \rrbracket\cdot \llbracket s \rrbracket && \ruleplaceholder{\dimen1}\\
-    			r^* &:& \llbracket r* \rrbracket &= \llbracket r \rrbracket^* && \ruleplaceholder{\dimen1}
-    		\end{alignat*}}
+    			 \quad\acs{NEA}) 
+        \end{itemize}
+        \item[I.V.:] Für $i \in \{1, 2\}$ gilt: $\llbracket r_i \rrbracket$ ist regulär.
+    		\item[I.S.:] \hfill
+          \vspace{-\baselineskip}
+          \begin{itemize}
+          \item $r = r_1 + r_2$, $\llbracket r \rrbracket = \llbracket r_1 \rrbracket \cup \llbracket r_2 \rrbracket$ ist regulär nach \autoref{satz:3.8}
+          \item $r = r_1 \cdot r_2$, $\llbracket r \rrbracket = \llbracket r_1 \rrbracket \cdot \llbracket r_2 \rrbracket$ ist regulär nach \autoref{satz:3.8}
+          \item $r = r_1^*$, $\llbracket r \rrbracket = \llbracket r_1 \rrbracket^*$ ist regulär nach \autoref{satz:3.8}
+          \end{itemize}
 		\end{description}
 \end{proof}
 
