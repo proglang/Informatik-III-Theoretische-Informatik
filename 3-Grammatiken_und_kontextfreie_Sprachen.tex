@@ -1,59 +1,66 @@
 \section{Grammatiken und kontextfreie Sprachen}
-\draftnote{18.11.16}
-Wechsel des Standpunkts Spracherkennung \-> Spracherzeugung\\
-Werkzeug: Phasenstrukturgrammatiken\\
-Ansatz: Neben Alphabet gibt es weitere Symbole (Variable) und ein Regelsystem mit dem Worte, die Variable enthalten, geändert werden können.
+\datenote{18.11.16}
+Im folgenden Kapitel wechseln wir den Standpunkt von Spracherkennung auf \emph{Spracherzeugung}.
+Das Werkzeug sind hierbei sogenannte \emph{Phasenstrukturgrammatiken}, oder kurz, \emph{Grammatiken}.
+Bei Grammatiken gibt es neben dem Alphabet weitere Symbole, sogenannte \emph{Nichtterminale} oder \emph{Variablen}, und ein Regelsystem mit dem Worte, die Nichtterminale enthalten, geändert werden können.
+\begin{Def}[Chomsky]
+	Eine \emph{Grammatik} ist ein 4-Tupel $(N,\Sigma,P,S)$
+	\begin{itemize}
+	\item $N$ ist eine endliche Menge von \emph{Nichtterminalsymbolen}.
+	\item $\Sigma$ ist ein Alphabet von \emph{Terminalsymbolen} (Variablen).
+	\item $P\subset (N\cup\Sigma)^*N(N\cup\Sigma)^* \x (N\cup\Sigma)^*$ ist endliche Menge von Regeln, sogenannte \emph{Produktionen}.
+	\item $S\in N$ ist das \emph{Startsymbol}.
+	\end{itemize}
+\end{Def}
 \begin{Bsp}
+  $\mathcal{G} = (N, \Sigma, P, E)$ mit
 	\begin{align*}
-		\Sigma &= \{ a,(,),*,+ \}\\
+		\Sigma &= \{ \mathtt{a},\mathtt{(},\mathtt{)},\mathtt{*},\mathtt{+} \}\\
 		N &= \{E\}\\
-		\shortintertext{Regeln:}
-		\{\ E &\-> a,\\
-		E &\-> (E*E),\\
-		E &\-> (E+E)\\
-		\}\ \phantom{ E }\\
-		\shortintertext{Startsymbol $E$}
+		P &= \begin{aligned}[t]
+      \{ E &\-> a,\\
+      E &\-> (E*E),\\
+      E &\-> (E+E) \}
+        \end{aligned}
+	\end{align*}
+\end{Bsp}
+  $G$ erzeugt geklammerte arithmetische Ausdrücke über der Konstante $\mathtt{a}$, wie zum Beispiel das Wort $\mathtt{(a*(a+a))}$.
+  Eine Grammatik erzeugt Worte durch \emph{Ableitungen}, die wir im Folgenden definieren.
+\begin{Def}[Ableitungsrelation, Ableitung, Sprache einer Grammatik][name={[Ableitungsrelation]}]
+  Sei $\mathcal{G} =(N,\Sigma,P,S)$ eine Grammatik.
+
+	Die \emph{Ableitungsrelation} zu $\mathcal{G}$ ist 
+  \begin{displaymath}
+    \cdot \==>_\mathcal{G} \cdot \subseteq (N\cup\Sigma)^*\x(N\cup\Sigma)^*
+  \end{displaymath}
+  mit $\alpha \==>_\mathcal{G} \beta$ gdw 
+  \begin{itemize}
+  \item $\alpha = \gamma_1\alpha'\gamma_2$,
+  \item $\beta = \gamma_1\beta'\gamma_2$ und
+  \item $\alpha' \to \beta' \in P$
+  \end{itemize}
+
+  Eine Folge $\alpha = \alpha_0,\ldots,\alpha_n = \beta$ heißt \emph{Ableitung von $\beta$ aus $\alpha$ in $n$ Schritten}, geschrieben $\alpha \stackrel{n}{\==>}_\mathcal{G} \beta$, gdw $\alpha_i \==>_\mathcal{G} \alpha_{i+1}$ für $0 \le i < n$.
+  Jedes solche $\alpha_i$ heißt \emph{Satzform von $\mathcal{G}$}.
+
+  Die \emph{Ableitung von $\beta$ aus $\alpha$}, geschrieben $\alpha \stackrel{*}{\==>}_\mathcal{G} \beta$, existiert gdw ein $n \in \N$ existiert, so dass $\alpha \stackrel{n}{\==>}_\mathcal{G} \beta$.
+  Damit ist ,,$\stackrel{*}{\==>}_\mathcal{G}$'' die reflexive, transitive Hülle von ,,$\==>_\mathcal{G}$''.
+
+	Die \emph{Sprache, die von $\mathcal{G}$ erzeugt wird} ist definiert als:
+	\[ L(\mathcal{G}) = \{w\in\Sigma^* \mid S \stackrel{*}{\==>}_{\mathcal{G}} w \}\]
+	
+\end{Def}
+
+\draftnote{18.11.16}
+
+\begin{Bsp}
+  \begin{align*}
 		E &\=> a\\
 		E &\=> (E*E) \=> (a*E)\\
 		&\=> (a*(E+E)) \=> \dots \=> (a*(a+a))
-	\end{align*}
+  \end{align*}
 \end{Bsp}
 
-\begin{Def}[Chomsky]
-	Eine \underline{Grammatik} ist ein 4-Tupel $(N,\Sigma,P,S)$
-	\begin{itemize}
-	\item $N$ ist endliche Menge von \underline{Nichtterminalsymbolen}
-	\item $\Sigma$ ist Alphabet von \underline{Terminalsymbolen} (Variablen)
-	\item $P\subset (N\cup\Sigma)^*N(N\cup\Sigma)^* \x (N\cup\Sigma)^*$ endliche Menge von Regeln bzw. \underline{Produktionen}
-	\item $S\in N$ das \underline{Startsymbol}
-	\end{itemize}
-\end{Def}
-\begin{Def}[name={[Ableitungsrelation]}]
-	Die \underline{Ableitungsrelation} zur Grammatik
-	%\rlwarning{Ab hier: Symbol $G$ oder $\mathcal{G}$?}
-	%\ptwarning{ich m"ochte $\mathcal{G}$ f"ur Grammatiken verwenden}
-	% RL: Korrigiert!
-	\begin{align*}
-		\mathcal{G} &=(N,\Sigma,P,S) \text{ ist Relation}\\
-		\==>_{\mathcal{G}}& \subseteq (N\cup\Sigma)^*\x(N\cup\Sigma)^*\text{ mit}\\
-		v&\=>_{\mathcal{G}} w\ ,\ 
-		\begin{aligned}[t]
-			&\text{falls ex. Produktion}\\
-			&l \-> r\in P\text{ und }\\
-			&v = v_1lv_2\\
-			&w=v_1rv_2
-		\end{aligned}\\
-		\=>^*& \text{ refl. trans. Hülle von }\=>
-	\end{align*}
-	\underline{Sprache von $\mathcal{G}$ erzeugt}.
-	\[ L(\mathcal{G}) = \{w\in\Sigma^* \mid S\xRightarrow*_{\mathcal{G}} w \}\]
-	
-	Jede Folge $\alpha_0,\alpha_1,\dots,\alpha_n$ mit $\alpha_i \in (N\cup \Sigma)^*$ mit $\alpha_0=S$ und $\alpha_n\in\Sigma^*$ und $\forall 1\leq i\leq n : \alpha_{i-1} \=>_\mathcal{G} \alpha_i$ heißt \underline{Ableitung von $\alpha_n$}
-	
-	[\,Jedes solche $\alpha_i$ heißt \underline{Satzform von $\mathcal{G}$}\,]
-\end{Def}
-$n$ ist \underline{Länge der Ableitung}.
-\vspace{.5em}
 \begin{Bsp} $\mathcal{G}=(N,\Sigma,P,S)$ mit
 	\begin{align*}
 		N &= \{S,B,C\}\\
@@ -64,7 +71,7 @@ $n$ ist \underline{Länge der Ableitung}.
 			 &bB\-> bb, bC\-> bc, cC\-> cc \} & \quad\text{Startsymbol }S
 		\end{aligned}\\
 		L(\mathcal{G}) &=  \{ a^nb^nc^n \mid n\geq 1 \}\\
-		S &\=> aBC \=> abC \=> abc \qquad S\=>a\underline{S}BC \=> aa\underline{S}BCBC\\
+		S &\=> aBC \=> abC \=> abc \qquad S\=>a\emph{S}BC \=> aa\emph{S}BCBC\\
 		S &\=> aSBC \xRightarrow{n-2} n \=> a^{n-1}S(BC)^{n-1} \=> a^n(BC)^n = a^nBCBC \dots \=> a^nBBCCBC\\
 		&\=> a^nB^nC^n \xRightarrow* a^nb^nc^n
 	\end{align*}
@@ -72,9 +79,9 @@ $n$ ist \underline{Länge der Ableitung}.
 Die Chomsky-Hierarchie teilt die Grammatiken in vier Typen unterschiedlicher Mächtigkeit ein.
 \begin{Def}[Chomsky Hierarchie]\
 	\begin{itemize}
-	\item Jede Grammatik ist eine \underline{Typ-0 Grammatik}.
-	\item Eine Grammatik ist \underline{Typ-1} oder \underline{kontextsensitiv}, falls alle Regeln expansiv sind, d.h. $\alpha\->\beta\in P$, dann ist $|\alpha|\leq |\beta|$ mit einer Ausnahme: falls $S$ nicht in einer rechten Regelseite auftritt, dann ist $S\->\epsilon$ erlaubt.
-	\item Eine Grammatik heißt \underline{Typ-2} oder \underline{kontextfrei}, falls alle Regeln die Form $A\->\alpha$ mit $A\in N$ und $\alpha\in(N\cup\Sigma)^*$ haben.
+	\item Jede Grammatik ist eine \emph{Typ-0 Grammatik}.
+	\item Eine Grammatik ist \emph{Typ-1} oder \emph{kontextsensitiv}, falls alle Regeln expansiv sind, d.h. $\alpha\->\beta\in P$, dann ist $|\alpha|\leq |\beta|$ mit einer Ausnahme: falls $S$ nicht in einer rechten Regelseite auftritt, dann ist $S\->\Eps$ erlaubt.
+	\item Eine Grammatik heißt \emph{Typ-2} oder \emph{kontextfrei}, falls alle Regeln die Form $A\->\alpha$ mit $A\in N$ und $\alpha\in(N\cup\Sigma)^*$ haben.
 	\item Eine Grammatik heißt \emph{Typ-3} oder \emph{regulär}, falls alle Regeln die Form
 	\begin{alignat*}{2}
 		\text{Form}\quad &A\->w &\quad w&\in\Sigma^*\\
@@ -88,12 +95,13 @@ Die Chomsky-Hierarchie teilt die Grammatiken in vier Typen unterschiedlicher Mä
 	Jede Typ $i+1$ Sprache ist nicht Typ-$i$ Sprache.
 \end{Beobachtung}
 Jede Typ-3 Grammatik ist Typ-2 Grammatik.\\
-Jede Typ-2 Grammatik kann in äquivalente $\epsilon$-freie Typ-2 Grammatik transformiert werden. \-> Typ-1 Grammatik. (Vgl.\ Elmination von $\epsilon$-Produktionen)
+Jede Typ-2 Grammatik kann in äquivalente $\Eps$-freie Typ-2 Grammatik transformiert werden. \-> Typ-1 Grammatik. (Vgl.\ Elmination von $\Eps$-Produktionen)
 
 Ziel: Hierarchie-Satz (Chomsky)\\
 Sei $\mathcal{L}_i$ die Menge der Typ-$i$ Sprachen.\\
 Es gilt $\mathcal{L}_3 \subsetneq \mathcal{L}_2 \subsetneq\mathcal{L}_1 \subsetneq\mathcal{L}_0$
 
+\draftnote{25.11.16}
 \begin{Satz}[name={[Typ-3 Sprache ist regulär]}]
 	$L$ ist regulär \<=> $L$ ist Type-3 Sprache
 \end{Satz}
@@ -104,7 +112,7 @@ Es gilt $\mathcal{L}_3 \subsetneq \mathcal{L}_2 \subsetneq\mathcal{L}_1 \subsetn
 		\begin{alignat*}{2}
 			N &=Q &\qquad S&=q_0\\
 			q&\in Q\ \mathrlap{\forall a: \delta(q,a)=q'\ \curvearrowright\ q\->aq'\in P}\\
-			q&\in F & q&\->\epsilon\in P
+			q&\in F & q&\->\Eps\in P
 		\end{alignat*}
 		Zeige noch $L(\mathcal{G})=L(\A)$
 	\item["`\<="'] Sei $\mathcal{G}=(N,\Sigma,P,S)$ Typ-3 Grammatik
@@ -138,10 +146,11 @@ Es gilt $\mathcal{L}_3 \subsetneq \mathcal{L}_2 \subsetneq\mathcal{L}_1 \subsetn
 	Betrachte $L=\{a^nb^n \mid n\in\N \}$\\
 	bekannt: $L$ nicht regulär.\\
 	Aber $\exists$ Typ-2 Grammatik für $L$:
-	\[ \mathcal{G} = (\{S\}, \{a,b\}, \{S\->\epsilon, S\->aSb \}, S) \]
+	\[ \mathcal{G} = (\{S\}, \{a,b\}, \{S\->\Eps, S\->aSb \}, S) \]
 	Zeige (selbst) $L=L(\mathcal{G})$
 \end{proof}
 
+\draftnote{30.11.16}
 \subsection{Kontextfreie Sprachen}
 \begin{itemize}
 \item Arithmetische Ausdrücke\\
@@ -159,14 +168,14 @@ Es gilt $\mathcal{L}_3 \subsetneq \mathcal{L}_2 \subsetneq\mathcal{L}_1 \subsetn
 	Hier: Nichtterminal$\hat=$ Wort in spitzen Klammern <Stmt>;
 	Terminalsymbol --- alles andere.
 \item Palindrome über $\{a,b\}$
-	\[ S\-> aSa \mid bSb \mid a \mid b \mid \epsilon \]
+	\[ S\-> aSa \mid bSb \mid a \mid b \mid \Eps \]
 \item Sprache der Werte, die gleich viele Nullen wie Einsen haben $=L$
 \end{itemize}
 \begin{align*}
-	\mathcal{G}: S &\-> 1S0S \mid 0S1S \mid \epsilon\\
+	\mathcal{G}: S &\-> 1S0S \mid 0S1S \mid \Eps\\
 	L(\mathcal{G}) &\subseteq L \quad \text{klar}\\
 	\emph{\text{Def.:}}\quad d:\Sigma^* &\-> \Z\\
-	d(\epsilon) &= 0\\
+	d(\Eps) &= 0\\
 	d(1w) &= d(w) + 1\\
 	d(0w) &= d(w) - 1\\
 	\text{Es gilt} & \text{(Beweis per Induktion "uber $v$)} \\
@@ -177,9 +186,9 @@ Es gilt $\mathcal{L}_3 \subsetneq \mathcal{L}_2 \subsetneq\mathcal{L}_1 \subsetn
 \end{align*}
 Induktion über Länge von $w$
 \begin{alignat*}{2}
-	&\text{Länge }0:\quad& \epsilon &\in L
-		\quad,\quad \epsilon \in L(\mathcal{G})
-		\quad,\quad S \-> \epsilon\\
+	&\text{Länge }0:\quad& \Eps &\in L
+		\quad,\quad \Eps \in L(\mathcal{G})
+		\quad,\quad S \-> \Eps\\
 	&\text{Länge}>0:\quad& \text{Ang. } 0w&\in L\\
 	&&\curvearrowright d(0w) &= 0\\
 	&&\curvearrowright d(w) &= 1 \\
@@ -200,10 +209,10 @@ Der Fall $1w$ geht analog.
 	\begin{itemize}
 	\item Die Wurzel von $B$ ist mit $S$ markiert.
 	\item Die inneren Knoten von $B$ sind mit Nichtterminalen markiert.
-	\item Jedes Blatt ist mit $x\in\Sigma\cup\{\epsilon\}$ markiert.
+	\item Jedes Blatt ist mit $x\in\Sigma\cup\{\Eps\}$ markiert.
 	\item Falls Knoten $k_0$ mit $A\in N$ markiert ist und die  Nachfolgerknoten von $k_0$ sind $k_1,\dots, k_n$, dann gibt Produktion $A\-> X_1\dots X_n$ mit $X_i\in\Sigma\cup N$ und $k_i$ ist mit $X_i$ markiert.
 	
-	\textbf{Oder:} $n=1$, die Produktion ist $A\->\epsilon$ und $k_1$ ist mit $\epsilon$ markiert.
+	\textbf{Oder:} $n=1$, die Produktion ist $A\->\Eps$ und $k_1$ ist mit $\Eps$ markiert.
 	\end{itemize}
 	Die Markierungen der Blätter von links nach rechts gelesen ergeben $w$.
 \end{Def}
@@ -245,8 +254,8 @@ Der Fall $1w$ geht analog.
 	\begin{align*}
 		L &= \{ a^ib^jc^k \mid i=j\text{ oder }j=k \}\\
 		S &\-> AC \mid DB\\
-		A &\-> aAb \mid \epsilon & D &\->aD \mid \epsilon\\
-		C &\->cC \mid \epsilon & B &\-> bBc \mid \epsilon \quad[\text{für $L$ gibt es keine eindeutige \ac{CFG}}]
+		A &\-> aAb \mid \Eps & D &\->aD \mid \Eps\\
+		C &\->cC \mid \Eps & B &\-> bBc \mid \Eps \quad[\text{für $L$ gibt es keine eindeutige \ac{CFG}}]
 	\end{align*}
 	Werte der Form $a^nb^nc^n$ haben zwei Ableitungen $\curvearrowright$ Grammatik ist nicht eindeutig.
 \end{Bsp}
@@ -257,10 +266,10 @@ Notw. für \ac{PL} + \nameref{satz:wortproblem}.
 	Eine \ac{CFG} ist in \ac{CNF}, falls jede Produktion die Form $A\->a$ oder $A\->BC$ hat, wobei $A,B,C\in N$, $a\in\Sigma$.
 \end{Def}
 \begin{Beobachtung}
-	$\mathcal{G}$ in \ac{CNF} $\curvearrowright \epsilon \notin L(\mathcal{G})$
+	$\mathcal{G}$ in \ac{CNF} $\curvearrowright \Eps \notin L(\mathcal{G})$
 \end{Beobachtung}
 	
-\paragraph*{Transformation} einer Grammatik $\mathcal{G}$ mit $\epsilon\notin L(\mathcal{G})$ nach \ac{CNF}.
+\paragraph*{Transformation} einer Grammatik $\mathcal{G}$ mit $\Eps\notin L(\mathcal{G})$ nach \ac{CNF}.
 
 \paragraph*{1. Schritt:} Separierte Grammatik\\
 d.h. jede Regel hat die Form
@@ -276,17 +285,17 @@ d.h. jede Regel hat die Form
 \item[$\curvearrowright$] Grammatik separiert, Sprache ist unverändert.
 \end{itemize}
 
-\paragraph*{2. Schritt:} Eliminiere alle Regeln der Form $A\->\epsilon$ ($\epsilon$-Produktion)\\
-Ziel: $\epsilon$-freie Grammatik.\\
-Gesucht: $M=\{ A \mid A \xRightarrow{*}\epsilon \} \subseteq N$
+\paragraph*{2. Schritt:} Eliminiere alle Regeln der Form $A\->\Eps$ ($\Eps$-Produktion)\\
+Ziel: $\Eps$-freie Grammatik.\\
+Gesucht: $M=\{ A \mid A \xRightarrow{*}\Eps \} \subseteq N$
 \begin{alignat*}{2}
-    \text{Def.:}&\quad& M_0 &= \{ A \mid A\-> \epsilon \}\\
+    \text{Def.:}&\quad& M_0 &= \{ A \mid A\-> \Eps \}\\
     &\forall i\in\N& M_{i+1} &= M_i\cup \{ A \mid A\->\alpha, \alpha \in M_i^* \}\\
     \text{Es gilt }&\forall i\in\N& M_i &\subseteq N \text{ endlich}\\
     && \curvearrowright\quad \exists n\in\N &: M_n = M_{n+1} = \bigcup_{i\in\N} M_i\\[.5em]
     \text{Beh.:}&& M&=\bigcup\limits_{i\in\N} M_i\\
     \forall i\in\N :&& M_i &\subseteq M\\
-    i=0 :&& \quad M_0 &= \{ A \mid A\-> \epsilon \in P \} \subseteq M\\
+    i=0 :&& \quad M_0 &= \{ A \mid A\-> \Eps \in P \} \subseteq M\\
     i>0 :&& M_{i+1} &= M_i\cup \{ A \mid A\-> \alpha,\alpha\in M_i^* \}
 \end{alignat*}
 \begin{alignat*}{2}
@@ -295,26 +304,26 @@ Gesucht: $M=\{ A \mid A \xRightarrow{*}\epsilon \} \subseteq N$
     &&&\xrightarrow{\text{I.V.}} A_2\dots A_n\\
     &&&\ \vdots\\
     &&&\xrightarrow{\text{I.V.}} A_n\\
-    &&&\xrightarrow{\text{I.V.}} \epsilon\\
+    &&&\xrightarrow{\text{I.V.}} \Eps\\
     &\curvearrowright & A &\in M\\
     &\-> & \bigcup_{i\in\N} M_i &\subseteq M
 \end{alignat*}
 Zeige noch $M\subseteq \bigcup\limits_{i\in\N} M_i$
 
-Sei $A\in M : A\xRightarrow{*} \epsilon$ mit Ableitungsbaum der Höhe $h+1$, dann: $A\in M_h$
+Sei $A\in M : A\xRightarrow{*} \Eps$ mit Ableitungsbaum der Höhe $h+1$, dann: $A\in M_h$
 
-\emph{h=0:} Ableitungsbaum \quad \tikz[baseline=(a.base)]{\Tree [.\node (a) {$A$}; $\epsilon$ ]} \quad $A\->\epsilon \curvearrowright A\in M_0$
+\emph{h=0:} Ableitungsbaum \quad \tikz[baseline=(a.base)]{\Tree [.\node (a) {$A$}; $\Eps$ ]} \quad $A\->\Eps \curvearrowright A\in M_0$
 
 \emph{h>0:}
 \tikz[baseline=(a.base)]{
-    \Tree [.\node (a) {$A$}; [.$A_1$ \edge[roof]; {$\epsilon$} ]
-                             [.$A_2$ \edge[roof]; {$\epsilon$} ]
+    \Tree [.\node (a) {$A$}; [.$A_1$ \edge[roof]; {$\Eps$} ]
+                             [.$A_2$ \edge[roof]; {$\Eps$} ]
                              [.$\dots$ ]
-                             [.$A_n$ \edge[roof]; {$\epsilon$} ]
+                             [.$A_n$ \edge[roof]; {$\Eps$} ]
           ]
 }
 
-so dass $A_j \=>^* \epsilon$ mit Ableitungsbaum der Höhe $<h+1$
+so dass $A_j \=>^* \Eps$ mit Ableitungsbaum der Höhe $<h+1$
 
 Nach I.V. $A_j\in M_{h-1}$ und $A \-> A_1\dots A_n \in P$, so dass $ A \in M_h$.
 
@@ -324,8 +333,8 @@ Nach I.V. $A_j\in M_{h-1}$ und $A \-> A_1\dots A_n \in P$, so dass $ A \in M_h$.
 Transformation im \ac{CNF} (Fortsetzung)
 \begin{enumerate}
 \item Schritt: Separierte Grammatik: $\A\->A_1\dots A_n$ oder $A\-> a\ ,\ A_i\in N$
-\item Schritt: $\epsilon$-freie Grammatik, bereits bestimmt:
-	\[ M=\{A \mid A\=> \epsilon \} \]
+\item Schritt: $\Eps$-freie Grammatik, bereits bestimmt:
+	\[ M=\{A \mid A\=> \Eps \} \]
 	inkl. Algorithmus dazu: berechne $M_i$ f"ur $i=0, 1, \dots$ bis keine neuen NT hinzukommen. 
 	
 	Anpassen der Produktionen
@@ -333,9 +342,9 @@ Transformation im \ac{CNF} (Fortsetzung)
 		\item\label{itm:Prod-b} Falls Regel $A\-> A_1\dots A_n\in P$ und $\exists j:A_j\in M$, dann füge neue Regel\\
 			$A\->A_1\dots A_{j-1} A_{j+1}\dots A_n$ zu $P$ hinzu.
 		\item Wiederhole \nameref{itm:Prod-b} bis keine neuen Regeln erzeugt werden können.
-		\item Entferne alle $\epsilon$-Regeln.
+		\item Entferne alle $\Eps$-Regeln.
 	\end{enumerate}
-	Ergebnis: Grammatik, die $\epsilon$-frei ist und die gleiche Sprache erzeugt (o.B.).
+	Ergebnis: Grammatik, die $\Eps$-frei ist und die gleiche Sprache erzeugt (o.B.).
 
 \item Schritt: Beseitige Kettenregeln der Form $A\-> B$
 	\begin{itemize}
@@ -377,7 +386,7 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
 \end{Satz}
 \begin{proof}
 	Sei $\mathcal{G}= (N,\Sigma,P,S)$ in \ac{CNF} mit
-    $L(\mathcal{G}) = L\setminus\{\epsilon\}$.
+    $L(\mathcal{G}) = L\setminus\{\Eps\}$.
     
 	Sei $k = |N|$ und wähle $n=2^k$
 	
@@ -398,7 +407,7 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
 	\begin{itemize}
 		\item Ableitungsbaum ist Binärbaum, mit inneren Knoten $A \-> BC$
 		\item Pfad belegt nur eine Abzweigung
-		\item Wegen \ac{CNF} $\not\exists C, C\xRightarrow{*} \epsilon$
+		\item Wegen \ac{CNF} $\not\exists C, C\xRightarrow{*} \Eps$
 	\end{itemize}
 		\begin{figure}[H]\centering
 		\begin{subfigure}[b]{.29\linewidth}\centering
@@ -671,7 +680,7 @@ $.
 
 
 \begin{Satz} % 4.7
-	Die Menge \acs{CFL} ist abgeschlossen unter $\cup, \cdot, ^*$, jedoch \underline{nicht} unter $\cap, \overline{\phantom{A}}$.
+	Die Menge \acs{CFL} ist abgeschlossen unter $\cup, \cdot, ^*$, jedoch \emph{nicht} unter $\cap, \overline{\phantom{A}}$.
 \end{Satz}
 \begin{proof}
 	\begin{align*}
@@ -681,7 +690,7 @@ $.
 		\text{"`}\cdot\text{"'}:: N &= N_1\dotcup N_2\dotcup\{S\}\\
 		P &= \{ S\->S_1S_2 \} \cup P_1\cup P_2\\
 		\text{"`}^*\text{"'}: N &= N_1 \dotcup \{S\}\\
-		P &= \{ S\->\epsilon, S\-> S_1S \} \dotcup P_1
+		P &= \{ S\->\Eps, S\-> S_1S \} \dotcup P_1
 	\end{align*}
 	\begin{itemize}
 	\item für $n\geq 1$
