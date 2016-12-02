@@ -150,11 +150,19 @@ Es gilt $\mathcal{L}_3 \subsetneq \mathcal{L}_2 \subsetneq\mathcal{L}_1 \subsetn
 	Zeige (selbst) $L=L(\mathcal{G})$
 \end{proof}
 
-\draftnote{30.11.16}
+\datenote{30.11.16}
 \subsection{Kontextfreie Sprachen}
+Hier sind einige Beispiele kontextfreier Sprachen und Grammatiken:
 \begin{itemize}
-\item Arithmetische Ausdrücke\\
-	$E\->a,E\->(E+E),E\->(E*E)$
+\item Arithmetische Ausdrücke: $(\{E\}, \{a, \mathnormal{+}, \mathnormal{*}, \mathnormal{(}, \mathnormal{)}\}, P, E)$ mit
+  \begin{displaymath}
+    P =
+    \begin{aligned}[t]
+      \{ E &\->a, \\
+        E &\->(E+E), \\
+        E &\->(E*E) \}
+    \end{aligned}
+  \end{displaymath}
 \item Syntax von Programmiersprachen%\\[\abovedisplayskip]
 	\begin{center}
 		\begin{tabular}[t]{r@{ }l}
@@ -169,81 +177,190 @@ Es gilt $\mathcal{L}_3 \subsetneq \mathcal{L}_2 \subsetneq\mathcal{L}_1 \subsetn
 	Terminalsymbol --- alles andere.
 \item Palindrome über $\{a,b\}$
 	\[ S\-> aSa \mid bSb \mid a \mid b \mid \Eps \]
-\item Sprache der Werte, die gleich viele Nullen wie Einsen haben $=L$
-\end{itemize}
-\begin{align*}
-	\mathcal{G}: S &\-> 1S0S \mid 0S1S \mid \Eps\\
-	L(\mathcal{G}) &\subseteq L \quad \text{klar}\\
-	\emph{\text{Def.:}}\quad d:\Sigma^* &\-> \Z\\
-	d(\Eps) &= 0\\
-	d(1w) &= d(w) + 1\\
-	d(0w) &= d(w) - 1\\
-	\text{Es gilt} & \text{(Beweis per Induktion "uber $v$)} \\
-	d(v\cdot w) &= d(v)+d(w)\\[.5em]
-	L &= \{ w \mid d(w)=0 \}\\
-	\text{Zeige:}\quad L &\subseteq L(\mathcal{G})\\
-	\forall w\in L : w&\in L(\mathcal{G})
-\end{align*}
-Induktion über Länge von $w$
-\begin{alignat*}{2}
-	&\text{Länge }0:\quad& \Eps &\in L
-		\quad,\quad \Eps \in L(\mathcal{G})
-		\quad,\quad S \-> \Eps\\
-	&\text{Länge}>0:\quad& \text{Ang. } 0w&\in L\\
-	&&\curvearrowright d(0w) &= 0\\
-	&&\curvearrowright d(w) &= 1 \\
-	&&\curvearrowright \exists \text{ k"urzestes Suffix $1w_2$ von $w$ mit $d(1w_2)=1$ }\\
-	&&\curvearrowright \exists w_1 : w=w_1 1 w_2\\
-	&&\curvearrowright d(w_1)=0 \wedge d(w_2)=0
-\end{alignat*}
-Per Induktion sind sowohl $S \=>^*w_1$ als auch $S\=>^*w_2$; die erste Produktion ist
-$S \to 0S1S$.
+\item Sprache der Worte über $\{0,1\}^*$, die gleich viele Nullen wie Einsen haben:
+  \begin{displaymath}
+    L = \{ w \in \Sigma^* \mid \#_0(w) = \#_1(w)\}
+  \end{displaymath}
+  Die Funktion $\#_a(w)$ berechnet hierbei die Anzahl der Vorkommen von $a \in \{0, 1\}$ in $w$.
+  Eine Grammatik für $L$ ist $\mathcal{G} = (\{S\}, \{0,1\}, P, S)$ mit
+  \begin{displaymath}
+    P =
+    \begin{aligned}[t]
+      \{ S & \to 1S0S \\
+        S & \to 0S1S \\
+        S & \to \Eps
+      \}
+    \end{aligned}
+  \end{displaymath}
 
-Der Fall $1w$ geht analog.
+  Das $L(\mathcal{G}) \subseteq L$ lässt sich per Induktion über die Länge der Ableitung von $S \stackrel{*}{\==>}_\mathcal{G} w$ zeigen.
+  Der Beweis wird als Übung dem Leser überlassen.
+
+  Wir zeigen das $L \subseteq L(\mathcal{G})$, also dass wenn $w \in L$, dann $w \in L(\mathcal{G})$ per Induktion über die Länge von $w$.
+  Hierzu definieren wir die noch die Hilfsfunktion $d : \Sigma^* \to \N$ als
+  \begin{align*}
+    d(\Eps) &= 0 \\
+    d(1w) &= d(w) + 1 \\
+    d(0w) &= d(w) - 1
+  \end{align*}
+  Per Induktion über $w \in \Sigma^*$ lässt sich zeigen, dass $L = \{w \in \Sigma^* \mid d(w) = 0\}$ und $d(v \cdot w) = d(v) + d(w)$.
+\begin{description}
+\item[IA] $|w| = n = 0$, $w = \Eps$. Es gilt $\Eps \in L$, da $\#_0(\Eps) = \#_1(\Eps) = 0$.
+\item[IV] $\forall n' < n: \forall w' \in \Sigma^*: falls |w| = n' \text{ und } w \in L \text{ dann } w \in L(\mathcal{G})$
+\item[IS] $|w| = n > 1$, $w = aw'$, $a \in \{0,1\}$.
+
+  Betrachte $a = 0$ (der Fall für $a = 1$ funktioniert analog).
+
+  Da $d(w) = d(0w') = d(w') - 1 = 0$ ist $d(w') = 1$.
+
+  Es stellt sich heraus, dass $w' = w_11w_2$, $d(w_1) = 0$ und $d(w_2) = 0$.
+  \begin{itemize}
+  \item[] 
+    Sei $w' = a_1 \ldots a_n$.
+    Betrachte die Folge $d_0,\ldots,d_n$ mit $d_0 = 0$ und $d_i = d(a_1\ldots a_i)$ für $1 \le i < n$.
+    Wähle $0 \le i < n$ maximal, so dass für alle $0 \le j \le i$: $d_j < 1$.
+
+    Da $i$ maximal ist folgt $d_{i+1} \ge 1$ und da $d_{i+1} - d_i \le 1$  folgt $d_i = 0$, $d_{i+1} = 1$ und $a_i = 1$.
+    Setze also $w_1 = a_1\ldots a_{i}$.
+
+    Es gilt also $w' = a_1\ldots a_{i}a_{i+1}w_2 = w_1w_2$ mit $d(w_1) = 0$.
+
+    Da $d(v \cdot w) = d(v) + d(w)$ und $d(w') = d(w_11w_2) = 1$ folgt $d(w_2) = 0$.
+  \end{itemize}
+
+  Da $|w_1| < n$ und $|w_2| < n$, folgt per IV, dass $S \stackrel{*}{ \==>_{\mathcal{G}} } w_1$ und $S \stackrel{*}{\==>_{\mathcal{G}}} w_2$.
+
+  Es folgt mit den Produktionsregeln $S \==>_{\mathcal{G}} 0S1S \stackrel{*}{\==>}_{\mathcal{G}} 0w_11S \stackrel{*}{\==>}_{\mathcal{G}} 0w_11w_2$.
+
+\end{description}
+\end{itemize}
 
 %Abk.: \aclu{CFL}: \acs{CFL}\\
 %\phantom{Abk.:} \aclu{CFG}: \acs{CFG}
 
-\begin{Def}[name={[Ableitungsbaum]}] Sei $\mathcal{G}$ \ac{CFG}.\\
-	Ein \emph{Ableitungsbaum} zu $w\in L(\mathcal{G})$ ist ein geordneter, markierter Baum $B$.
-	\begin{itemize}
-	\item Die Wurzel von $B$ ist mit $S$ markiert.
-	\item Die inneren Knoten von $B$ sind mit Nichtterminalen markiert.
-	\item Jedes Blatt ist mit $x\in\Sigma\cup\{\Eps\}$ markiert.
-	\item Falls Knoten $k_0$ mit $A\in N$ markiert ist und die  Nachfolgerknoten von $k_0$ sind $k_1,\dots, k_n$, dann gibt Produktion $A\-> X_1\dots X_n$ mit $X_i\in\Sigma\cup N$ und $k_i$ ist mit $X_i$ markiert.
-	
-	\textbf{Oder:} $n=1$, die Produktion ist $A\->\Eps$ und $k_1$ ist mit $\Eps$ markiert.
-	\end{itemize}
-	Die Markierungen der Blätter von links nach rechts gelesen ergeben $w$.
+\begin{Def}[name={[Ableitungsbaum]}] Sei $\mathcal{G} = (N, \Sigma, P, S)$ eine kontextfreie Grammatik.
+  Definiere die Menge der \emph{Ableitungsbäume von $\mathcal{G}$ beginnend mit $A \in N$}, $\operatorname{Abl(G,A)}$, als Menge von markierten, geordneten Bäumen induktiv durch:
+  \begin{itemize}
+  \item[] Falls $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$ mit $A_i \in \N$, $w_i \in \Sigma^*$, $0 \le i \le n$ und $\mathcal{A}_i \in \operatorname{Abl}(G, A_i)$ dann ist
+    \begin{center}
+			\tikz[baseline=0cm]{\Tree [.$\pi$ $\mathcal{A}_1$ \edge[draw=none]; {$\dots$} $\mathcal{A}_n$ ]} $\in \operatorname{Abl}(G, A)$
+    \end{center}
+    Abgekürzt: $\pi(\mathcal{A}_1, \ldots, \mathcal{A}_n)$
+
+  \end{itemize}
+    Das \emph{abgeleitete Wort zu einem $\mathcal{A} \in \operatorname{Abl}(G, A)$}, $Y(\mathcal{A})$ (,,yield'' von $\mathcal{A}$), ist definiert durch
+    \begin{displaymath}
+      Y\left(\tikz[baseline=-0.4cm]{\Tree [.$\pi$ $\mathcal{A}_1$ \edge[draw=none]; {$\dots$} $\mathcal{A}_n$ ]} \right) = w_oY(\mathcal{A}_1)w_1\ldots Y(\mathcal{A}_n)w_n
+    \end{displaymath}
+    wobei $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$
 \end{Def}
 
-\begin{Bsp}\label{bsp:Ableitungsbaum} Siehe \autoref{fig:Ableitungsbäume}.
-	\begin{figure}[H]\centering
-		\begin{subfigure}[t]{.25\linewidth}\centering
-			\tikz{\Tree [.$E$ $a$ ]}
-			\caption{$E \Rightarrow a$}
-		\end{subfigure}
-		\begin{subfigure}[t]{.4\linewidth}\centering
-			\begin{tikzpicture}[every tree node/.style={execute at begin node=$, execute at end node=$}]
-				\Tree [.E (
-			          [.E a ]
-			          +
-			          [.E ( [.E a ] * [.E a ] ) ]
-			          )
-			        ]
-			\end{tikzpicture}
-			\caption[$E \xRightarrow{*} (a+(a*a))$]{$E \xRightarrow{*} (a+(a*a)) \newline \longrightarrow E \Rightarrow (E+E)\Rightarrow(E+(E*E))\xRightarrow{*}$}
-		\end{subfigure}
-		\begin{subfigure}[t]{.3\linewidth}\centering
-			\begin{tikzpicture}[every tree node/.style={execute at begin node=$, execute at end node=$}]
-				\Tree [.A X_1 X_2 \edge[draw=none]; {\dots} X_n ]
-			\end{tikzpicture}
-			\caption{$A\rightarrow X_1\dots X_n$}
-		\end{subfigure}
-		\caption{Ableitungsbäume zu \autoref{bsp:Ableitungsbaum}}\label{fig:Ableitungsbäume}
-	\end{figure}
-	$\exists$ Ableitungsbaum für $w$ genau dann, wenn $S \xRightarrow{*} w$
+\begin{Bsp}\label{bsp:Ableitungsbaum} 
+  Einige Ableitungsbäume für die Grammatik $\mathcal{G} = (\{S\}, \{0,1\}, P, S)$ mit
+  \begin{displaymath}
+    P =
+    \begin{aligned}[t]
+      \{ S & \to 1S0S \\
+        S & \to 0S1S \\
+        S & \to \Eps
+      \}
+    \end{aligned}
+  \end{displaymath}
+  \begin{description}
+  \item[$\operatorname{Abl}(\mathcal{G}, S) = $]\hfill\\
+    \tikz[baseline=0cm]{\Tree [ .$S\to\Eps$ ]}
+    \quad
+    \tikz[baseline=0cm]{\Tree [ .$S\to0S1S$ $S\to\Eps$ $S\to\Eps$ ]}
+    \quad
+    \tikz[baseline=0cm]{\Tree [ .$S\to1S0S$ $S\to\Eps$ $S\to\Eps$ ]}
+    \quad
+    \tikz[baseline=0cm]{\Tree [ .$S\to0S1S$ $S\to\Eps$ [ .$S\to\Eps$ $S\to\Eps$ $S\to\Eps$ ] ]}
+    \quad
+    \dots
+  \end{description}
+  
+	% \begin{figure}[H]\centering
+	% 	\begin{subfigure}[t]{.25\linewidth}\centering
+	% 		\tikz{\Tree [.$E$ $a$ ]}
+	% 		\caption{$E \Rightarrow a$}
+	% 	\end{subfigure}
+	% 	\begin{subfigure}[t]{.4\linewidth}\centering
+	% 		\begin{tikzpicture}[every tree node/.style={execute at begin node=$, execute at end node=$}]
+	% 			\Tree [.E (
+	% 		          [.E a ]
+	% 		          +
+	% 		          [.E ( [.E a ] * [.E a ] ) ]
+	% 		          )
+	% 		        ]
+	% 		\end{tikzpicture}
+	% 		\caption[$E \xRightarrow{*} (a+(a*a))$]{$E \xRightarrow{*} (a+(a*a)) \newline \longrightarrow E \Rightarrow (E+E)\Rightarrow(E+(E*E))\xRightarrow{*}$}
+	% 	\end{subfigure}
+	% 	\begin{subfigure}[t]{.3\linewidth}\centering
+	% 		\begin{tikzpicture}[every tree node/.style={execute at begin node=$, execute at end node=$}]
+	% 			\Tree [.A X_1 X_2 \edge[draw=none]; {\dots} X_n ]
+	% 		\end{tikzpicture}
+	% 		\caption{$A\rightarrow X_1\dots X_n$}
+	% 	\end{subfigure}
+	% 	\caption{Ableitungsbäume zu \autoref{bsp:Ableitungsbaum}}\label{fig:Ableitungsbäume}
+	% \end{figure}
 \end{Bsp}
+\begin{lemma}
+  Sei $\mathcal{G} = (N, \Sigma, P, S)$ eine kontextfreie Grammatik.
+
+  \begin{displaymath}
+    w \in L(\mathcal{G})  \text{ gdw } \exists \mathcal{A} \in \operatorname{Abl}(G, S) \text{ mit } Y(\mathcal{A}) = w
+  \end{displaymath}
+\end{lemma}
+
+\begin{proof}[,,links nach rechts'']
+  Zu zeigen:
+  \begin{displaymath}
+   \forall n \in \N: \forall w \in \Sigma^*: \forall A \in N: A \stackrel{n}{\==>} w \text{ dann } \exists \mathcal{A} \in \operatorname{Abl}(\mathcal{G}, A) \text{ mit } Y(\mathcal{A}) = w
+\end{displaymath}
+     Per Induktion über die Länge der Ableitung von $A \stackrel{n}{\==>} w \in \Sigma^*$:
+   \begin{description}
+   \item[IA] $n=0$ (nichts zu tun, da $A \stackrel{n}{\==>} \Eps$ unmöglich)
+   \item[IS] Sei $n > 0$: $A \stackrel{n}{\==>}$ hat die Form
+     \begin{displaymath}
+       A {\==>} w_0A_1w_1\ldots A_nw_n \stackrel{n-1}{\==>} w
+     \end{displaymath}
+     Also ist $w = w_0v_1w_1\ldots v_nw_n$ mit $A_i \stackrel{n_i}{\==>} v_i$ für $1 \le i \le n$ und $n_i < n$.\footnote{Dieser Beweisschritt ist nicht ganz präzise\ldots die Ableitungen der $v_i$ sind nicht unbedingt Teil der gesamten Ableitung $A \stackrel{n}{\Longrightarrow} w$.
+     Man kann aber beweisen dass eine alternative Ableitung existieren muss, bei der dies der Fall ist.}
+   Nach IV ergibt sich
+   \begin{displaymath}
+     \exists \mathcal{A}_i \in \operatorname{Abl}(G, A_i) \text{ mit } Y(\mathcal{A}_i) = v_i
+   \end{displaymath}
+   Dann ist $\mathcal{A} = \pi(\mathcal{A}_1,\ldots, \mathcal{A}_n)$ mit $\pi = A \to w_0A_1w_1\ldots A_nw_n \in \operatorname{Abl}(\mathcal{G}, A)$ und $Y(\mathcal{A}) = w_0Y(\mathcal{A}_1)w_1\ldots Y(\mathcal{A}_n)w_n= w_0v_1w_1\ldots v_nw_n$.
+   \end{description}
+\end{proof}
+
+\begin{proof}[,,rechts nach links'']
+  Zu zeigen:
+  \begin{displaymath}
+    \forall n \in \N: \forall \mathcal{A} \in \operatorname{Abl}(\mathcal{G}, A): \text{falls } Y(\mathcal{A}) = w \text{ dann } A \stackrel{*}{\==>} w
+  \end{displaymath}
+  \begin{description}
+  \item[IS]
+\footnote{ Der Induktionsanfang ist bei Ableitungsbäumen ein Spezialfall des Induktionsschritts (Bäume ohne Kinder bzw.\ Regeln, die nur Terminale ableiten) und wird daher nicht gesondert aufgeführt }
+    Falls für $n \ge 0$
+    \begin{itemize}
+    \item  $\mathcal{A} = \pi(\mathcal{A}_1, \ldots, \mathcal{A}_n)$,
+    \item $\pi = w_0A_1w_1\ldots A_nw_n$,
+    \item $\mathcal{A}_i \in \operatorname{Abl}(\mathcal{G}, A_i)$,
+    \item $Y(\mathcal{A}) = w_0Y(\mathcal{A}_1)w_1\ldots Y(\mathcal{A}_n)w_n$
+    \end{itemize}
+    dann gilt per IV:\footnote{Strengenommen müsste die Folgerung, die hier mit ,,\ldots'' abgekürzt ist noch per Induktion über Ableitungen gezeigt werden} 
+    \begin{align*}
+      A &\==> w_0A_1\ldots A_nw_n \\
+        &\stackrel{*}{\==>} w_0Y(\mathcal{A}_1)\ldots A_nw_n \\
+        & \dots \\
+        & \stackrel{*}{\==>} w_0Y(\mathcal{A}_1)\ldots Y(\mathcal{A}_n)w_n \\
+        &= w
+    \end{align*}
+  \end{description}
+  
+\end{proof}
+
 \begin{Def}[name={[Eindeutigkeit von \acs*{CFG} und \acs*{CFL}]}]\
 	\begin{itemize}
 	\item $\mathcal{G}\in$ \ac{CFG} heißt \emph{eindeutig}, falls es für jedes Wort $\in L(\mathcal{G})$ genau einen Ableitungsbaum gibt.
@@ -260,117 +377,283 @@ Der Fall $1w$ geht analog.
 	Werte der Form $a^nb^nc^n$ haben zwei Ableitungen $\curvearrowright$ Grammatik ist nicht eindeutig.
 \end{Bsp}
 
+\datenote{2.12.16}
 \subsection{Die Chomsky Normalform für \ac*{CFG}}
-Notw. für \ac{PL} + \nameref{satz:wortproblem}.
+Notwendig für das Pumping Lemma kontextfreier Sprachen und für einen effizienten Algorithmus für das \nameref{satz:wortproblem}.
+
+
+\begin{Def}
+  Eine CFG heißt \emph{separiert} wenn jede Produktion entweder die Form
+  \begin{itemize}
+  \item $A\-> A_1\dots A_n$ \qquad $A_i\in N,n\geq 0$, oder
+  \item $A \-> a$ \quad $a\in\Sigma$
+  \end{itemize}
+  hat.
+\end{Def}
+
+\begin{lemma}[\textsc{Sep}]
+  Zu jeder CFG gibt es eine äquivalente separierte CFG.
+\end{lemma}
+\begin{proof}
+  Sei $\mathcal{G} = (N, \Sigma, P, S)$ eine CFG.
+  Konstruiere $\mathcal{G}' = (N', \Sigma, P', S)$ mit
+  \begin{itemize}
+  \item $N' = N \uplus \{Y_a \mid a \in \Sigma \}$ (,,$\uplus$'' steht für ,,disjunkte Vereinigung'')
+  \item $P' = \{Y_a \to a \mid a \in \Sigma \} \cup \{A \to \beta[a \to Y_a] \mid A \to \beta \in P \}$.
+    Die Schreibweise $\beta[a\to Y_a]$ bedeutet hier dass alle $a \in \Sigma$, die in $\beta$ vorkommen durch $Y_a$ ersetzt werden.
+  \end{itemize}
+Offenbar gilt $L(\mathcal{G}) = L(\mathcal{G'})$ und $\mathcal{G}'$ ist separiert (ohne Beweis).
+Der Aufwand für \textsc{Sep} beträgt $O(|\mathcal{G}|)$, wobei 
+\begin{displaymath}
+  |G| = \sum_{A \in \N}\sum_{A \to \alpha \in P} |A\alpha|
+\end{displaymath}
+\end{proof}
+
+\begin{lemma}[\textsc{Bin}]
+  Zu jeder CFG gibt es eine äquivalente CFG, bei der für alle Produktionen $A \to \alpha$ gilt, dass $|a| \le 2$.
+\end{lemma}
+\begin{proof}
+  Ersetze jede Produktion der Form 
+  \begin{displaymath}
+    A \to X_1X_2\ldots X_n
+  \end{displaymath}
+  mit $X_i \in N \cup \Sigma$, $1 \le i \le n$,
+  durch die Regeln 
+  \begin{align*}
+    A &\to X_1\langle  X_2\ldots X_n \rangle \\
+    \langle  X_2\ldots X_n \rangle & \to X_2\langle  X_3\ldots X_n \rangle \\
+    \vdots \\
+    \langle  X_{n-1}X_n \rangle & \to X_{n-1}X_n
+  \end{align*}
+  Dabei sind  $\langle  X_2\ldots X_n \rangle$, \ldots, $\langle  X_{n-1}\ldots X_n \rangle$ neue Nichterminalsymbole.
+
+  Der Aufwand von \textsc{Bin} liegt in $O(|G|)$.
+\end{proof}
+
+
+\begin{Def}
+  Sie $\mathcal{G} = (N, \Sigma, P, S)$ eine CFG.
+  Definiere die Menge $\operatorname{Nullable}(\mathcal{G}) \subseteq N$ als
+  \begin{displaymath}
+    \operatorname{Nullable}(\mathcal{G}) = \{ A \in \N \mid A \stackrel{*}{\==>} \Eps \}
+  \end{displaymath}
+  Es handelt sich um die Menge an Nichtterminalen, aus denen das leere Wort abgeleitet werden kann.
+\end{Def}
+
+\begin{Satz}
+  Es gibt einen Algorithmus, der $\operatorname{Nullable}(\mathcal{G})$ in $O(|\mathcal{G}|^2)$ ausrechnet.
+\end{Satz}
+\begin{proof}
+  Definiere $M_i$ als die Menge der Nichtterminale, aus denen sich $\Eps$ in höchstens $i$ Schritten ableiten lässt:
+  \begin{align*}
+    M_0 &= \emptyset \\
+    M_{i+1} &= M_i \cup \{ A \mid A \to \alpha \in P \text{ und } \alpha \in M_i^* \}
+  \end{align*}
+  Es gilt für alle $i \in \N$, dass $M_i \subseteq N$.
+  Da $|N|$ endlich ist, existiert ein $m \in \N$, so dass
+  \begin{displaymath}
+    M_m = M_{m+1} = \bigcup_{i \in \N} M_i
+  \end{displaymath}
+  Das bedeutet, $\bigcup_{i \in \N} M_i$ lässt sich iterativ berechnen (s.u.).
+
+  Wir zeigen nun, dass $\operatorname{Nullable}(\mathcal{G}) = \bigcup_{i \in \N} M_i$.
+
+  \paragraph{,,$\supseteq$''}
+  Es ist zu zeigen, dass $\forall i \in \N: M_i \subseteq \operatorname{Nullable}(\mathcal{G})$
+
+  Per Induktion über $i$:
+  \begin{description}
+  \item[IA] $i = 0$, $M_0 = \emptyset \subseteq \operatorname{Nullable}(\mathcal{G})$
+  \item[IS] $i > 0$ 
+
+    Wenn $A \in M_i$, dann $A \to A_1\ldots A_n \in P$ mit $A_j \in M_i$ für $1 \le j \le n$, und es gibt den Ableitungsschritt
+    \begin{displaymath}
+      A \==> A_1 \ldots A_n
+    \end{displaymath}
+    Per IV existieren die Ableitungen
+    \begin{displaymath}
+      A_j \stackrel{*}{\==>} \Eps
+    \end{displaymath}
+    und somit auch
+    \begin{displaymath}
+      A \stackrel{*}{\==>} \underbrace{\Eps \ldots \Eps}_{n \text{ mal}} = \Eps
+    \end{displaymath}
+    Also gilt $A \in \operatorname{Nullable}(\mathcal{G})$
+  \end{description}
+
+  
+  \paragraph{,,$\supseteq$''}
+  Wenn $A \in \operatorname{Nullable}(\mathcal{G})$, dann existiert $m \in \N$, so dass $A \stackrel{m}{\==>} \Eps$.
+  Wir zeigen per Induktion über $m$, dass $A \in M_m \subseteq \bigcup_{i \in \N} M_i$.
+  \begin{description}
+  \item[IA] $m = 0$.
+    (Es ist nichts zu zeigen)
+  \item[IS] $m > 0$.
+    Wir haben $A \==> A_1\ldots A_n$ mit $A_i \stackrel{m_i} \Eps$, wobei $1 \le i \le n$ und $m_i < m$.
+    Es gilt nun per IA, dass $A_i \in M_{m_i}$.
+    Es gilt ferner per Definition von $M_m$\footnote{Eigentlich per Induktion über $m$ zu zeigen}, dass für alle $m_i < m$, $M_{m_i} \subseteq M_m$.
+    Somit ist $A_i \in M_m$ und damit, per Definition, $A \in M_m$.
+  \end{description}
+\end{proof}
+Der Algorithmus, der $\bigcup_{i \in \N} M_i$ berechnet ist folgender:
+\begin{itemize}
+\item Eingabe: CFG $\mathcal{G} = (N, \Sigma, P, S)$
+\item Ausgabe: $\operatorname{Nullable}(\mathcal{G})$
+\item[] $M = \emptyset$
+\item[] $\mathit{done} = \mathtt{false}$
+\item[] $\mathbf{while} (\mathit{not}~\mathit{done})$
+  \begin{itemize}
+  \item[] $\mathbf{for}~(A \to \alpha \in P)$
+    \begin{itemize}
+    \item[] $\mathbf{if}~(A \not \in M \land \alpha \in M^*)$
+      \begin{itemize}
+      \item[] $M = M \cup \{A \}$
+      \item[] $\mathit{done} = \mathtt{false}$
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\item[] $\mathbf{return}~M$
+\end{itemize}
+\begin{Korollar}
+  Es gibt einen Algorithmus, der zu einer CFG $\mathcal{G}$ berechnet ob $\Eps \in L(\mathcal{G})$.
+\end{Korollar}
+\begin{proof}
+  Prüfe ob $S \in \operatorname{Nullable}(\mathcal{G})$
+\end{proof}
+\begin{lemma}[\textsc{Del}]
+  Zu jeder CFG $\mathcal{G}=(N, \Sigma, P, S)$ gibt es eine äquivalente CFG $\mathcal{G'} =(N', \Sigma, P', S')$, bei der die einzige $\Eps$-Regel $S' \to \Eps$ ist (falls $\Eps \in L(\mathcal{G})$).
+\end{lemma}
+\begin{proof}
+  \begin{enumerate}
+  \item Erweitere $\mathcal{G}$ um ein neues Startsymbol $S'$ mit $S' \to S$ als neue Produktion.
+    Dieser Schritt stellt sicher, dass $S'$ auf keiner rechten Regelseite vorkommt.
+  \item Wende erst \textsc{Sep}, dann \textsc{Bin} an.
+    Nun hat jede rechte Regelseite die Form $a \in \Sigma$ oder $\Eps$ oder $A$ oder $BC$.
+  \item Sei $M = \operatorname{Nullable}(\mathcal{G}')$.
+  \item Für alle Regeln $A \to BC \in P$:
+    \begin{itemize}
+    \item Falls $B \in M$ füge $A \to C$ hinzu.
+    \item Falls $C \in M$ fürge $A \to B$ hinzu.
+    \end{itemize}
+  \item Falls $S \in \operatorname{Nullable}(\mathcal{G})$ füge $S' \to \Eps$ hinzu
+  \item Entferne alle Produktionen $A \to \Eps$ für $A \neq S'$.
+  \end{enumerate}
+\end{proof}
+
+
 \begin{Def}[name={[\acs*{CFG} in \acs*{CNF}]}]
 	Eine \ac{CFG} ist in \ac{CNF}, falls jede Produktion die Form $A\->a$ oder $A\->BC$ hat, wobei $A,B,C\in N$, $a\in\Sigma$.
 \end{Def}
+
+
+
+
 \begin{Beobachtung}
 	$\mathcal{G}$ in \ac{CNF} $\curvearrowright \Eps \notin L(\mathcal{G})$
 \end{Beobachtung}
 	
-\paragraph*{Transformation} einer Grammatik $\mathcal{G}$ mit $\Eps\notin L(\mathcal{G})$ nach \ac{CNF}.
+% \paragraph*{Transformation} einer Grammatik $\mathcal{G}$ mit $\Eps\notin L(\mathcal{G})$ nach \ac{CNF}.
 
-\paragraph*{1. Schritt:} Separierte Grammatik\\
-d.h. jede Regel hat die Form
-\begin{alignat*}{2}
-	A&\-> A_1\dots A_n &\qquad A_i&\in N,n\geq 0\\
-	\text{oder}\quad A &\-> a & a&\in\Sigma
-\end{alignat*}
-\emph{Verfahren:}
-\begin{itemize}
-\item Erweitere $N$ um neue \acs{NT} $\{Y_a \mid a\in\Sigma\}$
-\item Zusätzliche neue Regeln $Y_a\-> a$
-\item Ersetze in den "`alten"' Regeln alle Terminale $a$ durch $Y_a$
-\item[$\curvearrowright$] Grammatik separiert, Sprache ist unverändert.
-\end{itemize}
+% \paragraph*{1. Schritt:} Separierte Grammatik\\
+% d.h. jede Regel hat die Form
+% \begin{alignat*}{2}
+% 	A&\-> A_1\dots A_n &\qquad A_i&\in N,n\geq 0\\
+% 	\text{oder}\quad A &\-> a & a&\in\Sigma
+% \end{alignat*}
+% \emph{Verfahren:}
+% \begin{itemize}
+% \item Erweitere $N$ um neue \acs{NT} $\{Y_a \mid a\in\Sigma\}$
+% \item Zusätzliche neue Regeln $Y_a\-> a$
+% \item Ersetze in den "`alten"' Regeln alle Terminale $a$ durch $Y_a$
+% \item[$\curvearrowright$] Grammatik separiert, Sprache ist unverändert.
+% \end{itemize}
 
-\paragraph*{2. Schritt:} Eliminiere alle Regeln der Form $A\->\Eps$ ($\Eps$-Produktion)\\
-Ziel: $\Eps$-freie Grammatik.\\
-Gesucht: $M=\{ A \mid A \xRightarrow{*}\Eps \} \subseteq N$
-\begin{alignat*}{2}
-    \text{Def.:}&\quad& M_0 &= \{ A \mid A\-> \Eps \}\\
-    &\forall i\in\N& M_{i+1} &= M_i\cup \{ A \mid A\->\alpha, \alpha \in M_i^* \}\\
-    \text{Es gilt }&\forall i\in\N& M_i &\subseteq N \text{ endlich}\\
-    && \curvearrowright\quad \exists n\in\N &: M_n = M_{n+1} = \bigcup_{i\in\N} M_i\\[.5em]
-    \text{Beh.:}&& M&=\bigcup\limits_{i\in\N} M_i\\
-    \forall i\in\N :&& M_i &\subseteq M\\
-    i=0 :&& \quad M_0 &= \{ A \mid A\-> \Eps \in P \} \subseteq M\\
-    i>0 :&& M_{i+1} &= M_i\cup \{ A \mid A\-> \alpha,\alpha\in M_i^* \}
-\end{alignat*}
-\begin{alignat*}{2}
-    &\text{Falls}\quad& A &\->A_1\dots A_n\in P,\ A_j\in M_i\\
-    &\text{dann} & A &\=> A_1\dots A_n\\
-    &&&\xrightarrow{\text{I.V.}} A_2\dots A_n\\
-    &&&\ \vdots\\
-    &&&\xrightarrow{\text{I.V.}} A_n\\
-    &&&\xrightarrow{\text{I.V.}} \Eps\\
-    &\curvearrowright & A &\in M\\
-    &\-> & \bigcup_{i\in\N} M_i &\subseteq M
-\end{alignat*}
-Zeige noch $M\subseteq \bigcup\limits_{i\in\N} M_i$
+% \paragraph*{2. Schritt:} Eliminiere alle Regeln der Form $A\->\Eps$ ($\Eps$-Produktion)\\
+% Ziel: $\Eps$-freie Grammatik.\\
+% Gesucht: $M=\{ A \mid A \xRightarrow{*}\Eps \} \subseteq N$
+% \begin{alignat*}{2}
+%     \text{Def.:}&\quad& M_0 &= \{ A \mid A\-> \Eps \}\\
+%     &\forall i\in\N& M_{i+1} &= M_i\cup \{ A \mid A\->\alpha, \alpha \in M_i^* \}\\
+%     \text{Es gilt }&\forall i\in\N& M_i &\subseteq N \text{ endlich}\\
+%     && \curvearrowright\quad \exists n\in\N &: M_n = M_{n+1} = \bigcup_{i\in\N} M_i\\[.5em]
+%     \text{Beh.:}&& M&=\bigcup\limits_{i\in\N} M_i\\
+%     \forall i\in\N :&& M_i &\subseteq M\\
+%     i=0 :&& \quad M_0 &= \{ A \mid A\-> \Eps \in P \} \subseteq M\\
+%     i>0 :&& M_{i+1} &= M_i\cup \{ A \mid A\-> \alpha,\alpha\in M_i^* \}
+% \end{alignat*}
+% \begin{alignat*}{2}
+%     &\text{Falls}\quad& A &\->A_1\dots A_n\in P,\ A_j\in M_i\\
+%     &\text{dann} & A &\=> A_1\dots A_n\\
+%     &&&\xrightarrow{\text{I.V.}} A_2\dots A_n\\
+%     &&&\ \vdots\\
+%     &&&\xrightarrow{\text{I.V.}} A_n\\
+%     &&&\xrightarrow{\text{I.V.}} \Eps\\
+%     &\curvearrowright & A &\in M\\
+%     &\-> & \bigcup_{i\in\N} M_i &\subseteq M
+% \end{alignat*}
+% Zeige noch $M\subseteq \bigcup\limits_{i\in\N} M_i$
 
-Sei $A\in M : A\xRightarrow{*} \Eps$ mit Ableitungsbaum der Höhe $h+1$, dann: $A\in M_h$
+% Sei $A\in M : A\xRightarrow{*} \Eps$ mit Ableitungsbaum der Höhe $h+1$, dann: $A\in M_h$
 
-\emph{h=0:} Ableitungsbaum \quad \tikz[baseline=(a.base)]{\Tree [.\node (a) {$A$}; $\Eps$ ]} \quad $A\->\Eps \curvearrowright A\in M_0$
+% \emph{h=0:} Ableitungsbaum \quad \tikz[baseline=(a.base)]{\Tree [.\node (a) {$A$}; $\Eps$ ]} \quad $A\->\Eps \curvearrowright A\in M_0$
 
-\emph{h>0:}
-\tikz[baseline=(a.base)]{
-    \Tree [.\node (a) {$A$}; [.$A_1$ \edge[roof]; {$\Eps$} ]
-                             [.$A_2$ \edge[roof]; {$\Eps$} ]
-                             [.$\dots$ ]
-                             [.$A_n$ \edge[roof]; {$\Eps$} ]
-          ]
-}
+% \emph{h>0:}
+% \tikz[baseline=(a.base)]{
+%     \Tree [.\node (a) {$A$}; [.$A_1$ \edge[roof]; {$\Eps$} ]
+%                              [.$A_2$ \edge[roof]; {$\Eps$} ]
+%                              [.$\dots$ ]
+%                              [.$A_n$ \edge[roof]; {$\Eps$} ]
+%           ]
+% }
 
-so dass $A_j \=>^* \Eps$ mit Ableitungsbaum der Höhe $<h+1$
+% so dass $A_j \=>^* \Eps$ mit Ableitungsbaum der Höhe $<h+1$
 
-Nach I.V. $A_j\in M_{h-1}$ und $A \-> A_1\dots A_n \in P$, so dass $ A \in M_h$.
+% Nach I.V. $A_j\in M_{h-1}$ und $A \-> A_1\dots A_n \in P$, so dass $ A \in M_h$.
 
 
-%
-%
-Transformation im \ac{CNF} (Fortsetzung)
-\begin{enumerate}
-\item Schritt: Separierte Grammatik: $\A\->A_1\dots A_n$ oder $A\-> a\ ,\ A_i\in N$
-\item Schritt: $\Eps$-freie Grammatik, bereits bestimmt:
-	\[ M=\{A \mid A\=> \Eps \} \]
-	inkl. Algorithmus dazu: berechne $M_i$ f"ur $i=0, 1, \dots$ bis keine neuen NT hinzukommen. 
+% %
+% %
+% Transformation im \ac{CNF} (Fortsetzung)
+% \begin{enumerate}
+% \item Schritt: Separierte Grammatik: $\A\->A_1\dots A_n$ oder $A\-> a\ ,\ A_i\in N$
+% \item Schritt: $\Eps$-freie Grammatik, bereits bestimmt:
+% 	\[ M=\{A \mid A\=> \Eps \} \]
+% 	inkl. Algorithmus dazu: berechne $M_i$ f"ur $i=0, 1, \dots$ bis keine neuen NT hinzukommen. 
 	
-	Anpassen der Produktionen
-	\begin{enumerate}
-		\item\label{itm:Prod-b} Falls Regel $A\-> A_1\dots A_n\in P$ und $\exists j:A_j\in M$, dann füge neue Regel\\
-			$A\->A_1\dots A_{j-1} A_{j+1}\dots A_n$ zu $P$ hinzu.
-		\item Wiederhole \nameref{itm:Prod-b} bis keine neuen Regeln erzeugt werden können.
-		\item Entferne alle $\Eps$-Regeln.
-	\end{enumerate}
-	Ergebnis: Grammatik, die $\Eps$-frei ist und die gleiche Sprache erzeugt (o.B.).
+% 	Anpassen der Produktionen
+% 	\begin{enumerate}
+% 		\item\label{itm:Prod-b} Falls Regel $A\-> A_1\dots A_n\in P$ und $\exists j:A_j\in M$, dann füge neue Regel\\
+% 			$A\->A_1\dots A_{j-1} A_{j+1}\dots A_n$ zu $P$ hinzu.
+% 		\item Wiederhole \nameref{itm:Prod-b} bis keine neuen Regeln erzeugt werden können.
+% 		\item Entferne alle $\Eps$-Regeln.
+% 	\end{enumerate}
+% 	Ergebnis: Grammatik, die $\Eps$-frei ist und die gleiche Sprache erzeugt (o.B.).
 
-\item Schritt: Beseitige Kettenregeln der Form $A\-> B$
-	\begin{itemize}
-		\item Betrachte den gerichteten Graphen mit Knotenmenge $N$ und den Kettenregeln als Kanten.
-		\item Suche Zyklus mit Tiefensuche $A_1\->A_2\->\dots\->A_r\->A_i$. Dann ersetzt Vorkommen von $A_j\ (j>1)$ durch $A_1$ (auf linker und rechter Seite aller Produktionen).
-		\item Wiederhole bis alle Zyklen eliminiert.
-		\item Betrachte topologische Sortierung des verbleibenden \acsu{DAG}: $B_1\dots B_m$, so dass $B_m$ keine Kettenregel besitzt.
-		\item Starte mit $B_m$ mit Produktion $B_m\->\alpha_i \mid \dots \mid \alpha_k$\\
-			Ersetze alle Vorkommen von $B_m$ auf der rechten Seite von Kettenproduktionen durch $\alpha_1 \mid \dots \mid \alpha_k$
-		\item Wiederhole f"ur $B_{m+1}\dots B_1$\\
-			$\curvearrowright$ alle Kettenproduktionen eliminiert.
-	\end{itemize}
-\item Schritt: jetzt haben alle Produktionen die Form $A\-> A_1\dots A_n$, $n\geq 2$ oder $A\-> a$.
-	\begin{itemize}
-		\item Falls $A\-> A_1 A_2\dots A_n \in P$ mit $n>2$ dann ersetze durch zwei neue Produktionen
-		\begin{align*}
-			A &\-> A_1 B & \text{mit $B$ neues \acs{NT}}\\
-			B &\-> A_2\dots A_n 
-		\end{align*}
-		\item Wdhl. bis alle rechten Seiten eine L"ange $\le2$ haben.
-	\end{itemize}
-	$\curvearrowright$ \ac{CNF} erreicht.
-\end{enumerate}
-\begin{Bemerkung} Sei $|\mathcal{G}|=\sum\limits_{A\->\alpha\in P}(|\alpha|+1)$ die Gr"o"se einer CFG.\\
-Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größe der \ac{CNF}-Grammatik ist $O(|\mathcal{G}|^2)$.
-\end{Bemerkung}
+% \item Schritt: Beseitige Kettenregeln der Form $A\-> B$
+% 	\begin{itemize}
+% 		\item Betrachte den gerichteten Graphen mit Knotenmenge $N$ und den Kettenregeln als Kanten.
+% 		\item Suche Zyklus mit Tiefensuche $A_1\->A_2\->\dots\->A_r\->A_i$. Dann ersetzt Vorkommen von $A_j\ (j>1)$ durch $A_1$ (auf linker und rechter Seite aller Produktionen).
+% 		\item Wiederhole bis alle Zyklen eliminiert.
+% 		\item Betrachte topologische Sortierung des verbleibenden \acsu{DAG}: $B_1\dots B_m$, so dass $B_m$ keine Kettenregel besitzt.
+% 		\item Starte mit $B_m$ mit Produktion $B_m\->\alpha_i \mid \dots \mid \alpha_k$\\
+% 			Ersetze alle Vorkommen von $B_m$ auf der rechten Seite von Kettenproduktionen durch $\alpha_1 \mid \dots \mid \alpha_k$
+% 		\item Wiederhole f"ur $B_{m+1}\dots B_1$\\
+% 			$\curvearrowright$ alle Kettenproduktionen eliminiert.
+% 	\end{itemize}
+% \item Schritt: jetzt haben alle Produktionen die Form $A\-> A_1\dots A_n$, $n\geq 2$ oder $A\-> a$.
+% 	\begin{itemize}
+% 		\item Falls $A\-> A_1 A_2\dots A_n \in P$ mit $n>2$ dann ersetze durch zwei neue Produktionen
+% 		\begin{align*}
+% 			A &\-> A_1 B & \text{mit $B$ neues \acs{NT}}\\
+% 			B &\-> A_2\dots A_n 
+% 		\end{align*}
+% 		\item Wdhl. bis alle rechten Seiten eine L"ange $\le2$ haben.
+% 	\end{itemize}
+% 	$\curvearrowright$ \ac{CNF} erreicht.
+% \end{enumerate}
+% \begin{Bemerkung} Sei $|\mathcal{G}|=\sum\limits_{A\->\alpha\in P}(|\alpha|+1)$ die Gr"o"se einer CFG.\\
+% Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größe der \ac{CNF}-Grammatik ist $O(|\mathcal{G}|^2)$.
+% \end{Bemerkung}
 
 \subsection{Pumping Lemma für \acs*{CFL}}
 \begin{Satz}[Pumping lemma für \acs*{CFL}, uvwxy Lemma]
