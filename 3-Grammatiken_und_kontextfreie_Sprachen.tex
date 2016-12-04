@@ -500,8 +500,8 @@ Der Aufwand für \textsc{Sep} beträgt $O(|\mathcal{G}|)$, wobei
   \item[IS] $m > 0$.
     Die Wurzel des Ableitungsbaum muss mit $A \to A_1\ldots A_n$ ($n>0$)
     markiert sein und die Kinder sind jeweils Ableitungsbäume für
-    $\Eps$ in  $Abl(\mathcal{G}, A_i)$, wobei $1 \le i \le n$ und
-    deren Höhe jeweils $m_i < m$ ist.
+    $\Eps$ in  $Abl(\mathcal{G}, A_i)$ der Höhe $m_i \le m-1$, wobei $1 \le i \le n$.
+    
     Es gilt nun per IV, dass $A_i \in M_{m_i} \subseteq M_{m-1}$.
     Somit ist $A_i \in M_{m-1}$ und damit, per Definition, $A \in M_m$.
   \end{description}
