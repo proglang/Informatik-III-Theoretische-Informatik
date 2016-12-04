@@ -545,7 +545,7 @@ Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_
   \item Für alle Regeln $A \to BC \in P$:
     \begin{itemize}
     \item Falls $B \in M$ füge $A \to C$ hinzu.
-    \item Falls $C \in M$ fürge $A \to B$ hinzu.
+    \item Falls $C \in M$ füge $A \to B$ hinzu.
     \end{itemize}
   \item Falls $S \in \operatorname{Nullable}(\mathcal{G})$ füge $S' \to \Eps$ hinzu
   \item Entferne alle Produktionen $A \to \Eps$ für $A \neq S'$.
@@ -554,56 +554,20 @@ Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_
 
 
 \begin{Def}[name={[\acs*{CFG} in \acs*{CNF}]}]
-	Eine \ac{CFG} ist in \ac{CNF}, falls jede Produktion die Form $A\->a$ oder $A\->BC$ hat, wobei $A,B,C\in N$, $a\in\Sigma$.
+	Eine \ac{CFG} $(N, \Sigma, P, S)$ ist in \ac{CNF}, falls jede
+        Produktion die Form $A\->a$, $A\->BC$, oder $S \-> \Eps$ hat, wobei $A,B,C\in N$, $a\in\Sigma$.
 \end{Def}
 
 
 
 
-\begin{Beobachtung}
-	$\mathcal{G}$ in \ac{CNF} $\curvearrowright \Eps \notin L(\mathcal{G})$
-\end{Beobachtung}
+% \begin{Beobachtung}
+% 	$\mathcal{G}$ in \ac{CNF} $\curvearrowright \Eps \notin L(\mathcal{G})$
+% \end{Beobachtung}
 	
 % \paragraph*{Transformation} einer Grammatik $\mathcal{G}$ mit $\Eps\notin L(\mathcal{G})$ nach \ac{CNF}.
 
-% \paragraph*{1. Schritt:} Separierte Grammatik\\
-% d.h. jede Regel hat die Form
-% \begin{alignat*}{2}
-% 	A&\-> A_1\dots A_n &\qquad A_i&\in N,n\geq 0\\
-% 	\text{oder}\quad A &\-> a & a&\in\Sigma
-% \end{alignat*}
-% \emph{Verfahren:}
-% \begin{itemize}
-% \item Erweitere $N$ um neue \acs{NT} $\{Y_a \mid a\in\Sigma\}$
-% \item Zusätzliche neue Regeln $Y_a\-> a$
-% \item Ersetze in den "`alten"' Regeln alle Terminale $a$ durch $Y_a$
-% \item[$\curvearrowright$] Grammatik separiert, Sprache ist unverändert.
-% \end{itemize}
 
-% \paragraph*{2. Schritt:} Eliminiere alle Regeln der Form $A\->\Eps$ ($\Eps$-Produktion)\\
-% Ziel: $\Eps$-freie Grammatik.\\
-% Gesucht: $M=\{ A \mid A \xRightarrow{*}\Eps \} \subseteq N$
-% \begin{alignat*}{2}
-%     \text{Def.:}&\quad& M_0 &= \{ A \mid A\-> \Eps \}\\
-%     &\forall i\in\N& M_{i+1} &= M_i\cup \{ A \mid A\->\alpha, \alpha \in M_i^* \}\\
-%     \text{Es gilt }&\forall i\in\N& M_i &\subseteq N \text{ endlich}\\
-%     && \curvearrowright\quad \exists n\in\N &: M_n = M_{n+1} = \bigcup_{i\in\N} M_i\\[.5em]
-%     \text{Beh.:}&& M&=\bigcup\limits_{i\in\N} M_i\\
-%     \forall i\in\N :&& M_i &\subseteq M\\
-%     i=0 :&& \quad M_0 &= \{ A \mid A\-> \Eps \in P \} \subseteq M\\
-%     i>0 :&& M_{i+1} &= M_i\cup \{ A \mid A\-> \alpha,\alpha\in M_i^* \}
-% \end{alignat*}
-% \begin{alignat*}{2}
-%     &\text{Falls}\quad& A &\->A_1\dots A_n\in P,\ A_j\in M_i\\
-%     &\text{dann} & A &\=> A_1\dots A_n\\
-%     &&&\xrightarrow{\text{I.V.}} A_2\dots A_n\\
-%     &&&\ \vdots\\
-%     &&&\xrightarrow{\text{I.V.}} A_n\\
-%     &&&\xrightarrow{\text{I.V.}} \Eps\\
-%     &\curvearrowright & A &\in M\\
-%     &\-> & \bigcup_{i\in\N} M_i &\subseteq M
-% \end{alignat*}
-% Zeige noch $M\subseteq \bigcup\limits_{i\in\N} M_i$
 
 % Sei $A\in M : A\xRightarrow{*} \Eps$ mit Ableitungsbaum der Höhe $h+1$, dann: $A\in M_h$
 
