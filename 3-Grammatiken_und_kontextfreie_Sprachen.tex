@@ -410,7 +410,7 @@ Der Aufwand für \textsc{Sep} beträgt $O(|\mathcal{G}|)$, wobei
 \end{proof}
 
 \begin{lemma}[\textsc{Bin}]
-  Zu jeder CFG gibt es eine äquivalente CFG, bei der für alle Produktionen $A \to \alpha$ gilt, dass $|a| \le 2$.
+  Zu jeder CFG gibt es eine äquivalente CFG, bei der für alle Produktionen $A \to \alpha$ gilt, dass $|\alpha| \le 2$.
 \end{lemma}
 \begin{proof}
   Ersetze jede Produktion der Form 
@@ -444,10 +444,12 @@ Der Aufwand für \textsc{Sep} beträgt $O(|\mathcal{G}|)$, wobei
   Es gibt einen Algorithmus, der $\operatorname{Nullable}(\mathcal{G})$ in $O(|\mathcal{G}|^2)$ ausrechnet.
 \end{Satz}
 \begin{proof}
-  Definiere $M_i$ als die Menge der Nichtterminale, aus denen sich $\Eps$ in höchstens $i$ Schritten ableiten lässt:
+  Definiere $M_i$ als die Menge der Nichtterminale, aus denen sich
+  $\Eps$ mit einem Ableitungsbaum der Höhe $< i$ ableiten lässt:
   \begin{align*}
     M_0 &= \emptyset \\
-    M_{i+1} &= M_i \cup \{ A \mid A \to \alpha \in P \text{ und } \alpha \in M_i^* \}
+    M_{i+1} &= M_i \cup \{ A \mid A \to \alpha \in P \text{ und }
+              \alpha \in M_i^* \}
   \end{align*}
   Es gilt für alle $i \in \N$, dass $M_i \subseteq N$.
   Da $|N|$ endlich ist, existiert ein $m \in \N$, so dass
@@ -464,38 +466,47 @@ Der Aufwand für \textsc{Sep} beträgt $O(|\mathcal{G}|)$, wobei
   Per Induktion über $i$:
   \begin{description}
   \item[IA] $i = 0$, $M_0 = \emptyset \subseteq \operatorname{Nullable}(\mathcal{G})$
-  \item[IS] $i > 0$ 
+  \item[IS] $i \Rightarrow i+1$
 
-    Wenn $A \in M_i$, dann $A \to A_1\ldots A_n \in P$ mit $A_j \in M_i$ für $1 \le j \le n$, und es gibt den Ableitungsschritt
-    \begin{displaymath}
-      A \==> A_1 \ldots A_n
-    \end{displaymath}
-    Per IV existieren die Ableitungen
-    \begin{displaymath}
-      A_j \stackrel{*}{\==>} \Eps
-    \end{displaymath}
-    und somit auch
-    \begin{displaymath}
-      A \stackrel{*}{\==>} \underbrace{\Eps \ldots \Eps}_{n \text{ mal}} = \Eps
-    \end{displaymath}
-    Also gilt $A \in \operatorname{Nullable}(\mathcal{G})$
+    Wenn $A \in M_{i+1}$, dann ist
+    \begin{itemize}
+    \item entweder
+      $A \in M_i \subseteq \operatorname{Nullable}(\mathcal{G})$ nach
+      IV oder
+    \item 
+      es existiert $A \to A_1\ldots A_n \in P$ mit $A_j \in M_i$ für
+      $1 \le j \le n$.
+      Per IV existieren Ableitungen
+      \begin{displaymath}
+        A_j \stackrel{*}{\==>} \Eps
+      \end{displaymath}
+      denen kann die obige Produktion vorangestellt werden, sodass auch
+      eine Ableitung von $A$ nach $\Eps$ existert.
+      \begin{displaymath}
+        A  \==> A_1 \ldots A_n \stackrel{*}{\==>} \underbrace{\Eps \ldots \Eps}_{n \text{ mal}} = \Eps
+      \end{displaymath}
+      Also gilt $A \in \operatorname{Nullable}(\mathcal{G})$
+    \end{itemize}
   \end{description}
 
   
-  \paragraph{,,$\supseteq$''}
-  Wenn $A \in \operatorname{Nullable}(\mathcal{G})$, dann existiert $m \in \N$, so dass $A \stackrel{m}{\==>} \Eps$.
-  Wir zeigen per Induktion über $m$, dass $A \in M_m \subseteq \bigcup_{i \in \N} M_i$.
+  \paragraph{,,$\subseteq$''}
+  Wenn $A \in \operatorname{Nullable}(\mathcal{G})$, dann existiert $m
+  \in \N$, so dass $A \stackrel{*}{\==>} \Eps$ mit einem
+  Ableitungsbaum der Höhe $m$.
+  Wir zeigen per Induktion über $m$, dass $A \in M_{m+1} \subseteq \bigcup_{i \in \N} M_i$.
   \begin{description}
-  \item[IA] $m = 0$.
-    (Es ist nichts zu zeigen)
+  \item[IA] $m = 0$. Die Ableitung ist $A \==> \Eps$, sodass $A\in M_1$.
   \item[IS] $m > 0$.
-    Wir haben $A \==> A_1\ldots A_n$ mit $A_i \stackrel{m_i} \Eps$, wobei $1 \le i \le n$ und $m_i < m$.
-    Es gilt nun per IA, dass $A_i \in M_{m_i}$.
-    Es gilt ferner per Definition von $M_m$\footnote{Eigentlich per Induktion über $m$ zu zeigen}, dass für alle $m_i < m$, $M_{m_i} \subseteq M_m$.
-    Somit ist $A_i \in M_m$ und damit, per Definition, $A \in M_m$.
+    Die Wurzel des Ableitungsbaum muss mit $A \to A_1\ldots A_n$ ($n>0$)
+    markiert sein und die Kinder sind jeweils Ableitungsbäume für
+    $\Eps$ in  $Abl(\mathcal{G}, A_i)$, wobei $1 \le i \le n$ und
+    deren Höhe jeweils $m_i < m$ ist.
+    Es gilt nun per IV, dass $A_i \in M_{m_i} \subseteq M_{m-1}$.
+    Somit ist $A_i \in M_{m-1}$ und damit, per Definition, $A \in M_m$.
   \end{description}
 \end{proof}
-Der Algorithmus, der $\bigcup_{i \in \N} M_i$ berechnet ist folgender:
+Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_{i \in \N} M_i$.
 \begin{itemize}
 \item Eingabe: CFG $\mathcal{G} = (N, \Sigma, P, S)$
 \item Ausgabe: $\operatorname{Nullable}(\mathcal{G})$
