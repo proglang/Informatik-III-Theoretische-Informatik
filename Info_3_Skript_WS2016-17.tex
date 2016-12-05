@@ -41,8 +41,11 @@
 \usepackage{stmaryrd} % Symbols like \llbracket for [[
 \usepackage{tabu}
 
-\usepackage[symbol]{footmisc} % custom footnote markers
-\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\usepackage[symbol,perpage]{footmisc} % custom footnote markers
+\DefineFNsymbols{daggers}{{$\dagger$}{$\dagger\dagger$}{${\dagger}{\dagger}{\dagger}$}{${\dagger}{\dagger}{\dagger}{\dagger}$}{${\dagger}{\dagger}{\dagger}{\dagger}{\dagger}$}}
+\setfnsymbol{daggers}
+% \renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
 
 
 % \usepackage[charter]{mathdesign}
@@ -314,6 +317,7 @@
 \small\sffamily Zuletzt aktualisiert: \today}
 
 \maketitle
+
 \vspace{\baselineskip}
 \tableofcontents
 

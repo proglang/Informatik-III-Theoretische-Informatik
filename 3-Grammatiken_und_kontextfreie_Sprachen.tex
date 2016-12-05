@@ -489,9 +489,9 @@ Der Aufwand für \textsc{Sep} beträgt $O(|\mathcal{G}|)$, wobei
   \item[IA] $m = 0$.
     (Es ist nichts zu zeigen)
   \item[IS] $m > 0$.
-    Wir haben $A \==> A_1\ldots A_n$ mit $A_i \stackrel{m_i} \Eps$, wobei $1 \le i \le n$ und $m_i < m$.
+    Wir haben $A \==> A_1\ldots A_n$ mit $A_i \stackrel{m_i}{\Longrightarrow} \Eps$, wobei $1 \le i \le n$ und $m_i < m$.
     Es gilt nun per IA, dass $A_i \in M_{m_i}$.
-    Es gilt ferner per Definition von $M_m$\footnote{Eigentlich per Induktion über $m$ zu zeigen}, dass für alle $m_i < m$, $M_{m_i} \subseteq M_m$.
+    Es gilt ferner per Definition von $M_m$, dass für alle $m_i < m$, $M_{m_i} \subseteq M_m$.\footnote{Eigentlich per Induktion über $m$ zu zeigen}
     Somit ist $A_i \in M_m$ und damit, per Definition, $A \in M_m$.
   \end{description}
 \end{proof}
