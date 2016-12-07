@@ -241,7 +241,7 @@ Hier sind einige Beispiele kontextfreier Sprachen und Grammatiken:
 \begin{Def}[name={[Ableitungsbaum]}] Sei $\mathcal{G} = (N, \Sigma, P, S)$ eine kontextfreie Grammatik.
   Definiere die Menge der \emph{Ableitungsbäume von $\mathcal{G}$ beginnend mit $A \in N$}, $\operatorname{Abl(G,A)}$, als Menge von markierten, geordneten Bäumen induktiv durch:
   \begin{itemize}
-  \item[] Falls $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$ mit $A_i \in \N$, $w_i \in \Sigma^*$, $0 \le i \le n$ und $\mathcal{A}_i \in \operatorname{Abl}(G, A_i)$ dann ist
+  \item[] Falls $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$ mit $A_i \in N$, $w_i \in \Sigma^*$, $0 \le i \le n$ und $\mathcal{A}_i \in \operatorname{Abl}(G, A_i)$ dann ist
     \begin{center}
 			\tikz[baseline=0cm]{\Tree [.$\pi$ $\mathcal{A}_1$ \edge[draw=none]; {$\dots$} $\mathcal{A}_n$ ]} $\in \operatorname{Abl}(G, A)$
     \end{center}
