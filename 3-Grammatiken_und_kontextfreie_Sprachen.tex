@@ -378,7 +378,7 @@ Hier sind einige Beispiele kontextfreier Sprachen und Grammatiken:
 \end{Bsp}
 
 \datenote{2.12.16}
-\subsection{Die Chomsky Normalform für \ac*{CFG}}
+\subsection{Die Chomsky Normalform für Kontextfreie Sprachen}
 Notwendig für das Pumping Lemma kontextfreier Sprachen und für einen effizienten Algorithmus für das \nameref{satz:wortproblem}.
 
 
@@ -405,7 +405,7 @@ Notwendig für das Pumping Lemma kontextfreier Sprachen und für einen effizient
 Offenbar gilt $L(\mathcal{G}) = L(\mathcal{G'})$ und $\mathcal{G}'$ ist separiert (ohne Beweis).
 Der Aufwand für \textsc{Sep} beträgt $O(|\mathcal{G}|)$, wobei 
 \begin{displaymath}
-  |G| = \sum_{A \in \N}\sum_{A \to \alpha \in P} |A\alpha|
+  |G| = \sum_{A \in N}\sum_{A \to \alpha \in P} |A\alpha|
 \end{displaymath}
 \end{proof}
 
@@ -435,7 +435,7 @@ Der Aufwand für \textsc{Sep} beträgt $O(|\mathcal{G}|)$, wobei
   Sie $\mathcal{G} = (N, \Sigma, P, S)$ eine CFG.
   Definiere die Menge $\operatorname{Nullable}(\mathcal{G}) \subseteq N$ als
   \begin{displaymath}
-    \operatorname{Nullable}(\mathcal{G}) = \{ A \in \N \mid A \stackrel{*}{\==>} \Eps \}
+    \operatorname{Nullable}(\mathcal{G}) = \{ A \in N \mid A \stackrel{*}{\==>} \Eps \}
   \end{displaymath}
   Es handelt sich um die Menge an Nichtterminalen, aus denen das leere Wort abgeleitet werden kann.
 \end{Def}
@@ -533,9 +533,10 @@ Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_
   Prüfe ob $S \in \operatorname{Nullable}(\mathcal{G})$
 \end{proof}
 \begin{lemma}[\textsc{Del}]
-  Zu jeder CFG $\mathcal{G}=(N, \Sigma, P, S)$ gibt es eine äquivalente CFG $\mathcal{G'} =(N', \Sigma, P', S')$, bei der die einzige $\Eps$-Regel $S' \to \Eps$ ist (falls $\Eps \in L(\mathcal{G})$).
+  Zu jeder CFG $\mathcal{G}=(N, \Sigma, P, S)$ gibt es eine äquivalente CFG $\mathcal{G'} =(N', \Sigma, P', S')$, bei der die einzige $\Eps$-Regel $S' \to \Eps$ ist (falls $\Eps \in L(\mathcal{G})$) und bei der $S'$ auf keiner rechten Seite einer Produktion vorkommt.
 \end{lemma}
 \begin{proof}
+  \hfill
   \begin{enumerate}
   \item Erweitere $\mathcal{G}$ um ein neues Startsymbol $S'$ mit $S' \to S$ als neue Produktion.
     Dieser Schritt stellt sicher, dass $S'$ auf keiner rechten Regelseite vorkommt.
@@ -552,86 +553,63 @@ Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_
   \end{enumerate}
 \end{proof}
 
-
-\begin{Def}[name={[\acs*{CFG} in \acs*{CNF}]}]
-	Eine \ac{CFG} $(N, \Sigma, P, S)$ ist in \ac{CNF}, falls jede
-        Produktion die Form $A\->a$, $A\->BC$, oder $S \-> \Eps$ hat, wobei $A,B,C\in N$, $a\in\Sigma$.
+\begin{Def}
+  Sei $\mathcal{G} = (N, \Sigma, P, S)$ eine Grammatik.
+  Eine \emph{Kettenregel} von $\mathcal{G}$ ist eine Produktion in $P$ der Form $A \to B$, wobei $A,B \in N$.
 \end{Def}
 
+\begin{lemma}[\textsc{Unit}]
+  Zu jeder CFG $\mathcal{G} = (N, \Sigma, P, S)$ gibt es eine äquivalente CFG $\mathcal{G}' = (N, \Sigma, P', S)$ ohne Kettenregeln.
+\end{lemma}
+\begin{proof}
+  Setze zu Anfang $P' = P$ und eliminiere alle Kettenregeln mit folgendem Algorithmus:
+  \begin{enumerate}
+  \item Betrachte den gerichteten Graphen $G$ mit Knoten $N$ und Kanten $\{(A, B) \mid A,B \in N \text{ und } A \to B \in P' \}$ \label{alg:unit-step-dg}.
+  \item Suche, z.B. mittels Tiefensuche, einen Zyklus in $G$ .
+    Wenn kein Zyklus gefunden wurde, weiter mit Schritt \ref{alg:unit-step-dag}.
+  \item Wurde der Zyklus $A_1 \to A_1 \to \ldots \to A_k \to A_1$ gefunden, dann ersetze in $P'$ alle Vorkommen von $A_j$ mit $j > 1$ durch $A_1$ (auf linker \emph{und} rechter Regelseite).
+    Fahre fort mit Schritt \ref{alg:unit-step-dg}.
+  \item \label{alg:unit-step-dag}
+    Der Graph $G$ ist ein gerichteter, azyklischer Graph (DAG, \emph{Directed Acyclic Graph}).
+    Sortiere die Knoten von $G$ topologisch als $A_1, \ldots, A_n$, so dass $A_n$ auf keiner linken Seite einer Kettenregel vorkommt.
+  \item $\mathbf{for}~j = m \ldots 1$
+    \begin{itemize}
+    \item[] $\mathbf{for}~\mathbf{each}~A_j \to A_k \in P'$
+      \begin{itemize}
+      \item[] (wegen topologischer Sortierung gilt $k > j$)
+      \item[] entferne $A_j \to A_k$ aus $P'$
+      \item[] füge $A_j \to BC$ zu $P'$ hinzu, falls $A_j \to BC \in P'$,\quad $B,C \in N$.
+      \item[] füge $A_j \to \mathtt{a}$ zu $P'$ hinzu, falls $A_j \to \mathtt{a} \in P'$,\quad $\mathtt{a} \in \Sigma$.
+      \end{itemize}
+    \end{itemize}
+    Die äußere Schleife hat die Invariante, dass am Ende jedes Durchlaufs für $m \ge i \ge j$ keine Kettenregel $A_i \to \ldots$ in $P'$ existiert.
+    Beim Verlassen der Schleife ist $j = 1$ und es existieren überhaupt keine Kettenregeln mehr.
+  \end{enumerate}
+\end{proof}
 
 
+\begin{Def}[name={[\acs*{CFG} in \acs*{CNF}]}]
+	Eine \ac{CFG} $\mathcal{G} = (N, \Sigma, P, S)$ ist in \ac{CNF}, falls jede
+  Produktion die Form $A\->a$, $A\->BC$, oder $S \-> \Eps$ hat, wobei $A,B,C\in N$, $a\in\Sigma$.
+  Falls $S \to \Eps \in P$, dann darf $S$ auf keiner rechten Seite einer Produktion vorkommen.
+\end{Def}
+\begin{proof}
+    Wende der Reihe nach \textsc{Sep}, \textsc{Bin}, \textsc{Del} und \textsc{Unit} an.\footnote{Es genügt sogar nur \textsc{Del} und dann \textsc{Unit} anzuwenden, da \textsc{Del} schon \textsc{Sep} und \textsc{Bin} ausführt.}
+\end{proof}
 
-% \begin{Beobachtung}
-% 	$\mathcal{G}$ in \ac{CNF} $\curvearrowright \Eps \notin L(\mathcal{G})$
-% \end{Beobachtung}
+\begin{Beobachtung}
+  Ist $\mathcal{G} = (N, \Sigma, P, S)$ in CNF, dann lassen sich für die Ableitungsbäume $\mathcal{A} \in \operatorname{Abl}(\mathcal{G}, S)$ folgende Eigenschaften feststellen:
+  \begin{enumerate}
+  \item $\mathcal{A}$ ist ein Binärbaum.
+  \item Falls $Y(\mathcal{A}) = w$ dann ist die Anzahl der Blätter des Baumes $|w|$.
+  \end{enumerate}
+\end{Beobachtung}
 	
-% \paragraph*{Transformation} einer Grammatik $\mathcal{G}$ mit $\Eps\notin L(\mathcal{G})$ nach \ac{CNF}.
+\begin{Bemerkung} Sei $|\mathcal{G}|=\sum\limits_{A\->\alpha\in P}(|\alpha|+1)$ die Gr"o"se einer CFG.\\
+Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größe der \ac{CNF}-Grammatik ist $O(|\mathcal{G}|^2)$.
+\end{Bemerkung}
 
-
-
-% Sei $A\in M : A\xRightarrow{*} \Eps$ mit Ableitungsbaum der Höhe $h+1$, dann: $A\in M_h$
-
-% \emph{h=0:} Ableitungsbaum \quad \tikz[baseline=(a.base)]{\Tree [.\node (a) {$A$}; $\Eps$ ]} \quad $A\->\Eps \curvearrowright A\in M_0$
-
-% \emph{h>0:}
-% \tikz[baseline=(a.base)]{
-%     \Tree [.\node (a) {$A$}; [.$A_1$ \edge[roof]; {$\Eps$} ]
-%                              [.$A_2$ \edge[roof]; {$\Eps$} ]
-%                              [.$\dots$ ]
-%                              [.$A_n$ \edge[roof]; {$\Eps$} ]
-%           ]
-% }
-
-% so dass $A_j \=>^* \Eps$ mit Ableitungsbaum der Höhe $<h+1$
-
-% Nach I.V. $A_j\in M_{h-1}$ und $A \-> A_1\dots A_n \in P$, so dass $ A \in M_h$.
-
-
-% %
-% %
-% Transformation im \ac{CNF} (Fortsetzung)
-% \begin{enumerate}
-% \item Schritt: Separierte Grammatik: $\A\->A_1\dots A_n$ oder $A\-> a\ ,\ A_i\in N$
-% \item Schritt: $\Eps$-freie Grammatik, bereits bestimmt:
-% 	\[ M=\{A \mid A\=> \Eps \} \]
-% 	inkl. Algorithmus dazu: berechne $M_i$ f"ur $i=0, 1, \dots$ bis keine neuen NT hinzukommen. 
-	
-% 	Anpassen der Produktionen
-% 	\begin{enumerate}
-% 		\item\label{itm:Prod-b} Falls Regel $A\-> A_1\dots A_n\in P$ und $\exists j:A_j\in M$, dann füge neue Regel\\
-% 			$A\->A_1\dots A_{j-1} A_{j+1}\dots A_n$ zu $P$ hinzu.
-% 		\item Wiederhole \nameref{itm:Prod-b} bis keine neuen Regeln erzeugt werden können.
-% 		\item Entferne alle $\Eps$-Regeln.
-% 	\end{enumerate}
-% 	Ergebnis: Grammatik, die $\Eps$-frei ist und die gleiche Sprache erzeugt (o.B.).
-
-% \item Schritt: Beseitige Kettenregeln der Form $A\-> B$
-% 	\begin{itemize}
-% 		\item Betrachte den gerichteten Graphen mit Knotenmenge $N$ und den Kettenregeln als Kanten.
-% 		\item Suche Zyklus mit Tiefensuche $A_1\->A_2\->\dots\->A_r\->A_i$. Dann ersetzt Vorkommen von $A_j\ (j>1)$ durch $A_1$ (auf linker und rechter Seite aller Produktionen).
-% 		\item Wiederhole bis alle Zyklen eliminiert.
-% 		\item Betrachte topologische Sortierung des verbleibenden \acsu{DAG}: $B_1\dots B_m$, so dass $B_m$ keine Kettenregel besitzt.
-% 		\item Starte mit $B_m$ mit Produktion $B_m\->\alpha_i \mid \dots \mid \alpha_k$\\
-% 			Ersetze alle Vorkommen von $B_m$ auf der rechten Seite von Kettenproduktionen durch $\alpha_1 \mid \dots \mid \alpha_k$
-% 		\item Wiederhole f"ur $B_{m+1}\dots B_1$\\
-% 			$\curvearrowright$ alle Kettenproduktionen eliminiert.
-% 	\end{itemize}
-% \item Schritt: jetzt haben alle Produktionen die Form $A\-> A_1\dots A_n$, $n\geq 2$ oder $A\-> a$.
-% 	\begin{itemize}
-% 		\item Falls $A\-> A_1 A_2\dots A_n \in P$ mit $n>2$ dann ersetze durch zwei neue Produktionen
-% 		\begin{align*}
-% 			A &\-> A_1 B & \text{mit $B$ neues \acs{NT}}\\
-% 			B &\-> A_2\dots A_n 
-% 		\end{align*}
-% 		\item Wdhl. bis alle rechten Seiten eine L"ange $\le2$ haben.
-% 	\end{itemize}
-% 	$\curvearrowright$ \ac{CNF} erreicht.
-% \end{enumerate}
-% \begin{Bemerkung} Sei $|\mathcal{G}|=\sum\limits_{A\->\alpha\in P}(|\alpha|+1)$ die Gr"o"se einer CFG.\\
-% Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größe der \ac{CNF}-Grammatik ist $O(|\mathcal{G}|^2)$.
-% \end{Bemerkung}
-
-\subsection{Pumping Lemma für \acs*{CFL}}
+\subsection{Pumping Lemma für Kontextfreie Sprachen}
 \begin{Satz}[Pumping lemma für \acs*{CFL}, uvwxy Lemma]
 \label{satz:PL für CFL}
 %\rlnote{Satz \# 4.2?}
@@ -645,29 +623,61 @@ Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_
 \end{Satz}
 \begin{proof}
 	Sei $\mathcal{G}= (N,\Sigma,P,S)$ in \ac{CNF} mit
-    $L(\mathcal{G}) = L\setminus\{\Eps\}$.
+    $L(\mathcal{G}) = L$.
     
 	Sei $k = |N|$ und wähle $n=2^k$
 	
-	Betrachte den Ableitungsbaum $B$ von $z$ mit $|z|\geq n$.
-	\begin{itemize}[label=$\curvearrowright$]
-		\item $B$ ist (im wesentlichen) ein Binärbaum mit $|z|\geq n = 2^k$ Blättern.
-		\item in einem solchen Bin"arbaum $B$ $\exists$ Pfad  der Länge $\geq k$.
-	\end{itemize}
-	Auf diesem Pfad liegen $\geq k+1$ \acfp{NT}\\
-	Also: mindestens ein \ac{NT} $A$ muss mehrmals auf dem Pfad vorkommen. Suche so ein $A$ beginnend vom Blatt dieses Pfads, dann ist das zweite Vorkommen von $A\leq k$ Schritte vom Blatt entfernt.
+	Betrachte den Ableitungsbaum $\mathcal{A} \in \operatorname{Abl}(\mathcal{G}, S)$ von $z$ mit $|z|\geq n$.
+
+  $\mathcal{A}$ ist ein Binärbaum mit $|z|\geq n = 2^k$ Blättern.
+  In einem solchen Bin"arbaum existiert ein Pfad $\zeta$ der Länge $\geq k$
+
+	Auf $\zeta$ liegen $\geq k+1$ \acfp{NT}, es muss also mindestens ein Nichtterminal $A$ mehrmals vorkommen.
+  Folge $\zeta$ vom Blatt Richtung Wurzel und bis sich $A$ das erste mal Wiederholt.
+  Das geschieht nach $\le k$ Schritten.
+  Nun teile $z = uvwxy$ wie hier skizziert:
+  
+			\begin{tikzpicture}[>=stealth,
+				widebox/.style={draw, minimum width=.75cm, minimum height=.35cm, inner sep=0pt}
+				,dot/.style={inner sep=0pt,outer sep=0pt,label={center:\scalebox{.75}{\textbullet}}}
+				]
+				
+				\node[dot,label={above right:$S$}] (v1) at (0,-1) {};
+				\node[dot] (v2) at (-0.25,-1.6) {};
+				\node[dot,] (v3) at (0,-2) {};
+				\node[dot] (v4) at (-0.5,-2.5) {};
+				\node[dot,label={above right:$A$}] (v5) at (0,-3) {};
+				\node[widebox] (v6) at (-1.5,-3.5) {$u$};
+				\node[widebox] (v7) at (-.75,-3.5) {$v$};
+				\node[widebox] (v8) at (0,-3.5) {$w$};
+				\node[widebox] (v9) at (.75,-3.5) {$x$};
+				\node[widebox] (v10) at (1.5,-3.5) {$y$};
+				
+				\draw  (v1) edge (v2);
+				\draw  (v2) edge (v3);
+				\draw  (v3) edge (v4);
+				\draw  (v4) edge (v7.north west);
+				\draw  (v4) edge (v5);
+				\draw  (v3) edge (v10.north west);
+				\draw  (v5) edge (v8.north west);
+				\draw  (v5) edge (v8.north east);
+				\draw  (v1) edge (v6.north west);
+				\draw  (v1) edge (v10.north east);
+				\node[align=left, text height=3em,inner sep=2pt] at (2.1,-1.5) {$A\rightarrow BC$~\small{ist Binärbaum}} edge[->,shorten >=.1cm] (v3);
+				\node[inner sep=0pt] at (2.75,-3.5) {$A\rightarrow a$} edge[->] (v10);
+				\node (v11) at (0,-4) {$z$};
+				\draw[semithick]
+				let \p1 = (v6.west), \p2 = (v11), \p3 = (v10.east) in 
+				 (\x1,\y2) edge[{Bar[]<}-] (v11) (v11) edge[-{>Bar[]}] (\x3,\y2);
+			\end{tikzpicture}
 	
-	Aufgrund der Wahl von $A$ hat der Ableitungsbaum für $A \=>^* vAx \xRightarrow{*} vwx$ Höhe $\leq k$.
-	\begin{itemize}[label=$\curvearrowright$]
-		\item hat $\leq 2^k=n$ Blätter
-		\item $|vwx|\leq 2^k =n$
-	\end{itemize}
-	Es gilt $|vx|\geq 1$, weil
-	\begin{itemize}
-		\item Ableitungsbaum ist Binärbaum, mit inneren Knoten $A \-> BC$
-		\item Pfad belegt nur eine Abzweigung
-		\item Wegen \ac{CNF} $\not\exists C, C\xRightarrow{*} \Eps$
-	\end{itemize}
+      Nun gilt
+      \begin{itemize}
+      \item $|vx|\geq 1$, da $\zeta$ entweder durch $B$ oder durch $C$ läuft. Nehme also an, $\zeta$ verläuft durch $B$.
+        Somit muss $C \stackrel{*}{\Longrightarrow} x$. In CNF ist $C \stackrel{*}{\Longrightarrow} \Eps$ nicht möglich und somit ist $|x| \ge 1$.
+        Der Fall, das $\zeta$ durch $C$ verläuft, ist analog.
+      \item $|vwx| \le 2^k = n$ TODO
+      \end{itemize}
 		\begin{figure}[H]\centering
 		\begin{subfigure}[b]{.29\linewidth}\centering
 			\begin{tikzpicture}[node distance=.75cm, on grid,
@@ -788,22 +798,62 @@ Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_
 \end{lemma}
 \begin{proof}
 	Sei $L=\{L=\{a^nb^nc^n \mid n\geq 1\}$.\\
-	$L$ ist nicht kontextfrei. Verwende \ac{PL}. Angenommen $L\in {CFL}$.\\
-	Sei $n$ die Konstante aus dem \ac{PL}.
+	$L$ ist nicht kontextfrei. Verwende \ac{PL}. Angenommen $L$ sei kontextfrei.
+	Sei dann $n$ die Konstante aus dem \ac{PL}.
 	
-	Wähle $z=a^nb^nc^n$
-	\begin{align*}
-		\text{Also: } \exists &u,v,w,x,y : z = uvwxy\\
-		& |vwx| \leq n
-	\end{align*}
-	$\curvearrowright vwx$  kann nicht gleichzeitig $a,b$ und $c$ enthalten.\\
-	Angenommen $vwx$ enthält kein $c$. Dann muss $uwy \in L$
-	\begin{itemize}
-		\item $y$ endet mit $c^n$
-		\item $|vx|\geq 1$, also $|uwy|+1\leq |z|$ also "`fehlt"' mindestens ein $a$ oder $b$
-	\end{itemize}
-	$\curvearrowright uvw \notin L$
+	Wähle $z=a^nb^nc^n$ und somit $|z| = 3n \ge n$.
+  Nach PL ist $z = uvwxy$ mit $|vx| \ge 1$ und $|vwx| \le n$.
+
+  Durch $|vwx| \le n$ ergeben sich folgende Möglichkeiten:
+  \begin{itemize}
+  \item $vwx = a^j$: 
+    Für $i=0$ ist $vwx=w$ mit $|w| < j$.
+    Anzahl der $a$ stimmt nicht mehr mit $n$ überein.
+  \item $vwx = a^kb^j$:
+    \begin{itemize}
+    \item Falls $v = a^{k'}$, $x = b^{j'}$: Für $i=0$ stimmt die Anzahl der $a$ nicht mehr mit $n$ überein.
+    \item Falls $v$ ein Gemisch aus $a$ und $b$ enthält.
+      Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
+    \item Falls $x$ ein Gemisch aus $a$ und $b$ enthält.
+      Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
+    \end{itemize}
+  \item $vwx = b^j$: analog Fall $a^j$
+  \item $vwx = b^kc^j$: analog Fall $a^kb^j$
+  \item $vwx = c^j$: analog Fall $a^j$
+  \end{itemize}
+  In jeder der Möglichkeiten lässt sich durch Pumpen ein Wort $w \not \in L$ finden.
+  Daher kann $L$ nicht kontextfrei sein.
 \end{proof}
+
+\begin{Bsp}
+  \begin{displaymath}
+    L = \{ww \mid w \in \{a,b\}^*\}
+  \end{displaymath}
+  ist kontextsensitive aber nicht kontextfrei.
+
+  Sei $n$ die Konstante aus dem PL
+
+  Betrachte $z = a^nb^na^nb^n \in L$ mit $|z| = 4n \ge n$.
+  Nach PL ist $z = uvwxy$ mit $|vx| \ge 1$ und $|vwx| \le n$.
+
+  Es ergeben sich folgende Möglichkeiten:
+  \begin{itemize}
+  \item $vwx = a^j$, $j \le n$.
+    Für $i=0$ ist $vwx=w$ mit $|w| < j$.
+    Anzahl der $a$ stimmt nicht mehr mit $n$ überein.
+  \item $vwx = a^kb^j$, $k+j \le n$.
+
+    \begin{itemize}
+    \item Falls $v = a^{k'}$, $x = b^{j'}$: Für $i=0$ stimmt die Anzahl der $a$ nicht mehr mit $n$ überein.
+    \item Falls $v$ ein Gemisch aus $a$ und b enthält.
+      Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
+    \item Falls $x$ ein Gemisch aus $a$ und b enthält.
+      Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
+    \end{itemize}
+  \item $vwx = b^j$ analog Fall $a^j$
+  \item $vwx = b^ka^j$ analog Fall $a^kb^j$
+  \end{itemize}
+\end{Bsp}
 
 \subsection{Entscheidungsprobleme für \acs*{CFL}}
 \begin{Satz}[name={[Wortproblem für \acs*{CFL} entscheidbar]}]
@@ -817,12 +867,7 @@ Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_
 	\begin{align*}
 		S &\-> XY\\
 		X &\-> ab \mid aXb\\
-		Y &\-> c \mid cY\\
-		\shortintertext{Umformen in \ac{CNF}}
-		S &\-> XY & A &\->a\\
-		X &\-> AB \mid AZ & B&\->b\\
-		Y &\->c \mid CY & C &\->c\\
-		Z &\-> XB
+		Y &\-> c \mid cY
 	\end{align*}
 \end{Bsp}
 
@@ -862,37 +907,42 @@ Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_
 				B &\xRightarrow{*} a_i\dots a_k \land{}\\
 				C &\xRightarrow{*} a_{k+1}\dots a_j \}
 			\end{aligned}\\
-		&= \bigcup_{k=i}^{j-1} \{ A \mid A \-> BC \land 
-			\begin{aligned}[t]
-				B &\xRightarrow{*} a_i\dots a_k \land{}\\
-				C &\xRightarrow{*} a_{k+1}\dots a_j \}
-			\end{aligned}\\
-		&= \bigcup_{k=i}^{j-1} \{ A \mid A \-> BC \land B \in M_{i,k} \land C \in M_{k+1,j} \}
+		% &= \bigcup_{k=i}^{j-1} \{ A \mid A \-> BC \land 
+		% 	\begin{aligned}[t]
+		% 		B &\xRightarrow{*} a_i\dots a_k \land{}\\
+		% 		C &\xRightarrow{*} a_{k+1}\dots a_j \}
+		% 	\end{aligned}\\
+		% &= \bigcup_{k=i}^{j-1} \{ A \mid A \-> BC \land B \in M_{i,k} \land C \in M_{k+1,j} \}
 	\end{align*}
 	Damit: $w\in L$ genau dann, wenn $S \=>^* w$ genau dann, wenn $S \in M_{1,n}$.
 	
-	\begin{table}[H]\centering
-		\caption[$w=aaa\ bbb\ cc$]{$w=aaa\ bbb\ cc$ \protect\footnotemark}
+  Beispiel der Matrix für $w = aaabbbcc$.
+  Zellen, die mit ,,${\bullet}$'' markiert sind, sind leer.
+  Die Reihenfolge, in der die nicht-diagonalen, nicht leeren Zellen, eingetragen wurden ist mit kleinen Zahlen.
+  Beispielsweise wurde $M_{35} = \{Z\}$ mit Zahl ,,{\scriptsize 3}'' \emph{nach} $M_{78} = \{Y\}$ mit Zahl ,,{\scriptsize 1}'' eingetragen.
+  Da $M_{1n} = \{S\}$ gilt $w \in L$.
+  \begin{center}
 		\begin{tabular}[t]{M{c}|*8{M{c}|}}
+      w = & a & a & a & b & b & b & c & c \\
 		\cline{2-9}
-			M = & A               & \bullet & \bullet & \bullet & \bullet & \color{Green}X & \color{Green}\emph{S} & S       \\
+			M = & A               & \bullet & \bullet & \bullet & \bullet & X ~\text{\tiny 6}& \emph{S} ~\text{\tiny 7}& S~\text{\tiny 8}       \\
 		\cline{2-9}
-			\multicolumn{2}{c|}{} & \color{Blue}A       & \bullet & \bullet & \color{Red}\color{Blue}{X} & \color{Red}{Z} & \bullet & \bullet \\
+			\multicolumn{2}{c|}{} & A       & \bullet & \bullet & {X} ~\text{\tiny 4}& {Z} ~\text{\tiny 5}& \bullet & \bullet \\
 		\cline{3-9}
-			     \multicolumn{3}{c|}{}      & A       & X       & \color{Blue}Z       & \bullet & \bullet & \bullet \\
+			     \multicolumn{3}{c|}{}      & A       & X ~\text{\tiny 2}      & Z     ~\text{\tiny 3}  & \bullet & \bullet & \bullet \\
 		\cline{4-9}
 			          \multicolumn{4}{c|}{}           & B       & \bullet & \bullet & \bullet & \bullet \\
 		\cline{5-9}
 			               \multicolumn{5}{c|}{}                & B       & \bullet & \bullet & \bullet \\
 		\cline{6-9}
-			                    \multicolumn{6}{c|}{}                     & \color{Red}B & \bullet & \bullet \\
+			                    \multicolumn{6}{c|}{}                     & B & \bullet & \bullet \\
 		\cline{7-9}
-			                         \multicolumn{7}{c|}{}                          & C,\color{Green}Y     & Y       \\
+			                         \multicolumn{7}{c|}{}                          & C,Y     & Y ~\text{\tiny 1}      \\
 		\cline{8-9}
 			                              \multicolumn{8}{c|}{}                               & C,Y     \\
 		\cline{9-9}
-		\end{tabular} $M_{1n}$
-	\end{table}\footnotetext{Zur Veranschaulichung: das Unterstrichene wird aus den Elementen der entsprechenden Farbe gebildet.}
+		\end{tabular} 
+  \end{center}
 \end{proof}
 
 $\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$\\
