@@ -378,7 +378,7 @@ Hier sind einige Beispiele kontextfreier Sprachen und Grammatiken:
 \end{Bsp}
 
 \datenote{2.12.16}
-\subsection{Die Chomsky Normalform für Kontextfreie Sprachen}
+\subsection{Die Chomsky Normalform für kontextfreie Sprachen}
 Notwendig für das Pumping Lemma kontextfreier Sprachen und für einen effizienten Algorithmus für das \nameref{satz:wortproblem}.
 
 
@@ -558,6 +558,7 @@ Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_
   Eine \emph{Kettenregel} von $\mathcal{G}$ ist eine Produktion in $P$ der Form $A \to B$, wobei $A,B \in N$.
 \end{Def}
 
+\datenote{7.12.16}
 \begin{lemma}[\textsc{Unit}]
   Zu jeder CFG $\mathcal{G} = (N, \Sigma, P, S)$ gibt es eine äquivalente CFG $\mathcal{G}' = (N, \Sigma, P', S)$ ohne Kettenregeln.
 \end{lemma}
@@ -609,7 +610,7 @@ Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_
 Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größe der \ac{CNF}-Grammatik ist $O(|\mathcal{G}|^2)$.
 \end{Bemerkung}
 
-\subsection{Pumping Lemma für Kontextfreie Sprachen}
+\subsection{Pumping Lemma für kontextfreie Sprachen}
 \begin{Satz}[Pumping lemma für \acs*{CFL}, uvwxy Lemma]
 \label{satz:PL für CFL}
 %\rlnote{Satz \# 4.2?}
@@ -855,7 +856,8 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
   \end{itemize}
 \end{Bsp}
 
-\subsection{Entscheidungsprobleme für \acs*{CFL}}
+\datenote{9.12.16}
+\subsection{Entscheidungsprobleme für kontextfreie Sprachen}
 \begin{Satz}[name={[Wortproblem für \acs*{CFL} entscheidbar]}]
 	Das Wortproblem "`$w\in L?$"' ist für \ac{CFL} entscheidbar. Falls $|w|=n$, benötigt der Algorithmus $O(n^3)$ Schritte und $O(n^2)$ Platz.
 \end{Satz}
@@ -957,7 +959,7 @@ $M\ n\x n$ Matrix mit $M_{ij}=\varnothing$
   return $S\in M_{1n}$
 \end{lstlisting}
 
-\begin{Satz}[name={[Entscheidbarkeit des Leerheitsproblems für \acs*{CFL}]}] % 4.7
+\begin{Satz}[name={[Entscheidbarkeit des Leerheitsproblems für kontextfreie Sprachen]}] % 4.7
     Das Leerheitsproblem ist für \ac{CFL} entscheidbar.
 \end{Satz}
 
@@ -985,7 +987,7 @@ $.
 	Mit \ac{PL} analog zum Endlichkeitsproblem für reguläre Sprachen.
 \end{proof}
 
-\subsection{Abschlusseingenschaften für \acs*{CFL}}
+\subsection{Abschlusseingenschaften für kontextfreie Sprachen}
 
 
 \begin{Satz} % 4.7
@@ -1012,6 +1014,7 @@ $.
 	\end{itemize}
 \end{proof}
 
+\datenote{14.12.16}
 \begin{Satz} % 4.8
 	Die Menge \ac{CFG} ist abgeschlossen unter $\cap$ mit reg. Sprachen. "`$\acs*{CFL} \cap \text{REG} = \acs*{CFL}$"'.
 \end{Satz}
