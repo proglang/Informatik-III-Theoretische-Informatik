@@ -856,7 +856,7 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
   \end{itemize}
 \end{Bsp}
 
-\datenote{9.12.16}
+\draftnote{9.12.16}
 \subsection{Entscheidungsprobleme für kontextfreie Sprachen}
 \begin{Satz}[name={[Wortproblem für \acs*{CFL} entscheidbar]}]
 	Das Wortproblem "`$w\in L?$"' ist für \ac{CFL} entscheidbar. Falls $|w|=n$, benötigt der Algorithmus $O(n^3)$ Schritte und $O(n^2)$ Platz.
@@ -960,6 +960,7 @@ $M\ n\x n$ Matrix mit $M_{ij}=\varnothing$
 \end{lstlisting}
 
 \begin{Satz}[name={[Entscheidbarkeit des Leerheitsproblems für kontextfreie Sprachen]}] % 4.7
+  \label{thm:cfl-decidable-emptyness}
     Das Leerheitsproblem ist für \ac{CFL} entscheidbar.
 \end{Satz}
 
@@ -991,6 +992,7 @@ $.
 
 
 \begin{Satz} % 4.7
+  \label{thm:cfl-closed-reg-intersect}
 	Die Menge \acs{CFL} ist abgeschlossen unter $\cup, \cdot, ^*$, jedoch \emph{nicht} unter $\cap, \overline{\phantom{A}}$.
 \end{Satz}
 \begin{proof}
@@ -1016,58 +1018,70 @@ $.
 
 \datenote{14.12.16}
 \begin{Satz} % 4.8
-	Die Menge \ac{CFG} ist abgeschlossen unter $\cap$ mit reg. Sprachen. "`$\acs*{CFL} \cap \text{REG} = \acs*{CFL}$"'.
+	Die Menge \ac{CFL} ist abgeschlossen unter ,,$\cap$ mit regulären Sprachen REG''.
+  Das heißt, für alle $L \in \mathrm{CFL}$ und $R \in \mathrm{REG}$ gilt $L \cap R \in \mathrm{CFL}$.
 \end{Satz}
 \begin{proof}
-	\begin{align*}
-			\text{Sei }L &= L(\mathcal{G})\quad\acs{CFL}\\
-			R &= L(M)\quad\acs{REG}\\
-			\mathcal{G} &= (N,\Sigma,P,S)\\
-			M &= (Q,\Sigma,\delta,q_0,F)\quad\acs{DFA}
-	\end{align*}
-	Zeige $L\cap R$ \acs{CFL}\\
-	Konstruiere \ac{CFG} für $L\cap R$\\
-	Ang. $\mathcal{G}$ ist in \ac{CNF}
-	\begin{alignat*}{2}
-		A &\-> a &\quad& A \-> BC\\
-		\tikz[baseline]{\Tree [.$qAq'$ $a$ ]}
-			&= \delta(q,a) &&\qquad \mathclap{%
-				\tikz[baseline]{\Tree [.$q_1Aq_3$ $q_1Bq_2$ $q_2Cq_3$ ]}
-			}\\
-		N' &= Q\x N\x Q\cup \{S'\}\\
-		S' &\-> (q_0,S,q')\ && \forall q'\in F\\
-		(q,A,q') &\-> a && \text{falls } \delta(q,a) = q'\text{ und }A\-> a\in P\\
-		(q_1, A, q_3) &\-> (q_1,B,q_2)(q_2,C,q_3) &&\text{falls } A\-> BC\in P \forall q_1,q_2,q_3\in Q
-	\end{alignat*}
-	Zeige $(p,A,q)\overset*{\=>} w \<=> \exists$ Lauf $p\dots q$ von $M$ auf $w$ und $A \Rightarrow^* w$\\
-	per Induktion über Höhe $h$ des Ableitungsbaums:
-	\begin{itemize}[labelwidth=\widthof{$h=1:$},leftmargin=!]
-	\item[$h=1:$] $(p,A,q) \-> a\ \exists$ Lauf denn $\delta(p,a)=q$; offenbar $A\Rightarrow a$
-	\item[$h>1:$] $(p,A,q) \-> (p,\underset{\Downarrow*}{B},r)(r,\underset{\Downarrow*}{C},q)$\\
-	\hspace{-2em}mit $w\phantom{A}\,=\phantom{(p,\,} w_1 \phantom{,r)(r,\ }w_2$
-	\end{itemize}
-	und Höhen $<h:$\\
-	Nach IV $\exists$ Lauf $p\dots r$ auf $w_1$ und $B \Rightarrow^* w_1$\\
-	\phantom{Nach IV }$\exists$ Lauf $r\dots q$ auf $w_2$ und $C \Rightarrow^* w_2$\\
-	$\curvearrowright\ \exists$ Lauf $p\dots r\dots q$ auf $w_1 w_2=w$ und $A \Rightarrow BC \Rightarrow^* w$
-	
-	Nun gilt 
-	\begin{align*}
-	    w \in L(\mathcal{G}') & \<=> S \=>^* w \\
-	    & \<=> \exists q'\in F: (q_0, S, q') \=>^* w \\
-	    & \<=> \exists q'\in F: \exists \text{ Lauf von $q_0$ nach $q'$ auf $w$} \land S \=>^* w \\
-	    & \<=> w \in R = L(M) \land w \in L = L(\mathcal{G}) \\
-	    & \<=> w \in R \cap L
-	\end{align*}
-\end{proof}
-%\rlerror{Vorlesung 18.12.15 unvollständig (Aufschrieb vorhanden)}
-%
-\vspace{-.5em}
+  Sei $\mathcal{G} = (N, \Sigma, P, S)$ kontextfreie Grammatik in CNF mit $L(\mathcal{G}) = L$.
+
+  Sei $M = (Q, \Sigma, q, \delta, q_0, F)$ NEA mit $L(M) = R$.
+
+  Definiere $\mathcal{G}' = (N', \Sigma, P', S)$ durch
+  \begin{itemize}
+  \item[] $N' = Q \times N \times Q \cup \{S\}$
+  \item[] $P' =
+    \begin{aligned}[t]
+      &\{ (p, A, q) \to a \mid A \to a \in P \text{ und } \delta(p,a) \ni q \} \\
+      &\cup \{ (p, A, q) \to (p,B,q')(q',C,q) \mid A \to BC \in P \text{ und } p,q,q' \in Q\} \\
+      &\cup \{ S \to (q_0, S, q) \mid q \in F \}
+    \end{aligned}
+    $
+  \end{itemize}
+  Durch die $S \to \ldots$ Regeln erzeugt $\mathcal{G}'$ offensichtlich genau die Worte, die durch die Nichtterminale $(q_0, S, q)$ für $q \in F$ erzeugt werden.
+  Es bleibt zu zeigen, dass ein Nichtterminal genau die Worte aus $L$ erzeugt die gleichzeitig einen (akzeptierenden) Lauf $q_0\ldots q$ von $M$ erlauben.
+  Wir zeigen eine Verallgemeinerung: für alle $p,q \in Q$ und $A \in N$ gilt
+  \begin{align*}
+    &(p,A,q) \stackrel{*}{\Longrightarrow}_{\mathcal{G}'} w \\
+    \text{ gdw } & A \stackrel{*}{\Longrightarrow}_{\mathcal{G}} w \text{ und es existiert ein Lauf } p\ldots q \text{ von $M$ auf $w$}
+  \end{align*}
+  \begin{itemize}
+  \item Richtung ,,links nach rechts'': (siehe Übung)
+  \item Richtung ,,rechts nach links'':
+
+    Per Induktion über den Ableitungsbaum $\mathcal{A} = \pi(\mathcal{A}_1,\ldots,\mathcal{A}_n) \in \operatorname{Abl}(\mathcal{G}, A)$ mit $Y(\mathcal{A}) = w$.
+    \begin{description}
+      \item[IV] $\forall 1 \le i \le n:$ wenn $w_i = Y(\mathcal{A}_i)$ mit $\mathcal{A}_i = A_i \to \ldots(\ldots)$ und es existiert ein Lauf  $p_i\ldots q_i$  von M auf $w_i$, dann $(p_i, A_i, q_i) \stackrel{*}{\Longrightarrow}_{\mathcal{G}'} w_i$.
+      \item[IS] \hfill
+        \begin{itemize}
+        \item $\pi = A \to a$, $a \in \Sigma$.
+          Es gilt $w = a$ und $pq$ ist Lauf auf $a$.
+          Folglich ist $\delta(p, a) \ni q$. Damit ist $(p,A,q) \to a \in P'$, woraus direkt folgt, dass $(p,A,q) \Longrightarrow_{\mathcal{G}'} a$.
+        \item $\pi = A \to BC$, $\mathcal{A} = \pi(\mathcal{A}_1, \mathcal{A}_2)$, $Y(\mathcal{A}_1) = w_1$, $Y(\mathcal{A}_2) = w_2$, \mbox{$\mathcal{A}_1 = B \to \ldots(\ldots)$} und $\mathcal{A}_2 = C \to \ldots(\ldots)$.
+
+          Es gilt $w = w_1w_2$ und $\zeta = p\ldots q$ ist Lauf auf $w_1w_2$.
+          Es existiert also $q'$ so dass $\zeta = p\ldots q' \ldots q$ und $p\ldots q'$ ist Lauf auf $w_1$ und $q' \ldots q$ ist Lauf auf $w_2$.
+
+          Es folgt per IV, dass
+          \begin{displaymath}
+            (p, B, q') \stackrel{*}{\Longrightarrow}_{\mathcal{G}'} Y(\mathcal{A}_1) = w_1 \text{ und } (q', C, q) \stackrel{*}{\Longrightarrow}_{\mathcal{G}'} Y(\mathcal{A}_2) = w_2.
+          \end{displaymath}
+          Nun ist $(p,A,q) \to (p,B,q')(q',C,q) \in P'$ per Konstruktion, also ist folgende Ableitung möglich:
+          \begin{displaymath}
+            (p,A,q) \Longrightarrow_{\mathcal{G}'} (p,B,q')(q',C,q) \stackrel{*}{\Longrightarrow}_{\mathcal{G}'} w_1(q',C,q) \stackrel{*}{\Longrightarrow}_{\mathcal{G}'} w_1w_2 = w
+          \end{displaymath}
+        \end{itemize}
+    \end{description}
+  \end{itemize}
+  \end{proof}
 %
 %Zuletzt: $\acsu{CFL}\land\acsu{REG}=\ac{REG}$
 \begin{Satz}[name={[$L\subseteq R$ entscheidbar]}] %\rlwarning{Satz 4.9}
-	Falls $L\in\ac{CFL}$ und $R\in\textrm{REG}$, dann ist "`$L\subseteq R$?"' entscheidbar.
+	Sei $L\in\ac{CFL}$ und $R\in\textrm{REG}$. Es ist entscheidbar, ob $L\subseteq R$.
 \end{Satz}
 \begin{proof}
-	$L\subseteq R\curvearrowleftright \underbrace{L \cap\overline{R}}_{\ac{CFL}} = \varnothing$ entscheidbar.
+  Es gilt $L\subseteq R \text{ gdw } L \cap\overline{R} = \emptyset$.
+
+  Da $R \in \mathrm{REG}$ ist durch die Abschlusseigenschaften regulärer Sprachen auch $\overline{R} \in \mathrm{REG}$.
+  Nach Satz \ref{thm:cfl-closed-reg-intersect} ist $L \cap\overline{R} \in \mathrm{CFL}$.
+  Nach Satz \ref{thm:cfl-decidable-emptyness} ist $L \cap\overline{R} = \emptyset$ daher entscheidbar
 \end{proof}
