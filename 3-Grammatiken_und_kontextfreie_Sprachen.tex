@@ -569,6 +569,7 @@ Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_
   \item Suche, z.B. mittels Tiefensuche, einen Zyklus in $G$ .
     Wenn kein Zyklus gefunden wurde, weiter mit Schritt \ref{alg:unit-step-dag}.
   \item Wurde der Zyklus $A_1 \to A_1 \to \ldots \to A_k \to A_1$ gefunden, dann ersetze in $P'$ alle Vorkommen von $A_j$ mit $j > 1$ durch $A_1$ (auf linker \emph{und} rechter Regelseite).
+    Entferne dann alle Regeln der Form $A \to A$.
     Fahre fort mit Schritt \ref{alg:unit-step-dg}.
   \item \label{alg:unit-step-dag}
     Der Graph $G$ ist ein gerichteter, azyklischer Graph (DAG, \emph{Directed Acyclic Graph}).
