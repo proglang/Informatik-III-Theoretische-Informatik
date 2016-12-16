@@ -2,326 +2,364 @@
 Kellerautomat $\approx$ Endlicher Automat + Kellerspeicher von unbeschränkter Größe (Stack, push down)
 \paragraph*{Neu:}
 \begin{itemize}
-	\item bei jedem Schritt darf der \ac{PDA} das oberste Kellersymbol inspizieren und durch beliebiges Kellerwort ersetzen.
-	\item der \ac{PDA} darf auf dem Keller rechnen, ohne in der Eingabe weiter zu lesen. ($\epsilon$-Transition oder Spontantransition).
+	\item bei jedem Schritt darf der \ac{PDA} das oberste Kellersymbol inspizieren und durch beliebiges Kellerwort ersetzen (den neuen Kellerpräfix).
+	\item der \ac{PDA} darf auf dem Keller rechnen, ohne in der Eingabe weiter zu lesen. ($\Eps$-Transition oder Spontantransition).
 \end{itemize}
 \begin{Bsp}
+\label{bsp:pda-wwr}
 	\begin{align}
-		\Sigma &= \{a,b,\#\} &\qquad&\text{Eingabealphabet} \notag\\
-		\Gamma &= \{a,b,\bot\} &&\text{Kelleralphabet} \notag\\
+		\Sigma &= \{0,1\} &\qquad&\text{Eingabealphabet} \notag\\
+		\Gamma &= \{0,1,\bot\} &&\text{Kelleralphabet} \notag\\
 		Q &= \{q_0,q_1\} &&\bot\,\hat=\,\text{Kellerbodensymbol} \notag\\
-		\delta: (q_0,x,Z) &\mapsto (q_0,xZ) && x\in\{a,b\},Z\in\Gamma\\
-		(q_0,\#,Z) &\mapsto (q_1,Z) \label{eq:5.2}\\
-		(q_1,x,x) &\mapsto (q_1,\epsilon)\\
-		(q_1,\epsilon,\bot) &\mapsto (q_1,\epsilon)\\
-		\text{Konfiguration: } (q_0,&w,\bot) &&\text{Start}\\
-		&\downarrow\\
-		(q',&\,\epsilon,\epsilon) &&\text{akzeptiert!}
+		\delta(q_0,a,Z) &= \{(q_0,aZ) \}&& a\in\{0,1\},Z\in\Gamma\\
+		\delta(q_0,\Eps,Z) &= \{(q_1,Z)\} \label{eq:5.2}\\
+		\delta(q_1,a,a) &= \{(q_1,\Eps)\}\\
+		\delta(q_1,\Eps,\bot) &= \{(q_1,\Eps)\}
 	\end{align}
-	Erkannte Sprache $L=\{w \# w^R \mid w\in\{a,b\}^*\}$
-	\begin{align*}
-		&(q_0,abb\#bba,\bot)\\
-		\vdash\quad &(q_0, bb\#bba, a\bot)\\
-		\vdash\quad &(q_0, b\#bba, ba\bot) \vdash (q_0, \#bba, bba\bot)\\
-		\vdash\quad &(q_1, bba, bba\bot)\\
-		\vdash\quad &(q_1, ba, ba\bot) \vdash (q_1, a, a\bot)\\
-		\vdash\quad &(q_1, \epsilon, \bot) \vdash (q_1,\epsilon,\epsilon) \qquad\text{akzeptiert!}
-	\end{align*}
-	deterministisch.
-\end{Bsp}
-Nicht deterministisch: $L'=\{ww^R \mid w\in \{a,b\}^*\}$\\
-Ersetze \eqref{eq:5.2} durch $(q_0,x,Z) \mapsto (q_1,Z) \quad Z\in\Gamma$
+  Die Übergangsfunktion $\delta$ bildet den aktuellem Zustand, das aktuelle Eingabesymbol und das aktuell oberste Kellersymbol auf Paare von Folgezustand und neuem Kellerpräfix ab.
+  In diesem Beispiel ist die zurückgegebene Paarmenge in allen Fällen einelementig.
+  Durch die $\Eps$ Transitionen ist der PDA aber trotzdem nichtdeterministisch.
 
-\underline{Alle Palindrome} zusätzlich $(q_0,x,Z)\mapsto(q_1,Z) \ Z\in\Gamma,\ x\in\{a,b\}$ auch nicht deterministisch.
+  Bei der graphischen Darstellung werden die Transitionen mit Tripeln $a;Z;\gamma$ beschriftet, wobei $a \in \Sigma$ das Eingabesymbol, $Z \in \Gamma$ das oberste Kellersymbol und $\gamma \in \Gamma^*$ der neue Kellerpräfix ist:
+  \begin{center}
+  \begin{tikzpicture}[node distance = 3cm]
+    \node[state] (0) at (0,0) {$q_0$};
+    \node[node distance = 1cm, left of = 0] (start) {};
+    \node[state, right of = 0] (1) {$q_1$};
+
+    \draw[->] (start) to (0);
+    \draw[->, loop above] (0) to node{$a;Z;aZ$} (0);
+    \draw[->] (0) to node[auto]{$\Eps;Z;Z$} (1);
+    \draw[->, loop above] (1) to node[auto]{$a;a;\Eps$} (1);
+    \draw[->, loop right] (1) to node[auto]{$\Eps;\bot;\Eps$} (1);
+  \end{tikzpicture}
+\end{center}
+wobei hier $a \in \Sigma$ und $Z \in \Gamma$.
+
+Der Automat beginnt im Startzustand $q_o$ mit einem Kellerspeicher, der nur das Kellerbodensymbol $Z_0$ enthält.
+Er akzeptiert ein Wort, wenn er alle Eingabesymbole gelesen und den Keller komplett leeren konnte.
+Anders als bei EAs gibt es \emph{keine} finalen Zustände.
+
+Die erkannte Sprache ist hier $L=\{ww^R \mid w\in\{0,1\}^*\}$.
+\end{Bsp}
+
 
 \begin{Def}[name={[NPDA]}]
 	Ein \ac{NPDA} ist Tupel $(Q,\Sigma,\Gamma,q_0,Z_0,\delta)$
 	\begin{itemize}
-		\item $Q$ endl. Zustandsmenge
-		\item $\Sigma$ endl. Eingabealphabet
-		\item $\Gamma$ endl. Kelleralphabet
+		\item $Q$ endliche Zustandsmenge
+		\item $\Sigma$ endliches Eingabealphabet
+		\item $\Gamma$ endliches Kelleralphabet
 		\item $q_0\in Q$ Startzustand
 		\item $Z_0\in\Gamma$ Kellerbodensymbol
-		\item $\delta: Q\x(\Sigma\cup\{\epsilon\})\x\Gamma \-> \mathcal{P}(Q\x\Gamma^*)$ \qedhere
+		\item $\delta: Q\x(\Sigma\cup\{\Eps\})\x\Gamma \-> \mathcal{P}(Q\x\Gamma^*)$ \qedhere
 	\end{itemize}
 \end{Def}
 Im weiteren sei $M=(\dots)$ ein \ac{NPDA}.
 \begin{Def}[name={[Menge der Konfigurationen eines \acs*{NPDA}]}]
-	Die Menge der Konfigurationen von $M$ ist $\Konf(M) = Q\x\Sigma^*\x\Gamma^*$\\
-	Die Schrittrelation von $M$ ist:
+	Die Menge der \emph{Konfigurationen} von $M$ ist $\Konf(M) = Q\x\Sigma^*\x\Gamma^*$\\
+	Die \emph{Schrittrelation} von $M$
+  \begin{displaymath}
+    \vdash\ \subseteq \Konf(M) \times \Konf(M) 
+  \end{displaymath}
+  ist definiert durch
 	\begin{align*}
-		&\vdash\ \subseteq \Konf(M)^2 &&\text{definiert durch}\\
 		(q,aw,Z\gamma) &\vdash (q',w,\beta\gamma) &&\text{falls }\delta(q,a,z)\ni(q',\beta)\\
-		(q,w,Z\gamma) &\vdash (q',w,\beta\gamma) &&\text{falls }\delta(q,\epsilon,z)\ni(q',\beta)\\
-	\shortintertext{Die von $M$ erkannte Sprache}
-		L(M) = \{ w\in\Sigma^* \mid (q_0,w,Z_0) &\vdash^{\!\!*} (q',\epsilon,\epsilon) \} \tag*{\qedhere}
+		(q,w,Z\gamma) &\vdash (q',w,\beta\gamma) &&\text{falls }\delta(q,\Eps,z)\ni(q',\beta)\\
 	\end{align*}
+
+  Wir schreiben $(q,w,\gamma) \vdash^n (q',w',\gamma')$ wenn $M$ in $n \in \mathbb{N}$ Schritten von Konfiguration $(q,w,\gamma)$ nach Konfiguration $(q',w',\gamma')$ gelangt.
+
+  Wir schreiben ${\vdash^*}$ für die reflexive, transitive Hülle von ${\vdash}$.
+  Falls $(q,w,\gamma) \vdash^* (q',w',\gamma')$ existiert also $n \in \mathbb{N}$, so dass $(q,w,\gamma) \vdash^n (q',w',\gamma')$.
+  
+	Die von $M$ \emph{erkannte Sprache} ist
+  \begin{displaymath}
+		L(M) = \{ w\in\Sigma^* \mid (q_0,w,Z_0) \vdash^{\!\!*} (q',\Eps,\Eps) \} \tag*{\qedhere}
+  \end{displaymath}
 \end{Def}
+
+\begin{Bsp*}
+  Die folgenden Schritte von $M$ aus Beispiel \ref{bsp:pda-wwr} zeigen, dass $w = 0110 \in L(M)$:
+  \begin{displaymath}
+  \begin{array}{ll}
+    (q_0, 0110, \bot) \\
+    \vdash (q_0, 110, 0\bot)  &\text{(,,pushen'' des Eingabesymbols $0$)}\\
+    \vdash (q_0, 10, 10\bot)  &\text{(,,pushen'' des Eingabesymbols $1$)}\\
+    \vdash (q_1, 10, 10\bot)  &\text{($\Eps$-Übergang von $q_0$ nach $q_1$)} \\
+    \vdash (q_1, 0, 0\bot)  &\text{(,,poppen'' des Eingabesymbols $1$)}\\
+    \vdash (q_1,\Eps, \bot) &\text{(,,poppen'' des Eingabesymbols $0$)}\\
+    \vdash (q_1, \Eps, \Eps) &\text{($\Eps$-Übergang zum Entfernen von $\bot$)}
+  \end{array}
+\end{displaymath}
+\end{Bsp*}
+
 \begin{Satz}\label{satz:5.1}
 	\[
 		L \in \ac{CFL} \xLeftrightarrow{\text{gdw.}}
 		L =L(M) \quad\text{für \ac{NPDA} $M$.}
 	\]
 \end{Satz}
-\begin{proof}
-	\begin{itemize}
-	\item["'\=>"'] Sei $L\in\ac{CFL}$\\
-		Sei $\mathcal{G} = (N,\Sigma,P,S)$ Grammatik für $L\setminus \epsilon$ in \ac{CNF}. \\
-		Def. \ac{NPDA} M durch
-		\begin{alignat*}{2}
-			Q &= \{q\} &\quad(=&\text{ Startzustand})\\
-			\Gamma &= \Sigma\dotcup N\\
-			Z_0 &= S\\
-			\delta(q,a,a) &= \{(q,\epsilon)\} & a&\in\Sigma\\
-			\delta(q,\epsilon,A) &= \{(q,\alpha)\} & A&\->\alpha\in P
-		\end{alignat*}
-		\begin{alignat*}{2}
-		\text{f"ur alle } X&\in\Sigma\cup N \ ,\ v\in\Sigma^*\\ 
-			\text{Zeige }&X\overset{*}{\==>} v &
-			\curvearrowleftright\quad& \mathrlap{(q,v,X) \vdash^{\!\!*} (q,\epsilon,\epsilon)}
-		\end{alignat*}
-		per Induktion über Ableitungsbaum von $X\overset{*}{\==>}v$\\
-		(Höhe von)
-		\begin{description}
-			\item[Höhe $0$:]
-				\begin{align*}
-					\bullet\quad  a &= X = v\\
-					(q,a,a) &\vdash (q,\epsilon,\epsilon)\ \checkmark
-				\end{align*}
-			\item[Höhe $>0$:]\
-			\begin{enumerate}
-			\item Fall:
-				\tikz[baseline=-.3em]{
-					\Tree [.\node [label={right:$A=X$}] {$\bullet$};
-						\node [label={right:$a$}] {$\bullet$};
-					]
-				}
-				\quad $(q,a,A) \overset{A\-> a}{\vdash} (q,a,a) \vdash (q,\epsilon,\epsilon)$
-			\item Fall:
-				\tikz[baseline, level 1/.style={sibling distance=1em}]{
-					\Tree [.\node[label={right:$A = X$}] {$\bullet$};
-						[.\node[label={left:$B_1$}] {$\bullet$}; \edge[roof]; {$v_1 $} ]
-						[.\node[label={right:$B_2$}] {$\bullet$}; \edge[roof]; {$v_2 $} ]
-					]
-				} Regel $A\-> B_1B_2$
-				\begin{align*}
-					\text{d.h. }v = v_1v_2 \quad B_1 &\overset{*}{\==>} v_1 \text{ mit kleinerem Abeitungsbaum}\\
-					B_2 &\overset{*}{\==>} v_2 \text{ \ruleplaceholder{\widthof{mit kleinerem Abeitungsbaum}}}\\
-					(q,v_1v_2,A) &\vdash (q,v_1v_2,B_1B_2)\\
-					&\vdash^* (q,v_2,B_2) \quad \text{nach I.V. für }B_1\\
-					&\vdash^* (q,\epsilon,\epsilon) \quad \text{nach I.V. für }B_2\\
-					\text{D.h. } S\overset{*}{\==>} w &\<==> (q,w,S) \vdash^* (q,\epsilon,\epsilon)\\
-					&\<==> w\in L(M)
-				\end{align*}
-			\item["'\<="'] Gegeben \ac{NPDA} $M=(Q,\dots)$ bei dem alle Transitionen pop, top oder push sind.
-			\end{enumerate}
-		\end{description}
-	\end{itemize}
-	\begin{figure}[H]\centering\vspace{-1em}
-		\input{2015-12-22_diagramm.pdf_tex}
-		{\setlength{\belowdisplayskip}{-.5em}
-		\begin{align*}
-			(q,Z,q') &\overset{*}{\Rightarrow} v\\
-			(q,v,Z) &\vdash^* (q',\epsilon,\epsilon)
-		\end{align*}}
-		\caption{Beweis zu \autoref{satz:5.1}}
-	\end{figure}\vspace{-2.5em}\qedhere\\*
-    Grammatik $\mathcal{G}'$ leitet gerade $v$ ab, falls $Z$ im Stack.
-\end{proof}
+TODO \ldots
+% \begin{proof}
+% 	\begin{itemize}
+% 	\item["'\=>"'] Sei $L\in\ac{CFL}$\\
+% 		Sei $\mathcal{G} = (N,\Sigma,P,S)$ Grammatik für $L\setminus \Eps$ in \ac{CNF}. \\
+% 		Def. \ac{NPDA} M durch
+% 		\begin{alignat*}{2}
+% 			Q &= \{q\} &\quad(=&\text{ Startzustand})\\
+% 			\Gamma &= \Sigma\dotcup N\\
+% 			Z_0 &= S\\
+% 			\delta(q,a,a) &= \{(q,\Eps)\} & a&\in\Sigma\\
+% 			\delta(q,\Eps,A) &= \{(q,\alpha)\} & A&\->\alpha\in P
+% 		\end{alignat*}
+% 		\begin{alignat*}{2}
+% 		\text{f"ur alle } X&\in\Sigma\cup N \ ,\ v\in\Sigma^*\\ 
+% 			\text{Zeige }&X\overset{*}{\==>} v &
+% 			\curvearrowleftright\quad& \mathrlap{(q,v,X) \vdash^{\!\!*} (q,\Eps,\Eps)}
+% 		\end{alignat*}
+% 		per Induktion über Ableitungsbaum von $X\overset{*}{\==>}v$\\
+% 		(Höhe von)
+% 		\begin{description}
+% 			\item[Höhe $0$:]
+% 				\begin{align*}
+% 					\bullet\quad  a &= X = v\\
+% 					(q,a,a) &\vdash (q,\Eps,\Eps)\ \checkmark
+% 				\end{align*}
+% 			\item[Höhe $>0$:]\
+% 			\begin{enumerate}
+% 			\item Fall:
+% 				\tikz[baseline=-.3em]{
+% 					\Tree [.\node [label={right:$A=X$}] {$\bullet$};
+% 						\node [label={right:$a$}] {$\bullet$};
+% 					]
+% 				}
+% 				\quad $(q,a,A) \overset{A\-> a}{\vdash} (q,a,a) \vdash (q,\Eps,\Eps)$
+% 			\item Fall:
+% 				\tikz[baseline, level 1/.style={sibling distance=1em}]{
+% 					\Tree [.\node[label={right:$A = X$}] {$\bullet$};
+% 						[.\node[label={left:$B_1$}] {$\bullet$}; \edge[roof]; {$v_1 $} ]
+% 						[.\node[label={right:$B_2$}] {$\bullet$}; \edge[roof]; {$v_2 $} ]
+% 					]
+% 				} Regel $A\-> B_1B_2$
+% 				\begin{align*}
+% 					\text{d.h. }v = v_1v_2 \quad B_1 &\overset{*}{\==>} v_1 \text{ mit kleinerem Abeitungsbaum}\\
+% 					B_2 &\overset{*}{\==>} v_2 \text{ \ruleplaceholder{\widthof{mit kleinerem Abeitungsbaum}}}\\
+% 					(q,v_1v_2,A) &\vdash (q,v_1v_2,B_1B_2)\\
+% 					&\vdash^* (q,v_2,B_2) \quad \text{nach I.V. für }B_1\\
+% 					&\vdash^* (q,\Eps,\Eps) \quad \text{nach I.V. für }B_2\\
+% 					\text{D.h. } S\overset{*}{\==>} w &\<==> (q,w,S) \vdash^* (q,\Eps,\Eps)\\
+% 					&\<==> w\in L(M)
+% 				\end{align*}
+% 			\item["'\<="'] Gegeben \ac{NPDA} $M=(Q,\dots)$ bei dem alle Transitionen pop, top oder push sind.
+% 			\end{enumerate}
+% 		\end{description}
+% 	\end{itemize}
+% 	\begin{figure}[H]\centering\vspace{-1em}
+% 		\input{2015-12-22_diagramm.pdf_tex}
+% 		{\setlength{\belowdisplayskip}{-.5em}
+% 		\begin{align*}
+% 			(q,Z,q') &\overset{*}{\Rightarrow} v\\
+% 			(q,v,Z) &\vdash^* (q',\Eps,\Eps)
+% 		\end{align*}}
+% 		\caption{Beweis zu \autoref{satz:5.1}}
+% 	\end{figure}\vspace{-2.5em}\qedhere\\*
+%     Grammatik $\mathcal{G}'$ leitet gerade $v$ ab, falls $Z$ im Stack.
+% \end{proof}
 
-\begin{lemma}
-	Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, so dass
-	falls $\delta(q,x,Z)\ni (q',\alpha) \quad x\in\Sigma\cup\{\epsilon\}$
-	dann ist entweder
-	\begin{itemize}
-		\item $\alpha = \epsilon$
-		\item $\alpha = Z'$
-		\item $\alpha = Z'Z''$
-	\end{itemize}
-	\vspace{-1.5em}
-\end{lemma}
-\begin{proof}
-	Sei $(q',\alpha)\in\delta(q,x,Z)$ mit $\alpha = Z_n\dots Z_1$ f"ur $n>2$:
-	\begin{itemize}
-	\item 	neue Zustände $q_2\dots q_{n-1}$
-	\item Ersetze $(q',\alpha)$ durch $(q_2, Z_2Z_1)$
-	\item Definiere $\delta(q_i, \epsilon, Z_i) = \{ (q_{i+1}, Z_{i+1}Z_i) \}$, f"ur $2\le i < n-1$
-	\item Definiere $\delta(q_{n-1}, \epsilon, Z_{n-1}) = \{ (q', Z_nZ_{n-1}) \}$
-	\end{itemize}
-	Wiederhole bis alle Transitionen die gew"unschte Form haben. \qedhere
-\end{proof}
+% \begin{lemma}
+% 	Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, so dass
+% 	falls $\delta(q,x,Z)\ni (q',\alpha) \quad x\in\Sigma\cup\{\Eps\}$
+% 	dann ist entweder
+% 	\begin{itemize}
+% 		\item $\alpha = \Eps$
+% 		\item $\alpha = Z'$
+% 		\item $\alpha = Z'Z''$
+% 	\end{itemize}
+% 	\vspace{-1.5em}
+% \end{lemma}
+% \begin{proof}
+% 	Sei $(q',\alpha)\in\delta(q,x,Z)$ mit $\alpha = Z_n\dots Z_1$ f"ur $n>2$:
+% 	\begin{itemize}
+% 	\item 	neue Zustände $q_2\dots q_{n-1}$
+% 	\item Ersetze $(q',\alpha)$ durch $(q_2, Z_2Z_1)$
+% 	\item Definiere $\delta(q_i, \Eps, Z_i) = \{ (q_{i+1}, Z_{i+1}Z_i) \}$, f"ur $2\le i < n-1$
+% 	\item Definiere $\delta(q_{n-1}, \Eps, Z_{n-1}) = \{ (q', Z_nZ_{n-1}) \}$
+% 	\end{itemize}
+% 	Wiederhole bis alle Transitionen die gew"unschte Form haben. \qedhere
+% \end{proof}
 
-%
-\datenote{22.12.15}
-\vspace{3em}
+% %
+% \datenote{22.12.15}
+% \vspace{3em}
 
-%\rlerror{Anfang unvollständig (Aufschrieb fehlt!)}
+% %\rlerror{Anfang unvollständig (Aufschrieb fehlt!)}
 
-$L=L(M)$ für \ac{NPDA} $M$\\
-$\curvearrowright\ L$ ist \ac{CFL}
+% $L=L(M)$ für \ac{NPDA} $M$\\
+% $\curvearrowright\ L$ ist \ac{CFL}
 
-%\begin{figure}[H]\centering
-%\vspace{2em}
-%\rlerror*{Grafik fehlt}{<Bild>}% Handschr. Mitschrieb vorhanden.
-%\caption{
-%}
-%\end{figure}
+% %\begin{figure}[H]\centering
+% %\vspace{2em}
+% %\rlerror*{Grafik fehlt}{<Bild>}% Handschr. Mitschrieb vorhanden.
+% %\caption{
+% %}
+% %\end{figure}
 
-\begin{itemize}
-\item Def. \ac{CFG} mit $N= Q\x \Gamma\x Q\cup \{S\}$, so dass $(q,Z,q')\overset{*}{\=>} v$ gdw.\ 
-$(q, v, Z) \vdash^* (q',\epsilon,\epsilon)$
-\\
-	Transitionen von $M$ haben eine von drei Formen:
-	\begin{align*}
-		&(q,\epsilon) && (q,Z) && (q,Z_1 Z_2)
-	\end{align*}
-\item Def. $P$ durch $P \supseteq \{ S \-> (q_0,Z_0,q') \mid q'\in Q\}$ sowie die weiteren Produktion wie folgt
-\end{itemize}
-Produktion für $(q,Z,q')$
-\begin{enumerate}[label={Fall \arabic*:},ref={Fall \arabic*},leftmargin=*]
-\item\label{itm:Fall 1} $\delta(q,x,Z)\ni (q',\epsilon)\ , x\in \Sigma\cup \{\epsilon\}$\\
-	$P \supseteq \{ (q,Z,q')\-> x \}$
-\item $\delta(q,x,Z)\ni (q'',Z')\ , x\in \Sigma\cup \{\epsilon\}$\\
-	$P \supseteq \{ (q,Z,q')\-> x(q'',Z',q') \mid q'\in Q\}$
-\item $\delta(q,x,Z)\ni (q_1,Z_1Z_2)\ , x\in \Sigma\cup \{\epsilon\}$\\
-	$P \supseteq \{ (q,Z,q')\-> x(q_1,Z_1,q_2)(q_2,Z_2,q') \mid q_1,q_2\in Q \}$
-\end{enumerate}
-Korrektheit: Zeige $(q,Z,q')\overset{*}{\=>} w\curvearrowleftright (q,w,Z) \vdash^* (q',\epsilon,\epsilon)$\\
-Induktion über Ableitungsbaum von $(q,Z,q')\overset{*}{\=>} w$ (siehe oben)
-\begin{itemize}[align=left]
-\item[Höhe 1:] \tikz[baseline]{\Tree[.$(q,Z,q')$ $x$ ]} \quad \ref{itm:Fall 1} $\curvearrowleftright (q,x,Z)\vdash (q',\epsilon,\epsilon)$
-\item[Höhe $>1$:] Zwei Möglichkeiten:
-	\begin{enumerate}[label={Fall \arabic*:},ref={Fall \arabic*},leftmargin=*,start=2]
-	\item \ \vspace{-1em}
-	\begin{align*}
-		\raisebox{0pt}[0pt][0pt]{\tikz[baseline]{\Tree[.$(q,Z,q')$ $x$ $(q'',Z,q')$ ]}}
-			&\curvearrowright w = xw'\land (q'',Z',q')\overset{*}{\=>} w'\\
-			&\begin{aligned}
-				\curvearrowright (q,xw',Z) &\vdash (q'',w',Z')\\
-				\text{I.V.}\quad &\vdash^* (q',\epsilon,\epsilon)
-			\end{aligned}
-	\end{align*}
-	\item \tikz[baseline]{\Tree[.$(q,Z,q')$ $x$ $(q_1,Z_1,q_2)$ $(q_2,Z_2,q')$ ]}
-		\begin{align*}
-			w &= xw_1w_2\\
-			(q_1,Z_1,q_2) &\overset{*}{\=>} w_1 \quad\text{mit kleinerem Ableitungsbaum}\\
-			(q_2,Z_2,q') &\overset{*}{\=>} w_2 \quad\text{mit kleinerem Ableitungsbaum}\\
-			\curvearrowright (q,xw_1w_2,Z) &\vdash (q_1,w_1w_2,Z_1Z_2)\\
-			\text{I.V. für }w_1\text{ + Lemma} &\vdash^* (q_2,w_2,Z_2)\\
-			\text{I.V. für }w_2\phantom{\text{ + Lemma}} &\vdash^* (q',\epsilon,\epsilon)
-		\end{align*}
-	\end{enumerate}
-\end{itemize}
+% \begin{itemize}
+% \item Def. \ac{CFG} mit $N= Q\x \Gamma\x Q\cup \{S\}$, so dass $(q,Z,q')\overset{*}{\=>} v$ gdw.\ 
+% $(q, v, Z) \vdash^* (q',\Eps,\Eps)$
+% \\
+% 	Transitionen von $M$ haben eine von drei Formen:
+% 	\begin{align*}
+% 		&(q,\Eps) && (q,Z) && (q,Z_1 Z_2)
+% 	\end{align*}
+% \item Def. $P$ durch $P \supseteq \{ S \-> (q_0,Z_0,q') \mid q'\in Q\}$ sowie die weiteren Produktion wie folgt
+% \end{itemize}
+% Produktion für $(q,Z,q')$
+% \begin{enumerate}[label={Fall \arabic*:},ref={Fall \arabic*},leftmargin=*]
+% \item\label{itm:Fall 1} $\delta(q,x,Z)\ni (q',\Eps)\ , x\in \Sigma\cup \{\Eps\}$\\
+% 	$P \supseteq \{ (q,Z,q')\-> x \}$
+% \item $\delta(q,x,Z)\ni (q'',Z')\ , x\in \Sigma\cup \{\Eps\}$\\
+% 	$P \supseteq \{ (q,Z,q')\-> x(q'',Z',q') \mid q'\in Q\}$
+% \item $\delta(q,x,Z)\ni (q_1,Z_1Z_2)\ , x\in \Sigma\cup \{\Eps\}$\\
+% 	$P \supseteq \{ (q,Z,q')\-> x(q_1,Z_1,q_2)(q_2,Z_2,q') \mid q_1,q_2\in Q \}$
+% \end{enumerate}
+% Korrektheit: Zeige $(q,Z,q')\overset{*}{\=>} w\curvearrowleftright (q,w,Z) \vdash^* (q',\Eps,\Eps)$\\
+% Induktion über Ableitungsbaum von $(q,Z,q')\overset{*}{\=>} w$ (siehe oben)
+% \begin{itemize}[align=left]
+% \item[Höhe 1:] \tikz[baseline]{\Tree[.$(q,Z,q')$ $x$ ]} \quad \ref{itm:Fall 1} $\curvearrowleftright (q,x,Z)\vdash (q',\Eps,\Eps)$
+% \item[Höhe $>1$:] Zwei Möglichkeiten:
+% 	\begin{enumerate}[label={Fall \arabic*:},ref={Fall \arabic*},leftmargin=*,start=2]
+% 	\item \ \vspace{-1em}
+% 	\begin{align*}
+% 		\raisebox{0pt}[0pt][0pt]{\tikz[baseline]{\Tree[.$(q,Z,q')$ $x$ $(q'',Z,q')$ ]}}
+% 			&\curvearrowright w = xw'\land (q'',Z',q')\overset{*}{\=>} w'\\
+% 			&\begin{aligned}
+% 				\curvearrowright (q,xw',Z) &\vdash (q'',w',Z')\\
+% 				\text{I.V.}\quad &\vdash^* (q',\Eps,\Eps)
+% 			\end{aligned}
+% 	\end{align*}
+% 	\item \tikz[baseline]{\Tree[.$(q,Z,q')$ $x$ $(q_1,Z_1,q_2)$ $(q_2,Z_2,q')$ ]}
+% 		\begin{align*}
+% 			w &= xw_1w_2\\
+% 			(q_1,Z_1,q_2) &\overset{*}{\=>} w_1 \quad\text{mit kleinerem Ableitungsbaum}\\
+% 			(q_2,Z_2,q') &\overset{*}{\=>} w_2 \quad\text{mit kleinerem Ableitungsbaum}\\
+% 			\curvearrowright (q,xw_1w_2,Z) &\vdash (q_1,w_1w_2,Z_1Z_2)\\
+% 			\text{I.V. für }w_1\text{ + Lemma} &\vdash^* (q_2,w_2,Z_2)\\
+% 			\text{I.V. für }w_2\phantom{\text{ + Lemma}} &\vdash^* (q',\Eps,\Eps)
+% 		\end{align*}
+% 	\end{enumerate}
+% \end{itemize}
 
-\begin{Def}[name={[DPDA]}]
-	Ein \ac{DPDA} ist ein Tupel $(\underbrace{Q,\Sigma,\Gamma,q_0,Z_0}_{\text{wie gehabt}},\delta,F)$
-	\vspace{-1em}
-	\begin{itemize}
-	\item $F\subseteq Q$ akzeptierende Zustände
-	\item $\delta: Q\x (\Sigma\cup\{\epsilon\})\x \Gamma \-> \mathcal{P}(Q\x \Gamma^*)$\\
-	$|\delta(q,a,Z)| + |\delta(q,\epsilon,Z)| \leq 1 \quad \forall q\in Q,a\in\Sigma,Z\in\Gamma$
-	\item $\vdash$ wie gehabt
-	\item $L(M) = \{w\in\Sigma^* \mid (q_0,w,Z_0) \vdash^* (q',\epsilon,\gamma) \land q'\in F \}$ \qedhere
-	\end{itemize}
-\end{Def}
+% \begin{Def}[name={[DPDA]}]
+% 	Ein \ac{DPDA} ist ein Tupel $(\underbrace{Q,\Sigma,\Gamma,q_0,Z_0}_{\text{wie gehabt}},\delta,F)$
+% 	\vspace{-1em}
+% 	\begin{itemize}
+% 	\item $F\subseteq Q$ akzeptierende Zustände
+% 	\item $\delta: Q\x (\Sigma\cup\{\Eps\})\x \Gamma \-> \mathcal{P}(Q\x \Gamma^*)$\\
+% 	$|\delta(q,a,Z)| + |\delta(q,\Eps,Z)| \leq 1 \quad \forall q\in Q,a\in\Sigma,Z\in\Gamma$
+% 	\item $\vdash$ wie gehabt
+% 	\item $L(M) = \{w\in\Sigma^* \mid (q_0,w,Z_0) \vdash^* (q',\Eps,\gamma) \land q'\in F \}$ \qedhere
+% 	\end{itemize}
+% \end{Def}
 
-\begin{lemma}[name={[\acs*{DPDA}, der gesamte Eingabe verarbeitet]}]
-	\label{lem:DPDA ges. Eingabe}
-	Zu jedem \ac{DPDA} gibt es einen äquivalenten \ac{DPDA}, der die gesamte Eingabe verarbeitet.
-\end{lemma}
-\begin{proof}
-    Erste Möglichkeit: Die Transitionsrelation ist nicht total.
+% \begin{lemma}[name={[\acs*{DPDA}, der gesamte Eingabe verarbeitet]}]
+% 	\label{lem:DPDA ges. Eingabe}
+% 	Zu jedem \ac{DPDA} gibt es einen äquivalenten \ac{DPDA}, der die gesamte Eingabe verarbeitet.
+% \end{lemma}
+% \begin{proof}
+%     Erste Möglichkeit: Die Transitionsrelation ist nicht total.
 
-	Führe einen neuen Zustand $q_s\notin F$ ein.
-	\begin{align*}
-	\shortintertext{Falls $\exists a\in\Sigma, q, Z$}
-		\delta(q,a,Z) &\cup \delta(q,\epsilon,Z) = \varnothing\\
-	\shortintertext{dann erweitere $\delta$ um}
-		\delta(q,a,Z) &= \{ (q_s,Z) \}\\
-	\shortintertext{und $\forall a\in\Sigma, Z\in \Gamma: \delta(q_s,a,Z) = \{(q_s,Z)\}$}
-	\end{align*}
-	Weitere Möglichkeit: der Automat bleibt wegen leerem Keller stecken.\\
-	Abhilfe: Neues Kellerbodensymbol $Z_0'$ und neuer Startzustand $q_0'$.
-	\begin{align*}
-		\delta(q_0',\epsilon,Z_0') &= \{(q_0,Z_0Z_0')\}\\
-	\shortintertext{Erweitere $\delta$ für alle originalen zustände $q\in Q$ um}
-		\delta(q,\epsilon,Z_0') &= \{(q_s,Z_0')\}
-	\end{align*}
-	"`Falls Keller abgeräumt, Wechsel nach $q_s$"'
-\end{proof}
+% 	Führe einen neuen Zustand $q_s\notin F$ ein.
+% 	\begin{align*}
+% 	\shortintertext{Falls $\exists a\in\Sigma, q, Z$}
+% 		\delta(q,a,Z) &\cup \delta(q,\Eps,Z) = \varnothing\\
+% 	\shortintertext{dann erweitere $\delta$ um}
+% 		\delta(q,a,Z) &= \{ (q_s,Z) \}\\
+% 	\shortintertext{und $\forall a\in\Sigma, Z\in \Gamma: \delta(q_s,a,Z) = \{(q_s,Z)\}$}
+% 	\end{align*}
+% 	Weitere Möglichkeit: der Automat bleibt wegen leerem Keller stecken.\\
+% 	Abhilfe: Neues Kellerbodensymbol $Z_0'$ und neuer Startzustand $q_0'$.
+% 	\begin{align*}
+% 		\delta(q_0',\Eps,Z_0') &= \{(q_0,Z_0Z_0')\}\\
+% 	\shortintertext{Erweitere $\delta$ für alle originalen zustände $q\in Q$ um}
+% 		\delta(q,\Eps,Z_0') &= \{(q_s,Z_0')\}
+% 	\end{align*}
+% 	"`Falls Keller abgeräumt, Wechsel nach $q_s$"'
+% \end{proof}
 
-\begin{Satz}[name={[Abgeschlossenheit der deterministischen \acs*{CFL}]}]
-	Die deterministischen \ac{CFL} sind unter Komplement abgeschlossen.
-\end{Satz}
-\begin{proof}
-	Sei $L=L(M)$ für \ac{DPDA} $M$. Nach \autoref{lem:DPDA ges. Eingabe} liest $M$ die komplette Eingabe.\\
-	Def. $M'$ mit $Q'= q\x \{0,1,2\}$\\
-	Zustand $(q,0)$: seit Lesen des letzten Symbols wurde kein akz. Zustand durchlaufen.\\
-	Zustand $(q,1)$ seit Lesen \dots$\geq 1$ akz. Zustand durchlaufen\\
-	\phantom{Zustand} $(q,2)$ \dots akz. Zustände d.h. $F'=F\x \{2\}$
-	\begin{align*}
-		q_0' &= \begin{cases}
-			(q_0,0) & q_0\notin F\\
-			(q_0,1) & q_0\in F
-		\end{cases}\\
-		\text{Falls }\delta(q,\epsilon,Z) = \{(q',\gamma)\}\text{ dann}&\\
-		\delta'((q,0),\epsilon,Z) &= \begin{cases}
-				((q',0),\gamma) & q'\notin F\\
-				((q',1),\gamma) & q'\in F
-			\end{cases}\\
-		\delta'((q,1),\epsilon,Z) &= ((q',1),\gamma)\\
-		\text{Falls }\delta(q,a,Z) = \{(q',\gamma)\}& \\
-		\delta'((q,0), \epsilon, Z) &= \{ ((q,2), Z) \} \\
-		\delta'((q,2), a, Z) &=
-		    \begin{cases}
-		        ((q',0), \gamma) & q' \notin F\\
-		        ((q',1), \gamma) & q' \in F
-		    \end{cases}\\
-		\delta'((q,1), a, Z) &=
-            \begin{cases}
-                ((q',0), \gamma & q' \notin F\\
-                ((q',1), \gamma & q' \in F
-            \end{cases}
-        \\ \tag*{\qedhere}
-	\end{align*}
-\end{proof}
-\begin{Satz}
-    Die deterministischen \ac{CFL} sind \textbf{nicht} unter Vereinigung und Durchschnitt abgeschlossen.
-\end{Satz}
-\begin{proof}
-    Betrachte
-    \begin{align*}
-        L_1 &= \{ a^nb^nc^m \mid n, m \ge 1 \} \\
-        L_2 &= \{ a^mb^nc^n \mid n, m \ge 1 \}
-    \end{align*}
-    Sowohl $L_1$ als auch $L_2$ sind DCFL, aber $L_1 \cap L_2 = \{ a^nb^nc^n \mid n \ge 1\}$ ist nicht kontextfrei.
+% \begin{Satz}[name={[Abgeschlossenheit der deterministischen \acs*{CFL}]}]
+% 	Die deterministischen \ac{CFL} sind unter Komplement abgeschlossen.
+% \end{Satz}
+% \begin{proof}
+% 	Sei $L=L(M)$ für \ac{DPDA} $M$. Nach \autoref{lem:DPDA ges. Eingabe} liest $M$ die komplette Eingabe.\\
+% 	Def. $M'$ mit $Q'= q\x \{0,1,2\}$\\
+% 	Zustand $(q,0)$: seit Lesen des letzten Symbols wurde kein akz. Zustand durchlaufen.\\
+% 	Zustand $(q,1)$ seit Lesen \dots$\geq 1$ akz. Zustand durchlaufen\\
+% 	\phantom{Zustand} $(q,2)$ \dots akz. Zustände d.h. $F'=F\x \{2\}$
+% 	\begin{align*}
+% 		q_0' &= \begin{cases}
+% 			(q_0,0) & q_0\notin F\\
+% 			(q_0,1) & q_0\in F
+% 		\end{cases}\\
+% 		\text{Falls }\delta(q,\Eps,Z) = \{(q',\gamma)\}\text{ dann}&\\
+% 		\delta'((q,0),\Eps,Z) &= \begin{cases}
+% 				((q',0),\gamma) & q'\notin F\\
+% 				((q',1),\gamma) & q'\in F
+% 			\end{cases}\\
+% 		\delta'((q,1),\Eps,Z) &= ((q',1),\gamma)\\
+% 		\text{Falls }\delta(q,a,Z) = \{(q',\gamma)\}& \\
+% 		\delta'((q,0), \Eps, Z) &= \{ ((q,2), Z) \} \\
+% 		\delta'((q,2), a, Z) &=
+% 		    \begin{cases}
+% 		        ((q',0), \gamma) & q' \notin F\\
+% 		        ((q',1), \gamma) & q' \in F
+% 		    \end{cases}\\
+% 		\delta'((q,1), a, Z) &=
+%             \begin{cases}
+%                 ((q',0), \gamma & q' \notin F\\
+%                 ((q',1), \gamma & q' \in F
+%             \end{cases}
+%         \\ \tag*{\qedhere}
+% 	\end{align*}
+% \end{proof}
+% \begin{Satz}
+%     Die deterministischen \ac{CFL} sind \textbf{nicht} unter Vereinigung und Durchschnitt abgeschlossen.
+% \end{Satz}
+% \begin{proof}
+%     Betrachte
+%     \begin{align*}
+%         L_1 &= \{ a^nb^nc^m \mid n, m \ge 1 \} \\
+%         L_2 &= \{ a^mb^nc^n \mid n, m \ge 1 \}
+%     \end{align*}
+%     Sowohl $L_1$ als auch $L_2$ sind DCFL, aber $L_1 \cap L_2 = \{ a^nb^nc^n \mid n \ge 1\}$ ist nicht kontextfrei.
     
-    DCFL ist nicht abgeschlossen unter Vereinigung. Angenommen doch: Seien $U, V$ DCFL. Dann sind auch $\overline{U}$ und $\overline{V}$ DCFL. Bei Abschluss unter Vereinigung wäre $\overline{U} \cup \overline{V}$ eine DCFL und somit auch $\overline{\overline{U} \cup \overline{V}} = U \cap V$, ein Widerspruch gegen den ersten Teil.
-\end{proof}
-\begin{Satz}
-    DCFL ist abgeschlossen unter Schnitt mit REG.
-\end{Satz}
-\begin{proof}
-    Sei $L$ DCFL und $R$ regulär.
-    Bilde das Produkt aus einem DPDA für $L$ und einem DFA für $R$.
-    Offenbar ist das Ergebnis ein DPDA, der $L\cap R$ erkennt.
-\end{proof}
-\begin{Satz}
-    Sei $L$ DCFL und $R$ regulär.
-    Es ist entscheidbar, ob $R=L$, $R\subseteq L$ und $L=\Sigma^*$.
-\end{Satz}
-\begin{proof}
-    Es gilt $R\subseteq L$ gdw.\ $R \cap \overline{L} = \emptyset$.
+%     DCFL ist nicht abgeschlossen unter Vereinigung. Angenommen doch: Seien $U, V$ DCFL. Dann sind auch $\overline{U}$ und $\overline{V}$ DCFL. Bei Abschluss unter Vereinigung wäre $\overline{U} \cup \overline{V}$ eine DCFL und somit auch $\overline{\overline{U} \cup \overline{V}} = U \cap V$, ein Widerspruch gegen den ersten Teil.
+% \end{proof}
+% \begin{Satz}
+%     DCFL ist abgeschlossen unter Schnitt mit REG.
+% \end{Satz}
+% \begin{proof}
+%     Sei $L$ DCFL und $R$ regulär.
+%     Bilde das Produkt aus einem DPDA für $L$ und einem DFA für $R$.
+%     Offenbar ist das Ergebnis ein DPDA, der $L\cap R$ erkennt.
+% \end{proof}
+% \begin{Satz}
+%     Sei $L$ DCFL und $R$ regulär.
+%     Es ist entscheidbar, ob $R=L$, $R\subseteq L$ und $L=\Sigma^*$.
+% \end{Satz}
+% \begin{proof}
+%     Es gilt $R\subseteq L$ gdw.\ $R \cap \overline{L} = \emptyset$.
     
-    Weiter ist $R = L$ gdw.\ $R\subseteq L$ und $L \subseteq R$. Für den zweiten Teil betrachte $L\cap \overline{R}$.
+%     Weiter ist $R = L$ gdw.\ $R\subseteq L$ und $L \subseteq R$. Für den zweiten Teil betrachte $L\cap \overline{R}$.
     
-    Für kontextfreie Sprachen ist $L\ne \emptyset$ entscheidbar, also betrachte $L=\Sigma^*$ gdw.\ $\overline{L}=\emptyset$.
-\end{proof}
+%     Für kontextfreie Sprachen ist $L\ne \emptyset$ entscheidbar, also betrachte $L=\Sigma^*$ gdw.\ $\overline{L}=\emptyset$.
+% \end{proof}
 
-\begin{Satz} \textbf{DPDA Äquivalenzproblem}
-    Seien $L_1, L_2$ DCFL. Dann ist $L_1 = L_2$ entscheidbar.
-\end{Satz}
+% \begin{Satz} \textbf{DPDA Äquivalenzproblem}
+%     Seien $L_1, L_2$ DCFL. Dann ist $L_1 = L_2$ entscheidbar.
+% \end{Satz}
 
-\begin{proof}
-    Siehe Senizergues (2000) und Stirling (2001).
-\end{proof}
+% \begin{proof}
+%     Siehe Senizergues (2000) und Stirling (2001).
+% \end{proof}
