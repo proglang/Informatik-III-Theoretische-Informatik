@@ -95,29 +95,234 @@ Im weiteren sei $M=(\dots)$ ein \ac{NPDA}.
 \end{Bsp*}
 
 \begin{Satz}\label{satz:5.1}
-	\[
-		L \in \ac{CFL} \xLeftrightarrow{\text{gdw.}}
-		L =L(M) \quad\text{für \ac{NPDA} $M$.}
-	\]
+  \begin{align*}
+		L \in \ac{CFL}  \text{ gdw } L =L(M) \text{ für einen NPDA $M$}
+  \end{align*}
 \end{Satz}
-TODO \ldots
-% \begin{proof}
-% 	\begin{itemize}
-% 	\item["'\=>"'] Sei $L\in\ac{CFL}$\\
-% 		Sei $\mathcal{G} = (N,\Sigma,P,S)$ Grammatik für $L\setminus \Eps$ in \ac{CNF}. \\
-% 		Def. \ac{NPDA} M durch
-% 		\begin{alignat*}{2}
-% 			Q &= \{q\} &\quad(=&\text{ Startzustand})\\
-% 			\Gamma &= \Sigma\dotcup N\\
-% 			Z_0 &= S\\
-% 			\delta(q,a,a) &= \{(q,\Eps)\} & a&\in\Sigma\\
-% 			\delta(q,\Eps,A) &= \{(q,\alpha)\} & A&\->\alpha\in P
-% 		\end{alignat*}
-% 		\begin{alignat*}{2}
-% 		\text{f"ur alle } X&\in\Sigma\cup N \ ,\ v\in\Sigma^*\\ 
-% 			\text{Zeige }&X\overset{*}{\==>} v &
-% 			\curvearrowleftright\quad& \mathrlap{(q,v,X) \vdash^{\!\!*} (q,\Eps,\Eps)}
-% 		\end{alignat*}
+\begin{proof}\hfill
+	\begin{itemize}
+	\item CFG zu NPDA:
+		Sei $\mathcal{G} = (N,\Sigma,P,S)$ Grammatik für $L$ in \ac{CNF}.
+    
+		Definiere \ac{NPDA} $M$ durch
+		\begin{itemize}
+			\item $Q = \{q_0\}$ 
+			\item $\Gamma = \Sigma\uplus N$
+			\item $Z_0 = S$
+			\item $\delta(q_0,a,a) = \{(q_0,\Eps)\} $ für $ a\in\Sigma$
+			\item $\delta(q_0,\Eps,A) = \{(q_0,\alpha)\}$ für $A\to\alpha\in P$
+		\end{itemize}
+  Wir zeigen nun, dass $L(M) = L(\mathcal{G})$.
+
+  Zum Führen des Beweises benötigen wir folgende Beobachtung, die für alle NPDAs $M = (\ldots),\enspace q,q' \in Q,\enspace w \in \Sigma^*,\enspace Z \in \Gamma$ gilt:
+  \begin{displaymath}
+    \text{Wenn } (q,w,Z) \vdash^* (q', \Eps, \Eps) \text{ dann } \forall v \in \Sigma^*, \gamma \in \Gamma^*: (q, wv, Z\gamma) \vdash^* (q', v, \gamma)
+  \end{displaymath}
+  Der Beweis ist per Induktion über die Länge der Ableitung (nicht gezeigt).
+
+  \begin{itemize}
+  \item Wir zeigen
+    \begin{displaymath}
+      \text{wenn } S \stackrel{*}{\Longrightarrow} w \text{ dann } (q_0, w, S) \vdash^* (q_0, \Eps, \Eps)
+    \end{displaymath}
+    Wir beweisen dazu die stärkere Aussage
+    \begin{displaymath}
+      \forall A \in N: \text{ wenn } A \stackrel{*}{\Longrightarrow} w\text{ dann } (q_0, w, A) \vdash^* (q_0, \Eps, \Eps)
+    \end{displaymath}
+    per Induktion über den Ableitungsbaum $\mathcal{A} = \pi(\mathcal{A}_1, \ldots, \mathcal{A}_n)\in \operatorname{Abl}(\mathcal{G}, A)$ mit $Y(\mathcal{A}) = w$.
+    \begin{description}
+    \item[IV] Für alle $n' \le n$ und $1 \le i \le n',\enspace A_i \in N,\enspace \mathcal{A}_i \in \operatorname{Abl}(\mathcal{G}, A_i)$ gilt:
+      \begin{displaymath}
+      (q_0, Y(\mathcal{A}_i), A_i) \vdash^* (q_0, \Eps, \Eps).
+    \end{displaymath}
+    \item[IS] Unterscheide die Form der Produktionen der CNF-Grammatik $\mathcal{G}$:
+      \begin{itemize}
+      \item $\pi = S \to \Eps$.
+        Per Konstruktion gilt $(q_0, \Eps) \in \delta(q_0, \Eps, S)$ und somit $(q_0, \Eps, S) \vdash (q_0, \Eps, \Eps)$.
+      \item $\pi = A \to a$, $a \in \Sigma^*$.
+        Per Konstruktion gilt $(q_0, a) \in \delta(q_0, \Eps, A)$ und $(q_0, \Eps) \in \delta(q_0, \Eps)$.
+
+        Somit gilt $(q_0, a, A) \vdash (q_0, a, a) \vdash (q_0, \Eps, \Eps)$.
+      \item $\pi = A \to BC$, $B,C \in N$, $\mathcal{A} = \pi(\mathcal{A}_1, \mathcal{A}_2)$, $\mathcal{A}_1 \in \operatorname{Abl}(\mathcal{G}, B)$, $\mathcal{A}_1 \in \operatorname{Abl}(\mathcal{G}, B)$, $w = Y(\mathcal{A}_1)Y(\mathcal{A}_2)$.
+
+        Per Konstruktion gilt $(q_0, BC) \in \delta(q_0, \Eps, A)$. 
+
+        Ferner gilt per IV, dass $(q_0, Y(\mathcal{A}_1), B) \vdash^* (q_0, \Eps, \Eps)$ und $(q_0, Y(\mathcal{A}_2), C) \vdash^* (q_0, \Eps, \Eps)$.
+
+        Es folgt mit Beobachtung \eqref{eq:pda-step-base}, dass $(q_0, w, A) = (q_0, Y(\mathcal{A}_1)Y(\mathcal{A}_2), A)\vdash (q_0, Y(\mathcal{A}_1)Y(\mathcal{A}_2), BC) \vdash^* (q_0, Y(\mathcal{A}_2), C) \vdash^* (q_0, \Eps, \Eps)$.
+      \end{itemize}
+    \end{description}
+  \item Wir zeigen
+    \begin{equation}
+      \label{eq:pda-step-base}
+      \text{wenn } (q_0, w, S) \vdash^* (q_0, \Eps, \Eps) \text{ dann } S \stackrel{*}{\Longrightarrow} w \tag{$*$}
+    \end{equation}
+    Wir beweisen dazu die stärkere Aussage
+    \begin{displaymath}
+      \forall n \in \mathbb{N}: \forall w \in \Sigma^*, \alpha \in \Gamma^*: \text{ wenn } (q_0, w, \alpha) \vdash^n (q_0, \Eps, \Eps) \text{ dann } \alpha \stackrel{*}{\Longrightarrow} w 
+    \end{displaymath}
+    per Induktion über die Anzahl der Berechnungsschritte $n$.
+
+    \begin{description}
+    \item[IA] $n = 0$.
+      $w = \Eps$, $\alpha = \Eps$: es gilt $\Eps \Longrightarrow \Eps$.
+    \item[IV] Für alle $n' < n$ und $w \in \Sigma^*, \alpha \in \Gamma^*$ gilt
+      \begin{displaymath}
+      \text{ wenn } (q_0, w, \alpha) \vdash^{n'} (q_0, \Eps, \Eps) \text{ dann } \alpha \stackrel{*}{\Longrightarrow} w
+    \end{displaymath}
+  \item[IS] $n > 0$, $\alpha = Z\alpha'$,
+
+    $(q_0,w,Z\alpha') \vdash (q_0, w', \beta\alpha') \vdash^{n-1} (q_0, \Eps, \Eps)$, $\delta(q_0, x, Z) \ni (q_0, \beta)$
+
+    Es gibt zwei Fälle für $Z$:
+    \begin{itemize}
+    \item $Z = a$, $a \in \Sigma$.
+
+      Es folgt $\beta = \Eps$ und $w = aw'$.
+
+      Per IV gilt $\alpha' \stackrel{*}{\Longrightarrow} w'$ und somit auch $\alpha = a\alpha' \stackrel{*}{\Longrightarrow}aw' = w$.
+    \item $Z = A$, $A \to \beta \in P$.
+
+      Es folgt $w = w'$.
+
+      Per IV gilt $\beta\alpha' \stackrel{*}{\Longrightarrow} w'$ und somit auch $A\alpha \Longrightarrow \beta\alpha' \stackrel{*}{\Longrightarrow} w' = w$.
+    \end{itemize}
+    \end{description}
+  \end{itemize}
+  \item NPDA zu CFG:
+
+    Zunächst zeigen wir, dass es genügt NPDAs zu betrachten, die bei jeder Transition Wörter der maximalen Länge $2$ auf den Keller schreiben:
+\begin{lemma}
+	Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, so dass
+	falls $\delta(q,x,Z)\ni (q',\gamma) \quad x\in\Sigma\cup\{\Eps\}$
+	dann ist $|\gamma| \le 2$
+\end{lemma}
+\begin{proof}
+	Sei $(q',\gamma)\in\delta(q,x,Z)$ mit $\gamma = Z_n\dots Z_1$ f"ur $n>2$:
+	\begin{itemize}
+	\item 	neue Zustände $q_2\dots q_{n-1}$
+	\item Ersetze $(q',\gamma)$ durch $(q_2, Z_2Z_1)$
+	\item Definiere $\delta(q_i, \Eps, Z_i) = \{ (q_{i+1}, Z_{i+1}Z_i) \}$, f"ur $2\le i < n-1$
+	\item Definiere $\delta(q_{n-1}, \Eps, Z_{n-1}) = \{ (q', Z_nZ_{n-1}) \}$
+	\end{itemize}
+	Wiederhole bis alle Transitionen die gew"unschte Form haben. \qedhere
+\end{proof}
+
+Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le 2$ für alle $(q', \gamma) \in \delta(q, x, Z), q \in Q, x \in \Sigma \cup \{\Eps\}, Z \in \Gamma$.
+
+    Definiere $\mathcal{G} = (N, \Sigma, S, P)$ mit
+    \begin{itemize}
+    \item $N = Q \times \Gamma \times Q \cup \{S\}$ 
+    \item $P =
+      \begin{aligned}[t]
+        &\{ (q, Z, q') \to x \mid \delta(q, x, Z) \ni (q', \Eps), x \in \Sigma \cup \{\Eps\} \} \\
+        \cup & \{(q, Z, q') \to x(q'', Z', q') \mid \delta(q, x, Z) \ni (q'', Z'), q'' \in Q, x \in \Sigma \cup \{\Eps\}\} \\
+        \cup & \{(q, Z, q') \to x(q_1,Z_1,q_2)(q_2, Z_2, q') \mid 
+        \begin{aligned}[t]
+          & \delta(q, x, Z) \ni (q'', Z_1Z_2), \\
+          & q_1 \in Q, q_2 \in Q, x \in \Sigma \cup \{\Eps\} \}
+        \end{aligned}
+      \end{aligned}$
+    \end{itemize}
+
+    Es bleibt zu zeigen, dass $L(\mathcal{G}) = L(M)$.
+    \begin{itemize}
+    \item Wir zeigen, dass 
+      \begin{displaymath}
+        \text{wenn }(q,Z,q')\stackrel{*}{\Longrightarrow} w \text{ dann } (q,w,Z) \vdash^* (q',\Eps,\Eps)
+      \end{displaymath}
+      per Induktion über den Ableitungsbaum $\mathcal{A}=\pi(\mathcal{A}_1, \ldots, \mathcal{A}_n) \in \operatorname{Abl}(\mathcal{G}, (q,Z,q'))$ mit $Y(\mathcal{A}) = w$.
+
+      \begin{description}
+      \item[IV] Für $1 \le i \le n$ und $Z_i \in \Gamma,\enspace q_i,q_i' \in Q,\enspace \mathcal{A}_i \in \operatorname{Abl}(\mathcal{G}, (q_i, Z_i, q_i'))$ gilt
+        \begin{displaymath}
+          (q_i,Y(\mathcal{A}_i),Z_i) \vdash^* (q_i',\Eps,\Eps)
+        \end{displaymath}
+      \item[IS]
+        Es gibt $3$ Fälle für $\pi$:
+        \begin{itemize}
+        \item $(q, Z, q') \to x,\enspace \delta(q, x, Z) \ni (q', \Eps), x \in \Sigma \cup \{\Eps\}$.
+
+          Es folgt $w = x$ und damit: $(q, x, Z) \vdash (q', \Eps, \Eps)$.
+
+        \item $(q, Z, q') \to x(q'', Z', q'), \enspace \delta(q, x, Z) \ni (q'', Z'), q'' \in Q, x \in \Sigma \cup \{\Eps\}$
+
+          Es folgt $w = xY(\mathcal{A}_1)$, $\mathcal{A} = \pi(\mathcal{A}_1)$, $\mathcal{A}_1 \in \operatorname{Abl}(\mathcal{G}, (q'', Z', q'))$.
+
+          Es folgt per IV, dass $(q'', Y(\mathcal{A}_1), (q'', Z', q')) \vdash^* (q_0, \Eps, \Eps)$ und damit auch $(q, xY(\mathcal{A}_1), (q, Z, q')) \vdash (q'', Y(\mathcal{A}_1), (q'', Z', q')) \vdash^* (q_0, \Eps, \Eps)$.
+
+        \item $(q, Z, q') \to x(q_1,Z_1,q_2)(q_2, Z_2, q')$, $\delta(q, x, Z) \ni (q_1, Z_1Z_2)$, $q_1 \in Q, q_2 \in Q, x \in \Sigma \cup \{\Eps\}$ 
+
+          Es folgt $w = xY(\mathcal{A}_1)Y(\mathcal{A}_2)$,\enspace $\mathcal{A} = \pi(\mathcal{A}_1,\mathcal{A}_2)$,\enspace $\mathcal{A}_1 \in \operatorname{Abl}(\mathcal{G}, (q_1, Z_1, q_2))$, $\mathcal{A}_2 \in \operatorname{Abl}(\mathcal{G}, (q_2, Z_2, q'))$.
+
+          Es folgt per IV, dass
+          \begin{displaymath}
+            (q_1, Y(\mathcal{A}_1), Z_1)) \vdash^* (q_2, \Eps, \Eps)
+          \end{displaymath}
+          mit Beobachtung \eqref{eq:pda-step-base} auch
+          \begin{displaymath}
+            (q_1, Y(\mathcal{A}_1)Y(\mathcal{A}_2), Z_1Z_2) \vdash^* (q_2, Y(\mathcal{A}_2), Z_2)
+          \end{displaymath}
+
+          Es folgt ferner per IV, dass
+          \begin{displaymath}
+            (q_2, Y(\mathcal{A}_2), Z_2) \vdash^* (q', \Eps, \Eps)
+          \end{displaymath}
+
+          Somit gilt
+          \begin{displaymath}
+            (q, xY(\mathcal{A}_1)Y(\mathcal{A}_2), Z) \vdash (q_1, Y(\mathcal{A}_1)Y(\mathcal{A}_2), Z_1Z_2)) \vdash^* (q_2, Y(\mathcal{A}_2), Z_2) \vdash^* (q', \Eps, \Eps)
+          \end{displaymath}
+          
+          
+        \end{itemize}
+      \end{description}
+
+    \item Wir zeigen für alle $n \in \mathbb{N}: \forall m \in \mathbb{N},\enspace Z_1,\ldots,Z_m \in \Gamma,\enspace q,q' \in Q$, dass wenn
+      \begin{displaymath}
+        (q,w,Z_1\ldots Z_m) \vdash^n (q', \Eps, \Eps)
+      \end{displaymath}
+      dann existieren $q_1,\ldots,q_{m+1} \in Q$, so dass
+      \begin{displaymath}
+        (q_1,Z_1,q_2)(q_2,Z_2,q_3)\ldots(q_m,Z_m,q_{m+1}) \stackrel{*}{\Longrightarrow} w
+      \end{displaymath}
+      mit $q_1 = q$ und $q_{m+1} = q'$ per Induktion über $n$.
+
+      \begin{description}
+      \item[IA] $n = 0$.
+        $w = \Eps$, $m = 0$.
+
+        Es folgt $\Eps \stackrel{*}{\Longrightarrow} w$.
+      \item[IV] Für alle $n' < n$,\enspace $m \in \mathbb{N},\enspace Z_1,\ldots,Z_m\in \Gamma,\enspace q,q' \in Q$ gilt, dass wenn
+        \begin{displaymath}
+        (q,w,Z_1\ldots Z_m) \vdash^{n'} (q', \Eps, \Eps)
+      \end{displaymath}
+      dann existieren $q_1,\ldots,q_{m+1} \in Q$, so dass
+      \begin{displaymath}
+        (q_1,Z_1,q_2)(q_2,Z_2,q_3)\ldots(q_m,Z_m,q_{m+1}) \stackrel{*}{\Longrightarrow} w
+      \end{displaymath}
+
+    \item[IS] $n > 0$.
+      $(q, w, Z_1\ldots Z_m) \vdash (q'', w', \gamma Z_2\ldots Z_m) \vdash^{n-1} (q',\Eps, \Eps)$.
+      $w =xw'$, \enspace $x \in \{\Eps\} \cup \Sigma$.
+      \begin{itemize}
+      \item $\gamma = \Eps$, \enspace $(q, Z_1, q'') \to x \in P$.
+
+        Per IV gilt: es existieren $q_2,\ldots,q_{m+1} \in Q$, so dass
+        \begin{displaymath}
+          (q_2, Z_2, q_3)\ldots(q_m,Z_m,q_{m+1}) \stackrel{*}{\Longrightarrow} w' \text{ und } q''=q_2 \text{ und } q'=q_{m+1}.
+        \end{displaymath}
+
+        Somit gilt auch
+        \begin{displaymath}
+          (q, Z_1, q'') (q_2, Z_2, q_3)\ldots(q_m,Z_m,q_{m+1})\Longrightarrow x\stackrel{*}{\Longrightarrow} xw'
+        \end{displaymath}
+      \item \ldots (andere Fälle ähnlich)
+      \end{itemize}
+      \end{description}
+  \end{itemize}
+\end{itemize}
+  
 % 		per Induktion über Ableitungsbaum von $X\overset{*}{\==>}v$\\
 % 		(Höhe von)
 % 		\begin{description}
@@ -165,29 +370,8 @@ TODO \ldots
 % 		\caption{Beweis zu \autoref{satz:5.1}}
 % 	\end{figure}\vspace{-2.5em}\qedhere\\*
 %     Grammatik $\mathcal{G}'$ leitet gerade $v$ ab, falls $Z$ im Stack.
-% \end{proof}
+\end{proof}
 
-% \begin{lemma}
-% 	Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, so dass
-% 	falls $\delta(q,x,Z)\ni (q',\alpha) \quad x\in\Sigma\cup\{\Eps\}$
-% 	dann ist entweder
-% 	\begin{itemize}
-% 		\item $\alpha = \Eps$
-% 		\item $\alpha = Z'$
-% 		\item $\alpha = Z'Z''$
-% 	\end{itemize}
-% 	\vspace{-1.5em}
-% \end{lemma}
-% \begin{proof}
-% 	Sei $(q',\alpha)\in\delta(q,x,Z)$ mit $\alpha = Z_n\dots Z_1$ f"ur $n>2$:
-% 	\begin{itemize}
-% 	\item 	neue Zustände $q_2\dots q_{n-1}$
-% 	\item Ersetze $(q',\alpha)$ durch $(q_2, Z_2Z_1)$
-% 	\item Definiere $\delta(q_i, \Eps, Z_i) = \{ (q_{i+1}, Z_{i+1}Z_i) \}$, f"ur $2\le i < n-1$
-% 	\item Definiere $\delta(q_{n-1}, \Eps, Z_{n-1}) = \{ (q', Z_nZ_{n-1}) \}$
-% 	\end{itemize}
-% 	Wiederhole bis alle Transitionen die gew"unschte Form haben. \qedhere
-% \end{proof}
 
 % %
 % \datenote{22.12.15}
@@ -251,22 +435,22 @@ TODO \ldots
 % 	\end{enumerate}
 % \end{itemize}
 
-% \begin{Def}[name={[DPDA]}]
-% 	Ein \ac{DPDA} ist ein Tupel $(\underbrace{Q,\Sigma,\Gamma,q_0,Z_0}_{\text{wie gehabt}},\delta,F)$
-% 	\vspace{-1em}
-% 	\begin{itemize}
-% 	\item $F\subseteq Q$ akzeptierende Zustände
-% 	\item $\delta: Q\x (\Sigma\cup\{\Eps\})\x \Gamma \-> \mathcal{P}(Q\x \Gamma^*)$\\
-% 	$|\delta(q,a,Z)| + |\delta(q,\Eps,Z)| \leq 1 \quad \forall q\in Q,a\in\Sigma,Z\in\Gamma$
-% 	\item $\vdash$ wie gehabt
-% 	\item $L(M) = \{w\in\Sigma^* \mid (q_0,w,Z_0) \vdash^* (q',\Eps,\gamma) \land q'\in F \}$ \qedhere
-% 	\end{itemize}
-% \end{Def}
+\begin{Def}[name={[DPDA]}]
+	Ein \ac{DPDA} ist ein Tupel $(\underbrace{Q,\Sigma,\Gamma,q_0,Z_0}_{\text{wie gehabt}},\delta,F)$
+	\vspace{-1em}
+	\begin{itemize}
+	\item $F\subseteq Q$ akzeptierende Zustände
+	\item $\delta: Q\x (\Sigma\cup\{\Eps\})\x \Gamma \-> \mathcal{P}(Q\x \Gamma^*)$ wobei für alle $q\in Q,a\in\Sigma,Z\in\Gamma$ gelten muss, dass
+	$|\delta(q,a,Z)| + |\delta(q,\Eps,Z)| \leq 1$
+	\item Die Schrittrelation ,,$\vdash$'' ist definiert wie bei NPDAs.
+	\item $L(M) = \{w\in\Sigma^* \mid (q_0,w,Z_0) \vdash^* (q',\Eps,\gamma) \land q'\in F \}$ \qedhere
+	\end{itemize}
+\end{Def}
 
-% \begin{lemma}[name={[\acs*{DPDA}, der gesamte Eingabe verarbeitet]}]
-% 	\label{lem:DPDA ges. Eingabe}
-% 	Zu jedem \ac{DPDA} gibt es einen äquivalenten \ac{DPDA}, der die gesamte Eingabe verarbeitet.
-% \end{lemma}
+\begin{lemma}[name={[\acs*{DPDA}, der gesamte Eingabe verarbeitet]}]
+	\label{lem:DPDA ges. Eingabe}
+	Zu jedem \ac{DPDA} gibt es einen äquivalenten \ac{DPDA}, der die gesamte Eingabe verarbeitet.
+\end{lemma}
 % \begin{proof}
 %     Erste Möglichkeit: Die Transitionsrelation ist nicht total.
 
