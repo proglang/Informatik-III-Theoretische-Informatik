@@ -2,20 +2,20 @@
 Kellerautomat $\approx$ Endlicher Automat + Kellerspeicher von unbeschränkter Größe (Stack, push down)
 \paragraph*{Neu:}
 \begin{itemize}
-	\item bei jedem Schritt darf der \ac{PDA} das oberste Kellersymbol inspizieren und durch beliebiges Kellerwort ersetzen (den neuen Kellerpräfix).
-	\item der \ac{PDA} darf auf dem Keller rechnen, ohne in der Eingabe weiter zu lesen. ($\Eps$-Transition oder Spontantransition).
+        \item bei jedem Schritt darf der \ac{PDA} das oberste Kellersymbol inspizieren und durch beliebiges Kellerwort ersetzen (den neuen Kellerpräfix).
+        \item der \ac{PDA} darf auf dem Keller rechnen, ohne in der Eingabe weiter zu lesen. ($\Eps$-Transition oder Spontantransition).
 \end{itemize}
 \begin{Bsp}
 \label{bsp:pda-wwr}
-	\begin{align}
-		\Sigma &= \{0,1\} &\qquad&\text{Eingabealphabet} \notag\\
-		\Gamma &= \{0,1,\bot\} &&\text{Kelleralphabet} \notag\\
-		Q &= \{q_0,q_1\} &&\bot\,\hat=\,\text{Kellerbodensymbol} \notag\\
-		\delta(q_0,a,Z) &= \{(q_0,aZ) \}&& a\in\{0,1\},Z\in\Gamma\\
-		\delta(q_0,\Eps,Z) &= \{(q_1,Z)\} \label{eq:5.2}\\
-		\delta(q_1,a,a) &= \{(q_1,\Eps)\}\\
-		\delta(q_1,\Eps,\bot) &= \{(q_1,\Eps)\}
-	\end{align}
+        \begin{align}
+                \Sigma &= \{0,1\} &\qquad&\text{Eingabealphabet} \notag\\
+                \Gamma &= \{0,1,\bot\} &&\text{Kelleralphabet} \notag\\
+                Q &= \{q_0,q_1\} &&\bot\,\hat=\,\text{Kellerbodensymbol} \notag\\
+                \delta(q_0,a,Z) &= \{(q_0,aZ) \}&& a\in\{0,1\},Z\in\Gamma\\
+                \delta(q_0,\Eps,Z) &= \{(q_1,Z)\} \label{eq:5.2}\\
+                \delta(q_1,a,a) &= \{(q_1,\Eps)\}\\
+                \delta(q_1,\Eps,\bot) &= \{(q_1,\Eps)\}
+        \end{align}
   Die Übergangsfunktion $\delta$ bildet den aktuellem Zustand, das aktuelle Eingabesymbol und das aktuell oberste Kellersymbol auf Paare von Folgezustand und neuem Kellerpräfix ab.
   In diesem Beispiel ist die zurückgegebene Paarmenge in allen Fällen einelementig.
   Durch die $\Eps$ Transitionen ist der PDA aber trotzdem nichtdeterministisch.
@@ -45,37 +45,37 @@ Die erkannte Sprache ist hier $L=\{ww^R \mid w\in\{0,1\}^*\}$.
 
 \datenote{16.12.16}
 \begin{Def}[name={[NPDA]}]
-	Ein \ac{NPDA} ist Tupel $(Q,\Sigma,\Gamma,q_0,Z_0,\delta)$
-	\begin{itemize}
-		\item $Q$ endliche Zustandsmenge
-		\item $\Sigma$ endliches Eingabealphabet
-		\item $\Gamma$ endliches Kelleralphabet
-		\item $q_0\in Q$ Startzustand
-		\item $Z_0\in\Gamma$ Kellerbodensymbol
-		\item $\delta: Q\x(\Sigma\cup\{\Eps\})\x\Gamma \-> \mathcal{P}(Q\x\Gamma^*)$ \qedhere
-	\end{itemize}
+        Ein \ac{NPDA} ist Tupel $(Q,\Sigma,\Gamma,q_0,Z_0,\delta)$
+        \begin{itemize}
+                \item $Q$ endliche Zustandsmenge
+                \item $\Sigma$ endliches Eingabealphabet
+                \item $\Gamma$ endliches Kelleralphabet
+                \item $q_0\in Q$ Startzustand
+                \item $Z_0\in\Gamma$ Kellerbodensymbol
+                \item $\delta: Q\x(\Sigma\cup\{\Eps\})\x\Gamma \-> \mathcal{P}(Q\x\Gamma^*)$ \qedhere
+        \end{itemize}
 \end{Def}
 Im weiteren sei $M=(\dots)$ ein \ac{NPDA}.
 \begin{Def}[name={[Menge der Konfigurationen eines \acs*{NPDA}]}]
-	Die Menge der \emph{Konfigurationen} von $M$ ist $\Konf(M) = Q\x\Sigma^*\x\Gamma^*$\\
-	Die \emph{Schrittrelation} von $M$
+        Die Menge der \emph{Konfigurationen} von $M$ ist $\Konf(M) = Q\x\Sigma^*\x\Gamma^*$\\
+        Die \emph{Schrittrelation} von $M$
   \begin{displaymath}
     \vdash\ \subseteq \Konf(M) \times \Konf(M) 
   \end{displaymath}
   ist definiert durch
-	\begin{align*}
-		(q,aw,Z\gamma) &\vdash (q',w,\beta\gamma) &&\text{falls }\delta(q,a,z)\ni(q',\beta)\\
-		(q,w,Z\gamma) &\vdash (q',w,\beta\gamma) &&\text{falls }\delta(q,\Eps,z)\ni(q',\beta)\\
-	\end{align*}
+        \begin{align*}
+                (q,aw,Z\gamma) &\vdash (q',w,\beta\gamma) &&\text{falls }\delta(q,a,z)\ni(q',\beta)\\
+                (q,w,Z\gamma) &\vdash (q',w,\beta\gamma) &&\text{falls }\delta(q,\Eps,z)\ni(q',\beta)\\
+        \end{align*}
 
   Wir schreiben $(q,w,\gamma) \vdash^n (q',w',\gamma')$ wenn $M$ in $n \in \mathbb{N}$ Schritten von Konfiguration $(q,w,\gamma)$ nach Konfiguration $(q',w',\gamma')$ gelangt.
 
   Wir schreiben ${\vdash^*}$ für die reflexive, transitive Hülle von ${\vdash}$.
   Falls $(q,w,\gamma) \vdash^* (q',w',\gamma')$ existiert also $n \in \mathbb{N}$, so dass $(q,w,\gamma) \vdash^n (q',w',\gamma')$.
   
-	Die von $M$ \emph{erkannte Sprache} ist
+        Die von $M$ \emph{erkannte Sprache} ist
   \begin{displaymath}
-		L(M) = \{ w\in\Sigma^* \mid (q_0,w,Z_0) \vdash^{\!\!*} (q',\Eps,\Eps) \} \tag*{\qedhere}
+                L(M) = \{ w\in\Sigma^* \mid (q_0,w,Z_0) \vdash^{\!\!*} (q',\Eps,\Eps) \} \tag*{\qedhere}
   \end{displaymath}
 \end{Def}
 
@@ -96,23 +96,23 @@ Im weiteren sei $M=(\dots)$ ein \ac{NPDA}.
 
 \begin{Satz}\label{satz:5.1}
   \begin{align*}
-		L \in \ac{CFL}  \text{ gdw } L =L(M) \text{ für einen NPDA $M$}
+                L \in \ac{CFL}  \text{ gdw } L =L(M) \text{ für einen NPDA $M$}
   \end{align*}
 \end{Satz}
 \datenote{21.12.16}
 \begin{proof}\hfill
-	\begin{itemize}
-	\item CFG zu NPDA:
-		Sei $\mathcal{G} = (N,\Sigma,P,S)$ Grammatik für $L$ in \ac{CNF}.
+        \begin{itemize}
+        \item CFG zu NPDA:
+                Sei $\mathcal{G} = (N,\Sigma,P,S)$ Grammatik für $L$ in \ac{CNF}.
     
-		Definiere \ac{NPDA} $M$ durch
-		\begin{itemize}
-			\item $Q = \{q_0\}$ 
-			\item $\Gamma = \Sigma\uplus N$
-			\item $Z_0 = S$
-			\item $\delta(q_0,a,a) = \{(q_0,\Eps)\} $ für $ a\in\Sigma$
-			\item $\delta(q_0,\Eps,A) = \{(q_0,\alpha)\}$ für $A\to\alpha\in P$
-		\end{itemize}
+                Definiere \ac{NPDA} $M$ durch
+                \begin{itemize}
+                        \item $Q = \{q_0\}$ 
+                        \item $\Gamma = \Sigma\uplus N$
+                        \item $Z_0 = S$
+                        \item $\delta(q_0,a,a) = \{(q_0,\Eps)\} $ für $ a\in\Sigma$
+                        \item $\delta(q_0,\Eps,A) = \{(q_0,\alpha)\}$ für $A\to\alpha\in P$
+                \end{itemize}
   Wir zeigen nun, dass $L(M) = L(\mathcal{G})$.
 
   Zum Führen des Beweises benötigen wir folgende Beobachtung, die für alle NPDAs $M = (\ldots),\enspace q,q' \in Q,\enspace w \in \Sigma^*,\enspace Z \in \Gamma$ gilt:
@@ -194,19 +194,19 @@ Im weiteren sei $M=(\dots)$ ein \ac{NPDA}.
 
     Zunächst zeigen wir, dass es genügt NPDAs zu betrachten, die bei jeder Transition Wörter der maximalen Länge $2$ auf den Keller schreiben:
 \begin{lemma}
-	Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, so dass
-	falls $\delta(q,x,Z)\ni (q',\gamma) \quad x\in\Sigma\cup\{\Eps\}$
-	dann ist $|\gamma| \le 2$
+        Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, so dass
+        falls $\delta(q,x,Z)\ni (q',\gamma) \quad x\in\Sigma\cup\{\Eps\}$
+        dann ist $|\gamma| \le 2$
 \end{lemma}
 \begin{proof}
-	Sei $(q',\gamma)\in\delta(q,x,Z)$ mit $\gamma = Z_n\dots Z_1$ f"ur $n>2$:
-	\begin{itemize}
-	\item 	neue Zustände $q_2\dots q_{n-1}$
-	\item Ersetze $(q',\gamma)$ durch $(q_2, Z_2Z_1)$
-	\item Definiere $\delta(q_i, \Eps, Z_i) = \{ (q_{i+1}, Z_{i+1}Z_i) \}$, f"ur $2\le i < n-1$
-	\item Definiere $\delta(q_{n-1}, \Eps, Z_{n-1}) = \{ (q', Z_nZ_{n-1}) \}$
-	\end{itemize}
-	Wiederhole bis alle Transitionen die gew"unschte Form haben. \qedhere
+        Sei $(q',\gamma)\in\delta(q,x,Z)$ mit $\gamma = Z_n\dots Z_1$ f"ur $n>2$:
+        \begin{itemize}
+        \item   neue Zustände $q_2\dots q_{n-1}$
+        \item Ersetze $(q',\gamma)$ durch $(q_2, Z_2Z_1)$
+        \item Definiere $\delta(q_i, \Eps, Z_i) = \{ (q_{i+1}, Z_{i+1}Z_i) \}$, f"ur $2\le i < n-1$
+        \item Definiere $\delta(q_{n-1}, \Eps, Z_{n-1}) = \{ (q', Z_nZ_{n-1}) \}$
+        \end{itemize}
+        Wiederhole bis alle Transitionen die gew"unschte Form haben. \qedhere
 \end{proof}
 
 Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le 2$ für alle $(q', \gamma) \in \delta(q, x, Z), q \in Q, x \in \Sigma \cup \{\Eps\}, Z \in \Gamma$.
@@ -327,84 +327,116 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
 \end{proof}
 
 \begin{Def}[name={[DPDA]}]
-	Ein \ac{DPDA} ist ein Tupel $(\underbrace{Q,\Sigma,\Gamma,q_0,Z_0}_{\text{wie gehabt}},\delta,F)$
-	\vspace{-1em}
-	\begin{itemize}
-	\item $F\subseteq Q$ akzeptierende Zustände
-	\item $\delta: Q\x (\Sigma\cup\{\Eps\})\x \Gamma \-> \mathcal{P}(Q\x \Gamma^*)$ wobei für alle $q\in Q,a\in\Sigma,Z\in\Gamma$ gelten muss, dass
-	$|\delta(q,a,Z)| + |\delta(q,\Eps,Z)| \leq 1$
-	\item Die Schrittrelation ,,$\vdash$'' ist definiert wie bei NPDAs.
-	\item $L(M) = \{w\in\Sigma^* \mid (q_0,w,Z_0) \vdash^* (q',\Eps,\gamma) \land q'\in F \}$ \qedhere
-	\end{itemize}
+        Ein \ac{DPDA} ist ein Tupel $(\underbrace{Q,\Sigma,\Gamma,q_0,Z_0}_{\text{wie gehabt}},\delta,F)$
+        \vspace{-1em}
+        \begin{itemize}
+        \item $F\subseteq Q$ akzeptierende Zustände
+        \item $\delta: Q\x (\Sigma\cup\{\Eps\})\x \Gamma \-> \mathcal{P}(Q\x \Gamma^*)$ wobei für alle $q\in Q,a\in\Sigma,Z\in\Gamma$ gelten muss, dass
+        $|\delta(q,a,Z)| + |\delta(q,\Eps,Z)| \leq 1$
+        \item Die Schrittrelation ,,$\vdash$'' ist definiert wie bei NPDAs.
+        \item $L(M) = \{w\in\Sigma^* \mid (q_0,w,Z_0) \vdash^* (q',\Eps,\gamma) \land q'\in F \}$ \qedhere
+        \end{itemize}
 \end{Def}
 
 \begin{lemma}[name={[\acs*{DPDA}, der gesamte Eingabe verarbeitet]}]
-	\label{lem:DPDA ges. Eingabe}
-	Zu jedem \ac{DPDA} gibt es einen äquivalenten \ac{DPDA}, der die gesamte Eingabe verarbeitet.
+        \label{lem:DPDA ges. Eingabe}
+        Zu jedem \ac{DPDA} gibt es einen äquivalenten \ac{DPDA}, der
+        jede Eingabe bis zum Ende liest.
 \end{lemma}
 \draftnote{23.12.16}
 \begin{proof}
-    Erste Möglichkeit: Die Transitionsrelation ist nicht total.
 
-	Führe einen neuen Zustand $q_s\notin F$ ein.
-	\begin{align*}
-	\shortintertext{Falls $\exists a\in\Sigma, q, Z$}
-		\delta(q,a,Z) &\cup \delta(q,\Eps,Z) = \varnothing\\
-	\shortintertext{dann erweitere $\delta$ um}
-		\delta(q,a,Z) &= \{ (q_s,Z) \}\\
-	\shortintertext{und $\forall a\in\Sigma, Z\in \Gamma: \delta(q_s,a,Z) = \{(q_s,Z)\}$}
-	\end{align*}
-	Weitere Möglichkeit: der Automat bleibt wegen leerem Keller stecken.\\
-	Abhilfe: Neues Kellerbodensymbol $Z_0'$ und neuer Startzustand $q_0'$.
-	\begin{align*}
-		\delta(q_0',\Eps,Z_0') &= \{(q_0,Z_0Z_0')\}\\
-	\shortintertext{Erweitere $\delta$ für alle originalen zustände $q\in Q$ um}
-		\delta(q,\Eps,Z_0') &= \{(q_s,Z_0')\}
-	\end{align*}
-	"`Falls Keller abgeräumt, Wechsel nach $q_s$"'
+  Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta, F)$ ein \ac{DPDA}. 
+  Zwei Möglichkeiten, warum $M$ nicht die gesamte Eingabe verarbeiten:
+  Die Transitionsrelation ist nicht total oder der Automat bleibt bei
+  leerem Keller stecken.
+
+  Abhilfe: Definiere $M' = (Q', \Sigma, \Gamma', q_0', Z_0', \delta',
+  F')$ mit
+
+  \begin{itemize}
+  \item $Q' = Q \cup \{q_0', q_s\}$ neue Zustände
+  \item $F' = F$
+  \item $\Gamma' = \Gamma \cup \{Z_0'\}$ neues Kellerbodensymbol
+  \end{itemize}
+  und Transitionsfunktion $\delta'$ gegeben durch
+  \begin{itemize}
+  \item $\delta' (q_0', \varepsilon, Z_0') = \{ (q_0, Z_0Z_0') \}$
+  \item Transition totalisieren: Für alle $q\in Q$, $Z \in \Gamma$\\
+    \begin{displaymath}
+      \delta' (q, \varepsilon, Z) =
+      \begin{cases}
+        \delta (q, \varepsilon, Z) & \text{falls
+        }\ne\emptyset\vee\exists a\in\Sigma, \delta (q, a, Z)\ne \emptyset \\
+        \{ (q_s, Z) \} & \text{sonst}
+      \end{cases}
+    \end{displaymath}
+    \begin{displaymath}
+      \delta' (q, a, Z) =
+      \begin{cases}
+        \delta (q, a, Z) & \text{falls }\ne\emptyset\vee\delta (q,
+        \varepsilon, Z) \ne \emptyset \\
+        \{ (q_a, Z) \} & \text{sonst}
+      \end{cases}
+    \end{displaymath}
+  \item Kellerunterlauf: $M$ hat $Z_0$ abgeräumt, so dass $Z_0'$
+    sichtbar geworden ist. Für alle $q\in Q$\\
+    $\delta' (q, \varepsilon, Z_0') = \{ (q_s, Z_0') \}$
+  \item Für alle $a\in\Sigma$, $Z\in \Gamma'$\\
+    $\delta' (q_s, a, Z) = \{ (q_s, Z) \}$.
+    
+  \end{itemize}
+
+  Es verbleibt zu zeigen, dass $\forall w\in \Sigma^*$ $\exists q\in Q'$
+  $\gamma\in\Gamma'^*$ so dass $(q_0', w, Z_0') \vdash^* (q,
+  \varepsilon, \gamma)$. (Induktion über $w$) Weiter ist zu zeigen,
+  dass $L (M) = L (M')$.
 \end{proof}
 
 \begin{Satz}[name={[Abgeschlossenheit der deterministischen \acs*{CFL}]}]
-	Die deterministischen \ac{CFL} sind unter Komplement abgeschlossen.
+        Die deterministischen \ac{CFL} sind unter Komplement abgeschlossen.
 \end{Satz}
 \begin{proof}
-	Sei $L=L(M)$ für \ac{DPDA} $M$. Nach \autoref{lem:DPDA ges. Eingabe} liest $M$ die komplette Eingabe.
+  Sei $L=L(M)$ für \ac{DPDA} $M$. Nach \autoref{lem:DPDA ges. Eingabe} liest $M$ die komplette Eingabe.
 
-	Definiere $M'$ mit $Q'= q\x \{0,1,2\}$.
+  Definiere $M'$ mit $Q'= q\x \{0,1,2\}$.
   Bedeutung des zusätzlichen ,,Flags'' $\in \{0,1,2\}$:
   \begin{itemize}
   \item $0$: seit Lesen des letzten Symbols wurde kein akzeptierender Zustand durchlaufen
-  \item $1$: seit Lesen des letzten Symbols wurde mehr als $1$ akzeptierender Zustand durchlaufen
-  \item $2$: 
+  \item $1$: seit Lesen des letzten Symbols wurde mindestens ein
+    akzeptierender Zustand durchlaufen 
+  \item $2$: markiert einen akzeptierenden Zustand in $M'$.
   \end{itemize}
-	
-	Zustand $(q,1)$ \\
-	\phantom{Zustand} $(q,2)$ \dots akz. Zustände d.h. $F'=F\x \{2\}$
-	\begin{align*}
-		q_0' &= \begin{cases}
-			(q_0,0) & q_0\notin F\\
-			(q_0,1) & q_0\in F
-		\end{cases}\\
-		\text{Falls }\delta(q,\Eps,Z) = \{(q',\gamma)\}\text{ dann}&\\
-		\delta'((q,0),\Eps,Z) &= \begin{cases}
-				((q',0),\gamma) & q'\notin F\\
-				((q',1),\gamma) & q'\in F
-			\end{cases}\\
-		\delta'((q,1),\Eps,Z) &= ((q',1),\gamma)\\
-		\text{Falls }\delta(q,a,Z) = \{(q',\gamma)\}& \\
-		\delta'((q,0), \Eps, Z) &= \{ ((q,2), Z) \} \\
-		\delta'((q,2), a, Z) &=
-		    \begin{cases}
-		        ((q',0), \gamma) & q' \notin F\\
-		        ((q',1), \gamma) & q' \in F
-		    \end{cases}\\
-		\delta'((q,1), a, Z) &=
-            \begin{cases}
-                ((q',0), \gamma & q' \notin F\\
-                ((q',1), \gamma & q' \in F
-            \end{cases}
-        \\ \tag*{\qedhere}
-	\end{align*}
+        
+  $F'=F\x \{2\}$
+
+  Definiere Hilfsfunktion $\mathit{final}:Q\to \{0,1\}$ durch 
+  \begin{displaymath}
+    \mathit{final} (q) =
+    \begin{cases}
+      0 & q\notin F \\ 1 & q \in F
+    \end{cases}
+  \end{displaymath}
+  \begin{align*}
+    q_0' &= (q_0,\mathit{final} (q_0))
+  \end{align*}
+  Für alle $q \in Q$, $Z\in\Gamma$.
+  
+  Falls $\delta(q,\Eps,Z) = \{(q',\gamma)\}$, dann
+  \begin{align*}
+    \delta'((q,0),\Eps,Z) &= ((q',\mathit{final} (q')),\gamma)
+    \\
+    \delta'((q,1),\Eps,Z) &= ((q',1),\gamma)
+  \end{align*}
+  Falls $\delta(q,a,Z) = \{(q',\gamma)\}$, dann
+  \begin{align*}
+    \delta'((q,0), \Eps, Z) &= \{ ((q,2), Z) \} \\
+    \delta'((q,2), a, Z) &=((q',\mathit{final} (q')), \gamma)
+    \\
+    \delta'((q,1), a, Z) &=
+    ((q',\mathit{final} (q')), \gamma)
+    \\ \tag*{\qedhere}
+  \end{align*}
 \end{proof}
 \begin{Satz}
     Die deterministischen \ac{CFL} sind \textbf{nicht} unter Vereinigung und Durchschnitt abgeschlossen.
@@ -426,6 +458,27 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
     Sei $L$ DCFL und $R$ regulär.
     Bilde das Produkt aus einem DPDA für $L$ und einem DFA für $R$.
     Offenbar ist das Ergebnis ein DPDA, der $L\cap R$ erkennt.
+
+    $L = L (M_1)$ mit $M_1 = (Q_1, \Sigma, \Gamma, q_{01}, Z_0,
+    \delta_1, F_1)$ \ac{DPDA}
+
+    $R = L (M_2)$ mit $M_2 = (Q_2, \Sigma, q_{02}, \delta_2, F_2)$
+    \ac{DFA}
+
+    Konstruiere $M'= (Q, \Sigma, \Gamma, q_0, Z_0, \delta, F)$ mit
+    \begin{itemize}
+    \item $Q = Q_1 \times Q_2$
+    \item $q_0 = (q_{01}, q_{02})$
+    \item $F = F_1  \times F_2$
+    \item Falls $\delta_1 (q_1, \varepsilon, Z) = \{(q_1', \gamma)\}$,
+      \\
+      dann für alle $q_2\in Q_2$: $\delta ((q_1, q_2), \varepsilon, Z)
+      = \{((q_1', q_2), \gamma)\}$. (Ansonsten leer.)
+    \item Falls $\delta_1 (q_1, a, Z) = \{(q_1', \gamma)\}$,\\
+      dann für alle $q_2\in Q_2$: $\delta ((q_1, q_2), a, Z) =
+      \{((q_1', \delta_2 (q_2, a)), \gamma)\}$. (Ansonsten leer.)
+    \end{itemize}
+    Zu zeigen ist noch $L (M') = L (M_1) \cap L (M_2)$.
 \end{proof}
 \begin{Satz}
     Sei $L$ DCFL und $R$ regulär.
@@ -453,10 +506,107 @@ Sei $\mathcal{G} = (N, \Sigma, P, S)$.
 Wir können nach Satz \ref{} einen PDA für $\mathcal{G}$ konstruieren, mit
 \begin{align*}
   \delta(q, a, a) &= \{(q, \Eps)\} \quad a \in \Sigma \\
-  \delta(q, \Eps, A) &= \{(q, \beta \mid A \to \beta \in P)\} \quad A \in N
+  \delta(q, \Eps, A) &= \{(q, \beta)  \mid A \to \beta \in P\}
 \end{align*}
 Die Transitionen für Eingabezeichen $a \in \Sigma$ sind deterministisch.
 Die $\Eps$-Transitionen sind es nicht unbedingt.
 
-Die Idee ist nun, \ldots TODO.
+Die Idee ist nun, den Automaten mit einem Symbol Lookahead zu
+erweitern. Dieses Symbol wird jeweils im Zustand des Automaten
+gespeichert. Der PDA für $L (\mathcal{G})$ mit Lookahead hat nun
+folgende Komponenten:
+\begin{itemize}
+\item $Q = \Sigma\cup \{\varepsilon, \$\}$
+\item $q_0 = [\Eps]$ (zu Beginn ist der Lookahead leer)
+\item $F = [\$]$  (das Symbol $\$$ markiert das Ende der Eingabe)
+\end{itemize}
+und die Transitionsfunktion
+\begin{align*}
+  \delta ([\Eps], a, Z) & = \{([a], Z) \} & & \text{lade Lookahead} \\
+  \delta ([a], \Eps, a) & = \{([\Eps], \varepsilon) \} && \text{match}
+  \\
+  \delta ([a], \Eps, A) & = \{([a], \beta) \mid A\to\beta\in P, a \in
+  \mathit{first} (\beta) \} && \text{select}
+\end{align*}
+Der Automat startet in der Konfiguration $([\Eps], w\$, S\$)$.
 
+\begin{Def}
+  Sei $\mathcal{G} = (N, \Sigma, P, S)$ CFG und $\beta \in
+  (N\cup\Sigma)^*$
+  \begin{align*}
+    \mathit{first} (\beta) &= \{ a \in \Sigma \mid \exists w\in
+    \Sigma^* , \beta \=>^* aw \} \cup \{\Eps \mid \beta \=>^* \Eps \}
+  \end{align*}
+\end{Def}
+
+Spezifikation von $\mathit{first}(\beta)$
+\begin{align*}
+  \mathit{first} (\Eps) & = \{ \Eps \} \\
+  \mathit{first} (a\beta) & = \{ a \} \\
+  \mathit{first} (A\beta) & =
+  \begin{cases}
+    \mathit{first} (A) & \Eps \notin \mathit{first (A)} \\
+    \mathit{first} (A) \setminus \{\Eps\} \cup \mathit{first} (\beta)
+    & A\=>^* \Eps
+  \end{cases} \\
+  \mathit{first} (A) &= \bigcup  \{ \mathit{first} (\beta) \mid A \to
+  \beta \in P \}
+\end{align*}
+
+\textbf{Algorithmus} zur Berechnung von $\mathit{first} (A)$ für alle $A\in N$
+
+Sei $FI[A] \subseteq N$ ein Feld indiziert mit Nichtterminalsymbolen.
+
+\begin{itemize}
+\item[] For each $A \in N$: $FI[A] \gets \emptyset$
+\item[] Repeat
+  \begin{itemize}
+  \item[] For each $A\in N$: $FI'[A] \gets FI[A]$
+  \item[] For each $A \to \beta \in P$
+    \begin{itemize}
+    \item[] $FI[A] \gets FI[A] \cup \mathit{first}_{FI} (\beta)$
+    \end{itemize}
+  \end{itemize}
+\item[] Until $\forall A\in N$: $FI'[A] = FI[A]$
+\end{itemize}
+
+Dabei ist
+\begin{align*}
+  \mathit{first}_{FI} (\Eps) & = \{ \Eps \} \\
+  \mathit{first}_{FI} (a\beta) & = \{ a \} \\
+  \mathit{first}_{FI} (A\beta) & =
+  \begin{cases}
+    FI[A] & \Eps \notin FI[A] \\
+    FI[A] \setminus \{\Eps\} \cup \mathit{first}_{FI} (\beta)
+    & \Eps\in FI[A]
+  \end{cases} 
+\end{align*}
+
+\textbf{Beispiel}: Betrachte eine  Grammatik arithmetische Ausdrücke
+mit Startsymbol $S$ und $N = \{E, T, F\}$, $\Sigma = \{a, -, *\}$ und Produktionen
+\begin{align*}
+  E & \to T E' & E' & \to -T E' \mid \varepsilon \\
+  T & \to F T' & T' & \to *F T' \mid \varepsilon \\
+  F & \to a
+\end{align*}
+
+Tabelle der Werte von $FI[A]$ wobei Zeile $i$ den Werten in $FI$ nach
+dem $i$-ten Schleifendurchlauf entspricht.
+
+\begin{displaymath}
+  \begin{array}{c||c|c|c|c|c|}
+    FI & E & E' & T & T' & F \\\hline
+    0  & \emptyset & \emptyset & \emptyset & \emptyset & \emptyset \\
+    1  & \emptyset & \{ -, \Eps \} & \emptyset & \{ *, \Eps \} & , \{a\} \\
+    2  & \emptyset & \{ -, \Eps \} & \{a\} & \{ *, \Eps \} & , \{a\} \\
+    3  & \{a\} & \{ -, \Eps \} & \{a\} & \{ *, \Eps \} & , \{a\} \\
+    4  & \{a\} & \{ -, \Eps \} & \{a\} & \{ *, \Eps \} & , \{a\} \\
+  \end{array}
+\end{displaymath}
+
+Ergebnis nach vier Durchläufen. 
+
+Anmerkung: first ist nicht die vollständige Lösung des Problems. Für
+den Lookahead müssen auch noch die Symbole betrachtet werden, die
+\emph{nach} einem bestimmten Nichtterminal auftreten können. Mehr dazu
+in Vorlesung Compilerbau. 
