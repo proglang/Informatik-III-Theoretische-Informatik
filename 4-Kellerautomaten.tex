@@ -132,9 +132,10 @@ Im weiteren sei $M=(\dots)$ ein \ac{NPDA}.
     per Induktion über den Ableitungsbaum $\mathcal{A} = \pi(\mathcal{A}_1, \ldots, \mathcal{A}_n)\in \operatorname{Abl}(\mathcal{G}, A)$ mit $Y(\mathcal{A}) = w$.
     \begin{description}
     \item[IV] Für alle $n' \le n$ und $1 \le i \le n',\enspace A_i \in N,\enspace \mathcal{A}_i \in \operatorname{Abl}(\mathcal{G}, A_i)$ gilt:
-      \begin{displaymath}
-      (q_0, Y(\mathcal{A}_i), A_i) \vdash^* (q_0, \Eps, \Eps).
-    \end{displaymath}
+      \begin{equation}
+      \label{eq:pda-step-base}
+      (q_0, Y(\mathcal{A}_i), A_i) \vdash^* (q_0, \Eps, \Eps) \tag{$\star$}
+    \end{equation}
     \item[IS] Unterscheide die Form der Produktionen der CNF-Grammatik $\mathcal{G}$:
       \begin{itemize}
       \item $\pi = S \to \Eps$.
@@ -154,8 +155,7 @@ Im weiteren sei $M=(\dots)$ ein \ac{NPDA}.
     \end{description}
   \item Wir zeigen
     \begin{equation}
-      \label{eq:pda-step-base}
-      \text{wenn } (q_0, w, S) \vdash^* (q_0, \Eps, \Eps) \text{ dann } S \stackrel{*}{\Longrightarrow} w \tag{$*$}
+      \text{wenn } (q_0, w, S) \vdash^* (q_0, \Eps, \Eps) \text{ dann } S \stackrel{*}{\Longrightarrow} w
     \end{equation}
     Wir beweisen dazu die stärkere Aussage
     \begin{displaymath}
