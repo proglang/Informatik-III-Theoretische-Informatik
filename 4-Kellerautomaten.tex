@@ -216,8 +216,8 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
     \item $P =
       \begin{aligned}[t]
         &\{ (q, Z, q') \to x \mid \delta(q, x, Z) \ni (q', \Eps), x \in \Sigma \cup \{\Eps\} \} \\
-        \cup & \{(q, Z, q') \to x(q'', Z', q') \mid \delta(q, x, Z) \ni (q'', Z'), q'' \in Q, x \in \Sigma \cup \{\Eps\}\} \\
-        \cup & \{(q, Z, q') \to x(q_1,Z_1,q_2)(q_2, Z_2, q') \mid 
+        &\cup  \{(q, Z, q') \to x(q'', Z', q') \mid \delta(q, x, Z) \ni (q'', Z'), q'' \in Q, x \in \Sigma \cup \{\Eps\}\} \\
+        &\cup  \{(q, Z, q') \to x(q_1,Z_1,q_2)(q_2, Z_2, q') \mid 
         \begin{aligned}[t]
           & \delta(q, x, Z) \ni (q'', Z_1Z_2), \\
           & q_1 \in Q, q_2 \in Q, x \in \Sigma \cup \{\Eps\} \}
