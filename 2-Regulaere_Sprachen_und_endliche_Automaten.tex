@@ -290,20 +290,16 @@ Sei für die folgenden Überlegungen $M = (Q, \Sigma, \delta, q_0, F)$ ein DEA.
   \begin{itemize}
   \item Fasse $A$ als Graphen auf.
   \item Wende Tiefensuche an, markiere dabei alle besuchten Zustände.
-  \item Die markierten Zustände ist die Menge der erreichbaren Zustände.
+  \item Die markierten Zustände bilden die Menge der erreichbaren Zustände.
   \end{itemize}
 \end{proof}
 
-\ldots 
+\ldots (TODO: hier fehlt noch etwas)
+\datenote{28.10.16}
 
-
-
-\draftnote{28.10.16}
-
-\emph{Beobachtung:} Auch ein Automat mit lauter erreichbaren Zuständen muss nicht minimal sein
-
+\emph{Beobachtung:} Auch ein Automat mit lauter erreichbaren Zuständen muss nicht minimal sein.
 \begin{Bsp}\label{Bsp:3.4}\
-        \begin{figure}[H]\centering
+  \begin{center}
                 \begin{tikzpicture}
                         \node (start) at (-4,1.5) {};
                         \node (q0) [circle,double] at (-3,1) {$q_0$};
@@ -319,36 +315,33 @@ Sei für die folgenden Überlegungen $M = (Q, \Sigma, \delta, q_0, F)$ ein DEA.
                         \draw [->] (q2) edge[bend left] node [auto] {0} (q3);
                         \draw [->] (q3) edge[bend left] node [auto] {1,0} (q2);
                 \end{tikzpicture}\\
-                höchstens eine "`1"'
-                \caption{Automat zu Bsp. \ref{Bsp:3.4}}
-        \end{figure}
-        Erkennt die gleiche Sprache wie in \eqref{bsp:3.1}, hat nur erreichbare Zustände, aber mehr Zustände als in \eqref{bsp:3.1}.
+              \end{center}
+        Dieser Automat erkennt die gleiche Sprache wie in \eqref{bsp:3.1} (,,höchstens eine 1''), hat nur erreichbare Zustände, aber mehr Zustände als in \eqref{bsp:3.1}.
         
-        \emph{Beobachtung:} $q_2$ und $q_3$ verhalten sich gleich in dem Sinn, dass
+        \emph{Beobachtung:} Aber $q_2$ und $q_3$ verhalten sich gleich in dem Sinn, dass
         \[ \forall w: \hat\delta(q_2,w) \notin F\text{ und }\hat\delta(q_3,w)\notin F \]
 \end{Bsp}
 %
 %\stepcounter{Def}
 %
 \begin{Def}[name={[Äquivalenz von \acs*{DFA}-Zuständen]}] %\rlnote{Def.-Num. überprüfen}
-        Zwei Zustände $q,p\in Q$ eines \ac{DFA} sind \emph{äquivalent}, geschrieben $p\equiv q$, falls $\forall w\in\Sigma^*$, $\hat\delta(p,w)\in F \<=> \hat\delta(q,w)\in F$
+  Zwei Zustände $q,p\in Q$ eines \ac{DFA} sind \emph{äquivalent}, geschrieben $p\equiv q$, falls
+  \begin{displaymath}
+  \forall w\in\Sigma^*, \hat\delta(p,w)\in F \text{ gdw } \hat\delta(q,w)\in F
+\end{displaymath}
 \end{Def}
 %\stepcounter{lemma}
 
 \begin{lemma}[name={[$\equiv$ ist Äquivalenzrelation]}] %\rlnote{Satz = Lemma-Nummer: 3.2 statt 3.1?}
-        $\equiv$ ist Äquivalenzrelation\\
-        \framebox{\parbox{.96\linewidth}{Eine Relation ist genau dann eine Äquivalenzrelation, wenn sie reflexiv, transitiv und symmetrisch
-        ist.}}
+        Die Relation ,,$\equiv$'' ist eine \emph{Äquivalenzrelation}, das heißt, ,,$\equiv$'' ist reflexiv, transitiv und symmetrisch.
 \end{lemma}
-\begin{proof} $\equiv$ ist offensichtlich reflexiv.
+\begin{proof}
+
+  $\equiv$ ist offensichtlich reflexiv.
         
-        $\begin{rcases}
-        \text{transitiv}\\
-        \text{symmetrisch}
-        \end{rcases}$ wegen \<=>
-        
-        Also $q_2,q_3$ aus \autoref{Bsp:3.4} sind äquivalent.
+  Die Symmetrie und Transitivität von $\equiv$ folgt aus der Transitivität und Symmetrie der logischen Interpretation von ,,genau dann wenn'' (gdw).
 \end{proof}
+Also sind $q_2,q_3$ aus \autoref{Bsp:3.4} äquivalent.
 \begin{Erinnerung}
 Hauptlemma "uber "Aquivalenzrelationen
 \begin{align*}
@@ -358,9 +351,10 @@ Hauptlemma "uber "Aquivalenzrelationen
 
 F"ur alle $ p,q\in Q$ gilt entweder $[p]=[q]$ oder $[p]\cap[q] = \emptyset$ (folgt aus Transitivität).
 
-D.h. $Q$ wird in disjunkte Äquivalenzklassen aufgeteilt. Anzahl der Äquivalenzklassen ist der \textbf{Index}.
+D.h. $Q$ wird in disjunkte Äquivalenzklassen aufgeteilt. Anzahl der Äquivalenzklassen ist der \emph{Index}.
 \end{Erinnerung}
 
+\draftnote{28.10.16}
 \eqref{bsp:3.1}:
 \begin{minipage}{.5\textwidth}
     \captionsetup{type=figure}
