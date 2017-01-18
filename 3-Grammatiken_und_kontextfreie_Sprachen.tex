@@ -80,7 +80,11 @@ Die Chomsky-Hierarchie teilt die Grammatiken in vier Typen unterschiedlicher Mä
 \begin{Def}[Chomsky Hierarchie]\
 	\begin{itemize}
 	\item Jede Grammatik ist eine \emph{Typ-0 Grammatik}.
-	\item Eine Grammatik ist \emph{Typ-1} oder \emph{kontextsensitiv}, falls alle Regeln expansiv sind, d.h. $\alpha\->\beta\in P$, dann ist $|\alpha|\leq |\beta|$ mit einer Ausnahme: falls $S$ nicht in einer rechten Regelseite auftritt, dann ist $S\->\Eps$ erlaubt.
+	\item Eine Grammatik ist \emph{Typ-1} oder
+          \emph{kontextsensitiv}, falls alle Regeln expansiv sind,
+          d.h., für alle Regeln $\alpha\->\beta\in P$ ist
+          $|\alpha|\leq |\beta|$. Ausnahme: falls $S$ nicht in einer
+          rechten Regelseite auftritt, dann ist $S\->\Eps$ erlaubt. 
 	\item Eine Grammatik heißt \emph{Typ-2} oder \emph{kontextfrei}, falls alle Regeln die Form $A\->\alpha$ mit $A\in N$ und $\alpha\in(N\cup\Sigma)^*$ haben.
 	\item Eine Grammatik heißt \emph{Typ-3} oder \emph{regulär}, falls alle Regeln die Form
 	\begin{alignat*}{2}
@@ -92,10 +96,11 @@ Die Chomsky-Hierarchie teilt die Grammatiken in vier Typen unterschiedlicher Mä
 \end{Def}
 
 \begin{Beobachtung}
-	Jede Typ $i+1$ Sprache ist nicht Typ-$i$ Sprache.
+	Jede Typ-$i+1$ Sprache ist auch Typ-$i$ Sprache.
 \end{Beobachtung}
 Jede Typ-3 Grammatik ist Typ-2 Grammatik.\\
-Jede Typ-2 Grammatik kann in äquivalente $\Eps$-freie Typ-2 Grammatik transformiert werden. \-> Typ-1 Grammatik. (Vgl.\ Elmination von $\Eps$-Produktionen)
+Jede Typ-2 Grammatik kann in äquivalente $\Eps$-freie Typ-2 Grammatik transformiert werden. \-> Typ-1 Grammatik. (Vgl.\ Elimination von $\Eps$-Produktionen)\\
+Jede Typ-1 Grammatik ist auch Typ-0 Grammatik.
 
 Ziel: Hierarchie-Satz (Chomsky)\\
 Sei $\mathcal{L}_i$ die Menge der Typ-$i$ Sprachen.\\
