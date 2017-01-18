@@ -9,7 +9,7 @@
 \begin{Def}[name={[Eigenschaften einer \acs*{TM} bzgl. Sprachen]}]
 	Sei $M$ \ac{TM}.
 	\begin{itemize}
-	\item $M$ \emph{akzeptiert} $w\in\Sigma^*$, falls $q_0w \vdash^* uq'v \ ,q'\in F$
+	\item $M$  \emph{akzeptiert} $w\in\Sigma^*$, falls $q_0w \vdash^* uq'v \ ,q'\in F$
 	\item $M$ \emph{akzeptiert} $L\subseteq\Sigma^*$, falls $M$ akzeptiert $w \<-> w\in L$
 	\item $M$ \emph{entscheidet} $L\subseteq\Sigma^*$, falls $M$ akzeptiert $L$ und $M$ hält für jede Eingabe an.
 	\item $L\subseteq\Sigma^*$ ist \emph{semi-entscheidbar} (rekursiv aufzählbar), falls $\exists M$, so dass diese $L$ akzeptiert.
@@ -215,7 +215,7 @@ Die Umkehrrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1 S
 	\shortintertext{Erweitere $N$}
 		&= \{S',S\}\cup\triangle\x(\Sigma\cup\{\Eps\})\\
 	\shortintertext{Neue Löschregeln:}
-		pmqty{x\\\Eps} &\-> \Eps &&\forall x\in\Gamma\\
+		\pmqty{x\\ \Eps } &\-> \Eps &&\forall x\in\Gamma\\
 		\rotatebox{90}{$\Rsh$}\ &\mathrlap{\text{einzigen Regeln, die Typ-0 einsetzen.}} \tag*{\qedhere}
 	\end{align*}
 	\end{itemize}
