@@ -1,4 +1,4 @@
-\section[Berechenbarkeit]{Berechenbarkeit\datenote{08.01.16}}
+\section[Berechenbarkeit]{Berechenbarkeit} \draftnote{18.01.17}
 \subsection{Typ-0 und Typ-1 Sprachen}
 \ptnote{checkpoint}
 \begin{Def}[name={[NTM]}]
@@ -118,7 +118,7 @@ v		\underarrowset{\hspace{1.7cm}\parbox{2cm}{\scriptsize Kopfpos. auf\\ Arbeitsb
 		\item Falls Bandinhalt $=S$ \quad stop, akzeptiert.
 		\end{enumerate}
 		\
-	\item["`\<="'\,:] \datenote{13.01.16}%
+	\item["`\<="'\,:] %
 	Gegeben: \ac{NTM} $M$ linear beschränkt.\\
 	Gesucht: Typ-1 Grammatik $\mathcal{G}$ mit $L(\mathcal{G})=L(M)$\\
 	Idee: 
@@ -210,12 +210,12 @@ Die Umkehrrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1 S
 	\item["'\=>"'] Kontruktion einer \ac{NTM} $M$ wie in \autoref{satz:6.3}, aber ohne Platzbeschränkung.
 	\item["'\<="'] Konstruktion analog zu \autoref{satz:6.3} + Startsymbol $S'$
 	\begin{align*}
-		S' &\-> \pmqty{\blank\\\epsilon} S' \pmqty{\blank\\\epsilon} &&\text{Schaffe Platz für Berechnung von }M\\
+		S' &\-> \pmqty{\blank\\\Eps} S' \pmqty{\blank\\\Eps} &&\text{Schaffe Platz für Berechnung von }M\\
 		S' &\-> S\\
 	\shortintertext{Erweitere $N$}
-		&= \{S',S\}\cup\triangle\x(\Sigma\cup\{\epsilon\})\\
+		&= \{S',S\}\cup\triangle\x(\Sigma\cup\{\Eps\})\\
 	\shortintertext{Neue Löschregeln:}
-		\pmqty{x\\\epsilon} &\-> \epsilon &&\forall x\in\Gamma\\
+		pmqty{x\\\Eps} &\-> \Eps &&\forall x\in\Gamma\\
 		\rotatebox{90}{$\Rsh$}\ &\mathrlap{\text{einzigen Regeln, die Typ-0 einsetzen.}} \tag*{\qedhere}
 	\end{align*}
 	\end{itemize}
@@ -296,7 +296,7 @@ Jetzt:
 \end{itemize}
 
 
-\datenote{14.01.16} % Danke @ Lars Nitzke
+ % Danke @ Lars Nitzke
 \vspace{1em}
 
 \begin{Satz}
@@ -391,7 +391,7 @@ $\overline{D}$ \quad nicht entscheidbar\\
 $\overline{D}$ \quad semi-entscheidbar (Typ-0)\\
 $D$ \quad nicht-semientscheidbar (keine Typ-0)
 \begin{Def}[name={[Halteproblem]}]
-	Das \underline{Halteproblem} ist definiert durch
+	Das \emph{Halteproblem} ist definiert durch
 	\[H = \{\ulcorner M\urcorner w \mid M \text{ hält bei Eingabe } w \text{ an}\} \qedhere\]
 \end{Def}
 \begin{Satz}[name={[$H$ ist unentscheidbar]}]\label{satz:H ist unentscheidbar}
@@ -423,7 +423,7 @@ $D$ \quad nicht-semientscheidbar (keine Typ-0)
 \begin{proof}
 	$\overline{D}$ ist unentscheidbar (also $\notin \mathcal{L}_1$), aber semi-entscheidbar (also $\in \mathcal{L}_0$)
 \end{proof}
-\underline{\textbf{Fragen:}}
+\emph{\textbf{Fragen:}}
 \begin{enumerate}
 	\item Ist $\mathcal{L}_1$ = Menge der entscheidbaren Sprachen?
 	\item[--] Nein:\\
@@ -461,7 +461,7 @@ $D$ \quad nicht-semientscheidbar (keine Typ-0)
 	$\curvearrowright M'$ entscheidet $H \qquad \lightning$ \autoref{satz:H ist unentscheidbar}
 \end{proof}
 
-\datenote{20.01.15} % Latex-Qelle von M. Geffken
+ % Latex-Qelle von M. Geffken
 Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
 (partiellen) Funktionen. Sei $R$ die Menge der von \ac{TM}s berechneten
 Funktionen.
@@ -532,13 +532,13 @@ Funktionen.
 
 \subsection{Weitere unentscheidbare Probleme}
 \paragraph[\acf*{PCP}]{\acf{PCP}}\ \\
-\underline{Gegeben:}\\
+\emph{Gegeben:}\\
 Endliche Folge von Wortpaaren $K=((x_1, y_1), \dots, (x_k, y_k))$ mit $x_i, y_i \in \Sigma^+$
 
-\underline{Gesucht:}\\
+\emph{Gesucht:}\\
 Indexfolge $i_1, \dots, i_n \in \{1, \dots, k\}\ (n \geq 1)$, so dass $x_{i_1} \cdots x_{i_n}=y_{i_1} \cdots y_{i_n}$
 
-Die Folge $i_1, \dots, i_n$ (falls diese existiert) heißt \underline{Lösung} des Korrespondenzproblems $K$.
+Die Folge $i_1, \dots, i_n$ (falls diese existiert) heißt \emph{Lösung} des Korrespondenzproblems $K$.
 \begin{Bsp*}
 \begin{align*}
 	K &=((\underbrace{1,101}_{x_1, y_1}), (\underbrace{10, 00}_{x_2, y_2}), (\underbrace{011, 11}_{x_3, y_3}))\\
@@ -546,7 +546,7 @@ Die Folge $i_1, \dots, i_n$ (falls diese existiert) heißt \underline{Lösung} d
 	x_1 x_3 x_2 x_3 &= \underbrace{1 \cdot 01}_{y_1}\underbrace{1 \cdot 1}_{y_3}\underbrace{0 \cdot 0}_{y_2}\underbrace{11}_{y_3} = y_1 y_3 y_2 y_3
 \end{align*}
 \end{Bsp*}\vspace{-1em}
-\underline{Frage:}
+\emph{Frage:}
 \begin{align*}
   x_1&=001 & x_2&=01 & x_3&=01 & x_2&=10\\
   y_1&=0  & y_2&=011 & y_3&=101  & y_2&=001\\
@@ -555,13 +555,13 @@ Besitzt dieses \ac{PCP} eine Lösung? [Schöning, S.124]
 \begin{Bemerkung}\ \\
   Offensichtlich ist das \ac{PCP} semi-entscheidbar: Systematisches
   Ausprobieren von Indexfolgen findet Lösung nach endlicher Zeit,
-  \underline{sofern es eine gibt}.
+  \emph{sofern es eine gibt}.
 \end{Bemerkung}
 Ziel: \ac{PCP} ist unentscheidbar. Vorbereitung:
 Es interessiert uns ab hier nur, ob das Problem eine Lösung hat oder nicht.
 \begin{Def}[Reduktion]\ \\
   Seien $U, V \subseteq \Sigma^*$ Sprachen.\\
-  \underline{$U$ ist auf $V$ reduzierbar ($U \preceq V$)}, falls eine totale berechenbare Funktion
+  \emph{$U$ ist auf $V$ reduzierbar ($U \preceq V$)}, falls eine totale berechenbare Funktion
   $f:\Sigma^* \to \Sigma^*$ existiert, so dass $\forall x \in \Sigma^*:x \in U \iff f(x) \in V$.
 \end{Def}
 \begin{lemma}
@@ -576,12 +576,12 @@ Es interessiert uns ab hier nur, ob das Problem eine Lösung hat oder nicht.
   \end{itemize}
   $\curvearrowright$ $M'$ ist (Semi-)Entscheidungsverfahren für $U$
 \end{proof}
-\underline{Anwendung:} $U \preceq V$ und $U$
+\emph{Anwendung:} $U \preceq V$ und $U$
 unentscheidbar $\curvearrowright$ $V$ unentscheidbar.
 \paragraph[\acf*{MPCP}]{\acf{MPCP}}\ \\
-\underline{Gegeben:} wie bei \ac{PCP}
+\emph{Gegeben:} wie bei \ac{PCP}
 
-\underline{Gesucht:} Lösung des \acsu{CP} mit $i_1=1$
+\emph{Gesucht:} Lösung des \acsu{CP} mit $i_1=1$
 \begin{lemma}[name={[MPCP $\preceq$ PCP]}]
     \ac{MPCP} $\preceq$ \ac{PCP}
 \end{lemma}
@@ -609,7 +609,7 @@ unentscheidbar $\curvearrowright$ $V$ unentscheidbar.
 \end{proof}
 Es reicht nun zu zeigen, dass \ac{MPCP} unentscheidbar ist!
 
-\begin{lemma}[name={[H $\preceq$ \ac{MPCP}]}] \datenote{28.01.16}
+\begin{lemma}[name={[H $\preceq$ \ac{MPCP}]}] 
 	H $\preceq$ \ac{MPCP}
 \end{lemma}
 \begin{proof}
