@@ -4,9 +4,10 @@
 1930er Jahre\\
 Suche nach formalem Modell für maschinelle Berechenbarkeit
 \begin{description}
-	\item[Alaen Turing:] (1912-1954) Turingmaschine 1936
-	\item[Church:] Lambdakalkül 1936
-	\item[Kleene Sturgis:] partielle rekursive Funktionen
+	\item[Alan Turing:] (1912-1954) Turingmaschine 1936
+	\item[Alonzo Church:] Lambdakalkül 1936
+        \item[Emil Post:]  Postband 1936
+	\item[Kleene, Sturgis:] partiell rekursive Funktionen
 	\item[Chomsky:] Typ-0-Grammatiken 1956
 \end{description}
 \emph{Alan Turing:}\begin{minipage}[t]{.8\textwidth}
@@ -56,15 +57,14 @@ Ein primitives Rechenmodell:
 \begin{tabu}{>{\bfseries}X[.22]X[.72]}
 	Turingband & \vspace{-1em}\begin{itemize}[leftmargin=1em,parsep=0pt,topsep=0pt]
 	\item unendliches Band
-	\item Jedes Feld enthält ein Symbol aus einem Bandalphabet $\Gamma$
-	\item uninitialisiert: $\blank\in\Gamma$  ist ein spezielles Symbol welches ein Feld als ,,leer'' markiert
+	\item Jedes Feld enthält ein Symbol aus einem Bandalphabet $\Gamma$.
+	\item uninitialisiert: $\blank\in\Gamma$ (Blank) ist ein spezielles Symbol welches ein Feld als ,,leer'' markiert
 	\end{itemize}
 	\\
 	Kopf & \vspace{-1em}\begin{itemize}[leftmargin=1em,parsep=0pt,topsep=0pt]
 	\item zeigt immer auf ein Feld
 	\item nur am Kopf kann die \ac{TM} ein Zeichen lesen und schreiben
 	\item kann nach rechts /links bewegt werden
-	\item kann verändert werden
 	\end{itemize}\\
 	Zustand & \vspace{-1em}\begin{itemize}[leftmargin=1em,parsep=0pt,topsep=0pt]
 	\item kann verändert werden
@@ -78,13 +78,17 @@ Ein primitives Rechenmodell:
 		&&&&
 	\end{tabular}
 	& $\sim$ Programm $\sim$ Transitionsfunktion \newline
-	$\rightarrow$ Wenn \ac{TM} in Zustand $q$ und Kopf liest gerade Symbol $a\in\Gamma$ dann wechsle in Zustand $q'$. Schreibe $a'$ (über altes $a$) und bewege den Kopf gemäß $d\in\{L,R,N\}$
+	$\rightarrow$ Wenn \ac{TM} in Zustand $q$ und Kopf liest
+        gerade Symbol $a\in\Gamma$ dann wechsle in Zustand $q'$,
+        schreibe $a'$ (über altes $a$) und bewege den Kopf gemäß
+        $d\in\{L,R,N\}$ 
 \end{tabu}\
 
 \begin{samepage}
 	\begin{Bsp*}\ 
 		\vspace{-2em}
-		\begin{figure}[H]\centering
+		\begin{figure}[H]
+                   \begin{center}
 			\begin{tikzpicture}[every node/.style={block}]
 				\node (1) {\blank};
 				\node (2) [right=of 1] {\blank};
@@ -107,18 +111,20 @@ Ein primitives Rechenmodell:
 				-- ++ ( 1cm,0) (last.south east)
 				-- ++ ( 1cm,0);
 			\end{tikzpicture}
-			\caption{Bsp.: Turingmaschine}
-			\vspace{.5em}
-			\begin{tabu}{|*5{M{c}|}l}\tabucline{1-5}
-				\everyrow{\tabucline{1-5}}
-				q_1 & b & q_2 & \blank & R\\
-				q_1 & x\pm b & q_1 & x & N\\
-				q_2 & \blank & q_3 & b & L\\
-				q_2 & x+\blank & q_2 & x & R\\
-				q_3 & x+\blank & q_3 & x & L\\
-				q_3 & \blank & q_4 & \blank & L\\
-				q_4 & x & q_4 & x & N & \-> Endzustand
-			\end{tabu}
+			\\[2ex]
+                        \begin{displaymath}
+                          \begin{array}{|c|c|c|c|c|l}
+                            \hline
+			  	q_0 &  x & q_x & \blank & R  & x\ne\blank\\\hline
+                                q_x & \blank & q_3 & x & L\\\hline
+                                q_x & y & q_x & y & R & y \ne \blank \\\hline
+                                q_3 & y & q_3 & y & L & y \ne \blank\\\hline
+                                q_3 & \blank & q_4 & \blank & R\\\hline
+                          \end{array}
+                        \end{displaymath}
+                        \end{center}
+			\caption{Bsp.: Turingmaschine---Füge das erste
+                        Zeichen am Ende der Eingabe an}
 		\end{figure}
 	\end{Bsp*}
 \end{samepage}
@@ -135,9 +141,9 @@ Was kann die \ac{TM} ausrechnen?
 		\item Kopf auf erstem Zeichen von $w$
 		\item Zustand ist Startzustand $q_0$
 		\item Abarbeitung der \ac{TT}
-		\item Falls \ac{TM} nicht terminert: $w\notin L$
-		\item Falls \ac{TM} terminert betrachte den errechneten Zustand $q$.\\
-		Falls $q\in F$ (akzeptierter Zustand), dann $w\in L$, anderenfalls $w\notin L$
+		\item Falls \ac{TM} nicht terminiert: $w\notin L$
+		\item Falls \ac{TM} terminiert betrachte den errechneten Zustand $q$.\\
+		Falls $q\in F$ (akzeptierender Zustand), dann $w\in L$, anderenfalls $w\notin L$
 	\end{itemize}
 	
 	\begin{Bsp*}
@@ -161,9 +167,9 @@ Was kann die \ac{TM} ausrechnen?
 		\begin{tabular}{@{}*6{M{l}}|}
 			\multicolumn{6}{@{}l|}{Alternative 1:}\\
 			\multicolumn{6}{@{}l|}{\ac{TM} hält bei jeder Eingabe an.}\\[.5em]
-			q_l^0 & \blank & q_l^0  & \blank & N & \<-\text{Halt}\\
-			& 0   & q_l    & \blank & L &\\
-			& 1   & q_l^0  & 1      & N & \<-\text{Halt}
+			q_l^0 & \blank & ---  & --- & --- & \<-\text{Halt}\\
+                        q_l^0 & 0   & q_l    & \blank & L &\\
+			q_l^0 & 1   & ---  & ---      & --- & \<-\text{Halt}
 		\end{tabular}\quad\begin{tabular}{@{}*5{M{l}}@{ }l}
 		\multicolumn{6}{@{}l}{Alternative 2:}\\
 		\multicolumn{6}{@{}l}{\ac{TM} hält nur bei Palindrom an.}\\[.5em]
@@ -173,13 +179,13 @@ Was kann die \ac{TM} ausrechnen?
 		\end{tabular}
 	\end{Bsp*}
 	
-	\item Die \ac{TM} errechnet Funktion $f: \Sigma^*\-->\Sigma^*$\\
+	\item Eine \ac{TM} berechnet eine \emph{partielle} Funktion $f: \Sigma^*\dashrightarrow\Sigma^*$\\
 	Die Berechnung von $f(w),\ w\in\Sigma^*$
 	\begin{itemize}
 		\item $w$ auf leeres Band
 		\item Kopf auf erstes Zeichen, Standardzustand $q_0$
 		\item Abarbeitung der \ac{TT}
-		\item Falls terminiert, dann Kopf zuerst auf erste Symbol von $v\in\Sigma^*$\\
+		\item Falls terminiert und Kopf steht auf dem ersten Symbol von $v\in\Sigma^*$\\
 		Dann $f(w)=v$
 	\end{itemize}
 \end{enumerate}
@@ -189,8 +195,8 @@ Was kann die \ac{TM} ausrechnen?
 \end{alignat*}
 \begin{Bsp} % 2.1
 	$\Sigma=\{0,1\}$\\
-	Gesucht die \ac{TM}, die die Nachfolgefunktion auf natürliche Zahlen in Binärdarstellung berechnet.\\
-	Ausnahme: niederwertigste Stelle von der Zahl.\medskip\\
+	Gesucht eine \ac{TM}, die die Nachfolgerfunktion auf natürliche Zahlen in Binärdarstellung berechnet.\\
+	Annahme: niederwertigste Stelle der Zahl am Anfang der Eingabe.\medskip\\
 	\begin{tabular}{@{}M{l}@{ } *5{M{l}} @{ }l}
 		\xrightarrow{\text{Start}} & q_0 & \blank & q_2 & 1 & L \\
 		& q_0 & 0      & q_1 & 1 & L \\
@@ -208,14 +214,18 @@ Was kann die \ac{TM} ausrechnen?
 		\mathcal{A}=\left(Q,\Sigma,\Gamma,\delta,q_0,\blank,F\right)\\
 	\end{equation*}
 	\begin{itemize}
-		\item $Q$ ist endliche Menge der Zustände
+		\item $Q$ ist endliche Menge von Zuständen
 		\item $\Sigma$ ist endliches Alphabet
 		\item $\Gamma\supsetneq\Sigma$ ist endliches Bandalphabet
-		\item $\delta: Q\times\Gamma\-->Q\times\Gamma\times\{R,L,N\}$
-		\item $q_0\in Q$ Standardzustand
+		\item $\delta: Q\times\Gamma\--> \Powerset(Q\times\Gamma\times\{R,L,N\})$
+		\item $q_0\in Q$ Startzustand
 		\item $\blank\in\Gamma\setminus\Sigma$ das Blank
 		\item $F\subseteq Q$ Menge der akzeptierenden Zustände
 	\end{itemize}
+        Die TM $\mathcal{A}$ heisst \emph{deterministisch}
+        (DTM), falls $\forall q\in Q, \forall a\in\Gamma, |\delta
+        (q,a)| \le 1$.\\
+        Ansonsten ist $\mathcal{A}$ \emph{nichtdeterministisch} (NTM).
 \end{Def}
 Im Folgenden sei $\A=(Q, \Sigma, \Gamma, \delta, q_0, \blank, F)$ eine \ac{TM}.
 
@@ -229,7 +239,7 @@ Im Folgenden sei $\A=(Q, \Sigma, \Gamma, \delta, q_0, \blank, F)$ eine \ac{TM}.
 	\item $v$ linke Bandhälfte,
 	\item $q$ Zustand,
 	\item $w$ rechte Bandhälfte,
-	\item Kopfpos auf erstem Symbol von $w$
+	\item Kopfposition auf erstem Symbol von $w$
 \end{itemize}
 
 Abk"urzend $ v qw \in \Konf(\mathcal{A}) $ steht für Band:
@@ -251,16 +261,13 @@ Abk"urzend $ v qw \in \Konf(\mathcal{A}) $ steht für Band:
 	\caption{$vqw$-Band}
 \end{figure}
 %
-\paragraph{Forts.:} Die \emph{Startkonfiguration} bei Eingabe $w$ ist:
-$\begin{cases}
-q_0\,w &, w\neq\Eps\\
-q_0\,\blank &, w=\Eps
-\end{cases}$\\
-Eine \emph{Haltekonfiguration} hat folgende Form: $vqaw$, so dass $\delta(q,a)=(q,a,N)$
+\paragraph{Forts.:} Die \emph{Startkonfiguration} bei Eingabe $w$ ist: $q_0\,w\,\blank$.
+\\
+Eine \emph{Haltekonfiguration} hat die Form: $vqaw$, so dass $\delta(q,a)=\emptyset$
 
 \begin{Def}[name={[Rechenschrittrelation]}] % 2.3
 	Die \emph{Rechenschrittrelation}
-	\[ \vdash\, \subseteq \Konf(\A)\x\Konf(A) \]
+	\[ {\vdash} \subseteq \Konf(\A)\x\Konf(A) \]
 	ist definiert durch
 	\begin{alignat*}{3}
 		1.&\ & v qaw &\vdash v q'a'w &\quad& \text{falls }\delta(q,a)=(q',a',N)\\
@@ -270,7 +277,7 @@ Eine \emph{Haltekonfiguration} hat folgende Form: $vqaw$, so dass $\delta(q,a)=(
 		&& vbqaw &\vdash vq'ba'w && \ruleplaceholder{\widthof{$\delta(q,a)=(q',a',L)$}}\  b\in\Gamma
 	\end{alignat*}
 	$\vdash$ Einzelschritt, gesuchte Relation für endlich viele Schritte \smallskip\\
-	$\vdash^* \subseteq \Konf(\A) \x \Konf(\A)$ die reflexive transitive Hülle von $\vdash$
+	${\vdash^*} \subseteq \Konf(\A) \x \Konf(\A)$ die reflexive transitive Hülle von $\vdash$
 \end{Def}
 
 
@@ -278,7 +285,7 @@ $\vdash$ Relation auf $\Konf(\A)\hat=$ Berechnungsschritt\\
 $\vdash^*$ reflexiv, transitiver Abschluss $\hat=$ endl.\ viele Berechnungsschritte
 %
 %
-\begin{Def}[Die von \acs*{TM} $\A$ erkannte Sprache] % 2.5
+\begin{Def}[Die von \acs*{TM} $\A$ akzeptierte Sprache] % 2.5
 	\begin{align*}
 		L(\A)=\{ w\in\Sigma^* \mid{}
 		& q_0 w \vdash^*uqv\\
@@ -443,3 +450,8 @@ $uq'v$ ist keine Haltekonfiguration.
 		\item weitere Versuche Berechenbarkeit zu formulieren, äquivalent zu \ac{TM}en erwiesen.
 	\end{itemize}
 \end{Satz}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "Info_3_Skript_WS2016-17"
+%%% End:
