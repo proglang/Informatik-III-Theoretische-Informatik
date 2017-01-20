@@ -1,19 +1,20 @@
 \section[Berechenbarkeit]{Berechenbarkeit} \draftnote{18.01.17}
 \subsection{Typ-0 und Typ-1 Sprachen}
 \ptnote{checkpoint}
-\begin{Def}[name={[NTM]}]
-	\acf{NTM} ist ein Tupel $(Q,\Sigma,\Gamma,\delta,q_0,\blank,F)$, wobei alles wie bei einer \ac{DTM} außer $\delta: Q\x\Gamma\-> \wp(Q\x\Gamma\x\{N,L,R\})$.\\
-	Konfiguration und Berechnungsrelation wie gehabt.
-\end{Def}
+% \begin{Def}[name={[NTM]}]
+% 	\acf{NTM} ist ein Tupel $(Q,\Sigma,\Gamma,\delta,q_0,\blank,F)$, wobei alles wie bei einer \ac{DTM} außer $\delta: Q\x\Gamma\-> \wp(Q\x\Gamma\x\{N,L,R\})$.\\
+% 	Konfiguration und Berechnungsrelation wie gehabt.
+% \end{Def}
 
 \begin{Def}[name={[Eigenschaften einer \acs*{TM} bzgl. Sprachen]}]
 	Sei $M$ \ac{TM}.
 	\begin{itemize}
-	\item $M$  \emph{akzeptiert} $w\in\Sigma^*$, falls $q_0w \vdash^* uq'v \ ,q'\in F$
+	\item $M$  \emph{akzeptiert} $w\in\Sigma^*$, falls $q_0w
+          \vdash^* uq'v$ Haltekonfiguration und $q'\in F$
 	\item $M$ \emph{akzeptiert} $L\subseteq\Sigma^*$, falls $M$ akzeptiert $w \<-> w\in L$
 	\item $M$ \emph{entscheidet} $L\subseteq\Sigma^*$, falls $M$ akzeptiert $L$ und $M$ hält für jede Eingabe an.
-	\item $L\subseteq\Sigma^*$ ist \emph{semi-entscheidbar} (rekursiv aufzählbar), falls $\exists M$, so dass diese $L$ akzeptiert.
-	\item $L\subseteq\Sigma^*$ ist \emph{entscheidbar} (rekursiv), falls $\exists M$, so dass diese $L$ entscheidet.
+	\item $L\subseteq\Sigma^*$ ist \emph{semi-entscheidbar} (rekursiv aufzählbar), falls $\exists M$, die $L$ akzeptiert.
+	\item $L\subseteq\Sigma^*$ ist \emph{entscheidbar} (rekursiv), falls $\exists M$, die $L$ entscheidet.
 	\end{itemize}
 \end{Def}
 \begin{Def}[name={[Laufzeit und Platzbedarf einer \acs*{TM}]}]
@@ -34,18 +35,23 @@
 \textbf{Zeitbeschränkt mit $t(n)$}: $\forall w\in\Sigma^*: |w|\leq n \=> T_M(w)\leq t(n)$,\\
 platzbeschränkt analog.
 \end{Def}
-\begin{Satz}[name={[Zu jeder \acs*{NTM} gibt es \acs*{DTM}]}]\label{satz:6.1}
-	Zu jeder \ac{NTM} gibt es eine \ac{DTM} $M'$, so dass
+\begin{Satz}[name={[Zu jeder NTM gibt es \acs*{DTM}]}]\label{satz:6.1}
+	Zu jeder NTM gibt es eine \ac{DTM} $M'$, so dass
 	\begin{itemize}
-	\item $M$ akzeptiert $L(M)$
+	\item $M'$ akzeptiert $L(M)$
 	\item $M'$ terminiert gdw. $M$ terminiert
-	\item Falls $M$ Zeit- und platzbeschränkt ist, mit $t(n)$ bzw. $s(n)$ ($n=$ Länge der Eingabe), dann ist $M'$ zeitbeschränkt mit $2^{O(t(n))}$ und platzbeschränkt mit $O(s(n)\cdot t(n))$.
+	\item Falls $M$ zeit- und platzbeschränkt ist mit $t(n)$
+          bzw. $s(n)$ ($n=$ Länge der Eingabe), dann ist $M'$
+          zeitbeschränkt mit $2^{O(t(n))}$ und platzbeschränkt mit
+          $O(s(n)\cdot t(n))$. 
 	\end{itemize}
 \end{Satz}\vspace{-2em}
 \begin{proof}
-	Die Konfiguration von $M$ bilden einen Baum, dessen Kanten durch $\vdash$ gegeben sind. Er ist endlich verzweigt, hat aber ggf. unendlich lange Äste.
+	Die Konfigurationen von $M$ bilden einen Baum, dessen Kanten durch $\vdash$ gegeben sind. Er ist endlich verzweigt, hat aber ggf. unendlich lange Äste.
 	
-	Definiere eine (Mehrband-)\ac{DTM}, die den Konfigurationsbaum systematisch durchläuft und akzeptiert, sobald eine Konf. erreicht ist, in der $M$ akzeptiert.
+	Definiere eine (Mehrband-)\ac{DTM}, die den Konfigurationsbaum
+        systematisch durchläuft und akzeptiert, sobald eine
+        Haltekonfiguration erreicht ist, in der $M$ akzeptiert. 
 	
 	Die \ac{DTM} terminiert ebenfalls, wenn alle Blätter des Baumes besucht worden sind, ohne dass eine akzeptierende Konfiguration gefunden wurde.
 	
@@ -82,7 +88,7 @@ Nächstes Ziel: Charakterisierung von Typ-1 Sprachen.
 		|Q| \quad\cdot\quad
 		\underarrowset{\parbox{2.2cm}{\scriptsize\centering mögliche Inhalte des Arbeitsbands}}{|\Gamma|}^{s(n)}
 		\ \cdot\
-v		\underarrowset{\hspace{1.7cm}\parbox{2cm}{\scriptsize Kopfpos. auf\\ Arbeitsband}}{s(n)}
+		\underarrowset{\hspace{1.7cm}\parbox{2cm}{\scriptsize Kopfpos. auf\\ Arbeitsband}}{s(n)}
 		\in 2^{O(\log n + s(n))}
 	\]
 	\item \ac{DTM} mit Platzschranke\,: $M$ entscheidet,\\
@@ -103,27 +109,28 @@ v		\underarrowset{\hspace{1.7cm}\parbox{2cm}{\scriptsize Kopfpos. auf\\ Arbeitsb
 	siehe oben.
 \end{proof}
 \begin{Bemerkung}
-	Die Klasse $\NTAPE$ heißt auch \ac{LBA}.
+	Die Klasse $\NTAPE (n)$ heißt auch \ac{LBA}.
 \end{Bemerkung}
 %
 \begin{Satz}\label{satz:6.3}
-	$L=\mathrm{NTAPE}(n)$
+	$\mathcal L_1=\mathrm{NTAPE}(n)$
 \end{Satz}
 \begin{proof}\
 \begin{itemize}
 	\item["`\=>"'\,:] Sei $G=(N,\Sigma,P,S)$ Typ-1 Grammatik für $L$.\\
 		Konstruiere \ac{NTM} $M$ mit $L=L(M),\ \Gamma = \Sigma\cup N\cup\{\blank\}$
 		\begin{enumerate}
-		\item $M$ rät (\ac{ND}) eine Position auf dem Band und Produktion $\alpha\-> \beta$. Falls $\beta$ gefunden wird, ersetze durch $\alpha$, weiter bei 1.
+		\item $M$ rät nicht deterministisch eine Position auf
+                  dem Band und eine Produktion $\alpha\-> \beta$. Falls $\beta$ gefunden wird, ersetze durch $\alpha$, weiter bei 1.
 		\item Falls Bandinhalt $=S$ \quad stop, akzeptiert.
 		\end{enumerate}
-		\
+		Dieses Verfahren terminiert.
 	\item["`\<="'\,:] %
 	Gegeben: \ac{NTM} $M$ linear beschränkt.\\
 	Gesucht: Typ-1 Grammatik $\mathcal{G}$ mit $L(\mathcal{G})=L(M)$\\
 	Idee: 
 	\begin{align*}
-		a_1\cdot a_n &\-->
+		a_1\cdots a_n &\-->
 			\pmqty{a_1\\a_1} \pmqty{a_2\\a_2} \pmqty{(q,a)\\a_3} \pmqty{a_4\\a_4} \pmqty{a_n\\a_n}
 			&&\begin{matrix}\text{Spur 1}\\\text{Spur 2}\end{matrix}\\
 	\shortintertext{ad\footnotemark\ Spur 1: Alphabet $\Gamma\cup(Q\x\Gamma) = \triangle$}
@@ -165,7 +172,7 @@ v		\underarrowset{\hspace{1.7cm}\parbox{2cm}{\scriptsize Kopfpos. auf\\ Arbeitsb
 			\end{aligned}\\
 		\pmqty{(q',x)\\a} &\-> a
 			&&\begin{aligned}
-				x&\in\Gamma\\
+				x&\in\Gamma, q'\in F, \delta (q',x)=\emptyset\\
 				a&\in\Sigma
 			\end{aligned}
 	\end{align*}
@@ -200,7 +207,7 @@ v		\underarrowset{\hspace{1.7cm}\parbox{2cm}{\scriptsize Kopfpos. auf\\ Arbeitsb
 	\end{align*}
 	Nach \autoref{satz:6.1} sogar mit \ac{DTM}.
 \end{proof}
-Die Umkehrrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1 Sprache"' gilt nicht!
+Die Rückrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1 Sprache"' gilt nicht!
 
 \begin{Satz}\label{satz:6.6}
 	$\mathcal{L}_0 = \ac{NTM}$
@@ -216,7 +223,8 @@ Die Umkehrrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1 S
 		&= \{S',S\}\cup\triangle\x(\Sigma\cup\{\Eps\})\\
 	\shortintertext{Neue Löschregeln:}
 		\pmqty{x\\ \Eps } &\-> \Eps &&\forall x\in\Gamma\\
-		\rotatebox{90}{$\Rsh$}\ &\mathrlap{\text{einzigen Regeln, die Typ-0 einsetzen.}} \tag*{\qedhere}
+		\rotatebox{90}{$\Rsh$}\ &\mathrlap{\text{die einzigen
+                                          Regeln, die Typ-1 Bedingung verletzen.}} \tag*{\qedhere}
 	\end{align*}
 	\end{itemize}
 \end{proof}
@@ -233,7 +241,7 @@ Die Umkehrrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1 S
 \end{Bem}
 
 \subsection{Universelle \acs*{TM} und das Halteproblem}
-Ziel: Universelle \ac{TM} (eine \ac{TM}, die \ac{TM}s interpretiert) ist eine \ac{TM} $U$, die zwei Eingaben minimiert:
+Ziel: Universelle \ac{TM} (eine \ac{TM}, die \ac{TM}s interpretiert) ist eine \ac{TM} $U$, die zwei Eingaben nimmt:
 \begin{enumerate}
 \item Kodierung einer (anderen) \ac{TM} $M_0$
 \item Eingabe $w$ für $M_0$
@@ -241,7 +249,9 @@ Ziel: Universelle \ac{TM} (eine \ac{TM}, die \ac{TM}s interpretiert) ist eine \a
 so dass
 \begin{align*}
 	w\in L(M_0) &\curvearrowleftright (M_0,w) \in L(U)\\
-	\text{$M_0$ terminiert mit $w$} &\curvearrowleftright \text{$U$ terminiert mit $(M_0,w)$}
+	\text{$M_0$ terminiert bei Eingabe $w$} &\curvearrowleftright
+                                                  \text{$U$ terminiert
+                                                  bei Eingabe $(M_0,w)$}
 \end{align*}
 Zur Vereinfachung:
 \begin{align*}
@@ -271,9 +281,9 @@ Kodiere $\delta$ Zeilenweise:
 	\delta(q_i,X) &= (q_k,Y,D) \ (= \text{Zeile} z)\\
 \shortintertext{durch}
 	\mathrm{code}(z) &= 0^i10^{f(x)}10^k10^{f(y)}10^{g(D)}\\
-\shortintertext{Wenn $\delta$ durch $s$ Zeilen $z_1\dots z_s$ gegeben, dann setze}
+\shortintertext{Wenn $\delta$ durch $s$ Zeilen $z_1\dots z_s$ gegeben,
+  dann definiere die \emph{Gödelnummer} von $M_0$ durch}
 	\ulcorner M_0 \urcorner &= 111 \mathrm{code}(z_1) 11 \mathrm{code}(z_2) 11 \dots 11 \mathrm{code}(z_s) 111\\
-\shortintertext{ist die \emph{Gödelnummer} von $M_0$}
 \end{align*}
 Definiere $U$ als 3-Band Maschine mit
 \begin{itemize}
@@ -719,3 +729,9 @@ Es reicht nun zu zeigen, dass \ac{MPCP} unentscheidbar ist!
 	Typ 1 Sprachen sind unter $\cap$ abgeschlossen, also $\exists\, \mcG$ Typ 1 Gramatik mit $L(\mcG)=L(\mcG_1)\cap L(\mcG_2)$\\
 	Also "`$L(\mcG)=\varnothing$"' unentscheidbar.
 \end{proof}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "Info_3_Skript_WS2016-17"
+%%% End:
