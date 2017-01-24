@@ -3,11 +3,11 @@
 Im folgenden Kapitel wechseln wir den Standpunkt von Spracherkennung auf \emph{Spracherzeugung}.
 Das Werkzeug sind hierbei sogenannte \emph{Phasenstrukturgrammatiken}, oder kurz, \emph{Grammatiken}.
 Bei Grammatiken gibt es neben dem Alphabet weitere Symbole, sogenannte \emph{Nichtterminale} oder \emph{Variablen}, und ein Regelsystem mit dem Worte, die Nichtterminale enthalten, geändert werden können.
-\begin{Def}[Chomsky]
+\begin{Def}
 	Eine \emph{Grammatik} ist ein 4-Tupel $(N,\Sigma,P,S)$
 	\begin{itemize}
-	\item $N$ ist eine endliche Menge von \emph{Nichtterminalsymbolen}.
-	\item $\Sigma$ ist ein Alphabet von \emph{Terminalsymbolen} (Variablen).
+	\item $N$ ist eine endliche Menge von \emph{Nichtterminalsymbolen} (Variablen).
+	\item $\Sigma$ ist ein Alphabet von \emph{Terminalsymbolen}.
 	\item $P\subset (N\cup\Sigma)^*N(N\cup\Sigma)^* \x (N\cup\Sigma)^*$ ist endliche Menge von Regeln, sogenannte \emph{Produktionen}.
 	\item $S\in N$ ist das \emph{Startsymbol}.
 	\end{itemize}
@@ -26,7 +26,7 @@ Bei Grammatiken gibt es neben dem Alphabet weitere Symbole, sogenannte \emph{Nic
 \end{Bsp}
   $G$ erzeugt geklammerte arithmetische Ausdrücke über der Konstante $\mathtt{a}$, wie zum Beispiel das Wort $\mathtt{(a*(a+a))}$.
   Eine Grammatik erzeugt Worte durch \emph{Ableitungen}, die wir im Folgenden definieren.
-\begin{Def}[Ableitungsrelation, Ableitung, Sprache einer Grammatik][name={[Ableitungsrelation]}]
+\begin{Def}[Ableitungsrelation, Ableitung, Sprache einer Grammatik]
   Sei $\mathcal{G} =(N,\Sigma,P,S)$ eine Grammatik.
 
 	Die \emph{Ableitungsrelation} zu $\mathcal{G}$ ist 
@@ -389,7 +389,7 @@ Notwendig für das Pumping Lemma kontextfreier Sprachen und für einen effizient
 
 
 \begin{Def}
-  Eine CFG heißt \emph{separiert} wenn jede Produktion entweder die Form
+  Eine CFG heißt \emph{separiert}, wenn jede Produktion entweder die Form
   \begin{itemize}
   \item $A\-> A_1\dots A_n$ \qquad $A_i\in N,n\geq 0$, oder
   \item $A \-> a$ \quad $a\in\Sigma$
@@ -406,10 +406,11 @@ Notwendig für das Pumping Lemma kontextfreier Sprachen und für einen effizient
   \begin{itemize}
   \item $N' = N \uplus \{Y_a \mid a \in \Sigma \}$ (,,$\uplus$'' steht für ,,disjunkte Vereinigung'')
   \item $P' = \{Y_a \to a \mid a \in \Sigma \} \cup \{A \to \beta[a \to Y_a] \mid A \to \beta \in P \}$.
-    Die Schreibweise $\beta[a\to Y_a]$ bedeutet hier dass alle $a \in \Sigma$, die in $\beta$ vorkommen durch $Y_a$ ersetzt werden.
+    Die Schreibweise $\beta[a\to Y_a]$ bedeutet hier, dass alle $a \in \Sigma$, die in $\beta$ vorkommen, durch $Y_a$ ersetzt werden.
   \end{itemize}
 Offenbar gilt $L(\mathcal{G}) = L(\mathcal{G'})$ und $\mathcal{G}'$ ist separiert (ohne Beweis).
-Der Aufwand für \textsc{Sep} beträgt $O(|\mathcal{G}|)$, wobei 
+Der Aufwand für \textsc{Sep} beträgt $O(|\mathcal{G}|)$, wobei die
+Größe einer Grammatik definiert ist durch
 \begin{displaymath}
   |G| = \sum_{A \in N}\sum_{A \to \alpha \in P} |A\alpha|
 \end{displaymath}
@@ -441,7 +442,9 @@ Der Aufwand für \textsc{Sep} beträgt $O(|\mathcal{G}|)$, wobei
   Sie $\mathcal{G} = (N, \Sigma, P, S)$ eine CFG.
   Definiere die Menge $\operatorname{Nullable}(\mathcal{G}) \subseteq N$ als
   \begin{displaymath}
-    \operatorname{Nullable}(\mathcal{G}) = \{ A \in N \mid A \stackrel{*}{\==>} \Eps \}
+    \operatorname{Nullable}(\mathcal{G}) = \{ A \in N \mid A
+    \stackrel{*}{\==>} \Eps \}
+    \text{.}
   \end{displaymath}
   Es handelt sich um die Menge an Nichtterminalen, aus denen das leere Wort abgeleitet werden kann.
 \end{Def}
@@ -574,7 +577,7 @@ Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_
   \item Betrachte den gerichteten Graphen $G$ mit Knoten $N$ und Kanten $\{(A, B) \mid A,B \in N \text{ und } A \to B \in P' \}$ \label{alg:unit-step-dg}.
   \item Suche, z.B. mittels Tiefensuche, einen Zyklus in $G$ .
     Wenn kein Zyklus gefunden wurde, weiter mit Schritt \ref{alg:unit-step-dag}.
-  \item Wurde der Zyklus $A_1 \to A_1 \to \ldots \to A_k \to A_1$ gefunden, dann ersetze in $P'$ alle Vorkommen von $A_j$ mit $j > 1$ durch $A_1$ (auf linker \emph{und} rechter Regelseite).
+  \item Wurde der Zyklus $A_1 \to A_2 \to \ldots \to A_k \to A_1$ gefunden, dann ersetze in $P'$ alle Vorkommen von $A_j$ mit $j > 1$ durch $A_1$ (auf linker \emph{und} rechter Regelseite).
     Entferne dann alle Regeln der Form $A \to A$.
     Fahre fort mit Schritt \ref{alg:unit-step-dg}.
   \item \label{alg:unit-step-dag}
@@ -617,7 +620,7 @@ Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_
 Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größe der \ac{CNF}-Grammatik ist $O(|\mathcal{G}|^2)$.
 \end{Bemerkung}
 
-\subsection{Pumping Lemma für kontextfreie Sprachen}
+\subsection{Das Pumping Lemma für kontextfreie Sprachen}
 \begin{Satz}[Pumping lemma für \acs*{CFL}, uvwxy Lemma]
 \label{satz:PL für CFL}
 %\rlnote{Satz \# 4.2?}
@@ -833,11 +836,11 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
   Daher kann $L$ nicht kontextfrei sein.
 \end{proof}
 
-\begin{Bsp}
+\begin{Bsp} Die Sprache
   \begin{displaymath}
     L = \{ww \mid w \in \{a,b\}^*\}
   \end{displaymath}
-  ist kontextsensitive aber nicht kontextfrei.
+  ist kontextsensitiv aber nicht kontextfrei.
 
   Sei $n$ die Konstante aus dem PL
 
@@ -1092,3 +1095,8 @@ $.
   Nach Satz \ref{thm:cfl-closed-reg-intersect} ist $L \cap\overline{R} \in \mathrm{CFL}$.
   Nach Satz \ref{thm:cfl-decidable-emptyness} ist $L \cap\overline{R} = \emptyset$ daher entscheidbar
 \end{proof}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "Info_3_Skript_WS2016-17"
+%%% End:
