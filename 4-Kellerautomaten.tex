@@ -155,9 +155,9 @@ Im weiteren sei $M=(\dots)$ ein \ac{NPDA}.
       \end{itemize}
     \end{description}
   \item Wir zeigen
-    \begin{equation}
+    \begin{displaymath}
       \text{wenn } (q_0, w, S) \vdash^* (q_0, \Eps, \Eps) \text{ dann } S \stackrel{*}{\Longrightarrow} w
-    \end{equation}
+    \end{displaymath}
     Wir beweisen dazu die stärkere Aussage
     \begin{displaymath}
       \forall n \in \mathbb{N}: \forall w \in \Sigma^*, \alpha \in \Gamma^*: \text{ wenn } (q_0, w, \alpha) \vdash^n (q_0, \Eps, \Eps) \text{ dann } \alpha \stackrel{*}{\Longrightarrow} w 
@@ -610,3 +610,8 @@ Anmerkung: first ist nicht die vollständige Lösung des Problems. Für
 den Lookahead müssen auch noch die Symbole betrachtet werden, die
 \emph{nach} einem bestimmten Nichtterminal auftreten können. Mehr dazu
 in Vorlesung Compilerbau. 
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "Info_3_Skript_WS2016-17"
+%%% End:
