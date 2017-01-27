@@ -333,59 +333,108 @@ Jetzt:
 		$B_2, B_3$: Kopf zurück zum Anfang.
 	\end{itemize}
 \end{proof}
-\begin{Def}[name={[length-lexicographic order]}]
-	Die \emph{length-lexicographic order} auf $\{0, 1\}^*$ (mit $0<1$) ist definiert durch
-	\begin{align*}
-		v \leq w \<=> &\ |v| < |w|\\
-		\vee &\ v = w\\
-		\vee &\ |v| = |w| \text{ und } \exists u\in \{0, 1\}^*\\
-		& \text{mit } v = u0v' \text{ und } w = u1w'
-	\end{align*}
+Schreibe ab jetzt $M_w$ für die Maschine mit Gödelnummer $w$. Falls
+$w$ kein gültiger Code für eine TM, dann sei $M_w$ eine beliebige fest
+TM $M$ mit $L(M) = \varnothing$. 
+\begin{Def}[name={[Spezielles Halteproblem]}]
+  Das spezielle Halteproblem besteht aus allen Codes von Maschinen, die
+  anhalten, falls sie auf den eigenen Code angesetzt werden.
+  \begin{align*}
+    K &= \{ w \in \{0,1\}^* \mid M_w \text{ angesetzt auf }w\text{
+        terminiert} \}
+  \end{align*}
 \end{Def}
-\begin{Satz}[name={[$\leq:$ totale Ordnung]}]\
-	\begin{itemize}
-		\item $\leq$ ist totale Ordnung auf $\{0, 1\}^*$
-		\item $\exists$ bijektive Abbildung $w: \N \to \{0, 1\}^*$ mit $i \leq j \to w(i) \leq w(j)$
-	\end{itemize}
-\end{Satz}
-\begin{Def}[name={[Diagonalsprache]}]
-	Sei $M_i$ die Turingmaschine mit Gödelnummer $\ulcorner M_i\urcorner = w(i)$.
-	(falls $w(i)$ kein gültiger Code, dann sei $M_i$ eine beliebige \ac{TM} mit $L(M_i) = \varnothing$). Die \emph{Diagonalsprache}
-	\[D = \{w(i) \mid w(i) \notin L(M_i)\}\]
-	das heißt $M_i$ akzeptiert $w(i)$ nicht.
-\end{Def}
-\begin{Satz}[name={[$D$ ist nicht entscheidbar]}]\label{satz:6.10}
-	$D$ ist nicht entscheidbar.
+\begin{Satz}
+  Das spezielle Halteproblem ist unentscheidbar.
 \end{Satz}
 \begin{proof}
-	Angenommen $\exists M$, die $D$ entscheidet.\\
-	$M$ muss in Aufzählung vorkommen, das heißt $\exists j\in \N$, sodass $M = M_j$.
-	Wende $M_j$ auf $w(j)$ an:
-	\begin{itemize}
-		\item $M_j$ stoppt/ja: $w(j) \in L(M_j) = D \qquad \lightning$ Def. von $D$
-		\item $M_j$ stoppt/nein: $w(j) \notin L(M_j) = D \quad \lightning$ Def. von $D$ \qedhere
-	\end{itemize}
+  Angenommen $M$ ist eine TM, die $K$ entscheidet.
+
+  Konstruiere Maschine $M'$, die zunächst $M$ auf ihre Eingabe
+  anwendet. Falls $M$ akzeptiert, dann geht $M'$ in eine
+  Endlosschleife. Falls $M$ nicht akzeptiert, dann hält $M'$ an.
+
+  Sei $w' = \ulcorner M' \urcorner$ der Code von $M'$ und setze $M$
+  auf $w'$ an. Es gilt:
+
+  $M$ akzeptiert $w'$
+
+  gdw.(nach Def von $K$) $M'$ angesetzt auf $w'$ terminiert
+
+  gdw. $M$ akzeptiert $w'$ nicht.
+
+  Ein Widerspruch. $\qquad\lightning$
 \end{proof}
 \begin{Korollar}\label{kor:6.11}
-	$\overline{D} = \{w(i) \mid M_i\text{ akzepztiert }w(i) \}$ ist nicht entscheidbar.
+  $\overline{K} = \{w \in\{0,1\}^* \mid M_w\text{ h"alt nicht bei
+    Eingabe }w \}$,   das Komplement von $K$, 
+  ist nicht entscheidbar.
 \end{Korollar}
 \begin{proof}
-	Angenommen $\overline{D}$ sei entscheidbar durch $M$. Dann entscheidet $M'\ D$. $M'$ führt 
-	zuerst $M$ aus und negiert das Ergebnis. $\lightning$ \autoref{satz:6.10}
+	Angenommen $\overline{K}$ sei entscheidbar durch $M$. Dann
+        entscheidet $M'$  $K$. $M'$ führt zuerst $M$ aus und negiert das Ergebnis. $\lightning$ \autoref{satz:6.10}
 \end{proof}
-\begin{lemma}[name={[$\overline{D}$ ist semi-entscheidbar]}]
-	$\overline{D}$ ist semi-entscheidbar.
+\begin{lemma}[name={[$K$ ist semi-entscheidbar]}]
+	$K$ ist semi-entscheidbar.
 \end{lemma}
 \begin{proof}
-	Bei Eingabe $w$
-	\begin{itemize}
-		\item Falls $w$ kein gültiger Code: stop mit Ergebnis nein.
-		\item Falls $w$ gültiger Code, dann $\exists i$, sodass $ww = \left\ulcorner M_j
-		\right\urcorner w(i) \qquad w = w(i)$
-	\end{itemize}
-	Wende $U$ auf $ww$ an.\\
-	Insgesamt: \ac{TM}, die $\overline{D}$ akzeptiert.
+  Die Maschine $M$ kopiert die Eingabe $w$ und f''uhrt die universelle
+  TM f''ur $M_w$ aus. Falls diese Simulation stoppt, geht $M$ in einen
+  akzeptierenden Zustand und terminiert.
 \end{proof}
+% \begin{Def}[name={[length-lexicographic order]}]
+% 	Die \emph{length-lexicographic order} auf $\{0, 1\}^*$ (mit $0<1$) ist definiert durch
+% 	\begin{align*}
+% 		v \leq w \<=> &\ |v| < |w|\\
+% 		\vee &\ v = w\\
+% 		\vee &\ |v| = |w| \text{ und } \exists u\in \{0, 1\}^*\\
+% 		& \text{mit } v = u0v' \text{ und } w = u1w'
+% 	\end{align*}
+% \end{Def}
+% \begin{Satz}[name={[$\leq:$ totale Ordnung]}]\
+% 	\begin{itemize}
+% 		\item $\leq$ ist totale Ordnung auf $\{0, 1\}^*$
+% 		\item $\exists$ bijektive Abbildung $w: \N \to \{0, 1\}^*$ mit $i \leq j \to w(i) \leq w(j)$
+% 	\end{itemize}
+% \end{Satz}
+% \begin{Def}[name={[Diagonalsprache]}]
+% 	Sei $M_i$ die Turingmaschine mit Gödelnummer $\ulcorner M_i\urcorner = w(i)$.
+% 	(falls $w(i)$ kein gültiger Code, dann sei $M_i$ eine beliebige \ac{TM} mit $L(M_i) = \varnothing$). Die \emph{Diagonalsprache}
+% 	\[D = \{w(i) \mid w(i) \notin L(M_i)\}\]
+% 	das heißt $M_i$ akzeptiert $w(i)$ nicht.
+% \end{Def}
+% \begin{Satz}[name={[$D$ ist nicht entscheidbar]}]\label{satz:6.10}
+% 	$D$ ist nicht entscheidbar.
+% \end{Satz}
+% \begin{proof}
+% 	Angenommen $\exists M$, die $D$ entscheidet.\\
+% 	$M$ muss in Aufzählung vorkommen, das heißt $\exists j\in \N$, sodass $M = M_j$.
+% 	Wende $M_j$ auf $w(j)$ an:
+% 	\begin{itemize}
+% 		\item $M_j$ stoppt/ja: $w(j) \in L(M_j) = D \qquad \lightning$ Def. von $D$
+% 		\item $M_j$ stoppt/nein: $w(j) \notin L(M_j) = D \quad \lightning$ Def. von $D$ \qedhere
+% 	\end{itemize}
+% \end{proof}
+% \begin{Korollar}\label{kor:6.11}
+% 	$\overline{D} = \{w(i) \mid M_i\text{ akzepztiert }w(i) \}$ ist nicht entscheidbar.
+% \end{Korollar}
+% \begin{proof}
+% 	Angenommen $\overline{D}$ sei entscheidbar durch $M$. Dann entscheidet $M'\ D$. $M'$ führt 
+% 	zuerst $M$ aus und negiert das Ergebnis. $\lightning$ \autoref{satz:6.10}
+% \end{proof}
+% \begin{lemma}[name={[$\overline{D}$ ist semi-entscheidbar]}]
+% 	$\overline{D}$ ist semi-entscheidbar.
+% \end{lemma}
+% \begin{proof}
+% 	Bei Eingabe $w$
+% 	\begin{itemize}
+% 		\item Falls $w$ kein gültiger Code: stop mit Ergebnis nein.
+% 		\item Falls $w$ gültiger Code, dann $\exists i$, sodass $ww = \left\ulcorner M_j
+% 		\right\urcorner w(i) \qquad w = w(i)$
+% 	\end{itemize}
+% 	Wende $U$ auf $ww$ an.\\
+% 	Insgesamt: \ac{TM}, die $\overline{D}$ akzeptiert.
+% \end{proof}
 \begin{Satz}[name={[{$L,\overline{L}$ semi-entscheidbar $\=> L$ entscheidbar}]},restate={[name=Wiederholung]repeatSatz613}]\label{satz:6.13}
 	Falls $L$ semi-entscheidbar und $\overline{L}$ semi-entscheidbar, dann ist $L$ entscheidbar.
 \end{Satz}
@@ -394,44 +443,17 @@ Jetzt:
 	Führe $M$ und $\overline{M}$ "`parallel"' mit der gleichen Eingabe aus.\\
 	Falls $M$ akzeptiert $\Rightarrow$ Ja\\
 	Falls $\overline{M}$ akzeptiert $\Rightarrow$ Nein.\\
-	Eine muss anhalten, wegen Voraussetzung.
+	Eine der Maschinen muss anhalten, wegen Voraussetzung.
 \end{proof}
-$D$ \quad nicht entscheidbar\\
-$\overline{D}$ \quad nicht entscheidbar\\
-$\overline{D}$ \quad semi-entscheidbar (Typ-0)\\
-$D$ \quad nicht-semientscheidbar (keine Typ-0)
-\begin{Def}[name={[Halteproblem]}]
-	Das \emph{Halteproblem} ist definiert durch
-	\[H = \{\ulcorner M\urcorner w \mid M \text{ hält bei Eingabe } w \text{ an}\} \qedhere\]
-\end{Def}
-\begin{Satz}[name={[$H$ ist unentscheidbar]}]\label{satz:H ist unentscheidbar}
-	$H$ ist unentscheidbar.
-\end{Satz}
-\begin{proof}
-	Angenommen $M_0$ entscheidet $H$.\\
-	Konstruiere $M'$ wie folgt:\\
-	Bei Eingabe $w$ bestimme $i$, sodass $w = w(i)$\\
-	Verwende $M_0$ um festzustellen, ob $\ulcorner M_i\urcorner w$ anhält.\\
-	Antwort von $M_0:$\\
-	nein: $\begin{aligned}[t]
-		&\curvearrowright w(i) \notin L(M_i)\\
-		&\curvearrowright M'\text{ akzeptiert }w\text{ nicht}.
-	\end{aligned}$\\
-	ja: Führe $\ulcorner M_i\urcorner w$ mit $U$ aus (muss ja terminieren) und akzeptiere entsprechend das Ergebnis von $U$.\\
-	Insgesamt: $M'$ entscheidet $\overline{D} \qquad \lightning$ \autoref{kor:6.11}\\
-	$\curvearrowright M_0$ existiert nicht.
-\end{proof}
-\begin{Satz}[name={[$H$ ist semi-entscheidbar]}]
-	$H$ ist semi-entscheidbar.
-\end{Satz}
-\begin{proof}
-	Modifiziere $U$, sodass sie jede Eingabe akzeptiert, bei der sie anhält.
-\end{proof}
+$K$ \quad nicht entscheidbar\\
+$\overline{K}$ \quad nicht entscheidbar\\
+$K$ \quad semi-entscheidbar (Typ-0)\\
+$\overline{K}$ \quad nicht-semientscheidbar (keine Typ-0)
 \begin{Korollar}
 	$\mathcal{L}_0 \supsetneqq \mathcal{L}_1$
 \end{Korollar}
 \begin{proof}
-	$\overline{D}$ ist unentscheidbar (also $\notin \mathcal{L}_1$), aber semi-entscheidbar (also $\in \mathcal{L}_0$)
+	$K$ ist unentscheidbar (also $\notin \mathcal{L}_1$), aber semi-entscheidbar (also $\in \mathcal{L}_0$).
 \end{proof}
 \emph{\textbf{Fragen:}}
 \begin{enumerate}
@@ -450,26 +472,90 @@ $D$ \quad nicht-semientscheidbar (keine Typ-0)
 		\vdots&
 	\end{tabular}
 	\item Ist $\mathcal{L}_0$ = Menge aller Sprachen?
-	\item[--] Nein: $D \notin \mathcal{L}_0$
+	\item[--] Nein: $\overline{K} \notin \mathcal{L}_0$
 \end{enumerate}
-\begin{Def}[name={[Spezielles Halteproblem $H_\varepsilon$]}]
-	Das spezielle Halteproblem $H_\varepsilon = \{\ulcorner M\urcorner \mid M 
+\begin{Def}[Reduktion]\ \\
+  Seien $U, V \subseteq \Sigma^*$ Sprachen.\\
+  \emph{$U$ ist auf $V$ reduzierbar ($U \preceq V$)}, falls eine totale berechenbare Funktion
+  $f:\Sigma^* \to \Sigma^*$ existiert, so dass $\forall x \in \Sigma^*:x \in U \iff f(x) \in V$.
+\end{Def}
+\begin{lemma}
+  Falls $U \preceq V$ und $V$ \mbox{(semi-)entscheidbar}, dann ist auch $U$
+  \mbox{(semi-)entscheidbar}.
+\end{lemma}\vspace{-1.5em}
+\begin{proof}
+  Wenn $M$ ein (Semi-)Entscheidungsverfahren für $V$ ist, dann konstruiere $M'$ wie folgt
+  \begin{itemize}
+  \item wende erst $f$ auf die Eingabe $x$ an ($f$ ist berechenbare
+    Funktion gemäß Reduktion und kann daher programmiert werden)
+  \item führe $M$ auf dem Ergebnis $f(x)$ aus
+  \end{itemize}
+  $\curvearrowright$ $M'$ ist (Semi-)Entscheidungsverfahren für
+  $U$. (Weil $f$ total ist, terminiert der Code  f''ur $f$ immer und daher "andert das Terminationsverhalten nicht.)
+\end{proof}
+\emph{Anwendung:} $U \preceq V$ und $U$
+unentscheidbar $\curvearrowright$ $V$ unentscheidbar.
+
+\begin{Def}[name={[Halteproblem]}]
+	Das \emph{Halteproblem} ist definiert durch
+	\[H = \{\ulcorner M\urcorner\# w \mid M \text{ hält bei Eingabe } w \text{ an}\} \qedhere\]
+\end{Def}
+\begin{Satz}[name={[$H$ ist unentscheidbar]}]\label{satz:H ist unentscheidbar}
+	$H$ ist unentscheidbar.
+\end{Satz}
+\begin{proof}
+  Die Funktion $f (w) = w\#w$ ist total berechenbar und liefert eine
+  Reduktion  $K \preceq H$.
+
+  Denn: $w \in K$ gdw. $M_w$ hält bei Eingabe $w$ an gdw. $w\#w \in H$.
+\end{proof}
+% \begin{proof}
+% 	Angenommen $M_0$ entscheidet $H$.\\
+% 	Konstruiere $M'$ wie folgt:\\
+% 	Bei Eingabe $w$ bestimme $i$, sodass $w = w(i)$\\
+% 	Verwende $M_0$ um festzustellen, ob $\ulcorner M_i\urcorner w$ anhält.\\
+% 	Antwort von $M_0:$\\
+% 	nein: $\begin{aligned}[t]
+% 		&\curvearrowright w(i) \notin L(M_i)\\
+% 		&\curvearrowright M'\text{ akzeptiert }w\text{ nicht}.
+% 	\end{aligned}$\\
+% 	ja: Führe $\ulcorner M_i\urcorner w$ mit $U$ aus (muss ja terminieren) und akzeptiere entsprechend das Ergebnis von $U$.\\
+% 	Insgesamt: $M'$ entscheidet $\overline{D} \qquad \lightning$ \autoref{kor:6.11}\\
+% 	$\curvearrowright M_0$ existiert nicht.
+% \end{proof}
+\begin{Satz}[name={[$H$ ist semi-entscheidbar]}]
+	$H$ ist semi-entscheidbar.
+\end{Satz}
+\begin{proof}
+	Modifiziere $U$, sodass sie jede Eingabe akzeptiert, bei der sie anhält.
+\end{proof}
+\begin{Def}[name={[Halteproblem auf leerem Band $H_\varepsilon$]}]
+  Das Halteproblem auf leerem Band $H_\varepsilon = \{\ulcorner M\urcorner \mid M 
 	\text{ terminiert auf leeren Band}\}$
 \end{Def}
 \begin{Satz}[name={[$H_\varepsilon$ ist unentscheidbar]}]
 	$H_\varepsilon$ ist unentscheidbar.
 \end{Satz}
 \begin{proof}
-	Angenommen $M_\varepsilon$ entscheidet $H_\varepsilon$.\\
-	Konstruiere $M'$ (mit Hilfe von $M_\varepsilon$), sodass $M'$ entscheidet $H$.\\
-	\begin{tabular}{r@{ }l}
-	$M':$ & Bei Eingabe $\ulcorner M\urcorner w$.\\
-	& Konstruiere $M^*$, $M^*$ schreibt zuerst $w$ aufs (leere) Band und 
-	startet dann $M$ auf $w$.\\
-	& Wende $M_\varepsilon$ auf $\ulcorner M^*\urcorner$ an.
-	\end{tabular}\\
-	$\curvearrowright M'$ entscheidet $H \qquad \lightning$ \autoref{satz:H ist unentscheidbar}
+  Konstruiere eine Reduktion $H \preceq H_\varepsilon$ mit Hilfe der
+  Funktion $f(w\#x) = w'$, wobei $w'$ der Code einer TM ist, die
+  \begin{itemize}
+  \item zuerst $x$ aufs leere Band schreibt und dann
+  \item $M_w$ auf diese Eingabe anwendet.
+  \end{itemize}
+  Offenbar gilt $w\#x\in H$ gdw. $f (w\#x) \in H_\varepsilon$.
 \end{proof}
+% \begin{proof}
+% 	Angenommen $M_\varepsilon$ entscheidet $H_\varepsilon$.\\
+% 	Konstruiere $M'$ (mit Hilfe von $M_\varepsilon$), sodass $M'$ entscheidet $H$.\\
+% 	\begin{tabular}{r@{ }l}
+% 	$M':$ & Bei Eingabe $\ulcorner M\urcorner w$.\\
+% 	& Konstruiere $M^*$, $M^*$ schreibt zuerst $w$ aufs (leere) Band und 
+% 	startet dann $M$ auf $w$.\\
+% 	& Wende $M_\varepsilon$ auf $\ulcorner M^*\urcorner$ an.
+% 	\end{tabular}\\
+% 	$\curvearrowright M'$ entscheidet $H \qquad \lightning$ \autoref{satz:H ist unentscheidbar}
+% \end{proof}
 
  % Latex-Qelle von M. Geffken
 Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
@@ -488,7 +574,7 @@ Funktionen.
   Sei $\Omega \in R$ die überall
   undefinierte Funktion. Wir nehmen an, dass $\Omega \in S$ (anderenfalls betrachten wir $\overline{L(S)}$).
   
-  Da $R \setminus S \neq \varnothing$ folgt $\exists f \in R \setminus
+  Da $R \setminus S \neq \varnothing$ gibt es eine berechenbare Funktion $ f \in R \setminus
   S$ und $f$ werde von \ac{TM} $M_f$ berechnet.
   
   Definiere $M'=M'_{(M, f)}$ wie folgt: $M'$ führt zunächst $M$ (beliebige \ac{TM}) auf leerer Eingabe aus. Falls $M$ anhält, wendet $M'$ dann $M_f$ auf die tatsächliche Eingabe an.\\
@@ -532,11 +618,9 @@ Funktionen.
   unter Komplement abgeschlossen.
 \end{Satz}
 \begin{proof}
-  Laut \autoref{satz:6.10} und \autoref{kor:6.11} sind Diagonalsprache $D$ und $\overline{D}$ nicht entscheidbar.
+  Laut \autoref{satz:6.10} und \autoref{kor:6.11} sind das spezielle Halteproblem $K$ und $\overline{K}$ nicht entscheidbar.
   
-  $\overline{D}$ ist semi-entscheidbar: Verwende universelle \ac{TM} $U$ um $\ulcorner M_i \urcorner w(i)$ auszuführen.
-  
-  Angenommen, $D=\overline{\overline{D}}$ ist ebenfalls semi-entscheidbar\\ $\curvearrowright$ (mit \autoref{satz:6.13}) $D$ ist entscheidbar. $\qquad\lightning$
+  $K$ ist semi-entscheidbar, aber nicht $\overline{K}$.
 \end{proof}
 
 
@@ -569,25 +653,6 @@ Besitzt dieses \ac{PCP} eine Lösung? [Schöning, S.124]
 \end{Bemerkung}
 Ziel: \ac{PCP} ist unentscheidbar. Vorbereitung:
 Es interessiert uns ab hier nur, ob das Problem eine Lösung hat oder nicht.
-\begin{Def}[Reduktion]\ \\
-  Seien $U, V \subseteq \Sigma^*$ Sprachen.\\
-  \emph{$U$ ist auf $V$ reduzierbar ($U \preceq V$)}, falls eine totale berechenbare Funktion
-  $f:\Sigma^* \to \Sigma^*$ existiert, so dass $\forall x \in \Sigma^*:x \in U \iff f(x) \in V$.
-\end{Def}
-\begin{lemma}
-  Falls $U \preceq V$ und $V$ \mbox{(semi-)entscheidbar}, dann ist auch $U$
-  \mbox{(semi-)entscheidbar}.
-\end{lemma}\vspace{-1.5em}
-\begin{proof}
-  Wenn $M$ ein (Semi-)Entscheidungsverfahren für $V$ ist, dann konstruiere $M'$ wie folgt
-  \begin{itemize}
-  \item wende erst $f$ auf die Eingabe $x$ an ($f$ ist Funktion gemäß Reduktion)
-  \item führe $M$ auf dem Ergebnis $f(x)$ aus
-  \end{itemize}
-  $\curvearrowright$ $M'$ ist (Semi-)Entscheidungsverfahren für $U$
-\end{proof}
-\emph{Anwendung:} $U \preceq V$ und $U$
-unentscheidbar $\curvearrowright$ $V$ unentscheidbar.
 \paragraph[\acf*{MPCP}]{\acf{MPCP}}\ \\
 \emph{Gegeben:} wie bei \ac{PCP}
 
