@@ -625,6 +625,7 @@ Funktionen.
 
 
 \subsection{Weitere unentscheidbare Probleme}
+\draftnote{1.2.17}
 \paragraph[\acf*{PCP}]{\acf{PCP}}\ \\
 \emph{Gegeben:}\\
 Endliche Folge von Wortpaaren $K=((x_1, y_1), \dots, (x_k, y_k))$ mit $x_i, y_i \in \Sigma^+$
@@ -645,7 +646,7 @@ Die Folge $i_1, \dots, i_n$ (falls diese existiert) heißt \emph{Lösung} des Ko
   x_1&=001 & x_2&=01 & x_3&=01 & x_2&=10\\
   y_1&=0  & y_2&=011 & y_3&=101  & y_2&=001\\
 \end{align*}
-Besitzt dieses \ac{PCP} eine Lösung? [Schöning, S.124]
+Besitzt dieses \ac{PCP} eine Lösung? Ja, aber mit $66$ Indizes [Schöning, S.124]
 \begin{Bemerkung}\ \\
   Offensichtlich ist das \ac{PCP} semi-entscheidbar: Systematisches
   Ausprobieren von Indexfolgen findet Lösung nach endlicher Zeit,
@@ -662,7 +663,7 @@ Es interessiert uns ab hier nur, ob das Problem eine Lösung hat oder nicht.
 \end{lemma}
 \begin{proof}
 	Betrachte \ac{MPCP} $K=((x_1,y_1),\dots(x_k,y_k))$ über $\Sigma$.\\
-	Sei $\Sigma'=\Sigma\cup\{\#,\$\}$ mit neuen Symbolen.\\
+	Sei $\Sigma'=\Sigma\uplus\{\#,\$\}$ \\
 	Für ein Wort $w=a_1\dots a_n\in\Sigma^+$ sei
 	\begin{align*}
 		\bar w &= \#a_1\#a_2\#\dots\#a_n\#\\
@@ -678,9 +679,22 @@ Es interessiert uns ab hier nur, ob das Problem eine Lösung hat oder nicht.
 	"`$\==>$"': $1, i_2, \dots, i_n$ Lösung für $K$\\
 	$\curvearrowright\ 1, i_{2}+1, \dots, i_{n}+1, k+2$ Lösung für $f(K)$
 	
-	"`$\<==$"': $i_1, \dots, i_n$ Lösung für $f(K)$\\
-	$\curvearrowright i_1=1,\ i_n=k+2 \qquad,\ 1 < j < n: i_j \in \{2, \dots, k+1\}$\\
+	"`$\<==$"':
+  \begin{enumerate}
+  \item \label{it:mpcp-pcp-only-if-1} Sei $i_1, \dots, i_n$ Lösung für $f(K)$, in der das Paar $k+2$ höchstens einmal vorkommt.\\
+  $\curvearrowright$  Durch die Stuktur der Worte gilt für Lösungen immer: $ i_1=1,\ i_n=k+2 $ (ansonsten fehlt am Anfang oder am Ende das Symbol $\#$)\\
+  Es gilt ferner für $1 < j < n$
+  \begin{itemize}
+  \item $i_j \neq 1$, da in der $x$-Konkatenation sonst $\#$ doppelt vorkommt, was in der $y$-Konkatenation nicht möglich ist.
+  \item $i_j \neq k+2$, da $k+2$ per Annahme nur einmal vorkommt.
+  \end{itemize}
+  Also gilt für $1 < j < n$: $i_j \in \{2, \dots, k+1\}$.\\
 	$\curvearrowright 1, i_{2}-1, \dots, i_{n-1}-1$ Lösung für $K$
+\item Sei $i_1, \dots, i_n$ Lösung für $f(K)$, in der das Paar $k+2$ mehrmals vorkommt.
+  Dann gibt es auch eine Lösung $i_m,\dots,i_{m+l}$ mit $1 \le m \le m+l \le n$ so dass $k+2$ nur einmal vorkommt (ohne Beweis).
+  Weiter bei \ref{it:mpcp-pcp-only-if-1}.
+  \end{enumerate}
+
 \end{proof}
 Es reicht nun zu zeigen, dass \ac{MPCP} unentscheidbar ist!
 
@@ -691,7 +705,7 @@ Es reicht nun zu zeigen, dass \ac{MPCP} unentscheidbar ist!
 	\ac{TM} $M=(Q,\Sigma,\Gamma,\delta,q_0,\blank,F)$ und Eingabewort $w\in\Sigma^*$.
 	
 	Gesucht: totale berechenbare Funktion, die $(\ulcorner M \urcorner, w) \mapsto \underbrace{(x_1,y_1),\dots,(x_k,y_k)}_k$, sodass\\
-	$\ulcorner M \urcorner w\in H \<=> K$ eine Lösung als \ac{MPCP} besitzt.
+	$\ulcorner M \urcorner w\in H \text{ gdw } K$ eine Lösung als \ac{MPCP} besitzt.
 	
 	Idee: Definiere $K$ so, dass die Berechnung von $M$ simuliert wird.\\
 	Alphabet für $K: \triangle = \Gamma\cup Q\cup\{\#\}$\\
@@ -699,7 +713,7 @@ Es reicht nun zu zeigen, dass \ac{MPCP} unentscheidbar ist!
 	\begin{enumerate}
 	\item Kopieren
 		\[ (a,a)\quad, a\in\Gamma\cup\{\#\} \]
-	\item Transition
+	\item Transition ($a \in \Gamma$)
 		\begin{alignat*}{2}
 			(qa,q'a') &\quad& \forall q,a:\delta(q,a) &\ni(q',a',N)\\
 			(qa,a'q') && \dots\quad &\ni(q',a',R)\\
@@ -712,18 +726,25 @@ Es reicht nun zu zeigen, dass \ac{MPCP} unentscheidbar ist!
 		\end{alignat*}
 	\item Löschen
 		\begin{align*}
-			\forall q\in \Gamma\\
-			\forall q\in F &:(aq,a)\\
-			&\phantom{{}:{}}(qa,a)
+      &(aqb,qb) \text{ für $a,b\in \Gamma$  und $\delta(q,b) = \emptyset$ } \\
+      &(qba,qb) \text{ für $a,b\in \Gamma$ und $\delta(q,b) = \emptyset$ } \\
 		\end{align*}
 	\item Abschluss
-		\[ \forall q\in F: (q\#\#,\#) \]
+    \begin{align*}
+      (qb\#\#,\#) \text{ für $b \in \Gamma$ und $\delta(q,b) = \emptyset$}
+      (q\#\#,\#) \text{ für $\delta(q,\blank) = \emptyset$}
+  \end{align*}
 	\end{enumerate}
-	$\ulcorner M \urcorner w\in H \<==>$ Folge von $\Konf$ von $M,\ k_0\dots k_t$ mit $k_0 =q_0w$ und $k_t = uq'v$ mit $q'\in F$\\
-	mit $h_{i-1}\vdash k_i\quad \forall 1\leq i\leq t$
+	$\ulcorner M \urcorner w\in H$\\
+  \<==> Folge von $\Konf$ von $M,\ k_0\dots k_t$ mit $k_0 =q_0w$ und $k_t = uq'bv$ mit $\delta(q',b) = \emptyset$
+	mit $h_{i-1}\vdash k_i\quad \forall 1\leq i\leq t$\\
 	\<==> Die Instanz $K$ von \ac{MPCP} besitzt Lösung und ein Lösungswort der Form
+	\[ \#k_0\#k_1\# \dots \#h_t\#k_t^1\#k_t^2\# \dots \#q'b\#\# \]
+  oder 
 	\[ \#k_0\#k_1\# \dots \#h_t\#k_t^1\#k_t^2\# \dots \#q'\#\# \]
-	wobei die $k_t^j$ durch Streichen eines Bandsymbols rechts oder links von $q'$ aus ihrem Vorgänger entsteht.
+	wobei $k_t^0 = k_t$ und $k_t^j$ durch Streichen eines Bandsymbols rechts oder links von $q'$ bzw $q'b$ aus ihrem Vorgänger $k_t^{j-1}$entsteht.
+
+  Intuition: ``Die Konkatenation der $x_i$s hinkt immer um eine Konfiguration der Konkatenation der $y_i$s hinterher''.
 \end{proof}
 \begin{Satz}[name={[\ac{PCP} ist unentscheidbar.]}]
 	\ac{PCP} ist unentscheidbar.
@@ -732,6 +753,7 @@ Es reicht nun zu zeigen, dass \ac{MPCP} unentscheidbar ist!
 	$\text{H}\leq\ac{MPCP}$ und $\ac{MPCP}\leq\ac{PCP}$
 \end{proof}
 
+\draftnote{3.2.17}
 
 \begin{Satz}
 	Das Schnittproblem "`$L(\mathcal{G}_1)\cap L(\mathcal{G}_2)\neq \varnothing$?"' für \ac{CFL} ist unentscheidbar.
