@@ -141,7 +141,7 @@ Die Transistionsfunktion $\delta$ ist
 
 DEAs lassen sich auch graphisch darstellen.
 Dabei gibt man für den Automaten einen gerichteten Graphen an.
-Die Knoten Graphen sind die Zustände und mit Zeichen gelabelte Kanten zeigen welchen Zustandsübergang die Transitionsfunktion für das nächste Zeichen erlaubt.
+Die Knoten des Graphen sind die Zustände und mit Zeichen gelabelte Kanten zeigen welchen Zustandsübergang die Transitionsfunktion für das nächste Zeichen erlaubt.
 Der Startzustand ist mit einem ungelabelten Pfeil markiert und finale Zustände sind doppelt eingekreist.
 Hier ist die graphische Darstellung von $A_{\mathtt{Maccaron}}$ aus Beispiel \ref{Bsp:3.1}
 
@@ -180,7 +180,7 @@ DEAs charakterisieren die Sprachen durch die Menge an Wörtern, die sie akzeptie
   \end{enumerate}
 \end{Def}
 \begin{Def}[name={[Die durch einen \acs*{DEA} erkannte Sprache]}]
-        Sei $M=(Q,\Sigma,\delta,q_0,F)$\\
+        Sei $M=(Q,\Sigma,\delta,q_0,F)$.\\
         Die \emph{von $M$ erkannte Sprache} ist
         \[ L(M) = \{ w\in\Sigma^* \mid \hat\delta(q_0,w)\in F \} \]
         Eine durch einen \ac{DEA} erkannte Sprache heißt \emph{regulär}.
@@ -439,18 +439,20 @@ Warum ist nun der Äquivalenzklassenautomat minimal?\\
         \[ R_L = \{(u,v) \mid \forall w\in\Sigma^*: uw\in L \<=> vw\in L \} \]
         \begin{itemize}
                 \item ist Äquivalenzrel.
-                \item ist rechtsinvariant. Sei $(u,v)\in R_L$\\
-                Zeige $\forall w\in\Sigma^*\ (uw,vw)\in R_L$\\
-                Induktion:\\
+                \item ist rechtsinvariant. 
+                
+                Sei $(u,v)\in R_L$. Zeige $\forall w\in\Sigma^*\, dass (uw,vw)\in R_L$
+                \begin{beweis}[Beweis per Induktion]
                 I.A. $w=\Eps$: $ (u\Eps,v\Eps)=(u,v)\in R_L$\\
-                I.S. $w=w'a$:\\
-                I.V.: $(uw', vw') \in R_L $
+                I.S. $w=w'a$\\
+                I.V. Sei $(uw', vw') \in R_L $. Dann gilt:
                 \begin{align*}
                         (uw',vw')\in R_L 
                         &\<=> \forall z\in\Sigma^*, \quad uw'z\in L \<=> vw'z\in L\\
                         &\=> \forall a\in \Sigma, z'\in\Sigma^*: uw'az'\in L \<=> vw'az'\in L\\
                         & \<=>\ (uw'a,vw'a)\in R_L
                 \end{align*}
+                \end{beweis}
         \end{itemize}
 \end{Bsp}
 
