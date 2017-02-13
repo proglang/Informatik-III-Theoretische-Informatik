@@ -439,30 +439,31 @@ Warum ist nun der Äquivalenzklassenautomat minimal?\\
         \[ R_L = \{(u,v) \mid \forall w\in\Sigma^*: uw\in L \<=> vw\in L \} \]
         \begin{itemize}
                 \item ist Äquivalenzrel.
-                \item ist rechtsinvariant. 
-                
-                Sei $(u,v)\in R_L$. Zeige $\forall w\in\Sigma^*\, dass (uw,vw)\in R_L$
-                \begin{beweis}[Beweis per Induktion]
-                I.A. $w=\Eps$: $ (u\Eps,v\Eps)=(u,v)\in R_L$\\
-                I.S. $w=w'a$\\
-                I.V. Sei $(uw', vw') \in R_L $. Dann gilt:
+                \item ist rechtsinvariant.        
+                \begin{proof}
+                Sei $(u,v)\in R_L$. Zeige $\forall w\in\Sigma^*$ , dass $(uw,vw)\in R_L$: \\
+                I.A. Für $w=\Eps$ ist $ (u\Eps,v\Eps)=(u,v)\in R_L$.\\
+                I.S. Sei Aussage gezeigt für alle Wörter $w'$ mit $|w'| \le k$.\\
+                I.V. Betrachte nun $w=w'a$. Dann ist auch $(uw', vw') \in R_L $. Damit gilt:
                 \begin{align*}
                         (uw',vw')\in R_L 
                         &\<=> \forall z\in\Sigma^*, \quad uw'z\in L \<=> vw'z\in L\\
                         &\=> \forall a\in \Sigma, z'\in\Sigma^*: uw'az'\in L \<=> vw'az'\in L\\
                         & \<=>\ (uw'a,vw'a)\in R_L
                 \end{align*}
-                \end{beweis}
+                \end{proof}
         \end{itemize}
 \end{Bsp}
-
+Beispiel: Drei Sprachen mit unterschiedlichem Index  (Anzahl an Äquivalenzklassen) bzgl. der Nerode Relation:
 \begin{alignat*}{2}
         &\begin{rcases}
-        L=\{\Eps\} & [\Eps]\equiv[\Eps]\\
+        L_a=\{\Eps\} & [\Eps]\equiv[\Eps]\\
         w,v\in\Sigma^*,\ w,v\ne\Eps & [w]=[v]
         \end{rcases} &\ &\text{Index}= 2\\
-        &L = \varnothing, L= \Sigma^* &&\text{Index}= 1
+        &L_b = \varnothing, L_c= \Sigma^* &&\text{Index}= 1
 \end{alignat*}
+Die Menge der Äquivalenzklassen der Nerode Relation $R_{L_a}$ auf $L_a$ ist
+\[ L_a / R_{L_a} = \{ [\Eps], [w] \} \]
 
 \begin{Satz}[Nerode] % 3.4
         Die folgende Aussagen sind äquivalent:
