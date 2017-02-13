@@ -498,18 +498,22 @@ Es genügt zu zeigen, dass wenn $(u,v)\in R$ auch $(u,v)\in R_L $, d.h. dass $R 
 Zur Erklärung: Falls $R \subseteq R_L$, dann $\operatorname{Index}(R) \ge \operatorname{Index}(R_L)$.
 Intuitiv: Je mehr Elemente eine Äquivalenzrelation $R$ enthält, desto mehr Elemente sind bzgl. dieser Relation äquivalent, d.h. desto weniger unterschiedliche Klassen gibt es.}
 
-\begin{itemize}
-\item[] $R$ rechtsinvariant
-\item[gdw] für alle  $w\in\Sigma^*$ : $(uw,vw)\in R$ 
-\item[gdw] für alle $w\in\Sigma^*$: $uw\text{ und $vw$ in gleicher $R$-Klasse}$
-\end{itemize}
-Da $L$ aus der Vereinigung von $R$-Klassen besteht folgt daraus:
-\begin{itemize}
-  \item[] für alle $w\in\Sigma^*$: $uw\in L\<=>vw\in L$
-  \item[gdw] $(u, v) \in R_L$ (per Definition von $R_L$)
-\end{itemize}
+Betrachte also ein beliebiges $(u, v) \in R$.
+\begin{comment}
+% Ausformulierter Beweis
+Es folgt $u \in L \Leftrightarrow v \in L$, da $L$ aus Vereinigung von Äquivalenzklassen besteht. Da $R$ rechtsinvariant ist, folgt für alle $w$:
+\[ uw \in L \Leftrightarrow vw \in L \]
+Das aber ist die Definition der Nerode-Relation, d.h. $(u, v) \in R_L$. Da wir $(u, v)$ beliebig gewählt haben, gilt somit: 
+\[\text{\#Klassen($R_L$) $\leq$ \#Klassen($R$)}<\infty\]
+\end{comment}
+\begin{align*}
+(u, v) \in R & \rightarrow u \in L \Leftrightarrow v \in L \text{, da L Vereinigung von Äquivalenzklassen ist} \\
+& \rightarrow uw \in L \Leftrightarrow vw \in L \text{ $\forall w \in \Sigma^*$, da $R$ rechtsinvariant } \\
+& \rightarrow (u, v) \in R_N \text{, nach Definition}\\
+& \rightarrow R \subseteq R_N \\
+& \rightarrow \text{\#Klassen($R_L$) $\leq$ \#Klassen($R$)}<\infty
+\end{align*}
 
-Also gilt: $\text{\#Klassen($R_L$)$\leq$\#Klassen($R$)}<\infty$
 
 \paragraph{(3) \=> (1)} Gegeben $R_L$\\
                 Konstruiere $\A'=(Q,\Sigma,\delta',q_0',F')$
