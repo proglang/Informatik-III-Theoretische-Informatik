@@ -1076,13 +1076,11 @@ Also: Eine Sprache $L$ ist regulär, falls
 \end{itemize}
     \end{Bsp*}
 \begin{Satz}[Kleene]
-$L$ ist regulär\\
-\<=> $L$ ist Sprache eines regulären Ausdrucks.
+$L$ ist regulär \<=> $L$ ist Sprache eines regulären Ausdrucks.
 \end{Satz}
 
 \begin{proof}[Kleene, $\<=$]
-  Sei $L=\llbracket r \rrbracket$ für $r\in RE(\Sigma)$\\
-		Zeige per Induktion über $r: \forall r\in RE(\Sigma) : \llbracket r \rrbracket$ regulär.
+Betrachte zu einem regulärem Ausdruck $r\in RE(\Sigma)$ die durch diesen erzeugte Sprache $L=\llbracket r \rrbracket$. Zeige per Induktion über $r$, dass $ \forall r\in RE(\Sigma) $ gilt: $ \llbracket r \rrbracket$ ist regulär.
     	\begin{description}[font=\normalfont]
       \item[I.A.:] \hfill
         \vspace{-\baselineskip}
