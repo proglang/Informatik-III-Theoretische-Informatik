@@ -600,7 +600,7 @@ Suche: Notwendiges Kriterium für Regularität
 \end{Bsp*}
 
 \begin{lemma}[Pumping Lemma]\label{lem:pumping}
-        Sei $L$ regulär:
+        Sei $L$ eine reguläre Sprache. Dann gilt:
         \begin{alignat*}{2}
                 &\exists n\in\N,\ n>0\quad \forall z\in L,\ |z|\geq n:\\
                 &\exists u,v,w\in\Sigma^* :\\
@@ -803,7 +803,7 @@ Wähle $z=0^p \in L_2$
 	
 	Weiteres Beispiel, bei dem der deterministische Automat beweisbar exponentiell größer ist.
 	\begin{align*}
-		L_n &= \{ w\in\{0,1^* \mid \text{das $n$-letzte Symbol von $w$ ist 1} \}
+		L_n &= \{ w\in\{0,1\}^* \mid \text{das $n$-letzte Symbol von $w$ ist 1} \}
 	\end{align*}
 	\begin{figure}[H]\centering
 		\begin{tikzpicture}[>=stealth, shorten >=1pt,
@@ -827,7 +827,7 @@ Wähle $z=0^p \in L_2$
 		\caption{Nichtdet. Automat für $L_n$}
 	\end{figure}
 	
-	deterministischer Automat für $L_n$ hat $\sim 2^n$ Zustände.
+	Der entsprechende deterministische Automat für $L_n$ hat $\sim 2^n$ Zustände.
 \end{Bsp*}
 
 \begin{Def}[name={[NEA]}]
