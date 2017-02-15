@@ -863,8 +863,11 @@ Wähle $z=0^p \in L_2$
         \begin{align*}
                 \text{Es gilt } w\in L(\A') &\<=> \hat\delta'(q_0',w)\in F'\\
                 &\<=> \hat\delta'(q_0',w)\cap F\neq \varnothing\\
-                w\in L(\A) &\<=> \exists \text{ akzeptierender Lauf von $\A$ auf $w$}.
-                \intertext{Zeige $\forall w\in\Sigma^*$}
+                &\<=> \exists \text{ akzeptierender Lauf von $\A$ auf $w$} \\
+                &\<=> w\in L(\A).
+        \end{align*}
+        Zeige $\forall w\in\Sigma^*$:
+        \begin{align*}
                 \forall q'\in Q' &\phantom{\<=>} \hat\delta'(q',w)\cap F\neq \varnothing\\
                 &\<=> \exists\text{ akzeptierender Lauf von $\A$ \underline{ab $q'$} auf }w\\
                 &\<=> \exists \underbrace{p_0p_1\dots p_n}_{\text{Lauf}}\in Q \quad p_0=q',\ p_n\in F,\ n=|w|
