@@ -914,9 +914,9 @@ Also: Eine Sprache $L$ ist regulär, falls
         Die Menge $REG$ der regulären Sprachen ist abgeschlossen unter $\cup$ (Vereinigung), $\cap$ (Durchschnitt), $\overline{\phantom{X}}$ (Komplement), Produkt (Konkatenation), Stern.
 \end{Satz}
 \begin{proof}
-	Sei $\A_i:=(Q_i,\Sigma,\delta_i,q_{0i},F_i)\quad i=1,2$ \acs{NEA}s
+	Sei $\A_i:=(Q_i,\Sigma,\delta_i,q_{0i},F_i)$, $\quad i=1,2$ \acs{NEA}s
 	\begin{itemize}
-	\item $\cup:$ Def $\A$ durch (vgl.\ Abb.~\ref{fig:reg-closure-union})
+	\item $\cup:$ Def $\A$ durch (vgl.\ Abb.~\ref{fig:reg-closure-union}):
 		\begin{align*}
 			Q &= Q_1\overset.\cup Q_2\overset.\cup\{q_0\}\\
 			\delta(q,a) &=
@@ -927,10 +927,7 @@ Also: Eine Sprache $L$ ist regulär, falls
                         \end{cases}\\
                         F &= F_1\overset.\cup F_2\overset.\cup (q_{01}\in F_1\lor q_{02}\in F_2) \rhd \{q_0\}
                 \end{align*}
-                Zeige $L(\A)=L(\A_1)\cup L(\A_2)$ (selbst: betrachte die Läufe).
-        \item $\cap:$ 
-        Annahme: $A_1$ und $\A_1$ deterministisch.\\
-        Def. $\A$ durch den \emph{Produktautomaten}\\
+                Zeige $L(\A)=L(\A_1)\cup L(\A_2)$ (Aufgabe zum Eigenstudium: Betrachte die Läufe).
                 \begin{figure}[tp]\centering
                 \begin{tikzpicture}[>=stealth]
                 \node (q0) at (0,0) {$q_0$};
@@ -965,13 +962,13 @@ Also: Eine Sprache $L$ ist regulär, falls
             \caption{\acs{NEA} f"ur Vereinigung}
             \label{fig:reg-closure-union}
         \end{figure}
-		DEA:
+        \item $\cap:$ 
+        Annahme: Seien $\A_1$ und $\A_2$ zwei DEAs. Konstruiere nun  den \emph{Produktautomaten} $\A$, für den gilt (Aufgabe zum Eigenstudium!): $L(\A) = L(\A_1) \cap L(\A_2)$.
 		\begin{align*}
 			Q &= Q_1\x Q_2\\
 			\delta((q_1,q_2),a) &= (\delta_1(q_1,a),\delta_2(q_2,a))\\
 			q_0 &= (q_{01},q_{02})\\
 			F &= F_1\x F_2\\
-			\text{Zeige }L(\A) &= &L(\A_1)\cap L(\A_2)
 		\end{align*}
 	\item Komplement: Ang. $\A_1$ ist \ac{DEA}.\\
 		Ersetze $F_1$ durch $Q_1\setminus F_1$.
