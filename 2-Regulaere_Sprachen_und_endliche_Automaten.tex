@@ -841,8 +841,7 @@ Wähle $z=0^p \in L_2$
 	\end{itemize}
 \end{Def}
 \begin{Def}[name={[Lauf eines Automaten]}]
-        Ein \emph{Lauf des Automaten $\A$ auf $w=a_1\dots a_n$} ist eine Folge $q_0q_1\dots q_n$ mit $q_i\in Q$, $q_0$ Startzustand,\\
-        $\forall 1\leq i\leq n,\ q_i\in\delta(q_{i-1},a_i)$\\
+        Ein \emph{Lauf des nichtdet. Automaten $\A$ auf $w=a_1\dots a_n$} ist eine Folge $q_0q_1\dots q_n$ mit $q_i\in Q$, wobei $q_0$ der Startzustand ist. $q_i\in\delta(q_{i-1},a_i)$ für alle $i$ mit $1\leq i\leq n$.\\
         Ein Lauf heißt \emph{akzeptierend}, falls $q_n\in F$.
 \end{Def}
 \begin{Def}[name={[NEA zu DEA]}]
