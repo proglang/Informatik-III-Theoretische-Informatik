@@ -970,8 +970,7 @@ Also: Eine Sprache $L$ ist regulär, falls
 			q_0 &= (q_{01},q_{02})\\
 			F &= F_1\x F_2\\
 		\end{align*}
-	\item Komplement: Ang. $\A_1$ ist \ac{DEA}.\\
-		Ersetze $F_1$ durch $Q_1\setminus F_1$.
+	\item Komplement: Ang. $\A_1$ ist \ac{DEA}, der $L$ erkennt. Ersetze $F_1$ durch $Q_1\setminus F_1$ und erhalte einen DEA $\A_1'$, der genau das Komplement von $L$ erkennt. 
 %
 %
         \item Produkt: Seien $L_1$, $L_2$ regulär.\\
@@ -1020,9 +1019,8 @@ Also: Eine Sprache $L$ ist regulär, falls
         \end{itemize}
 \end{Def}
 \begin{Def}[name={[Semantik eines regulären Ausdrucks]}]
-        Die Semantik eines regulären Ausdrucks
+        Die Semantik eines regulären Ausdrucks $\llbracket\cdot \rrbracket : RE(\Sigma) \-> \mathcal{P}(\Sigma^*)$ ist induktiv definiert durch
         \begin{align*}
-                \llbracket\cdot \rrbracket &: RE(\Sigma) \-> \mathcal{P}(\Sigma^*)\text{ ist induktiv def. durch}\\
                 \llbracket \0 \rrbracket &= \varnothing\\
                 \llbracket \1 \rrbracket &= \{\Eps\}\\
                 \llbracket a \rrbracket &= \{a\} \quad a\in\Sigma\\
@@ -1031,24 +1029,18 @@ Also: Eine Sprache $L$ ist regulär, falls
                 \llbracket r^* \rrbracket &= \llbracket r\rrbracket^* \qedhere
         \end{align*}
 \end{Def}
-$+,\cdot ,*$ reguläre Operatoren.\\
 %
-\begin{minipage}[t]{.5\textwidth}
     \begin{Bsp*} Mustererkennung
         \begin{itemize}
-        \item $\underset{\vphantom{\big(}\mathrlap{\hspace{-4pt}\rotatebox[origin=c]{90}{$\Rsh$}\ =(a_1+a_2+\dots) \text{ alle $a_i\in\Sigma$ aufgez"ahlt}}}{\Sigma^*}\ abac\ \Sigma^*$
+        \item $\underset{\vphantom{\big(}\mathrlap{\hspace{-4pt}\rotatebox[origin=c]{90}{$\Rsh$}\ =(a_1+a_2+\dots)^* \text{ alle $a_i\in\Sigma$ aufgez"ahlt}}}{\Sigma^*}\ abac\ \Sigma^*$
         \item $n$-letztes Symbol = 1 ($\Sigma=\{0,1\}$)
         \begin{gather*}
         (0+1)^*1\underbrace{(0+1)\dots(0+1)}_{n-1}\\
         \xcancel{0^n1^n}\notin RE(\Sigma)
         \end{gather*}
-        \item Binärdarstellung modulo $3=0$
+        \item Binärdarstellung modulo $3=0$.
         \[ (0+1(01^*0)^*1)^* \]
-        \end{itemize}
-    \end{Bsp*}
-\end{minipage}%
-\begin{minipage}[t]{.5\textwidth}
-    \vspace{0pt}
+        
     \captionsetup{type=figure}
     \begin{tikzpicture}[>=stealth, shorten >=1pt, on grid, node distance=2cm, initial text=]
         \node[state, initial, accepting] (q0) {$q_0$};
@@ -1081,8 +1073,8 @@ $+,\cdot ,*$ reguläre Operatoren.\\
         ;
     \end{tikzpicture}
     \captionof{figure}{Informell vom Automaten zum regul"aren Ausdruck f"ur mod 3}
-\end{minipage}
-
+\end{itemize}
+    \end{Bsp*}
 \begin{Satz}[Kleene]
 $L$ ist regulär\\
 \<=> $L$ ist Sprache eines regulären Ausdrucks.
