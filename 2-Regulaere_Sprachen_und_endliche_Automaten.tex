@@ -1113,15 +1113,13 @@ Betrachte zu einem regulärem Ausdruck $r\in RE(\Sigma)$ die durch diesen erzeug
 
 Zum Beweis (bzw.\ zur Konstruktion) der Richtung ,,\=>'' benötigen wir eine Rechenregel zum Lösen von Gleichungen zwischen regulären Sprachen und Ausdrücken:
 \begin{lemma}[Ardens Lemma]\label{lem:arden}\ \\
-        Sei $X=A\cdot X+B$ für $\underset{\vphantom{\big(}\ \mathrlap{\hspace{-4pt}\rotatebox[origin=c]{90}{$\Rsh$}\ \text{Unbekannte}}}{X} ,A,B\subseteq \Sigma^*$\\
-        dann ist $X=A^*B$ falls $\Eps\notin A$.
+        Sei die lineare Gleichung $X=A\cdot X+B$ über $A, B, X\subseteq \Sigma^*$ gegeben. Dann ist $X=A^*B$ eine Lösung. Falls $\Eps \notin A$ ist diese Lösung ausserdem eindeutig.
 \end{lemma}
 
-\begin{proof}(Ardens Lemma)
+\begin{proof}
+Sei $ X= AX+B$ mit $\Eps\notin A$. Zeige, dass $A^*B \subseteq X$:
         \begin{alignat*}{3}
-                \text{Sei}&\quad& X&= AX+B\text{ mit }\Eps\notin A.\\
-                \text{Zeige}&& A^*B&\subseteq X.\\
-                && A^*B &= (\1+AA^*)B = B+A(A^*B) \quad\checkmark\\
+                && A^*B &= AA^*B + B = (\1+AA^*)B = B+A(A^*B) \quad\checkmark\\
                 \shortintertext{Angenommen $A^*B \subsetneq X$, d.h. $\exists w\in X$ mit $w\notin A^*B$, davon sei $w$ das kürzeste.}
                 \exists n\geq 1: && X &= \underbrace{A^nX}_{\ni w} + \underbrace{A^{n-1}B+\dots +AB+B}_{\not\ni w}\\
                 \curvearrowright && w &= u_1\dots u_n w'\text{ mit } u_1,\dots,u_n\in A\text{ und } w'\in X\\
@@ -1142,7 +1140,7 @@ Zum Beweis (bzw.\ zur Konstruktion) der Richtung ,,\=>'' benötigen wir eine Rec
   \begin{displaymath}
     r_x := r_A^*r_B
   \end{displaymath}
-  eine Lösung für $r_x$, die die Gleichung erfüllt.
+  eine eindeutige Lösung für $r_x$, die die Gleichung erfüllt.
 \end{Korollar}
 
 \datenote{11.11.16}
