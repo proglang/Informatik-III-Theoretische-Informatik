@@ -1032,13 +1032,16 @@ Also: Eine Sprache $L$ ist regulär, falls
 %
     \begin{Bsp*} Mustererkennung
         \begin{itemize}
-        \item $\underset{\vphantom{\big(}\mathrlap{\hspace{-4pt}\rotatebox[origin=c]{90}{$\Rsh$}\ =(a_1+a_2+\dots)^* \text{ alle $a_i\in\Sigma$ aufgez"ahlt}}}{\Sigma^*}\ abac\ \Sigma^*$
-        \item $n$-letztes Symbol = 1 ($\Sigma=\{0,1\}$)
+        \item Akzeptiere alle Wörter, die $abac$ enthalten: 
+        \begin{align*} & \Sigma^* abac \Sigma^* \\
+                       \Leftrightarrow & (a_1 + a_2 + ...)^* abac (a_1 + a_2 + ...)^* \forall a_i \in \Sigma
+          \end{align*}
+        \item Sei $\Sigma=\{0,1\}$. Die Sprache aller Wörter, deren $n$-letztes Symbol = 1, ist nicht regulär, denn:
         \begin{gather*}
         (0+1)^*1\underbrace{(0+1)\dots(0+1)}_{n-1}\\
         \xcancel{0^n1^n}\notin RE(\Sigma)
         \end{gather*}
-        \item Binärdarstellung modulo $3=0$.
+        \item Ein regulärer Ausdrück für alle Wörter $\omega \in (0, 1)^*$, s.d. $\omega \mod 3=0$:
         \[ (0+1(01^*0)^*1)^* \]
         
     \captionsetup{type=figure}
