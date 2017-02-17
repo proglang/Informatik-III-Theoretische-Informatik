@@ -149,10 +149,10 @@ Es gilt $\mathcal{L}_3 \subsetneq \mathcal{L}_2 \subsetneq\mathcal{L}_1 \subsetn
 \end{lemma}
 \begin{proof}
 	Betrachte $L=\{a^nb^n \mid n\in\N \}$\\
-	bekannt: $L$ nicht regulär.\\
-	Aber $\exists$ Typ-2 Grammatik für $L$:
+	Bekannt, dass $L$ nicht regulär. 
+	Aber es gibt eine Typ-2 Grammatik für $L$:
 	\[ \mathcal{G} = (\{S\}, \{a,b\}, \{S\->\Eps, S\->aSb \}, S) \]
-	Zeige (selbst) $L=L(\mathcal{G})$
+	Korrektheitsbeweis $L=L(\mathcal{G})$ ist dem Leser zur Übung selbst überlassen.
 \end{proof}
 
 \datenote{30.11.16}
@@ -198,7 +198,7 @@ Hier sind einige Beispiele kontextfreier Sprachen und Grammatiken:
     \end{aligned}
   \end{displaymath}
 
-  Das $L(\mathcal{G}) \subseteq L$ lässt sich per Induktion über die Länge der Ableitung von $S \stackrel{*}{\==>}_\mathcal{G} w$ zeigen.
+  Dass $L(\mathcal{G}) \subseteq L$ lässt sich per Induktion über die Länge der Ableitung von $S \stackrel{*}{\==>}_\mathcal{G} w$ zeigen.
   Der Beweis wird als Übung dem Leser überlassen.
 
   Wir zeigen das $L \subseteq L(\mathcal{G})$, also dass wenn $w \in L$, dann $w \in L(\mathcal{G})$ per Induktion über die Länge von $w$.
@@ -279,7 +279,7 @@ Hier sind einige Beispiele kontextfreier Sprachen und Grammatiken:
     \quad
     \tikz[baseline=0cm]{\Tree [ .$S\to1S0S$ $S\to\Eps$ $S\to\Eps$ ]}
     \quad
-    \tikz[baseline=0cm]{\Tree [ .$S\to0S1S$ $S\to\Eps$ [ .$S\to\Eps$ $S\to\Eps$ $S\to\Eps$ ] ]}
+    \tikz[baseline=0cm]{\Tree [ .$S\to0S1S$ $S\to\Eps$ [ .$S\to0S1S$ $S\to\Eps$ $S\to\Eps$ ] ]}
     \quad
     \dots
   \end{description}
