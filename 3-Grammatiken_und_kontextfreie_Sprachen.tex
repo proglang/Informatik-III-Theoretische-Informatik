@@ -454,7 +454,8 @@ Größe einer Grammatik definiert ist durch
 \end{Satz}
 \begin{proof}
   Definiere $M_i$ als die Menge der Nichtterminale, aus denen sich
-  $\Eps$ mit einem Ableitungsbaum der Höhe $< i$ ableiten lässt:
+  $\Eps$ mit einem Ableitungsbaum der Höhe $< i$ ableiten lässt:\footnote{
+  Im Folgenden ist mit $*$ bei $M_i^*$ und $M^*$ der Kleene-Stern gemeint} 
   \begin{align*}
     M_0 &= \emptyset \\
     M_{i+1} &= M_i \cup \{ A \mid A \to \alpha \in P \text{ und }
@@ -516,25 +517,21 @@ Größe einer Grammatik definiert ist durch
   \end{description}
 \end{proof}
 Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_{i \in \N} M_i$.
-\begin{itemize}
-\item Eingabe: CFG $\mathcal{G} = (N, \Sigma, P, S)$
-\item Ausgabe: $\operatorname{Nullable}(\mathcal{G})$
-\item[] $M = \emptyset$
-\item[] $\mathit{done} = \mathtt{false}$
-\item[] $\mathbf{while} (\mathit{not}~\mathit{done})$
-  \begin{itemize}
-  \item[] $\mathit{done} = \mathtt{true}$
-  \item[] $\mathbf{for}~(A \to \alpha \in P)$
-    \begin{itemize}
-    \item[] $\mathbf{if}~(A \not \in M \land \alpha \in M^*)$
-      \begin{itemize}
-      \item[] $M = M \cup \{A \}$
-      \item[] $\mathit{done} = \mathtt{false}$
-      \end{itemize}
-    \end{itemize}
-  \end{itemize}
-\item[] $\mathbf{return}~M$
-\end{itemize}
+\begin{lstlisting}[
+  mathescape,
+  columns=fullflexible,
+  basicstyle=\fontfamily{lmvtt}\selectfont,
+]
+M = {}
+done = $false$
+while (not done):
+    done = $true$
+    foreach $A \to a \in P$:
+         if ($ A \not \in M \wedge a \in M^*$):
+             $M = M \cup A$
+             done = $false$
+return M
+\end{lstlisting}
 \begin{Korollar}
   Es gibt einen Algorithmus, der zu einer CFG $\mathcal{G}$ berechnet ob $\Eps \in L(\mathcal{G})$.
 \end{Korollar}
