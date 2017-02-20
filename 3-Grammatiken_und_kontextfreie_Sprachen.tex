@@ -548,11 +548,10 @@ return M
     Dieser Schritt stellt sicher, dass $S'$ auf keiner rechten Regelseite vorkommt.
   \item Wende erst \textsc{Sep}, dann \textsc{Bin} an.
     Nun hat jede rechte Regelseite die Form $a \in \Sigma$ oder $\Eps$ oder $A$ oder $BC$.
-  \item Sei $M = \operatorname{Nullable}(\mathcal{G}')$.
   \item Für alle Regeln $A \to BC \in P$:
     \begin{itemize}
-    \item Falls $B \in M$ füge $A \to C$ hinzu.
-    \item Falls $C \in M$ füge $A \to B$ hinzu.
+    \item Falls $B \in \operatorname{Nullable}(\mathcal{G})$ füge $A \to C$ hinzu.
+    \item Falls $C \in \operatorname{Nullable}(\mathcal{G})$ füge $A \to B$ hinzu.
     \end{itemize}
   \item Falls $S \in \operatorname{Nullable}(\mathcal{G})$ füge $S' \to \Eps$ hinzu
   \item Entferne alle Produktionen $A \to \Eps$ für $A \neq S'$.
