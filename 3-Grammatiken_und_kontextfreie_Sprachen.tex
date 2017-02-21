@@ -414,6 +414,7 @@ Größe einer Grammatik definiert ist durch
 \begin{displaymath}
   |G| = \sum_{A \in N}\sum_{A \to \alpha \in P} |A\alpha|
 \end{displaymath}
+Das ist genau die Anzahl an Zeichen aus $\Sigma$, die man benötigt, um die Produktionen der Grammatik aufzuschreiben.
 \end{proof}
 
 \begin{lemma}[\textsc{Bin}]
@@ -607,8 +608,8 @@ return M
 \begin{Beobachtung}
   Ist $\mathcal{G} = (N, \Sigma, P, S)$ in CNF, dann lassen sich für die Ableitungsbäume $\mathcal{A} \in \operatorname{Abl}(\mathcal{G}, S)$ folgende Eigenschaften feststellen:
   \begin{enumerate}
-  \item $\mathcal{A}$ ist ein Binärbaum.
-  \item Falls $Y(\mathcal{A}) = w$ dann ist die Anzahl der Blätter des Baumes $|w|$.
+  \item $\mathcal{A}$ ist ein Binärbaum. 
+  \item Falls $Y(\mathcal{A}) = w$ dann ist die Anzahl der Blätter des Baumes $|w|$.		% das gilt doch für alle Grammatiken?!
   \end{enumerate}
 \end{Beobachtung}
 	
