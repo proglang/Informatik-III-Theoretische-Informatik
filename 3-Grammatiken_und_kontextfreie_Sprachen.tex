@@ -621,9 +621,8 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
 \begin{Satz}[Pumping lemma für \acs*{CFL}, uvwxy Lemma]
 \label{satz:PL für CFL}
 %\rlnote{Satz \# 4.2?}
-	Sei $L\in {CFL}$. Dann $\exists n>0$, so dass $\forall z\in L$ mit $|z|\geq n\ \exists u,v,w,x,y:$ mit
+	Sei $L\in {CFL}$. Dann $\exists n>0$, so dass $\forall z\in L$ mit $|z|\geq n\ \exists u,v,w,x,y$ so dass $z=uvwxy$ mit
 	\begin{itemize}
-	\item $z=uvwxy$
 	\item $|vwx|\leq n$
 	\item $|vx|\geq 1$
 	\item $\forall i \in \N : uv^iwx^iy\in L$
@@ -631,18 +630,19 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
 \end{Satz}
 \begin{proof}
 	Sei $\mathcal{G}= (N,\Sigma,P,S)$ in \ac{CNF} mit
-    $L(\mathcal{G}) = L$.
+    $L(\mathcal{G}) = L$. Wähle die Pumping-Konstante $n=2^{|N|}$.
     
-	Sei $k = |N|$ und wähle $n=2^k$
+     Betrachte den Ableitungsbaum $\mathcal{A} \in \operatorname{Abl}(\mathcal{G}, S)$ von $z$ mit $|z|\geq n$. 
+    \footnote{Intuition: Da $\mathcal{G}$ in CNF, ist Ableitungsbaum $\mathcal{A}$ ein Binärbaum. 
+        Mit $|N|$ 
+    verschiedenen Nichtterminalsymbolen kann man 
+    also maximal Worte der Länge $2^{|N|}$ ableiten, wenn man keine Ableitung doppelt nutzen möchte. 
+    Leitet man ein längeres Wort ab, so muss man mind. eine Ableitung doppelt nutzen.
+     Dann kann man sie aber auch gleich $i$-fach nutzen ($v^i$ und $x^i$), und ist immernoch in der Sprache.}
+  $\mathcal{A}$ ist ein Binärbaum mit $|z|\geq n = 2^{|N|}$ Blättern. In einem solchen Binärbaum existiert ein Pfad $\zeta$ der Länge $\geq |N|$.
+	Auf $\zeta$ liegen $\geq |N|+1$ \acfp{NT}, es muss also mindestens ein Nichtterminal $A$ mehrmals vorkommen.
 	
-	Betrachte den Ableitungsbaum $\mathcal{A} \in \operatorname{Abl}(\mathcal{G}, S)$ von $z$ mit $|z|\geq n$.
-
-  $\mathcal{A}$ ist ein Binärbaum mit $|z|\geq n = 2^k$ Blättern.
-  In einem solchen Bin"arbaum existiert ein Pfad $\zeta$ der Länge $\geq k$
-
-	Auf $\zeta$ liegen $\geq k+1$ \acfp{NT}, es muss also mindestens ein Nichtterminal $A$ mehrmals vorkommen.
-  Folge $\zeta$ vom Blatt Richtung Wurzel und bis sich $A$ das erste mal Wiederholt.
-  Das geschieht nach $\le k$ Schritten.
+  Folge $\zeta$ vom Blatt Richtung Wurzel und bis sich das ein $A$ das erste Mal wiederholt. Das geschieht nach $\le |N|$ Schritten.
   Nun teile $z = uvwxy$ wie hier skizziert:
   
 			\begin{tikzpicture}[>=stealth,
@@ -684,7 +684,7 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
       \item $|vx|\geq 1$, da $\zeta$ entweder durch $B$ oder durch $C$ läuft. Nehme also an, $\zeta$ verläuft durch $B$.
         Somit muss $C \stackrel{*}{\Longrightarrow} x$. In CNF ist $C \stackrel{*}{\Longrightarrow} \Eps$ nicht möglich und somit ist $|x| \ge 1$.
         Der Fall, das $\zeta$ durch $C$ verläuft, ist analog.
-      \item $|vwx| \le 2^k = n$ TODO
+      \item $|vwx| \le 2^{|N|} = n$ TODO
       \end{itemize}
 		\begin{figure}[H]\centering
 		\begin{subfigure}[b]{.29\linewidth}\centering
