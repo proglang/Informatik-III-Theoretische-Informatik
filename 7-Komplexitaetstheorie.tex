@@ -1,4 +1,4 @@
-\section[Komplexitätstheorie]{Komplexitätstheorie\datenote{29.01.15}}
+\section[Komplexitätstheorie]{Komplexitätstheorie}
 \subsection{Komplexitätsklassen und P/NP}
 
 \begin{Def}[name={[$\NTIME$ Klasse]}]
@@ -51,6 +51,7 @@ Offenbar $P\leq NP$. Seit 1970 weiß man nicht, ob $P=NP$ oder $P\neq NP$
 \begin{proof}
 	Identität; ähnlich wie Beweis von \autoref{lem:A<B + BinP => AinP}.
 \end{proof}
+\draftnote{8.2.17}
 \begin{Def}[name={[$NP$-hart und $NP$-vollständig]}]\
 	\begin{itemize}
 	\item Eine Sprache $A$ heißt \underline{$NP$-hart} ($NP$-schwer), falls $\forall L\in NP : L\preceq_p A$.
@@ -85,7 +86,7 @@ Ein erstes $NP$-vollständiges Problem.
 	\item $SAT\in NP$\\
 		Rate nicht deterministisch eine Belegung $\beta$\\
 		Werte $F[\beta]$ aus\\
-		$\curvearrowright$ in $\NTIME(n)$ polynomiell
+		$\curvearrowright$ in $\NTIME(n)$, polynomiell
 	\item $SAT$ ist $NP$-hart.\\
 		Zeige: $\forall L\in NP : L \preceq_p SAT$\\
 		$L\in NP : \exists p$ Polynom, \ac{NTM} $M$ mit $L=L(M)$ mit Zeitschranke $T_M(w)\leq p(|w|)$.
@@ -109,11 +110,10 @@ Ein erstes $NP$-vollständiges Problem.
 	\end{enumerate}
 \end{proof}
 \begin{lemma}
-	Für jedes $k\in\N\ \exists$ Formel $G$ mit $G(x_i,\dots,x_k)=1$ gdw. einer der $x_i,\dots,x_k = 1$ ist. Die Größe von $G$ ist polynomiell in $k$.
+	Für jedes $k\in\N$ existiert eine Formel $G$, sodass $G(x_i,\dots,x_k)=1$ gdw. $\exists j: x_j = 1$ und $\forall i \neq j: x_i = 0$. Es gilt $|G| \in O(k^2)$.
 \end{lemma}
 \begin{proof}
 	\[ G(x_i,\dots,x_k) = \bigvee_{i=1}^k x_i\land \bigwedge_{i\neg j}\neg (x_i\land x_j) \]
-\datenote{03.02.15}
 	$M=(Q,\Sigma,\Gamma,\delta,q_0,\blank,F)$ erkennt $L$ in $\NTIME(p),\ p$ Polynom.
 	
 	Ziel: Konstruiere aus $M,w$ eine Formel $F$, so dass
