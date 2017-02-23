@@ -194,16 +194,17 @@ Nächstes Ziel: Charakterisierung von Typ-1 Sprachen.
 	Zu $\cup$ und $\cap$ betrachte \ac{NTM}.\\
 	Für $\cdot$ und $^*$ konstruiere Grammatik.\\
 	ad Komplement "`2. \acsu{LBA}-Problem\footnote{\acs*{LBA} = \acl*{LBA} -- 1964 Kuroda}"' bis 1987, dann gelöst durch Immerman und Szelepcsényi.
-	
-	1. \ac{LBA}-Problem (1964): Ist $\mathrm{NTAPE}(n) = \mathrm{DTAPE}(n)$? Bisher ungelöst.
 \end{proof}
+\begin{Bemerkung}
+  1. \ac{LBA}-Problem (1964): Ist $\mathrm{NTAPE}(n) = \mathrm{DTAPE}(n)$? Bisher ungelöst.
+\end{Bemerkung}
 \begin{Satz}
 	Das Wortproblem für Typ-1 Sprachen ist entscheidbar.
 \end{Satz}
 \begin{proof}
 	\begin{align*}
 		L\in\mathcal{L}_1 &\curvearrowleftright L\in\mathrm{NTAPE}(n)\\
-		&\curvearrowright \text{\autoref{satz:6.2} $L$ entscheidbar}
+		&\curvearrowright \text{nach \autoref{satz:6.2}: $L$ entscheidbar}
 	\end{align*}
 	Nach \autoref{satz:6.1} sogar mit \ac{DTM}.
 \end{proof}
@@ -460,9 +461,15 @@ $\overline{K}$ \quad nicht-semientscheidbar (keine Typ-0)
 	\item Ist $\mathcal{L}_1$ = Menge der entscheidbaren Sprachen?
 	\item[--] Nein:\\
 	\begin{minipage}[t]{.7\linewidth}
-	Konstruiere eine Aufzählung aller Typ-1 Grammatiken. \medskip\\
-	$D_1 = \{w(i) \mid w(i)\notin L(G_i)\}$ ist entscheidbar, weil das Wortproblem für Typ-1 
-	Sprachen entscheidbar, aber es $\nexists j$, sodass $L(G_j) = D_1$s
+	Konstruiere eine Kodierung von Typ-1 Grammatiken als Worte
+        $w\in\{0,1\}^*$. Die Grammatik zum Wort $w$ sei $G_w$; falls
+        $w$ kein sinnvoller Kode ist, setze $G_w = (\{S\}, \{0,1\},
+        \{\}, S)$ die leere Grammatik.
+        
+	Die \emph{Diagonalsprache} $D = \{w \in\{\0,1\}^* \mid w\notin
+        L(G_w)\}$ ist entscheidbar, weil das Wortproblem für Typ-1  
+	Sprachen entscheidbar, aber es $\nexists w$, sodass $L(G_w) =
+        D$. Beweis durch Widerspruch.
 	\end{minipage}\quad
 	\begin{tabular}[t]{M{c} | *4{M{c}@{ }}}
 		\ &w_1&w_2&w_3&\cdots\\\hline
