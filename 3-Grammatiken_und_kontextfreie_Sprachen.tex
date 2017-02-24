@@ -821,9 +821,9 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
     \begin{itemize}
     \item Falls $v = a^{k'}$, $x = b^{j'}$: Für $i=0$ stimmt die Anzahl der $a$ nicht mehr mit $n$ überein.
     \item Falls $v$ ein Gemisch aus $a$ und $b$ enthält.
-      Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
+      Für $i\ge 2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
     \item Falls $x$ ein Gemisch aus $a$ und $b$ enthält.
-      Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
+      Für $i \ge2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
     \end{itemize}
   \item $vwx = b^j$: analog Fall $a^j$
   \item $vwx = b^kc^j$: analog Fall $a^kb^j$
@@ -878,30 +878,19 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
 		X &\-> ab \mid aXb\\
 		Y &\-> c \mid cY
 	\end{align*}
-\end{Bsp}
-
+	In CNF:
 	$\begin{aligned}[t]
 		S &\-> XY\\
-		X &\-> AB\\
-		X &\-> AZ\\
+		X &\-> AB | AZ\\
 		Z &\-> XB\\
-		Y &\-> c\\
-		Y &\-> CY\\
-		A &\-> a\\
-		B &\-> b\\
-		C &\-> c
-	\end{aligned}$\quad
-\begin{proof}
-		\ac{CYK}-Algorithmus
-		\begin{description}
-	    \item[Eingabe:] \hfill
-		\begin{itemize}
-			\item \ac{CFG} $\mathcal{G}$ in \ac{CNF}
-			\item $w = a_1\dots a_n\in\Sigma^*, |w|=n$
-		\end{itemize}
-		\item[Ausgabe:] "`$w\in L(\mathcal{G})$"'
-		\item[Idee:] Berechne eine $(n\x n)$ Matrix $M$ mit Einträgen in $\mathcal{P}(N)$ mit folgender Spezifikation:
-		\end{description}
+		Y &\-> CY | c\\
+		A &\-> a, B \-> b, C \-> c
+	\end{aligned}$
+\end{Bsp}
+
+\begin{proof}[CYK-Algorithmus] Sei $\mathcal{G}$ ein CFG in CNF und sei $w = a_1\dots a_n\in\Sigma^*, |w|=n$. Der CYK-Algorithmus bereichnet bei Eingabe von $\mathcal{G}$ und $w$, ob $w\in L(\mathcal{G})$.
+		
+		Idee dabei: Berechne eine $(n\x n)$ Matrix $M$ mit Einträgen in $\mathcal{P}(N)$ mit folgender Spezifikation:
 	\begin{align*}
 		M_{ij} &= \{ A \mid A\xRightarrow{*} a_i\dots a_j \} && 1\leq i\leq j\leq n \quad\text{nur diese }M_{ij}\neq \varnothing\\
 		& \text{falls $i=j$:}\\
@@ -992,7 +981,7 @@ $.
 	Das Endlichkeitsproblem für \ac{CFL} ist entscheidbar.
 \end{Satz}
 \begin{proof}
-	Mit \ac{PL} analog zum Endlichkeitsproblem für reguläre Sprachen.
+	Mit \ac{PL} analog zum Endlichkeitsproblem für reguläre Sprachen (Prüfe, ob $\exists w \in L$ mit $n < |w| \le 2n$).
 \end{proof}
 
 \subsection{Abschlusseingenschaften für kontextfreie Sprachen}

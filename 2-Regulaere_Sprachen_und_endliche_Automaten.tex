@@ -1312,8 +1312,9 @@ Ein Problem ist \emph{entscheidbar} wenn es sich durch eine binäre Antwort (ja/
 	\item $|xz|\geq 2n\ \lightning$ Minimalität von $w$
 	\item $|xz|<2n$
 		\begin{align*}
-			|xz|+|y| &= |w|\geq 2n\text{ mit } 1\leq|y|\leq n\\
-			\curvearrowright |xz| &= |w|-|y|\geq 2n-n=n \quad\lightning\text{ zur Annahme}
+			|xz|+|y| &= |w|\geq 2n\text{ mit } 1\leq|y|\leq n\\ %TODO warum gilt 1\leq|y|\leq n ??
+			\Rightarrow |xz| &= |w|-|y|\geq 2n-n=n \\
+			\Rightarrow |xz| & \geq n \wedge |xz| < 2n \quad\lightning\text{zur Annahme}
 		\end{align*}
 		Also $\exists w\in L$ mit $n\leq|w|<2n$ \qedhere
 	\end{enumerate}

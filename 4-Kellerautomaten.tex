@@ -340,51 +340,51 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
 
 \begin{lemma}[name={[\acs*{DPDA}, der gesamte Eingabe verarbeitet]}]
         \label{lem:DPDA ges. Eingabe}
-        Zu jedem \ac{DPDA} gibt es einen äquivalenten \ac{DPDA}, der
+        Zu jedem \ac{DPDA} $M$ gibt es einen äquivalenten \ac{DPDA} $M'$, der
         jede Eingabe bis zum Ende liest.
 \end{lemma}
 \draftnote{23.12.16}
 \begin{proof}
 
-  Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta, F)$ ein \ac{DPDA}. 
+  Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta, F)$. 
   Zwei Möglichkeiten, warum $M$ nicht die gesamte Eingabe verarbeiten:
-  Die Transitionsrelation ist nicht total oder der Automat bleibt bei
+  Die Transitionsrelation ist nicht total \footnote{d.h. es gibt zwei Konfigurationen $a$, $b$
+  so dass $a \not \Rightarrow^* b$} oder der Automat bleibt bei
   leerem Keller stecken.
 
-  Abhilfe: Definiere $M' = (Q', \Sigma, \Gamma', q_0', Z_0', \delta',
-  F')$ mit
-
-  \begin{itemize}
-  \item $Q' = Q \cup \{q_0', q_s\}$ neue Zustände
-  \item $F' = F$
-  \item $\Gamma' = \Gamma \cup \{Z_0'\}$ neues Kellerbodensymbol
-  \end{itemize}
+  Abhilfe: Führe einen Senkzustand ein, auf dem $M'$ weiterrechnet, wenn $M$ nicht mehr weiterrechnen kann. Definiere dazu $M' = (Q', \Sigma, \Gamma', q_0', Z_0', \delta', F')$ mit
+  \begin{align*}
+  Q' &= Q \cup \{q_0', q_s\} \text{ neue Zustände: $q_0'$ neuer Startzustand und $q_s$ Senkzustand} \\
+  F' &= F \\
+  \Gamma' &= \Gamma \cup \{Z_0'\} \text{ neues Kellerbodensymbol}
+  \end{align*}
   und Transitionsfunktion $\delta'$ gegeben durch
+  \[\delta' (q_0', \varepsilon, Z_0') = \{ (q_0, Z_0Z_0') \} \]
   \begin{itemize}
-  \item $\delta' (q_0', \varepsilon, Z_0') = \{ (q_0, Z_0Z_0') \}$
   \item Transition totalisieren: Für alle $q\in Q$, $Z \in \Gamma$\\
-    \begin{displaymath}
-      \delta' (q, \varepsilon, Z) =
+    \begin{align*}
+      \delta' (q, \varepsilon, Z) &=
       \begin{cases}
         \delta (q, \varepsilon, Z) & \text{falls
         }\ne\emptyset\vee\exists a\in\Sigma, \delta (q, a, Z)\ne \emptyset \\
         \{ (q_s, Z) \} & \text{sonst}
-      \end{cases}
-    \end{displaymath}
-    \begin{displaymath}
-      \delta' (q, a, Z) =
+      \end{cases} \\
+      \delta' (q, a, Z) &=
       \begin{cases}
         \delta (q, a, Z) & \text{falls }\ne\emptyset\vee\delta (q,
         \varepsilon, Z) \ne \emptyset \\
-        \{ (q_a, Z) \} & \text{sonst}
+        \{ (q_s, Z) \} & \text{sonst}
       \end{cases}
-    \end{displaymath}
+    \end{align*}
+    Intuition: Wenn $\delta(q, a, Z) = \emptyset$ und ein $\epsilon$-Übergang ebenfalls ausscheidet, kann das Wort von $M$ nicht weiter abgearbeitet werden. $M'$ geht nun in Senkzustand $q_0$ und arbeitet dort weiter. Analog für $\delta(q, \epsilon, Z)$.
   \item Kellerunterlauf: $M$ hat $Z_0$ abgeräumt, so dass $Z_0'$
-    sichtbar geworden ist. Für alle $q\in Q$\\
-    $\delta' (q, \varepsilon, Z_0') = \{ (q_s, Z_0') \}$
-  \item Für alle $a\in\Sigma$, $Z\in \Gamma'$\\
-    $\delta' (q_s, a, Z) = \{ (q_s, Z) \}$.
-    
+    sichtbar geworden ist. Füge eine $\epsilon$-Transition in
+     Senkzustand $q_s$ hinzu, indem man für alle $q\in Q$ definiere:\\
+    \[\delta' (q, \varepsilon, Z_0') = \{ (q_s, Z_0') \} \]
+  In $q_s$ kann der Automat nun für alle $a\in\Sigma$, $Z\in \Gamma'$ abarbeiten:\\
+    \[\delta' (q_s, a, Z) = \{ (q_s, Z) \}\]   %TODO warum Z und nicht Z_0' ?!
+    Bemerke, dass $q_0 \not \in F'$, da ein Kellerunterlauf
+    das Akzeptieren des eingelesen Wortes ausschliesst.
   \end{itemize}
 
   Es verbleibt zu zeigen, dass $\forall w\in \Sigma^*$ $\exists q\in Q'$
