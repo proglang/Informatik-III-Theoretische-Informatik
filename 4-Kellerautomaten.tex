@@ -512,7 +512,7 @@ Wir können nach Satz \ref{} einen PDA für $\mathcal{G}$ konstruieren, mit
 Die Transitionen für Eingabezeichen $a \in \Sigma$ sind deterministisch.
 Die $\Eps$-Transitionen sind es nicht unbedingt.
 
-Die Idee ist nun, den Automaten mit einem Symbol Lookahead zu
+Die Idee ist nun, den Automaten mit einem Symbol Lookahead \footnote{Das Problem ist, dass ein deterministischer PDA nicht ,,alle mögl. Regeln gleichzeitig ausprobieren'' kann, so wie ein NDPA. Möchte der Automat ein Eingabesymbol $a$ matchen und kann aktuell mehrere Produktionen anwenden, müsste er in die Zukunft sehen können, um diejenige zu wählen, die das gewünschte $a$ an erster Position erzeugt. Diesen ,,Blick in die Zukunft'' gewähren die $first(A)$ Mengen: Sie geben für jedes Nichtterminal $A$ an, welche Terminale $a \in \Sigma$ als Präfix von $yield(A)$ auftreten können.} 
 erweitern. Dieses Symbol wird jeweils im Zustand des Automaten
 gespeichert. Der PDA für $L (\mathcal{G})$ mit Lookahead hat nun
 folgende Komponenten:
@@ -530,6 +530,15 @@ und die Transitionsfunktion
   \mathit{first} (\beta) \} && \text{select}
 \end{align*}
 Der Automat startet in der Konfiguration $([\Eps], w\$, S\$)$.
+
+\textbf{Beispiel}: Sei ein CFG gegeben mit den Produktionen $S \to ( S )$ $ |$ $ a$. Für die Eingabe $(a)$ ergibt sich folgende Abarbeitung:
+\begin{align*}
+              & ([\Eps], (, S\$ )   && \text{Lade Lookahead ,('}\\
+  \Rightarrow & ([(], \Eps, S\$ )   && \text{Select: Da ,(' $\in first($ ,$(a)$' $ )$, wende $S \to (a)$ an}\\
+  \Rightarrow & ([(], \Eps, (S)\$ ) && \text{Match}\\
+  \Rightarrow & ([\Eps], a, S)\$)
+  \Rightarrow & ...
+\end{align*}
 
 \begin{Def}
   Sei $\mathcal{G} = (N, \Sigma, P, S)$ CFG und $\beta \in
