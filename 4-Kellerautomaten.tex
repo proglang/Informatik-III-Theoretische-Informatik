@@ -533,10 +533,10 @@ Der Automat startet in der Konfiguration $([\Eps], w\$, S\$)$.
 
 \textbf{Beispiel}: Sei ein CFG gegeben mit den Produktionen $S \to ( S )$ $ |$ $ a$. Für die Eingabe $(a)$ ergibt sich folgende Abarbeitung:
 \begin{align*}
-              & ([\Eps], (, S\$ )   && \text{Lade Lookahead ,('}\\
-  \Rightarrow & ([(], \Eps, S\$ )   && \text{Select: Da ,(' $\in first($ ,$(a)$' $ )$, wende $S \to (a)$ an}\\
-  \Rightarrow & ([(], \Eps, (S)\$ ) && \text{Match}\\
-  \Rightarrow & ([\Eps], a, S)\$)
+              & ([\Eps], (a), S\$ )   && \text{Lade Lookahead ,('}\\
+  \Rightarrow & ([(], (a), S\$ )   && \text{Select: Da ,(' $\in first($ $(a)$ $ )$, wende $S \to (a)$ an}\\
+  \Rightarrow & ([(], (a), (S)\$ ) && \text{Match ,('}\\
+  \Rightarrow & ([\Eps], a), S)\$) \\
   \Rightarrow & ...
 \end{align*}
 
