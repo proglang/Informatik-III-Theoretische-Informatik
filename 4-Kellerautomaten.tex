@@ -397,12 +397,12 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
         Die deterministischen \ac{CFL} sind unter Komplement abgeschlossen.
 \end{Satz}
 \begin{proof}
-  Sei $L=L(M)$ für \ac{DPDA} $M$. Nach \autoref{lem:DPDA ges. Eingabe} liest $M$ die komplette Eingabe.
+  Sei $L=L(M)$ für \ac{DPDA} $M$. Nach \autoref{lem:DPDA ges. Eingabe} liest $M$ die komplette Eingabe. 
 
-  Definiere $M'$ mit $Q'= q\x \{0,1,2\}$.
-  Bedeutung des zusätzlichen ,,Flags'' $\in \{0,1,2\}$:
+  Konstruiere \ac{DPDA} $M'$, s.d. $ L(M') = \overline{L}$. 
+  Definiere dazu $Q'= q \times \{0,1,2\}$. Bedeutung des zusätzlichen ,,Flags'' $\in \{0,1,2\}$:
   \begin{itemize}
-  \item $0$: seit Lesen des letzten Symbols wurde kein akzeptierender Zustand durchlaufen
+  \item $0$: seit Lesen des letzten Symbols $\epsilon \vee a \in \Sigma$ wurde kein akzeptierender Zustand durchlaufen
   \item $1$: seit Lesen des letzten Symbols wurde mindestens ein
     akzeptierender Zustand durchlaufen 
   \item $2$: markiert einen akzeptierenden Zustand in $M'$.
@@ -435,7 +435,7 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
     \\
     \delta'((q,1), a, Z) &=
     ((q',\mathit{final} (q')), \gamma)
-    \\ \tag*{\qedhere}
+    \\ \tag*{\qedhere}    %TODO Intuition?
   \end{align*}
 \end{proof}
 \begin{Satz}
@@ -456,8 +456,10 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
 \end{Satz}
 \begin{proof}
     Sei $L$ DCFL und $R$ regulär.
-    Bilde das Produkt aus einem DPDA für $L$ und einem DFA für $R$.
-    Offenbar ist das Ergebnis ein DPDA, der $L\cap R$ erkennt.
+    Konstruiere das Produkt aus einem DPDA für $L$ und einem DFA für $R$.
+    Offenbar ist das Ergebnis ein DPDA, der $L\cap R$ erkennt. \footnote{
+    Intution des Beweis: Konstruiere Produktautomaten, der akzeptiert gdw. der DFA und NDPA akzeptieren. Idee: Definiere Tupel $(q_1, q_2)$, DPDA arbeitet auf $q_1$, DFA arbeitet auf $q_2$. Beispielsweise werden $\epsilon$-Übergänge des DPDA nur auf der ,,DPDA-Seite'' d.h. auf $q_1$ abgearbeitet, ohne Beeinflussung von $q_2$.
+    }
 
     $L = L (M_1)$ mit $M_1 = (Q_1, \Sigma, \Gamma, q_{01}, Z_0,
     \delta_1, F_1)$ \ac{DPDA}
@@ -470,13 +472,12 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
     \item $Q = Q_1 \times Q_2$
     \item $q_0 = (q_{01}, q_{02})$
     \item $F = F_1  \times F_2$
-    \item Falls $\delta_1 (q_1, \varepsilon, Z) = \{(q_1', \gamma)\}$,
-      \\
-      dann für alle $q_2\in Q_2$: $\delta ((q_1, q_2), \varepsilon, Z)
-      = \{((q_1', q_2), \gamma)\}$. (Ansonsten leer.)
-    \item Falls $\delta_1 (q_1, a, Z) = \{(q_1', \gamma)\}$,\\
-      dann für alle $q_2\in Q_2$: $\delta ((q_1, q_2), a, Z) =
-      \{((q_1', \delta_2 (q_2, a)), \gamma)\}$. (Ansonsten leer.)
+    \item Falls $\delta_1 (q_1, \varepsilon, Z) = \{(q_1', \gamma)\}$, dann gilt für alle $q_2\in Q_2$: 
+      \[ \delta ((q_1, q_2), \varepsilon, Z)
+      = \{((q_1', q_2), \gamma)\} \text{.     (Ansonsten leer)} \]
+    \item Falls $\delta_1 (q_1, a, Z) = \{(q_1', \gamma)\}$, dann gilt für alle $q_2\in Q_2$: 
+      \[ \delta ((q_1, q_2), a, Z) =
+      \{((q_1', \delta_2 (q_2, a)), \gamma)\} \text{   (Ansonsten leer)} \]
     \end{itemize}
     Zu zeigen ist noch $L (M') = L (M_1) \cap L (M_2)$.
 \end{proof}
