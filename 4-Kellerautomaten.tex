@@ -340,51 +340,51 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
 
 \begin{lemma}[name={[\acs*{DPDA}, der gesamte Eingabe verarbeitet]}]
         \label{lem:DPDA ges. Eingabe}
-        Zu jedem \ac{DPDA} gibt es einen äquivalenten \ac{DPDA}, der
+        Zu jedem \ac{DPDA} $M$ gibt es einen äquivalenten \ac{DPDA} $M'$, der
         jede Eingabe bis zum Ende liest.
 \end{lemma}
 \draftnote{23.12.16}
 \begin{proof}
 
-  Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta, F)$ ein \ac{DPDA}. 
+  Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta, F)$. 
   Zwei Möglichkeiten, warum $M$ nicht die gesamte Eingabe verarbeiten:
-  Die Transitionsrelation ist nicht total oder der Automat bleibt bei
+  Die Transitionsrelation ist nicht total \footnote{d.h. es gibt zwei Konfigurationen $a$, $b$
+  so dass $a \not \Rightarrow^* b$} oder der Automat bleibt bei
   leerem Keller stecken.
 
-  Abhilfe: Definiere $M' = (Q', \Sigma, \Gamma', q_0', Z_0', \delta',
-  F')$ mit
-
-  \begin{itemize}
-  \item $Q' = Q \cup \{q_0', q_s\}$ neue Zustände
-  \item $F' = F$
-  \item $\Gamma' = \Gamma \cup \{Z_0'\}$ neues Kellerbodensymbol
-  \end{itemize}
+  Abhilfe: Führe einen Senkzustand ein, auf dem $M'$ weiterrechnet, wenn $M$ nicht mehr weiterrechnen kann. Definiere dazu $M' = (Q', \Sigma, \Gamma', q_0', Z_0', \delta', F')$ mit
+  \begin{align*}
+  Q' &= Q \cup \{q_0', q_s\} \text{ neue Zustände: $q_0'$ neuer Startzustand und $q_s$ Senkzustand} \\
+  F' &= F \\
+  \Gamma' &= \Gamma \cup \{Z_0'\} \text{ neues Kellerbodensymbol}
+  \end{align*}
   und Transitionsfunktion $\delta'$ gegeben durch
+  \[\delta' (q_0', \varepsilon, Z_0') = \{ (q_0, Z_0Z_0') \} \]
   \begin{itemize}
-  \item $\delta' (q_0', \varepsilon, Z_0') = \{ (q_0, Z_0Z_0') \}$
   \item Transition totalisieren: Für alle $q\in Q$, $Z \in \Gamma$\\
-    \begin{displaymath}
-      \delta' (q, \varepsilon, Z) =
+    \begin{align*}
+      \delta' (q, \varepsilon, Z) &=
       \begin{cases}
         \delta (q, \varepsilon, Z) & \text{falls
         }\ne\emptyset\vee\exists a\in\Sigma, \delta (q, a, Z)\ne \emptyset \\
         \{ (q_s, Z) \} & \text{sonst}
-      \end{cases}
-    \end{displaymath}
-    \begin{displaymath}
-      \delta' (q, a, Z) =
+      \end{cases} \\
+      \delta' (q, a, Z) &=
       \begin{cases}
         \delta (q, a, Z) & \text{falls }\ne\emptyset\vee\delta (q,
         \varepsilon, Z) \ne \emptyset \\
-        \{ (q_a, Z) \} & \text{sonst}
+        \{ (q_s, Z) \} & \text{sonst}
       \end{cases}
-    \end{displaymath}
+    \end{align*}
+    Intuition: Wenn $\delta(q, a, Z) = \emptyset$ und ein $\epsilon$-Übergang ebenfalls ausscheidet, kann das Wort von $M$ nicht weiter abgearbeitet werden. $M'$ geht nun in Senkzustand $q_0$ und arbeitet dort weiter. Analog für $\delta(q, \epsilon, Z)$.
   \item Kellerunterlauf: $M$ hat $Z_0$ abgeräumt, so dass $Z_0'$
-    sichtbar geworden ist. Für alle $q\in Q$\\
-    $\delta' (q, \varepsilon, Z_0') = \{ (q_s, Z_0') \}$
-  \item Für alle $a\in\Sigma$, $Z\in \Gamma'$\\
-    $\delta' (q_s, a, Z) = \{ (q_s, Z) \}$.
-    
+    sichtbar geworden ist. Füge eine $\epsilon$-Transition in
+     Senkzustand $q_s$ hinzu, indem man für alle $q\in Q$ definiere:\\
+    \[\delta' (q, \varepsilon, Z_0') = \{ (q_s, Z_0') \} \]
+  In $q_s$ kann der Automat nun für alle $a\in\Sigma$, $Z\in \Gamma'$ abarbeiten:\\
+    \[\delta' (q_s, a, Z) = \{ (q_s, Z) \}\]   %TODO warum Z und nicht Z_0' ?!
+    Bemerke, dass $q_0 \not \in F'$, da ein Kellerunterlauf
+    das Akzeptieren des eingelesen Wortes ausschliesst.
   \end{itemize}
 
   Es verbleibt zu zeigen, dass $\forall w\in \Sigma^*$ $\exists q\in Q'$
@@ -397,12 +397,12 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
         Die deterministischen \ac{CFL} sind unter Komplement abgeschlossen.
 \end{Satz}
 \begin{proof}
-  Sei $L=L(M)$ für \ac{DPDA} $M$. Nach \autoref{lem:DPDA ges. Eingabe} liest $M$ die komplette Eingabe.
+  Sei $L=L(M)$ für \ac{DPDA} $M$. Nach \autoref{lem:DPDA ges. Eingabe} liest $M$ die komplette Eingabe. 
 
-  Definiere $M'$ mit $Q'= q\x \{0,1,2\}$.
-  Bedeutung des zusätzlichen ,,Flags'' $\in \{0,1,2\}$:
+  Konstruiere \ac{DPDA} $M'$, s.d. $ L(M') = \overline{L}$. 
+  Definiere dazu $Q'= q \times \{0,1,2\}$. Bedeutung des zusätzlichen ,,Flags'' $\in \{0,1,2\}$:
   \begin{itemize}
-  \item $0$: seit Lesen des letzten Symbols wurde kein akzeptierender Zustand durchlaufen
+  \item $0$: seit Lesen des letzten Symbols $\epsilon \vee a \in \Sigma$ wurde kein akzeptierender Zustand durchlaufen
   \item $1$: seit Lesen des letzten Symbols wurde mindestens ein
     akzeptierender Zustand durchlaufen 
   \item $2$: markiert einen akzeptierenden Zustand in $M'$.
@@ -435,7 +435,7 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
     \\
     \delta'((q,1), a, Z) &=
     ((q',\mathit{final} (q')), \gamma)
-    \\ \tag*{\qedhere}
+    \\ \tag*{\qedhere}    %TODO Intuition?
   \end{align*}
 \end{proof}
 \begin{Satz}
@@ -456,8 +456,10 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
 \end{Satz}
 \begin{proof}
     Sei $L$ DCFL und $R$ regulär.
-    Bilde das Produkt aus einem DPDA für $L$ und einem DFA für $R$.
-    Offenbar ist das Ergebnis ein DPDA, der $L\cap R$ erkennt.
+    Konstruiere das Produkt aus einem DPDA für $L$ und einem DFA für $R$.
+    Offenbar ist das Ergebnis ein DPDA, der $L\cap R$ erkennt. \footnote{
+    Intution des Beweis: Konstruiere Produktautomaten, der akzeptiert gdw. der DFA und NDPA akzeptieren. Idee: Definiere Tupel $(q_1, q_2)$, DPDA arbeitet auf $q_1$, DFA arbeitet auf $q_2$. Beispielsweise werden $\epsilon$-Übergänge des DPDA nur auf der ,,DPDA-Seite'' d.h. auf $q_1$ abgearbeitet, ohne Beeinflussung von $q_2$.
+    }
 
     $L = L (M_1)$ mit $M_1 = (Q_1, \Sigma, \Gamma, q_{01}, Z_0,
     \delta_1, F_1)$ \ac{DPDA}
@@ -470,13 +472,12 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
     \item $Q = Q_1 \times Q_2$
     \item $q_0 = (q_{01}, q_{02})$
     \item $F = F_1  \times F_2$
-    \item Falls $\delta_1 (q_1, \varepsilon, Z) = \{(q_1', \gamma)\}$,
-      \\
-      dann für alle $q_2\in Q_2$: $\delta ((q_1, q_2), \varepsilon, Z)
-      = \{((q_1', q_2), \gamma)\}$. (Ansonsten leer.)
-    \item Falls $\delta_1 (q_1, a, Z) = \{(q_1', \gamma)\}$,\\
-      dann für alle $q_2\in Q_2$: $\delta ((q_1, q_2), a, Z) =
-      \{((q_1', \delta_2 (q_2, a)), \gamma)\}$. (Ansonsten leer.)
+    \item Falls $\delta_1 (q_1, \varepsilon, Z) = \{(q_1', \gamma)\}$, dann gilt für alle $q_2\in Q_2$: 
+      \[ \delta ((q_1, q_2), \varepsilon, Z)
+      = \{((q_1', q_2), \gamma)\} \text{.     (Ansonsten leer)} \]
+    \item Falls $\delta_1 (q_1, a, Z) = \{(q_1', \gamma)\}$, dann gilt für alle $q_2\in Q_2$: 
+      \[ \delta ((q_1, q_2), a, Z) =
+      \{((q_1', \delta_2 (q_2, a)), \gamma)\} \text{   (Ansonsten leer)} \]
     \end{itemize}
     Zu zeigen ist noch $L (M') = L (M_1) \cap L (M_2)$.
 \end{proof}
@@ -511,7 +512,7 @@ Wir können nach Satz \ref{} einen PDA für $\mathcal{G}$ konstruieren, mit
 Die Transitionen für Eingabezeichen $a \in \Sigma$ sind deterministisch.
 Die $\Eps$-Transitionen sind es nicht unbedingt.
 
-Die Idee ist nun, den Automaten mit einem Symbol Lookahead zu
+Die Idee ist nun, den Automaten mit einem Symbol Lookahead \footnote{Das Problem ist, dass ein deterministischer PDA nicht ,,alle mögl. Regeln gleichzeitig ausprobieren'' kann, so wie ein NDPA. Möchte der Automat ein Eingabesymbol $a$ matchen und kann aktuell mehrere Produktionen anwenden, müsste er in die Zukunft sehen können, um diejenige zu wählen, die das gewünschte $a$ an erster Position erzeugt. Diesen ,,Blick in die Zukunft'' gewähren die $first(A)$ Mengen: Sie geben für jedes Nichtterminal $A$ an, welche Terminale $a \in \Sigma$ als Präfix von $yield(A)$ auftreten können.} 
 erweitern. Dieses Symbol wird jeweils im Zustand des Automaten
 gespeichert. Der PDA für $L (\mathcal{G})$ mit Lookahead hat nun
 folgende Komponenten:
@@ -529,6 +530,15 @@ und die Transitionsfunktion
   \mathit{first} (\beta) \} && \text{select}
 \end{align*}
 Der Automat startet in der Konfiguration $([\Eps], w\$, S\$)$.
+
+\textbf{Beispiel}: Sei ein CFG gegeben mit den Produktionen $S \to ( S )$ $ |$ $ a$. Für die Eingabe $(a)$ ergibt sich folgende Abarbeitung:
+\begin{align*}
+              & ([\Eps], (a), S\$ )   && \text{Lade Lookahead ,('}\\
+  \Rightarrow & ([(], (a), S\$ )   && \text{Select: Da ,(' $\in first($ $(a)$ $ )$, wende $S \to (a)$ an}\\
+  \Rightarrow & ([(], (a), (S)\$ ) && \text{Match ,('}\\
+  \Rightarrow & ([\Eps], a), S)\$) \\
+  \Rightarrow & ...
+\end{align*}
 
 \begin{Def}
   Sei $\mathcal{G} = (N, \Sigma, P, S)$ CFG und $\beta \in

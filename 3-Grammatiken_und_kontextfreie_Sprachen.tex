@@ -149,10 +149,10 @@ Es gilt $\mathcal{L}_3 \subsetneq \mathcal{L}_2 \subsetneq\mathcal{L}_1 \subsetn
 \end{lemma}
 \begin{proof}
 	Betrachte $L=\{a^nb^n \mid n\in\N \}$\\
-	bekannt: $L$ nicht regulär.\\
-	Aber $\exists$ Typ-2 Grammatik für $L$:
+	Bekannt, dass $L$ nicht regulär. 
+	Aber es gibt eine Typ-2 Grammatik für $L$:
 	\[ \mathcal{G} = (\{S\}, \{a,b\}, \{S\->\Eps, S\->aSb \}, S) \]
-	Zeige (selbst) $L=L(\mathcal{G})$
+	Korrektheitsbeweis $L=L(\mathcal{G})$ ist dem Leser zur Übung selbst überlassen.
 \end{proof}
 
 \datenote{30.11.16}
@@ -198,7 +198,7 @@ Hier sind einige Beispiele kontextfreier Sprachen und Grammatiken:
     \end{aligned}
   \end{displaymath}
 
-  Das $L(\mathcal{G}) \subseteq L$ lässt sich per Induktion über die Länge der Ableitung von $S \stackrel{*}{\==>}_\mathcal{G} w$ zeigen.
+  Dass $L(\mathcal{G}) \subseteq L$ lässt sich per Induktion über die Länge der Ableitung von $S \stackrel{*}{\==>}_\mathcal{G} w$ zeigen.
   Der Beweis wird als Übung dem Leser überlassen.
 
   Wir zeigen das $L \subseteq L(\mathcal{G})$, also dass wenn $w \in L$, dann $w \in L(\mathcal{G})$ per Induktion über die Länge von $w$.
@@ -279,7 +279,7 @@ Hier sind einige Beispiele kontextfreier Sprachen und Grammatiken:
     \quad
     \tikz[baseline=0cm]{\Tree [ .$S\to1S0S$ $S\to\Eps$ $S\to\Eps$ ]}
     \quad
-    \tikz[baseline=0cm]{\Tree [ .$S\to0S1S$ $S\to\Eps$ [ .$S\to\Eps$ $S\to\Eps$ $S\to\Eps$ ] ]}
+    \tikz[baseline=0cm]{\Tree [ .$S\to0S1S$ $S\to\Eps$ [ .$S\to0S1S$ $S\to\Eps$ $S\to\Eps$ ] ]}
     \quad
     \dots
   \end{description}
@@ -414,6 +414,7 @@ Größe einer Grammatik definiert ist durch
 \begin{displaymath}
   |G| = \sum_{A \in N}\sum_{A \to \alpha \in P} |A\alpha|
 \end{displaymath}
+Das ist genau die Anzahl an Zeichen aus $\Sigma$, die man benötigt, um die Produktionen der Grammatik aufzuschreiben.
 \end{proof}
 
 \begin{lemma}[\textsc{Bin}]
@@ -454,7 +455,8 @@ Größe einer Grammatik definiert ist durch
 \end{Satz}
 \begin{proof}
   Definiere $M_i$ als die Menge der Nichtterminale, aus denen sich
-  $\Eps$ mit einem Ableitungsbaum der Höhe $< i$ ableiten lässt:
+  $\Eps$ mit einem Ableitungsbaum der Höhe $< i$ ableiten lässt:\footnote{
+  Im Folgenden ist mit $*$ bei $M_i^*$ und $M^*$ der Kleene-Stern gemeint} 
   \begin{align*}
     M_0 &= \emptyset \\
     M_{i+1} &= M_i \cup \{ A \mid A \to \alpha \in P \text{ und }
@@ -516,25 +518,21 @@ Größe einer Grammatik definiert ist durch
   \end{description}
 \end{proof}
 Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_{i \in \N} M_i$.
-\begin{itemize}
-\item Eingabe: CFG $\mathcal{G} = (N, \Sigma, P, S)$
-\item Ausgabe: $\operatorname{Nullable}(\mathcal{G})$
-\item[] $M = \emptyset$
-\item[] $\mathit{done} = \mathtt{false}$
-\item[] $\mathbf{while} (\mathit{not}~\mathit{done})$
-  \begin{itemize}
-  \item[] $\mathit{done} = \mathtt{true}$
-  \item[] $\mathbf{for}~(A \to \alpha \in P)$
-    \begin{itemize}
-    \item[] $\mathbf{if}~(A \not \in M \land \alpha \in M^*)$
-      \begin{itemize}
-      \item[] $M = M \cup \{A \}$
-      \item[] $\mathit{done} = \mathtt{false}$
-      \end{itemize}
-    \end{itemize}
-  \end{itemize}
-\item[] $\mathbf{return}~M$
-\end{itemize}
+\begin{lstlisting}[
+  mathescape,
+  columns=fullflexible,
+  basicstyle=\fontfamily{lmvtt}\selectfont,
+]
+M = {}
+done = $false$
+while (not done):
+    done = $true$
+    foreach $A \to a \in P$:
+         if ($ A \not \in M \wedge a \in M^*$):
+             $M = M \cup A$
+             done = $false$
+return M
+\end{lstlisting}
 \begin{Korollar}
   Es gibt einen Algorithmus, der zu einer CFG $\mathcal{G}$ berechnet ob $\Eps \in L(\mathcal{G})$.
 \end{Korollar}
@@ -551,11 +549,10 @@ Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_
     Dieser Schritt stellt sicher, dass $S'$ auf keiner rechten Regelseite vorkommt.
   \item Wende erst \textsc{Sep}, dann \textsc{Bin} an.
     Nun hat jede rechte Regelseite die Form $a \in \Sigma$ oder $\Eps$ oder $A$ oder $BC$.
-  \item Sei $M = \operatorname{Nullable}(\mathcal{G}')$.
   \item Für alle Regeln $A \to BC \in P$:
     \begin{itemize}
-    \item Falls $B \in M$ füge $A \to C$ hinzu.
-    \item Falls $C \in M$ füge $A \to B$ hinzu.
+    \item Falls $B \in \operatorname{Nullable}(\mathcal{G})$ füge $A \to C$ hinzu.
+    \item Falls $C \in \operatorname{Nullable}(\mathcal{G})$ füge $A \to B$ hinzu.
     \end{itemize}
   \item Falls $S \in \operatorname{Nullable}(\mathcal{G})$ füge $S' \to \Eps$ hinzu
   \item Entferne alle Produktionen $A \to \Eps$ für $A \neq S'$.
@@ -611,8 +608,8 @@ Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_
 \begin{Beobachtung}
   Ist $\mathcal{G} = (N, \Sigma, P, S)$ in CNF, dann lassen sich für die Ableitungsbäume $\mathcal{A} \in \operatorname{Abl}(\mathcal{G}, S)$ folgende Eigenschaften feststellen:
   \begin{enumerate}
-  \item $\mathcal{A}$ ist ein Binärbaum.
-  \item Falls $Y(\mathcal{A}) = w$ dann ist die Anzahl der Blätter des Baumes $|w|$.
+  \item $\mathcal{A}$ ist ein Binärbaum. 
+  \item Falls $Y(\mathcal{A}) = w$ dann ist die Anzahl der Blätter des Baumes $|w|$.		% das gilt doch für alle Grammatiken?!
   \end{enumerate}
 \end{Beobachtung}
 	
@@ -624,9 +621,8 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
 \begin{Satz}[Pumping lemma für \acs*{CFL}, uvwxy Lemma]
 \label{satz:PL für CFL}
 %\rlnote{Satz \# 4.2?}
-	Sei $L\in {CFL}$. Dann $\exists n>0$, so dass $\forall z\in L$ mit $|z|\geq n\ \exists u,v,w,x,y:$ mit
+	Sei $L\in {CFL}$. Dann $\exists n>0$, so dass $\forall z\in L$ mit $|z|\geq n\ \exists u,v,w,x,y$ so dass $z=uvwxy$ mit
 	\begin{itemize}
-	\item $z=uvwxy$
 	\item $|vwx|\leq n$
 	\item $|vx|\geq 1$
 	\item $\forall i \in \N : uv^iwx^iy\in L$
@@ -634,18 +630,19 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
 \end{Satz}
 \begin{proof}
 	Sei $\mathcal{G}= (N,\Sigma,P,S)$ in \ac{CNF} mit
-    $L(\mathcal{G}) = L$.
+    $L(\mathcal{G}) = L$. Wähle die Pumping-Konstante $n=2^{|N|}$.
     
-	Sei $k = |N|$ und wähle $n=2^k$
+     Betrachte den Ableitungsbaum $\mathcal{A} \in \operatorname{Abl}(\mathcal{G}, S)$ von $z$ mit $|z|\geq n$. 
+    \footnote{Intuition: Da $\mathcal{G}$ in CNF, ist Ableitungsbaum $\mathcal{A}$ ein Binärbaum. 
+        Mit $|N|$ 
+    verschiedenen Nichtterminalsymbolen kann man 
+    also maximal Worte der Länge $2^{|N|}$ ableiten, wenn man keine Ableitung doppelt nutzen möchte. 
+    Leitet man ein längeres Wort ab, so muss man mind. eine Ableitung doppelt nutzen.
+     Dann kann man sie aber auch gleich $i$-fach nutzen ($v^i$ und $x^i$), und ist immernoch in der Sprache.}
+  $\mathcal{A}$ ist ein Binärbaum mit $|z|\geq n = 2^{|N|}$ Blättern. In einem solchen Binärbaum existiert ein Pfad $\zeta$ der Länge $\geq |N|$.
+	Auf $\zeta$ liegen $\geq |N|+1$ \acfp{NT}, es muss also mindestens ein Nichtterminal $A$ mehrmals vorkommen.
 	
-	Betrachte den Ableitungsbaum $\mathcal{A} \in \operatorname{Abl}(\mathcal{G}, S)$ von $z$ mit $|z|\geq n$.
-
-  $\mathcal{A}$ ist ein Binärbaum mit $|z|\geq n = 2^k$ Blättern.
-  In einem solchen Bin"arbaum existiert ein Pfad $\zeta$ der Länge $\geq k$
-
-	Auf $\zeta$ liegen $\geq k+1$ \acfp{NT}, es muss also mindestens ein Nichtterminal $A$ mehrmals vorkommen.
-  Folge $\zeta$ vom Blatt Richtung Wurzel und bis sich $A$ das erste mal Wiederholt.
-  Das geschieht nach $\le k$ Schritten.
+  Folge $\zeta$ vom Blatt Richtung Wurzel und bis sich das ein $A$ das erste Mal wiederholt. Das geschieht nach $\le |N|$ Schritten.
   Nun teile $z = uvwxy$ wie hier skizziert:
   
 			\begin{tikzpicture}[>=stealth,
@@ -687,7 +684,7 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
       \item $|vx|\geq 1$, da $\zeta$ entweder durch $B$ oder durch $C$ läuft. Nehme also an, $\zeta$ verläuft durch $B$.
         Somit muss $C \stackrel{*}{\Longrightarrow} x$. In CNF ist $C \stackrel{*}{\Longrightarrow} \Eps$ nicht möglich und somit ist $|x| \ge 1$.
         Der Fall, das $\zeta$ durch $C$ verläuft, ist analog.
-      \item $|vwx| \le 2^k = n$ TODO
+      \item $|vwx| \le 2^{|N|} = n$ TODO
       \end{itemize}
 		\begin{figure}[H]\centering
 		\begin{subfigure}[b]{.29\linewidth}\centering
@@ -824,9 +821,9 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
     \begin{itemize}
     \item Falls $v = a^{k'}$, $x = b^{j'}$: Für $i=0$ stimmt die Anzahl der $a$ nicht mehr mit $n$ überein.
     \item Falls $v$ ein Gemisch aus $a$ und $b$ enthält.
-      Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
+      Für $i\ge 2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
     \item Falls $x$ ein Gemisch aus $a$ und $b$ enthält.
-      Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
+      Für $i \ge2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
     \end{itemize}
   \item $vwx = b^j$: analog Fall $a^j$
   \item $vwx = b^kc^j$: analog Fall $a^kb^j$
@@ -881,30 +878,19 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
 		X &\-> ab \mid aXb\\
 		Y &\-> c \mid cY
 	\end{align*}
-\end{Bsp}
-
+	In CNF:
 	$\begin{aligned}[t]
 		S &\-> XY\\
-		X &\-> AB\\
-		X &\-> AZ\\
+		X &\-> AB | AZ\\
 		Z &\-> XB\\
-		Y &\-> c\\
-		Y &\-> CY\\
-		A &\-> a\\
-		B &\-> b\\
-		C &\-> c
-	\end{aligned}$\quad
-\begin{proof}
-		\ac{CYK}-Algorithmus
-		\begin{description}
-	    \item[Eingabe:] \hfill
-		\begin{itemize}
-			\item \ac{CFG} $\mathcal{G}$ in \ac{CNF}
-			\item $w = a_1\dots a_n\in\Sigma^*, |w|=n$
-		\end{itemize}
-		\item[Ausgabe:] "`$w\in L(\mathcal{G})$"'
-		\item[Idee:] Berechne eine $(n\x n)$ Matrix $M$ mit Einträgen in $\mathcal{P}(N)$ mit folgender Spezifikation:
-		\end{description}
+		Y &\-> CY | c\\
+		A &\-> a, B \-> b, C \-> c
+	\end{aligned}$
+\end{Bsp}
+
+\begin{proof}[CYK-Algorithmus] Sei $\mathcal{G}$ ein CFG in CNF und sei $w = a_1\dots a_n\in\Sigma^*, |w|=n$. Der CYK-Algorithmus bereichnet bei Eingabe von $\mathcal{G}$ und $w$, ob $w\in L(\mathcal{G})$.
+		
+		Idee dabei: Berechne eine $(n\x n)$ Matrix $M$ mit Einträgen in $\mathcal{P}(N)$ mit folgender Spezifikation:
 	\begin{align*}
 		M_{ij} &= \{ A \mid A\xRightarrow{*} a_i\dots a_j \} && 1\leq i\leq j\leq n \quad\text{nur diese }M_{ij}\neq \varnothing\\
 		& \text{falls $i=j$:}\\
@@ -995,7 +981,7 @@ $.
 	Das Endlichkeitsproblem für \ac{CFL} ist entscheidbar.
 \end{Satz}
 \begin{proof}
-	Mit \ac{PL} analog zum Endlichkeitsproblem für reguläre Sprachen.
+	Mit \ac{PL} analog zum Endlichkeitsproblem für reguläre Sprachen (Prüfe, ob $\exists w \in L$ mit $n < |w| \le 2n$).
 \end{proof}
 
 \subsection{Abschlusseingenschaften für kontextfreie Sprachen}

@@ -141,7 +141,7 @@ Die Transistionsfunktion $\delta$ ist
 
 DEAs lassen sich auch graphisch darstellen.
 Dabei gibt man für den Automaten einen gerichteten Graphen an.
-Die Knoten Graphen sind die Zustände und mit Zeichen gelabelte Kanten zeigen welchen Zustandsübergang die Transitionsfunktion für das nächste Zeichen erlaubt.
+Die Knoten des Graphen sind die Zustände und mit Zeichen gelabelte Kanten zeigen welchen Zustandsübergang die Transitionsfunktion für das nächste Zeichen erlaubt.
 Der Startzustand ist mit einem ungelabelten Pfeil markiert und finale Zustände sind doppelt eingekreist.
 Hier ist die graphische Darstellung von $A_{\mathtt{Maccaron}}$ aus Beispiel \ref{Bsp:3.1}
 
@@ -180,7 +180,7 @@ DEAs charakterisieren die Sprachen durch die Menge an Wörtern, die sie akzeptie
   \end{enumerate}
 \end{Def}
 \begin{Def}[name={[Die durch einen \acs*{DEA} erkannte Sprache]}]
-        Sei $M=(Q,\Sigma,\delta,q_0,F)$\\
+        Sei $M=(Q,\Sigma,\delta,q_0,F)$.\\
         Die \emph{von $M$ erkannte Sprache} ist
         \[ L(M) = \{ w\in\Sigma^* \mid \hat\delta(q_0,w)\in F \} \]
         Eine durch einen \ac{DEA} erkannte Sprache heißt \emph{regulär}.
@@ -439,28 +439,31 @@ Warum ist nun der Äquivalenzklassenautomat minimal?\\
         \[ R_L = \{(u,v) \mid \forall w\in\Sigma^*: uw\in L \<=> vw\in L \} \]
         \begin{itemize}
                 \item ist Äquivalenzrel.
-                \item ist rechtsinvariant. Sei $(u,v)\in R_L$\\
-                Zeige $\forall w\in\Sigma^*\ (uw,vw)\in R_L$\\
-                Induktion:\\
-                I.A. $w=\Eps$: $ (u\Eps,v\Eps)=(u,v)\in R_L$\\
-                I.S. $w=w'a$:\\
-                I.V.: $(uw', vw') \in R_L $
+                \item ist rechtsinvariant.        
+                \begin{proof}
+                Sei $(u,v)\in R_L$. Zeige $\forall w\in\Sigma^*$ , dass $(uw,vw)\in R_L$: \\
+                I.A. Für $w=\Eps$ ist $ (u\Eps,v\Eps)=(u,v)\in R_L$.\\
+                I.S. Sei Aussage gezeigt für alle Wörter $w'$ mit $|w'| \le k$.\\
+                I.V. Betrachte nun $w=w'a$. Dann ist auch $(uw', vw') \in R_L $. Damit gilt:
                 \begin{align*}
                         (uw',vw')\in R_L 
                         &\<=> \forall z\in\Sigma^*, \quad uw'z\in L \<=> vw'z\in L\\
                         &\=> \forall a\in \Sigma, z'\in\Sigma^*: uw'az'\in L \<=> vw'az'\in L\\
                         & \<=>\ (uw'a,vw'a)\in R_L
                 \end{align*}
+                \end{proof}
         \end{itemize}
 \end{Bsp}
-
+Beispiel: Drei Sprachen $L_a, L_b$ und $L_c$ mit unterschiedlichem Index  (Anzahl an Äquivalenzklassen) bzgl. der Nerode Relation:
 \begin{alignat*}{2}
         &\begin{rcases}
-        L=\{\Eps\} & [\Eps]\equiv[\Eps]\\
+        L_a=\{\Eps\} & [\Eps]\equiv[\Eps]\\
         w,v\in\Sigma^*,\ w,v\ne\Eps & [w]=[v]
         \end{rcases} &\ &\text{Index}= 2\\
-        &L = \varnothing, L= \Sigma^* &&\text{Index}= 1
+        &L_b = \varnothing, L_c= \Sigma^* &&\text{Index}= 1
 \end{alignat*}
+Die Menge der Äquivalenzklassen der Nerode Relation $R_{L_a}$ auf $L_a$ ist
+\[ L_a / R_{L_a} = \{ [\Eps], [w] \} \]
 
 \begin{Satz}[Nerode] % 3.4
         Die folgende Aussagen sind äquivalent:
@@ -491,27 +494,30 @@ Also: $\operatorname{Index}(R_M) \le |Q| < \infty$.
         
 \paragraph{(2) \=> (3)} Sei $R$ rechtsinvariante Äquivalenzrelation mit endlichem Index, so dass $L=\bigcup R$-Äquivalenzklassen
         
-Es genügt zu zeigen, dass wenn $(u,v)\in R$ auch $(u,v)\in R_L $.\footnote{
-Zur Erklärung: falls $R \subseteq R'$, dann $\operatorname{Index}(R) \ge \operatorname{Index}(R_L)$.
-Intuitiv: $R$ unterscheidet mehr Elemente und hat demnach auch mehr unterschiedliche Klassen.}
+Es genügt zu zeigen, dass wenn $(u,v)\in R$ auch $(u,v)\in R_L $, d.h. dass $R \subseteq R_L$.\footnote{
+Zur Erklärung: Falls $R \subseteq R_L$, dann $\operatorname{Index}(R) \ge \operatorname{Index}(R_L)$.
+Intuitiv: Je mehr Elemente eine Äquivalenzrelation $R$ enthält, desto mehr Elemente sind bzgl. dieser Relation äquivalent, d.h. desto weniger unterschiedliche Klassen gibt es.}
 
-\begin{itemize}
-\item[] $R$ rechtsinvariant
-\item[gdw] für alle  $w\in\Sigma^*$ : $(uw,vw)\in R$ 
-\item[gdw] für alle $w\in\Sigma^*$: $uw\text{ und $vw$ in gleicher $R$-Klasse}$
-\end{itemize}
-Da $L$ aus der Vereinigung von $R$-Klassen besteht folgt daraus:
-\begin{itemize}
-  \item[] für alle $w\in\Sigma^*$: $uw\in L\<=>vw\in L$
-  \item[gdw] $(u, v) \in R_L$ (per Definition von $R_L$)
-\end{itemize}
+Betrachte also ein beliebiges $(u, v) \in R$.
+\begin{comment}
+% Ausformulierter Beweis
+Es folgt $u \in L \Leftrightarrow v \in L$, da $L$ aus Vereinigung von Äquivalenzklassen besteht. Da $R$ rechtsinvariant ist, folgt für alle $w$:
+\[ uw \in L \Leftrightarrow vw \in L \]
+Das aber ist die Definition der Nerode-Relation, d.h. $(u, v) \in R_L$. Da wir $(u, v)$ beliebig gewählt haben, gilt somit: 
+\[\text{\#Klassen($R_L$) $\leq$ \#Klassen($R$)}<\infty\]
+\end{comment}
+\begin{align*}
+(u, v) \in R & \rightarrow u \in L \Leftrightarrow v \in L \text{, da L Vereinigung von Äquivalenzklassen ist} \\
+& \rightarrow uw \in L \Leftrightarrow vw \in L \text{ $\forall w \in \Sigma^*$, da $R$ rechtsinvariant } \\
+& \rightarrow (u, v) \in R_N \text{, nach Definition}\\
+& \rightarrow R \subseteq R_N \\
+& \rightarrow \text{\#Klassen($R_L$) $\leq$ \#Klassen($R$)}<\infty
+\end{align*}
 
-Also gilt: $\text{\#Klassen($R_L$)$\leq$\#Klassen($R$)}<\infty$
 
-\paragraph{(3) \=> (1)} Gegeben $R_L$\\
-                Konstruiere $\A'=(Q,\Sigma,\delta',q_0',F')$
+\paragraph{(3) \=> (1)} Gegeben $R_L$, konstruiere $\A'=(Q',\Sigma,\delta',q_0',F')$
     \begin{itemize}
-    \item $Q' = \{ [w]_{R_L} \mid w\in \Sigma^* \}$ \quad endlich, weil index($R_L$) endlich
+    \item $Q' = \{ [w]_{R_L} \mid w\in \Sigma^* \}$ \quad endlich, weil \textit{index}($R_L$) endlich
     \item $\delta'([w],a) = [wa]$ wohldefiniert, da $R_L$ rechtsinvariant
     \item $q_0' = [\Eps]$
     \item $F' = \{ [w] \mid w\in L \}$
@@ -594,7 +600,7 @@ Suche: Notwendiges Kriterium für Regularität
 \end{Bsp*}
 
 \begin{lemma}[Pumping Lemma]\label{lem:pumping}
-        Sei $L$ regulär:
+        Sei $L$ eine reguläre Sprache. Dann gilt:
         \begin{alignat*}{2}
                 &\exists n\in\N,\ n>0\quad \forall z\in L,\ |z|\geq n:\\
                 &\exists u,v,w\in\Sigma^* :\\
@@ -797,7 +803,7 @@ Wähle $z=0^p \in L_2$
 	
 	Weiteres Beispiel, bei dem der deterministische Automat beweisbar exponentiell größer ist.
 	\begin{align*}
-		L_n &= \{ w\in\{0,1^* \mid \text{das $n$-letzte Symbol von $w$ ist 1} \}
+		L_n &= \{ w\in\{0,1\}^* \mid \text{das $n$-letzte Symbol von $w$ ist 1} \}
 	\end{align*}
 	\begin{figure}[H]\centering
 		\begin{tikzpicture}[>=stealth, shorten >=1pt,
@@ -821,7 +827,7 @@ Wähle $z=0^p \in L_2$
 		\caption{Nichtdet. Automat für $L_n$}
 	\end{figure}
 	
-	deterministischer Automat für $L_n$ hat $\sim 2^n$ Zustände.
+	Der entsprechende deterministische Automat für $L_n$ hat $\sim 2^n$ Zustände.
 \end{Bsp*}
 
 \begin{Def}[name={[NEA]}]
@@ -835,8 +841,7 @@ Wähle $z=0^p \in L_2$
 	\end{itemize}
 \end{Def}
 \begin{Def}[name={[Lauf eines Automaten]}]
-        Ein \emph{Lauf des Automaten $\A$ auf $w=a_1\dots a_n$} ist eine Folge $q_0q_1\dots q_n$ mit $q_i\in Q$, $q_0$ Startzustand,\\
-        $\forall 1\leq i\leq n,\ q_i\in\delta(q_{i-1},a_i)$\\
+        Ein \emph{Lauf des nichtdet. Automaten $\A$ auf $w=a_1\dots a_n$} ist eine Folge $q_0q_1\dots q_n$ mit $q_i\in Q$, wobei $q_0$ der Startzustand ist und $q_i\in\delta(q_{i-1},a_i)$ für alle $i$ mit $1\leq i\leq n$.\\
         Ein Lauf heißt \emph{akzeptierend}, falls $q_n\in F$.
 \end{Def}
 \begin{Def}[name={[NEA zu DEA]}]
@@ -858,8 +863,11 @@ Wähle $z=0^p \in L_2$
         \begin{align*}
                 \text{Es gilt } w\in L(\A') &\<=> \hat\delta'(q_0',w)\in F'\\
                 &\<=> \hat\delta'(q_0',w)\cap F\neq \varnothing\\
-                w\in L(\A) &\<=> \exists \text{ akzeptierender Lauf von $\A$ auf $w$}.
-                \intertext{Zeige $\forall w\in\Sigma^*$}
+                &\<=> \exists \text{ akzeptierender Lauf von $\A$ auf $w$} \\
+                &\<=> w\in L(\A).
+        \end{align*}
+        Zeige $\forall w\in\Sigma^*$:
+        \begin{align*}
                 \forall q'\in Q' &\phantom{\<=>} \hat\delta'(q',w)\cap F\neq \varnothing\\
                 &\<=> \exists\text{ akzeptierender Lauf von $\A$ \underline{ab $q'$} auf }w\\
                 &\<=> \exists \underbrace{p_0p_1\dots p_n}_{\text{Lauf}}\in Q \quad p_0=q',\ p_n\in F,\ n=|w|
@@ -903,12 +911,12 @@ Also: Eine Sprache $L$ ist regulär, falls
         $f:\mathcal{P}(\Sigma^*)^n \-> \mathcal{P}(\Sigma^*)$ falls $\forall L_1,\dots, L_n\in \mathcal{L} : f(L_1,\dots, L_n)\in \mathcal{L}$.
 \end{Def}
 \begin{Satz}[name={[Abgeschlossenheit von $REG$]}]\label{satz:3.8}
-        Die Menge $REG$ der regulären Sprachen ist abgeschlossen unter $\cup$ (Vereinigung), $\cap$ (Durchschnitt), $\overline{\phantom{X}}$ (Komplement), Produkt (Konkatenation), Stern.
+        Die Menge $REG$ der regulären Sprachen ist abgeschlossen unter $\cup$ (Vereinigung), $\cap$ (Durchschnitt), $\overline{\phantom{X}}$ (Komplement), Produkt (Konkatenation), Stern. Beispielsweise ist für $L_1, L_2$ reguläre Sprachen also auch $L_1 \cup L_2$, wie auch $L_1 \cap L_2$ etc. wieder eine reguläre Sprache.
 \end{Satz}
 \begin{proof}
-	Sei $\A_i:=(Q_i,\Sigma,\delta_i,q_{0i},F_i)\quad i=1,2$ \acs{NEA}s
+	Sei $\A_i:=(Q_i,\Sigma,\delta_i,q_{0i},F_i)$, $\quad i=1,2$ \acs{NEA}s
 	\begin{itemize}
-	\item $\cup:$ Def $\A$ durch (vgl.\ Abb.~\ref{fig:reg-closure-union})
+	\item $\cup:$ Def $\A$ durch (vgl.\ Abb.~\ref{fig:reg-closure-union}):
 		\begin{align*}
 			Q &= Q_1\overset.\cup Q_2\overset.\cup\{q_0\}\\
 			\delta(q,a) &=
@@ -919,10 +927,7 @@ Also: Eine Sprache $L$ ist regulär, falls
                         \end{cases}\\
                         F &= F_1\overset.\cup F_2\overset.\cup (q_{01}\in F_1\lor q_{02}\in F_2) \rhd \{q_0\}
                 \end{align*}
-                Zeige $L(\A)=L(\A_1)\cup L(\A_2)$ (selbst: betrachte die Läufe).
-        \item $\cap:$ 
-        Annahme: $A_1$ und $\A_1$ deterministisch.\\
-        Def. $\A$ durch den \emph{Produktautomaten}\\
+                Zeige $L(\A)=L(\A_1)\cup L(\A_2)$ (Aufgabe zum Eigenstudium: Betrachte die Läufe).
                 \begin{figure}[tp]\centering
                 \begin{tikzpicture}[>=stealth]
                 \node (q0) at (0,0) {$q_0$};
@@ -957,16 +962,15 @@ Also: Eine Sprache $L$ ist regulär, falls
             \caption{\acs{NEA} f"ur Vereinigung}
             \label{fig:reg-closure-union}
         \end{figure}
-		DEA:
+        \item $\cap:$ 
+        Annahme: Seien $\A_1$ und $\A_2$ zwei DEAs. Konstruiere nun  den \emph{Produktautomaten} $\A$, für den gilt (Aufgabe zum Eigenstudium!): $L(\A) = L(\A_1) \cap L(\A_2)$.
 		\begin{align*}
 			Q &= Q_1\x Q_2\\
 			\delta((q_1,q_2),a) &= (\delta_1(q_1,a),\delta_2(q_2,a))\\
 			q_0 &= (q_{01},q_{02})\\
 			F &= F_1\x F_2\\
-			\text{Zeige }L(\A) &= &L(\A_1)\cap L(\A_2)
 		\end{align*}
-	\item Komplement: Ang. $\A_1$ ist \ac{DEA}.\\
-		Ersetze $F_1$ durch $Q_1\setminus F_1$.
+	\item Komplement: Ang. $\A_1$ ist \ac{DEA}, der $L$ erkennt. Ersetze $F_1$ durch $Q_1\setminus F_1$ und erhalte einen DEA $\A_1'$, der genau das Komplement von $L$ erkennt. 
 %
 %
         \item Produkt: Seien $L_1$, $L_2$ regulär.\\
@@ -1015,9 +1019,8 @@ Also: Eine Sprache $L$ ist regulär, falls
         \end{itemize}
 \end{Def}
 \begin{Def}[name={[Semantik eines regulären Ausdrucks]}]
-        Die Semantik eines regulären Ausdrucks
+        Die Semantik eines regulären Ausdrucks $\llbracket\cdot \rrbracket : RE(\Sigma) \-> \mathcal{P}(\Sigma^*)$ ist induktiv definiert durch
         \begin{align*}
-                \llbracket\cdot \rrbracket &: RE(\Sigma) \-> \mathcal{P}(\Sigma^*)\text{ ist induktiv def. durch}\\
                 \llbracket \0 \rrbracket &= \varnothing\\
                 \llbracket \1 \rrbracket &= \{\Eps\}\\
                 \llbracket a \rrbracket &= \{a\} \quad a\in\Sigma\\
@@ -1026,24 +1029,21 @@ Also: Eine Sprache $L$ ist regulär, falls
                 \llbracket r^* \rrbracket &= \llbracket r\rrbracket^* \qedhere
         \end{align*}
 \end{Def}
-$+,\cdot ,*$ reguläre Operatoren.\\
 %
-\begin{minipage}[t]{.5\textwidth}
     \begin{Bsp*} Mustererkennung
         \begin{itemize}
-        \item $\underset{\vphantom{\big(}\mathrlap{\hspace{-4pt}\rotatebox[origin=c]{90}{$\Rsh$}\ =(a_1+a_2+\dots) \text{ alle $a_i\in\Sigma$ aufgez"ahlt}}}{\Sigma^*}\ abac\ \Sigma^*$
-        \item $n$-letztes Symbol = 1 ($\Sigma=\{0,1\}$)
+        \item Akzeptiere alle Wörter, die $abac$ enthalten: 
+        \begin{align*} & \Sigma^* abac \Sigma^* \\
+                       \Leftrightarrow & (a_1 + a_2 + ...)^* abac (a_1 + a_2 + ...)^* \forall a_i \in \Sigma
+          \end{align*}
+        \item Sei $\Sigma=\{0,1\}$. Die Sprache aller Wörter, deren $n$-letztes Symbol = 1, ist nicht regulär, denn:
         \begin{gather*}
         (0+1)^*1\underbrace{(0+1)\dots(0+1)}_{n-1}\\
         \xcancel{0^n1^n}\notin RE(\Sigma)
         \end{gather*}
-        \item Binärdarstellung modulo $3=0$
+        \item Ein regulärer Ausdrück für alle Wörter $\omega \in (0, 1)^*$, s.d. $\omega \mod 3=0$:
         \[ (0+1(01^*0)^*1)^* \]
-        \end{itemize}
-    \end{Bsp*}
-\end{minipage}%
-\begin{minipage}[t]{.5\textwidth}
-    \vspace{0pt}
+        
     \captionsetup{type=figure}
     \begin{tikzpicture}[>=stealth, shorten >=1pt, on grid, node distance=2cm, initial text=]
         \node[state, initial, accepting] (q0) {$q_0$};
@@ -1076,16 +1076,14 @@ $+,\cdot ,*$ reguläre Operatoren.\\
         ;
     \end{tikzpicture}
     \captionof{figure}{Informell vom Automaten zum regul"aren Ausdruck f"ur mod 3}
-\end{minipage}
-
+\end{itemize}
+    \end{Bsp*}
 \begin{Satz}[Kleene]
-$L$ ist regulär\\
-\<=> $L$ ist Sprache eines regulären Ausdrucks.
+$L$ ist regulär \<=> $L$ ist Sprache eines regulären Ausdrucks.
 \end{Satz}
 
 \begin{proof}[Kleene, $\<=$]
-  Sei $L=\llbracket r \rrbracket$ für $r\in RE(\Sigma)$\\
-		Zeige per Induktion über $r: \forall r\in RE(\Sigma) : \llbracket r \rrbracket$ regulär.
+Betrachte zu einem regulärem Ausdruck $r\in RE(\Sigma)$ die durch diesen erzeugte Sprache $L=\llbracket r \rrbracket$. Zeige per Induktion über $r$, dass $ \forall r\in RE(\Sigma) $ gilt: $ \llbracket r \rrbracket$ ist regulär.
     	\begin{description}[font=\normalfont]
       \item[I.A.:] \hfill
         \vspace{-\baselineskip}
@@ -1115,15 +1113,13 @@ $L$ ist regulär\\
 
 Zum Beweis (bzw.\ zur Konstruktion) der Richtung ,,\=>'' benötigen wir eine Rechenregel zum Lösen von Gleichungen zwischen regulären Sprachen und Ausdrücken:
 \begin{lemma}[Ardens Lemma]\label{lem:arden}\ \\
-        Sei $X=A\cdot X+B$ für $\underset{\vphantom{\big(}\ \mathrlap{\hspace{-4pt}\rotatebox[origin=c]{90}{$\Rsh$}\ \text{Unbekannte}}}{X} ,A,B\subseteq \Sigma^*$\\
-        dann ist $X=A^*B$ falls $\Eps\notin A$.
+        Sei die lineare Gleichung $X=A\cdot X+B$ über $A, B, X\subseteq \Sigma^*$ gegeben. Dann ist $X=A^*B$ eine Lösung. Falls $\Eps \notin A$ ist diese Lösung ausserdem eindeutig.
 \end{lemma}
 
-\begin{proof}(Ardens Lemma)
+\begin{proof}
+Sei $ X= AX+B$ mit $\Eps\notin A$. Zeige, dass $A^*B \subseteq X$:
         \begin{alignat*}{3}
-                \text{Sei}&\quad& X&= AX+B\text{ mit }\Eps\notin A.\\
-                \text{Zeige}&& A^*B&\subseteq X.\\
-                && A^*B &= (\1+AA^*)B = B+A(A^*B) \quad\checkmark\\
+                && A^*B &= AA^*B + B = (\1+AA^*)B = B+A(A^*B) \quad\checkmark\\
                 \shortintertext{Angenommen $A^*B \subsetneq X$, d.h. $\exists w\in X$ mit $w\notin A^*B$, davon sei $w$ das kürzeste.}
                 \exists n\geq 1: && X &= \underbrace{A^nX}_{\ni w} + \underbrace{A^{n-1}B+\dots +AB+B}_{\not\ni w}\\
                 \curvearrowright && w &= u_1\dots u_n w'\text{ mit } u_1,\dots,u_n\in A\text{ und } w'\in X\\
@@ -1144,7 +1140,7 @@ Zum Beweis (bzw.\ zur Konstruktion) der Richtung ,,\=>'' benötigen wir eine Rec
   \begin{displaymath}
     r_x := r_A^*r_B
   \end{displaymath}
-  eine Lösung für $r_x$, die die Gleichung erfüllt.
+  eine eindeutige Lösung für $r_x$, die die Gleichung erfüllt.
 \end{Korollar}
 
 \datenote{11.11.16}
@@ -1214,7 +1210,7 @@ Zum Beweis (bzw.\ zur Konstruktion) der Richtung ,,\=>'' benötigen wir eine Rec
   \end{proof}
     
 
-\begin{Bsp*} für Konv. \ac{DEA}\-> $RE$
+\begin{Bsp*} Ein Beispiel für die Konvertierung eines \ac{DEA} in einen reg. Ausdruck.
 	\begin{figure}[H]\centering
 		\begin{tikzpicture}[>=stealth, shorten >=1pt, on grid, node distance=2cm, initial text=]
 			\node[state, initial, accepting] (q0) {$q_0$};
@@ -1316,8 +1312,9 @@ Ein Problem ist \emph{entscheidbar} wenn es sich durch eine binäre Antwort (ja/
 	\item $|xz|\geq 2n\ \lightning$ Minimalität von $w$
 	\item $|xz|<2n$
 		\begin{align*}
-			|xz|+|y| &= |w|\geq 2n\text{ mit } 1\leq|y|\leq n\\
-			\curvearrowright |xz| &= |w|-|y|\geq 2n-n=n \quad\lightning\text{ zur Annahme}
+			|xz|+|y| &= |w|\geq 2n\text{ mit } 1\leq|y|\leq n\\ %TODO warum gilt 1\leq|y|\leq n ??
+			\Rightarrow |xz| &= |w|-|y|\geq 2n-n=n \\
+			\Rightarrow |xz| & \geq n \wedge |xz| < 2n \quad\lightning\text{zur Annahme}
 		\end{align*}
 		Also $\exists w\in L$ mit $n\leq|w|<2n$ \qedhere
 	\end{enumerate}
