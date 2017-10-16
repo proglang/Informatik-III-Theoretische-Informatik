@@ -1,29 +1,43 @@
-\section[Vorspann: Sprachen]{Vorspann: Sprachen\datenote{19.10.16}}
+\section[Vorspann: Sprachen]{Vorspann: Sprachen\datenote{18.10.2017}}
 \begin{Def}[name={[Alphabet $\Sigma$]}]
-	Ein \emph{Alphabet} $\Sigma$ ist eine endliche Menge von \emph{Zeichen}.
+	Ein \emph{Alphabet} ist eine endliche Menge von \emph{Zeichen}.
 \end{Def} % 1.1
 Zeichen sind hier beliebige abstrakte Symbole.
-Im Folgenden steht $\Sigma$ immer für ein Alphabet.
-\begin{Bsp*} ~
+
+\begin{Bsp*} für Alphabete die in dieser Vorlesung, im täglichem Umgang mit Computern oder in der Forschung an unserem Lehrstuhl eine Rolle spielen.
   \begin{itemize}
-  \item $\Sigma = \{a,\dots,z\}$
-  \item $\Sigma = \{0, 1\}$
+  \item $\{a,\dots,z\}$
+  \item $\{0, 1\}$
+  \item Die Menge aller ASCII Symbole
+  \item Die Menge aller Statements eines Computerprogrammes
   \end{itemize}
 \end{Bsp*}
+Wir verwenden typischweise den griechischen Buchstaben $\Sigma$ als Namen für ein Alphabet und die lateinischen Buchstaben $a,b,c$ als Namen für Zeichen.
+\footnote{Analoge Konventionen die sie möglicherweise aus der Schule kennen: Verwende $n,m$ für natürliche Zahlen. Verwende $\alpha, \beta$ für Winkel in Dreiecken. Verwende $A$ für Matrizen.}
+Im Folgenden sei $\Sigma$ immer ein beliebiges Alphabet.
+\footnote{Dieser Satz dient dazu, dass die Autoren dieses Skriptes nicht jede Definition mit ``Sei $\Sigma$ ein Alphabet beginnen müssen''.}
+
 \begin{Def}[name={[Wort $w$ über $\Sigma$]}]\label{def:1.2}
-	Die Menge $\Sigma^*$ der \emph{Worte} über $\Sigma$ ist induktiv definiert durch:
+  Die Menge $\Sigma^+$ der \emph{nicht leeren Wörter} über $\Sigma$ ist induktiv definiert:
   \begin{enumerate}
-  \item $\Eps \in \Sigma^*$
-  \item Wenn $a \in \Sigma$ und $w \in \Sigma^*$ dann auch $aw \in \Sigma^*$
+   \item Wenn $a\in\Sigma$ dann $a\in\Sigma^+$
+   \item Wenn $a\in\Sigma$ und $w\in\Sigma^+$ dann auch $aw \in \Sigma^*$
   \end{enumerate}
+  Wir verwenden immer den griechischen Buchstaben $\Eps$ um das \emph{leere Wort} zu bezeichnen.\footnote{Eine analoge Konvention die sie aus der Schule kennen: Verwende immer $\pi$ für die Kreiszahl}
+  Die Menge $\Sigma^*$ der \emph{Wörter} über $\Sigma$ ist $\{\Eps\}\cup\Sigma^+$.
+  
   Die \emph{Länge} eines Wortes, $|\cdot| : \Sigma^* \to \N$, ist induktiv definiert durch
   \begin{enumerate}
   \item $|\Eps| = 0$
   \item $|aw| = 1 + |w|$
   \end{enumerate}
 \end{Def}
+Wir verwenden typischerweise $u,v,w$ als Namen für Wörter.
+
+\goodbreak
+
 Ein Wort ist also immer eine endliche Folge von Zeichen.
-\begin{Bsp*} ~
+\begin{Bsp*} für Wörter über $\Sigma=\{a,\dots,z\}$
   \begin{itemize}
   \item \verb/rambo/ (Länge $5$)
   \item \verb/pizza/, \verb/zipza/ (ungleich) 
@@ -33,12 +47,6 @@ Ein Wort ist also immer eine endliche Folge von Zeichen.
 \end{Bsp*}
 Wörter lassen sich ,,verketten''/,,hintereinanderreihen''.
 Die entsprechende Operation heißt \emph{Konkatenation}, geschrieben ,,$\cdot$'' (wie Multiplikation).
-\begin{Bsp*} ~
-  \begin{itemize}
-  \item $\mathtt{rambo}\cdot\mathtt{pizza} = \mathtt{rambopizza}$
-  \item $\mathtt{rambo} \cdot \Eps = \mathtt{rambo} = \Eps \cdot \mathtt{rambo}$ 
-  \end{itemize}
-\end{Bsp*}
 \begin{Def}[Konkatenation von Wörtern]
   Die \emph{Konkatenation}, $\mathord{\cdot} : \Sigma^* \times \Sigma^* \to \Sigma^*$, ist induktiv definiert durch:
   \begin{enumerate}
@@ -46,6 +54,18 @@ Die entsprechende Operation heißt \emph{Konkatenation}, geschrieben ,,$\cdot$''
   \item $(aw)\cdot v = a(w\cdot v)$
   \end{enumerate}
 \end{Def}
+\begin{Bsp*} ~
+  \begin{itemize}
+  \item \begin{align*}\mathtt{rambo}\cdot\mathtt{pizza} &=\mathtt{r(ambo}\cdot\mathtt{pizza})\\
+                                                        &=\mathtt{ra(mbo}\cdot\mathtt{pizza})\\
+                                                        &=\mathtt{ram(bo}\cdot\mathtt{pizza})\\
+                                                        &=\mathtt{ramb(o}\cdot\mathtt{pizza})\\
+                                                        &=\mathtt{ramb((\Eps\cdot o)}\cdot\mathtt{pizza})\\
+                                                        &=\mathtt{rambopizza}
+        \end{align*}
+  \item $\mathtt{rambo} \cdot \Eps = \mathtt{rambo} = \Eps \cdot \mathtt{rambo}$ 
+  \end{itemize}
+\end{Bsp*}
 Eigenschaften von "`$\cdot$"':
 \begin{itemize}
 \item Assoziativität
