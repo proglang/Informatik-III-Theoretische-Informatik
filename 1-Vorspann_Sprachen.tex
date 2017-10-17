@@ -18,25 +18,16 @@ Im Folgenden sei $\Sigma$ immer ein beliebiges Alphabet.
 \footnote{Dieser Satz dient dazu, dass die Autoren dieses Skriptes nicht jede Definition mit ``Sei $\Sigma$ ein Alphabet beginnen müssen''.}
 
 \begin{Def}[name={[Wort $w$ über $\Sigma$]}]\label{def:1.2}
-  Die Menge $\Sigma^+$ der \emph{nicht leeren Wörter} über $\Sigma$ ist induktiv definiert:
-  \begin{enumerate}
-   \item Wenn $a\in\Sigma$ dann $a\in\Sigma^+$
-   \item Wenn $a\in\Sigma$ und $w\in\Sigma^+$ dann auch $aw \in \Sigma^*$
-  \end{enumerate}
-  Wir verwenden immer den griechischen Buchstaben $\Eps$ um das \emph{leere Wort} zu bezeichnen.\footnote{Eine analoge Konvention die sie aus der Schule kennen: Verwende immer $\pi$ für die Kreiszahl}
-  Die Menge $\Sigma^*$ der \emph{Wörter} über $\Sigma$ ist $\{\Eps\}\cup\Sigma^+$.
-  
-  Die \emph{Länge} eines Wortes, $|\cdot| : \Sigma^* \to \N$, ist induktiv definiert durch
-  \begin{enumerate}
-  \item $|\Eps| = 0$
-  \item $|aw| = 1 + |w|$
-  \end{enumerate}
+  Wir nennen eine endliche Folge von Elementen aus $\Sigma$ ein \emph{Wort}
+  und schreiben solch eine Folge immer ohne Trennsymbole wie z.B. Komma.\footnote{Wir schreiben also z.B. \texttt{rambo} statt \texttt{r,a,m,b,o}.}
+  Die leere Folge nenen wir das \emph{leere Wort} und verwenden immer den griechischen Buchstaben $\Eps$ um das \emph{leere Wort} zu bezeichnen.\footnote{Eine analoge Konvention die sie aus der Schule kennen: Verwende immer $\pi$ für die Kreiszahl}
+  Wir bezeichnen die Menge aller Wörter mit $\Sigma^*$ und die Menge aller nicht leeren Wörter mit $\Sigma^+$.
+  Die \emph{Länge} eines Wortes, $|\cdot| : \Sigma^* \to \N$, ist die Anzahl der Elemente der Folge.
 \end{Def}
-Wir verwenden typischerweise $u,v,w$ als Namen für Wörter.
+  Wir verwenden typischerweise $u,v,w$ als Namen für Wörter.
 
 \goodbreak
 
-Ein Wort ist also immer eine endliche Folge von Zeichen.
 \begin{Bsp*} für Wörter über $\Sigma=\{a,\dots,z\}$
   \begin{itemize}
   \item \verb/rambo/ (Länge $5$)
