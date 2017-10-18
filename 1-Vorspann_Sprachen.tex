@@ -4,10 +4,15 @@
 \end{Def} % 1.1
 Zeichen sind hier beliebige abstrakte Symbole.
 
+\newcommand{\aro}{\textit{rot}}
+\newcommand{\age}{\textit{gelb}}
+\newcommand{\agr}{\textit{grün}}
+
 \begin{Bsp*} für Alphabete die in dieser Vorlesung, im täglichem Umgang mit Computern oder in der Forschung an unserem Lehrstuhl eine Rolle spielen.
   \begin{itemize}
   \item $\{a,\dots,z\}$
   \item $\{0, 1\}$
+  \item $\{\aro, \age, \agr\}$ (Ampelfarben)
   \item Die Menge aller ASCII Symbole
   \item Die Menge aller Statements eines Computerprogrammes
   \end{itemize}
@@ -19,7 +24,7 @@ Im Folgenden sei $\Sigma$ immer ein beliebiges Alphabet.
 
 \begin{Def}[name={[Wort $w$ über $\Sigma$]}]\label{def:1.2}
   Wir nennen eine endliche Folge von Elementen aus $\Sigma$ ein \emph{Wort}
-  und schreiben solch eine Folge immer ohne Trennsymbole wie z.B. Komma.\footnote{Wir schreiben also z.B. \texttt{rambo} statt \texttt{r,a,m,b,o}.}
+  und schreiben solch eine Folge immer ohne Trennsymbole wie z.B. Komma.\footnote{Wir schreiben also z.B. \texttt{einhorn} statt \texttt{e,i,n,h,o,r,n}.}
   Die leere Folge nenen wir das \emph{leere Wort} und verwenden immer den griechischen Buchstaben $\Eps$ um das \emph{leere Wort} zu bezeichnen.\footnote{Eine analoge Konvention die sie aus der Schule kennen: Verwende immer $\pi$ für die Kreiszahl}
   Wir bezeichnen die Menge aller Wörter mit $\Sigma^*$ und die Menge aller nicht leeren Wörter mit $\Sigma^+$.
   Die \emph{Länge} eines Wortes, $|\cdot| : \Sigma^* \to \N$, ist die Anzahl der Elemente der Folge.
@@ -31,29 +36,26 @@ Im Folgenden sei $\Sigma$ immer ein beliebiges Alphabet.
 \begin{Bsp*} für Wörter über $\Sigma=\{a,\dots,z\}$
   \begin{itemize}
   \item \verb/rambo/ (Länge $5$)
-  \item \verb/pizza/, \verb/zipza/ (ungleich) 
+  \item \verb/eis/, \verb/ies/ (beide Länge 3 aber ungleich) 
   \item $\Eps$ (Länge $0$)
-  \item \verb/rambopizza/
   \end{itemize}
 \end{Bsp*}
 Wörter lassen sich ,,verketten''/,,hintereinanderreihen''.
 Die entsprechende Operation heißt \emph{Konkatenation}, geschrieben ,,$\cdot$'' (wie Multiplikation).
 \begin{Def}[Konkatenation von Wörtern]
-  Die \emph{Konkatenation}, $\mathord{\cdot} : \Sigma^* \times \Sigma^* \to \Sigma^*$, ist induktiv definiert durch:
-  \begin{enumerate}
-  \item $\Eps\cdot v = v$
-  \item $(aw)\cdot v = a(w\cdot v)$
-  \end{enumerate}
+  Die \emph{Konkatenation}, $\mathord{\cdot} : \Sigma^* \times \Sigma^* \to \Sigma^*$, ist für $u=u_1\ldots u_n\in\Sigma^*$ und $v=v_1\ldots v_m\in\Sigma^*$ definiert durch:
+  $u\cdot v = u_1\ldots u_nv_1\ldots v_m$
+%   \begin{enumerate}
+%   \item $\Eps\cdot v = v$ (leeres Wort ist linksneutrales Element)
+%   \item $v\cdot \Eps = v$ (leeres Wort ist rechtsneutrales Element)
+%   \item $u\cdot (v \cdot w) = (u\cdot v) \cdot w$ (Assoziativität)
+%   \item $u(xw)\cdot v = ux(w\cdot v)$
+%   \end{enumerate}
 \end{Def}
+% Punkt 2 (rechtsneutrales Element) folgt bereits aus 1. und 3. und könnte auch weggelassen werden.
 \begin{Bsp*} ~
   \begin{itemize}
-  \item \begin{align*}\mathtt{rambo}\cdot\mathtt{pizza} &=\mathtt{r(ambo}\cdot\mathtt{pizza})\\
-                                                        &=\mathtt{ra(mbo}\cdot\mathtt{pizza})\\
-                                                        &=\mathtt{ram(bo}\cdot\mathtt{pizza})\\
-                                                        &=\mathtt{ramb(o}\cdot\mathtt{pizza})\\
-                                                        &=\mathtt{ramb((\Eps\cdot o)}\cdot\mathtt{pizza})\\
-                                                        &=\mathtt{rambopizza}
-        \end{align*}
+  \item $\mathtt{eis}\cdot\mathtt{rambo} =\mathtt{eisrambo}$
   \item $\mathtt{rambo} \cdot \Eps = \mathtt{rambo} = \Eps \cdot \mathtt{rambo}$ 
   \end{itemize}
 \end{Bsp*}
@@ -63,59 +65,7 @@ Eigenschaften von "`$\cdot$"':
 \item $\Eps$ ist neutrales Element
 \item \emph{nicht} kommutativ
 \end{itemize}
-\begin{lemma}
-  Für alle $w \in \Sigma^*$ gilt $w \cdot \Eps = w$.
-\end{lemma}
-\begin{proof}
-  Per struktureller Induktion über das Wort $w$:
-  \begin{description}
-  \item[IA] $w = \Eps$. \\
-      Es folgt aus Fall 1 der Definition von ,,$\cdot$'': $\Eps \cdot \Eps = \Eps$.
-  \item[IV] $w' \cdot \Eps = w'$.
-  \item[IS] $w = aw'$.
-    \\
-    Mit Fall 2 von ,,$\cdot$'' folgt $aw' \cdot \Eps = a (w' \cdot \Eps) \stackrel{\mathsf{IV}}{=} aw'$
-  \end{description}
-\end{proof}
-\begin{proof}
-  Alternativ, per Induktion über $n = |w|$:
-  \begin{description}
-  \item[IA] $n = 0$.
 
-    Es folgt aus der Definition von ,,$|\cdot|$'' (und dem arithmetischen Fakt, dass $1 + x \not = 0$), dass $w = \Eps$.
-
-    Es folgt aus Fall 1 der Definition von ,,$\cdot$'', dass $\Eps \cdot \Eps = \Eps$.
-  \item[IV] Für alle $w'$ mit $|w'| = n'$ gilt $w' \cdot \Eps = w'$.
-  \item[IS] $n = n' + 1$.
-
-    Es folgt aus der Definition von ,,$|\cdot|$'' (und dem arithmetischen Fakt, dass $1 + x \not = 0$), dass $w = aw'$.
-
-    Somit gilt $|aw'| = 1 + |w'| = 1 + n'$ und daher auch $|w'| = n'$.
-
-    Mit Fall 2 von ,,$\cdot$'' folgt $aw' \cdot \Eps = a (w' \cdot \Eps) \stackrel{\mathsf{IV}}{=} aw'$
-  \end{description}
-\end{proof}
-\begin{lemma}
-  Für $v,w \in \Sigma^*$ gilt $|v\cdot w| = |v| + |w|$.
-\end{lemma}
-\begin{proof}
-  Per Induktion über $v$.
-  \begin{description}
-  \item[IA] $v = \Eps$.
-
-    Nach Def.\ von ,,$\cdot$'' gilt $|\Eps \cdot w| = |w|$.
-
-    Mit Def.\ von ,,$|\cdot|$'', Fall 1 folgt $|w| = 0 + |w| = |\Eps| + |w|$
- \item[IV] $|v' \cdot w| = |v'| + |w|$.
- \item[IS] $v = av'$.
-
-   Mit Def.\ von ,,$|\cdot|$'' und ,,$\cdot$'' folgt:
-   \begin{displaymath}
-   |av'\cdot w| = |a(v'\cdot w)| = 1 + |v' \cdot w| \stackrel{\mathsf{IV}}{=} 1 + |v'| + |w| = (1 + |v'|) + |w| = |v| + |w|
-   \end{displaymath}
-  
-  \end{description}
-\end{proof}
 
 Der Konkatenationsoperator ,,$\cdot$'' wird oft weggelassen (ähnlich wie der Mulitplikationsoperator in der Arithmetik).
 Ebenso können durch die Assoziativität Klammern weggelassen werden:
@@ -131,12 +81,12 @@ Wörter lassen sich außerdem \emph{potenzieren}:
   \item $w^{n+1} = w \cdot w^n$
   \end{enumerate}
 \end{Def}
-\begin{Bsp*} ~
-  \begin{itemize}
-  \item $\mathtt{rambo}^1 = \mathtt{rambo}$
-  \item $\mathtt{rambo}^0 = \Eps$
-  \item $\mathtt{rambo}^3 = \mathtt{ramboramborambo}$
-  \end{itemize}
+\begin{Bsp*} $\mathtt{eis}^3 
+\stackrel{(2.)}{=} \mathtt{eis}\cdot\mathtt{eis}^2 
+\stackrel{(2.)}{=} \mathtt{eis}\cdot\mathtt{eis}\cdot\mathtt{eis}\cdot\mathtt{eis}^0
+\stackrel{(1.)}{=} \mathtt{eis}\cdot\mathtt{eis}\cdot\mathtt{eis}\cdot\Eps
+= \mathtt{eiseiseis}
+$
 \end{Bsp*}
 
 \begin{Def}[name={[Sprache über $\Sigma$]}]
