@@ -1,8 +1,23 @@
-\section[Reguläre Sprachen und endliche Automaten]{Reguläre Sprachen und endliche Automaten\datenote{21.10.16}}
-Endliche Automaten sind ein einfaches, formales Maschinenmodell.
-Ein endlicher Automat $A$ berechnet, für eine bestimmte Sprache $L(A)$, ob ein gegebenes Wort $w$ in ihr enthalten ist (Wortproblem, $w \in L(A)$ ?).
-Die Berechnungen, die sich mit endliche Automaten ausdrücken lassen sind stark beschränkt, allerdings erlaubt diese Einschränkung \emph{die Entscheidung} von Fragen wie dem Wortploblem oder dem Leerheitsproblem ($L(A)\neq\varnothing$).
-D.h.\ f"ur jede dieser Fragen existiert ein Algorithmus.
+\section[Reguläre Sprachen und endliche Automaten]{Reguläre Sprachen und endliche Automaten\datenote{20.10.17}}
+Wie können wir potentiell unendlich große Mengen von Wörtern darstellen?
+Eine Lösung für dieses Problem sahen wir bereits im voherigen Kapitel als wir die (unendlich große) Menge der binärcodierten Primzahlen mit Hilfe der folgenden Zeile darstellten.
+\[
+L_1=\{w\in\{0,1\}^*\mid w \text{ ist Bin\"arcodierung einer Primzahl}\}
+\]
+Ein weiteres Beispiel wäre
+\[
+L_2=\{w\in\{0,1\}^*\mid w \text{ die Anzahl der Einsen in $w$ ist gerade }\}
+\]
+Ein häufig interessante Fragestellung für ein gegebenes Wort $w$ und eine Sprache $L$ ist: ``Ist $w$ in $L$ enthalten?'' (Also gilt $w\in L$?)
+Wir nennen dieses Entscheidunsproblem das \emph{Wortproblem}. Eine konkrete Instanz des Wortproblemes wäre z.B. $1100101\in L_1$? oder $1100101\in L_2$?
+
+Die obige Darstellungen der unendlichen Mengen $L_1$ und $L_2$ sind zwar sehr kompakt, 
+wir können daraus aber nicht direkt ein Vorgehen zur Lösung des Wortproblemes ableiten.
+Wir müssen zunächst verstehen was ``Binärcodierung'', ``Primzahl'' oder ``gerade Anzahl'' bedeutet und für $L_1$ und $L_2$ jeweils einen Algorithmus zur Entscheidung entwickeln.
+
+In diesem Kapitel werden wir mit \emph{endlichen Automaten} einen weiteren Formalismus kennenlernen um (potentiell unendlich große) Mengen von Wörtern darzustellen. 
+Ein Vorteil dieser Darstellung ist, dass es einen einheitlichen und effizienten Algorithmus für das Wortproblem gibt.
+Wir werden aber auch sehen, dass sich nicht jede Sprache (z.B. $L_1$) mit Hilfe eines endlichen Automaten darstellen lässt.
 
 \subsection{Endliche Automaten}
 Wir beschreiben zunächst die Bestandteile eines endlichen Automaten:
