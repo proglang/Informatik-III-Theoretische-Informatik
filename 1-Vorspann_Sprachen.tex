@@ -117,12 +117,13 @@ Weitere Operationen auf Sprachen sind Konkatenation und Potenzierung, sowie der 
 \end{Def}
 \begin{Bsp*}~
   \begin{itemize}
-  \item $\{\mathtt{rambo}, \mathtt{pizza}\} \cdot \{\mathtt{rot}, \mathtt{gelb}\} = \{\mathtt{ramborot}, \mathtt{pizzarot}, \mathtt{rambogelb}, \mathtt{pizzagelb}\}$
-  \item $\{\mathtt{rambo}, \mathtt{pizza}\} \cdot \{\Eps, \mathtt{gelb}\} = \{\mathtt{rambo}, \mathtt{pizza}, \mathtt{rambogelb}, \mathtt{pizzagelb}\}$
-  \item $\{\mathtt{rambo, \Eps}\}^3 = \{\mathtt{\Eps}, \mathtt{rambo}, \mathtt{ramborambo}, \mathtt{ramboramborambo}\}$
+  \item $\{\mathtt{eis}, \Eps\} \cdot \{\mathtt{rambo}\} = \{\mathtt{eisrambo}, \mathtt{rambo}\}$
+  \item $\{\mathtt{eis}, \Eps\} \cdot \{\} = \{\}$
+  \item $\{\}^0 = \{\Eps\}$
+  \item $\{\}^4 = \{\}$
   \end{itemize}
 \end{Bsp*}
-Wie bei der Konkatenation von Wörtern lässt man den Konkatenationsoperator oft weg.
+Wie bei der Konkatenation von Wörtern dürfen wir den Konkatenationsoperator auch weglassen.
 %
 \begin{Def}[Kleene-Abschluss, Kleene-Stern]
 	Sei $U\subseteq\Sigma^*$.
