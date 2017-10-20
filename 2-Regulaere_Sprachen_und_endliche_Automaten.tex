@@ -364,8 +364,9 @@ Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende
   \draw[->, loop below] (11) to node[below] {$0$} (11);
 
   \draw[->,bend left] (20) to node[right] {$1$} (21);
-  \draw[->, loop right] (20) to node[right]{$0$} (20);
-  \draw[->, loop right] (21) to node[right]{$0$} (21);
+  \draw[->,bend left] (21) to node[right] {$1$} (20);
+  \draw[->, loop above] (20) to node[above]{$0$} (20);
+  \draw[->, loop below] (21) to node[below]{$0$} (21);
 \end{tikzpicture}
 \end{center}
 
