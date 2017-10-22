@@ -190,16 +190,16 @@ Die folgenden beiden Definitionen erlauben uns mit Hilfe eines DEAs eine Sprache
 %     \item Wenn $F=\emptyset$, dann ist $L(M)=\emptyset$.
 %     \end{itemize}
 % \end{Bsp}
-\begin{Def}[name={[Erweiterung von $\delta$ auf Worte]}]
-        Die Erweiterung von $\delta:Q\x\Sigma\->Q$ auf Worte $\hat{\delta}: Q\x\Sigma^*\->Q$ ist induktiv definiert durch
+\begin{Def}[name={[Erweiterung von $\delta$ auf Worte]}]\label{def:2.deltaschlange}
+        Die Erweiterung von $\delta:Q\x\Sigma\->Q$ auf Worte $\tilde{\delta}: Q\x\Sigma^*\->Q$ ist induktiv definiert durch
   \begin{enumerate}
-  \item $\hat\delta(q,\Eps) =q$ (Wortende erreicht)
-  \item $\hat\delta(q,aw)=\hat\delta(\delta(q,a),w)$ (Rest im Folgezustand verarbeiten)
+  \item $\tilde\delta(q,\Eps) =q$ (Wortende erreicht)
+  \item $\tilde\delta(q,aw)=\tilde\delta(\delta(q,a),w)$ (Rest im Folgezustand verarbeiten)
   \end{enumerate}
 \end{Def}
-\begin{Def}[name={[Die durch einen \acs*{DEA} erkannte Sprache]}]
+\begin{Def}[name={[Die durch einen \acs*{DEA} erkannte Sprache]}]\label{def:2.sprache}
         Sei $\A=(\Sigma, Q,\delta,\qinit,F)$. Die \emph{von $M$ erkannte Sprache} ist
-        \[ L(\A) = \{ w\in\Sigma^* \mid \hat\delta(\qinit,w)\in F \} \]
+        \[ L(\A) = \{ w\in\Sigma^* \mid \tilde\delta(\qinit,w)\in F \} \]
         Eine durch einen \ac{DEA} erkannte Sprache heißt \emph{regulär}.
 \end{Def}
 
@@ -298,12 +298,12 @@ aus der Einleitung dieses Kapitels hat die folgende graphische Representation.
 Frage: Gegeben zwei reguläre Sprachen $L_1$, $L_2$ über einem gemeinsamen Alphabet $\Sigma$ ist dann auch die Vereinigung $L_1\cup L_2$ eine reguläre Sprache? Wir beantworten diese Frage mit dem folgenden Satz.
 
 \begin{Satz}
-Reguläre Sprachen sind abgeschlossen unter der Schnittoperation. (D.h. Gegeben zwei reguläre Sprachen $L_1$, $L_2$ über $\Sigma$ dann ist auch der Schnitt $L_1\cap L_2$ eine reguläre Sprache.)
+  Reguläre Sprachen sind abgeschlossen unter der Schnittoperation. (D.h. Gegeben zwei reguläre Sprachen $L_1$, $L_2$ über $\Sigma$ dann ist auch der Schnitt $L_1\cap L_2$ eine reguläre Sprache.)
 \end{Satz}
 
 % Der folgende Beweis ist ein typi
 
-\begin{proof}
+\begin{proof}\footnote{Dieser erste Beweis ist außergewöhnlich detailiert. Im den folgenden Beweisen werden wir einfache Umformungen zusammenfassen.}
 Da $L_1$ und $L_2$ regulär sind, gibt es zwei \ac{DEA}s $A_1=(\Sigma, Q_1,\delta_1,\qinit_1,F_1)$ und $A_2=(\Sigma, Q_2,\delta_2,\qinit_2,F_2)$ mit $L_1=L(A_1)$ und $L_2=L(A_2)$.
 Wir konstruieren nun zunächst den \emph{Produktautomaten für Schnitt} $A_\cap=(\Sigma, Q_\cap,\delta_\cap,\qinit_\cap,F_\cap)$ wie folgt.
 		\begin{align*}
@@ -312,13 +312,32 @@ Wir konstruieren nun zunächst den \emph{Produktautomaten für Schnitt} $A_\cap=
 			\qinit_\cap &= (\qinit_1,\qinit_2)\\
 			F_\cap &= F_1\x F_2\\
 		\end{align*}
-Anschließend zeigen wir, dass $L(A_\cap)=L(A_1)\cap L(A_2)$ gilt.
-
-TODO: Zeige das.
-
+Anschließend zeigen wir, dass $L(A_\cap)=L(A_1)\cap L(A_2)$ gilt. 
+Hierfür zeigen wir zunächst via Induktion über die Länge von $w$, dass für alle $w\in\Sigma^*$, für alle $q_1\in Q_1$ und für alle $q_2\in Q_2$ die folgende Gleichung gilt.
+$$\tilde{\delta}_\cap((q_1,q_2),w) = (\tilde{\delta}_1(q_1,w), \tilde{\delta}_2(q_2,w))$$
+Der Induktionsanfang für $n=0$ folgt dabei direkt aus \autoref{def:2.deltaschlange}, da $\Eps$ das einzige Wort der Länge $0$ ist.
+$$\tilde{\delta}_\cap((q_1,q_2),\Eps) = (q_1,q_2)$$
+Den Induktionsschritt $n\rightsquigarrow n+1$ zeigen wir mit Hilfe der folgenden Umformungen, wobei $a\in\Sigma$ ein beliebiges Zeichen und $w\in\Sigma^n$ ein beliebiges Wort der Länge $n$ ist.
+\begin{align*}
+  \tilde{\delta}_\cap((q_1,q_2),aw) 
+    & \stackrel{\autoref{def:2.deltaschlange}}{=} \tilde{\delta}_\cap(\delta_\cap((q_1,q_2),a),w)\\
+    & \stackrel{\text{def. }\delta_\cap}{=} \tilde{\delta}_\cap (\big(\delta_1(q_1,a),\delta_2(q_2,a)\big),w)\\
+    & \stackrel{\text{I.V.}}{=} \big(\tilde{\delta}_1 (\delta_1(q_1,a),w), \tilde{\delta}_2(\delta_2(q_2,a),w)\big)\\
+    & \stackrel{\autoref{def:2.deltaschlange}}{=} \big(\tilde{\delta}_1(q_1,aw), \tilde{\delta}_2(q_2,aw)\big)
+\end{align*}
+Schließlich zeigen wir $L(A_\cap)=L(A_1)\cap L(A_2)$ mit Hilfe der folgenden Umformungen für ein beliebiges $w\in\Sigma^*$.
+\begin{align*}
+  w\in L(A_\cap)
+  & \stackrel{\autoref{def:2.sprache}}{\mathsf{gdw}} \tilde{\delta}_\cap(\qinit_\cap,w)\in F_\cap\\
+  & \stackrel{\text{def. }\qinit_\cap}{\mathsf{gdw}} \tilde{\delta}_\cap((\qinit_1,\qinit_2),w)\in F_\cap\\
+  & \stackrel{}{\mathsf{gdw}} (\tilde{\delta}_1(\qinit_1,w),\tilde{\delta}_2(\qinit_2,w))\in F_\cap\\
+  & \stackrel{\text{def. }F_\cap}{\mathsf{gdw}} \tilde{\delta}_1(\qinit_1,w)\in F_1 \text{ und } \tilde{\delta}_2(\qinit_2,w)\in F_2\\
+  & \stackrel{\autoref{def:2.sprache}}{\mathsf{gdw}} w\in L(A_1) \text{ und } w\in L(A_2)
+\end{align*}
 \end{proof}
 
 \begin{Bsp}\label{bsp:2.schnitt}
+\datenote{25.10.17}
 Sei $A_1$ der folgende \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$ dessen graphische Repräsentation nahezu mit $A_{\mathtt{Maccaron}}$ identisch ist.
 
 \begin{center}
