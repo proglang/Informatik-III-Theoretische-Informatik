@@ -490,6 +490,21 @@ Wir charakterisieren diese ``Ähnlichkeit'' formal wie folgt.
 \end{Def}
 %\stepcounter{lemma}
 
+\subsubsection{Exkurs: Äquivalenzrelationen}
+TODO
+
+\begin{tabular}{lccc}
+& reflexiv & symmetrisch & transitiv\\ \hline
+``gewinnt`` bei Schere, Stein, Papier & nein & nein & nein\\
+$(\N, <)$ & nein & nein & ja\\
+$(\N, \neq)$ & nein & ja & nein\\
+? & ja & nein & nein\\
+$(\N, \leq)$& ja & nein & ja\\
+direkte genetische Verwandtschaft & ja & ja & nein\\
+logische Äquivalenz von Formeln & ja & ja & ja\\
+\end{tabular}
+
+
 \begin{lemma}[name={[$\equiv$ ist Äquivalenzrelation]}] %\rlnote{Satz = Lemma-Nummer: 3.2 statt 3.1?}
         Die Relation ,,$\equiv$'' ist eine \emph{Äquivalenzrelation}, das heißt, ,,$\equiv$'' ist reflexiv, transitiv und symmetrisch.
 \end{lemma}
@@ -503,7 +518,8 @@ Wir charakterisieren diese ``Ähnlichkeit'' formal wie folgt.
 Die Zustände $q_{11}$, $q_{20}$ und $q_{21}$ aus \autoref{bsp:2.schnitt} sind äquivalent.
 % Also sind $q_2,q_3$ aus \autoref{Bsp:3.4} äquivalent.
 
-\hide{
+
+
 \begin{Erinnerung}
 Hauptlemma "uber "Aquivalenzrelationen
 \begin{align*}
@@ -732,6 +748,7 @@ Das aber ist die Definition der Nerode-Relation, d.h. $(u, v) \in R_L$. Da wir $
   Nach Folgerung gilt aber $|\A'| \leq |\A|$; ein Widerspruch.
 \end{proof}
 
+\hide{
 \subsection{\acf{PL} für reguläre Sprachen} %\rlnote{subsection \# (3.3)?}
 \datenote{26.10.16 (Eingeschoben)}
 Suche: Notwendiges Kriterium für Regularität

@@ -8,24 +8,24 @@ Zeichen sind hier beliebige abstrakte Symbole.
 \newcommand{\age}{\textit{gelb}}
 \newcommand{\agr}{\textit{grün}}
 
-\begin{Bsp*} für Alphabete die in dieser Vorlesung, im täglichem Umgang mit Computern oder in der Forschung an unserem Lehrstuhl eine Rolle spielen.
+\begin{Bsp*} für Alphabete, die in dieser Vorlesung, im täglichem Umgang mit Computern oder in der Forschung an unserem Lehrstuhl eine Rolle spielen.
   \begin{itemize}
   \item $\{a,\dots,z\}$
   \item $\{0, 1\}$
   \item $\{\aro, \age, \agr\}$ (Ampelfarben)
   \item Die Menge aller ASCII Symbole
-  \item Die Menge aller Statements eines Computerprogrammes
+  \item Die Menge aller Statements eines Computerprogramms
   \end{itemize}
 \end{Bsp*}
-Wir verwenden typischweise den griechischen Buchstaben $\Sigma$ als Namen für ein Alphabet und die lateinischen Buchstaben $a,b,c$ als Namen für Zeichen.
-\footnote{Analoge Konventionen die sie möglicherweise aus der Schule kennen: Verwende $n,m$ für natürliche Zahlen. Verwende $\alpha, \beta$ für Winkel in Dreiecken. Verwende $A$ für Matrizen.}
+Wir verwenden typischerweise den griechischen Buchstaben $\Sigma$ als Namen für ein Alphabet und die lateinischen Buchstaben $a,b,c$ als Namen für Zeichen.
+\footnote{Dies ist eine Konventionen analog zu den folgenden die Sie möglicherweise in der Schule befolgten: Verwende $n,m$ für natürliche Zahlen. Verwende $\alpha, \beta$ für Winkel in Dreiecken. Verwende $A$ für Matrizen.}
 Im Folgenden sei $\Sigma$ immer ein beliebiges Alphabet.
-\footnote{Dieser Satz dient dazu, dass die Autoren dieses Skriptes nicht jede Definition mit ``Sei $\Sigma$ ein Alphabet beginnen müssen''.}
+\footnote{Dieser Satz dient dazu, dass die Autoren dieses Skriptes nicht jede Definition mit ``Sei $\Sigma$ ein Alphabet...'' beginnen müssen.}
 
 \begin{Def}[name={[Wort $w$ über $\Sigma$]}]\label{def:1.2}
   Wir nennen eine endliche Folge von Elementen aus $\Sigma$ ein \emph{Wort}
   und schreiben solch eine Folge immer ohne Trennsymbole wie z.B. Komma.\footnote{Wir schreiben also z.B. \texttt{einhorn} statt \texttt{e,i,n,h,o,r,n}.}
-  Die leere Folge nenen wir das \emph{leere Wort} und verwenden immer den griechischen Buchstaben $\Eps$ um das \emph{leere Wort} zu bezeichnen.\footnote{Eine analoge Konvention die sie aus der Schule kennen: Verwende immer $\pi$ für die Kreiszahl}
+  Die leere Folge nennen wir das \emph{leere Wort} und verwenden immer den griechischen Buchstaben $\Eps$ um das \emph{leere Wort} zu bezeichnen.\footnote{Eine analoge Konvention die sie aus der Schule kennen: Verwende immer $\pi$ für die Kreiszahl}
   Wir bezeichnen die Menge aller Wörter mit $\Sigma^*$ und die Menge aller nicht leeren Wörter mit $\Sigma^+$.
   Die \emph{Länge} eines Wortes, $|\cdot| : \Sigma^* \to \N$, ist die Anzahl der Elemente der Folge.
 \end{Def}
@@ -70,12 +70,15 @@ Eigenschaften von "`$\cdot$"':
 Der Konkatenationsoperator ,,$\cdot$'' wird oft weggelassen (ähnlich wie der Mulitplikationsoperator in der Arithmetik).
 Ebenso können durch die Assoziativität Klammern weggelassen werden:
 \begin{displaymath}
-  w_1w_2w_3 \quad \text{ heißt also } \quad w_1\cdot w_2\cdot w_3 \quad = (w_1 \cdot w_2) \cdot w_3 = w_1 \cdot (w_2 \cdot w_3)
+  w_1w_2w_3 \;\; \text{ steht also auch für } \;\; w_1\cdot w_2\cdot w_3,\;\;\text{ für }\;\;  (w_1 \cdot w_2) \cdot w_3 \;\;\text{ und für }\;\; w_1 \cdot (w_2 \cdot w_3)
 \end{displaymath}
+
+Bemerkung: Die Zeichenfolge \texttt{rambo}$\varepsilon$ ist \emph{kein} Wort.
+Diese Zeichenfolge ist lediglich eine Notation für eine Konkatenationsoperation die ein Wort der Länge 5 (nämlich \texttt{rambo} beschreibt.
 
 Wörter lassen sich außerdem \emph{potenzieren}:
 \begin{Def}
-  Die \emph{Potenzierung} von Worten, $\cdot ^ \cdot: \Sigma^*\times \N \to \Sigma^*$, ist induktiv definiert durch
+  Die \emph{Potenzierung} von Wörtern, $\cdot ^ \cdot: \Sigma^*\times \N \to \Sigma^*$, ist induktiv definiert durch
   \begin{enumerate}
   \item $w^0 = \Eps$ 
   \item $w^{n+1} = w \cdot w^n$
@@ -83,7 +86,7 @@ Wörter lassen sich außerdem \emph{potenzieren}:
 \end{Def}
 \begin{Bsp*} $\mathtt{eis}^3 
 \stackrel{(2.)}{=} \mathtt{eis}\cdot\mathtt{eis}^2 
-\stackrel{(2.)}{=} \mathtt{eis}\cdot\mathtt{eis}\cdot\mathtt{eis}\cdot\mathtt{eis}^0
+\stackrel{\text{zwei mal } (2.)}{=} \mathtt{eis}\cdot\mathtt{eis}\cdot\mathtt{eis}\cdot\mathtt{eis}^0
 \stackrel{(1.)}{=} \mathtt{eis}\cdot\mathtt{eis}\cdot\mathtt{eis}\cdot\Eps
 = \mathtt{eiseiseis}
 $
@@ -92,6 +95,9 @@ $
 \begin{Def}[name={[Sprache über $\Sigma$]}]
 	Eine \emph{Sprache} über $\Sigma$ ist eine Menge $L\subseteq\Sigma^*$.
 \end{Def}
+
+\goodbreak
+
 \begin{Bsp*}~ 
   \begin{itemize}
   \item 
@@ -103,7 +109,7 @@ $
   \item $\Sigma^*$
   \end{itemize}
 \end{Bsp*}
-Sämtliche Mengenoperationen sind auch Sprachoperationen, insbesondere Schnitt ($L_1 \cap L_2$), Vereinigung ($L_1 \cup L_2$), Differenz ($L_1 \setminus L_2$) und Komplement ($L_1^{-1} = \Sigma^* \setminus L_1$).
+Sämtliche Mengenoperationen sind auch Sprachoperationen, insbesondere Schnitt ($L_1 \cap L_2$), Vereinigung ($L_1 \cup L_2$), Differenz ($L_1 \setminus L_2$) und Komplement ($\overline{L_1} = \Sigma^* \setminus L_1$).
 
 Weitere Operationen auf Sprachen sind Konkatenation und Potenzierung, sowie der \emph{Kleene Abschluss}.
 \begin{Def}[Konkatenation und Potenzierung von Sprachen] % 1.5
