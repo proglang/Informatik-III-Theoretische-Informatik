@@ -1,19 +1,19 @@
 \section[Reguläre Sprachen und endliche Automaten]{Reguläre Sprachen und endliche Automaten\datenote{20.10.17}}
 Wie können wir potentiell unendlich große Mengen von Wörtern darstellen?
-Eine Lösung für dieses Problem sahen wir bereits im voherigen Kapitel als wir die (unendlich große) Menge der binärcodierten Primzahlen mit Hilfe der folgenden Zeile darstellten.
+Eine Lösung für dieses Problem sahen wir bereits im vorherigen Kapitel, als wir die (unendlich große) Menge der binärcodierten Primzahlen mit Hilfe der folgenden Zeile darstellten.
 \[
 L_\mathsf{prim}=\{w\in\{0,1\}^*\mid w \text{ ist Bin\"arcodierung einer Primzahl}\}
 \]
 Ein weiteres Beispiel ist die folgende Zeile.
 \[
-L_\mathsf{even}=\{w\in\{0,1\}^*\mid w \text{ die Anzahl der Einsen in $w$ ist gerade }\}
+L_\mathsf{even}=\{w\in\{0,1\}^*\mid \text{ die Anzahl der Einsen in $w$ ist gerade. }\}
 \]
 Ein häufig interessante Fragestellung für ein gegebenes Wort $w$ und eine Sprache $L$ ist: ``Ist $w$ in $L$ enthalten?'' (Also gilt $w\in L$?)
-Wir nennen dieses Entscheidunsproblem das \emph{Wortproblem}. Eine konkrete Instanz des Wortproblemes wäre z.B. $1100101\in L_1$? oder $1100101\in L_2$?
+Wir nennen dieses Entscheidunsproblem das \emph{Wortproblem}. Eine konkrete Instanz des Wortproblems wäre z.B. $1100101\in L_1$? oder $1100101\in L_2$?
 
-Die obige Darstellungen der unendlichen Mengen $L_1$ und $L_2$ sind zwar sehr kompakt, 
-wir können daraus aber nicht direkt ein Vorgehen zur Lösung des Wortproblemes ableiten.
-Wir müssen zunächst verstehen was die Begriffe ``Binärcodierung'', ``Primzahl'' oder ``gerade Anzahl'' bedeutet und für $L_1$ und $L_2$ jeweils einen Algorithmus zur Entscheidung entwickeln.
+Die obige Darstellung der unendlichen Mengen $L_1$ und $L_2$ ist zwar sehr kompakt, 
+wir können daraus aber nicht direkt ein Vorgehen zur Lösung des Wortproblems ableiten.
+Wir müssen zunächst verstehen, was die Begriffe ``Binärcodierung'', ``Primzahl'' oder ``gerade Anzahl'' bedeuten und für $L_1$ und $L_2$ jeweils einen Algorithmus zur Entscheidung entwickeln.
 
 In diesem Kapitel werden wir mit \emph{endlichen Automaten} einen weiteren Formalismus kennenlernen um (potentiell unendlich große) Mengen von Wörtern darzustellen. 
 Ein Vorteil dieser Darstellung ist, dass es einen einheitlichen und effizienten Algorithmus für das Wortproblem gibt.
@@ -45,12 +45,12 @@ Wir beschreiben zunächst informell die Bestandteile eines endlichen Automaten:
   \vspace{-\baselineskip}
   \begin{itemize}
         \item Der \emph{Lesekopf} zeigt auf ein Feld des Bandes, oder hinter das letzte Feld.
-        \item Er bewegt sich feldweise nach rechts; andere Bewegungen (vor- bzw.\ zurückspulen) sind nicht möglich.
+        \item Er bewegt sich feldweise nach rechts; andere Bewegungen (Vor- bzw.\ Zurückspulen) sind nicht möglich.
         \item Wenn er hinter das letzte Zeichen zeigt, \emph{stoppt} der Automat.
     Er muss sich nun ,,entscheiden'' ob er das Wort \emph{akzeptiert} oder nicht.
   \end{itemize}
-\item[Zustände] $q$ aus \emph{endlicher} Zustandsmenge $Q$.
-\item[Startzustand] $\qinit \in Q$.
+\item[Zustände] $q$ aus \emph{endlicher} Zustandsmenge $Q$
+\item[Startzustand] $\qinit \in Q$
 \item[Akzeptierende Zustände] $F \subseteq Q$ 
 \item[Transitionsfunktion] Im Zustand $q$ beim Lesen von $a$ gehe nach Zustand $\delta(q) = q'$.
 \end{description}
@@ -63,7 +63,7 @@ Der endliche Automat akzeptiert eine Eingabe, falls er in einem akzeptierenden Z
 \begin{Bsp}Aufgabe: 
   \\
   \label{Bsp:3.1}
-  ,,Erkenne alle Stapel von Maccarons in denen höchstens ein grüner Maccaron vorkommt.''
+  ,,Erkenne alle Stapel von Macarons in denen höchstens ein grünes Macaron vorkommt.''
 \begin{center}
   \includegraphics[scale=0.4]{macaron-stacks.png}~\footnote{
   \tiny Von links nach rechts: \\
@@ -79,7 +79,7 @@ By Keven Law - originally posted to Flickr as What's your Colour???, CC BY-SA 2.
 \end{center}
 Ein passendes Alphabet wäre $\Sigma = \{\texttt{grün} , \texttt{nicht-grün} \}$.
 Wir definieren die folgenden Zustände.
-(die Metapher hier ist: ,,wenn ich mehr als einen grünen Maccaron esse wird mir übel, und das wäre nicht akzeptabel'')
+(die Metapher hier ist: ,,wenn ich mehr als einen grünen Macaron esse wird mir übel, und das wäre nicht akzeptabel'')
 \begin{center}
 \begin{tabular}{cl}
   Zustand & Bedeutung \\
@@ -147,20 +147,21 @@ Die Transistionsfunktion $\delta$ ist
 \begin{Def}[\acs*{DEA}]
         Ein \emph{\acf{DEA}}, (\acsu{DFA} $\hat=$ \acl{DFA}) ist ein 5-Tupel
         \[ \A= (\Sigma, Q,\delta,\qinit,F) \]
+dabei ist
         \begin{itemize}
-                \item $Q$ \emph{endliche} Zustandsmenge
-                \item $\Sigma$ \emph{endl.} Alphabet
-                \item $\delta:Q\x\Sigma\->Q$ Transitionsfunktion
-                \item $\qinit\in Q$ Startzustand
-                \item $F\subseteq Q$ akzeptierende Zustande
+                \item $\Sigma$ ein Alphabet,
+                \item $Q$ eine \emph{endliche} Menge deren Elemente wir \emph{Zustände} nennen,
+                \item $\delta:Q\x\Sigma\->Q$ eine Funktion die wir \emph{Transitionsfunktion} nennen,
+                \item $\qinit\in Q$ ein Zustand den wir \emph{Startzustand} nennen und
+                \item $F\subseteq Q$ eine Teilmenge der Zustände deren Elemente wir \emph{akzeptierende} Zustände nennen.
         \end{itemize}
 \end{Def}
 
 DEAs lassen sich auch graphisch darstellen.
 Dabei gibt man für den Automaten einen gerichteten Graphen an.
-Die Knoten des Graphen sind die Zustände und mit Zeichen gelabelte Kanten zeigen welchen Zustandsübergang die Transitionsfunktion für das nächste Zeichen erlaubt.
-Der Startzustand ist mit einem ungelabelten Pfeil markiert und finale Zustände sind doppelt eingekreist.
-Hier ist die graphische Darstellung von $A_{\mathtt{Maccaron}}$ aus Beispiel \ref{Bsp:3.1}
+Die Knoten des Graphen sind die Zustände und mit Zeichen beschriftete Kanten zeigen, welchen Zustandsübergang die Transitionsfunktion für das nächste Zeichen erlaubt.
+Der Startzustand ist mit einem unbeschrifteten Pfeil markiert und akzeptierende Zustände sind doppelt eingekreist.
+Hier ist die graphische Darstellung von $A_{\mathtt{Macaron}}$ aus Beispiel \ref{Bsp:3.1}:
 
 \begin{center}
 \begin{tikzpicture}[node distance = 3cm]
@@ -198,15 +199,15 @@ Die folgenden beiden Definitionen erlauben uns mit Hilfe eines DEAs eine Sprache
   \end{enumerate}
 \end{Def}
 \begin{Def}[name={[Die durch einen \acs*{DEA} erkannte Sprache]}]\label{def:2.sprache}
-        Sei $\A=(\Sigma, Q,\delta,\qinit,F)$. Die \emph{von $M$ erkannte Sprache} ist
+        Sei $\A=(\Sigma, Q,\delta,\qinit,F)$. Die \emph{von $\A$ erkannte Sprache} ist
         \[ L(\A) = \{ w\in\Sigma^* \mid \tilde\delta(\qinit,w)\in F \} \]
         Eine durch einen \ac{DEA} erkannte Sprache heißt \emph{regulär}.
 \end{Def}
 
 \begin{Bsp} 
 \label{bsp:3.1} Der Automat für die Sprache 
-$$L_\mathsf{even}=\{w\in\{0,1\}^*\mid w \text{ die Anzahl der Einsen in $w$ ist gerade }\}$$ 
-aus der Einleitung dieses Kapitels hat die folgende graphische Representation.
+$$L_\mathsf{even}=\{w\in\{0,1\}^*\mid \text{ die Anzahl der Einsen in $w$ ist gerade. }\}$$ 
+aus der Einleitung dieses Kapitels hat die folgende graphische Repräsentation.
 %         $L=\{w\in\{0,1\}^* \mid w \text{ enthält gerade Anzahl von 0 und gerade Anzahl von 1}\}$
   \begin{center}
                 \begin{tikzpicture}[circle/.style={
@@ -295,7 +296,7 @@ aus der Einleitung dieses Kapitels hat die folgende graphische Representation.
 % \end{Bsp}
 
 
-Frage: Gegeben zwei reguläre Sprachen $L_1$, $L_2$ über einem gemeinsamen Alphabet $\Sigma$ ist dann auch die Vereinigung $L_1\cup L_2$ eine reguläre Sprache? Wir beantworten diese Frage mit dem folgenden Satz.
+Frage: Gegeben seien zwei reguläre Sprachen $L_1$, $L_2$ über einem gemeinsamen Alphabet $\Sigma$; ist dann auch die Vereinigung $L_1\cap L_2$ eine reguläre Sprache? Wir beantworten diese Frage mit dem folgenden Satz.
 
 \begin{Satz}
   Reguläre Sprachen sind abgeschlossen unter der Schnittoperation. (D.h. Gegeben zwei reguläre Sprachen $L_1$, $L_2$ über $\Sigma$ dann ist auch der Schnitt $L_1\cap L_2$ eine reguläre Sprache.)
@@ -338,7 +339,7 @@ Schließlich zeigen wir $L(A_\cap)=L(A_1)\cap L(A_2)$ mit Hilfe der folgenden Um
 
 \begin{Bsp}\label{bsp:2.schnitt}
 \datenote{25.10.17}
-Sei $A_1$ der folgende \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$ dessen graphische Repräsentation nahezu mit $A_{\mathtt{Maccaron}}$ identisch ist.
+Sei $A_1$ der folgende \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$ dessen graphische Repräsentation nahezu mit $A_{\mathtt{Macaron}}$ identisch ist.
 
 \begin{center}
 \begin{tikzpicture}[node distance = 3cm]
@@ -358,7 +359,7 @@ Sei $A_1$ der folgende \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$ dessen graph
   \draw[->, loop right] (2) to node[right]{$1$, $0$} (2);
 \end{tikzpicture}
 \end{center}
-Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende graphische Repräsentation.
+Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende graphische Repräsentation, wobei wir um Platz zu sparen ``$q_{ij}$'' statt ``$(q_i, q_j)$'' schreiben.
 
 \begin{center}
 \begin{tikzpicture}[node distance = 3cm]
@@ -443,8 +444,8 @@ Beobachtung: Der Zustand $q_{01}$ im Beispiel \ref{bsp:2.schnitt} scheint nutzlo
 % \end{proof}
 Bemerkung: Die Menge der erreichbaren Zustände kann mit dem folgenden Verfahren in $O(|Q|*|\Sigma|)$ berechnet werden.
   \begin{itemize}
-  \item Fasse $A$ als Graphen auf.
-  \item Wende Tiefensuche an, markiere dabei alle besuchten Zustände.
+  \item Fasse $A$ als Graph auf.
+  \item Wende Tiefensuche an und markiere dabei alle besuchten Zustände.
   \item Die markierten Zustände bilden die Menge der erreichbaren Zustände.
   \end{itemize}
 
@@ -483,7 +484,7 @@ Beobachtung: Auch nach dem Entfernen der nicht erreichbaren Zustände $q_{01}$ u
 Wir charakterisieren diese ``Ähnlichkeit'' formal wie folgt.
 
 \begin{Def}[name={[Äquivalenz von \acs*{DFA}-Zuständen]}] %\rlnote{Def.-Num. überprüfen}
-  Wir nenen zwei Zustände $q,p\in Q$ eines \ac{DFA} \emph{äquivalent}, geschrieben $p\equiv q$, falls
+  Wir nennen zwei Zustände $p,q\in Q$ eines \ac{DFA} \emph{äquivalent}, geschrieben $p\equiv q$, falls
   \begin{displaymath}
   \forall w\in\Sigma^*, \hat\delta(p,w)\in F \text{ gdw } \hat\delta(q,w)\in F
 \end{displaymath}
