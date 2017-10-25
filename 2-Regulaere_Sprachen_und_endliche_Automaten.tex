@@ -22,7 +22,7 @@ Wir werden aber auch sehen, dass sich nicht jede Sprache (z.B. $L_1$) mit Hilfe 
 \subsection{Endliche Automaten}
 Wir beschreiben zunächst informell die Bestandteile eines endlichen Automaten:
 
-\newcommand{\qinit}{q^\mathsf{init}}
+\newcommand{\qinit}{{q^\mathsf{init}}}
 \newcommand{\hide}[1]{}
 
 \begin{description}
@@ -286,10 +286,10 @@ aus der Einleitung dieses Kapitels hat die folgende graphische Repräsentation.
 %         \begin{proof}
 %                 Angenommen $L=L(M)$ für \ac{DEA} $M=(\Sigma, Q,q_0,\delta,F)$
 %                 
-%                 Beobachtung: $\exists m\neq n$, so dass $\hat\delta(q_0,0^m)=\hat\delta(q_0,0^n)=q'$ weil $Q$ endlich.
+%                 Beobachtung: $\exists m\neq n$, so dass $\tilde\delta(q_0,0^m)=\tilde\delta(q_0,0^n)=q'$ weil $Q$ endlich.
 %                 \begin{itemize}
-%                         \item Falls nun $\hat\delta(q',1^m)\in F$, dann ist auch $\hat\delta(q_0,0^n1^m)\in F$ und somit $0^n1^m\in L(M)$ mit $n\neq m\ \lightning$
-%                         \item Falls $\hat\delta(q',1^m)\notin F$, dann gilt auch $\hat\delta(q_0,0^m1^m)\notin F$ und somit $0^m1^m \notin L$ $\lightning$
+%                         \item Falls nun $\tilde\delta(q',1^m)\in F$, dann ist auch $\tilde\delta(q_0,0^n1^m)\in F$ und somit $0^n1^m\in L(M)$ mit $n\neq m\ \lightning$
+%                         \item Falls $\tilde\delta(q',1^m)\notin F$, dann gilt auch $\tilde\delta(q_0,0^m1^m)\notin F$ und somit $0^m1^m \notin L$ $\lightning$
 %                 \end{itemize}
 %                 Also kann $M$ nicht existieren!
 %         \end{proof}
@@ -475,7 +475,7 @@ Bemerkung: Die Menge der erreichbaren Zustände kann mit dem folgenden Verfahren
 %         Dieser Automat erkennt die gleiche Sprache wie in \eqref{bsp:3.1} (,,höchstens eine 1''), hat nur erreichbare Zustände, aber mehr Zustände als in \eqref{bsp:3.1}.
 %         
 %         \emph{Beobachtung:} Aber $q_2$ und $q_3$ verhalten sich gleich in dem Sinn, dass
-%         \[ \forall w: \hat\delta(q_2,w) \notin F\text{ und }\hat\delta(q_3,w)\notin F \]
+%         \[ \forall w: \tilde\delta(q_2,w) \notin F\text{ und }\tilde\delta(q_3,w)\notin F \]
 % \end{Bsp}
 %
 %\stepcounter{Def}
@@ -483,13 +483,16 @@ Bemerkung: Die Menge der erreichbaren Zustände kann mit dem folgenden Verfahren
 Beobachtung: Auch nach dem Entfernen der nicht erreichbaren Zustände $q_{01}$ und $q_{10}$ scheint der DEA aus \autoref{bsp:2.schnitt} unnötig groß. Das Verhalten des DEA in den Zuständen $q_{11}$, $q_{20}$ und $q_{21}$ ist sehr ähnlich. 
 Wir charakterisieren diese ``Ähnlichkeit'' formal wie folgt.
 
-\begin{Def}[name={[Äquivalenz von \acs*{DFA}-Zuständen]}] %\rlnote{Def.-Num. überprüfen}
-  Wir nennen zwei Zustände $p,q\in Q$ eines \ac{DFA} \emph{äquivalent}, geschrieben $p\equiv q$, falls
+\begin{Def}[name={[Äquivalenz von \acs*{DEA}-Zuständen]}] %\rlnote{Def.-Num. überprüfen}
+  Wir nennen zwei Zustände $p,q\in Q$ eines \ac{DEA} \emph{äquivalent}, geschrieben $p\equiv q$, falls
   \begin{displaymath}
-  \forall w\in\Sigma^*, \hat\delta(p,w)\in F \text{ gdw } \hat\delta(q,w)\in F
+  \forall w\in\Sigma^*, \tilde\delta(p,w)\in F \text{ gdw } \tilde\delta(q,w)\in F
 \end{displaymath}
 \end{Def}
 %\stepcounter{lemma}
+
+Die Zustände $q_{11}$, $q_{20}$ und $q_{21}$ aus \autoref{bsp:2.schnitt} sind paarweise äquivalent.
+% Also sind $q_2,q_3$ aus \autoref{Bsp:3.4} äquivalent.
 
 \subsubsection{Exkurs: Äquivalenzrelationen}
 TODO
@@ -516,84 +519,90 @@ logische Äquivalenz von Formeln & ja & ja & ja\\
   Die Symmetrie und Transitivität von $\equiv$ folgt aus der Transitivität und Symmetrie der logischen Interpretation von ,,genau dann wenn'' (gdw).
 \end{proof}
 
-Die Zustände $q_{11}$, $q_{20}$ und $q_{21}$ aus \autoref{bsp:2.schnitt} sind äquivalent.
-% Also sind $q_2,q_3$ aus \autoref{Bsp:3.4} äquivalent.
 
 
 
-\begin{Erinnerung}
-Hauptlemma "uber "Aquivalenzrelationen
-\begin{align*}
-        [q] &= \{p\in Q \mid p \equiv q\} &&[q] \text{ ist Äquivalenzklasse von }q
-\end{align*}
-"Aquivalenzklassen sind paarweise disjunkt:
 
-F"ur alle $ p,q\in Q$ gilt entweder $[p]=[q]$ oder $[p]\cap[q] = \emptyset$ (folgt aus Transitivität).
+% \begin{Erinnerung}
+% Hauptlemma "uber "Aquivalenzrelationen
+% \begin{align*}
+%         [q] &= \{p\in Q \mid p \equiv q\} &&[q] \text{ ist Äquivalenzklasse von }q
+% \end{align*}
+% "Aquivalenzklassen sind paarweise disjunkt:
+% 
+% F"ur alle $ p,q\in Q$ gilt entweder $[p]=[q]$ oder $[p]\cap[q] = \emptyset$ (folgt aus Transitivität).
+% 
+% D.h. $Q$ wird in disjunkte Äquivalenzklassen aufgeteilt. Anzahl der Äquivalenzklassen ist der \emph{Index}.
+% \end{Erinnerung}
 
-D.h. $Q$ wird in disjunkte Äquivalenzklassen aufgeteilt. Anzahl der Äquivalenzklassen ist der \emph{Index}.
-\end{Erinnerung}
+Idee: ``Verschmelze'' alle Zustände aus einer Äquivalenzklasse zu einem einzigen Zustand.
+Bedenken: Jeder Zustand hat für jedes Zeichen einen Nachfolger. Wenn wir Zustände verschmelzen gibt es mehrere Nachfolger!
 
-\draftnote{28.10.16}
-\eqref{bsp:3.1}:
-\begin{minipage}{.5\textwidth}
-    \captionsetup{type=figure}
-        \begin{tikzpicture}
-                \node (start) at (-4,1.5) {};
-                \node (q0) [circle,double] at (-3,1) {$q_0$};
-                \node (q1) [circle,double] at (-0.5,1) {$q_1$};
-                \node (q2) [circle] at (2,1) {$q_2$};
-                \draw [->] (start) edge (q0);
-                \draw [->] (q0) edge[loop above] node {0} (q0);
-                \draw [->] (q1) edge[loop above] node {0} (q1);
-                \draw [->] (q2) edge[loop above] node {0,1} (q2);
-                \draw [->] (q0) edge node [auto] {1} (q1);
-                \draw [->] (q1) edge node [auto] {1} (q2);
-        \end{tikzpicture}
-        \captionof{figure}{Automat zu \eqref{bsp:3.1}}
-\end{minipage}
+Das folgende Lemma zeigt dass unsere Benken nicht gerechtfertigt sind. 
+Sind zwei Zustände äquivalent so sind auch für jedes Zeichen ihre Nachfolger äquivalent.
 
-Allgemein gilt f"ur alle $p,q\in Q$:
-\begin{align}
+% \draftnote{28.10.16}
+% \eqref{bsp:3.1}:
+% \begin{minipage}{.5\textwidth}
+%     \captionsetup{type=figure}
+%         \begin{tikzpicture}
+%                 \node (start) at (-4,1.5) {};
+%                 \node (q0) [circle,double] at (-3,1) {$q_0$};
+%                 \node (q1) [circle,double] at (-0.5,1) {$q_1$};
+%                 \node (q2) [circle] at (2,1) {$q_2$};
+%                 \draw [->] (start) edge (q0);
+%                 \draw [->] (q0) edge[loop above] node {0} (q0);
+%                 \draw [->] (q1) edge[loop above] node {0} (q1);
+%                 \draw [->] (q2) edge[loop above] node {0,1} (q2);
+%                 \draw [->] (q0) edge node [auto] {1} (q1);
+%                 \draw [->] (q1) edge node [auto] {1} (q2);
+%         \end{tikzpicture}
+%         \captionof{figure}{Automat zu \eqref{bsp:3.1}}
+% \end{minipage}
+
+\begin{lemma}
 \label{eqn:delta-wohldefiniert}
-        p &\equiv q \=> \forall a\in\Sigma:\ \delta(p,a)\equiv\delta(q,a)
-\end{align}
-Denn
+Für alle $p,q\in Q$ gilt:
+        $$p \equiv q \quad\=>\quad \forall a\in\Sigma \delta(p,a)\equiv\delta(q,a)$$
+\end{lemma}
+\begin{proof}
 \begin{align*}
         p \equiv q  
-        & \<=> \forall w\in\Sigma^*: \hat\delta(p,w)\in F \<=> \hat\delta(q,w) \in F\\
+        & \<=> \forall w\in\Sigma^*: \tilde\delta(p,w)\in F \<=> \tilde\delta(q,w) \in F\\
         & \<=> (p\in F \<=> q \in F) \land \forall a\in \Sigma: \forall w\in\Sigma^*:
-        \hat\delta(p,aw)\in F \<=> \hat\delta(q,aw)\in F\\
-        &\=>  \forall a\in\Sigma: \forall w\in\Sigma^*: \hat\delta(\delta(p,a),w)\in F \<=> \hat\delta(\delta(q,a),w)\in F\\
+        \tilde\delta(p,aw)\in F \<=> \tilde\delta(q,aw)\in F\\
+        &\=>  \forall a\in\Sigma: \forall w\in\Sigma^*: \tilde\delta(\delta(p,a),w)\in F \<=> \tilde\delta(\delta(q,a),w)\in F\\
         & \<=>\forall a\in\Sigma: \delta(p,a)\equiv\delta(q,a)
 \end{align*}
-Also können wir äquivalente Zustände zusammenfassen und Transitionen verschmelzen, wie in der folgenden Definition formalisiert.
+\end{proof}
+Wir formalisieren das ``Verschmelzen'' von Zuständen wie folgt.
 \begin{Def}[name={[Äquivalenzklassenautomat]}]
-        Der Äquivalenzklassenautomat $M'=(Q',\Sigma,\delta',q_0',F')$ zu $M$ ist bestimmt durch:
+        Der Äquivalenzklassenautomat $\A'=(Q',\Sigma,\delta',{\qinit}',F')$ zu einem DEA $\A=(Q,\Sigma,\delta,\qinit,F)$ ist bestimmt durch:
         \begin{align*}
                 Q' &= \{[q]\mid q\in Q\} & \delta'([q],a) &= [\delta(q,a)]\\
                 q_0' &= [q_0] & F'&=\{[q]\mid q\in F \}
         \end{align*}
-\end{Def}
 Dabei ist $[q]=\{p\in Q \mid p\equiv q\}$
+\end{Def}
 \begin{Satz}[name={[Äquivalenzklassenautomat ist wohldefiniert]}]
-        Der Äquivalenzklassenautomat ist wohldefiniert und $L(M)=L(M')$.
+        Der Äquivalenzklassenautomat ist wohldefiniert und $L(\A')=L(\A)$.
 \end{Satz}
 \begin{proof}\ 
         \begin{enumerate}
-                \item Wohldefiniert: zu zeigen $\delta'([q],a) =[\delta(q,a)]$ ist nicht abhängig von der Wahl des Repräsentanten $q\in [q]$. Das folgt direkt aus \eqref{eqn:delta-wohldefiniert} gezeigt.
-                \item $L(M)=L(M')$ zeige für alle $w\in\Sigma^*$ und alle $q$: $\hat\delta(q,w)\in F \<=> \hat\delta'([q],w)\in F'$\\
+                \item Wohldefiniert: zu zeigen $\delta'([q],a) =[\delta(q,a)]$ ist nicht abhängig von der Wahl des Repräsentanten $q\in [q]$. Das folgt direkt aus \autoref{eqn:delta-wohldefiniert} gezeigt.
+                \item $L(\A)=L(\A')$ zeige für alle $w\in\Sigma^*$ und alle $q$: $\tilde\delta(q,w)\in F \<=> \tilde\delta'([q],w)\in F'$\\
                 Induktion über $w$:\\
-                I.A. $w=\Eps$: $\hat\delta(q,\Eps)=q\in F \<=> \hat\delta'([q],\Eps)=[q]\in F'$ nach Definition.\\
-                I.V.: $\forall w'\in\Sigma$, $\forall q\in Q$, $\hat\delta(q,w')\in F \<=> \hat\delta'([q],w')\in F'$\\
+                I.A. $w=\Eps$: $\tilde\delta(q,\Eps)=q\in F \<=> \tilde\delta'([q],\Eps)=[q]\in F'$ nach Definition.\\
+                I.V.: $\forall w'\in\Sigma$, $\forall q\in Q$, $\tilde\delta(q,w')\in F \<=> \tilde\delta'([q],w')\in F'$\\
                 I.S.: \begin{align*}
-                \hat\delta(q,aw')\in F &\<==> \hat\delta(\delta(q,a),w')\in F\\ &\xLeftrightarrow{I.V.} \hat\delta'([\delta(q,a)],w')\in F'\\
-                &\<==> \hat\delta'(\delta'([q],a),w')\in F'\\
-                &\<==> \hat\delta'([q],a w')\in F'
+                \tilde\delta(q,aw')\in F &\<==> \tilde\delta(\delta(q,a),w')\in F\\ &\xLeftrightarrow{I.V.} \tilde\delta'([\delta(q,a)],w')\in F'\\
+                &\<==> \tilde\delta'(\delta'([q],a),w')\in F'\\
+                &\<==> \tilde\delta'([q],a w')\in F'
                 \end{align*}
-                Also f"ur $q=q_0$: $\forall w\in\Sigma^*$, $w\in L(M)\<==> \hat\delta(q_0,w) \in F \<=> \hat\delta'([q_0],w) \in F' \<==> w\in L(M')$
+                Also f"ur $q=q_0$: $\forall w\in\Sigma^*$, $w\in L(\A)\<==> \tilde\delta(q_0,w) \in F \<=> \tilde\delta'([q_0],w) \in F' \<==> w\in L(\A')$
         \end{enumerate}
 \end{proof}
-\emph{Bem:} Die Konstruktion von $M'$ kann in $O(|Q||\Sigma|\log|Q|)$ passieren.
+\emph{Bem:} Die Konstruktion von $\A'$ kann in $O(|Q||\Sigma|\log|Q|)$ passieren.
 
 Warum ist nun der Äquivalenzklassenautomat minimal?\\
 \-> Satz von Myhill-Nerode
@@ -604,12 +613,12 @@ Warum ist nun der Äquivalenzklassenautomat minimal?\\
 %\setcounter{Bsp}{5}
 \begin{Bsp} %\rlnote{Bsp.-Num. überprüfen (3.6)}
   \label{Bsp:R_m}
-        Für einen \ac{DEA} $M$ definiere
-        \[ R_M = \{(u,v) \mid \hat\delta(q_0,u)=\hat\delta(q_0,v)\} \]
+        Für einen \ac{DEA} $\A$ definiere
+        \[ R_\A = \{(u,v) \mid \tilde\delta(q_0,u)=\tilde\delta(q_0,v)\} \]
         \begin{itemize}
                 \item ist Äquivalenzrelation
                 \item ist rechtsinvariant
-                \item Anzahl der Äquivalenzklassen(Index von $R_M$)\\
+                \item Anzahl der Äquivalenzklassen(Index von $R_\A$)\\
                 = Anzahl der "`nützlichen"' Zustände, die von $q_0$ erreichbar sind.
         \end{itemize}
 \end{Bsp}
@@ -653,7 +662,7 @@ Die Menge der Äquivalenzklassen der Nerode Relation $R_{L_a}$ auf $L_a$ ist
         \end{enumerate}
 \end{Satz}
 
-\datenote{2.11.16}
+% \datenote{2.11.16}
 \begin{proof}
   Wir beweisen die gegenseitige Äquivalenz in drei Schritten:
 
@@ -661,15 +670,15 @@ Die Menge der Äquivalenzklassen der Nerode Relation $R_{L_a}$ auf $L_a$ ist
     (1) \=> (2) \quad \mbox{(2) \=> (3)} \quad (3) \=> (1)
   \end{center}
 
-        \paragraph{(1) \=> (2)}: Sei $M$ ein \ac{DEA} mit
+        \paragraph{(1) \=> (2)}: Sei $\A$ ein \ac{DEA} mit
   \begin{displaymath}
-    L(M)=\{w \mid \hat\delta(q_0,w)\in F \} = \bigcup_{q \in F} \{ w \mid \hat\delta(q_0,w) = q\}
+    L(\A)=\{w \mid \tilde\delta(q_0,w)\in F \} = \bigcup_{q \in F} \{ w \mid \tilde\delta(q_0,w) = q\}
 \end{displaymath}
 
-Nun sind $\{ w \mid \hat\delta(q_0,w)=q \} = [q]_M$ genau die Äquivalenzklassen von $R_M$ aus Bsp \ref{Bsp:R_m}, einer rechtsinvarianten Äquivalenzrelation.
+Nun sind $\{ w \mid \tilde\delta(q_0,w)=q \} = [q]_\A$ genau die Äquivalenzklassen von $R_\A$ aus Bsp \ref{Bsp:R_m}, einer rechtsinvarianten Äquivalenzrelation.
 Der Index ist die Anzahl der erreichbaren Zustände.
 
-Also: $\operatorname{Index}(R_M) \le |Q| < \infty$.
+Also: $\operatorname{Index}(R_\A) \le |Q| < \infty$.
         
 \paragraph{(2) \=> (3)} Sei $R$ rechtsinvariante Äquivalenzrelation mit endlichem Index, so dass $L=\bigcup R$-Äquivalenzklassen
         
@@ -703,32 +712,32 @@ Das aber ist die Definition der Nerode-Relation, d.h. $(u, v) \in R_L$. Da wir $
     \end{itemize}
     Zeige $L(\A')=L$, d.h.
     \begin{enumerate}
-    \item \label{eq:nerode 3->1.1} $\forall w\in \Sigma^* : w\in L(\A')$ gdw $\hat\delta([\Eps],w)\in F'$
+    \item \label{eq:nerode 3->1.1} $\forall w\in \Sigma^* : w\in L(\A')$ gdw $\tilde\delta([\Eps],w)\in F'$
     \item \label{eq:nerode 3->1.2} $w\in L$ gdw $[w]\in F'$ 
     \end{enumerate}
     
-    Um zu zeigen, dass \ref{eq:nerode 3->1.1} gdw \ref{eq:nerode 3->1.2} genügt zu zeigen, dass $\hat\delta([\Eps], w) = [w]$.
+    Um zu zeigen, dass \ref{eq:nerode 3->1.1} gdw \ref{eq:nerode 3->1.2} genügt zu zeigen, dass $\tilde\delta([\Eps], w) = [w]$.
                 Daf"ur m"ussen wir wie folgt verallgemeinern um eine funktionierende Induktionsvoraussetzung zu erhalten.
     \begin{displaymath}
       \forall w\in\Sigma^* :
-                        \forall v\in\Sigma^* : \hat\delta'([v],w) = [v\cdot w]
+                        \forall v\in\Sigma^* : \tilde\delta'([v],w) = [v\cdot w]
     \end{displaymath}
     Induktion über $w$:
     \begin{description}
-    \item[IA] $(w = \Eps)$: $\hat\delta'([v],\Eps) = [v]=[v\cdot\Eps]$
+    \item[IA] $(w = \Eps)$: $\tilde\delta'([v],\Eps) = [v]=[v\cdot\Eps]$
     \item[IV] 
-      $\forall v\in\Sigma^* : \hat\delta'([v],w') = [v\cdot w]$
+      $\forall v\in\Sigma^* : \tilde\delta'([v],w') = [v\cdot w]$
     \item [IS] $w = aw'$:
       \begin{displaymath}
         \begin{array}{lcl}
-        \hat\delta'([v],aw') &=& \hat\delta'(\delta'([v],a),w') \\
-                             &=& \hat\delta'([v\cdot a],w') \\
+        \tilde\delta'([v],aw') &=& \tilde\delta'(\delta'([v],a),w') \\
+                             &=& \tilde\delta'([v\cdot a],w') \\
                              &\stackrel{\text{I.V.}}{=}&[va\cdot w'] \\
                              &=& [v\cdot \underbrace{aw'}_{=w}]
         \end{array}
       \end{displaymath}
     \end{description}
-                Das gewünschte Ergebnis $\hat\delta([\Eps], w) = [w]$ ergibt sich für $v=\Eps$. \qedhere
+                Das gewünschte Ergebnis $\tilde\delta([\Eps], w) = [w]$ ergibt sich für $v=\Eps$. \qedhere
 \end{proof}
 %
 \setcounter{Korollar}{4}
@@ -773,7 +782,7 @@ Suche: Notwendiges Kriterium für Regularität
   \begin{itemize}
   \item Es gilt offensichtlich, dass $11 \in L$
   \item Es auch, dass $1 \underline{0 0} 1 \in L$.
-  \item Der Automat hat eine Schleife bei $\hat\delta({q_1,00}) = q_1$, die mehrfach ,,abgelaufen'' werden kann ohne die Akzeptanz zu beinflussen.
+  \item Der Automat hat eine Schleife bei $\tilde\delta({q_1,00}) = q_1$, die mehrfach ,,abgelaufen'' werden kann ohne die Akzeptanz zu beinflussen.
   \item Also gilt auch $100001 \in L$,
   \item und im Allgemeinen $\forall i\in\N: 1(00)^i1 \in L$
   \end{itemize}
@@ -798,16 +807,16 @@ Suche: Notwendiges Kriterium für Regularität
 	
 	Wähle das $q$, dessen zweiter Besuch zuerst passiert.
 	\begin{alignat*}{3}
-		\text{D.h.}:&\quad& \hat\delta(q_0,u)&=q &\qquad& u\text{ Präfix von }z\\
-		\exists v:&& \hat\delta(q,v)&=q && uv\text{ Präfix von }z\\
-		\exists w:&& \hat\delta(q,w)&\in F && uvw=z\\
+		\text{D.h.}:&\quad& \tilde\delta(q_0,u)&=q &\qquad& u\text{ Präfix von }z\\
+		\exists v:&& \tilde\delta(q,v)&=q && uv\text{ Präfix von }z\\
+		\exists w:&& \tilde\delta(q,w)&\in F && uvw=z\\
 		&& |v| &\geq 1\\
 		&& |uv| &\leq n && \text{ergibt sich aus Wahl von }q
 	\end{alignat*}
 	\begin{alignat*}{2}
-		\text{jetzt:}\quad &\hat\delta(q_0,uv^iw) &\quad& i\in\N\\
-		&= \hat\delta(q,v^iw)\\
-		&= \hat\delta(q,w) && \text{denn }\forall i: \hat\delta(q,v^i)=q\\
+		\text{jetzt:}\quad &\tilde\delta(q_0,uv^iw) &\quad& i\in\N\\
+		&= \tilde\delta(q,v^iw)\\
+		&= \tilde\delta(q,w) && \text{denn }\forall i: \tilde\delta(q,v^i)=q\\
 		&\in F \tag*{\qedhere}
 	\end{alignat*}
 \end{proof}
@@ -1041,14 +1050,14 @@ Wähle $z=0^p \in L_2$
         \end{align*}
         Zeige $L(\A)=L(\A')$
         \begin{align*}
-                \text{Es gilt } w\in L(\A') &\<=> \hat\delta'(q_0',w)\in F'\\
-                &\<=> \hat\delta'(q_0',w)\cap F\neq \varnothing\\
+                \text{Es gilt } w\in L(\A') &\<=> \tilde\delta'(q_0',w)\in F'\\
+                &\<=> \tilde\delta'(q_0',w)\cap F\neq \varnothing\\
                 &\<=> \exists \text{ akzeptierender Lauf von $\A$ auf $w$} \\
                 &\<=> w\in L(\A).
         \end{align*}
         Zeige $\forall w\in\Sigma^*$:
         \begin{align*}
-                \forall q'\in Q' &\phantom{\<=>} \hat\delta'(q',w)\cap F\neq \varnothing\\
+                \forall q'\in Q' &\phantom{\<=>} \tilde\delta'(q',w)\cap F\neq \varnothing\\
                 &\<=> \exists\text{ akzeptierender Lauf von $\A$ \underline{ab $q'$} auf }w\\
                 &\<=> \exists \underbrace{p_0p_1\dots p_n}_{\text{Lauf}}\in Q \quad p_0=q',\ p_n\in F,\ n=|w|
         \end{align*}
@@ -1057,16 +1066,16 @@ Wähle $z=0^p \in L_2$
         \item[I.A.]
                 \begin{alignat*}{2}
                         \Eps:\\
-                        &&\forall q'\in Q'\ \hat\delta(&q',\Eps)\cap F\neq \varnothing\\
+                        &&\forall q'\in Q'\ \tilde\delta(&q',\Eps)\cap F\neq \varnothing\\
                         \<=>&& &q'\cap F\neq \varnothing
                 \end{alignat*}
                 Wähle einen beliebigen Zustand $p_0=p_n\in q'\cap F$
         \item[I.S.]
         \begin{align*}
                 aw'&\\
-                &\hat\delta'(q',aw')\cap F\neq \varnothing\\
-                \<=>\quad& \hat\delta'(\underbrace{\delta'(q',a)}_{\in Q'},w')\cap F\neq\varnothing\\
-                \xLeftrightarrow{\text{I.V.}}\quad& \exists \text{Lauf\ } p_1\dots p_{n+1}\in Q : p_0\in\hat\delta'(q', a),\ p_{n+1}\in F
+                &\tilde\delta'(q',aw')\cap F\neq \varnothing\\
+                \<=>\quad& \tilde\delta'(\underbrace{\delta'(q',a)}_{\in Q'},w')\cap F\neq\varnothing\\
+                \xLeftrightarrow{\text{I.V.}}\quad& \exists \text{Lauf\ } p_1\dots p_{n+1}\in Q : p_0\in\tilde\delta'(q', a),\ p_{n+1}\in F
         \end{align*}
         Suche $p_0\in q'$ mit $p_1\in\delta(p_0,a)$\\
         existiert, denn
@@ -1327,20 +1336,20 @@ Sei $ X= AX+B$ mit $\Eps\notin A$. Zeige, dass $A^*B \subseteq X$:
 
 \begin{proof}[Kleene, \=>]
   Sei $L=L(\A)$ für einen \ac{DEA} $\A=({Q},\Sigma,\delta,q_0,F)$ mit $Q = \{q_0,q_1,\dots,q_n\}$.
-        Definiere $L_i=\{ w \mid \hat\delta(q_i,w)\in F \}$ als die Sprache der Worte, die von Zustand $q_i$ aus in einen akzeptierenden Zustand führen.
+        Definiere $L_i=\{ w \mid \tilde\delta(q_i,w)\in F \}$ als die Sprache der Worte, die von Zustand $q_i$ aus in einen akzeptierenden Zustand führen.
   Insbesondere gilt $L_0 = L$.
 
   Wir leiten nun ein lineares Gleichungssystem zwischen den Sprachen $L_i$ her.
   Zunächst teilen wir $Li$ in den Teil der (potentiell) das leere Wort enthält und den, der die nicht-leeren Wörter enthält.
   \begin{align*}
-    L_i & =  \{ w \mid \hat\delta(q_i,w)\in F \} \\
-        & =  \{ \Eps \mid \hat\delta(q_i, \Eps) \in F \} \cup \{a w' \mid a \in \Sigma, w' \in \Sigma^*, \hat\delta(\delta(q_i, a), w') \in F\} \\
-        & =  \{ \Eps \mid q_i \in F \} \cup \{a w' \mid a \in \Sigma, w' \in \Sigma^*, \hat\delta(\delta(q_i, a), w') \in F\}
+    L_i & =  \{ w \mid \tilde\delta(q_i,w)\in F \} \\
+        & =  \{ \Eps \mid \tilde\delta(q_i, \Eps) \in F \} \cup \{a w' \mid a \in \Sigma, w' \in \Sigma^*, \tilde\delta(\delta(q_i, a), w') \in F\} \\
+        & =  \{ \Eps \mid q_i \in F \} \cup \{a w' \mid a \in \Sigma, w' \in \Sigma^*, \tilde\delta(\delta(q_i, a), w') \in F\}
     \end{align*}
     Die nicht-leeren Wörter hängen von den Sprachen der Folgezustände ab:
     \begin{align*}
-      \{a w' \mid a \in \Sigma, w' \in \Sigma^*, \hat\delta(\delta(q_i, a), w') \in F\} & =
-         \bigcup_{a \in \Sigma} \{a\} \{w' \mid a \in \Sigma, w' \in \Sigma^*, \hat\delta(\delta(q_i, a), w') \in F\}
+      \{a w' \mid a \in \Sigma, w' \in \Sigma^*, \tilde\delta(\delta(q_i, a), w') \in F\} & =
+         \bigcup_{a \in \Sigma} \{a\} \{w' \mid a \in \Sigma, w' \in \Sigma^*, \tilde\delta(\delta(q_i, a), w') \in F\}
       \\
       & = \bigcup_{a \in \Sigma} \{a\} (L_j \text{ wobei  $q_j = \delta(q_i, a)$}) 
     \end{align*}
@@ -1437,7 +1446,7 @@ Ein Problem ist \emph{entscheidbar} wenn es sich durch eine binäre Antwort (ja/
 \end{Satz}
 \begin{proof}
 	$L$ sei durch \ac{DEA} gegeben.\\
-	Berechnung von $\hat\delta(q_0,w)$ entspricht Durchlauf durch Graph des \ac{DEA} + Test ob erreichter Zustand $\in F$ in Zeit $O(n)\ ,\ n=|w|$.
+	Berechnung von $\tilde\delta(q_0,w)$ entspricht Durchlauf durch Graph des \ac{DEA} + Test ob erreichter Zustand $\in F$ in Zeit $O(n)\ ,\ n=|w|$.
 \end{proof}
 
 \begin{Satz}[name={[Leerheitsproblem]}]\label{satz:leerheitsproblem}
