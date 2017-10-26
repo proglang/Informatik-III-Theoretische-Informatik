@@ -191,11 +191,11 @@ Die folgenden beiden Definitionen erlauben uns mit Hilfe eines DEAs eine Sprache
 %     \item Wenn $F=\emptyset$, dann ist $L(M)=\emptyset$.
 %     \end{itemize}
 % \end{Bsp}
-\begin{Def}[name={[Erweiterung von $\delta$ auf Worte]}]\label{def:2.deltaschlange}
-        Die Erweiterung von $\delta:Q\x\Sigma\->Q$ auf Worte $\tilde{\delta}: Q\x\Sigma^*\->Q$ ist induktiv definiert durch
+\begin{Def}[name={[Induktive erweiterung von $\delta$ auf Worte]}]\label{def:2.deltaschlange}
+        Die \emph{induktive Erweiterung} von $\delta:Q\x\Sigma\->Q$ auf Worte $\tilde{\delta}: Q\x\Sigma^*\->Q$ ist (induktiv) definiert durch
   \begin{enumerate}
-  \item $\tilde\delta(q,\Eps) =q$ (Wortende erreicht)
-  \item $\tilde\delta(q,aw)=\tilde\delta(\delta(q,a),w)$ (Rest im Folgezustand verarbeiten)
+  \item $\tilde\delta(q,\Eps) =q$\ \ \ \  (Wortende erreicht)
+  \item $\tilde\delta(q,aw)=\tilde\delta(\delta(q,a),w)$\ \ \ \ (Rest im Folgezustand verarbeiten)
   \end{enumerate}
 \end{Def}
 \begin{Def}[name={[Die durch einen \acs*{DEA} erkannte Sprache]}]\label{def:2.sprache}
@@ -319,22 +319,22 @@ $$\tilde{\delta}_\cap((q_1,q_2),w) = (\tilde{\delta}_1(q_1,w), \tilde{\delta}_2(
 Der Induktionsanfang für $n=0$ folgt dabei direkt aus \autoref{def:2.deltaschlange}, da $\Eps$ das einzige Wort der Länge $0$ ist.
 $$\tilde{\delta}_\cap((q_1,q_2),\Eps) = (q_1,q_2)$$
 Den Induktionsschritt $n\rightsquigarrow n+1$ zeigen wir mit Hilfe der folgenden Umformungen, wobei $a\in\Sigma$ ein beliebiges Zeichen und $w\in\Sigma^n$ ein beliebiges Wort der Länge $n$ ist.
-\begin{align*}
+\begin{eqnarray*}
   \tilde{\delta}_\cap((q_1,q_2),aw) 
-    & \stackrel{\autoref{def:2.deltaschlange}}{=} \tilde{\delta}_\cap(\delta_\cap((q_1,q_2),a),w)\\
-    & \stackrel{\text{def. }\delta_\cap}{=} \tilde{\delta}_\cap (\big(\delta_1(q_1,a),\delta_2(q_2,a)\big),w)\\
-    & \stackrel{\text{I.V.}}{=} \big(\tilde{\delta}_1 (\delta_1(q_1,a),w), \tilde{\delta}_2(\delta_2(q_2,a),w)\big)\\
-    & \stackrel{\autoref{def:2.deltaschlange}}{=} \big(\tilde{\delta}_1(q_1,aw), \tilde{\delta}_2(q_2,aw)\big)
-\end{align*}
+    & \stackrel{\text{\autoref{def:2.deltaschlange}}}{=} & \tilde{\delta}_\cap(\delta_\cap((q_1,q_2),a),w)\\
+    & \stackrel{\text{def. }\delta_\cap}{=} & \tilde{\delta}_\cap (\big(\delta_1(q_1,a),\delta_2(q_2,a)\big),w)\\
+    & \stackrel{\text{I.V.}}{=} & \big(\tilde{\delta}_1 (\delta_1(q_1,a),w), \tilde{\delta}_2(\delta_2(q_2,a),w)\big)\\
+    & \stackrel{\autoref{def:2.deltaschlange}}{=} & \big(\tilde{\delta}_1(q_1,aw), \tilde{\delta}_2(q_2,aw)\big)
+\end{eqnarray*}
 Schließlich zeigen wir $L(A_\cap)=L(A_1)\cap L(A_2)$ mit Hilfe der folgenden Umformungen für ein beliebiges $w\in\Sigma^*$.
-\begin{align*}
+\begin{eqnarray*}
   w\in L(A_\cap)
-  & \stackrel{\autoref{def:2.sprache}}{\mathsf{gdw}} \tilde{\delta}_\cap(\qinit_\cap,w)\in F_\cap\\
-  & \stackrel{\text{def. }\qinit_\cap}{\mathsf{gdw}} \tilde{\delta}_\cap((\qinit_1,\qinit_2),w)\in F_\cap\\
-  & \stackrel{}{\mathsf{gdw}} (\tilde{\delta}_1(\qinit_1,w),\tilde{\delta}_2(\qinit_2,w))\in F_\cap\\
-  & \stackrel{\text{def. }F_\cap}{\mathsf{gdw}} \tilde{\delta}_1(\qinit_1,w)\in F_1 \text{ und } \tilde{\delta}_2(\qinit_2,w)\in F_2\\
-  & \stackrel{\autoref{def:2.sprache}}{\mathsf{gdw}} w\in L(A_1) \text{ und } w\in L(A_2)
-\end{align*}
+  & \stackrel{\autoref{def:2.sprache}}{\mathsf{gdw}} & \tilde{\delta}_\cap(\qinit_\cap,w)\in F_\cap\\
+  & \stackrel{\text{def. }\qinit_\cap}{\mathsf{gdw}} & \tilde{\delta}_\cap((\qinit_1,\qinit_2),w)\in F_\cap\\
+  & \stackrel{}{\mathsf{gdw}} & (\tilde{\delta}_1(\qinit_1,w),\tilde{\delta}_2(\qinit_2,w))\in F_\cap\\
+  & \stackrel{\text{def. }F_\cap}{\mathsf{gdw}} & \tilde{\delta}_1(\qinit_1,w)\in F_1 \text{ und } \tilde{\delta}_2(\qinit_2,w)\in F_2\\
+  & \stackrel{\autoref{def:2.sprache}}{\mathsf{gdw}} & w\in L(A_1) \text{ und } w\in L(A_2)
+\end{eqnarray*}
 \end{proof}
 
 \begin{Bsp}\label{bsp:2.schnitt}
@@ -480,6 +480,9 @@ Bemerkung: Die Menge der erreichbaren Zustände kann mit dem folgenden Verfahren
 %
 %\stepcounter{Def}
 %
+
+\medskip
+
 Beobachtung: Auch nach dem Entfernen der nicht erreichbaren Zustände $q_{01}$ und $q_{10}$ scheint der DEA aus \autoref{bsp:2.schnitt} unnötig groß. Das Verhalten des DEA in den Zuständen $q_{11}$, $q_{20}$ und $q_{21}$ ist sehr ähnlich. 
 Wir charakterisieren diese ``Ähnlichkeit'' formal wie folgt.
 
@@ -495,7 +498,15 @@ Die Zustände $q_{11}$, $q_{20}$ und $q_{21}$ aus \autoref{bsp:2.schnitt} sind p
 % Also sind $q_2,q_3$ aus \autoref{Bsp:3.4} äquivalent.
 
 \subsubsection{Exkurs: Äquivalenzrelationen}
-TODO
+Eine Relation binäre ist eine 
+
+Eine Relation $R\subseteq X\times X$ heißt
+\begin{itemize}
+ \item \emph{reflexiv}, wenn $\forall x\in X$\ $(x,x)\in R$
+ \item \emph{symmetrisch}, wenn $\forall x, y\in X$\ $(x,y)\in R \quad \Rightarrow\quad (y,x)\in R$
+ \item \emph{transitiv}, wenn $\forall x, y, z\in X$\ $(x,y)\in R \land (y,z)\in R\quad \Rightarrow\quad (x,z)\in R$
+\end{itemize}
+
 
 \begin{tabular}{lccc}
 & reflexiv & symmetrisch & transitiv\\ \hline
@@ -507,6 +518,22 @@ $(\N, \leq)$& ja & nein & ja\\
 direkte genetische Verwandtschaft & ja & ja & nein\\
 logische Äquivalenz von Formeln & ja & ja & ja\\
 \end{tabular}
+
+
+Wir nennen die Menge 
+\begin{Erinnerung}
+Hauptlemma "uber "Aquivalenzrelationen
+\begin{align*}
+        [q] &= \{p\in Q \mid p \equiv q\} &&[q] \text{ ist Äquivalenzklasse von }q
+\end{align*}
+"Aquivalenzklassen sind paarweise disjunkt:
+
+F"ur alle $ p,q\in Q$ gilt entweder $[p]=[q]$ oder $[p]\cap[q] = \emptyset$ (folgt aus Transitivität).
+
+D.h. $Q$ wird in disjunkte Äquivalenzklassen aufgeteilt. Anzahl der Äquivalenzklassen ist der \emph{Index}.
+\end{Erinnerung}
+
+
 
 
 \begin{lemma}[name={[$\equiv$ ist Äquivalenzrelation]}] %\rlnote{Satz = Lemma-Nummer: 3.2 statt 3.1?}
@@ -523,20 +550,11 @@ logische Äquivalenz von Formeln & ja & ja & ja\\
 
 
 
-% \begin{Erinnerung}
-% Hauptlemma "uber "Aquivalenzrelationen
-% \begin{align*}
-%         [q] &= \{p\in Q \mid p \equiv q\} &&[q] \text{ ist Äquivalenzklasse von }q
-% \end{align*}
-% "Aquivalenzklassen sind paarweise disjunkt:
-% 
-% F"ur alle $ p,q\in Q$ gilt entweder $[p]=[q]$ oder $[p]\cap[q] = \emptyset$ (folgt aus Transitivität).
-% 
-% D.h. $Q$ wird in disjunkte Äquivalenzklassen aufgeteilt. Anzahl der Äquivalenzklassen ist der \emph{Index}.
-% \end{Erinnerung}
+
 
 Idee: ``Verschmelze'' alle Zustände aus einer Äquivalenzklasse zu einem einzigen Zustand.
-Bedenken: Jeder Zustand hat für jedes Zeichen einen Nachfolger. Wenn wir Zustände verschmelzen gibt es mehrere Nachfolger!
+Bedenken: Bei einem \ac{DEA} hat jeder Zustand hat für jedes Zeichen einen Nachfolger. 
+Wenn wir Zustände verschmelzen könnte es mehrere Nachfolger geben und das Resultat wäre kein wohldefinierter \ac{DEA} mehr.
 
 Das folgende Lemma zeigt dass unsere Benken nicht gerechtfertigt sind. 
 Sind zwei Zustände äquivalent so sind auch für jedes Zeichen ihre Nachfolger äquivalent.
@@ -563,7 +581,7 @@ Sind zwei Zustände äquivalent so sind auch für jedes Zeichen ihre Nachfolger 
 \begin{lemma}
 \label{eqn:delta-wohldefiniert}
 Für alle $p,q\in Q$ gilt:
-        $$p \equiv q \quad\=>\quad \forall a\in\Sigma \delta(p,a)\equiv\delta(q,a)$$
+        $$p \equiv q \quad\=>\quad \forall a\in\Sigma\;\; \delta(p,a)\equiv\delta(q,a)$$
 \end{lemma}
 \begin{proof}
 \begin{align*}
