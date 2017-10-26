@@ -198,10 +198,12 @@ Die folgenden beiden Definitionen erlauben uns mit Hilfe eines DEAs eine Sprache
   \item $\tilde\delta(q,aw)=\tilde\delta(\delta(q,a),w)$\ \ \ \ (Rest im Folgezustand verarbeiten)
   \end{enumerate}
 \end{Def}
-\begin{Def}[name={[Die durch einen \acs*{DEA} erkannte Sprache]}]\label{def:2.sprache}
-        Sei $\A=(\Sigma, Q,\delta,\qinit,F)$. Die \emph{von $\A$ erkannte Sprache} ist
-        \[ L(\A) = \{ w\in\Sigma^* \mid \tilde\delta(\qinit,w)\in F \} \]
-        Eine durch einen \ac{DEA} erkannte Sprache heißt \emph{regulär}.
+\begin{Def}[name={[Die durch einen \acs*{DEA} akzeptierte Sprache]}]\label{def:2.sprache}
+        Sei $\A=(\Sigma, Q,\delta,\qinit,F)$. 
+        Wir sagen ein Wort $w\in\Sigma^*$ wird von $\A$ \emph{akzeptiert} falls $\tilde\delta(\qinit,w)\in F$.
+        Die \emph{von $\A$ akzeptierte Sprache}, geschrieben $L(\A)$, ist die Menge aller Wörter die von $\A$ akzeptiert werden. D.h., 
+        \[ L(\A) = \{ w\in\Sigma^* \mid \tilde\delta(\qinit,w)\in F \}. \]
+        Eine durch einen \ac{DEA} akzeptierte Sprache heißt \emph{regulär}.
 \end{Def}
 
 \begin{Bsp} 
@@ -423,12 +425,12 @@ Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende
 % \end{tikzpicture}
 % \end{center}
 % Es ist zu bemerken, dass manche Zustände von $Q$ nie erreicht werden können, z.B.\ $\emptyset$.
-% Sei für die folgenden Überlegungen $M = (Q, \Sigma, \delta, q_0, F)$ ein DEA.
+% Sei für die folgenden Überlegungen $M = (Q, \Sigma, \delta, \qinit, F)$ ein DEA.
 
 Beobachtung: Der Zustand $q_{01}$ im Beispiel \ref{bsp:2.schnitt} scheint nutzlos. Wir charakterisieren diese ``Nutzlosigkeit'' formal wie folgt.
 
 \begin{Def}
-  Ein Zustand $q \in Q$ heißt \emph{erreichbar}, falls ein $w \in \Sigma^*$ existiert, so dass $\hat \delta(q_0, w) = q$.
+  Ein Zustand $q \in Q$ heißt \emph{erreichbar}, falls ein $w \in \Sigma^*$ existiert, so dass $\hat \delta(\qinit, w) = q$.
 %   $M$ heißt \emph{reduziert}, falls alle Zustände erreichbar sind.
 \end{Def}
 % \begin{Satz}
@@ -458,7 +460,7 @@ Bemerkung: Die Menge der erreichbaren Zustände kann mit dem folgenden Verfahren
 %   \begin{center}
 %                 \begin{tikzpicture}
 %                         \node (start) at (-4,1.5) {};
-%                         \node (q0) [circle,double] at (-3,1) {$q_0$};
+%                         \node (q0) [circle,double] at (-3,1) {$\qinit$};
 %                         \node (q1) [circle,double] at (-0.5,1) {$q_1$};
 %                         \node (q2) [circle] at (2,1) {$q_2$};
 %                         \node (q3) [circle] at (3.5,1) {$q_3$};
@@ -498,51 +500,61 @@ Die Zustände $q_{11}$, $q_{20}$ und $q_{21}$ aus \autoref{bsp:2.schnitt} sind p
 % Also sind $q_2,q_3$ aus \autoref{Bsp:3.4} äquivalent.
 
 \subsubsection{Exkurs: Äquivalenzrelationen}
-Eine Relation binäre ist eine 
+Sie haben Äquivalenzrelationen bereits in ``Mathematik II für Studierende der Informatik''\footnote{\url{http://home.mathematik.uni-freiburg.de/junker/ss17/matheII.html}} kennengelernt.
+Dieser kurze Exkurs wiederholt die für unsere Vorlesung relevanten Definitionen.
+Sie $X$ eine beliebige Menge. Eine \emph{Relation} $R$ über $X$ ist eine Teilmenge des Produktes $X\times X$ (d.h. $R\subseteq X\times X$).
 
 Eine Relation $R\subseteq X\times X$ heißt
 \begin{itemize}
- \item \emph{reflexiv}, wenn $\forall x\in X$\ $(x,x)\in R$
- \item \emph{symmetrisch}, wenn $\forall x, y\in X$\ $(x,y)\in R \quad \Rightarrow\quad (y,x)\in R$
- \item \emph{transitiv}, wenn $\forall x, y, z\in X$\ $(x,y)\in R \land (y,z)\in R\quad \Rightarrow\quad (x,z)\in R$
+ \item \emph{reflexiv}, wenn $\forall x\in X$\ $(x,x)\in R$, 
+ \item \emph{symmetrisch}, wenn $\forall x, y\in X$\ $(x,y)\in R \;\; \Rightarrow\;\; (y,x)\in R$, 
+ \item \emph{transitiv}, wenn $\forall x, y, z\in X$\ $(x,y)\in R \land (y,z)\in R\;\; \Rightarrow\;\; (x,z)\in R$.
 \end{itemize}
 
+\begin{Bsp} Im folgenden interessieren wir uns nur Relationen die alle drei Eigenschaften erfüllen, 
+aber die folgenden Beispiele sollen helfen sich mit diesen Eigenschaften vertraut zu machen.
+\footnote{Wir können kein Beispiel für eine Relation finden, die nicht reflexiv aber symmetrisch und transitiv ist, da Reflexivität bereits aus Symmetrie und Transitivität folgt: 
+$(a,b)\in R\stackrel{\text{sym}}{\Rightarrow} (b,a)\in R\stackrel{\text{trans}}{\Rightarrow} (a,a)\in R$.}
 
+\begin{center}
 \begin{tabular}{lccc}
 & reflexiv & symmetrisch & transitiv\\ \hline
 ``gewinnt`` bei Schere, Stein, Papier & nein & nein & nein\\
 $(\N, <)$ & nein & nein & ja\\
 $(\N, \neq)$ & nein & ja & nein\\
-? & ja & nein & nein\\
+$\{(a,b)\in\mathbb{Z}\times\mathbb{Z}\mid a-b\leq 3\}$ & ja & nein & nein\\
 $(\N, \leq)$& ja & nein & ja\\
 direkte genetische Verwandtschaft & ja & ja & nein\\
 logische Äquivalenz von Formeln & ja & ja & ja\\
 \end{tabular}
+\end{center}
+\end{Bsp}
 
+\begin{Def}
+Eine Äquivalenzrelation $R$ ist eine Relation die reflexiv, symmetrisch und transitiv ist.
 
-Wir nennen die Menge 
-\begin{Erinnerung}
-Hauptlemma "uber "Aquivalenzrelationen
-\begin{align*}
-        [q] &= \{p\in Q \mid p \equiv q\} &&[q] \text{ ist Äquivalenzklasse von }q
-\end{align*}
-"Aquivalenzklassen sind paarweise disjunkt:
+Für ein $x\in X$ nennen wir die Menge $\{y\in X \mid y \equiv x\}$ die \emph{Äquivalenzklasse} von $x$
+und verwenden die Notation $[x]$ für diese Menge.
 
-F"ur alle $ p,q\in Q$ gilt entweder $[p]=[q]$ oder $[p]\cap[q] = \emptyset$ (folgt aus Transitivität).
+Wenn wir eine Äquivalenzklase mit Hilfe der Notation $[x]$ beschreiben, nennen wir $x$ den \emph{Repräsentanten} dieser Äquivalenzklasse.
 
-D.h. $Q$ wird in disjunkte Äquivalenzklassen aufgeteilt. Anzahl der Äquivalenzklassen ist der \emph{Index}.
-\end{Erinnerung}
+Wir nennen die Anzahl der Äquivalenzklassen von $R$ den \emph{Index} von $R$.
+\end{Def}
 
+Zwei Fakten (ohne Beweis).
+\begin{description}
+ \item[Fakt 1] Die Äquivalenzklassen von $R$ sind paarweise disjunkt.
+ \item[Fakt 2] Die Vereinigung aller Äquivalenzklassen ergibt $X$.
+\end{description}
 
-
+Hiermit endet der Exkurs zu Äquivalenzrelationen und wir wollen mit diesem Wissen die oben definierte Relation $\equiv\subseteq Q\times Q$ genauer analysieren.
 
 \begin{lemma}[name={[$\equiv$ ist Äquivalenzrelation]}] %\rlnote{Satz = Lemma-Nummer: 3.2 statt 3.1?}
-        Die Relation ,,$\equiv$'' ist eine \emph{Äquivalenzrelation}, das heißt, ,,$\equiv$'' ist reflexiv, transitiv und symmetrisch.
+        Die Relation ,,$\equiv$'' ist eine \emph{Äquivalenzrelation}.
 \end{lemma}
 \begin{proof}
 
-  $\equiv$ ist offensichtlich reflexiv.
-        
+  Die Relation $\equiv$ ist offensichtlich reflexiv.
   Die Symmetrie und Transitivität von $\equiv$ folgt aus der Transitivität und Symmetrie der logischen Interpretation von ,,genau dann wenn'' (gdw).
 \end{proof}
 
@@ -565,7 +577,7 @@ Sind zwei Zustände äquivalent so sind auch für jedes Zeichen ihre Nachfolger 
 %     \captionsetup{type=figure}
 %         \begin{tikzpicture}
 %                 \node (start) at (-4,1.5) {};
-%                 \node (q0) [circle,double] at (-3,1) {$q_0$};
+%                 \node (q0) [circle,double] at (-3,1) {$\qinit$};
 %                 \node (q1) [circle,double] at (-0.5,1) {$q_1$};
 %                 \node (q2) [circle] at (2,1) {$q_2$};
 %                 \draw [->] (start) edge (q0);
@@ -584,47 +596,50 @@ Für alle $p,q\in Q$ gilt:
         $$p \equiv q \quad\=>\quad \forall a\in\Sigma\;\; \delta(p,a)\equiv\delta(q,a)$$
 \end{lemma}
 \begin{proof}
-\begin{align*}
+\begin{eqnarray*}
         p \equiv q  
-        & \<=> \forall w\in\Sigma^*: \tilde\delta(p,w)\in F \<=> \tilde\delta(q,w) \in F\\
-        & \<=> (p\in F \<=> q \in F) \land \forall a\in \Sigma: \forall w\in\Sigma^*:
+        & \text{gdw} & \forall w\in\Sigma^*: \tilde\delta(p,w)\in F \<=> \tilde\delta(q,w) \in F\\
+        & \text{gdw} & (p\in F \<=> q \in F) \land \forall a\in \Sigma: \forall w\in\Sigma^*:
         \tilde\delta(p,aw)\in F \<=> \tilde\delta(q,aw)\in F\\
-        &\=>  \forall a\in\Sigma: \forall w\in\Sigma^*: \tilde\delta(\delta(p,a),w)\in F \<=> \tilde\delta(\delta(q,a),w)\in F\\
-        & \<=>\forall a\in\Sigma: \delta(p,a)\equiv\delta(q,a)
-\end{align*}
+        &\text{impliziert} &  \forall a\in\Sigma: \forall w\in\Sigma^*: \tilde\delta(\delta(p,a),w)\in F \<=> \tilde\delta(\delta(q,a),w)\in F\\
+        & \text{gdw} & \forall a\in\Sigma: \delta(p,a)\equiv\delta(q,a)
+\end{eqnarray*}
 \end{proof}
 Wir formalisieren das ``Verschmelzen'' von Zuständen wie folgt.
 \begin{Def}[name={[Äquivalenzklassenautomat]}]
-        Der Äquivalenzklassenautomat $\A'=(Q',\Sigma,\delta',{\qinit}',F')$ zu einem DEA $\A=(Q,\Sigma,\delta,\qinit,F)$ ist bestimmt durch:
+        Der Äquivalenzklassenautomat $\A_\equiv=(Q_\equiv,\Sigma,\delta_\equiv,{\qinit}_\equiv,F_\equiv)$ zu einem DEA $\A=(Q,\Sigma,\delta,\qinit,F)$ ist bestimmt durch:
         \begin{align*}
-                Q' &= \{[q]\mid q\in Q\} & \delta'([q],a) &= [\delta(q,a)]\\
-                q_0' &= [q_0] & F'&=\{[q]\mid q\in F \}
+                Q_\equiv &= \{[q]\mid q\in Q\} & \delta_\equiv([q],a) &= [\delta(q,a)]\\
+                \qinit_\equiv &= [\qinit] & F_\equiv & =\{[q]\mid q\in F \}
         \end{align*}
-Dabei ist $[q]=\{p\in Q \mid p\equiv q\}$
 \end{Def}
 \begin{Satz}[name={[Äquivalenzklassenautomat ist wohldefiniert]}]
-        Der Äquivalenzklassenautomat ist wohldefiniert und $L(\A')=L(\A)$.
+        Der Äquivalenzklassenautomat ist wohldefiniert und $L(\A_\equiv)=L(\A)$.
 \end{Satz}
+
+TODO: Bringe Skript auf Stand der Vorlesung.
+
 \begin{proof}\ 
         \begin{enumerate}
-                \item Wohldefiniert: zu zeigen $\delta'([q],a) =[\delta(q,a)]$ ist nicht abhängig von der Wahl des Repräsentanten $q\in [q]$. Das folgt direkt aus \autoref{eqn:delta-wohldefiniert} gezeigt.
-                \item $L(\A)=L(\A')$ zeige für alle $w\in\Sigma^*$ und alle $q$: $\tilde\delta(q,w)\in F \<=> \tilde\delta'([q],w)\in F'$\\
+                \item Wohldefiniert: zu zeigen $\delta_\equiv([q],a) =[\delta(q,a)]$ ist nicht abhängig von der Wahl des Repräsentanten $q\in [q]$. Das folgt direkt aus \autoref{eqn:delta-wohldefiniert} gezeigt.
+                \item $L(\A)=L(\A_\equiv)$ zeige für alle $w\in\Sigma^*$ und alle $q$: $\tilde\delta(q,w)\in F \<=> \tilde\delta_\equiv([q],w)\in F_\equiv$\\
                 Induktion über $w$:\\
-                I.A. $w=\Eps$: $\tilde\delta(q,\Eps)=q\in F \<=> \tilde\delta'([q],\Eps)=[q]\in F'$ nach Definition.\\
-                I.V.: $\forall w'\in\Sigma$, $\forall q\in Q$, $\tilde\delta(q,w')\in F \<=> \tilde\delta'([q],w')\in F'$\\
+                I.A. $w=\Eps$: $\tilde\delta(q,\Eps)=q\in F \<=> \tilde\delta_\equiv([q],\Eps)=[q]\in F_\equiv$ nach Definition.\\
+                I.V.: $\forall w_\equiv\in\Sigma$, $\forall q\in Q$, $\tilde\delta(q,w_\equiv)\in F \<=> \tilde\delta_\equiv([q],w_\equiv)\in F_\equiv$\\
                 I.S.: \begin{align*}
-                \tilde\delta(q,aw')\in F &\<==> \tilde\delta(\delta(q,a),w')\in F\\ &\xLeftrightarrow{I.V.} \tilde\delta'([\delta(q,a)],w')\in F'\\
-                &\<==> \tilde\delta'(\delta'([q],a),w')\in F'\\
-                &\<==> \tilde\delta'([q],a w')\in F'
+                \tilde\delta(q,aw_\equiv)\in F &\<==> \tilde\delta(\delta(q,a),w_\equiv)\in F\\ &\xLeftrightarrow{I.V.} \tilde\delta_\equiv([\delta(q,a)],w_\equiv)\in F_\equiv\\
+                &\<==> \tilde\delta_\equiv(\delta_\equiv([q],a),w_\equiv)\in F_\equiv\\
+                &\<==> \tilde\delta_\equiv([q],a w_\equiv)\in F_\equiv
                 \end{align*}
-                Also f"ur $q=q_0$: $\forall w\in\Sigma^*$, $w\in L(\A)\<==> \tilde\delta(q_0,w) \in F \<=> \tilde\delta'([q_0],w) \in F' \<==> w\in L(\A')$
+                Also f"ur $q=\qinit$: $\forall w\in\Sigma^*$, $w\in L(\A)\<==> \tilde\delta(\qinit,w) \in F \<=> \tilde\delta_\equiv([\qinit],w) \in F_\equiv \<==> w\in L(\A_\equiv)$
         \end{enumerate}
 \end{proof}
-\emph{Bem:} Die Konstruktion von $\A'$ kann in $O(|Q||\Sigma|\log|Q|)$ passieren.
+\emph{Bem:} Die Konstruktion von $\A_\equiv$ kann in $O(|Q||\Sigma|\log|Q|)$ passieren.
 
 Warum ist nun der Äquivalenzklassenautomat minimal?\\
 \-> Satz von Myhill-Nerode
 \begin{Def}[name={[Rechtsinvariante Äquivalenzrelation]}]
+        \datenote{27.10.17}
         Eine Äquivalenzrelation $R\subseteq\Sigma^*\x\Sigma^*$ heißt rechtsinvariant, falls
         \[ (u,v)\in R \=> \forall w\in\Sigma^*,(u\cdot w,v\cdot w) \in R \]
 \end{Def}
@@ -632,12 +647,12 @@ Warum ist nun der Äquivalenzklassenautomat minimal?\\
 \begin{Bsp} %\rlnote{Bsp.-Num. überprüfen (3.6)}
   \label{Bsp:R_m}
         Für einen \ac{DEA} $\A$ definiere
-        \[ R_\A = \{(u,v) \mid \tilde\delta(q_0,u)=\tilde\delta(q_0,v)\} \]
+        \[ R_\A = \{(u,v) \mid \tilde\delta(\qinit,u)=\tilde\delta(\qinit,v)\} \]
         \begin{itemize}
                 \item ist Äquivalenzrelation
                 \item ist rechtsinvariant
                 \item Anzahl der Äquivalenzklassen(Index von $R_\A$)\\
-                = Anzahl der "`nützlichen"' Zustände, die von $q_0$ erreichbar sind.
+                = Anzahl der "`nützlichen"' Zustände, die von $\qinit$ erreichbar sind.
         \end{itemize}
 \end{Bsp}
 \begin{Bsp}
@@ -690,10 +705,10 @@ Die Menge der Äquivalenzklassen der Nerode Relation $R_{L_a}$ auf $L_a$ ist
 
         \paragraph{(1) \=> (2)}: Sei $\A$ ein \ac{DEA} mit
   \begin{displaymath}
-    L(\A)=\{w \mid \tilde\delta(q_0,w)\in F \} = \bigcup_{q \in F} \{ w \mid \tilde\delta(q_0,w) = q\}
+    L(\A)=\{w \mid \tilde\delta(\qinit,w)\in F \} = \bigcup_{q \in F} \{ w \mid \tilde\delta(\qinit,w) = q\}
 \end{displaymath}
 
-Nun sind $\{ w \mid \tilde\delta(q_0,w)=q \} = [q]_\A$ genau die Äquivalenzklassen von $R_\A$ aus Bsp \ref{Bsp:R_m}, einer rechtsinvarianten Äquivalenzrelation.
+Nun sind $\{ w \mid \tilde\delta(\qinit,w)=q \} = [q]_\A$ genau die Äquivalenzklassen von $R_\A$ aus Bsp \ref{Bsp:R_m}, einer rechtsinvarianten Äquivalenzrelation.
 Der Index ist die Anzahl der erreichbaren Zustände.
 
 Also: $\operatorname{Index}(R_\A) \le |Q| < \infty$.
@@ -721,11 +736,11 @@ Das aber ist die Definition der Nerode-Relation, d.h. $(u, v) \in R_L$. Da wir $
 \end{align*}
 
 
-\paragraph{(3) \=> (1)} Gegeben $R_L$, konstruiere $\A'=(Q',\Sigma,\delta',q_0',F')$
+\paragraph{(3) \=> (1)} Gegeben $R_L$, konstruiere $\A'=(Q',\Sigma,\delta',\qinit',F')$
     \begin{itemize}
     \item $Q' = \{ [w]_{R_L} \mid w\in \Sigma^* \}$ \quad endlich, weil \textit{index}($R_L$) endlich
     \item $\delta'([w],a) = [wa]$ wohldefiniert, da $R_L$ rechtsinvariant
-    \item $q_0' = [\Eps]$
+    \item $\qinit' = [\Eps]$
     \item $F' = \{ [w] \mid w\in L \}$
     \end{itemize}
     Zeige $L(\A')=L$, d.h.
