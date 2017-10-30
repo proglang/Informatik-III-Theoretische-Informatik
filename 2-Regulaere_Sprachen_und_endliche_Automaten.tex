@@ -339,9 +339,8 @@ Schließlich zeigen wir $L(A_\cap)=L(A_1)\cap L(A_2)$ mit Hilfe der folgenden Um
 \end{eqnarray*}
 \end{proof}
 
-\begin{Bsp}\label{bsp:2.schnitt}
 \datenote{25.10.17}
-Sei $A_1$ der folgende \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$ dessen graphische Repräsentation nahezu mit $A_{\mathtt{Macaron}}$ identisch ist.
+Im folgenden Beispiel sei $A_1$ der \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$ dessen graphische Repräsentation nahezu mit $A_{\mathtt{Macaron}}$ identisch ist.
 
 \begin{center}
 \begin{tikzpicture}[node distance = 3cm]
@@ -361,6 +360,10 @@ Sei $A_1$ der folgende \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$ dessen graph
   \draw[->, loop right] (2) to node[right]{$1$, $0$} (2);
 \end{tikzpicture}
 \end{center}
+
+\goodbreak
+
+\begin{Bsp}\label{bsp:2.schnitt}
 Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende graphische Repräsentation, wobei wir um Platz zu sparen ``$q_{ij}$'' statt ``$(q_i, q_j)$'' schreiben.
 
 \begin{center}
@@ -526,8 +529,6 @@ Eine Relation $R\subseteq X\times X$ heißt
 
 \begin{Bsp} Im folgenden interessieren wir uns nur Relationen die alle drei Eigenschaften erfüllen, 
 aber die folgenden Beispiele sollen helfen sich mit diesen Eigenschaften vertraut zu machen.
-\footnote{Wir können kein Beispiel für eine Relation finden, die nicht reflexiv aber symmetrisch und transitiv ist, da Reflexivität bereits aus Symmetrie und Transitivität folgt: 
-$(a,b)\in R\stackrel{\text{sym}}{\Rightarrow} (b,a)\in R\stackrel{\text{trans}}{\Rightarrow} (a,a)\in R$.}
 
 \begin{center}
 \begin{tabular}{lccc}
@@ -535,12 +536,17 @@ $(a,b)\in R\stackrel{\text{sym}}{\Rightarrow} (b,a)\in R\stackrel{\text{trans}}{
 ``gewinnt`` bei Schere, Stein, Papier & nein & nein & nein\\
 $(\N, <)$ & nein & nein & ja\\
 $(\N, \neq)$ & nein & ja & nein\\
+die leere Relation & nein & ja & ja\\
 $\{(a,b)\in\mathbb{Z}\times\mathbb{Z}\mid a-b\leq 3\}$ & ja & nein & nein\\
 $(\N, \leq)$& ja & nein & ja\\
 direkte genetische Verwandtschaft & ja & ja & nein\\
 logische Äquivalenz von Formeln & ja & ja & ja\\
 \end{tabular}
 \end{center}
+Bemerkung: Wir können kein Beispiel für eine nicht leere, symmetrische, transitive Relation finden die nicht Reflexiv ist.
+Für nicht leere Relationen folgt Reflexivität bereits aus Symmetrie und Transitivität: 
+$(a,b)\in R\stackrel{\text{sym}}{\Rightarrow} (b,a)\in R\stackrel{\text{trans}}{\Rightarrow} (a,a)\in R$.
+
 \end{Bsp}
 
 \begin{Def}
@@ -592,7 +598,7 @@ Idee: ``Verschmelze'' alle Zustände aus einer Äquivalenzklasse zu einem einzig
 Bedenken: Bei einem \ac{DEA} hat jeder Zustand hat für jedes Zeichen einen Nachfolger. 
 Wenn wir Zustände verschmelzen könnte es mehrere Nachfolger geben und das Resultat wäre kein wohldefinierter \ac{DEA} mehr.
 
-Das folgende Lemma zeigt dass unsere Benken nicht gerechtfertigt sind. 
+Das folgende Lemma zeigt dass unsere Bedenken nicht gerechtfertigt sind. 
 Sind zwei Zustände äquivalent so sind auch für jedes Zeichen ihre Nachfolger äquivalent.
 
 % \draftnote{28.10.16}
@@ -686,7 +692,7 @@ TODO: Bringe Skript auf Stand der Vorlesung.
 
 Warum ist nun der Äquivalenzklassenautomat minimal?\\
 \-> Satz von Myhill-Nerode
-\begin{Def}[name={[Rechtsinvariante Äquivalenzrelation]}]
+\begin{Def}[name={[Rechtskongruente Äquivalenzrelation]}]
         \datenote{27.10.17}
         Eine Äquivalenzrelation $R\subseteq\Sigma^*\x\Sigma^*$ heißt \emph{rechtskongruent}, falls
         \[ (u,v)\in R \quad\=>\quad \forall w\in\Sigma^*\;(u\cdot w,v\cdot w) \in R \]
@@ -698,19 +704,24 @@ Warum ist nun der Äquivalenzklassenautomat minimal?\\
         \[ R_\A = \{(u,v) \mid \tilde\delta(\qinit,u)=\tilde\delta(\qinit,v)\}. \]
         \begin{description}
                 \item[Beobachtung 1] $R_\A$ ist Äquivalenzrelation.
-                \item[Beobachtung 2] $R_\A$ ist rechtskongruent. Beweis: In den Übungen
-                \item[Beobachtung 3] Anzahl der Äquivalenzklassen(Index von $R_\A$)\\
-                = Anzahl der Zustände, die von $\qinit$ erreichbar sind.
+                
+                Folgt daraus dass ``='' eine Äquivalenzrelation ist.
+                \item[Beobachtung 2] $R_\A$ ist rechtskongruent. 
+                
+                Beweis: In den Übungen
+                \item[Beobachtung 3] Wir haben pro Zustand der von $\qinit$ erreichbar ist genau eine Äquivalenzklasse.
+                Index von $R_\A$ ist also die Anzahl der erreichbaren Zustände.
         \end{description}
+        
+        \medskip
+        
         Für den \ac{DEA} aus \autoref{bsp:2.schnitt} hat $R_\A$ die folgenden Äquivalenzklassen.
         \begin{align*}
-        [\Eps] &= \{..............................................................................................................\\
-        [1] &= \{\\
-        [11] &= \{\\
-        [111] &= \{\\
+        [\Eps] &= \{0^n\mid n\in \N\}\\
+        [1] &= \{0^n10^m\mid n,m\in \N\}\\
+        [11] &= \{w\mid \text{ Anzahl von Einsen in $w$ ist gerade und $\geq 2$}\}\\
+        [111] &= \{w\mid \text{ Anzahl von Einsen in $w$ ist ungerade und $\geq 2$}\}\\
         \end{align*}
-        Der Index von $R_\A$ ist somit ??.
-
 \end{Bsp}
 \begin{Def}
         Für eine Sprache $L\subseteq \Sigma^*$ ist die \emph{Nerode Relation} wie folgt definiert.
@@ -718,38 +729,67 @@ Warum ist nun der Äquivalenzklassenautomat minimal?\\
 \end{Def}
 \begin{description}
  \item[Beobachtung 1] Die Nerode Relation ist eine Äquivalenzrelation.
+ 
+ Folgt daraus dass ``$\Leftrightarrow$'' (Biimplikation, ``Genau dann wenn``) eine Äquivalenzrelation ist.
  \item[Beobachtung 2] Die Nerode Relation ist rechtskongruent.
                 \begin{proof}
-                Sei $(u,v)\in R_L$. Zeige $\forall w\in\Sigma^*$ , dass $(uw,vw)\in R_L$: \\
-                I.A. Für $w=\Eps$ ist $ (u\Eps,v\Eps)=(u,v)\in R_L$.\\
-                I.S. Sei Aussage gezeigt für alle Wörter $w'$ mit $|w'| \le k$.\\
-                I.V. Betrachte nun $w=w'a$. Dann ist auch $(uw', vw') \in R_L $. Damit gilt:
-                \begin{align*}
-                        (uw',vw')\in R_L 
-                        &\<=> \forall z\in\Sigma^*, \quad uw'z\in L \<=> vw'z\in L\\
-                        &\=> \forall a\in \Sigma, z'\in\Sigma^*: uw'az'\in L \<=> vw'az'\in L\\
-                        & \<=>\ (uw'a,vw'a)\in R_L
-                \end{align*}
-                \end{proof}
+                Sei $(u,v)\in R_L$. Zeige $\forall w\in\Sigma^*$ , dass $(uw,vw)\in R_L$.
+                Wir führen diesen Beweis via Induktion über die Länge von $w$.\\
+                I.A. ($n=0$) Für $w=\Eps$ ist $ (u\Eps,v\Eps)=(u,v)\in R_L$.\\
+%                 I.S. Sei Aussage gezeigt für alle Wörter $w'$ mit $|w'| \le k$.\\
+                I.S. ($n\rightsquigarrow n+1$) Betrachte mit $w=w'a$ ein beliebiges Wort der Länge $n$.
+                Nach Induktionsvoraussetzung ist dann auch $(uw', vw') \in R_L $.
+                \begin{eqnarray*}
+		(uw',vw')\in R_L 
+		& \stackrel{\text{def } R_L}{\text{gdw}} & \forall z\in\Sigma^*, \quad uw'z\in L \<=> vw'z\in L\\
+		& \stackrel{\text{zerlege } z=az'}{\text{impliziert}} & \forall a\in \Sigma, z'\in\Sigma^*: uw'az'\in L \<=> vw'az'\in L\\
+		& \stackrel{\text{def } R_L}{\text{gdw}} & (uw'a,vw'a)\in R_L
+	      \end{eqnarray*}
+              \end{proof}
 \end{description}
 
 \begin{Bsp}
-TODO
+Sei $\Sigma=\{0,1\}$. Die Sprache $L=\{w\in\Sigma^*\mid \text{vorleztes Zeichen ist } 1\}$ hat die folgenden Äquivalenzklassen bezüglich der Nerode Relation.
+        \begin{align*}
+        [\Eps] &= \{w\mid w \text{ endet mit } 00 \} \cup \{\varepsilon, 0\}\\
+        [1] &= \{w\mid w \text{ endet mit } 01 \} \cup \{1\}\\
+        [10] &= \{w\mid w \text{ endet mit } 10 \}\\
+        [11] &= \{w\mid w \text{ endet mit } 11 \}
+        \end{align*}
+\end{Bsp}
+
+\begin{Bsp}
+      Für ein beliebiges Alphabet $\Sigma$ gilt:
+      \begin{enumerate}
+       \item Die Sprache $L=\{\Eps\}$ hat genau zwei Äquivalenzklassen bezüglich der Nerode Relation.
+      Eine Äquivalenzklasse ist $\{\Eps\}$ die andere ist $\Sigma^+$.
+       \item Die Sprache $L=\{\}$ hat genau eine Äquivalenzklassen (nämlich $\Sigma^*$) bezüglich der Nerode Relation.
+      \end{enumerate}
+\end{Bsp}
+
+\begin{Bsp}
+Sei $\Sigma=\{0,1\}$. Die Sprache $L_\text{centered}=\{0^n10^n \mid n\in\N\}$ hat bezüglich der Nerode Relation die folgende Menge von Äquivalenzklassen:
+$$\{ [w'] \mid w' \text{ ist Prefix eines Wortes } w\in L_\text{centered}\} \cup \{ [11] \}$$
+Dabei gilt, dass für je zwei verschiedene Paare der Form $(i,k)$ mit $i,k\in\N$ und $i\leq k$ 
+auch die Äquivalenzklassen $[0^i1k0^k]$ verschieden sind. Somit gibt es unendlich viele Äquivalenzklassen.
+
+Bemerkung: Die Äquivalenzklasse $[11]$ enthält alle Wörter die kein Präfix eines Wortes aus $L_\text{centered}$ sind.
+ 
 \end{Bsp}
 
 
-Beispiel: Drei Sprachen $L_a, L_b$ und $L_c$ mit unterschiedlichem Index  (Anzahl an Äquivalenzklassen) bzgl. der Nerode Relation:
-\begin{alignat*}{2}
-        &\begin{rcases}
-        L_a=\{\Eps\} & [\Eps]\equiv[\Eps]\\
-        w,v\in\Sigma^*,\ w,v\ne\Eps & [w]=[v]
-        \end{rcases} &\ &\text{Index}= 2\\
-        &L_b = \varnothing, L_c= \Sigma^* &&\text{Index}= 1
-\end{alignat*}
-Die Menge der Äquivalenzklassen der Nerode Relation $R_{L_a}$ auf $L_a$ ist
-\[ L_a / R_{L_a} = \{ [\Eps], [w] \} \]
+% Beispiel: Drei Sprachen $L_a, L_b$ und $L_c$ mit unterschiedlichem Index  (Anzahl an Äquivalenzklassen) bzgl. der Nerode Relation:
+% \begin{alignat*}{2}
+%         &\begin{rcases}
+%         L_a=\{\Eps\} & [\Eps]\equiv[\Eps]\\
+%         w,v\in\Sigma^*,\ w,v\ne\Eps & [w]=[v]
+%         \end{rcases} &\ &\text{Index}= 2\\
+%         &L_b = \varnothing, L_c= \Sigma^* &&\text{Index}= 1
+% \end{alignat*}
+% Die Menge der Äquivalenzklassen der Nerode Relation $R_{L_a}$ auf $L_a$ ist
+% \[ L_a / R_{L_a} = \{ [\Eps], [w] \} \]
 
-\begin{Satz}[Nerode] % 3.4
+\begin{Satz}[Myhill und Nerode] % 3.4
         Die folgende Aussagen sind äquivalent:
         \begin{enumerate}
                 \item\label{itm:Nerode1} $L\subseteq \Sigma^*$ wird von \ac{DEA} akzeptiert.
@@ -760,10 +800,10 @@ Die Menge der Äquivalenzklassen der Nerode Relation $R_{L_a}$ auf $L_a$ ist
 
 % \datenote{2.11.16}
 \begin{proof}
-  Wir beweisen die gegenseitige Äquivalenz in drei Schritten:
+  Wir beweisen die paarweise Äquivalenz in drei Schritten:
 
   \begin{center}
-    (1) \=> (2) \quad \mbox{(2) \=> (3)} \quad (3) \=> (1)
+    (1) \=> (2), \quad \mbox{(2) \=> (3)}\quad \text{und} \quad (3) \=> (1)
   \end{center}
 
         \paragraph{(1) \=> (2)}: Sei $\A$ ein \ac{DEA} mit
@@ -771,18 +811,15 @@ Die Menge der Äquivalenzklassen der Nerode Relation $R_{L_a}$ auf $L_a$ ist
     L(\A)=\{w \mid \tilde\delta(\qinit,w)\in F \} = \bigcup_{q \in F} \{ w \mid \tilde\delta(\qinit,w) = q\}
 \end{displaymath}
 
-Nun sind $\{ w \mid \tilde\delta(\qinit,w)=q \} = [q]_\A$ genau die Äquivalenzklassen von $R_\A$ aus Bsp \ref{Bsp:R_m}, einer rechtsinvarianten Äquivalenzrelation.
-Der Index ist die Anzahl der erreichbaren Zustände.
-
-Also: $\operatorname{Index}(R_\A) \le |Q| < \infty$.
+Nun sind $\{ w \mid \tilde\delta(\qinit,w)=q \} = [q]_\A$ genau die Äquivalenzklassen der Relation $R_\A$ aus Bsp \ref{Bsp:R_m}, einer rechtsinvarianten Äquivalenzrelation.
+Der Index ist die Anzahl der erreichbaren Zustände und somit endlich: $\operatorname{\operatorname{Index}}(R_\A) \le |Q| < \infty$.
         
-\paragraph{(2) \=> (3)} Sei $R$ rechtsinvariante Äquivalenzrelation mit endlichem Index, so dass $L=\bigcup R$-Äquivalenzklassen
+\paragraph{(2) \=> (3)} Sei $R$ rechtsinvariante Äquivalenzrelation mit endlichem Index, so dass $L$ Vereinigung von $R$-Äquivalenzklassen
         
-Es genügt zu zeigen, dass wenn $(u,v)\in R$ auch $(u,v)\in R_L $, d.h. dass $R \subseteq R_L$.\footnote{
+Es genügt zu zeigen, dass die Nerode Relation $R_L$ eine Obermenge von $R$ ist.\footnote{
 Zur Erklärung: Falls $R \subseteq R_L$, dann $\operatorname{Index}(R) \ge \operatorname{Index}(R_L)$.
-Intuitiv: Je mehr Elemente eine Äquivalenzrelation $R$ enthält, desto mehr Elemente sind bzgl. dieser Relation äquivalent, d.h. desto weniger unterschiedliche Klassen gibt es.}
-
-Betrachte also ein beliebiges $(u, v) \in R$.
+Intuitiv: Je mehr Elemente eine Äquivalenzrelation $R$ enthält, desto mehr Elemente sind bzgl. dieser Relation äquivalent, d.h. desto weniger unterschiedliche Klassen gibt es.
+}
 \begin{comment}
 % Ausformulierter Beweis
 Es folgt $u \in L \Leftrightarrow v \in L$, da $L$ aus Vereinigung von Äquivalenzklassen besteht. Da $R$ rechtsinvariant ist, folgt für alle $w$:
@@ -791,53 +828,49 @@ Das aber ist die Definition der Nerode-Relation, d.h. $(u, v) \in R_L$. Da wir $
 \[\text{\#Klassen($R_L$) $\leq$ \#Klassen($R$)}<\infty\]
 \end{comment}
 \begin{align*}
-(u, v) \in R & \rightarrow u \in L \Leftrightarrow v \in L \text{, da L Vereinigung von Äquivalenzklassen ist} \\
-& \rightarrow uw \in L \Leftrightarrow vw \in L \text{ $\forall w \in \Sigma^*$, da $R$ rechtsinvariant } \\
-& \rightarrow (u, v) \in R_N \text{, nach Definition}\\
-& \rightarrow R \subseteq R_N \\
-& \rightarrow \text{\#Klassen($R_L$) $\leq$ \#Klassen($R$)}<\infty
+(u, v) \in R & \quad\Rightarrow\quad u \in L \Leftrightarrow v \in L \text{, \ \ \  da L Vereinigung von Äquivalenzklassen ist} \\
+& \quad\Rightarrow\quad \forall w \in \Sigma^*\; uw \in L \Leftrightarrow vw \in L \text{, \ \ \ da $R$ rechtskongruent } \\
+& \quad\Rightarrow\quad (u, v) \in R_L \text{, \ \ \  nach Definition der Nerode Relation}
 \end{align*}
+Es gilt also $R \subseteq R_L$ und somit $\operatorname{Index}(R_L) \leq \operatorname{Index}(R)<\infty$.
 
 
-\paragraph{(3) \=> (1)} Gegeben $R_L$, konstruiere $\A'=(Q',\Sigma,\delta',\qinit',F')$
+\paragraph{(3) \=> (1)} Gegeben $R_L$, konstruiere $\A=(Q,\Sigma,\delta,\qinit,F)$
     \begin{itemize}
-    \item $Q' = \{ [w]_{R_L} \mid w\in \Sigma^* \}$ \quad endlich, weil \textit{index}($R_L$) endlich
-    \item $\delta'([w],a) = [wa]$ wohldefiniert, da $R_L$ rechtsinvariant
-    \item $\qinit' = [\Eps]$
-    \item $F' = \{ [w] \mid w\in L \}$
+    \item $Q = \{ [w]_{R_L} \mid w\in \Sigma^* \}$ \quad endlich, weil \textit{index}($R_L$) endlich
+    \item $\delta([w],a) = [wa]$ wohldefiniert, da $R_L$ rechtsinvariant
+    \item $\qinit = [\Eps]$
+    \item $F = \{ [w] \mid w\in L \}$
     \end{itemize}
-    Zeige $L(\A')=L$, d.h.
-    \begin{enumerate}
-    \item \label{eq:nerode 3->1.1} $\forall w\in \Sigma^* : w\in L(\A')$ gdw $\tilde\delta([\Eps],w)\in F'$
-    \item \label{eq:nerode 3->1.2} $w\in L$ gdw $[w]\in F'$ 
-    \end{enumerate}
-    
-    Um zu zeigen, dass \ref{eq:nerode 3->1.1} gdw \ref{eq:nerode 3->1.2} genügt zu zeigen, dass $\tilde\delta([\Eps], w) = [w]$.
-                Daf"ur m"ussen wir wie folgt verallgemeinern um eine funktionierende Induktionsvoraussetzung zu erhalten.
-    \begin{displaymath}
+    Wir wollen nun $L(\A)=L$ zeigen. Dafür beweisen wir zunächst via Induktion über die Länge von $w$ die folgende Eigenschaft.
+        \begin{displaymath}
       \forall w\in\Sigma^* :
-                        \forall v\in\Sigma^* : \tilde\delta'([v],w) = [v\cdot w]
+                        \forall v\in\Sigma^* : \tilde\delta([v],w) = [v\cdot w]
     \end{displaymath}
-    Induktion über $w$:
     \begin{description}
-    \item[IA] $(w = \Eps)$: $\tilde\delta'([v],\Eps) = [v]=[v\cdot\Eps]$
-    \item[IV] 
-      $\forall v\in\Sigma^* : \tilde\delta'([v],w') = [v\cdot w]$
-    \item [IS] $w = aw'$:
+    \item[IA] $(w = \Eps)$: $\tilde\delta([v],\Eps) = [v]=[v\cdot\Eps]$
+    \item [IS] Sei $w = aw'$ beliebiges Wort der Länge $n+1$.
       \begin{displaymath}
         \begin{array}{lcl}
-        \tilde\delta'([v],aw') &=& \tilde\delta'(\delta'([v],a),w') \\
-                             &=& \tilde\delta'([v\cdot a],w') \\
+        \tilde\delta([v],aw') &=& \tilde\delta(\delta([v],a),w') \\
+                             &=& \tilde\delta([v\cdot a],w') \\
                              &\stackrel{\text{I.V.}}{=}&[va\cdot w'] \\
                              &=& [v\cdot \underbrace{aw'}_{=w}]
         \end{array}
       \end{displaymath}
     \end{description}
-                Das gewünschte Ergebnis $\tilde\delta([\Eps], w) = [w]$ ergibt sich für $v=\Eps$. \qedhere
+
+Nun zeigen wir $L(\A)=L$ wie folgt:
+\begin{eqnarray*}
+        w\in L(\A)
+        & \text{gdw} & \tilde\delta([\Eps],w)\in F\\
+        & \text{gdw} & [w]\in F, \quad \text{(via Induktion gezeigte Eigenschaft für $v=\Eps$)}\\
+        & \text{gdw} & w\in L
+\end{eqnarray*}
 \end{proof}
 %
 \setcounter{Korollar}{4}
-\begin{Korollar}
+\begin{Korollar}\datenote{3.11.16}
         Der im Beweisschritt (3) \=> (1) konstruierte Automat $\A'$ ist minimaler Automat für $L$.
 \end{Korollar}
 \begin{proof}
