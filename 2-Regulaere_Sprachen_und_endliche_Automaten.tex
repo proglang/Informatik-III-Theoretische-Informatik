@@ -770,8 +770,8 @@ Sei $\Sigma=\{0,1\}$. Die Sprache $L=\{w\in\Sigma^*\mid \text{vorleztes Zeichen 
 \begin{Bsp}
 Sei $\Sigma=\{0,1\}$. Die Sprache $L_\text{centered}=\{0^n10^n \mid n\in\N\}$ hat bezüglich der Nerode Relation die folgende Menge von Äquivalenzklassen:
 $$\{ [w'] \mid w' \text{ ist Prefix eines Wortes } w\in L_\text{centered}\} \cup \{ [11] \}$$
-Dabei gilt, dass für je zwei verschiedene Paare der Form $(i,k)$ mit $i,k\in\N$ und $i\leq k$ 
-auch die Äquivalenzklassen $[0^i1k0^k]$ verschieden sind. Somit gibt es unendlich viele Äquivalenzklassen.
+Dabei gilt, dass für je zwei verschiedene $k\in\N$
+auch die Äquivalenzklassen $[0^k1]$ verschieden sind. Somit gibt es unendlich viele Äquivalenzklassen.
 
 Bemerkung: Die Äquivalenzklasse $[11]$ enthält alle Wörter die kein Präfix eines Wortes aus $L_\text{centered}$ sind.
  
@@ -793,7 +793,7 @@ Bemerkung: Die Äquivalenzklasse $[11]$ enthält alle Wörter die kein Präfix e
         Die folgende Aussagen sind äquivalent:
         \begin{enumerate}
                 \item\label{itm:Nerode1} $L\subseteq \Sigma^*$ wird von \ac{DEA} akzeptiert.
-                \item\label{itm:Nerode2} $L$ ist Vereinigung von Äquivalenzklassen einer rechtsinvarianten Äquivalenzrelation mit \emph{endlichem} Index.
+                \item\label{itm:Nerode2} $L$ ist Vereinigung von Äquivalenzklassen einer rechtskongruenten Äquivalenzrelation mit \emph{endlichem} Index.
                 \item\label{itm:Nerode3} Die Nerode Relation $R_L$ hat \emph{endlichen} Index
         \end{enumerate}
 \end{Satz}
@@ -811,10 +811,10 @@ Bemerkung: Die Äquivalenzklasse $[11]$ enthält alle Wörter die kein Präfix e
     L(\A)=\{w \mid \tilde\delta(\qinit,w)\in F \} = \bigcup_{q \in F} \{ w \mid \tilde\delta(\qinit,w) = q\}
 \end{displaymath}
 
-Nun sind $\{ w \mid \tilde\delta(\qinit,w)=q \} = [q]_\A$ genau die Äquivalenzklassen der Relation $R_\A$ aus Bsp \ref{Bsp:R_m}, einer rechtsinvarianten Äquivalenzrelation.
+Nun sind $\{ w \mid \tilde\delta(\qinit,w)=q \} = [q]_\A$ genau die Äquivalenzklassen der Relation $R_\A$ aus Bsp \ref{Bsp:R_m}, einer rechtskongruenten Äquivalenzrelation.
 Der Index ist die Anzahl der erreichbaren Zustände und somit endlich: $\operatorname{\operatorname{Index}}(R_\A) \le |Q| < \infty$.
         
-\paragraph{(2) \=> (3)} Sei $R$ rechtsinvariante Äquivalenzrelation mit endlichem Index, so dass $L$ Vereinigung von $R$-Äquivalenzklassen
+\paragraph{(2) \=> (3)} Sei $R$ rechtskongruente Äquivalenzrelation mit endlichem Index, so dass $L$ Vereinigung von $R$-Äquivalenzklassen
         
 Es genügt zu zeigen, dass die Nerode Relation $R_L$ eine Obermenge von $R$ ist.\footnote{
 Zur Erklärung: Falls $R \subseteq R_L$, dann $\operatorname{Index}(R) \ge \operatorname{Index}(R_L)$.
@@ -822,7 +822,7 @@ Intuitiv: Je mehr Elemente eine Äquivalenzrelation $R$ enthält, desto mehr Ele
 }
 \begin{comment}
 % Ausformulierter Beweis
-Es folgt $u \in L \Leftrightarrow v \in L$, da $L$ aus Vereinigung von Äquivalenzklassen besteht. Da $R$ rechtsinvariant ist, folgt für alle $w$:
+Es folgt $u \in L \Leftrightarrow v \in L$, da $L$ aus Vereinigung von Äquivalenzklassen besteht. Da $R$ rechtskongruent ist, folgt für alle $w$:
 \[ uw \in L \Leftrightarrow vw \in L \]
 Das aber ist die Definition der Nerode-Relation, d.h. $(u, v) \in R_L$. Da wir $(u, v)$ beliebig gewählt haben, gilt somit: 
 \[\text{\#Klassen($R_L$) $\leq$ \#Klassen($R$)}<\infty\]
@@ -838,7 +838,7 @@ Es gilt also $R \subseteq R_L$ und somit $\operatorname{Index}(R_L) \leq \operat
 \paragraph{(3) \=> (1)} Gegeben $R_L$, konstruiere $\A=(Q,\Sigma,\delta,\qinit,F)$
     \begin{itemize}
     \item $Q = \{ [w]_{R_L} \mid w\in \Sigma^* \}$ \quad endlich, weil \textit{index}($R_L$) endlich
-    \item $\delta([w],a) = [wa]$ wohldefiniert, da $R_L$ rechtsinvariant
+    \item $\delta([w],a) = [wa]$ wohldefiniert, da $R_L$ rechtskongruent
     \item $\qinit = [\Eps]$
     \item $F = \{ [w] \mid w\in L \}$
     \end{itemize}
