@@ -671,27 +671,34 @@ Der Äquivalenzklassenautomat $\A_\equiv$ zum \ac{DEA} aus \autoref{bsp:2.schnit
         Der Äquivalenzklassenautomat ist wohldefiniert und $L(\A_\equiv)=L(\A)$.
 \end{Satz}
 
-TODO: Bringe Skript auf Stand der Vorlesung.
 
 \begin{proof}\ 
         \begin{enumerate}
-                \item Wohldefiniert: zu zeigen $\delta_\equiv([q],a) =[\delta(q,a)]$ ist nicht abhängig von der Wahl des Repräsentanten $q\in [q]$. Das folgt direkt aus \autoref{eqn:delta-wohldefiniert} gezeigt.
-                \item $L(\A)=L(\A_\equiv)$ zeige für alle $w\in\Sigma^*$ und alle $q$: $\tilde\delta(q,w)\in F \<=> \tilde\delta_\equiv([q],w)\in F_\equiv$\\
-                Induktion über $w$:\\
-                I.A. $w=\Eps$: $\tilde\delta(q,\Eps)=q\in F \<=> \tilde\delta_\equiv([q],\Eps)=[q]\in F_\equiv$ nach Definition.\\
-                I.V.: $\forall w_\equiv\in\Sigma$, $\forall q\in Q$, $\tilde\delta(q,w_\equiv)\in F \<=> \tilde\delta_\equiv([q],w_\equiv)\in F_\equiv$\\
-                I.S.: \begin{align*}
+                \item Wohldefiniert: zu zeigen $\delta_\equiv([q],a) =[\delta(q,a)]$ ist nicht abhängig von der Wahl des Repräsentanten $q\in [q]$. Das folgt direkt aus \autoref{eqn:delta-wohldefiniert}.
+                \item $L(\A)=L(\A_\equiv)$:
+                Zunächst zeigen wir via Induktion über die Länge von $w$ dass für alle $w\in\Sigma^*$ und alle $q\in Q$ die folgende Äquivalenz.
+                $\tilde\delta(q,w)\in F \<=> \tilde\delta_\equiv([q],w)\in F_\equiv$
+                
+                
+                I.A. $(n=0,$ also $w=\Eps)$: $\tilde\delta(q,\Eps)=q\in F \<=> \tilde\delta_\equiv([q],\Eps)=[q]\in F_\equiv$\\
+                I.S.: ($n\rightsquigarrow n+1$) \begin{align*}
                 \tilde\delta(q,aw_\equiv)\in F &\<==> \tilde\delta(\delta(q,a),w_\equiv)\in F\\ &\xLeftrightarrow{I.V.} \tilde\delta_\equiv([\delta(q,a)],w_\equiv)\in F_\equiv\\
                 &\<==> \tilde\delta_\equiv(\delta_\equiv([q],a),w_\equiv)\in F_\equiv\\
                 &\<==> \tilde\delta_\equiv([q],a w_\equiv)\in F_\equiv
                 \end{align*}
-                Also f"ur $q=\qinit$: $\forall w\in\Sigma^*$, $w\in L(\A)\<==> \tilde\delta(\qinit,w) \in F \<=> \tilde\delta_\equiv([\qinit],w) \in F_\equiv \<==> w\in L(\A_\equiv)$
+                Mir Hilfe dessen zeigen wir nun $L(\A)=L(\A_\equiv)$. Sei $w\in\Sigma^*$
+                \begin{align*}
+                 w\in L(\A)
+                 & \<==> \tilde\delta(\qinit,w) \in F\\
+                 & \<==> \tilde\delta_\equiv([\qinit],w) \in F_\equiv\\
+                 & \<==> w\in L(\A_\equiv)
+                \end{align*}
         \end{enumerate}
 \end{proof}
-\emph{Bem:} Die Konstruktion von $\A_\equiv$ kann in $O(|Q||\Sigma|\log|Q|)$ passieren.
+In den Übungen werden wir ein Verfahren mit $O(|Q|^4\cdot |\Sigma|\log|Q|)$ Laufzeit zur Konstruktion des Äquivalenzklassenautomat kennenlernen. Es gibt aber auch schnellere Verfahren. Z.B. mit dem Algorithmus von Hopcroft kann $\A_\equiv$ in $O(|Q||\Sigma|\log|Q|)$ erzeugt werden.
 
-Warum ist nun der Äquivalenzklassenautomat minimal?\\
-\-> Satz von Myhill-Nerode
+Wir werden später (\-> Satz von Myhill-Nerode) sehen dass $\A_\equiv$ der kleinste DEA ist, der $L(\A)$ akzeptiert.
+
 \begin{Def}[name={[Rechtskongruente Äquivalenzrelation]}]
         \datenote{27.10.17}
         Eine Äquivalenzrelation $R\subseteq\Sigma^*\x\Sigma^*$ heißt \emph{rechtskongruent}, falls
@@ -871,20 +878,18 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
 %
 \setcounter{Korollar}{4}
 \begin{Korollar}\datenote{3.11.16}
-        Der im Beweisschritt (3) \=> (1) konstruierte Automat $\A'$ ist minimaler Automat für $L$.
+        Der im Beweisschritt (3) \=> (1) konstruierte Automat $\A$ ist minimaler Automat für eine reguläre Sprache $L$.
 \end{Korollar}
 \begin{proof}
-        $L$ regulär. Sei $\A$ \emph{beliebiger} \ac{DEA} mit $L=L(\A)$
-
-        $\A$ induziert $R_\A$ mit $|Q|\geq\text{index}(R_\A)$ (da $\ref{itm:Nerode1} {\<=>} \ref{itm:Nerode2}$)
-
-        In \ref{itm:Nerode2} \=> \ref{itm:Nerode3}: $R_\A\subseteq R_L$,\ index($R_\A$) $\geq$ index($R_L$)
-
-        In \ref{itm:Nerode3} \=> \ref{itm:Nerode1} $A'$ mit $|Q'|=\text{index}(R_L) \leq \text{index}(R_\A)\leq |Q|$
+        Sei $\A'$ \emph{beliebiger} \ac{DEA} mit $L(\A')=L$.
         
-        Minimalität von $A'$ folgt aus freier Wahl von $\A$: 
-  Angenommen $\exists\,\A$ mit $L=L(\A)$ und $|\A|<|\A'|$.
-  Nach Folgerung gilt aber $|\A'| \leq |\A|$; ein Widerspruch.
+        Aus ``\ref{itm:Nerode1} {\=>} \ref{itm:Nerode2}'' wissen wir, dass $\operatorname{index}(R_{\A'})\leq |Q'|$ gilt.
+        
+        Aus ``\ref{itm:Nerode2} \=> \ref{itm:Nerode3}'' wissen wir, dass $R_{\A'}\subseteq R_L$ und somit $\operatorname{index}(R_L) \leq \operatorname{index}(R_{\A'})$ gilt.
+        
+        In ``\ref{itm:Nerode3} \=> \ref{itm:Nerode1}'' definieren wir $A$ sodass $|Q|=\text{index}(R_L) \leq \text{index}(R_\A)\leq |Q'|$.
+        
+        Für beliebigen DEA $A'$ ist $|Q|$ also nie größer als $|Q'|$.
 \end{proof}
 
 \hide{
