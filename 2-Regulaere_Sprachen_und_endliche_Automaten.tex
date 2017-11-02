@@ -962,29 +962,34 @@ Wir formalisieren diesen Verdacht im folgenden Lemma.
 		&\in F \tag*{\qedhere}
 	\end{alignat*}
 \end{proof}
-\hide{
+
 %
 \begin{Bsp*}
-        $L=\{0^n10^n \mid n\in\N\}$ ist nicht regulär.\\
-        Sei $n$ die Konstante aus dem \ac{PL}.
+        Die Sprache $L_\text{centered}=\{0^n10^n \mid n\in\N\}$ ist nicht regulär.
         
-        Wähle $z=0^n10^n$. Also $|z|=2n+1\geq n$\\
-        Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N$ $uv^iw \in L$. Nach Wahl von $z$ gilt nun
+        Wir geben hierfür einen Widerspruchsbeweis mit Hilfe des Pumping Lemma \ac{PL}.
+        
+        Sei $n$ die Konstante aus dem \ac{PL}. Wähle $z=0^n10^n$. 
+        (Gültige Wahl, da $|z|=2n+1\geq n$)\\
+        Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N$ $uv^iw \in L$. 
+        Nach Wahl von $z$ gilt nun
   \begin{itemize}
   \item $uv = 0^m$ mit $m\leq n$
   \item $v = 0^k$ mit $k\geq 1$
   \item $w = 0^{n-m}10^n$ 
   \end{itemize}
-  Betrachte $uv^2w = 0^{m+k}0^k0^{n-m}10^n = 0^{n+k}10^n \notin L$.
-  Also ist $L$ nicht regulär.
+  Betrachte $uv^2w = 0^{m+k}0^k0^{n-m}10^n = 0^{n+k}10^n \notin L$. Widerspruch!
+  Somit ist $L$ nicht regulär.
+  
   Zur Illustration:
         \begin{gather*}
-                \underbrace{0\ \dots\dots\ 0}_{n} \ \underbrace{1\ \dots\dots\ 1}_{n}\\
+                \underbrace{0\ \dots\dots\ 0}_{n} 1 \underbrace{0\ \dots\dots\ 0}_{n}\\
                 |\!\ruleplaceholder[u]{\widthof{0\ \dots }} \!|\! \ruleplaceholder[v]{\widthof{\dots 0}}\!|% 
                 \ruleplaceholder[w]{\widthof{\ \ \ $1\ \dots\dots\ 1$}}\!|
         \end{gather*}
   
 \end{Bsp*}
+\hide{
 \begin{Bsp*}
         $L=\{0^{x^2} \mid x\in\N\}$ ist nicht regulär.\\
         Sei $n$ die Konstante aus dem \ac{PL}.
