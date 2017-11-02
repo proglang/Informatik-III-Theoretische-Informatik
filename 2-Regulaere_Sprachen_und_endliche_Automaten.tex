@@ -892,12 +892,16 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
         Für beliebigen DEA $A'$ ist $|Q|$ also nie größer als $|Q'|$.
 \end{proof}
 
-\hide{
+
 \subsection{\acf{PL} für reguläre Sprachen} %\rlnote{subsection \# (3.3)?}
-\datenote{26.10.16 (Eingeschoben)}
-Suche: Notwendiges Kriterium für Regularität
-\begin{Bsp*}
-                $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$ ist regulär, dabei ist "`bin"' die Dekodierung von einem Bitstring in eine nat"urliche Zahl.
+% \datenote{26.10.16 (Eingeschoben)}
+Welche interessanten Eigenschaften haben reguläre Sprachen?
+
+Notation: Sei $w\in\{0,1\}^*$ dann schreiben wir $\operatorname{bin}(w)$ für die Dekodierung der des Bitstings $w$ in eine natürliche Zahl.
+Z.B. gilt $\operatorname{bin}(101) = 5$.
+
+\begin{Bsp*} Betrachete den folgenden \ac{DEA}, der die Sprache der Binärcodierungen von durch drei Teilbaren Zahlen akzeptiert:
+                $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$
     \begin{center}
                 \begin{tikzpicture}
                         \node (start) at (-4,1.5) {};
@@ -913,6 +917,7 @@ Suche: Notwendiges Kriterium für Regularität
                         \draw [->] (q2) edge [loop above] node {1} (q2);
                 \end{tikzpicture}
   \end{center}
+  Beobachtungen:
   \begin{itemize}
   \item Es gilt offensichtlich, dass $11 \in L$
   \item Es auch, dass $1 \underline{0 0} 1 \in L$.
@@ -921,6 +926,8 @@ Suche: Notwendiges Kriterium für Regularität
   \item und im Allgemeinen $\forall i\in\N: 1(00)^i1 \in L$
   \end{itemize}
 \end{Bsp*}
+Verdacht: Alle ``langen'' Wörter lassen sich in der Mitte ``aufpumpen''.
+Wir formalisieren diesen Verdacht im folgenden Lemma.
 
 \begin{lemma}[Pumping Lemma]\label{lem:pumping}
         Sei $L$ eine reguläre Sprache. Dann gilt:
@@ -931,29 +938,31 @@ Suche: Notwendiges Kriterium für Regularität
                 \text{sodass }& \forall i\in\N:\ uv^iw\in L
         \end{alignat*}
 \end{lemma}
-\vspace{-1em}
+\vspace{-2em}
 \begin{proof}
-	Sei $\A=(\Sigma, Q,\delta,q_0,F)$ ein \ac{DEA} für $L$.\\
-	Wähle $n=|Q|$ und $z\in L$ mit $|z|\geq n$.
+	Sei $\A=(\Sigma, Q,\delta,q_0,F)$ ein beliebiger \ac{DEA} für $L$.
+	Wähle $n=|Q|$ und $z\in L$ beliebig mit $|z|\geq n$.
 	
-	Beim Erkunden von $z$ durchläuft $\A\ \underbrace{|z|+1}_{\geq n+1}$ Zustände.\\
-	\-> $\exists\, q$, das mehrmals besucht wird.
+	\vspace{-1em}
+	
+	Beim Lesen von $z$ durchläuft $\A$ genau $\overbrace{|z|+1}^{\geq n+1}$ Zustände und somit gibt es mindestens einen Zustand $q\in Q$ der mehrmals besucht wird (Schubfachprinzip).
 	
 	Wähle das $q$, dessen zweiter Besuch zuerst passiert.
 	\begin{alignat*}{3}
-		\text{D.h.}:&\quad& \tilde\delta(q_0,u)&=q &\qquad& u\text{ Präfix von }z\\
-		\exists v:&& \tilde\delta(q,v)&=q && uv\text{ Präfix von }z\\
-		\exists w:&& \tilde\delta(q,w)&\in F && uvw=z\\
+		\text{Nun gilt: }\quad
+		\exists u:\; && \tilde\delta(q_0,u)&=q &\qquad& u\text{ Präfix von }z\\
+		\exists v:\; && \tilde\delta(q,v)&=q && uv\text{ Präfix von }z\\
+		\exists w:\; && \tilde\delta(q,w)&\in F && uvw=z\\
 		&& |v| &\geq 1\\
-		&& |uv| &\leq n && \text{ergibt sich aus Wahl von }q
+		&& |uv| &\leq n && \text{da $q$ zwei mal besucht}
 	\end{alignat*}
 	\begin{alignat*}{2}
-		\text{jetzt:}\quad &\tilde\delta(q_0,uv^iw) &\quad& i\in\N\\
-		&= \tilde\delta(q,v^iw)\\
-		&= \tilde\delta(q,w) && \text{denn }\forall i: \tilde\delta(q,v^i)=q\\
+		\text{Es folgt für beliebiges $i\in\N$ :}\quad \tilde\delta(q_0,uv^iw) &= \tilde\delta(q,v^iw)\\
+		&= \tilde\delta(q,w) &\qquad& \text{denn }\forall i: \tilde\delta(q,v^i)=q\\
 		&\in F \tag*{\qedhere}
 	\end{alignat*}
 \end{proof}
+\hide{
 %
 \begin{Bsp*}
         $L=\{0^n10^n \mid n\in\N\}$ ist nicht regulär.\\
@@ -1007,6 +1016,7 @@ Wähle $z=0^p \in L_2$
         &\curvearrowright L_2\text{ nicht regulär.}
 \end{align*}
 \end{Bsp*}
+
 
 \subsection[\acf{NEA}]{\acf{NEA}\draftnote{2.11.16} (Vortsetzung)}
 \begin{Bsp*} Mustererkennung\\
