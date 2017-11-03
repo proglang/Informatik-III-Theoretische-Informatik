@@ -23,6 +23,7 @@ Wir werden aber auch sehen, dass sich nicht jede Sprache (z.B. $L_1$) mit Hilfe 
 Wir beschreiben zunächst informell die Bestandteile eines endlichen Automaten:
 
 \newcommand{\qinit}{{q^\mathsf{init}}}
+\newcommand{\calN}{\mathcal{N}}
 \newcommand{\hide}[1]{}
 
 \begin{description}
@@ -877,7 +878,7 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
 \end{proof}
 %
 \setcounter{Korollar}{4}
-\begin{Korollar}\datenote{3.11.16}
+\begin{Korollar}\label{kor:2.minAutomat}\datenote{3.11.16}
         Der im Beweisschritt (3) \=> (1) konstruierte Automat $\A$ ist minimaler Automat für eine reguläre Sprache $L$.
 \end{Korollar}
 \begin{proof}
@@ -987,162 +988,47 @@ Wir formalisieren diesen Verdacht im folgenden Lemma.
                 |\!\ruleplaceholder[u]{\widthof{0\ \dots }} \!|\! \ruleplaceholder[v]{\widthof{\dots 0}}\!|% 
                 \ruleplaceholder[w]{\widthof{\ \ \ $1\ \dots\dots\ 1$}}\!|
         \end{gather*}
-  
-\end{Bsp*}
-\hide{
-\begin{Bsp*}
-        $L=\{0^{x^2} \mid x\in\N\}$ ist nicht regulär.\\
-        Sei $n$ die Konstante aus dem \ac{PL}.
-        
-        Wähle $z=0^{n^2}$. Also $|z|=n^2\geq n$\\
-        Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N$ $uv^iw \in L$. Nach Wahl von $z$ gilt nun
-  \begin{itemize}
-  \item $uv = 0^m$ mit $m\leq n$
-  \item $v = 0^k$ mit $k\geq 1$
-  \item $w = 0^{n^2 - m}$ mit $k\geq 1$
-  \end{itemize}
-  Betrachte $uv^2w = uvvw = 0^{m}0^k0^{n^2-m} = 0^{n^2+k}$.
-  Da $n^2+k$ keine Quadratzahl sein kann ist $uv^2w \not \in L$, und somit ist $L$ nicht regulär.
-  Begründung: betrachte $(n+1)^2 - n^2 = n^2 + 2n + 1 - n^2 = 2n + 1$.
-  Aber $k \le m \le n \le 2n + 1$.
 \end{Bsp*}
 
-\begin{Bsp*}
-$L_2 = \{0^p \mid p\text{ ist Primzahl}\}$ ist nicht regulär.
+% \begin{Bsp*}
+%         $L=\{0^{x^2} \mid x\in\N\}$ ist nicht regulär.\\
+%         Sei $n$ die Konstante aus dem \ac{PL}.
+%         
+%         Wähle $z=0^{n^2}$. Also $|z|=n^2\geq n$\\
+%         Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N$ $uv^iw \in L$. Nach Wahl von $z$ gilt nun
+%   \begin{itemize}
+%   \item $uv = 0^m$ mit $m\leq n$
+%   \item $v = 0^k$ mit $k\geq 1$
+%   \item $w = 0^{n^2 - m}$ mit $k\geq 1$
+%   \end{itemize}
+%   Betrachte $uv^2w = uvvw = 0^{m}0^k0^{n^2-m} = 0^{n^2+k}$.
+%   Da $n^2+k$ keine Quadratzahl sein kann ist $uv^2w \not \in L$, und somit ist $L$ nicht regulär.
+%   Begründung: betrachte $(n+1)^2 - n^2 = n^2 + 2n + 1 - n^2 = 2n + 1$.
+%   Aber $k \le m \le n \le 2n + 1$.
+% \end{Bsp*}
+% 
+% \begin{Bsp*}
+% $L_2 = \{0^p \mid p\text{ ist Primzahl}\}$ ist nicht regulär.
+% 
+% Sei $n$ Konst. aus dem \ac{PL}, $p$ Primzahl mit $p \geq n$.\\
+% Wähle $z=0^p \in L_2$
+% \begin{align*}
+%         \ac{PL}:\ &z=uvw \text{ mit } |uv|\leq n &&,|v| \geq 1\\
+%         &\curvearrowright |z|= p=a+b &&, a = |uw| \quad, b= |v|\\
+%         &\curvearrowright |uv^iw| = a + ib &&, \text{w"ahle }i=p+1\\
+%         &\curvearrowright |uv^{p+1}w| = a + (p+1)b & =& a + pb + b = p+pb \text{ keine Primzahl} \\
+%         \text{Also } &uv^{p+1}w \notin L_2\\
+%         &\curvearrowright L_2\text{ nicht regulär.}
+% \end{align*}
+% \end{Bsp*}
 
-Sei $n$ Konst. aus dem \ac{PL}, $p$ Primzahl mit $p \geq n$.\\
-Wähle $z=0^p \in L_2$
-\begin{align*}
-        \ac{PL}:\ &z=uvw \text{ mit } |uv|\leq n &&,|v| \geq 1\\
-        &\curvearrowright |z|= p=a+b &&, a = |uw| \quad, b= |v|\\
-        &\curvearrowright |uv^iw| = a + ib &&, \text{w"ahle }i=p+1\\
-        &\curvearrowright |uv^{p+1}w| = a + (p+1)b & =& a + pb + b = p+pb \text{ keine Primzahl} \\
-        \text{Also } &uv^{p+1}w \notin L_2\\
-        &\curvearrowright L_2\text{ nicht regulär.}
-\end{align*}
-\end{Bsp*}
 
-
-\subsection[\acf{NEA}]{\acf{NEA}\draftnote{2.11.16} (Vortsetzung)}
-\begin{Bsp*} Mustererkennung\\
-	kommt ein String (konsistent) in einem anderen vor?
-	
-	Gegeben: festes Wort $w$.\\
-	Gesucht: Sprache aller Worte, in denen $w$ als Teilwort vorkommt.
-	\begin{align*}
-		L &= \{ v\in\Sigma^* \mid \exists u,x\in\Sigma^*, v=uwx \}\\
-		\Sigma &= \{a,b,c\}\\
-		& \text{konkretes Beispiel:}\\
-		w &= abac
-	\end{align*}
-	\begin{figure}[tp]
-	\centering
-		\begin{tikzpicture}[>=stealth, shorten >=1pt,
-				node distance=2cm, on grid, initial text=,
-				every state/.style={minimum size=0pt,inner sep=0pt}
-			]
-			\node[state,initial] (q0) {};
-			\node[state] (q1) [right of=q0] {};
-			\node[state] (q2) [right of=q1] {};
-			\node[state] (q3) [right of=q2] {};
-			\node[state,accepting] (q4) [right of=q3] {};
-			\path[->]
-				(q0) edge [loop above]    node [auto]  {$b,c$}    ()
-				     edge                 node [auto]  {$a$}      (q1)
-				(q1) edge [loop above]    node [auto]  {$a$}      ()
-				     edge [bend left]     node [auto]  {$c$}      (q0)
-				     edge                 node [auto]  {$b$}      (q2)
-				(q2) edge [bend left=50]  node [auto]  {$b,c$}    (q0)
-				     edge                 node [auto]  {$a$}      (q3)
-				(q3) edge                 node [auto]  {$c$}      (q4)
-				     edge [bend right=70] node [above] {$a$}      (q1)
-				     edge [bend right=40] node [above] {$b$}      (q2)
-				(q4) edge [loop right]    node [auto]  {$\Sigma$} ()
-			;
-		\end{tikzpicture}
-	\caption{DEA für $L$}
-	\label{fig:dfa-teilwort}
-	\end{figure}
-	\hyperref[fig:dfa-teilwort]{Abbildung~\ref*{fig:dfa-teilwort}} enthält einen \ac{DEA} für die Sprache $L$. Beobachtung: nicht-trivial zu konstruieren.
-	\begin{figure}[tp]\centering
-		\begin{tikzpicture}[>=stealth,shorten >=1pt,
-				node distance=2cm,on grid,
-				initial text=
-			]
-			\node[state,initial] (q0) {$q_0$};
-			\node[state] (q1) [right of=q0] {$q_1$};
-			\node[state] (q2) [right of=q1] {$q_2$};
-			\node[state] (q3) [right of=q2] {$q_3$};
-			\node[state,accepting] (q4) [right of=q3] {$q_4$};
-			\path[->]
-				(q0) edge [loop above] node [auto] {$\Sigma$} ()
-				     edge              node [auto] {$a$} (q1)
-				(q1) edge              node [auto] {$b$} (q2)
-				(q2) edge              node [auto] {$a$} (q3)
-				(q3) edge              node [auto] {$c$} (q4)
-				(q4) edge [loop above] node [auto] {$\Sigma$} ()
-			;
-		\end{tikzpicture}
-		\caption{Bsp.: Mustererkennung}
-		\label{fig:nfa-teilwort}
-	\end{figure}
-	
-	\hyperref[fig:nfa-teilwort]{Abbildung~\ref*{fig:nfa-teilwort}} enthält einen nicht-deterministischen endlichen Automat für die Sprache $L$. Idee: Ein Wort $w$ wird akzeptiert, falls es einen mit $w$ markierten Pfad von $q_0$ zu einen akzeptierenden Zustand gibt.
-	\begin{figure}[tp]
-	\centering
-		\begin{tikzpicture}[>=stealth,shorten >=1pt,
-				node distance=2cm,on grid
-			]
-			\node (q0) {$\{0\}$};
-			\node (q1) [right of=q0] {$\{0,1\}$};
-			\node (q2) [right of=q1] {$\{0,2\}$};
-			\node (q3) [right of=q2] {$\{0,1,3\}$};
-			\path[->]
-				(q0) edge [loop below] node [auto] {$b,c$} ()
-				     edge              node [auto] {$a$} (q1)
-				(q1) edge [loop below] node [auto] {$a$} ()
-				(q1) edge              node [auto] {$b$} (q2)
-				(q2) edge              node [auto] {$a$} (q3)
-			;
-		\end{tikzpicture}
-	\caption{Potenzmengenkonstruktion auf dem NEA}
-	\label{fig:nfa-teilwort-powerset}
-	\end{figure}
-	
-	\hyperref[fig:nfa-teilwort-powerset]{Abbildung~\ref{fig:nfa-teilwort-powerset}} zeigt (einen Ausschnitt) aus dem deterministischen Automaten, der schematisch aus dem \acsu{NEA} in \autoref{fig:nfa-teilwort} konstruiert werden kann. Idee: bei Schritt mit Symbol $a$ ist der \ac{NEA} gleichzeitig in allen Zuständen, die durch $a$ von (der Menge der) aktuellen Zustände erreichbar sind.
-	
-	Variante: erkenne \textbf{Subwort} $w=a_1,\dots,a_n$
-	\[ L' = \{ v\in\Sigma^* \mid \exists x_0,\dots,x_n\in\Sigma^*, v=x_0a_1x_1a_2\dots a_nx_n \} \]
-	Nicht det. Automat für $L'$ mit $(w=abac)$ ist sehr einfach. Der entsprechende deterministische Automat ist deutlich komplizierter. (selbst)
-	\begin{figure}[H]\centering
-		\begin{tikzpicture}[>=stealth, shorten >=1pt,
-				node distance=2cm, on grid, initial text=,
-				every state/.style={minimum size=0pt,inner sep=0pt}
-			]
-			\node[state,initial] (q0) {};
-			\node[state] (q1) [right of=q0] {};
-			\node[state] (q2) [right of=q1] {};
-			\node[state] (q3) [right of=q2] {};
-			\node[state,accepting] (q4) [right of=q3] {};
-			\path[->]
-				(q0) edge [loop above] node [auto] {$\Sigma$} ()
-				     edge              node [auto] {$a$}      (q1)
-				(q1) edge [loop below] node [auto] {$\Sigma$} ()
-				     edge              node [auto] {$b$}      (q2)
-				(q2) edge [loop below] node [auto] {$\Sigma$} ()
-				     edge              node [auto] {$a$}      (q3)
-				(q3) edge [loop below] node [auto] {$\Sigma$} ()
-				     edge              node [auto] {$c$}      (q4)
-				(q4) edge [loop right] node [auto] {$\Sigma$} ()
-			;
-		\end{tikzpicture}
-		\caption{Nichtdet. Automat für $L'$}
-	\end{figure}
-	
-	Weiteres Beispiel, bei dem der deterministische Automat beweisbar exponentiell größer ist.
+\subsection[\acf{NEA}]{Nichtdterministischer endlicher Automat (NEA)}
+Aufgabe: Konstruiere für eine natürliche Zahl $n\in\N$ einen DEA für die folgende Sprache.
 	\begin{align*}
 		L_n &= \{ w\in\{0,1\}^* \mid \text{das $n$-letzte Symbol von $w$ ist 1} \}
 	\end{align*}
+Naiver Lösungsversuch:
 	\begin{figure}[H]\centering
 		\begin{tikzpicture}[>=stealth, shorten >=1pt,
 				node distance=1.5cm, on grid, initial text=,
@@ -1164,30 +1050,188 @@ Wähle $z=0^p \in L_2$
 		\end{tikzpicture}
 		\caption{Nichtdet. Automat für $L_n$}
 	\end{figure}
-	
-	Der entsprechende deterministische Automat für $L_n$ hat $\sim 2^n$ Zustände.
-\end{Bsp*}
+Problem: Diagramm beschreibt keinen DEA. $q_0$ hat zwei ausgehende Kanten für $1$.
 
-\begin{Def}[name={[NEA]}]
-	Ein \ac{NEA} (\acsu{NEA} = \acl{NEA}) $\A = (\Sigma, Q,\delta,q_0,F)$ mit
-	\begin{itemize}
-		\item $Q$ endliche Zustandsmenge
-		\item $\Sigma$ endl. Alphabet
-		\item $\delta:Q\x\Sigma\->\mathcal{P}(Q)$ Transitionsfunktion
-		\item $q_0\in Q$ Startzustand
-		\item $F\subseteq Q$ akzeptierende Zust"ande
-	\end{itemize}
+Untersuche Sprache mit Hilfe von Nerode Relation.
+Beobachtung: Je zwei Wörter der Länge $n$ sind in unterschiedlichen Äquivalenzklassen.
+Es gibt also mindestens $2^n$ Äquivalenzklassen und aus \autoref{kor:2.minAutomat} wissen wir dass ein minimaler DEA, der $L_n$ akzeptiert $2^n$ Zustände hat.
+
+Idee: Definiere einen neue Art von Automaten bei dem ein Zustand pro Zeichen mehrere Nachfolger haben darf.
+
+% \begin{Bsp*} Mustererkennung\\
+% 	kommt ein String (konsistent) in einem anderen vor?
+% 	
+% 	Gegeben: festes Wort $w$.\\
+% 	Gesucht: Sprache aller Worte, in denen $w$ als Teilwort vorkommt.
+% 	\begin{align*}
+% 		L &= \{ v\in\Sigma^* \mid \exists u,x\in\Sigma^*, v=uwx \}\\
+% 		\Sigma &= \{a,b,c\}\\
+% 		& \text{konkretes Beispiel:}\\
+% 		w &= abac
+% 	\end{align*}
+% 	\begin{figure}[tp]
+% 	\centering
+% 		\begin{tikzpicture}[>=stealth, shorten >=1pt,
+% 				node distance=2cm, on grid, initial text=,
+% 				every state/.style={minimum size=0pt,inner sep=0pt}
+% 			]
+% 			\node[state,initial] (q0) {};
+% 			\node[state] (q1) [right of=q0] {};
+% 			\node[state] (q2) [right of=q1] {};
+% 			\node[state] (q3) [right of=q2] {};
+% 			\node[state,accepting] (q4) [right of=q3] {};
+% 			\path[->]
+% 				(q0) edge [loop above]    node [auto]  {$b,c$}    ()
+% 				     edge                 node [auto]  {$a$}      (q1)
+% 				(q1) edge [loop above]    node [auto]  {$a$}      ()
+% 				     edge [bend left]     node [auto]  {$c$}      (q0)
+% 				     edge                 node [auto]  {$b$}      (q2)
+% 				(q2) edge [bend left=50]  node [auto]  {$b,c$}    (q0)
+% 				     edge                 node [auto]  {$a$}      (q3)
+% 				(q3) edge                 node [auto]  {$c$}      (q4)
+% 				     edge [bend right=70] node [above] {$a$}      (q1)
+% 				     edge [bend right=40] node [above] {$b$}      (q2)
+% 				(q4) edge [loop right]    node [auto]  {$\Sigma$} ()
+% 			;
+% 		\end{tikzpicture}
+% 	\caption{DEA für $L$}
+% 	\label{fig:dfa-teilwort}
+% 	\end{figure}
+% 	\hyperref[fig:dfa-teilwort]{Abbildung~\ref*{fig:dfa-teilwort}} enthält einen \ac{DEA} für die Sprache $L$. Beobachtung: nicht-trivial zu konstruieren.
+% 	\begin{figure}[tp]\centering
+% 		\begin{tikzpicture}[>=stealth,shorten >=1pt,
+% 				node distance=2cm,on grid,
+% 				initial text=
+% 			]
+% 			\node[state,initial] (q0) {$q_0$};
+% 			\node[state] (q1) [right of=q0] {$q_1$};
+% 			\node[state] (q2) [right of=q1] {$q_2$};
+% 			\node[state] (q3) [right of=q2] {$q_3$};
+% 			\node[state,accepting] (q4) [right of=q3] {$q_4$};
+% 			\path[->]
+% 				(q0) edge [loop above] node [auto] {$\Sigma$} ()
+% 				     edge              node [auto] {$a$} (q1)
+% 				(q1) edge              node [auto] {$b$} (q2)
+% 				(q2) edge              node [auto] {$a$} (q3)
+% 				(q3) edge              node [auto] {$c$} (q4)
+% 				(q4) edge [loop above] node [auto] {$\Sigma$} ()
+% 			;
+% 		\end{tikzpicture}
+% 		\caption{Bsp.: Mustererkennung}
+% 		\label{fig:nfa-teilwort}
+% 	\end{figure}
+% 	
+% 	\hyperref[fig:nfa-teilwort]{Abbildung~\ref*{fig:nfa-teilwort}} enthält einen nicht-deterministischen endlichen Automat für die Sprache $L$. Idee: Ein Wort $w$ wird akzeptiert, falls es einen mit $w$ markierten Pfad von $q_0$ zu einen akzeptierenden Zustand gibt.
+% 	\begin{figure}[tp]
+% 	\centering
+% 		\begin{tikzpicture}[>=stealth,shorten >=1pt,
+% 				node distance=2cm,on grid
+% 			]
+% 			\node (q0) {$\{0\}$};
+% 			\node (q1) [right of=q0] {$\{0,1\}$};
+% 			\node (q2) [right of=q1] {$\{0,2\}$};
+% 			\node (q3) [right of=q2] {$\{0,1,3\}$};
+% 			\path[->]
+% 				(q0) edge [loop below] node [auto] {$b,c$} ()
+% 				     edge              node [auto] {$a$} (q1)
+% 				(q1) edge [loop below] node [auto] {$a$} ()
+% 				(q1) edge              node [auto] {$b$} (q2)
+% 				(q2) edge              node [auto] {$a$} (q3)
+% 			;
+% 		\end{tikzpicture}
+% 	\caption{Potenzmengenkonstruktion auf dem NEA}
+% 	\label{fig:nfa-teilwort-powerset}
+% 	\end{figure}
+% 	
+% 	\hyperref[fig:nfa-teilwort-powerset]{Abbildung~\ref{fig:nfa-teilwort-powerset}} zeigt (einen Ausschnitt) aus dem deterministischen Automaten, der schematisch aus dem \acsu{NEA} in \autoref{fig:nfa-teilwort} konstruiert werden kann. Idee: bei Schritt mit Symbol $a$ ist der \ac{NEA} gleichzeitig in allen Zuständen, die durch $a$ von (der Menge der) aktuellen Zustände erreichbar sind.
+% 	
+% 	Variante: erkenne \textbf{Subwort} $w=a_1,\dots,a_n$
+% 	\[ L' = \{ v\in\Sigma^* \mid \exists x_0,\dots,x_n\in\Sigma^*, v=x_0a_1x_1a_2\dots a_nx_n \} \]
+% 	Nicht det. Automat für $L'$ mit $(w=abac)$ ist sehr einfach. Der entsprechende deterministische Automat ist deutlich komplizierter. (selbst)
+% 	\begin{figure}[H]\centering
+% 		\begin{tikzpicture}[>=stealth, shorten >=1pt,
+% 				node distance=2cm, on grid, initial text=,
+% 				every state/.style={minimum size=0pt,inner sep=0pt}
+% 			]
+% 			\node[state,initial] (q0) {};
+% 			\node[state] (q1) [right of=q0] {};
+% 			\node[state] (q2) [right of=q1] {};
+% 			\node[state] (q3) [right of=q2] {};
+% 			\node[state,accepting] (q4) [right of=q3] {};
+% 			\path[->]
+% 				(q0) edge [loop above] node [auto] {$\Sigma$} ()
+% 				     edge              node [auto] {$a$}      (q1)
+% 				(q1) edge [loop below] node [auto] {$\Sigma$} ()
+% 				     edge              node [auto] {$b$}      (q2)
+% 				(q2) edge [loop below] node [auto] {$\Sigma$} ()
+% 				     edge              node [auto] {$a$}      (q3)
+% 				(q3) edge [loop below] node [auto] {$\Sigma$} ()
+% 				     edge              node [auto] {$c$}      (q4)
+% 				(q4) edge [loop right] node [auto] {$\Sigma$} ()
+% 			;
+% 		\end{tikzpicture}
+% 		\caption{Nichtdet. Automat für $L'$}
+% 	\end{figure}
+% 	
+% 	Weiteres Beispiel, bei dem der deterministische Automat beweisbar exponentiell größer ist.
+% 	\begin{align*}
+% 		L_n &= \{ w\in\{0,1\}^* \mid \text{das $n$-letzte Symbol von $w$ ist 1} \}
+% 	\end{align*}
+% 	\begin{figure}[H]\centering
+% 		\begin{tikzpicture}[>=stealth, shorten >=1pt,
+% 				node distance=1.5cm, on grid, initial text=,
+% 				every state/.style={minimum size=0pt,inner sep=0pt}
+% 			]
+% 			\node[state,initial] (q0) {};
+% 			\node[state] (q1) [right of=q0] {};
+% 			\node        (q2) [right of=q1] {\dots};
+% 			\node[state,accepting] (q3) [right of=q2] {};
+% 			\path[->]
+% 				(q0) edge [loop above] node [auto] {$\Sigma$} ()
+% 				     edge              node [auto] {1}        (q1)
+% 				(q1) edge              node [auto] {$\Sigma$} (q2)
+% 				(q2) edge              node [auto] {$\Sigma$} (q3)
+% 			;
+% 			\draw [thick, decoration={brace, mirror, raise=.3cm, amplitude=10pt}, decorate]
+% 			    (q1.west) -- (q3.east)
+% 			    node [pos=0.5,anchor=north,yshift=-0.65cm] {n};
+% 		\end{tikzpicture}
+% 		\caption{Nichtdet. Automat für $L_n$}
+% 	\end{figure}
+% 	
+% 	Der entsprechende deterministische Automat für $L_n$ hat $\sim 2^n$ Zustände.
+% \end{Bsp*}
+
+\goodbreak
+
+\begin{Def}[\acs*{NEA}]
+        Ein \emph{\acf{NEA}}, (\acsu{NFA} $\hat=$ \acl{NEA}) ist ein 5-Tupel
+        \[ \calN= (\Sigma, Q,\delta,\qinit,F) \]
+dabei ist
+        \begin{itemize}
+                \item $\Sigma$ ein Alphabet,
+                \item $Q$ eine \emph{endliche} Menge deren Elemente wir \emph{Zustände} nennen,
+                \item $\delta:Q\x\Sigma\->\mathcal{P}(Q)$ eine Funktion die wir \emph{Transitionsfunktion} nennen,
+                \item $\qinit\in Q$ ein Zustand den wir \emph{Startzustand} nennen und
+                \item $F\subseteq Q$ eine Teilmenge der Zustände deren Elemente wir \emph{akzeptierende} Zustände nennen.
+        \end{itemize}
 \end{Def}
+Bemerkung: Die Definition des NEA unterscheidet sich vom DEA also nur in der Transitionsfunktion. Beim DEA ist der Bildbereich der Transitionsfunktion die Menge der Zustände $Q$. Hier ist der Bildbereich die Potenzmenge der Zustandsmenge  $\mathcal{P}(Q)$.
+
+Im folgenden sei $\calN$ immer ein NEA.
 \begin{Def}[name={[Lauf eines Automaten]}]
-        Ein \emph{Lauf des nichtdet. Automaten $\A$ auf $w=a_1\dots a_n$} ist eine Folge $q_0q_1\dots q_n$ mit $q_i\in Q$, wobei $q_0$ der Startzustand ist und $q_i\in\delta(q_{i-1},a_i)$ für alle $i$ mit $1\leq i\leq n$.\\
-        Ein Lauf heißt \emph{akzeptierend}, falls $q_n\in F$.
+	Wir nennen eine Folge von Zuständen $q_0q_1\dots q_n$ einen \emph{Lauf von $\calN$ über $w=a_1\dots a_n$} wenn
+	$q_i\in\delta(q_{i-1},a_i)$ für alle $i$ mit $1\leq i\leq n$.
+	Wir nennen einen Lauf \emph{initial} falls $q_0=\qinit$.
+	Wir nennen einen Lauf \emph{akzeptierend}, falls $q_n\in F$.
 \end{Def}
 \begin{Def}[name={[NEA zu DEA]}]
-	$L(\A)=\{ w\in\Sigma^* \mid \exists\text{ akzeptierender Lauf von $\A$ auf }w \}$
+	$L(\calN)=\{ w\in\Sigma^* \mid \exists\text{ initialer, akzeptierender Lauf von $\calN$ über }w \}$
 \end{Def}
-\begin{Satz}[Rabin]
-	Zu jedem \ac{NEA} $\A$ mit $n$ Zuständen gibt es einen \ac{DEA} $\A'$ mit $2^n$ Zuständen, so dass $L(\A)=L(\A')$.
+\begin{Satz}[Rabin und Scott]
+	Zu jedem \ac{NEA} $\calN$ mit $n$ Zuständen gibt es einen \ac{DEA} $\A$ mit $2^n$ Zuständen, so dass $L(\calN)=L(\A)$.
 \end{Satz}
+\hide{
 \draftnote{4.11.16}
 \begin{proof}[Potenzmengenkonstruktion]
         Definiere $\A'$ durch
