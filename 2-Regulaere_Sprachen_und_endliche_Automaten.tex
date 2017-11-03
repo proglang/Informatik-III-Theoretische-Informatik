@@ -24,6 +24,7 @@ Wir beschreiben zunächst informell die Bestandteile eines endlichen Automaten:
 
 \newcommand{\qinit}{{q^\mathsf{init}}}
 \newcommand{\calN}{\mathcal{N}}
+\newcommand{\calP}{\mathcal{P}}
 \newcommand{\hide}[1]{}
 
 \begin{description}
@@ -898,8 +899,9 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
 % \datenote{26.10.16 (Eingeschoben)}
 Welche interessanten Eigenschaften haben reguläre Sprachen?
 
-Notation: Sei $w\in\{0,1\}^*$ dann schreiben wir $\operatorname{bin}(w)$ für die Dekodierung der des Bitstings $w$ in eine natürliche Zahl.
-Z.B. gilt $\operatorname{bin}(101) = 5$.
+Notation: Sei $\operatorname{bin}:\{0,1\}^*\rightarrow \N$ die Dekodierung von Bitstings in natürliche Zahlen.
+
+Z.B. $\operatorname{bin}(101) = 5$, $\operatorname{bin}(\Eps) = 0$
 
 \begin{Bsp*} Betrachete den folgenden \ac{DEA}, der die Sprache der Binärcodierungen von durch drei Teilbaren Zahlen akzeptiert:
                 $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$
@@ -941,7 +943,7 @@ Wir formalisieren diesen Verdacht im folgenden Lemma.
 \end{lemma}
 \vspace{-2em}
 \begin{proof}
-	Sei $\A=(\Sigma, Q,\delta,q_0,F)$ ein beliebiger \ac{DEA} für $L$.
+	Sei $\A=(\Sigma, Q,\delta,\qinit,F)$ ein beliebiger \ac{DEA} für $L$.
 	Wähle $n=|Q|$ und $z\in L$ beliebig mit $|z|\geq n$.
 	
 	\vspace{-1em}
@@ -951,14 +953,14 @@ Wir formalisieren diesen Verdacht im folgenden Lemma.
 	Wähle das $q$, dessen zweiter Besuch zuerst passiert.
 	\begin{alignat*}{3}
 		\text{Nun gilt: }\quad
-		\exists u:\; && \tilde\delta(q_0,u)&=q &\qquad& u\text{ Präfix von }z\\
+		\exists u:\; && \tilde\delta(\qinit,u)&=q &\qquad& u\text{ Präfix von }z\\
 		\exists v:\; && \tilde\delta(q,v)&=q && uv\text{ Präfix von }z\\
 		\exists w:\; && \tilde\delta(q,w)&\in F && uvw=z\\
 		&& |v| &\geq 1\\
 		&& |uv| &\leq n && \text{da $q$ zwei mal besucht}
 	\end{alignat*}
 	\begin{alignat*}{2}
-		\text{Es folgt für beliebiges $i\in\N$ :}\quad \tilde\delta(q_0,uv^iw) &= \tilde\delta(q,v^iw)\\
+		\text{Es folgt für beliebiges $i\in\N$ :}\quad \tilde\delta(\qinit,uv^iw) &= \tilde\delta(q,v^iw)\\
 		&= \tilde\delta(q,w) &\qquad& \text{denn }\forall i: \tilde\delta(q,v^i)=q\\
 		&\in F \tag*{\qedhere}
 	\end{alignat*}
@@ -979,7 +981,7 @@ Wir formalisieren diesen Verdacht im folgenden Lemma.
   \item $v = 0^k$ mit $k\geq 1$
   \item $w = 0^{n-m}10^n$ 
   \end{itemize}
-  Betrachte $uv^2w = 0^{m+k}0^k0^{n-m}10^n = 0^{n+k}10^n \notin L$. Widerspruch!
+  Betrachte $uv^2w = 0^{m-k}0^{2k}0^{n-m}10^n = 0^{n+k}10^n \notin L$. Widerspruch!
   Somit ist $L$ nicht regulär.
   
   Zur Illustration:
@@ -1023,7 +1025,7 @@ Wir formalisieren diesen Verdacht im folgenden Lemma.
 % \end{Bsp*}
 
 
-\subsection[\acf{NEA}]{Nichtdterministischer endlicher Automat (NEA)}
+\subsection[\acf{NEA}]{Nichtdeterministischer endlicher Automat (NEA)}
 Aufgabe: Konstruiere für eine natürliche Zahl $n\in\N$ einen DEA für die folgende Sprache.
 	\begin{align*}
 		L_n &= \{ w\in\{0,1\}^* \mid \text{das $n$-letzte Symbol von $w$ ist 1} \}
@@ -1050,7 +1052,7 @@ Naiver Lösungsversuch:
 		\end{tikzpicture}
 		\caption{Nichtdet. Automat für $L_n$}
 	\end{figure}
-Problem: Diagramm beschreibt keinen DEA. $q_0$ hat zwei ausgehende Kanten für $1$.
+Problem: Diagramm beschreibt keinen DEA. Startzustand hat zwei ausgehende Kanten für $1$.
 
 Untersuche Sprache mit Hilfe von Nerode Relation.
 Beobachtung: Je zwei Wörter der Länge $n$ sind in unterschiedlichen Äquivalenzklassen.
@@ -1225,29 +1227,35 @@ Im folgenden sei $\calN$ immer ein NEA.
 	Wir nennen einen Lauf \emph{initial} falls $q_0=\qinit$.
 	Wir nennen einen Lauf \emph{akzeptierend}, falls $q_n\in F$.
 \end{Def}
+\datenote{8.11.17}
 \begin{Def}[name={[NEA zu DEA]}]
 	$L(\calN)=\{ w\in\Sigma^* \mid \exists\text{ initialer, akzeptierender Lauf von $\calN$ über }w \}$
 \end{Def}
 \begin{Satz}[Rabin und Scott]
-	Zu jedem \ac{NEA} $\calN$ mit $n$ Zuständen gibt es einen \ac{DEA} $\A$ mit $2^n$ Zuständen, so dass $L(\calN)=L(\A)$.
+	Zu jedem \ac{NEA} $\calN$ mit $n$ Zuständen gibt es einen \ac{DEA} $\A_\calP$ mit $2^n$ Zuständen, so dass $L(\A_\calP)=L(\calN)$.
 \end{Satz}
+
 \hide{
-\draftnote{4.11.16}
+% \draftnote{4.11.16}
 \begin{proof}[Potenzmengenkonstruktion]
         Definiere $\A'$ durch
         \begin{align*}
-                Q' &= \mathcal{P}(Q)\\
-                \delta'(q',a) &= \bigcup_{q\in q'} \delta(q,a)\\
-                q_0' &= \{q_0\}\\
-                F' &= \{ q'\in Q' \mid q'\cap F\neq \varnothing \}
+                Q_\calP &= \mathcal{P}(Q)\\
+                \delta_\calP(p,a) &= \bigcup_{q\in p} \delta(q,a)\\
+                \qinit_\calP &= \{\qinit\}\\
+                F_\calP &= \{ p\in Q_\calP \mid p\cap F\neq \varnothing \}
         \end{align*}
-        Zeige $L(\A)=L(\A')$
+        Wir wollen nun $L(\A')=L(\calN)$ zeigen. Dafür beweisen wir zunächst via Induktion über die Länge von $w$
+        $$ \forall w\in\Sigma^* \forall q\in Q: q\in\tilde\delta_P(\qinit_\calP,w) \Leftrightarrow \exists \underbrace{\qinit, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w| \text{ und } q_n=q$$
+        
+        
         \begin{align*}
                 \text{Es gilt } w\in L(\A') &\<=> \tilde\delta'(q_0',w)\in F'\\
                 &\<=> \tilde\delta'(q_0',w)\cap F\neq \varnothing\\
                 &\<=> \exists \text{ akzeptierender Lauf von $\A$ auf $w$} \\
                 &\<=> w\in L(\A).
         \end{align*}
+        
         Zeige $\forall w\in\Sigma^*$:
         \begin{align*}
                 \forall q'\in Q' &\phantom{\<=>} \tilde\delta'(q',w)\cap F\neq \varnothing\\
@@ -1280,6 +1288,7 @@ Im folgenden sei $\calN$ immer ein NEA.
         \end{align*}
         \end{description}
 \end{proof}
+
 Also: Eine Sprache $L$ ist regulär, falls
 \begin{itemize}
 \item $L = L(\A)$ für einen \ac{DEA}\\
