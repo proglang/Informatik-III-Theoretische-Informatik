@@ -1218,7 +1218,7 @@ dabei ist
                 \item $F\subseteq Q$ eine Teilmenge der Zustände deren Elemente wir \emph{akzeptierende} Zustände nennen.
         \end{itemize}
 \end{Def}
-Bemerkung: Die Definition des NEA unterscheidet sich vom DEA also nur in der Transitionsfunktion. Beim DEA ist der Bildbereich der Transitionsfunktion die Menge der Zustände $Q$. Hier ist der Bildbereich die Potenzmenge der Zustandsmenge  $\mathcal{P}(Q)$.
+Bemerkung: Die Definition des NEA unterscheidet sich vom DEA also nur in der Transitionsfunktion. Beim DEA ist der Bildbereich der Transitionsfunktion die Menge der Zustände $Q$. Hier ist der Bildbereich die Potenzmenge der Zustandsmenge $\mathcal{P}(Q)$.
 
 Im folgenden sei $\calN$ immer ein NEA.
 \begin{Def}[name={[Lauf eines Automaten]}]
@@ -1235,66 +1235,49 @@ Im folgenden sei $\calN$ immer ein NEA.
 	Zu jedem \ac{NEA} $\calN$ mit $n$ Zuständen gibt es einen \ac{DEA} $\A_\calP$ mit $2^n$ Zuständen, so dass $L(\A_\calP)=L(\calN)$.
 \end{Satz}
 
-\hide{
+
 % \draftnote{4.11.16}
 \begin{proof}[Potenzmengenkonstruktion]
-        Definiere $\A'$ durch
+        Definiere $\A_\calP$ durch
         \begin{align*}
                 Q_\calP &= \mathcal{P}(Q)\\
                 \delta_\calP(p,a) &= \bigcup_{q\in p} \delta(q,a)\\
                 \qinit_\calP &= \{\qinit\}\\
                 F_\calP &= \{ p\in Q_\calP \mid p\cap F\neq \varnothing \}
         \end{align*}
-        Wir wollen nun $L(\A')=L(\calN)$ zeigen. Dafür beweisen wir zunächst via Induktion über die Länge von $w$
-        $$ \forall w\in\Sigma^* \forall q\in Q: q\in\tilde\delta_P(\qinit_\calP,w) \Leftrightarrow \exists \underbrace{\qinit, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w| \text{ und } q_n=q$$
+        Wir wollen nun $L(\A_\calP)=L(\calN)$ zeigen. 
+        Dafür beweisen wir zunächst via Induktion über die Länge von $w$, die folgende Eigenschaft:
         
-        
+        $\forall w\in\Sigma^*\; \forall p\in Q_\calP\backslash\{\}\; \forall q\in Q$
+        $$q\in\tilde\delta_\calP(p,w) \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in p \text{ und } q_n=q$$
+        I.A. $(n=0,$ also $w=\Eps)$: Gilt trivialerweise da $p\neq\{\}$\\
+        I.S. ($n\rightsquigarrow n+1$): Seit $w=aw'$ beliebiges Wort der Länge $n+1$.
+        \begin{eqnarray*}
+                q\in\tilde\delta_\calP(p,w) 
+                & \Leftrightarrow & q\in\tilde\delta_\calP(\delta_\calP(p,a),w')\\
+                & \stackrel{IV}{\Leftrightarrow} & \exists\underbrace{q_1q_2\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, q_1\in \delta_\calP(p,a) \text{ und } q_n=q\\
+                & \Leftrightarrow & \exists\underbrace{q_1q_2\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, \exists q_0\in p, \delta(q_0,a)=q_1 \text{ und } q_n=q\\
+                & \Leftrightarrow & \exists\underbrace{q_0q_1q_2\ldots q_n}_{\text{Lauf}}\in Q,\text{ sodass }  n+1=|w|, q_0\in p \text{ und } q_n=q
+        \end{eqnarray*}
+        Mit Hilfe dieser Eigenschaft zeigen wir nun die Gleichheit $L(\A_\calP)=L(\calN)$
         \begin{align*}
-                \text{Es gilt } w\in L(\A') &\<=> \tilde\delta'(q_0',w)\in F'\\
-                &\<=> \tilde\delta'(q_0',w)\cap F\neq \varnothing\\
-                &\<=> \exists \text{ akzeptierender Lauf von $\A$ auf $w$} \\
-                &\<=> w\in L(\A).
+         w\in L(\A_\calP) 
+         &\<=> \tilde\delta_\calP(\qinit_\calP,w)\in F_\calP\\
+         &\<=> \exists q_f\in \tilde\delta_\calP(\qinit_\calP,w)\cap F\\
+         &\<=> \exists \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in \qinit \text{ und } q_n=q_f\\
+         &\<=> \exists \text{ initialer, akzeptierender Lauf von $\calN$ über $w$} \\
+         &\<=> w\in L(\calN)
         \end{align*}
-        
-        Zeige $\forall w\in\Sigma^*$:
-        \begin{align*}
-                \forall q'\in Q' &\phantom{\<=>} \tilde\delta'(q',w)\cap F\neq \varnothing\\
-                &\<=> \exists\text{ akzeptierender Lauf von $\A$ \underline{ab $q'$} auf }w\\
-                &\<=> \exists \underbrace{p_0p_1\dots p_n}_{\text{Lauf}}\in Q \quad p_0=q',\ p_n\in F,\ n=|w|
-        \end{align*}
-        Induktion nach $w$
-        \begin{description}
-        \item[I.A.]
-                \begin{alignat*}{2}
-                        \Eps:\\
-                        &&\forall q'\in Q'\ \tilde\delta(&q',\Eps)\cap F\neq \varnothing\\
-                        \<=>&& &q'\cap F\neq \varnothing
-                \end{alignat*}
-                Wähle einen beliebigen Zustand $p_0=p_n\in q'\cap F$
-        \item[I.S.]
-        \begin{align*}
-                aw'&\\
-                &\tilde\delta'(q',aw')\cap F\neq \varnothing\\
-                \<=>\quad& \tilde\delta'(\underbrace{\delta'(q',a)}_{\in Q'},w')\cap F\neq\varnothing\\
-                \xLeftrightarrow{\text{I.V.}}\quad& \exists \text{Lauf\ } p_1\dots p_{n+1}\in Q : p_0\in\tilde\delta'(q', a),\ p_{n+1}\in F
-        \end{align*}
-        Suche $p_0\in q'$ mit $p_1\in\delta(p_0,a)$\\
-        existiert, denn
-        \begin{align*}
-                & p_1\in \delta'(q', a) =  \bigcup_{q\in q'} \delta(q,a)\\
-                \<=>\quad & \exists p_0\in q' : \delta(p_0,a) \ni p_1\\
-                \shortintertext{Gesuchter Lauf ist}
-                p_0p_1\dots p_{n+1}
-        \end{align*}
-        \end{description}
 \end{proof}
 
+\hide{
 Also: Eine Sprache $L$ ist regulär, falls
 \begin{itemize}
 \item $L = L(\A)$ für einen \ac{DEA}\\
 	oder
 \item $L = L(\A)$ für \ac{NEA}
 \end{itemize}
+
 
 \subsection{Abschlusseigenschaften}
 \begin{Def}[name={[Abgeschlossenheit von $\mathcal{L}$]}]
@@ -1393,6 +1376,7 @@ Also: Eine Sprache $L$ ist regulär, falls
         \end{itemize}
 \end{proof}
 %
+
 \subsection{Reguläre Ausdrücke}
 \draftnote{9.11.16}
 \begin{Def}[name={[RE($\Sigma$)]}]
