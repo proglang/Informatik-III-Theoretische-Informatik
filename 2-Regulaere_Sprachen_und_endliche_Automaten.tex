@@ -1051,6 +1051,7 @@ Naiver Lösungsversuch:
 			    node [pos=0.5,anchor=north,yshift=-0.65cm] {n};
 		\end{tikzpicture}
 		\caption{Nichtdet. Automat für $L_n$}
+		\label{fig:2.nletztesNea}
 	\end{figure}
 Problem: Diagramm beschreibt keinen DEA. Startzustand hat zwei ausgehende Kanten für $1$.
 
@@ -1219,6 +1220,7 @@ dabei ist
         \end{itemize}
 \end{Def}
 Bemerkung: Die Definition des NEA unterscheidet sich vom DEA also nur in der Transitionsfunktion. Beim DEA ist der Bildbereich der Transitionsfunktion die Menge der Zustände $Q$. Hier ist der Bildbereich die Potenzmenge der Zustandsmenge $\mathcal{P}(Q)$.
+Analog zu DEAs werden wir auch NEAs mit Hilfe eines Zustandsdiagramms beschrieben. Z.B. beschreibt \autoref{fig:2.nletztesNea} für jedes $n\in\N$ einen NEA für die Sprache $L_n$.
 
 Im folgenden sei $\calN$ immer ein NEA.
 \begin{Def}[name={[Lauf eines Automaten]}]
@@ -1231,7 +1233,12 @@ Im folgenden sei $\calN$ immer ein NEA.
 \begin{Def}[name={[NEA zu DEA]}]
 	$L(\calN)=\{ w\in\Sigma^* \mid \exists\text{ initialer, akzeptierender Lauf von $\calN$ über }w \}$
 \end{Def}
-\begin{Satz}[Rabin und Scott]
+
+Bemerkung: Zu jedem \ac{DEA} $\A= (\Sigma, Q,\delta,\qinit,F)$ gibt es einen \ac{NEA} der die gleiche Sprache akzeptiert.
+Z.B. der \ac{NEA} $\calN= (\Sigma, Q,\delta_\mathsf{NEA},\qinit,F)$, mit $\delta_\mathsf{NEA}(q,a)=\{\delta(q,a)\}$ der sich von $\A$ nur in der Transitionsfunktion unterscheidet.
+
+
+\begin{Satz}[Rabin und Scott]\label{satz:2.rabinscott}
 	Zu jedem \ac{NEA} $\calN$ mit $n$ Zuständen gibt es einen \ac{DEA} $\A_\calP$ mit $2^n$ Zuständen, so dass $L(\A_\calP)=L(\calN)$.
 \end{Satz}
 
@@ -1270,13 +1277,27 @@ Im folgenden sei $\calN$ immer ein NEA.
         \end{align*}
 \end{proof}
 
+Bemerkung: Es gelten also die folgenden Äquivalenzen.
+$$ L \text{ regulär} 
+\quad \stackrel{\autoref{def:2.sprache}}{\Longleftrightarrow} \quad L = L(\A) \text{ für einen \ac{DEA} }\A
+\quad \Longleftrightarrow \quad L = L(\calN) \text{ für einen \ac{NEA} }\calN
+$$
+Bemerkung: \ac{NEA}s sind eine exponentiell kompaktere Repräsentation von regulären Sprachen im folgenden Sinne:
+\begin{enumerate}
+ \item Es gibt mit $L_n$ ($n$-letztes Zeichen) eine Menge von Sprachen die sich mit Hilfe eines $n+1$ Zustands \ac{NEA} darstellen lassen, aber bei denen ein minimaler \ac{DEA} mindestens $2^n$ Zustände hat. (Siehe Übungsblatt 3, Aufgabe 2)
+ \item Zu jedem \ac{NEA} mit $n$ Zuständen gibt es einen \ac{DEA} mit $2^n$ Zuständen der die gleiche Sprache akzeptiert. (\autoref{satz:2.rabinscott})
+ \item Zu jedem \ac{DEA} mit $n$ Zuständen gibt es einen \ac{NEA} mit $n$ Zuständen der die gleiche Sprache akzeptiert.
+\end{enumerate}
+
+
 \hide{
-Also: Eine Sprache $L$ ist regulär, falls
-\begin{itemize}
-\item $L = L(\A)$ für einen \ac{DEA}\\
-	oder
-\item $L = L(\A)$ für \ac{NEA}
-\end{itemize}
+\begin{Def}[$\Eps$-NEA]
+        Ein \emph{nichtdeterministischer endlicher Automat mit $\Eps$-Übergängen} ist ein 5-Tupel
+        \[ \calN= (\Sigma, Q,\delta,\qinit,F) \]
+wobei $\Sigma$, $Q$, $\qinit$, $F$ wie bei NEAs (bzw. DEAs) definiert sind und die Transitionsfunkion den folgenden Typ hat.
+$$ \delta:Q\x(\Sigma\cup\{\Eps\})\->\mathcal{P}(Q)$$
+\end{Def}
+
 
 
 \subsection{Abschlusseigenschaften}
