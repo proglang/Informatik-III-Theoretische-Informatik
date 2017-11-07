@@ -935,10 +935,10 @@ Wir formalisieren diesen Verdacht im folgenden Lemma.
 \begin{lemma}[Pumping Lemma]\label{lem:pumping}
         Sei $L$ eine reguläre Sprache. Dann gilt:
         \begin{alignat*}{2}
-                &\exists n\in\N,\ n>0\quad \forall z\in L,\ |z|\geq n:\\
+                &\exists n\in\N,\ n>0:\quad \forall z\in L,\ |z|\geq n:\\
                 &\exists u,v,w\in\Sigma^* :\\
                 &z = uvw,\ |uv| \leq n,\ |v| \geq 1\\
-                \text{sodass }& \forall i\in\N:\ uv^iw\in L
+                \text{und }& \forall i\in\N:\ uv^iw\in L
         \end{alignat*}
 \end{lemma}
 \vspace{-2em}
