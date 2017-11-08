@@ -23,8 +23,11 @@ Wir werden aber auch sehen, dass sich nicht jede Sprache (z.B. $L_1$) mit Hilfe 
 Wir beschreiben zunächst informell die Bestandteile eines endlichen Automaten:
 
 \newcommand{\qinit}{{q^\mathsf{init}}}
+\newcommand{\B}{\mathcal{B}}
 \newcommand{\calN}{\mathcal{N}}
 \newcommand{\calP}{\mathcal{P}}
+\newcommand{\EAbs}{\textsf{EAbs}}
+\newcommand{\reach}{\textsf{reach}}
 \newcommand{\hide}[1]{}
 
 \begin{description}
@@ -1231,8 +1234,22 @@ Im folgenden sei $\calN$ immer ein NEA.
 \end{Def}
 \datenote{8.11.17}
 \begin{Def}[name={[NEA zu DEA]}]
+	Ein Wort $w\in\Sigma^*$ wir von $\calN$ \emph{akzeptiert}, falls $\calN$ einen initialen und akzeptierenden Lauf über $w$ hat.
+	Die von $\calN$ akzeptierte Sprache ist die Menge der von $\calN$ akzeptierten Wörter. D.h.	
 	$L(\calN)=\{ w\in\Sigma^* \mid \exists\text{ initialer, akzeptierender Lauf von $\calN$ über }w \}$
 \end{Def}
+
+\begin{Bsp}
+TODO: Teilworterkennung oder n-letztes
+\end{Bsp}
+
+Bemerkung: TODO Wortproblem schwieriger
+
+
+Bemerkung: Die \ac{NEA} und \ac{DEA} Definitionen in der Literatur sind nicht einheitlich. 
+Es gibt äquivalente \ac{NEA} Definitionen die statt der Transitionsfunktion $\delta:Q\x\Sigma\->\mathcal{P}(Q)$ eine Transitionsrelation $\delta\subseteq Q\x\Sigma\x Q$ verwenden.
+Es gibt alternative \ac{NEA} Definitionen die eine Menge von Startzuständen erlauben.
+Alternativ könnte man auch zunächst den \ac{NEA} einführen und den \ac{DEA} als Spezialfall dessen definieren.
 
 Bemerkung: Zu jedem \ac{DEA} $\A= (\Sigma, Q,\delta,\qinit,F)$ gibt es einen \ac{NEA} der die gleiche Sprache akzeptiert.
 Z.B. der \ac{NEA} $\calN= (\Sigma, Q,\delta_\mathsf{NEA},\qinit,F)$, mit $\delta_\mathsf{NEA}(q,a)=\{\delta(q,a)\}$ der sich von $\A$ nur in der Transitionsfunktion unterscheidet.
@@ -1252,6 +1269,9 @@ Z.B. der \ac{NEA} $\calN= (\Sigma, Q,\delta_\mathsf{NEA},\qinit,F)$, mit $\delta
                 \qinit_\calP &= \{\qinit\}\\
                 F_\calP &= \{ p\in Q_\calP \mid p\cap F\neq \varnothing \}
         \end{align*}
+        
+        TODO: Beispiel 2-letztes
+        
         Wir wollen nun $L(\A_\calP)=L(\calN)$ zeigen. 
         Dafür beweisen wir zunächst via Induktion über die Länge von $w$, die folgende Eigenschaft:
         
@@ -1289,8 +1309,9 @@ Bemerkung: \ac{NEA}s sind eine exponentiell kompaktere Repräsentation von regul
  \item Zu jedem \ac{DEA} mit $n$ Zuständen gibt es einen \ac{NEA} mit $n$ Zuständen der die gleiche Sprache akzeptiert.
 \end{enumerate}
 
+\subsubsection{$\Eps$-Übergänge}
 
-\hide{
+
 \begin{Def}[$\Eps$-NEA]
         Ein \emph{nichtdeterministischer endlicher Automat mit $\Eps$-Übergängen} ist ein 5-Tupel
         \[ \calN= (\Sigma, Q,\delta,\qinit,F) \]
@@ -1299,7 +1320,69 @@ $$ \delta:Q\x(\Sigma\cup\{\Eps\})\->\mathcal{P}(Q)$$
 \end{Def}
 
 
+\begin{Def}
+ Der \emph{$\Eps$-Abschluss} $\EAbs:Q\rightarrow\calP$ ist die kleinste Abbildung, die die folgenden Eigenschaften erfüllt:
+$$\forall q\in Q: \quad q\in\EAbs(q)$$
+$$\forall q,q',q''\in Q: \quad q'\in\EAbs(q) \text{ und } q''\in\delta(q',\Eps) \quad\Rightarrow\quad q''\in\EAbs(q)$$
 
+\end{Def}
+
+\begin{Def}
+ Die \emph{Erreichbarkeitsrelation} $\reach\subseteq Q\times\Sigma^*\times Q$ ist die kleinste Relation, die die folgenden Eigenschaften erfüllt:
+$$\forall q,q'\in Q: q'\in\EAbs(q) \quad\Rightarrow\quad (q,\Eps,q')\in\reach$$
+$$\forall q,q',q'',q'''\in Q, w\in\Sigma^*: \quad q'\in\EAbs(q), q''\in\delta(q',a) \text{ und } (q'',w,q''')\in\reach \Rightarrow (q,aw,q''')\in\reach$$
+\end{Def}
+
+\begin{Def}
+ Ein Wort $w\in\Sigma^*$ wird von $\B$ \emph{akzeptiert}, wenn $(\qinit,w,q_f)\in\reach$ für ein $q_f\in F$.
+ Die von $\B$ akzeptierte Sprache $L(\B)$ ist die Menge der von $\B$ akzeptierten Wörter. D.h.	
+	$L(\B)=\{ w\in\Sigma^* \mid \exists q\in F: (\qinit, w, q)\in\reach \}$
+\end{Def}
+
+
+
+\begin{Satz}
+    Zu jedem $\Eps$-NEA $\B$ gibt es einen \ac{NEA} $\calN$, so dass $L(\calN)=L(\B)$.
+\end{Satz}
+
+\begin{proof}[$\Eps$-Eliminierung]
+        Konstruiere $\calN= (\Sigma, Q,\delta_\calN,\qinit,F_\calN)$, mit
+        $$\delta_\calN(q,a)=\bigcup\limits_{q'\in\EAbs}\{p'\mid \exists p : p'\in\EAbs(p) \text{ und } p\in\delta(q',a)\}$$
+        $$F_\calN=\bigcup\limits_{q_f\in F}\EAbs(q_f)$$
+        
+        TODO: Beispiel
+        
+        
+        
+        Wir wollen nun $L(\calN)=L(\B)$ zeigen. 
+        Dafür beweisen wir zunächst via Induktion über die Länge von $w$, die folgende Eigenschaft:
+        
+        $\forall w\in\Sigma^*\; \forall p\in Q_\calP\backslash\{\}\; \forall q\in Q$
+        $$(q,w,q')\in\reach \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in p \text{ und } q_n=q$$
+        I.A. $(n=0,$ also $w=\Eps)$: Gilt trivialerweise da $(q,\Eps,q)\in\reach$ für alle $q$\\
+        I.S. ($n\rightsquigarrow n+1$): Seit $w=aw'$ beliebiges Wort der Länge $n+1$.
+        \begin{eqnarray*}
+                (q,w,q')\in\reach\\
+                & \Leftrightarrow & (q,w,q')\in\reach\\
+                & \stackrel{IV}{\Leftrightarrow} & \exists\underbrace{q_1q_2\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, q_1\in \delta_\calP(p,a) \text{ und } q_n=q\\
+                & \Leftrightarrow & \exists\underbrace{q_1q_2\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, \exists q_0\in p, \delta(q_0,a)=q_1 \text{ und } q_n=q\\
+                & \Leftrightarrow & \exists\underbrace{q_0q_1q_2\ldots q_n}_{\text{Lauf}}\in Q,\text{ sodass }  n+1=|w|, q_0\in p \text{ und } q_n=q
+        \end{eqnarray*}
+        Mit Hilfe dieser Eigenschaft zeigen wir nun die Gleichheit $L(\A_\calP)=L(\calN)$
+        \begin{align*}
+         w\in L(\A_\calP) 
+         &\<=> \tilde\delta_\calP(\qinit_\calP,w)\in F_\calP\\
+         &\<=> \exists q_f\in \tilde\delta_\calP(\qinit_\calP,w)\cap F\\
+         &\<=> \exists \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in \qinit \text{ und } q_n=q_f\\
+         &\<=> \exists \text{ initialer, akzeptierender Lauf von $\calN$ über $w$} \\
+         &\<=> w\in L(\calN)
+        \end{align*}
+\end{proof}
+
+
+
+
+\hide{
 \subsection{Abschlusseigenschaften}
 \begin{Def}[name={[Abgeschlossenheit von $\mathcal{L}$]}]
         Eine Menge $\mathcal{L}\subseteq \mathcal{P}(\Sigma^*)$ von Sprachen heißt \emph{abgeschlossen} unter Operation \\
