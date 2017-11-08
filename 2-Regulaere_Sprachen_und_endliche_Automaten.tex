@@ -1239,17 +1239,40 @@ Im folgenden sei $\calN$ immer ein NEA.
 	$L(\calN)=\{ w\in\Sigma^* \mid \exists\text{ initialer, akzeptierender Lauf von $\calN$ über }w \}$
 \end{Def}
 
+
+
+
 \begin{Bsp}
-TODO: Teilworterkennung oder n-letztes
+\label{bsp:2.zweitletztes} Der NEA für die Sprache 
+$$L_2=\{w\in\{0,1\}^*\mid \text{ das zweitletzte Zeichen von $w$ ist $1$ }\}$$ hat die folgende graphische Repräsentation.
+  \begin{center}
+                \begin{tikzpicture}[circle/.style={
+                        shape=circle,
+                        minimum size=0.5cm,
+                        text=black, draw,
+                        text width=0.5cm,
+                        align=center}]
+                        \node (vs) at (-1.0,1.0) {};
+                        \node [circle] (v0) at (0,0) {$q_{0}$};
+                        \node [circle] (v1) at (3,0) {$q_{1}$};
+                        \node [circle, double] (v2) at (6,0) {$q_{2}$};
+                        \draw [->] (vs) edge (v0);
+                        \draw [->] (v0) edge [loop above] node[auto] {0,1} (v2);
+                        \draw [->] (v0) edge [bend left=15] node[auto] {1} (v1);
+                        \draw [->] (v1) edge [bend left=15] node[auto] {0,1} (v2);
+                \end{tikzpicture}
+  \end{center}
 \end{Bsp}
 
-Bemerkung: TODO Wortproblem schwieriger
+
+Bemerkung: Die Frage ob ein gegebenes Wort $w$ akzeptiert wird (das ``Wortproblem'') lässt sich für NEAs nicht mehr so leicht beantworten wie wir es von DEAs gewohnt sind.
+Ein sinvolles Vorgehen scheint jeden initialen Lauf zu betrachten, doch z.B. für das Wort $111$ hat obiger NEA bereits  drei verschiedene initiale Läufe: $q_0q_0q_0$, $q_0q_0q_1$, $q_0q_0q_2$.
 
 
-Bemerkung: Die \ac{NEA} und \ac{DEA} Definitionen in der Literatur sind nicht einheitlich. 
+Bemerkung: Die Definitionen von \ac{NEA} und \ac{DEA} in der Literatur sind nicht einheitlich. 
 Es gibt äquivalente \ac{NEA} Definitionen die statt der Transitionsfunktion $\delta:Q\x\Sigma\->\mathcal{P}(Q)$ eine Transitionsrelation $\delta\subseteq Q\x\Sigma\x Q$ verwenden.
 Es gibt alternative \ac{NEA} Definitionen die eine Menge von Startzuständen erlauben.
-Alternativ könnte man auch zunächst den \ac{NEA} einführen und den \ac{DEA} als Spezialfall dessen definieren.
+Alternativ könnte man auch zunächst den \ac{NEA} einführen und den \ac{DEA} als Spezialfall dessen definieren (Spezialfall: Bild von Transitionsfunktion ist einelementig für alle $q\in Q$ und $a\in\Sigma$)
 
 Bemerkung: Zu jedem \ac{DEA} $\A= (\Sigma, Q,\delta,\qinit,F)$ gibt es einen \ac{NEA} der die gleiche Sprache akzeptiert.
 Z.B. der \ac{NEA} $\calN= (\Sigma, Q,\delta_\mathsf{NEA},\qinit,F)$, mit $\delta_\mathsf{NEA}(q,a)=\{\delta(q,a)\}$ der sich von $\A$ nur in der Transitionsfunktion unterscheidet.
@@ -1258,21 +1281,42 @@ Z.B. der \ac{NEA} $\calN= (\Sigma, Q,\delta_\mathsf{NEA},\qinit,F)$, mit $\delta
 \begin{Satz}[Rabin und Scott]\label{satz:2.rabinscott}
 	Zu jedem \ac{NEA} $\calN$ mit $n$ Zuständen gibt es einen \ac{DEA} $\A_\calP$ mit $2^n$ Zuständen, so dass $L(\A_\calP)=L(\calN)$.
 \end{Satz}
+  Zur Vorbereitung des Beweises machen wir zunächst die folgende Definition.
 
-
-% \draftnote{4.11.16}
-\begin{proof}[Potenzmengenkonstruktion]
-        Definiere $\A_\calP$ durch
-        \begin{align*}
+\begin{Def}[Potenzmengenautomat]
+ Für gegebenen \ac{NEA}  $\calN= (\Sigma, Q,\delta,\qinit,F)$ ist der Potenzmengenautomat $\A_\calP$ wie folgt definiert
+         \begin{align*}
                 Q_\calP &= \mathcal{P}(Q)\\
                 \delta_\calP(p,a) &= \bigcup_{q\in p} \delta(q,a)\\
                 \qinit_\calP &= \{\qinit\}\\
-                F_\calP &= \{ p\in Q_\calP \mid p\cap F\neq \varnothing \}
+                F_\calP &= \{ p\in Q_\calP \mid p\cap F\neq \varnothing \}\qedhere
         \end{align*}
-        
-        TODO: Beispiel 2-letztes
-        
-        Wir wollen nun $L(\A_\calP)=L(\calN)$ zeigen. 
+\end{Def}
+\begin{Bsp}
+Der Potzenzmengenautomat für den NEA aus \autoref{bsp:2.zweitletztes} hat das folgende Zutandsdiagramm.
+  \begin{center}
+%                 \begin{tikzpicture}[circle/.style={
+%                         shape=circle,
+%                         minimum size=0.5cm,
+%                         text=black, draw,
+%                         text width=0.5cm,
+%                         align=center}]
+%                         \node (vs) at (-1.0,1.0) {};
+%                         \node [circle] (v0) at (0,0) {$\{q_{0}\}$};
+%                         \node [draw, rounded corners=3mm] (v1) at (3,0) {$\{q_{0}q_1\}$};
+%                         \node [circle, double] (v2) at (6,0) {$q_{2}$};
+%                         \draw [->] (vs) edge (v0);
+%                         \draw [->] (v0) edge [loop above] node[auto] {0} (v2);
+%                         \draw [->] (v0) edge [bend left=15] node[auto] {1} (v1);
+%                         \draw [->] (v1) edge [bend left=15] node[auto] {0,1} (v2);
+%                 \end{tikzpicture}
+  \end{center}
+\end{Bsp}
+
+
+% \draftnote{4.11.16}
+\begin{proof}[von \autoref{satz:2.rabinscott}]
+        Zeige $L(\A_\calP)=L(\calN)$. 
         Dafür beweisen wir zunächst via Induktion über die Länge von $w$, die folgende Eigenschaft:
         
         $\forall w\in\Sigma^*\; \forall p\in Q_\calP\backslash\{\}\; \forall q\in Q$
@@ -1310,6 +1354,9 @@ Bemerkung: \ac{NEA}s sind eine exponentiell kompaktere Repräsentation von regul
 \end{enumerate}
 
 \subsubsection{$\Eps$-Übergänge}
+
+Frage: Gegeben zwei reguläre Sprachen $L_1, L_2$ ist dann auch die Konkatenation $L_1\cdot L_2$ eine reguläre Sprache?
+Idee: Konstruiere Automaten für $L_1\cdot L_2$ durch ``Hintereinanderschalten''.
 
 
 \begin{Def}[$\Eps$-NEA]
