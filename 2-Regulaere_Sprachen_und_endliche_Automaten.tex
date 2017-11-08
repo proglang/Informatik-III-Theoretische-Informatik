@@ -1295,22 +1295,37 @@ Z.B. der \ac{NEA} $\calN= (\Sigma, Q,\delta_\mathsf{NEA},\qinit,F)$, mit $\delta
 \begin{Bsp}
 Der Potzenzmengenautomat für den NEA aus \autoref{bsp:2.zweitletztes} hat das folgende Zutandsdiagramm.
   \begin{center}
-%                 \begin{tikzpicture}[circle/.style={
-%                         shape=circle,
-%                         minimum size=0.5cm,
-%                         text=black, draw,
-%                         text width=0.5cm,
-%                         align=center}]
-%                         \node (vs) at (-1.0,1.0) {};
-%                         \node [circle] (v0) at (0,0) {$\{q_{0}\}$};
-%                         \node [draw, rounded corners=3mm] (v1) at (3,0) {$\{q_{0}q_1\}$};
-%                         \node [circle, double] (v2) at (6,0) {$q_{2}$};
-%                         \draw [->] (vs) edge (v0);
-%                         \draw [->] (v0) edge [loop above] node[auto] {0} (v2);
-%                         \draw [->] (v0) edge [bend left=15] node[auto] {1} (v1);
-%                         \draw [->] (v1) edge [bend left=15] node[auto] {0,1} (v2);
-%                 \end{tikzpicture}
+                \begin{tikzpicture}[circle/.style={
+                        shape=circle,
+                        minimum size=0.5cm,
+                        text=black, draw,
+                        text width=0.5cm,
+                        align=center}]
+                        \node (vs) at (-1.0,1.0) {};
+                        \node [draw, rounded corners=3mm] (v0) at (0,0) {$\{q_{0}\}$};
+                        \node [draw, rounded corners=3mm] (v1) at (2,0) {$\{q_{0}, q_1\}$};
+                        \node [draw, rounded corners=3mm, double] (v2) at (5,1) {$\{q_0, q_{2}\}$};
+                        \node [draw, rounded corners=3mm, double] (v3) at (5,-1) {$\{q_0, q_1, q_2\}$};
+                        \node [draw, rounded corners=3mm, double] (v4) at (8,1) {$\{q_1, q_2\}$};
+                        \node [draw, rounded corners=3mm] (v5) at (12,1) {$\{q_1\}$};
+                        \node [draw, rounded corners=3mm, double] (v6) at (10,1) {$\{q_2\}$};
+                        \node [draw, rounded corners=3mm, double] (v7) at (10,-1) {$\{\}$};
+                        \draw [->] (vs) edge (v0);
+                        \draw [->] (v0) edge [loop above] node[auto] {0} (v2);
+                        \draw [->] (v0) edge [bend left=0] node[below] {1} (v1);
+                        \draw [->] (v1) edge [bend left=15] node[auto] {0} (v2);
+                        \draw [->] (v1) edge [bend left=0] node[below] {1} (v3);
+                        \draw [->] (v2) edge [bend right=30] node[above] {0} (v0);
+                        \draw [->] (v2) edge [bend left=15] node[auto] {1} (v1);
+                        \draw [->] (v3) edge [bend left=0] node[right] {0} (v2);
+                        \draw [->] (v3) edge [loop right] node[auto] {0} (v3);
+                        \draw [->] (v4) edge [] node[auto] {0,1} (v6);
+                        \draw [->] (v5) edge [] node[auto] {0,1} (v6);
+                        \draw [->] (v6) edge [] node[auto] {0,1} (v7);
+                        \draw [->] (v7) edge [loop right] node[auto] {0,1} (v7);
+                \end{tikzpicture}
   \end{center}
+Die vier Zustände auf der rechten Seite sind nicht erreichbar.
 \end{Bsp}
 
 
@@ -1326,9 +1341,9 @@ Der Potzenzmengenautomat für den NEA aus \autoref{bsp:2.zweitletztes} hat das f
         \begin{eqnarray*}
                 q\in\tilde\delta_\calP(p,w) 
                 & \Leftrightarrow & q\in\tilde\delta_\calP(\delta_\calP(p,a),w')\\
-                & \stackrel{IV}{\Leftrightarrow} & \exists\underbrace{q_1q_2\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, q_1\in \delta_\calP(p,a) \text{ und } q_n=q\\
-                & \Leftrightarrow & \exists\underbrace{q_1q_2\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, \exists q_0\in p, \delta(q_0,a)=q_1 \text{ und } q_n=q\\
-                & \Leftrightarrow & \exists\underbrace{q_0q_1q_2\ldots q_n}_{\text{Lauf}}\in Q,\text{ sodass }  n+1=|w|, q_0\in p \text{ und } q_n=q
+                & \stackrel{IV}{\Leftrightarrow} & \exists\underbrace{q_1q_2\ldots q_{n+1}}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, q_1\in \delta_\calP(p,a) \text{ und } q_{n+1}=q\\
+                & \Leftrightarrow & \exists\underbrace{q_1q_2\ldots q_{n+1}}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, \exists q_0\in p, \delta(q_0,a)=q_1 \text{ und } q_{n+1}=q\\
+                & \Leftrightarrow & \exists\underbrace{q_0q_1q_2\ldots q_{n+1}}_{\text{Lauf}}\in Q,\text{ sodass }  n+1=|w|, q_0\in p \text{ und } q_{n+1}=q
         \end{eqnarray*}
         Mit Hilfe dieser Eigenschaft zeigen wir nun die Gleichheit $L(\A_\calP)=L(\calN)$
         \begin{align*}
@@ -1358,6 +1373,7 @@ Bemerkung: \ac{NEA}s sind eine exponentiell kompaktere Repräsentation von regul
 Frage: Gegeben zwei reguläre Sprachen $L_1, L_2$ ist dann auch die Konkatenation $L_1\cdot L_2$ eine reguläre Sprache?
 Idee: Konstruiere Automaten für $L_1\cdot L_2$ durch ``Hintereinanderschalten''.
 
+TODO Beispiel und Motivation.
 
 \begin{Def}[$\Eps$-NEA]
         Ein \emph{nichtdeterministischer endlicher Automat mit $\Eps$-Übergängen} ist ein 5-Tupel
@@ -1366,7 +1382,7 @@ wobei $\Sigma$, $Q$, $\qinit$, $F$ wie bei NEAs (bzw. DEAs) definiert sind und d
 $$ \delta:Q\x(\Sigma\cup\{\Eps\})\->\mathcal{P}(Q)$$
 \end{Def}
 
-
+\datenote{10.11.17}
 \begin{Def}
  Der \emph{$\Eps$-Abschluss} $\EAbs:Q\rightarrow\calP$ ist die kleinste Abbildung, die die folgenden Eigenschaften erfüllt:
 $$\forall q\in Q: \quad q\in\EAbs(q)$$
