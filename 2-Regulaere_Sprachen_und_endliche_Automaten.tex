@@ -26,7 +26,7 @@ Wir beschreiben zunächst informell die Bestandteile eines endlichen Automaten:
 \newcommand{\B}{\mathcal{B}}
 \newcommand{\calN}{\mathcal{N}}
 \newcommand{\calP}{\mathcal{P}}
-\newcommand{\EAbs}{\textsf{EAbs}}
+\newcommand{\ecl}{\textsf{ecl}}
 \newcommand{\reach}{\textsf{reach}}
 \newcommand{\hide}[1]{}
 
@@ -1381,31 +1381,131 @@ immer wenn wir in einem akzeptierenden Zustand von $\A_1$ sind erlauben wir in $
 Erste, naive (und inkorrekte) Umsetzung dieser Idee: 
 Verschmelze akzeptierende Zustände von $\A_1$ mit dem Startzustand von $\A_2$
 Wir betrachten die folgenden Automaten um zu sehen, dass diese Umsetzung nicht zielführend ist.
+\begin{Bsp}
+Links: DEA $\A_1$, der Automat aus \autoref{bsp:2.zweitletztes} eingeschränkt auf die erreichbaren Zustände. Rechts: DEA $\A_2$ dessen Sprache $\{w\in\{0,1\}^*\mid \text{Anzahl $1$ in $w$ ist ungerade}\}$ ist.
+  \begin{center}
+                \begin{tikzpicture}[circle/.style={
+                        shape=circle,
+                        minimum size=0.5cm,
+                        text=black, draw,
+                        text width=0.5cm,
+                        align=center}]
+                        \node (vs) at (-1.0,1.0) {};
+                        \node [circle] (v0) at (0,0) {$p_0$};
+                        \node [circle] (v1) at (2,0) {$p_1$};
+                        \node [circle, double] (v2) at (5,1) {$p_2$};
+                        \node [circle, double] (v3) at (5,-1) {$p_3$};
+                        \draw [->] (vs) edge (v0);
+                        \draw [->] (v0) edge [loop above] node[auto] {0} (v2);
+                        \draw [->] (v0) edge [bend left=0] node[below] {1} (v1);
+                        \draw [->] (v1) edge [bend left=15] node[auto] {0} (v2);
+                        \draw [->] (v1) edge [bend left=0] node[below] {1} (v3);
+                        \draw [->] (v2) edge [bend right=30] node[above] {0} (v0);
+                        \draw [->] (v2) edge [bend left=15] node[auto] {1} (v1);
+                        \draw [->] (v3) edge [bend left=0] node[right] {0} (v2);
+                        \draw [->] (v3) edge [loop right] node[auto] {1} (v3);
+                \end{tikzpicture}
+                \begin{tikzpicture}[circle/.style={
+                        shape=circle,
+                        minimum size=0.5cm,
+                        text=black, draw,
+                        text width=0.5cm,
+                        align=center}]
+                        \node (vs) at (-1.0,1.0) {};
+                        \node [circle] (v0) at (0,0) {$s_0$};
+                        \node [circle, accepting] (v1) at (3,0) {$s_1$};
+                        \draw [->] (vs) edge (v0);
+                        \draw [->] (v0) edge [loop above] node[auto] {0} (v0);
+                        \draw [->] (v1) edge [loop above] node[auto] {0} (v1);
+                        \draw [->] (v0) edge [bend left=15] node[auto] {1} (v1);
+                        \draw [->] (v1) edge [bend left=15] node[auto] {1} (v0);
+                \end{tikzpicture}
+  \end{center}
+Unten: NEA $\calN_\mathsf{naiv}$, Resultat einer einer naiven und inkorrekten Konstuktion für die Konkatenation.
+  \begin{center}
+                \begin{tikzpicture}[circle/.style={
+                        shape=circle,
+                        minimum size=0.5cm,
+                        text=black, draw,
+                        text width=0.5cm,
+                        align=center}]
+                        \node (vs) at (-1.0,1.0) {};
+                        \node [circle] (v0) at (0,0) {$p_0$};
+                        \node [circle] (v1) at (2,0) {$p_1$};
+                        \node [circle] (v2) at (5,1.5) {$p_2s_0$};
+                        \node [circle] (v3) at (5,-1.5) {$p_3s_0$};
+                        \draw [->] (vs) edge (v0);
+                        \draw [->] (v0) edge [loop above] node[auto] {0} (v2);
+                        \draw [->] (v0) edge [bend left=0] node[below] {1} (v1);
+                        \draw [->] (v1) edge [bend left=15] node[auto] {0} (v2);
+                        \draw [->] (v1) edge [bend left=0] node[below] {1} (v3);
+                        \draw [->] (v2) edge [bend right=30] node[above] {0} (v0);
+                        \draw [->] (v2) edge [bend left=15] node[auto] {1} (v1);
+                        \draw [->] (v3) edge [bend left=0] node[right] {0} (v2);
+                        \draw [->] (v3) edge [loop below] node[auto] {1} (v3);
+                        \node [circle, accepting] (va) at (8,0) {$s_1$};
+                        \draw [->] (va) edge [loop above] node[auto] {0} (va);
+                        \draw [->] (v2) edge [bend left=15] node[auto] {1} (va);
+                        \draw [->] (va) edge [bend left=0] node[auto] {1} (v2);
+                        \draw [->] (v3) edge [bend left=0] node[auto] {1} (va);
+                        \draw [->] (va) edge [bend left=15] node[auto] {1} (v3);
+                \end{tikzpicture}
+  \end{center}
+Dieser NEA akzeptiert nun auch das Wort $w=11011$. Allerdings ist $w$ nicht in der Konkatenation $L(\A_1)\cdot L(\A_2)$ denn es gibt keine Zerlegung $w=w_1\cdot w_2$ bei der sowohl der Prefix $w_1$ von $\A_1$ als auch der Suffix $w_2$ von $\A_2$ akzeptiert wird.
+\end{Bsp}
 
 
+Das ``Verschmelzen'' von $p_2$ (bzw. $p_3$) mit $s_0$ war also keine gute Idee.
+Was uns aber helfen würde wäre ein Zustandsübergang der uns erlaubt von Zustand $p_2$ (bzw. $p_3$) in den Zustand $s_0$ zu gehen ohne dabei ein Zeichens zu Lesen.
 
-
-TODO Beispiel und Motivation.
+Wir nennen solche Zustandsübergang $\Eps$-Übergang und definieren einen Automaten der solche Zustandsübergänge haben kann wie folgt.
 
 \begin{Def}[$\Eps$-NEA]
         Ein \emph{nichtdeterministischer endlicher Automat mit $\Eps$-Übergängen} ist ein 5-Tupel
-        \[ \calN= (\Sigma, Q,\delta,\qinit,F) \]
+        \[ \B= (\Sigma, Q,\delta,\qinit,F) \]
 wobei $\Sigma$, $Q$, $\qinit$, $F$ wie bei NEAs (bzw. DEAs) definiert sind und die Transitionsfunkion den folgenden Typ hat.
 $$ \delta:Q\x(\Sigma\cup\{\Eps\})\->\mathcal{P}(Q)$$
 \end{Def}
 
+\begin{Bsp} Zustandsdiagramm eines $\Eps$-NEA über dem Alphabet $\Sigma=\{a,b\}$.
 \datenote{10.11.17}
-\begin{Def}
- Der \emph{$\Eps$-Abschluss} $\EAbs:Q\rightarrow\calP$ ist die kleinste Abbildung, die die folgenden Eigenschaften erfüllt:
-$$\forall q\in Q: \quad q\in\EAbs(q)$$
-$$\forall q,q',q''\in Q: \quad q'\in\EAbs(q) \text{ und } q''\in\delta(q',\Eps) \quad\Rightarrow\quad q''\in\EAbs(q)$$
+   \begin{center}
+                \begin{tikzpicture}[circle/.style={
+                        shape=circle,
+                        minimum size=0.5cm,
+                        text=black, draw,
+                        text width=0.5cm,
+                        align=center}]
+                        \node (vs) at (-1.0,1.0) {};
+                        \node [circle] (v0) at (0,0) {$q_0$};
+                        \node [circle] (v1) at (2,-1) {$q_1$};
+                        \node [circle] (v2) at (4,-1) {$q_2$};
+                        \node [circle] (v3) at (3,1) {$q_3$};
+                        \node [circle, double] (v4) at (6,0) {$q_4$};
+                        \draw [->] (vs) edge (v0);
+                        \draw [->] (v0) edge [loop above] node[auto] {$\Eps$} (v0);
+                        \draw [->] (v0) edge [bend left=0] node[auto] {$\Eps$} (v1);
+                        \draw [->] (v1) edge [bend left=0] node[auto] {$a$} (v2);
+                        \draw [->] (v2) edge [bend left=0] node[auto] {$\Eps$} (v4);
+                        \draw [->] (v0) edge [bend left=0] node[auto] {$\Eps$} (v3);
+                        \draw [->] (v3) edge [bend left=0] node[auto] {$\Eps$} (v4);
+                        \draw [->] (v4) edge [bend left=60] node[auto] {$\Eps$} (v1);
+                \end{tikzpicture}
+   \end{center}
+\end{Bsp}
 
+\begin{Def}
+ Der \emph{$\Eps$-Abschluss} $\ecl:Q\rightarrow\calP$ ist die kleinste Abbildung, die für alle $q,q',q''\in Q$ die folgenden Eigenschaften erfüllt:
+ \begin{eqnarray*}
+  & q\in\ecl(q) &\\
+  & q'\in\ecl(q) \text{ und } q''\in\delta(q',\Eps) \quad\Rightarrow\quad q''\in\ecl(q) & \qedhere
+ \end{eqnarray*}
 \end{Def}
 
 \begin{Def}
  Die \emph{Erreichbarkeitsrelation} $\reach\subseteq Q\times\Sigma^*\times Q$ ist die kleinste Relation, die die folgenden Eigenschaften erfüllt:
-$$\forall q,q'\in Q: q'\in\EAbs(q) \quad\Rightarrow\quad (q,\Eps,q')\in\reach$$
-$$\forall q,q',q'',q'''\in Q, w\in\Sigma^*: \quad q'\in\EAbs(q), q''\in\delta(q',a) \text{ und } (q'',w,q''')\in\reach \Rightarrow (q,aw,q''')\in\reach$$
+$$\forall q,q'\in Q: q'\in\ecl(q) \quad\Rightarrow\quad (q,\Eps,q')\in\reach$$
+$$\forall q,q',q'',q'''\in Q, w\in\Sigma^*: \quad q'\in\ecl(q), q''\in\delta(q',a) \text{ und } (q'',w,q''')\in\reach \Rightarrow (q,aw,q''')\in\reach$$
 \end{Def}
 
 \begin{Def}
@@ -1422,8 +1522,8 @@ $$\forall q,q',q'',q'''\in Q, w\in\Sigma^*: \quad q'\in\EAbs(q), q''\in\delta(q'
 
 \begin{proof}[$\Eps$-Eliminierung]
         Konstruiere $\calN= (\Sigma, Q,\delta_\calN,\qinit,F_\calN)$, mit
-        $$\delta_\calN(q,a)=\bigcup\limits_{q'\in\EAbs}\{p'\mid \exists p : p'\in\EAbs(p) \text{ und } p\in\delta(q',a)\}$$
-        $$F_\calN=\bigcup\limits_{q_f\in F}\EAbs(q_f)$$
+        $$\delta_\calN(q,a)=\bigcup\limits_{q'\in\ecl}\{p'\mid \exists p : p'\in\ecl(p) \text{ und } p\in\delta(q',a)\}$$
+        $$F_\calN=\bigcup\limits_{q_f\in F}\ecl(q_f)$$
         
         TODO: Beispiel
         
