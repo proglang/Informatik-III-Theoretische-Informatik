@@ -1334,7 +1334,7 @@ Die vier Zustände auf der rechten Seite sind nicht erreichbar.
         Zeige $L(\A_\calP)=L(\calN)$. 
         Dafür beweisen wir zunächst via Induktion über die Länge von $w$, die folgende Eigenschaft:
         
-        $\forall w\in\Sigma^*\; \forall p\in Q_\calP\backslash\{\}\; \forall q\in Q$
+        $\forall w\in\Sigma^*\; \forall p\in Q_\calP\backslash\{\{\}\}\; \forall q\in Q$
         $$q\in\tilde\delta_\calP(p,w) \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in p \text{ und } q_n=q$$
         I.A. $(n=0,$ also $w=\Eps)$: Gilt trivialerweise da $p\neq\{\}$\\
         I.S. ($n\rightsquigarrow n+1$): Seit $w=aw'$ beliebiges Wort der Länge $n+1$.
@@ -1342,7 +1342,7 @@ Die vier Zustände auf der rechten Seite sind nicht erreichbar.
                 q\in\tilde\delta_\calP(p,w) 
                 & \Leftrightarrow & q\in\tilde\delta_\calP(\delta_\calP(p,a),w')\\
                 & \stackrel{IV}{\Leftrightarrow} & \exists\underbrace{q_1q_2\ldots q_{n+1}}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, q_1\in \delta_\calP(p,a) \text{ und } q_{n+1}=q\\
-                & \Leftrightarrow & \exists\underbrace{q_1q_2\ldots q_{n+1}}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, \exists q_0\in p, \delta(q_0,a)=q_1 \text{ und } q_{n+1}=q\\
+                & \Leftrightarrow & \exists\underbrace{q_1q_2\ldots q_{n+1}}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, \exists q_0\in p, q_1\in\delta(q_0,a) \text{ und } q_{n+1}=q\\
                 & \Leftrightarrow & \exists\underbrace{q_0q_1q_2\ldots q_{n+1}}_{\text{Lauf}}\in Q,\text{ sodass }  n+1=|w|, q_0\in p \text{ und } q_{n+1}=q
         \end{eqnarray*}
         Mit Hilfe dieser Eigenschaft zeigen wir nun die Gleichheit $L(\A_\calP)=L(\calN)$
@@ -1350,7 +1350,7 @@ Die vier Zustände auf der rechten Seite sind nicht erreichbar.
          w\in L(\A_\calP) 
          &\<=> \tilde\delta_\calP(\qinit_\calP,w)\in F_\calP\\
          &\<=> \exists q_f\in \tilde\delta_\calP(\qinit_\calP,w)\cap F\\
-         &\<=> \exists \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in \qinit \text{ und } q_n=q_f\\
+         &\<=> \exists \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in \qinit \text{ und } q_n\in F\\
          &\<=> \exists \text{ initialer, akzeptierender Lauf von $\calN$ über $w$} \\
          &\<=> w\in L(\calN)
         \end{align*}
