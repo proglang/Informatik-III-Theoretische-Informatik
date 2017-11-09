@@ -1318,7 +1318,7 @@ Der Potzenzmengenautomat für den NEA aus \autoref{bsp:2.zweitletztes} hat das f
                         \draw [->] (v2) edge [bend right=30] node[above] {0} (v0);
                         \draw [->] (v2) edge [bend left=15] node[auto] {1} (v1);
                         \draw [->] (v3) edge [bend left=0] node[right] {0} (v2);
-                        \draw [->] (v3) edge [loop right] node[auto] {0} (v3);
+                        \draw [->] (v3) edge [loop right] node[auto] {1} (v3);
                         \draw [->] (v4) edge [] node[auto] {0,1} (v6);
                         \draw [->] (v5) edge [] node[auto] {0,1} (v6);
                         \draw [->] (v6) edge [] node[auto] {0,1} (v7);
@@ -1369,9 +1369,21 @@ Bemerkung: \ac{NEA}s sind eine exponentiell kompaktere Repräsentation von regul
 \end{enumerate}
 
 \subsubsection{$\Eps$-Übergänge}
+In diesem Unterkapitel führen wir mit dem $\Eps$-NEA ein weiteres Automatenmodell ein. 
+Wir wollen $\Eps$-NEAs zunächst durch die folgende Fragestellung und anschließende Diskussion motivieren.
 
 Frage: Gegeben zwei reguläre Sprachen $L_1, L_2$ ist dann auch die Konkatenation $L_1\cdot L_2$ eine reguläre Sprache?
-Idee: Konstruiere Automaten für $L_1\cdot L_2$ durch ``Hintereinanderschalten''.
+
+Idee: Geben DEA $\A_1$ mit $L(\A_1)=L_1$ und DEA $\A_2$ mit $L(\A_2)=L_2$,
+konstruiere NEA für $L_1\cdot L_2$ durch ``Hintereinanderschalten'' von $\A_1$ und $\A_2$;
+immer wenn wir in einem akzeptierenden Zustand von $\A_1$ sind erlauben wir in $\A_2$ zu ``wechseln''.
+
+Erste, naive (und inkorrekte) Umsetzung dieser Idee: 
+Verschmelze akzeptierende Zustände von $\A_1$ mit dem Startzustand von $\A_2$
+Wir betrachten die folgenden Automaten um zu sehen, dass diese Umsetzung nicht zielführend ist.
+
+
+
 
 TODO Beispiel und Motivation.
 
