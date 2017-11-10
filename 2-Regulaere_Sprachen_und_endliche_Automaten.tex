@@ -1558,9 +1558,9 @@ Zur Vorbereitung des Beweises machen wir zunächst die folgende Definition.
 
 \begin{Def}[$\Eps$-freier Automat]
  Für gegebenen $Eps$-\ac{NEA}  $\B= (\Sigma, Q,\delta,\qinit,F)$ definieren wir den NEA $\calN= (\Sigma, Q,\delta_\calN,\qinit,F_\calN)$ mit
-        $$\delta_\calN(q,a)=\bigcup\limits_{q'\in\ecl}\{p'\mid \exists p : p'\in\ecl(p) \text{ und } p\in\delta(q',a)\}$$
-        $$F_\calN=\bigcup\limits_{q_f\in F}\ecl(q_f)$$
-und nennen diesen den $\Eps$-freie Automat von $\B$.
+        $$\delta_\calN(q,a)=\bigcup\limits_{q'\in\ecl(q)}\{q'''\mid \exists q'' : q''\in\delta(q',a) \text{ und } q'''\in\ecl(p'')\}$$
+        $$F_\calN=\{q\in Q\mid \exists q_f\in F: q_f\in\ecl(q)\}$$
+und nennen diesen den \emph{$\Eps$-freien Automat} von $\B$.
 \end{Def}
 \begin{Bsp}
 Der $\Eps$-freie Automat für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} hat das folgende Zustandsdiagramm.
