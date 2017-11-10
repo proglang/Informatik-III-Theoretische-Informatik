@@ -1381,6 +1381,8 @@ immer wenn wir in einem akzeptierenden Zustand von $\A_1$ sind erlauben wir in $
 Erste, naive (und inkorrekte) Umsetzung dieser Idee: 
 Verschmelze akzeptierende Zustände von $\A_1$ mit dem Startzustand von $\A_2$
 Wir betrachten die folgenden Automaten um zu sehen, dass diese Umsetzung nicht zielführend ist.
+\definecolor{auto1}{RGB}{200,200,255}
+\definecolor{auto2}{RGB}{255,100,100}
 \begin{Bsp}\label{bsp:2.naiveconcat}
 Links: DEA $\A_1$, der Automat aus \autoref{bsp:2.zweitletztes} eingeschränkt auf die erreichbaren Zustände. Rechts: DEA $\A_2$ dessen Sprache $\{w\in\{0,1\}^*\mid \text{Anzahl $1$ in $w$ ist ungerade}\}$ ist.
   \begin{center}
@@ -1391,10 +1393,10 @@ Links: DEA $\A_1$, der Automat aus \autoref{bsp:2.zweitletztes} eingeschränkt a
                         text width=0.5cm,
                         align=center}]
                         \node (vs) at (-1.0,1.0) {};
-                        \node [circle] (v0) at (0,0) {$p_0$};
-                        \node [circle] (v1) at (2,0) {$p_1$};
-                        \node [circle, double] (v2) at (5,1) {$p_2$};
-                        \node [circle, double] (v3) at (5,-1) {$p_3$};
+                        \node [circle, fill=auto1] (v0) at (0,0) {$p_0$};
+                        \node [circle, fill=auto1] (v1) at (2,0) {$p_1$};
+                        \node [circle, fill=auto1, double] (v2) at (5,1) {$p_2$};
+                        \node [circle, fill=auto1, double] (v3) at (5,-1) {$p_3$};
                         \draw [->] (vs) edge (v0);
                         \draw [->] (v0) edge [loop above] node[auto] {0} (v2);
                         \draw [->] (v0) edge [bend left=0] node[below] {1} (v1);
@@ -1412,8 +1414,8 @@ Links: DEA $\A_1$, der Automat aus \autoref{bsp:2.zweitletztes} eingeschränkt a
                         text width=0.5cm,
                         align=center}]
                         \node (ss) at (-1.0,1.0) {};
-                        \node [circle] (s0) at (0,0) {$s_0$};
-                        \node [circle, accepting] (s1) at (3,0) {$s_1$};
+                        \node [circle, fill=auto2] (s0) at (0,0) {$s_0$};
+                        \node [circle, fill=auto2, accepting] (s1) at (3,0) {$s_1$};
                         \draw [->] (ss) edge (s0);
                         \draw [->] (s0) edge [loop above] node[auto] {0} (s0);
                         \draw [->] (s1) edge [loop above] node[auto] {0} (s1);
@@ -1430,10 +1432,10 @@ Unten: NEA $\calN_\mathsf{naiv}$, Resultat einer einer naiven und inkorrekten Ko
                         text width=0.5cm,
                         align=center}]
                         \node (vs) at (-1.0,1.0) {};
-                        \node [circle] (v0) at (0,0) {$p_0$};
-                        \node [circle] (v1) at (2,0) {$p_1$};
-                        \node [circle] (v2) at (5,1.5) {$p_2s_0$};
-                        \node [circle] (v3) at (5,-1.5) {$p_3s_0$};
+                        \node [circle, fill=auto1] (v0) at (0,0) {$p_0$};
+                        \node [circle, fill=auto1] (v1) at (2,0) {$p_1$};
+                        \node [circle, fill=auto1!50!auto2] (v2) at (5,1.5) {$p_2s_0$};
+                        \node [circle, fill=auto1!50!auto2] (v3) at (5,-1.5) {$p_3s_0$};
                         \draw [->] (vs) edge (v0);
                         \draw [->] (v0) edge [loop above] node[auto] {0} (v2);
                         \draw [->] (v0) edge [bend left=0] node[below] {1} (v1);
@@ -1442,13 +1444,14 @@ Unten: NEA $\calN_\mathsf{naiv}$, Resultat einer einer naiven und inkorrekten Ko
                         \draw [->] (v2) edge [bend right=30] node[above] {0} (v0);
                         \draw [->] (v2) edge [bend left=15] node[auto] {1} (v1);
                         \draw [->] (v3) edge [bend left=0] node[right] {0} (v2);
-                        \draw [->] (v3) edge [loop below] node[auto] {1} (v3);
-                        \node [circle, accepting] (va) at (8,0) {$s_1$};
+                        \draw [->] (v3) edge [loop below] node[auto] {1,0} (v3);
+                        \node [circle, fill=auto2, accepting] (va) at (8,0) {$s_1$};
                         \draw [->] (va) edge [loop above] node[auto] {0} (va);
                         \draw [->] (v2) edge [bend left=15] node[auto] {1} (va);
                         \draw [->] (va) edge [bend left=0] node[auto] {1} (v2);
                         \draw [->] (v3) edge [bend left=0] node[auto] {1} (va);
                         \draw [->] (va) edge [bend left=15] node[auto] {1} (v3);
+                        \draw [->] (v2) edge [loop above] node[auto] {0} (v2);
                 \end{tikzpicture}
   \end{center}
 Dieser NEA akzeptiert nun auch das Wort $w=11011$. Allerdings ist $w$ nicht in der Konkatenation $L(\A_1)\cdot L(\A_2)$ denn es gibt keine Zerlegung $w=w_1\cdot w_2$ bei der sowohl der Prefix $w_1$ von $\A_1$ als auch der Suffix $w_2$ von $\A_2$ akzeptiert wird.
@@ -1542,10 +1545,13 @@ $$
 	$L(\B)=\{ w\in\Sigma^* \mid \exists q\in F: (\qinit, w, q)\in\reach \}$
 \end{Def}
 
-Offensichtlich gibt es zu jedem \ac{NEA} einen $\Eps$-NEA der die gleiche Sprache akzeptiert ($\delta(q,\Eps)=\{\}$ für alle $q\in Q$).
+Offensichtlich gibt es zu jedem \ac{NEA} $\calN$ einen $\Eps$-NEA $\B$ der die gleiche Sprache akzeptiert.
+Die Konstuktion ist dabei sehr einfach: Erweitere die Transitionsfunkion um $\delta(q,\Eps)=\{\}$ für alle $q\in Q$.
+Für die Sprachgleichheit zeigen wir via Induktion über die Länge von $w$, dass für alle Wörter und für alle Zustände
+$$\exists \text{ Lauf } q_0q_1\ldots q_n \text{ von $\calN$ über } w \quad\Leftrightarrow\quad (q_0,w,q_n)\in\reach$$
 Der folgende Satz zeigt uns dass auch die umgekehrte Richtung gilt.
 
-\begin{Satz}
+\begin{Satz}\label{satz:2.EpsElim}
     Zu jedem $\Eps$-NEA $\B$ gibt es einen \ac{NEA} $\calN$, so dass $L(\calN)=L(\B)$.
 \end{Satz}
 Zur Vorbereitung des Beweises machen wir zunächst die folgende Definition.
@@ -1587,11 +1593,11 @@ Der $\Eps$-freie Automat für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} hat das
 
 
 
-\begin{proof}[$\Eps$-Eliminierung]
+\begin{proof}[von \autoref{satz:2.EpsElim}: $\Eps$-Eliminierung]
         Zeige $L(\calN)=L(\B)$. Dabei verwenden wir die folgende Eigenschaft, die wir via Induktion über die Länge von $w$ in den Übungen zeigen werden.
         
-        $\forall w\in\Sigma^*\; \forall p\in Q_\calP\backslash\{\}\; \forall q\in Q$
-        $$(q,w,q')\in\reach \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in p \text{ und } q_n=q$$
+        $\forall w\in\Sigma^*\; \forall q, q'\in Q$
+        $$(q,w,q')\in\reach \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=q \text{ und } q_n=q'$$
 %         I.A. $(n=0,$ also $w=\Eps)$: Gilt trivialerweise da $(q,\Eps,q)\in\reach$ für alle $q$\\
 %         I.S. ($n\rightsquigarrow n+1$): Seit $w=aw'$ beliebiges Wort der Länge $n+1$.
 %         \begin{eqnarray*}
@@ -1643,10 +1649,10 @@ Gegeben zwei $\Eps$-NEA $\B_i= (\Sigma, Q_i,\delta_i,\qinit_i,F_i)$ definieren w
                         text width=0.5cm,
                         align=center}]
                         \node (vs) at (-1.0,1.0) {};
-                        \node [circle] (v0) at (0,0) {$p_0$};
-                        \node [circle] (v1) at (2,0) {$p_1$};
-                        \node [circle, double] (v2) at (5,1) {$p_2$};
-                        \node [circle, double] (v3) at (5,-1) {$p_3$};
+                        \node [circle, fill=auto1] (v0) at (0,0) {$p_0$};
+                        \node [circle, fill=auto1] (v1) at (2,0) {$p_1$};
+                        \node [circle, fill=auto1, double] (v2) at (5,1) {$p_2$};
+                        \node [circle, fill=auto1, double] (v3) at (5,-1) {$p_3$};
                         \draw [->] (vs) edge (v0);
                         \draw [->] (v0) edge [loop above] node[auto] {0} (v2);
                         \draw [->] (v0) edge [bend left=0] node[below] {1} (v1);
@@ -1656,8 +1662,8 @@ Gegeben zwei $\Eps$-NEA $\B_i= (\Sigma, Q_i,\delta_i,\qinit_i,F_i)$ definieren w
                         \draw [->] (v2) edge [bend left=15] node[auto] {1} (v1);
                         \draw [->] (v3) edge [bend left=0] node[right] {0} (v2);
                         \draw [->] (v3) edge [loop below] node[auto] {1} (v3);
-                        \node [circle] (s0) at (8,0) {$s_0$};
-                        \node [circle, accepting] (s1) at (11,0) {$s_1$};
+                        \node [circle, fill=auto2] (s0) at (8,0) {$s_0$};
+                        \node [circle, fill=auto2, accepting] (s1) at (11,0) {$s_1$};
                         \draw [->] (s0) edge [loop above] node[auto] {0} (s0);
                         \draw [->] (s1) edge [loop above] node[auto] {0} (s1);
                         \draw [->] (s0) edge [bend left=15] node[auto] {1} (s1);
@@ -1685,10 +1691,45 @@ Die vom $\Eps$-NEA für Konkatenation akzeptierte Sprache ist $L(\B_1)\cdot L(\B
 
 
 \subsection{Abschlusseigenschaften}
+% \begin{Def}[name={[Abgeschlossenheit von $\mathcal{L}$]}]
+%         Eine Menge $\mathcal{L}\subseteq \mathcal{P}(\Sigma^*)$ von Sprachen heißt \emph{abgeschlossen} unter Operation \\
+%         $f:\mathcal{P}(\Sigma^*)^n \-> \mathcal{P}(\Sigma^*)$ falls $\forall L_1,\dots, L_n\in \mathcal{L} : f(L_1,\dots, L_n)\in \mathcal{L}$.
+% \end{Def}
+
 \begin{Def}[name={[Abgeschlossenheit von $\mathcal{L}$]}]
-        Eine Menge $\mathcal{L}\subseteq \mathcal{P}(\Sigma^*)$ von Sprachen heißt \emph{abgeschlossen} unter Operation \\
-        $f:\mathcal{P}(\Sigma^*)^n \-> \mathcal{P}(\Sigma^*)$ falls $\forall L_1,\dots, L_n\in \mathcal{L} : f(L_1,\dots, L_n)\in \mathcal{L}$.
+        Eine Menge $X$ heißt \emph{abgeschlossen} unter Operation $f:X^n \-> X$ falls $\forall x_1,\dots, x_n\in X : f(x_1,\dots, x_n)\in X$.
 \end{Def}
+Z.B. sind die natürlichen Zahlen abgeschlossen unter Addition, aber nicht abgeschlossen unter Subtraktion.
+
+
+\begin{lemma}
+ Die Menge $REG$ der regulären Sprachen ist abgeschlossen unter Komplement.
+\end{lemma}
+
+\begin{proof}
+ 
+\end{proof}
+
+\begin{lemma}
+ Die Menge $REG$ der regulären Sprache ist abgeschlossen unter dem Stern Operator
+\end{lemma}
+
+\begin{proof}
+         \begin{align*}
+                Q &= Q_1\overset.\cup \{q_0\}\\
+                \delta(q,a) &=
+                        \begin{cases}
+                                \delta_1(q,a) & q\in Q_1\setminus F_1\\
+                                \delta_1(q,a)\cup\delta_1(q_{01},a) & q\in F_1\\
+                                \delta_1(q_{01},a) & q=q_0
+                        \end{cases}\\
+                F &= \{q_0\}\cup F_1\\
+                \dots\ L(\A) &= L(\A_1)^*
+        \end{align*}
+\end{proof}
+
+
+
 
 \hide{
 \begin{Satz}[name={[Abgeschlossenheit von $REG$]}]\label{satz:3.8}
