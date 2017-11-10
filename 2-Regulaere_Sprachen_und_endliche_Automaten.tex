@@ -1562,6 +1562,9 @@ Zur Vorbereitung des Beweises machen wir zunächst die folgende Definition.
         $$F_\calN=\{q\in Q\mid \exists q_f\in F: q_f\in\ecl(q)\}$$
 und nennen diesen den \emph{$\Eps$-freien Automat} von $\B$.
 \end{Def}
+
+\goodbreak
+
 \begin{Bsp}
 Der $\Eps$-freie Automat für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} hat das folgende Zustandsdiagramm.
    \begin{center}
@@ -1624,7 +1627,7 @@ Mit Hilfe der $\Eps$-NEAs greifen wir nun die zu Beginn von Abschnitt~\ref{sec:2
 Wir geben hierfür zunächst eine Konstruktion an.
 
 \begin{Def}
-Gegeben zwei $\Eps$-NEA $\B_i= (\Sigma, Q_i,\delta_i,\qinit_i,F_i)$ definieren wir den \emph{$\Eps$-NEA für Konkatenation} $\B= (\Sigma, Q,\delta,\qinit,F)$ wie folgt.
+Gegeben zwei $\Eps$-NEA $\B_i= (\Sigma, Q_i,\delta_i,\qinit_i,F_i)$, definieren wir den \emph{$\Eps$-NEA für Konkatenation} $\B= (\Sigma, Q,\delta,\qinit,F)$ wie folgt.
                 \begin{align*}
                 Q &= Q_1 \overset.\cup Q_2\\
                 \delta(q,a) &=
@@ -1649,8 +1652,8 @@ Gegeben zwei $\Eps$-NEA $\B_i= (\Sigma, Q_i,\delta_i,\qinit_i,F_i)$ definieren w
                         \node (vs) at (-1.0,1.0) {};
                         \node [circle, fill=auto1] (v0) at (0,0) {$p_0$};
                         \node [circle, fill=auto1] (v1) at (2,0) {$p_1$};
-                        \node [circle, fill=auto1, double] (v2) at (5,1) {$p_2$};
-                        \node [circle, fill=auto1, double] (v3) at (5,-1) {$p_3$};
+                        \node [circle, fill=auto1] (v2) at (5,1) {$p_2$};
+                        \node [circle, fill=auto1] (v3) at (5,-1) {$p_3$};
                         \draw [->] (vs) edge (v0);
                         \draw [->] (v0) edge [loop above] node[auto] {0} (v2);
                         \draw [->] (v0) edge [bend left=0] node[below] {1} (v1);
