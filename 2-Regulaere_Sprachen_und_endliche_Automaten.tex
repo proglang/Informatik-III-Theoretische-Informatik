@@ -1528,14 +1528,16 @@ Als nächstes definieren wir eine dreistellige Relation die uns für je zwei Zus
  \end{eqnarray*}
 \end{Def}
 
-Für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} sieht $\reach$ wie folgt aus:
+Für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} können wir $\reach$ mit Hilfe der folgenden Tabelle angeben.
+Dabei bedeutet der Eintrag von einer Sprache $L$ in Zeile $q_i$ und Spalte $q_j$, dass für alle $w\in L$ das Tripel
+$(q_i,w,q_j)$ in $\reach$ enthalten ist.
 $$
 \begin{array}{c||c|c|c|c|c|c}
    \reach  & q_0 & q_1 & q_2 & q_3\\ \hline
 q_0 & \{\Eps\} & \{b\}^* & \{b\}^*\cdot\{a\}^* & \{b\}^*\cdot\{a\}^* \\[2mm]
 q_1 & \{\}     & \{b\}^* & \{b\}^*\cdot\{a\}^* & \{b\}^*\cdot\{a\}^* \\[2mm]
 q_2 & \{\}     & \{\}    & \{a\}^*             & \{a\}\cdot\{a\}^*\\[2mm]
-q_3 & \{\}     & \{\}    & \{a\}^*             & \{a\}\cdot\{a\}^*\cup\{\Eps\}
+q_3 & \{\}     & \{\}    & \{a\}^*             & \{a\}^*
 \end{array}
 $$
 
