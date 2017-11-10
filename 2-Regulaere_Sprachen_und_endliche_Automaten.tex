@@ -1539,7 +1539,7 @@ q_3 & \{\}     & \{\}    & \{a\}^*             & \{a\}\cdot\{a\}^*\cup\{\Eps\}
 \end{array}
 $$
 
-\begin{Def}
+\begin{Def}\label{def:2.EpsNeaSprache}
  Ein Wort $w\in\Sigma^*$ wird von $\B$ \emph{akzeptiert}, wenn $(\qinit,w,q_f)\in\reach$ für ein $q_f\in F$.
  Die von $\B$ akzeptierte Sprache $L(\B)$ ist die Menge der von $\B$ akzeptierten Wörter. D.h.	
 	$L(\B)=\{ w\in\Sigma^* \mid \exists q\in F: (\qinit, w, q)\in\reach \}$
@@ -1609,12 +1609,10 @@ Der $\Eps$-freie Automat für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} hat das
 %         \end{eqnarray*}
 
         \begin{align*}
-         w\in L(\A_\calP) 
-         &\<=> \tilde\delta_\calP(\qinit_\calP,w)\in F_\calP\\
-         &\<=> \exists q_f\in \tilde\delta_\calP(\qinit_\calP,w)\cap F\\
-         &\<=> \exists \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in \qinit \text{ und } q_n=q_f\\
-         &\<=> \exists \text{ initialer, akzeptierender Lauf von $\calN$ über $w$} \\
-         &\<=> w\in L(\calN)
+         w\in L(\B) 
+         &\stackrel{\autoref{def:2.sprache}}{\<=>} \exists q_f\in F: (\qinit, w, q_f)\in\reach\\
+         &\<=> \exists q_f\in F: \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=\qinit \text{ und } q_n=q_f\\
+         &\stackrel{\autoref{def:2.EpsNeaSprache}}{\<=>} L(\calN)\\
         \end{align*}
 \end{proof}
 
