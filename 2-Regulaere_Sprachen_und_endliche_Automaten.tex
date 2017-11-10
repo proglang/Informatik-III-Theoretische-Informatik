@@ -1,23 +1,23 @@
 \section[Reguläre Sprachen und endliche Automaten]{Reguläre Sprachen und endliche Automaten\datenote{20.10.17}}
 Wie können wir potentiell unendlich große Mengen von Wörtern darstellen?
-Eine Lösung für dieses Problem sahen wir bereits im vorherigen Kapitel, als wir die (unendlich große) Menge der binärcodierten Primzahlen mit Hilfe der folgenden Zeile darstellten.
+Eine Lösung für dieses Problem sahen wir bereits im vorherigen Kapitel, als wir die (unendlich große) Menge der binär codierten Primzahlen mit Hilfe der folgenden Zeile darstellten.
 \[
-L_\mathsf{prim}=\{w\in\{0,1\}^*\mid w \text{ ist Bin\"arcodierung einer Primzahl}\}
+L_\mathsf{prim}=\{w\in\{0,1\}^*\mid w \text{ ist Binärcodierung einer Primzahl}\}
 \]
 Ein weiteres Beispiel ist die folgende Zeile.
 \[
 L_\mathsf{even}=\{w\in\{0,1\}^*\mid \text{ die Anzahl der Einsen in $w$ ist gerade. }\}
 \]
-Ein häufig interessante Fragestellung für ein gegebenes Wort $w$ und eine Sprache $L$ ist: ``Ist $w$ in $L$ enthalten?'' (Also gilt $w\in L$?)
-Wir nennen dieses Entscheidunsproblem das \emph{Wortproblem}. Eine konkrete Instanz des Wortproblems wäre z.B. $1100101\in L_1$? oder $1100101\in L_2$?
+Eine häufig interessante Fragestellung für ein gegebenes Wort $w$ und eine Sprache $L$ ist: "`Ist $w$ in $L$ enthalten?"' (Also: "`Gilt $w\in L$?"')
+Wir nennen dieses Entscheidunsproblem das \emph{Wortproblem}. Eine konkrete Instanz des Wortproblems wäre z.B. "`$1100101\in L_\mathsf{prim}$?"' oder "`$1100101\in L_\mathsf{even}$?"'
 
-Die obige Darstellung der unendlichen Mengen $L_1$ und $L_2$ ist zwar sehr kompakt, 
+Die obige Darstellung der unendlichen Mengen $L_\mathsf{prim}$ und $L_\mathsf{even}$ ist zwar sehr kompakt, 
 wir können daraus aber nicht direkt ein Vorgehen zur Lösung des Wortproblems ableiten.
-Wir müssen zunächst verstehen, was die Begriffe ``Binärcodierung'', ``Primzahl'' oder ``gerade Anzahl'' bedeuten und für $L_1$ und $L_2$ jeweils einen Algorithmus zur Entscheidung entwickeln.
+Wir müssen zunächst verstehen, was die Begriffe "`Binärcodierung"', "`Primzahl"' oder "`gerade Anzahl"' bedeuten und für $L_\mathsf{prim}$ und $L_\mathsf{even}$ jeweils einen Algorithmus zur Entscheidung entwickeln.
 
-In diesem Kapitel werden wir mit \emph{endlichen Automaten} einen weiteren Formalismus kennenlernen um (potentiell unendlich große) Mengen von Wörtern darzustellen. 
+In diesem Kapitel werden wir mit \emph{endlichen Automaten} einen weiteren Formalismus kennenlernen, um (potentiell unendlich große) Mengen von Wörtern darzustellen. 
 Ein Vorteil dieser Darstellung ist, dass es einen einheitlichen und effizienten Algorithmus für das Wortproblem gibt.
-Wir werden aber auch sehen, dass sich nicht jede Sprache (z.B. $L_1$) mit Hilfe eines endlichen Automaten darstellen lässt.
+Wir werden aber auch sehen, dass sich nicht jede Sprache (z.B. $L_\mathsf{prim}$) mit Hilfe eines endlichen Automaten darstellen lässt.
 
 \subsection{Endliche Automaten}
 Wir beschreiben zunächst informell die Bestandteile eines endlichen Automaten:
@@ -32,7 +32,7 @@ Wir beschreiben zunächst informell die Bestandteile eines endlichen Automaten:
 
 \begin{description}
 \item[Endliches Band] 
-(read-only, jede Zelle enth"alt ein $a_i\in\Sigma$, der Inhalt des Bandes ist das \emph{Eingabewort}, bzw.\ die \emph{Eingabe})
+(read-only; jede Zelle enthält ein $a_i\in\Sigma$; der Inhalt des Bands ist das \emph{Eingabewort} bzw.\ die \emph{Eingabe})
 
 \begin{figure}[H]\centering
         \begin{tikzpicture}
@@ -49,15 +49,15 @@ Wir beschreiben zunächst informell die Bestandteile eines endlichen Automaten:
 \item[Lesekopf] ~\\
   \vspace{-\baselineskip}
   \begin{itemize}
-        \item Der \emph{Lesekopf} zeigt auf ein Feld des Bandes, oder hinter das letzte Feld.
+        \item Der \emph{Lesekopf} zeigt auf ein Feld des Bands, oder hinter das letzte Feld.
         \item Er bewegt sich feldweise nach rechts; andere Bewegungen (Vor- bzw.\ Zurückspulen) sind nicht möglich.
         \item Wenn er hinter das letzte Zeichen zeigt, \emph{stoppt} der Automat.
-    Er muss sich nun ,,entscheiden'' ob er das Wort \emph{akzeptiert} oder nicht.
+    Er muss sich nun "`entscheiden"' ob er das Wort \emph{akzeptiert} oder nicht.
   \end{itemize}
 \item[Zustände] $q$ aus \emph{endlicher} Zustandsmenge $Q$
 \item[Startzustand] $\qinit \in Q$
 \item[Akzeptierende Zustände] $F \subseteq Q$ 
-\item[Transitionsfunktion] Im Zustand $q$ beim Lesen von $a$ gehe nach Zustand $\delta(q) = q'$.
+\item[Transitionsfunktion] Im Zustand $q$ beim Lesen von $a$ gehe in Zustand $\delta(q) = q'$.
 \end{description}
 Der endliche Automat akzeptiert eine Eingabe, falls er in einem akzeptierenden Zustand stoppt.
 
@@ -68,7 +68,7 @@ Der endliche Automat akzeptiert eine Eingabe, falls er in einem akzeptierenden Z
 \begin{Bsp}Aufgabe: 
   \\
   \label{Bsp:3.1}
-  ,,Erkenne alle Stapel von Macarons in denen höchstens ein grünes Macaron vorkommt.''
+  "`Erkenne alle Stapel von Macarons, in denen höchstens ein grünes Macaron vorkommt."'
 \begin{center}
   \includegraphics[scale=0.4]{macaron-stacks.png}~\footnote{
   \tiny Von links nach rechts: \\
@@ -84,19 +84,19 @@ By Keven Law - originally posted to Flickr as What's your Colour???, CC BY-SA 2.
 \end{center}
 Ein passendes Alphabet wäre $\Sigma = \{\texttt{grün} , \texttt{nicht-grün} \}$.
 Wir definieren die folgenden Zustände.
-(die Metapher hier ist: ,,wenn ich mehr als einen grünen Macaron esse wird mir übel, und das wäre nicht akzeptabel'')
+(Die Metapher hier ist: "`wenn ich mehr als ein grünes Macaron esse, wird mir übel, und das wäre nicht akzeptabel"'.)
 \begin{center}
 \begin{tabular}{cl}
   Zustand & Bedeutung \\
   \hline
-  $q_0$& ,,alles gut'' \\
-  $q_1$& ,,mir wird schon flau'' \\
-  $q_2$& ,,mir ist übel''
+  $q_0$& "`alles gut"' \\
+  $q_1$& "`mir wird schon flau"' \\
+  $q_2$& "`mir ist übel"'
 \end{tabular}
 \end{center}
 Der Startzustand ist $q_0$.
 Akzeptierende Zustände sind $q_0$ und $q_1$.
-Die Transistionsfunktion $\delta$ ist
+Die Transitionsfunktion $\delta$ ist durch die folgende Tabelle gegeben.
 \begin{center}
 \begin{tabular}{cccl}
   &\texttt{grün} & \texttt{nicht-grün} \\
@@ -104,6 +104,7 @@ Die Transistionsfunktion $\delta$ ist
   $q_0$ & $q_1$ & $q_0$ & wechsle nach $q_1$ falls \texttt{grün}, ansonsten verweile \\
   $q_1$ & $q_2$ & $q_1$ & wechsle nach $q_2$ falls \texttt{grün}, ansonsten verweile \\
   $q_2$  & $q_2$ & $q_2$ & verweile, da es nichts mehr zu retten gibt
+\qedhere
 \end{tabular}
 \end{center}
 \end{Bsp}
@@ -151,21 +152,22 @@ Die Transistionsfunktion $\delta$ ist
 % \end{Bsp}
 \begin{Def}[\acs*{DEA}]
         Ein \emph{\acf{DEA}}, (\acsu{DFA} $\hat=$ \acl{DFA}) ist ein 5-Tupel
-        \[ \A= (\Sigma, Q,\delta,\qinit,F) \]
-dabei ist
+        \[ \A= (\Sigma, Q,\delta,\qinit,F). \]
+Dabei ist
         \begin{itemize}
                 \item $\Sigma$ ein Alphabet,
-                \item $Q$ eine \emph{endliche} Menge deren Elemente wir \emph{Zustände} nennen,
-                \item $\delta:Q\x\Sigma\->Q$ eine Funktion die wir \emph{Transitionsfunktion} nennen,
-                \item $\qinit\in Q$ ein Zustand den wir \emph{Startzustand} nennen und
-                \item $F\subseteq Q$ eine Teilmenge der Zustände deren Elemente wir \emph{akzeptierende} Zustände nennen.
+                \item $Q$ eine \emph{endliche} Menge, deren Elemente wir \emph{Zustände} nennen,
+                \item $\delta:Q\x\Sigma\->Q$ eine Funktion, die wir \emph{Transitionsfunktion} nennen,
+                \item $\qinit\in Q$ ein Zustand, den wir \emph{Startzustand} nennen und
+                \item $F\subseteq Q$ eine Teilmenge der Zustände, deren Elemente wir \emph{akzeptierende} Zustände nennen.
+                \qedhere
         \end{itemize}
 \end{Def}
 
 DEAs lassen sich auch graphisch darstellen.
 Dabei gibt man für den Automaten einen gerichteten Graphen an.
-Die Knoten des Graphen sind die Zustände und mit Zeichen beschriftete Kanten zeigen, welchen Zustandsübergang die Transitionsfunktion für das nächste Zeichen erlaubt.
-Der Startzustand ist mit einem unbeschrifteten Pfeil markiert und akzeptierende Zustände sind doppelt eingekreist.
+Die Knoten des Graphen sind die Zustände, und mit Zeichen beschriftete Kanten zeigen, welchen Zustandsübergang die Transitionsfunktion für das nächste Zeichen erlaubt.
+Der Startzustand ist mit einem unbeschrifteten Pfeil markiert, akzeptierende Zustände sind doppelt eingekreist.
 Hier ist die graphische Darstellung von $A_{\mathtt{Macaron}}$ aus Beispiel \ref{Bsp:3.1}:
 
 \begin{center}
@@ -196,23 +198,24 @@ Die folgenden beiden Definitionen erlauben uns mit Hilfe eines DEAs eine Sprache
 %     \item Wenn $F=\emptyset$, dann ist $L(M)=\emptyset$.
 %     \end{itemize}
 % \end{Bsp}
-\begin{Def}[name={[Induktive erweiterung von $\delta$ auf Worte]}]\label{def:2.deltaschlange}
-        Die \emph{induktive Erweiterung} von $\delta:Q\x\Sigma\->Q$ auf Worte $\tilde{\delta}: Q\x\Sigma^*\->Q$ ist (induktiv) definiert durch
+\begin{Def}[name={[Induktive erweiterung von $\delta$ auf Wörter]}]\label{def:2.deltaschlange}
+        Die \emph{induktive Erweiterung} von $\delta:Q\x\Sigma\->Q$ auf Wörter, $\tilde{\delta}: Q\x\Sigma^*\->Q$, ist (induktiv) definiert durch
   \begin{enumerate}
   \item $\tilde\delta(q,\Eps) =q$\ \ \ \  (Wortende erreicht)
   \item $\tilde\delta(q,aw)=\tilde\delta(\delta(q,a),w)$\ \ \ \ (Rest im Folgezustand verarbeiten)
+  \qedhere
   \end{enumerate}
 \end{Def}
 \begin{Def}[name={[Die durch einen \acs*{DEA} akzeptierte Sprache]}]\label{def:2.sprache}
         Sei $\A=(\Sigma, Q,\delta,\qinit,F)$. 
-        Wir sagen ein Wort $w\in\Sigma^*$ wird von $\A$ \emph{akzeptiert} falls $\tilde\delta(\qinit,w)\in F$.
-        Die \emph{von $\A$ akzeptierte Sprache}, geschrieben $L(\A)$, ist die Menge aller Wörter die von $\A$ akzeptiert werden. D.h., 
+        Ein Wort $w\in\Sigma^*$ wird von $\A$ \emph{akzeptiert}, falls $\tilde\delta(\qinit,w)\in F$.
+        Die \emph{von $\A$ akzeptierte Sprache}, geschrieben $L(\A)$, ist die Menge aller Wörter, die von $\A$ akzeptiert werden. D.h., 
         \[ L(\A) = \{ w\in\Sigma^* \mid \tilde\delta(\qinit,w)\in F \}. \]
         Eine durch einen \ac{DEA} akzeptierte Sprache heißt \emph{regulär}.
 \end{Def}
 
 \begin{Bsp} 
-\label{bsp:3.1} Der Automat für die Sprache 
+\label{bsp:3.1} Ein möglicher DEA für die Sprache 
 $$L_\mathsf{even}=\{w\in\{0,1\}^*\mid \text{ die Anzahl der Einsen in $w$ ist gerade. }\}$$ 
 aus der Einleitung dieses Kapitels hat die folgende graphische Repräsentation.
 %         $L=\{w\in\{0,1\}^* \mid w \text{ enthält gerade Anzahl von 0 und gerade Anzahl von 1}\}$
@@ -233,6 +236,7 @@ aus der Einleitung dieses Kapitels hat die folgende graphische Repräsentation.
 %                         \draw [->] (v2) edge [bend left=15] node[auto] {0} (v1);
                         \draw [->] (v2) edge [loop below] node[auto] {0} (v2);
                         \draw [->] (v3) edge [loop below] node[auto] {0} (v3);
+                \qedhere
                 \end{tikzpicture}
   \end{center}
 \end{Bsp}
@@ -285,7 +289,7 @@ aus der Einleitung dieses Kapitels hat die folgende graphische Repräsentation.
 %   Die Transitionsfunktion $\delta$ fügt die Summen zum aktuellen Zustand hinzu, die sich durch addieren der aktuell gelesenen Ziffer zu den alten Möglichkeiten ergeben.
 % \end{Bsp}
 % \begin{Bsp}\label{bsp:3.3}
-%         Beispiel f"ur eine nicht-regul"are Sprache.
+%         Beispiel für eine nicht-reguläre Sprache.
 %         \begin{equation*}
 %                 L = \{ 0^n1^n \mid n\in\N \} 
 %         \end{equation*}
@@ -303,15 +307,15 @@ aus der Einleitung dieses Kapitels hat die folgende graphische Repräsentation.
 % \end{Bsp}
 
 
-Frage: Gegeben seien zwei reguläre Sprachen $L_1$, $L_2$ über einem gemeinsamen Alphabet $\Sigma$; ist dann auch die Vereinigung $L_1\cap L_2$ eine reguläre Sprache? Wir beantworten diese Frage mit dem folgenden Satz.
+Frage: Gegeben seien zwei reguläre Sprachen $L_1$, $L_2$ über einem gemeinsamen Alphabet $\Sigma$; ist dann auch der Schnitt $L_1\cap L_2$ eine reguläre Sprache? Wir beantworten diese Frage mit dem folgenden Satz.
 
 \begin{Satz}
-  Reguläre Sprachen sind abgeschlossen unter der Schnittoperation. (D.h. Gegeben zwei reguläre Sprachen $L_1$, $L_2$ über $\Sigma$ dann ist auch der Schnitt $L_1\cap L_2$ eine reguläre Sprache.)
+  Reguläre Sprachen sind abgeschlossen unter der Schnittoperation. (D.h.\ für zwei gegebene reguläre Sprachen $L_1$, $L_2$ über $\Sigma$ ist auch der Schnitt $L_1\cap L_2$ eine reguläre Sprache.)
 \end{Satz}
 
 % Der folgende Beweis ist ein typi
 
-\begin{proof}\footnote{Dieser erste Beweis ist außergewöhnlich detailiert. Im den folgenden Beweisen werden wir einfache Umformungen zusammenfassen.}
+\begin{proof}\footnote{Dieser erste Beweis ist außergewöhnlich detailliert. Im den folgenden Beweisen werden wir einfache Umformungen zusammenfassen.}
 Da $L_1$ und $L_2$ regulär sind, gibt es zwei \ac{DEA}s $A_1=(\Sigma, Q_1,\delta_1,\qinit_1,F_1)$ und $A_2=(\Sigma, Q_2,\delta_2,\qinit_2,F_2)$ mit $L_1=L(A_1)$ und $L_2=L(A_2)$.
 Wir konstruieren nun zunächst den \emph{Produktautomaten für Schnitt} $A_\cap=(\Sigma, Q_\cap,\delta_\cap,\qinit_\cap,F_\cap)$ wie folgt.
 		\begin{align*}
@@ -329,23 +333,23 @@ Den Induktionsschritt $n\rightsquigarrow n+1$ zeigen wir mit Hilfe der folgenden
 \begin{eqnarray*}
   \tilde{\delta}_\cap((q_1,q_2),aw) 
     & \stackrel{\text{\autoref{def:2.deltaschlange}}}{=} & \tilde{\delta}_\cap(\delta_\cap((q_1,q_2),a),w)\\
-    & \stackrel{\text{def. }\delta_\cap}{=} & \tilde{\delta}_\cap (\big(\delta_1(q_1,a),\delta_2(q_2,a)\big),w)\\
+    & \stackrel{\text{Def.\ }\delta_\cap}{=} & \tilde{\delta}_\cap (\big(\delta_1(q_1,a),\delta_2(q_2,a)\big),w)\\
     & \stackrel{\text{I.V.}}{=} & \big(\tilde{\delta}_1 (\delta_1(q_1,a),w), \tilde{\delta}_2(\delta_2(q_2,a),w)\big)\\
-    & \stackrel{\autoref{def:2.deltaschlange}}{=} & \big(\tilde{\delta}_1(q_1,aw), \tilde{\delta}_2(q_2,aw)\big)
+    & \stackrel{\text{\autoref{def:2.deltaschlange}}}{=} & \big(\tilde{\delta}_1(q_1,aw), \tilde{\delta}_2(q_2,aw)\big)
 \end{eqnarray*}
 Schließlich zeigen wir $L(A_\cap)=L(A_1)\cap L(A_2)$ mit Hilfe der folgenden Umformungen für ein beliebiges $w\in\Sigma^*$.
 \begin{eqnarray*}
   w\in L(A_\cap)
-  & \stackrel{\autoref{def:2.sprache}}{\mathsf{gdw}} & \tilde{\delta}_\cap(\qinit_\cap,w)\in F_\cap\\
-  & \stackrel{\text{def. }\qinit_\cap}{\mathsf{gdw}} & \tilde{\delta}_\cap((\qinit_1,\qinit_2),w)\in F_\cap\\
+  & \stackrel{\text{\autoref{def:2.sprache}}}{\mathsf{gdw}} & \tilde{\delta}_\cap(\qinit_\cap,w)\in F_\cap\\
+  & \stackrel{\text{Def.\ }\qinit_\cap}{\mathsf{gdw}} & \tilde{\delta}_\cap((\qinit_1,\qinit_2),w)\in F_\cap\\
   & \stackrel{}{\mathsf{gdw}} & (\tilde{\delta}_1(\qinit_1,w),\tilde{\delta}_2(\qinit_2,w))\in F_\cap\\
-  & \stackrel{\text{def. }F_\cap}{\mathsf{gdw}} & \tilde{\delta}_1(\qinit_1,w)\in F_1 \text{ und } \tilde{\delta}_2(\qinit_2,w)\in F_2\\
-  & \stackrel{\autoref{def:2.sprache}}{\mathsf{gdw}} & w\in L(A_1) \text{ und } w\in L(A_2)
+  & \stackrel{\text{Def.\ }F_\cap}{\mathsf{gdw}} & \tilde{\delta}_1(\qinit_1,w)\in F_1 \text{ und } \tilde{\delta}_2(\qinit_2,w)\in F_2\\
+  & \stackrel{\text{\autoref{def:2.sprache}}}{\mathsf{gdw}} & w\in L(A_1) \text{ und } w\in L(A_2)
 \end{eqnarray*}
 \end{proof}
 
 \datenote{25.10.17}
-Im folgenden Beispiel sei $A_1$ der \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$ dessen graphische Repräsentation nahezu mit $A_{\mathtt{Macaron}}$ identisch ist.
+Im folgenden Beispiel sei $A_1$ der \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$, dessen graphische Repräsentation nahezu mit $A_{\mathtt{Macaron}}$ identisch ist.
 
 \begin{center}
 \begin{tikzpicture}[node distance = 3cm]
@@ -369,7 +373,7 @@ Im folgenden Beispiel sei $A_1$ der \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$
 \goodbreak
 
 \begin{Bsp}\label{bsp:2.schnitt}
-Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende graphische Repräsentation, wobei wir um Platz zu sparen ``$q_{ij}$'' statt ``$(q_i, q_j)$'' schreiben.
+Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende graphische Repräsentation, wobei wir um Platz zu sparen "`$q_{ij}$"' statt "`$(q_i, q_j)$"' schreiben.
 
 \begin{center}
 \begin{tikzpicture}[node distance = 3cm]
@@ -435,7 +439,7 @@ Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende
 % Es ist zu bemerken, dass manche Zustände von $Q$ nie erreicht werden können, z.B.\ $\emptyset$.
 % Sei für die folgenden Überlegungen $M = (Q, \Sigma, \delta, \qinit, F)$ ein DEA.
 
-Beobachtung: Der Zustand $q_{01}$ im Beispiel \ref{bsp:2.schnitt} scheint nutzlos. Wir charakterisieren diese ``Nutzlosigkeit'' formal wie folgt.
+Beobachtung: Der Zustand $q_{01}$ im Beispiel \ref{bsp:2.schnitt} scheint nutzlos. Wir charakterisieren diese "`Nutzlosigkeit"' formal wie folgt.
 
 \begin{Def}
   Ein Zustand $q \in Q$ heißt \emph{erreichbar}, falls ein $w \in \Sigma^*$ existiert, so dass $\hat \delta(\qinit, w) = q$.
@@ -482,7 +486,7 @@ Bemerkung: Die Menge der erreichbaren Zustände kann mit dem folgenden Verfahren
 %                         \draw [->] (q3) edge[bend left] node [auto] {1,0} (q2);
 %                 \end{tikzpicture}\\
 %               \end{center}
-%         Dieser Automat erkennt die gleiche Sprache wie in \eqref{bsp:3.1} (,,höchstens eine 1''), hat nur erreichbare Zustände, aber mehr Zustände als in \eqref{bsp:3.1}.
+%         Dieser Automat erkennt die gleiche Sprache wie in \eqref{bsp:3.1} ("`höchstens eine 1"'), hat nur erreichbare Zustände, aber mehr Zustände als in \eqref{bsp:3.1}.
 %         
 %         \emph{Beobachtung:} Aber $q_2$ und $q_3$ verhalten sich gleich in dem Sinn, dass
 %         \[ \forall w: \tilde\delta(q_2,w) \notin F\text{ und }\tilde\delta(q_3,w)\notin F \]
@@ -494,7 +498,7 @@ Bemerkung: Die Menge der erreichbaren Zustände kann mit dem folgenden Verfahren
 \medskip
 
 Beobachtung: Auch nach dem Entfernen der nicht erreichbaren Zustände $q_{01}$ und $q_{10}$ scheint der DEA aus \autoref{bsp:2.schnitt} unnötig groß. Das Verhalten des DEA in den Zuständen $q_{11}$, $q_{20}$ und $q_{21}$ ist sehr ähnlich. 
-Wir charakterisieren diese ``Ähnlichkeit'' formal wie folgt.
+Wir charakterisieren diese "`Ähnlichkeit"' formal wie folgt.
 
 \begin{Def}[name={[Äquivalenz von \acs*{DEA}-Zuständen]}] %\rlnote{Def.-Num. überprüfen}
   Wir nennen zwei Zustände $p,q\in Q$ eines \ac{DEA} \emph{äquivalent}, geschrieben $p\equiv q$, falls
@@ -521,7 +525,7 @@ $$\{ \,
 
 
 \subsubsection{Exkurs: Äquivalenzrelationen}
-Sie haben Äquivalenzrelationen bereits in ``Mathematik II für Studierende der Informatik''\footnote{\url{http://home.mathematik.uni-freiburg.de/junker/ss17/matheII.html}} kennengelernt.
+Sie haben Äquivalenzrelationen bereits in "`Mathematik II für Studierende der Informatik"'\footnote{\url{http://home.mathematik.uni-freiburg.de/junker/ss17/matheII.html}} kennengelernt.
 Dieser kurze Exkurs wiederholt die für unsere Vorlesung relevanten Definitionen.
 Sie $X$ eine beliebige Menge. Eine \emph{Relation} $R$ über $X$ ist eine Teilmenge des Produktes $X\times X$ (d.h. $R\subseteq X\times X$).
 
@@ -538,7 +542,7 @@ aber die folgenden Beispiele sollen helfen sich mit diesen Eigenschaften vertrau
 \begin{center}
 \begin{tabular}{lccc}
 & reflexiv & symmetrisch & transitiv\\ \hline
-``gewinnt`` bei Schere, Stein, Papier & nein & nein & nein\\
+"`gewinnt"` bei Schere, Stein, Papier & nein & nein & nein\\
 $(\N, <)$ & nein & nein & ja\\
 $(\N, \neq)$ & nein & ja & nein\\
 die leere Relation & nein & ja & ja\\
@@ -575,12 +579,12 @@ Zwei Fakten (ohne Beweis).
 Hiermit endet der Exkurs zu Äquivalenzrelationen und wir wollen mit diesem Wissen die oben definierte Relation $\equiv\subseteq Q\times Q$ genauer analysieren.
 
 \begin{lemma}[name={[$\equiv$ ist Äquivalenzrelation]}] %\rlnote{Satz = Lemma-Nummer: 3.2 statt 3.1?}
-        Die Relation ,,$\equiv$'' ist eine \emph{Äquivalenzrelation}.
+        Die Relation "`$\equiv$"' ist eine \emph{Äquivalenzrelation}.
 \end{lemma}
 \begin{proof}
 
   Die Relation $\equiv$ ist offensichtlich reflexiv.
-  Die Symmetrie und Transitivität von $\equiv$ folgt aus der Transitivität und Symmetrie der logischen Interpretation von ,,genau dann wenn'' (gdw).
+  Die Symmetrie und Transitivität von $\equiv$ folgt aus der Transitivität und Symmetrie der logischen Interpretation von "`genau dann wenn"' (gdw).
 \end{proof}
 
 
@@ -599,7 +603,7 @@ Wir könnten genauso gut $q_{20}$ oder $q_{21}$ wählen.}
 
 
 
-Idee: ``Verschmelze'' alle Zustände aus einer Äquivalenzklasse zu einem einzigen Zustand.
+Idee: "`Verschmelze"' alle Zustände aus einer Äquivalenzklasse zu einem einzigen Zustand.
 Bedenken: Bei einem \ac{DEA} hat jeder Zustand hat für jedes Zeichen einen Nachfolger. 
 Wenn wir Zustände verschmelzen könnte es mehrere Nachfolger geben und das Resultat wäre kein wohldefinierter \ac{DEA} mehr.
 
@@ -640,7 +644,7 @@ Für alle $p,q\in Q$ gilt:
         & \text{gdw} & \forall a\in\Sigma: \delta(p,a)\equiv\delta(q,a)
 \end{eqnarray*}
 \end{proof}
-Wir formalisieren das ``Verschmelzen'' von Zuständen wie folgt.
+Wir formalisieren das "`Verschmelzen"' von Zuständen wie folgt.
 \begin{Def}[name={[Äquivalenzklassenautomat]}]
         Der Äquivalenzklassenautomat $\A_\equiv=(Q_\equiv,\Sigma,\delta_\equiv,{\qinit}_\equiv,F_\equiv)$ zu einem DEA $\A=(Q,\Sigma,\delta,\qinit,F)$ ist bestimmt durch:
         \begin{align*}
@@ -717,7 +721,7 @@ Wir werden später (\-> Satz von Myhill-Nerode) sehen dass $\A_\equiv$ der klein
         \begin{description}
                 \item[Beobachtung 1] $R_\A$ ist Äquivalenzrelation.
                 
-                Folgt daraus dass ``='' eine Äquivalenzrelation ist.
+                Folgt daraus dass "`="' eine Äquivalenzrelation ist.
                 \item[Beobachtung 2] $R_\A$ ist rechtskongruent. 
                 
                 Beweis: In den Übungen
@@ -742,7 +746,7 @@ Wir werden später (\-> Satz von Myhill-Nerode) sehen dass $\A_\equiv$ der klein
 \begin{description}
  \item[Beobachtung 1] Die Nerode Relation ist eine Äquivalenzrelation.
  
- Folgt daraus dass ``$\Leftrightarrow$'' (Biimplikation, ``Genau dann wenn``) eine Äquivalenzrelation ist.
+ Folgt daraus dass "`$\Leftrightarrow$"' (Biimplikation, "`Genau dann wenn"`) eine Äquivalenzrelation ist.
  \item[Beobachtung 2] Die Nerode Relation ist rechtskongruent.
                 \begin{proof}
                 Sei $(u,v)\in R_L$. Zeige $\forall w\in\Sigma^*$ , dass $(uw,vw)\in R_L$.
@@ -781,11 +785,11 @@ Sei $\Sigma=\{0,1\}$. Die Sprache $L=\{w\in\Sigma^*\mid \text{vorleztes Zeichen 
 
 \begin{Bsp}
 Sei $\Sigma=\{0,1\}$. Die Sprache $L_\text{centered}=\{0^n10^n \mid n\in\N\}$ hat bezüglich der Nerode Relation die folgende Menge von Äquivalenzklassen:
-$$\{ [w'] \mid w' \text{ ist Prefix eines Wortes } w\in L_\text{centered}\} \cup \{ [11] \}$$
+$$\{ [w'] \mid w' \text{ ist Prefix eines Worts } w\in L_\text{centered}\} \cup \{ [11] \}$$
 Dabei gilt, dass für je zwei verschiedene $k\in\N$
 auch die Äquivalenzklassen $[0^k1]$ verschieden sind. Somit gibt es unendlich viele Äquivalenzklassen.
 
-Bemerkung: Die Äquivalenzklasse $[11]$ enthält alle Wörter die kein Präfix eines Wortes aus $L_\text{centered}$ sind.
+Bemerkung: Die Äquivalenzklasse $[11]$ enthält alle Wörter die kein Präfix eines Worts aus $L_\text{centered}$ sind.
  
 \end{Bsp}
 
@@ -888,11 +892,11 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
 \begin{proof}
         Sei $\A'$ \emph{beliebiger} \ac{DEA} mit $L(\A')=L$.
         
-        Aus ``\ref{itm:Nerode1} {\=>} \ref{itm:Nerode2}'' wissen wir, dass $\operatorname{index}(R_{\A'})\leq |Q'|$ gilt.
+        Aus "`\ref{itm:Nerode1} {\=>} \ref{itm:Nerode2}"' wissen wir, dass $\operatorname{index}(R_{\A'})\leq |Q'|$ gilt.
         
-        Aus ``\ref{itm:Nerode2} \=> \ref{itm:Nerode3}'' wissen wir, dass $R_{\A'}\subseteq R_L$ und somit $\operatorname{index}(R_L) \leq \operatorname{index}(R_{\A'})$ gilt.
+        Aus "`\ref{itm:Nerode2} \=> \ref{itm:Nerode3}"' wissen wir, dass $R_{\A'}\subseteq R_L$ und somit $\operatorname{index}(R_L) \leq \operatorname{index}(R_{\A'})$ gilt.
         
-        In ``\ref{itm:Nerode3} \=> \ref{itm:Nerode1}'' definieren wir $A$ sodass $|Q|=\text{index}(R_L) \leq \text{index}(R_\A)\leq |Q'|$.
+        In "`\ref{itm:Nerode3} \=> \ref{itm:Nerode1}"' definieren wir $A$ sodass $|Q|=\text{index}(R_L) \leq \text{index}(R_\A)\leq |Q'|$.
         
         Für beliebigen DEA $A'$ ist $|Q|$ also nie größer als $|Q'|$.
 \end{proof}
@@ -927,12 +931,13 @@ Z.B. $\operatorname{bin}(101) = 5$, $\operatorname{bin}(\Eps) = 0$
   \begin{itemize}
   \item Es gilt offensichtlich, dass $11 \in L$
   \item Es gilt auch, dass $1 \underline{0 0} 1 \in L$.
-  \item Der Automat hat eine Schleife bei $\tilde\delta({q_1,00}) = q_1$, die mehrfach ,,abgelaufen'' werden kann ohne die Akzeptanz zu beinflussen.
+  \item Der Automat hat eine Schleife bei $\tilde\delta({q_1,00}) = q_1$, die mehrfach "`abgelaufen"' werden kann ohne die Akzeptanz zu beinflussen.
   \item Also gilt auch $100001 \in L$,
   \item und im Allgemeinen $\forall i\in\N: 1(00)^i1 \in L$
+  \qedhere
   \end{itemize}
 \end{Bsp*}
-Verdacht: Alle ``langen'' Wörter lassen sich in der Mitte ``aufpumpen''.
+Verdacht: Alle "`langen"' Wörter lassen sich in der Mitte "`aufpumpen"'.
 Wir formalisieren diesen Verdacht im folgenden Lemma.
 
 \begin{lemma}[Pumping Lemma]\label{lem:pumping}
@@ -988,11 +993,12 @@ Wir formalisieren diesen Verdacht im folgenden Lemma.
   Somit ist $L$ nicht regulär.
   
   Zur Illustration:
-        \begin{gather*}
-                \underbrace{0\ \dots\dots\ 0}_{n} 1 \underbrace{0\ \dots\dots\ 0}_{n}\\
-                |\!\ruleplaceholder[u]{\widthof{0\ \dots }} \!|\! \ruleplaceholder[v]{\widthof{\dots 0}}\!|% 
-                \ruleplaceholder[w]{\widthof{\ \ \ $1\ \dots\dots\ 1$}}\!|
-        \end{gather*}
+  \begin{gather*}
+    \underbrace{0\ \dots\dots\ 0}_{n} 1 \underbrace{0\ \dots\dots\ 0}_{n}\\
+    |\!\ruleplaceholder[u]{\widthof{0\ \dots }} \!|\! \ruleplaceholder[v]{\widthof{\dots 0}}\!|% 
+    \ruleplaceholder[w]{\widthof{\ \ \ $1\ \dots\dots\ 1$}}\!|
+    \qedhere
+  \end{gather*}
 \end{Bsp*}
 
 % \begin{Bsp*}
@@ -1020,10 +1026,11 @@ Wir formalisieren diesen Verdacht im folgenden Lemma.
 % \begin{align*}
 %         \ac{PL}:\ &z=uvw \text{ mit } |uv|\leq n &&,|v| \geq 1\\
 %         &\curvearrowright |z|= p=a+b &&, a = |uw| \quad, b= |v|\\
-%         &\curvearrowright |uv^iw| = a + ib &&, \text{w"ahle }i=p+1\\
+%         &\curvearrowright |uv^iw| = a + ib &&, \text{wähle }i=p+1\\
 %         &\curvearrowright |uv^{p+1}w| = a + (p+1)b & =& a + pb + b = p+pb \text{ keine Primzahl} \\
 %         \text{Also } &uv^{p+1}w \notin L_2\\
 %         &\curvearrowright L_2\text{ nicht regulär.}
+%   \qedhere
 % \end{align*}
 % \end{Bsp*}
 
@@ -1265,7 +1272,7 @@ $$L_2=\{w\in\{0,1\}^*\mid \text{ das zweitletzte Zeichen von $w$ ist $1$ }\}$$ h
 \end{Bsp}
 
 
-Bemerkung: Die Frage ob ein gegebenes Wort $w$ akzeptiert wird (das ``Wortproblem'') lässt sich für NEAs nicht mehr so leicht beantworten wie wir es von DEAs gewohnt sind.
+Bemerkung: Die Frage ob ein gegebenes Wort $w$ akzeptiert wird (das "`Wortproblem"') lässt sich für NEAs nicht mehr so leicht beantworten wie wir es von DEAs gewohnt sind.
 Ein sinvolles Vorgehen scheint jeden initialen Lauf zu betrachten, doch z.B. für das Wort $111$ hat obiger NEA bereits  drei verschiedene initiale Läufe: $q_0q_0q_0$, $q_0q_0q_1$, $q_0q_0q_2$.
 
 
@@ -1375,8 +1382,8 @@ Wir wollen $\Eps$-NEAs zunächst durch die folgende Fragestellung und anschließ
 Frage: Gegeben zwei reguläre Sprachen $L_1, L_2$ ist dann auch die Konkatenation $L_1\cdot L_2$ eine reguläre Sprache?
 
 Idee: Geben DEA $\A_1$ mit $L(\A_1)=L_1$ und DEA $\A_2$ mit $L(\A_2)=L_2$,
-konstruiere NEA für $L_1\cdot L_2$ durch ``Hintereinanderschalten'' von $\A_1$ und $\A_2$;
-immer wenn wir in einem akzeptierenden Zustand von $\A_1$ sind erlauben wir in $\A_2$ zu ``wechseln''.
+konstruiere NEA für $L_1\cdot L_2$ durch "`Hintereinanderschalten"' von $\A_1$ und $\A_2$;
+immer wenn wir in einem akzeptierenden Zustand von $\A_1$ sind erlauben wir in $\A_2$ zu "`wechseln"'.
 
 Erste, naive (und inkorrekte) Umsetzung dieser Idee: 
 Verschmelze akzeptierende Zustände von $\A_1$ mit dem Startzustand von $\A_2$
@@ -1455,7 +1462,7 @@ Dieser NEA akzeptiert nun auch das Wort $w=11011$. Allerdings ist $w$ nicht in d
 \end{Bsp}
 
 
-Das ``Verschmelzen'' von $p_2$ (bzw. $p_3$) mit $s_0$ war also keine gute Idee.
+Das "`Verschmelzen"' von $p_2$ (bzw. $p_3$) mit $s_0$ war also keine gute Idee.
 Was uns aber helfen würde wäre ein Zustandsübergang der uns erlaubt von Zustand $p_2$ (bzw. $p_3$) in den Zustand $s_0$ zu gehen ohne dabei ein Zeichens zu Lesen.
 
 Wir nennen solch einen Zustandsübergang $\Eps$-Übergang und definieren einen Automaten der solche Zustandsübergänge haben kann wie folgt.
@@ -1496,12 +1503,12 @@ Wie bei den bisher definierten Automaten wollen wir mit Hilfe eines $\Eps$-NEAs 
 Wir benötigen dafür zunächst zwei weitere Definitionen.
 
 Der $\Eps$-Abschluss ist eine Abbildung die jedem Zustand $q$ die Menge der Zustände zuordnet, die von $q$ über $\Eps$-Übergänge erreichbar sind.
-Wir definieren diese Abbildung formal wie folgt. Dabei verwenden wir den Abbildungsnamen $\ecl$ um an den englischen Begriff ``$\Eps$ closure'' zu erinnern.
+Wir definieren diese Abbildung formal wie folgt. Dabei verwenden wir den Abbildungsnamen $\ecl$ um an den englischen Begriff "`$\Eps$ closure"' zu erinnern.
 \begin{Def}
- Der \emph{$\Eps$-Abschluss} $\ecl:Q\rightarrow\calP(Q)$ ist die kleinste Abbildung, die für alle $q,q',q''\in Q$ die folgenden Eigenschaften erfüllt:
+ Der \emph{$\Eps$-Abschluss} $\ecl:Q\rightarrow\calP(Q)$ ist die kleinste Abbildung, die für alle $q,q',q"'\in Q$ die folgenden Eigenschaften erfüllt:
  \begin{eqnarray*}
   & q\in\ecl(q) &\\
-  & q'\in\ecl(q) \text{ und } q''\in\delta(q',\Eps) \quad\Rightarrow\quad q''\in\ecl(q) & \qedhere
+  & q'\in\ecl(q) \text{ und } q"'\in\delta(q',\Eps) \quad\Rightarrow\quad q"'\in\ecl(q) & \qedhere
  \end{eqnarray*}
 \end{Def}
 Offensichtlich kann immer eine endliche explizite Repräsentation von $\ecl$ berechnet werden: Starte in jedem Zustand einmal und folge mit Breitensuche allen $\Eps$-Kanten im Zustandsdiagramm.
@@ -1515,13 +1522,13 @@ $$
 \end{array}
 $$
 
-Als nächstes definieren wir eine dreistellige Relation die uns für je zwei Zustände sagt für welche Wörter den Automaten vom ersten Zustand in den zweiten Zustand überführen. Der Name der Relation ``$\reach$'' soll dabei an des englische Wort ``reachability'' erinnern.
+Als nächstes definieren wir eine dreistellige Relation die uns für je zwei Zustände sagt für welche Wörter den Automaten vom ersten Zustand in den zweiten Zustand überführen. Der Name der Relation "`$\reach$"' soll dabei an des englische Wort "`reachability"' erinnern.
 
 \begin{Def}
- Die \emph{Erreichbarkeitsrelation} $\reach\subseteq Q\times\Sigma^*\times Q$ ist die kleinste Relation, die für alle $q,q',q'',q'''\in Q$ und für alle $w\in\Sigma^*$ die folgenden Eigenschaften erfüllt:
+ Die \emph{Erreichbarkeitsrelation} $\reach\subseteq Q\times\Sigma^*\times Q$ ist die kleinste Relation, die für alle $q,q',q"',q"''\in Q$ und für alle $w\in\Sigma^*$ die folgenden Eigenschaften erfüllt:
   \begin{eqnarray*}
 & q'\in\ecl(q) \quad\Rightarrow\quad (q,\Eps,q')\in\reach &\\
-& q'\in\ecl(q), q''\in\delta(q',a) \text{ und } (q'',w,q''')\in\reach \Rightarrow (q,aw,q''')\in\reach & \qedhere
+& q'\in\ecl(q), q"'\in\delta(q',a) \text{ und } (q"',w,q"'')\in\reach \Rightarrow (q,aw,q"'')\in\reach & \qedhere
  \end{eqnarray*}
 \end{Def}
 
@@ -1740,7 +1747,7 @@ Die vom $\Eps$-NEA für Konkatenation akzeptierte Sprache ist $L(\B_1)\cdot L(\B
                 \draw (2.75,1.5) ellipse (1.75 and 1.35);
                 \node at (5,-1) {$A_2$};
             \end{tikzpicture}
-            \caption{\acs{NEA} f"ur Vereinigung}
+            \caption{\acs{NEA} für Vereinigung}
             \label{fig:reg-closure-union}
         \end{figure}
         \item $\cap:$ 
@@ -1857,7 +1864,8 @@ Die vom $\Eps$-NEA für Konkatenation akzeptierte Sprache ist $L(\B_1)\cdot L(\B
                  edge[loop right] node[auto] {$1(01^*0)^*1$} ()
         ;
     \end{tikzpicture}
-    \captionof{figure}{Informell vom Automaten zum regul"aren Ausdruck f"ur mod 3}
+    \captionof{figure}{Informell vom Automaten zum regulären Ausdruck für mod 3}
+  \qedhere
 \end{itemize}
     \end{Bsp*}
 \begin{Satz}[Kleene]
@@ -1893,7 +1901,7 @@ Betrachte zu einem regulärem Ausdruck $r\in RE(\Sigma)$ die durch diesen erzeug
 		\end{description}
 \end{proof}
 
-Zum Beweis (bzw.\ zur Konstruktion) der Richtung ,,\=>'' benötigen wir eine Rechenregel zum Lösen von Gleichungen zwischen regulären Sprachen und Ausdrücken:
+Zum Beweis (bzw.\ zur Konstruktion) der Richtung "`\=>"' benötigen wir eine Rechenregel zum Lösen von Gleichungen zwischen regulären Sprachen und Ausdrücken:
 \begin{lemma}[Ardens Lemma]\label{lem:arden}\ \\
         Sei die lineare Gleichung $X=A\cdot X+B$ über $A, B, X\subseteq \Sigma^*$ gegeben. Dann ist $X=A^*B$ eine Lösung. Falls $\Eps \notin A$ ist diese Lösung ausserdem eindeutig.
 \end{lemma}
@@ -1929,7 +1937,7 @@ Sei $ X= AX+B$ mit $\Eps\notin A$. Zeige, dass $A^*B \subseteq X$:
 
 \begin{proof}[Kleene, \=>]
   Sei $L=L(\A)$ für einen \ac{DEA} $\A=({Q},\Sigma,\delta,q_0,F)$ mit $Q = \{q_0,q_1,\dots,q_n\}$.
-        Definiere $L_i=\{ w \mid \tilde\delta(q_i,w)\in F \}$ als die Sprache der Worte, die von Zustand $q_i$ aus in einen akzeptierenden Zustand führen.
+        Definiere $L_i=\{ w \mid \tilde\delta(q_i,w)\in F \}$ als die Sprache der Wörter, die von Zustand $q_i$ aus in einen akzeptierenden Zustand führen.
   Insbesondere gilt $L_0 = L$.
 
   Wir leiten nun ein lineares Gleichungssystem zwischen den Sprachen $L_i$ her.
@@ -1946,7 +1954,7 @@ Sei $ X= AX+B$ mit $\Eps\notin A$. Zeige, dass $A^*B \subseteq X$:
       \\
       & = \bigcup_{a \in \Sigma} \{a\} (L_j \text{ wobei  $q_j = \delta(q_i, a)$}) 
     \end{align*}
-    Anstatt die Vereinigung über die Transitionen $a$ und Folgezustandssprachen $L_j$ zu bilden, lassen sich die nicht-leeren Worte von $L_i$ auch als Vereinigung über aller Zustände mit entsprechend gewählten \emph{Koeffizienten} formulieren; die Zustände die keine Folgezustände sind, habe den Koeffizienten $\emptyset$.
+    Anstatt die Vereinigung über die Transitionen $a$ und Folgezustandssprachen $L_j$ zu bilden, lassen sich die nicht-leeren Wörter von $L_i$ auch als Vereinigung über aller Zustände mit entsprechend gewählten \emph{Koeffizienten} formulieren; die Zustände die keine Folgezustände sind, habe den Koeffizienten $\emptyset$.
     \begin{align*}
       \bigcup_{a \in \Sigma} \{a\} (L_j \text{ wobei  $q_j = \delta(q_i, a)$}) & = \bigcup_{j = 0}^{n} \underbrace{\{a \mid a \in \Sigma, \delta(q_i, a) = q_j\}}_{A_{ij} \not \ni \Eps} L_j
     \end{align*}
@@ -1967,7 +1975,7 @@ Sei $ X= AX+B$ mit $\Eps\notin A$. Zeige, dass $A^*B \subseteq X$:
         \0 & q_i\notin F
       \end{cases}
     \end{displaymath}
-    Dieses Gleichungssystem lässt sich, wie lineare Gleichungssysteme in der Arithmetik, mit dem \emph{Substituitionsverfahren} lösen (,,auflösen nach einer Variablen und einsetzen'').
+    Dieses Gleichungssystem lässt sich, wie lineare Gleichungssysteme in der Arithmetik, mit dem \emph{Substituitionsverfahren} lösen ("`auflösen nach einer Variablen und einsetzen"').
     Dazu werden Ardens Lemma und weitere Rechenregeln für Sprachen, wie Distributivität, verwendet.
     Wir beginnen mit Gleichung $r_n$:
     \begin{align*}
@@ -2025,6 +2033,7 @@ Sei $ X= AX+B$ mit $\Eps\notin A$. Zeige, dass $A^*B \subseteq X$:
 		&= \1+(0+1\cdot (01^*0)^*\cdot 1)\cdot L_0\\
 		\shortintertext{\nameref{lem:arden} auf $q_0$:}
 		L_0 &= (0+1\cdot (01^*0)^*\cdot 1)^*
+		\qedhere
 	\end{align*}
 \end{Bsp*}
 %
@@ -2133,7 +2142,7 @@ Ein Problem ist \emph{entscheidbar} wenn es sich durch eine binäre Antwort (ja/
 \end{proof}
 
 
-Anwendungsbeispiel f"ur regul"are Sprachen.
+Anwendungsbeispiel für reguläre Sprachen.
 
 $N$ -- liest vom Netz\\
 $R$ -- liest lokalen Speicher (ggf. vertrauliche Info)\\
