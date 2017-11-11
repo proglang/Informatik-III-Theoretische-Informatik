@@ -882,9 +882,9 @@ Es gilt also $R \subseteq R_L$ und somit $\operatorname{Index}(R_L) \leq \operat
       \forall w\in\Sigma^* :
                         \forall v\in\Sigma^* : \tilde\delta([v],w) = [v\cdot w]
     \end{displaymath}
-    \begin{description}
-    \item[IA] $(w = \Eps)$: $\tilde\delta([v],\Eps) = [v]=[v\cdot\Eps]$
-    \item[IS] Sei $w = aw'$ beliebiges Wort der Länge $n+1$.
+    I.A. $(w = \Eps)$: $\tilde\delta([v],\Eps) = [v]=[v\cdot\Eps]$
+    
+    I.S. Sei $w = aw'$ beliebiges Wort der Länge $n+1$.
       \begin{displaymath}
         \begin{array}{lcl}
         \tilde\delta([v],aw') &=& \tilde\delta(\delta([v],a),w') \\
@@ -893,7 +893,6 @@ Es gilt also $R \subseteq R_L$ und somit $\operatorname{Index}(R_L) \leq \operat
                              &=& [v\cdot \underbrace{aw'}_{=w}]
         \end{array}
       \end{displaymath}
-    \end{description}
 
 Nun zeigen wir $L(\A)=L$ wie folgt:
 \begin{eqnarray*}
@@ -1081,16 +1080,17 @@ Naiver Lösungsversuch:
 			    (q1.west) -- (q3.east)
 			    node [pos=0.5,anchor=north,yshift=-0.65cm] {n};
 		\end{tikzpicture}
-		\caption{Nichtdet. Automat für $L_n$}
+		\caption{Nichtdeterministischer Automat für $L_n$}
 		\label{fig:2.nletztesNea}
 	\end{figure}
-Problem: Diagramm beschreibt keinen \acs*{DEA}. Startzustand hat zwei ausgehende Kanten für $1$.
+Problem: Das Zustandsdiagramm beschreibt keinen \acs*{DEA}:
+Der Startzustand hat zwei ausgehende Kanten für $1$.
 
-Untersuche Sprache mit Hilfe von Nerode-Relation.
+Untersuche die Sprache mit Hilfe der Nerode-Relation.
 Beobachtung: Je zwei Wörter der Länge $n$ sind in unterschiedlichen Äquivalenzklassen.
-Es gibt also mindestens $2^n$ Äquivalenzklassen und aus \autoref{kor:2.minAutomat} wissen wir dass ein minimaler \acs*{DEA}, der $L_n$ akzeptiert $2^n$ Zustände hat.
+Es gibt also mindestens $2^n$ Äquivalenzklassen; aus \autoref{kor:2.minAutomat} wissen wir, dass ein minimaler \acs*{DEA}, der $L_n$ akzeptiert, mindestens $2^n$ Zustände haben muss.
 
-Idee: Definiere einen neue Art von Automaten bei dem ein Zustand pro Zeichen mehrere Nachfolger haben darf.
+Idee: Definiere einen neue Art von Automaten, bei dem ein Zustand pro Zeichen mehrere Nachfolger haben darf.
 
 % \begin{Bsp*} Mustererkennung\\
 % 	kommt ein String (konsistent) in einem anderen vor?
@@ -1239,32 +1239,33 @@ Idee: Definiere einen neue Art von Automaten bei dem ein Zustand pro Zeichen meh
 \goodbreak
 
 \begin{Def}[\acs*{NEA}]
-        Ein \emph{\acf{NEA}}, (\acsu{NFA} $\hat=$ \acl{NEA}) ist ein 5-Tupel
-        \[ \calN= (\Sigma, Q,\delta,\qinit,F) \]
-dabei ist
+        Ein \emph{\acf{NEA}}, (\acsu{NFA} $\hat=$ \acl{NFA}) ist ein 5-Tupel
+        \[ \calN= (\Sigma, Q,\delta,\qinit,F). \]
+Dabei ist
         \begin{itemize}
                 \item $\Sigma$ ein Alphabet,
-                \item $Q$ eine \emph{endliche} Menge deren Elemente wir \emph{Zustände} nennen,
-                \item $\delta:Q\x\Sigma\->\mathcal{P}(Q)$ eine Funktion die wir \emph{Transitionsfunktion} nennen,
-                \item $\qinit\in Q$ ein Zustand den wir \emph{Startzustand} nennen und
-                \item $F\subseteq Q$ eine Teilmenge der Zustände deren Elemente wir \emph{akzeptierende} Zustände nennen.
+                \item $Q$ eine \emph{endliche} Menge, deren Elemente wir \emph{Zustände} nennen,
+                \item $\delta:Q\x\Sigma\->\mathcal{P}(Q)$ eine Funktion, die wir \emph{Transitionsfunktion} nennen,
+                \item $\qinit\in Q$ ein Zustand, den wir \emph{Startzustand} nennen und
+                \item $F\subseteq Q$ eine Teilmenge der Zustände, deren Elemente wir \emph{akzeptierende} Zustände nennen.
+                \qedhere
         \end{itemize}
 \end{Def}
-Bemerkung: Die Definition des \acs*{NEA} unterscheidet sich vom \acs*{DEA} also nur in der Transitionsfunktion. Beim \acs*{DEA} ist der Bildbereich der Transitionsfunktion die Menge der Zustände $Q$. Hier ist der Bildbereich die Potenzmenge der Zustandsmenge $\mathcal{P}(Q)$.
-Analog zu \acs*{DEA}s werden wir auch \acs*{NEA}s mit Hilfe eines Zustandsdiagramms beschrieben. Z.B. beschreibt \autoref{fig:2.nletztesNea} für jedes $n\in\N$ einen \acs*{NEA} für die Sprache $L_n$.
+Bemerkung: Die Definition des \acs*{NEA} unterscheidet sich vom \acs*{DEA} also nur in der Transitionsfunktion. Beim \acs*{DEA} ist der Bildbereich der Transitionsfunktion die Menge der Zustände $Q$. Beim \acs*{NEA} ist der Bildbereich die Potenzmenge $\mathcal{P}(Q)$ der Zustandsmenge~$Q$.
+Analog zu \acs*{DEA}s werden wir auch \acs*{NEA}s mit Hilfe eines Zustandsdiagramms beschrieben. Zum Beispiel beschreibt \autoref{fig:2.nletztesNea} für jedes $n\in\N$ einen \acs*{NEA} für die Sprache $L_n$.
 
-Im folgenden sei $\calN$ immer ein \acs*{NEA}.
+Im Folgenden sei $\calN$ immer ein \acs*{NEA}.
 \begin{Def}[name={[Lauf eines Automaten]}]
-	Wir nennen eine Folge von Zuständen $q_0q_1\dots q_n$ einen \emph{Lauf von $\calN$ über $w=a_1\dots a_n$} wenn
+	Wir nennen eine Folge von Zuständen $q_0q_1\dots q_n$ einen \emph{Lauf von $\calN$ über $w=a_1\dots a_n$}, falls
 	$q_i\in\delta(q_{i-1},a_i)$ für alle $i$ mit $1\leq i\leq n$.
-	Wir nennen einen Lauf \emph{initial} falls $q_0=\qinit$.
+	Wir nennen einen Lauf \emph{initial}, falls $q_0=\qinit$.
 	Wir nennen einen Lauf \emph{akzeptierend}, falls $q_n\in F$.
 \end{Def}
 \datenote{8.11.17}
 \begin{Def}[name={[NEA zu DEA]}]
-	Ein Wort $w\in\Sigma^*$ wir von $\calN$ \emph{akzeptiert}, falls $\calN$ einen initialen und akzeptierenden Lauf über $w$ hat.
-	Die von $\calN$ akzeptierte Sprache ist die Menge der von $\calN$ akzeptierten Wörter. D.h.	
-	$L(\calN)=\{ w\in\Sigma^* \mid \exists\text{ initialer, akzeptierender Lauf von $\calN$ über }w \}$
+	Ein Wort $w\in\Sigma^*$ wird von $\calN$ \emph{akzeptiert}, falls $\calN$ einen initialen und akzeptierenden Lauf über $w$ hat.
+	Die von $\calN$ akzeptierte Sprache ist die Menge der von $\calN$ akzeptierten Wörter, d.h.\
+	$L(\calN)=\{ w\in\Sigma^* \mid \exists\text{ initialer, akzeptierender Lauf von $\calN$ über }w \}$.
 \end{Def}
 
 
@@ -1288,40 +1289,42 @@ $$L_2=\{w\in\{0,1\}^*\mid \text{ das zweitletzte Zeichen von $w$ ist $1$ }\}$$ h
                         \draw [->] (v0) edge [loop above] node[auto] {0,1} (v2);
                         \draw [->] (v0) edge [bend left=15] node[auto] {1} (v1);
                         \draw [->] (v1) edge [bend left=15] node[auto] {0,1} (v2);
+                        \qedhere
                 \end{tikzpicture}
   \end{center}
 \end{Bsp}
 
 
-Bemerkung: Die Frage ob ein gegebenes Wort $w$ akzeptiert wird (das "`Wortproblem"') lässt sich für \acs*{NEA}s nicht mehr so leicht beantworten wie wir es von \acs*{DEA}s gewohnt sind.
-Ein sinvolles Vorgehen scheint jeden initialen Lauf zu betrachten, doch z.B. für das Wort $111$ hat obiger \acs*{NEA} bereits  drei verschiedene initiale Läufe: $q_0q_0q_0$, $q_0q_0q_1$, $q_0q_0q_2$.
+Bemerkung: Die Frage, ob ein gegebenes Wort $w$ akzeptiert wird (das "`Wortproblem"'), lässt sich für \acs*{NEA}s nicht mehr so leicht beantworten wie wir es von \acs*{DEA}s gewohnt sind.
+Ein sinnvolles Vorgehen scheint, jeden initialen Lauf zu betrachten, doch z.B.\ für das Wort $111$ hat obiger \acs*{NEA} bereits  drei verschiedene initiale Läufe: $q_0q_0q_0$, $q_0q_0q_1$, $q_0q_0q_2$.
 
 
 Bemerkung: Die Definitionen von \ac{NEA} und \ac{DEA} in der Literatur sind nicht einheitlich. 
-Es gibt äquivalente \ac{NEA} Definitionen die statt der Transitionsfunktion $\delta:Q\x\Sigma\->\mathcal{P}(Q)$ eine Transitionsrelation $\delta\subseteq Q\x\Sigma\x Q$ verwenden.
-Es gibt alternative \ac{NEA} Definitionen die eine Menge von Startzuständen erlauben.
-Alternativ könnte man auch zunächst den \ac{NEA} einführen und den \ac{DEA} als Spezialfall dessen definieren (Spezialfall: Bild von Transitionsfunktion ist einelementig für alle $q\in Q$ und $a\in\Sigma$)
+Es gibt äquivalente \ac{NEA}-Definitionen, die statt der Transitionsfunktion $\delta:Q\x\Sigma\->\mathcal{P}(Q)$ eine Transitionsrelation $\delta\subseteq Q\x\Sigma\x Q$ verwenden.
+Es gibt alternative \ac{NEA}-Definitionen, die eine Menge von Startzuständen erlauben.
+Alternativ könnte man auch zunächst den \ac{NEA} einführen und den \ac{DEA} als Spezialfall dessen definieren (Spezialfall: Das Bild der Transitionsfunktion ist einelementig für alle $q\in Q$ und $a\in\Sigma$).
 
-Bemerkung: Zu jedem \ac{DEA} $\A= (\Sigma, Q,\delta,\qinit,F)$ gibt es einen \ac{NEA} der die gleiche Sprache akzeptiert.
-Z.B. der \ac{NEA} $\calN= (\Sigma, Q,\delta_\mathsf{NEA},\qinit,F)$, mit $\delta_\mathsf{NEA}(q,a)=\{\delta(q,a)\}$ der sich von $\A$ nur in der Transitionsfunktion unterscheidet.
+Bemerkung: Zu jedem \ac{DEA} $\A= (\Sigma, Q,\delta,\qinit,F)$ gibt es einen \ac{NEA}, der die gleiche Sprache akzeptiert.
+Beispiel: der \ac{NEA} $\calN= (\Sigma, Q,\delta_\mathsf{NEA},\qinit,F)$ mit $\delta_\mathsf{NEA}(q,a)=\{\delta(q,a)\}$, der sich von $\A$ nur in der Transitionsfunktion unterscheidet.
 
 
 \begin{Satz}[Rabin und Scott]\label{satz:2.rabinscott}
-	Zu jedem \ac{NEA} $\calN$ mit $n$ Zuständen gibt es einen \ac{DEA} $\A_\calP$ mit $2^n$ Zuständen, sodass $L(\A_\calP)=L(\calN)$.
+	Zu jedem \ac{NEA} $\calN$ mit $n$ Zuständen gibt es einen \ac{DEA} $\A_\calP$ mit $2^n$ Zuständen, sodass $L(\A_\calP)=L(\calN)$ gilt.
 \end{Satz}
   Zur Vorbereitung des Beweises machen wir zunächst die folgende Definition.
 
 \begin{Def}[Potenzmengenautomat]
- Für gegebenen \ac{NEA}  $\calN= (\Sigma, Q,\delta,\qinit,F)$ ist der Potenzmengenautomat $\A_\calP$ wie folgt definiert
+ Für einen gegebenen \ac{NEA}  $\calN= (\Sigma, Q,\delta,\qinit,F)$ ist der Potenzmengenautomat $\A_\calP$ wie folgt definiert.
          \begin{align*}
                 Q_\calP &= \mathcal{P}(Q)\\
-                \delta_\calP(p,a) &= \bigcup_{q\in p} \delta(q,a)\\
+                \delta_\calP(p,a) &= \bigcup_{q\in p} \{\delta(q,a)\}\\
                 \qinit_\calP &= \{\qinit\}\\
-                F_\calP &= \{ p\in Q_\calP \mid p\cap F\neq \varnothing \}\qedhere
+                F_\calP &= \{ p\in Q_\calP \mid p\cap F\neq \varnothing \}
+                \qedhere
         \end{align*}
 \end{Def}
 \begin{Bsp}
-Der Potzenzmengenautomat für den \acs*{NEA} aus \autoref{bsp:2.zweitletztes} hat das folgende Zutandsdiagramm.
+Der Potenzmengenautomat für den \acs*{NEA} aus \autoref{bsp:2.zweitletztes} hat das folgende Zustandsdiagramm.
   \begin{center}
                 \begin{tikzpicture}[circle/.style={
                         shape=circle,
@@ -1348,7 +1351,7 @@ Der Potzenzmengenautomat für den \acs*{NEA} aus \autoref{bsp:2.zweitletztes} ha
                         \draw [->] (v3) edge [bend left=0] node[right] {0} (v2);
                         \draw [->] (v3) edge [loop right] node[auto] {1} (v3);
                         \draw [->] (v4) edge [] node[auto] {0,1} (v6);
-                        \draw [->] (v5) edge [] node[auto] {0,1} (v6);
+                        \draw [->] (v5) edge [] node[auto,above] {0,1} (v6);
                         \draw [->] (v6) edge [] node[auto] {0,1} (v7);
                         \draw [->] (v7) edge [loop right] node[auto] {0,1} (v7);
                 \end{tikzpicture}
@@ -1360,27 +1363,28 @@ Die vier Zustände auf der rechten Seite sind nicht erreichbar.
 % \draftnote{4.11.16}
 \begin{proof}[von \autoref{satz:2.rabinscott}]
         Zeige $L(\A_\calP)=L(\calN)$. 
-        Dafür beweisen wir zunächst via Induktion über die Länge von $w$, die folgende Eigenschaft:
+        Dafür beweisen wir zunächst via Induktion über die Länge von $w$ die folgende Eigenschaft:
         
         $\forall w\in\Sigma^*\; \forall p\in Q_\calP\backslash\{\{\}\}\; \forall q\in Q:$
-        $$q\in\tilde\delta_\calP(p,w) \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in p \text{ und } q_n=q$$
-        I.A. $(n=0,$ also $w=\Eps)$: Gilt trivialerweise da $p\neq\{\}$\\
-        I.S. ($n\rightsquigarrow n+1$): Seit $w=aw'$ beliebiges Wort der Länge $n+1$.
+        $$q\in\tilde\delta_\calP(p,w) \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in p \text{ und } q_n=q$$
+        I.A. $(n=0,$ also $w=\Eps)$: Gilt trivialerweise, da $p\neq\{\}$.\\
+        I.S. ($n\rightsquigarrow n+1$): Sei $w=aw'$ ein beliebiges Wort der Länge $n+1$.
         \begin{eqnarray*}
                 q\in\tilde\delta_\calP(p,w) 
                 \hspace*{-2.5mm}& \Leftrightarrow & q\in\tilde\delta_\calP(\delta_\calP(p,a),w')\\
-                & \stackrel{IV}{\Leftrightarrow} & \exists\underbrace{q_1q_2\ldots q_{n+1}}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, q_1\in \delta_\calP(p,a) \text{ und } q_{n+1}=q\\
-                & \Leftrightarrow & \exists\underbrace{q_1q_2\ldots q_{n+1}}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, \exists q_0\in p, q_1\in\delta(q_0,a) \text{ und } q_{n+1}=q\\
-                & \Leftrightarrow & \exists\underbrace{q_0q_1q_2\ldots q_{n+1}}_{\text{Lauf}}\in Q,\text{ sodass }  n+1=|w|, q_0\in p \text{ und } q_{n+1}=q
+                & \stackrel{\text{I.V.}}{\Leftrightarrow} & \exists\underbrace{q_1,q_2,\ldots, q_{n+1}}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, q_1\in \delta_\calP(p,a) \text{ und } q_{n+1}=q\\
+                & \Leftrightarrow & \exists\underbrace{q_1,q_2,\ldots, q_{n+1}}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, \exists q_0\in p, q_1\in\delta(q_0,a) \text{ und } q_{n+1}=q\\
+                & \Leftrightarrow & \exists\underbrace{q_0q_1,q_2,\ldots, q_{n+1}}_{\text{Lauf}}\in Q,\text{ sodass }  n+1=|w|, q_0\in p \text{ und } q_{n+1}=q
         \end{eqnarray*}
-        Mit Hilfe dieser Eigenschaft zeigen wir nun die Gleichheit $L(\A_\calP)=L(\calN)$
+        Mit Hilfe dieser Eigenschaft zeigen wir nun die Gleichheit $L(\A_\calP)=L(\calN)$.
         \begin{align*}
          w\in L(\A_\calP) 
          &\<=> \tilde\delta_\calP(\qinit_\calP,w)\in F_\calP\\
          &\<=> \exists q_f\in \tilde\delta_\calP(\qinit_\calP,w)\cap F\\
-         &\<=> \exists \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in \qinit \text{ und } q_n\in F\\
+         &\<=> \exists \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in \qinit \text{ und } q_n\in F\\
          &\<=> \exists \text{ initialer, akzeptierender Lauf von $\calN$ über $w$} \\
          &\<=> w\in L(\calN)
+         \qedhere
         \end{align*}
 \end{proof}
 
@@ -1392,9 +1396,9 @@ L \text{ regulär}
 \]
 Bemerkung: \ac{NEA}s sind eine exponentiell kompaktere Repräsentation von regulären Sprachen im folgenden Sinne:
 \begin{enumerate}
- \item Es gibt mit $L_n$ ($n$-letztes Zeichen) eine Menge von Sprachen die sich mit Hilfe eines $n+1$ Zustands \ac{NEA} darstellen lassen, aber bei denen ein minimaler \ac{DEA} mindestens $2^n$ Zustände hat. (Siehe Übungsblatt 3, Aufgabe 2)
- \item Zu jedem \ac{NEA} mit $n$ Zuständen gibt es einen \ac{DEA} mit $2^n$ Zuständen der die gleiche Sprache akzeptiert. (\autoref{satz:2.rabinscott})
- \item Zu jedem \ac{DEA} mit $n$ Zuständen gibt es einen \ac{NEA} mit $n$ Zuständen der die gleiche Sprache akzeptiert.
+ \item Es gibt mit $L_n$ ($n$-letztes Zeichen) eine Menge von Sprachen, die sich durch einen \ac{NEA} mit $n+1$ Zuständen darstellen lassen, aber bei denen ein minimaler \ac{DEA} mindestens $2^n$ Zustände hat. (Siehe Übungsblatt 3, Aufgabe 2).
+ \item Zu jedem \ac{NEA} mit $n$ Zuständen gibt es einen \ac{DEA} mit $2^n$ Zuständen, der die gleiche Sprache akzeptiert. (\autoref{satz:2.rabinscott}).
+ \item Zu jedem \ac{DEA} mit $n$ Zuständen gibt es einen \ac{NEA} mit $n$ Zuständen, der die gleiche Sprache akzeptiert.
 \end{enumerate}
 
 \subsubsection{$\Eps$-Übergänge}\label{sec:2.EpsNea}
@@ -1579,7 +1583,7 @@ $$
 Offensichtlich gibt es zu jedem \ac{NEA} $\calN$ einen $\Eps$-NEA $\B$ der die gleiche Sprache akzeptiert.
 Die Konstuktion ist dabei sehr einfach: Erweitere die Transitionsfunkion um $\delta(q,\Eps)=\{\}$ für alle $q\in Q$.
 Für die Sprachgleichheit zeigen wir via Induktion über die Länge von $w$, dass für alle Wörter und für alle Zustände
-$$\exists \text{ Lauf } q_0q_1\ldots q_n \text{ von $\calN$ über } w \quad\Leftrightarrow\quad (q_0,w,q_n)\in\reach_\B$$
+$$\exists \text{ Lauf } q_0,q_1,\ldots, q_n \text{ von $\calN$ über } w \quad\Leftrightarrow\quad (q_0,w,q_n)\in\reach_\B$$
 Der folgende Satz zeigt uns dass auch die umgekehrte Richtung gilt.
 
 \begin{Satz}\label{satz:2.EpsElim}
@@ -1631,21 +1635,21 @@ Der $\Eps$-freie Automat für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} hat das
         Zeige $L(\calN)=L(\B)$. Dabei verwenden wir die folgende Eigenschaft, die wir via Induktion über die Länge von $w$ in den Übungen zeigen werden.
         
         $\forall w\in\Sigma^*\; \forall q, q'\in Q:$
-        $$(q,w,q')\in\reach_\B \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=q \text{ und } q_n=q'$$
+        $$(q,w,q')\in\reach_\B \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=q \text{ und } q_n=q'$$
 %         I.A. $(n=0,$ also $w=\Eps)$: Gilt trivialerweise da $(q,\Eps,q)\in\reach$ für alle $q$\\
 %         I.S. ($n\rightsquigarrow n+1$): Seit $w=aw'$ beliebiges Wort der Länge $n+1$.
 %         \begin{eqnarray*}
 %                 (q,w,q')\in\reach\\
 %                 & \Leftrightarrow & (q,w,q')\in\reach\\
-%                 & \stackrel{IV}{\Leftrightarrow} & \exists\underbrace{q_1q_2\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, q_1\in \delta_\calP(p,a) \text{ und } q_n=q\\
-%                 & \Leftrightarrow & \exists\underbrace{q_1q_2\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, \exists q_0\in p, \delta(q_0,a)=q_1 \text{ und } q_n=q\\
-%                 & \Leftrightarrow & \exists\underbrace{q_0q_1q_2\ldots q_n}_{\text{Lauf}}\in Q,\text{ sodass }  n+1=|w|, q_0\in p \text{ und } q_n=q
+%                 & \stackrel{\text{I.V.}}{\Leftrightarrow} & \exists\underbrace{q_1,q_2,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, q_1\in \delta_\calP(p,a) \text{ und } q_n=q\\
+%                 & \Leftrightarrow & \exists\underbrace{q_1,q_2,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, \exists q_0\in p, \delta(q_0,a)=q_1 \text{ und } q_n=q\\
+%                 & \Leftrightarrow & \exists\underbrace{q_0q_1,q_2,\ldots, q_n}_{\text{Lauf}}\in Q,\text{ sodass }  n+1=|w|, q_0\in p \text{ und } q_n=q
 %         \end{eqnarray*}
 
         \begin{align*}
          w\in L(\B) 
          &\stackrel{\autoref{def:2.sprache}}{\<=>} \exists q_f\in F: (\qinit, w, q_f)\in\reach_\B\\
-         &\<=> \exists q_f\in F: \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=\qinit \text{ und } q_n=q_f\\
+         &\<=> \exists q_f\in F: \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=\qinit \text{ und } q_n=q_f\\
          &\stackrel{\autoref{def:2.EpsNeaSprache}}{\<=>} L(\calN)\\
         \end{align*}
 \end{proof}
