@@ -76,7 +76,7 @@ By Mariajudit - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.ph
   \\
 By Michelle Naherny - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=44361114
   \\
-By Keven Law - originally posted to Flickr as What's your Colour???, CC BY-SA 2.0, https://commons.wikimedia.org/w/index.php?curid=6851868
+By Keven Law - originally posted to Flickr as What's your Colour???, CC BY-SA 2.0, \\ https://commons.wikimedia.org/w/index.php?curid=6851868
 }
 % Bunch - By Mariajudit - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=48726001
 % Almond - By Michelle Naherny - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=44361114
@@ -516,12 +516,14 @@ Die Zustände $q_{00}$ und $q_{10}$ sind äquivalent.
 Keine weiteren Zustandspaare sind äquivalent.
 
 Geschrieben als Menge von Paaren sieht die Relation $\equiv\;\subseteq Q\times Q$ also wie folgt aus:
-$$\{ \,
+\[
+\{ \,
 (q_{00}, q_{10}), (q_{10}, q_{00}), \,
 (q_{11}, q_{20}), (q_{20}, q_{11}), \,
 (q_{20}, q_{21}), (q_{21}, q_{20}), \,
 (q_{21}, q_{11}), (q_{11}, q_{21}) \,
-\}\qedhere$$
+\}\qedhere
+\]
 \end{Bsp}
 
 
@@ -633,8 +635,10 @@ Sind zwei Zustände äquivalent, so sind auch für jedes Zeichen ihre Nachfolger
 \begin{lemma}
 \label{eqn:delta-wohldefiniert}
 Für alle $p,q\in Q$ gilt:
-        $$p \equiv q \quad\=>\quad \forall a\in\Sigma: \delta(p,a)\equiv\delta(q,a)
-        \qedhere$$
+        \[
+        p \equiv q \quad\=>\quad \forall a\in\Sigma: \delta(p,a)\equiv\delta(q,a)
+        \qedhere
+        \]
 \end{lemma}
 \begin{proof}
 \begin{eqnarray*}
@@ -644,7 +648,7 @@ Für alle $p,q\in Q$ gilt:
         \tilde\delta(p,aw)\in F \<=> \tilde\delta(q,aw)\in F\\
         &\text{impliziert} &  \forall a\in\Sigma: \forall w\in\Sigma^*: \tilde\delta(\delta(p,a),w)\in F \<=> \tilde\delta(\delta(q,a),w)\in F\\
         & \text{gdw} & \forall a\in\Sigma: \delta(p,a)\equiv\delta(q,a)
-        \\[-3\baselineskip]% qed fix
+        \qedherefix
 \end{eqnarray*}
 \end{proof}
 Wir formalisieren das "`Verschmelzen"' von Zuständen wie folgt.
@@ -709,14 +713,17 @@ Der Äquivalenzklassenautomat $\A_\equiv$ zum \ac{DEA} aus \autoref{bsp:2.schnit
                 \end{align*}
         \end{enumerate}
 \end{proof}
-In den Übungen werden wir ein Verfahren mit $O(|Q|^4\cdot |\Sigma|\log|Q|)$ Laufzeit zur Konstruktion des Äquivalenzklassenautomaten kennenlernen. Es gibt aber auch schnellere Verfahren. Mit dem Algorithmus von Hopcroft kann $\A_\equiv$ in $O(|Q||\Sigma|\log|Q|)$ erzeugt werden.
+In den Übungen werden wir ein Verfahren mit Laufzeit $O(|Q|^4\cdot |\Sigma|\log|Q|)$ zur Konstruktion des Äquivalenzklassenautomaten kennenlernen. Es gibt aber auch schnellere Verfahren. Mit dem Algorithmus von Hopcroft kann $\A_\equiv$ in $O(|Q||\Sigma|\log|Q|)$ erzeugt werden.
 
 Wir werden später (\-> Satz von Myhill-Nerode) sehen, dass $\A_\equiv$ der kleinste \acs*{DEA} ist, der $L(\A)$ akzeptiert.
 
 \begin{Def}[name={[Rechtskongruente Äquivalenzrelation]}]
         \datenote{27.10.17}
         Eine Äquivalenzrelation $R\subseteq\Sigma^*\x\Sigma^*$ heißt \emph{rechtskongruent}, falls
-        \[ (u,v)\in R \quad\=>\quad \forall w\in\Sigma^*: (u\cdot w,v\cdot w) \in R \]
+        \[
+        (u,v)\in R \quad\=>\quad \forall w\in\Sigma^*: (u\cdot w,v\cdot w) \in R.
+        \qedhere
+        \]
 \end{Def}
 %\setcounter{Bsp}{5}
 \begin{Bsp} %\rlnote{Bsp.-Num. überprüfen (3.6)}
@@ -724,14 +731,14 @@ Wir werden später (\-> Satz von Myhill-Nerode) sehen, dass $\A_\equiv$ der klei
         Für einen \ac{DEA} $\A$ definiere
         \[ R_\A = \{(u,v) \mid \tilde\delta(\qinit,u)=\tilde\delta(\qinit,v)\}. \]
         \begin{description}
-                \item[Beobachtung 1] $R_\A$ ist Äquivalenzrelation.
+                \item[Beobachtung 1] $R_\A$ ist eine Äquivalenzrelation.
                 
-                Folgt daraus dass "`="' eine Äquivalenzrelation ist.
+                Dies folgt daraus, dass "`="' eine Äquivalenzrelation ist.
                 \item[Beobachtung 2] $R_\A$ ist rechtskongruent. 
                 
-                Beweis: In den Übungen
-                \item[Beobachtung 3] Wir haben pro Zustand der von $\qinit$ erreichbar ist genau eine Äquivalenzklasse.
-                Index von $R_\A$ ist also die Anzahl der erreichbaren Zustände.
+                Dies wird in den Übungen bewiesen.
+                \item[Beobachtung 3] Wir haben pro Zustand, der von $\qinit$ erreichbar ist, genau eine Äquivalenzklasse.
+                Der Index von $R_\A$ ist also die Anzahl der erreichbaren Zustände.
         \end{description}
         
         \medskip
@@ -740,19 +747,23 @@ Wir werden später (\-> Satz von Myhill-Nerode) sehen, dass $\A_\equiv$ der klei
         \begin{align*}
         [\Eps] &= \{0^n\mid n\in \N\}\\
         [1] &= \{0^n10^m\mid n,m\in \N\}\\
-        [11] &= \{w\mid \text{ Anzahl von Einsen in $w$ ist gerade und $\geq 2$}\}\\
-        [111] &= \{w\mid \text{ Anzahl von Einsen in $w$ ist ungerade und $\geq 2$}\}\\
+        [11] &= \{w\mid \text{Anzahl von Einsen in $w$ ist gerade und $\geq 2$}\}\\
+        [111] &= \{w\mid \text{Anzahl von Einsen in $w$ ist ungerade und $\geq 2$}\}
+        \qedhere
         \end{align*}
 \end{Bsp}
 \begin{Def}
-        Für eine Sprache $L\subseteq \Sigma^*$ ist die \emph{Nerode Relation} wie folgt definiert.
-        \[ R_L = \{(u,v) \mid \forall w\in\Sigma^*: uw\in L \<=> vw\in L \} \]
+        Für eine Sprache $L\subseteq \Sigma^*$ ist die \emph{Nerode-Relation} wie folgt definiert.
+        \[
+        R_L = \{(u,v) \mid \forall w\in\Sigma^*: uw\in L \<=> vw\in L \}
+        \qedhere
+        \]
 \end{Def}
 \begin{description}
- \item[Beobachtung 1] Die Nerode Relation ist eine Äquivalenzrelation.
+ \item[Beobachtung 1] Die Nerode-Relation ist eine Äquivalenzrelation.
  
- Folgt daraus dass "`$\Leftrightarrow$"' (Biimplikation, "`Genau dann wenn"`) eine Äquivalenzrelation ist.
- \item[Beobachtung 2] Die Nerode Relation ist rechtskongruent.
+ Dies folgt daraus, dass "`$\Leftrightarrow$"' (Biimplikation, "`genau dann, wenn"') eine Äquivalenzrelation ist.
+ \item[Beobachtung 2] Die Nerode-Relation ist rechtskongruent.
                 \begin{proof}
                 Sei $(u,v)\in R_L$. Zeige $\forall w\in\Sigma^*: (uw,vw)\in R_L$.
                 Wir führen diesen Beweis via Induktion über die Länge von $w$.\\
@@ -762,44 +773,45 @@ Wir werden später (\-> Satz von Myhill-Nerode) sehen, dass $\A_\equiv$ der klei
                 Nach Induktionsvoraussetzung ist dann auch $(uw', vw') \in R_L $.
                 \begin{eqnarray*}
 		(uw',vw')\in R_L 
-		& \stackrel{\text{def } R_L}{\text{gdw}} & \forall z\in\Sigma^*: uw'z\in L \<=> vw'z\in L\\
+		& \stackrel{\text{Def.\ } R_L}{\text{gdw}} & \forall z\in\Sigma^*: uw'z\in L \<=> vw'z\in L\\
 		& \stackrel{\text{zerlege } z=az'}{\text{impliziert}} & \forall a\in \Sigma, z'\in\Sigma^*: uw'az'\in L \<=> vw'az'\in L\\
-		& \stackrel{\text{def } R_L}{\text{gdw}} & (uw'a,vw'a)\in R_L
+		& \stackrel{\text{Def.\ } R_L}{\text{impliziert}} & (uw'a,vw'a)\in R_L
+		\qedherefix
 	      \end{eqnarray*}
               \end{proof}
 \end{description}
 
 \begin{Bsp}
-Sei $\Sigma=\{0,1\}$. Die Sprache $L=\{w\in\Sigma^*\mid \text{vorleztes Zeichen ist } 1\}$ hat die folgenden Äquivalenzklassen bezüglich der Nerode Relation.
+Sei $\Sigma=\{0,1\}$. Die Sprache $L=\{w\in\Sigma^*\mid \text{vorletztes Zeichen von $w$ ist } 1\}$ hat die folgenden Äquivalenzklassen bezüglich der Nerode-Relation.
         \begin{align*}
         [\Eps] &= \{w\mid w \text{ endet mit } 00 \} \cup \{\varepsilon, 0\}\\
         [1] &= \{w\mid w \text{ endet mit } 01 \} \cup \{1\}\\
         [10] &= \{w\mid w \text{ endet mit } 10 \}\\
         [11] &= \{w\mid w \text{ endet mit } 11 \}
+        \qedhere
         \end{align*}
 \end{Bsp}
 
 \begin{Bsp}
       Für ein beliebiges Alphabet $\Sigma$ gilt:
       \begin{enumerate}
-       \item Die Sprache $L=\{\Eps\}$ hat genau zwei Äquivalenzklassen bezüglich der Nerode Relation.
-      Eine Äquivalenzklasse ist $\{\Eps\}$ die andere ist $\Sigma^+$.
-       \item Die Sprache $L=\{\}$ hat genau eine Äquivalenzklassen (nämlich $\Sigma^*$) bezüglich der Nerode Relation.
+       \item Die Sprache $L=\{\Eps\}$ hat genau zwei Äquivalenzklassen bezüglich der Nerode-Relation.
+      Eine Äquivalenzklasse ist $\{\Eps\}$, die andere ist $\Sigma^+$.
+       \item Die Sprache $L=\{\}$ hat genau eine Äquivalenzklasse (nämlich $\Sigma^*$) bezüglich der Nerode-Relation.
+       \qedhere
       \end{enumerate}
 \end{Bsp}
 
 \begin{Bsp}
-Sei $\Sigma=\{0,1\}$. Die Sprache $L_\text{centered}=\{0^n10^n \mid n\in\N\}$ hat bezüglich der Nerode Relation die folgende Menge von Äquivalenzklassen:
-$$\{ [w'] \mid w' \text{ ist Prefix eines Worts } w\in L_\text{centered}\} \cup \{ [11] \}$$
+Sei $\Sigma=\{0,1\}$. Die Sprache $L_\text{centered}=\{0^n10^n \mid n\in\N\}$ hat bezüglich der Nerode-Relation die folgende Menge von Äquivalenzklassen:
+$$\{ [w'] \mid w' \text{ ist Präfix eines Worts } w\in L_\text{centered}\} \cup \{ [11] \}$$
 Dabei gilt, dass für je zwei verschiedene $k\in\N$
 auch die Äquivalenzklassen $[0^k1]$ verschieden sind. Somit gibt es unendlich viele Äquivalenzklassen.
 
-Bemerkung: Die Äquivalenzklasse $[11]$ enthält alle Wörter die kein Präfix eines Worts aus $L_\text{centered}$ sind.
- 
+Bemerkung: Die Äquivalenzklasse $[11]$ enthält alle Wörter, die kein Präfix eines Worts aus $L_\text{centered}$ sind.
 \end{Bsp}
 
-
-% Beispiel: Drei Sprachen $L_a, L_b$ und $L_c$ mit unterschiedlichem Index  (Anzahl an Äquivalenzklassen) bzgl. der Nerode Relation:
+% Beispiel: Drei Sprachen $L_a, L_b$ und $L_c$ mit unterschiedlichem Index  (Anzahl an Äquivalenzklassen) bzgl. der Nerode-Relation:
 % \begin{alignat*}{2}
 %         &\begin{rcases}
 %         L_a=\{\Eps\} & [\Eps]\equiv[\Eps]\\
@@ -807,15 +819,16 @@ Bemerkung: Die Äquivalenzklasse $[11]$ enthält alle Wörter die kein Präfix e
 %         \end{rcases} &\ &\text{Index}= 2\\
 %         &L_b = \varnothing, L_c= \Sigma^* &&\text{Index}= 1
 % \end{alignat*}
-% Die Menge der Äquivalenzklassen der Nerode Relation $R_{L_a}$ auf $L_a$ ist
+% Die Menge der Äquivalenzklassen der Nerode-Relation $R_{L_a}$ auf $L_a$ ist
 % \[ L_a / R_{L_a} = \{ [\Eps], [w] \} \]
 
 \begin{Satz}[Myhill und Nerode] % 3.4
-        Die folgende Aussagen sind äquivalent:
+        Die folgenden Aussagen sind äquivalent:
         \begin{enumerate}
-                \item\label{itm:Nerode1} $L\subseteq \Sigma^*$ wird von \ac{DEA} akzeptiert.
-                \item\label{itm:Nerode2} $L$ ist Vereinigung von Äquivalenzklassen einer rechtskongruenten Äquivalenzrelation mit \emph{endlichem} Index.
-                \item\label{itm:Nerode3} Die Nerode Relation $R_L$ hat \emph{endlichen} Index
+                \item\label{itm:Nerode1} $L\subseteq \Sigma^*$ wird von einem \ac{DEA} akzeptiert.
+                \item\label{itm:Nerode2} $L$ ist Vereinigung die von Äquivalenzklassen einer rechtskongruenten Äquivalenzrelation mit \emph{endlichem} Index.
+                \item\label{itm:Nerode3} Die Nerode-Relation $R_L$ hat \emph{endlichen} Index.
+                \qedhere
         \end{enumerate}
 \end{Satz}
 
@@ -827,19 +840,20 @@ Bemerkung: Die Äquivalenzklasse $[11]$ enthält alle Wörter die kein Präfix e
     (1) \=> (2), \quad \mbox{(2) \=> (3)}\quad \text{und} \quad (3) \=> (1)
   \end{center}
 
-        \paragraph{(1) \=> (2)}: Sei $\A$ ein \ac{DEA} mit
+        \paragraph{(1) \=> (2)} Sei $\A$ ein \ac{DEA} mit
   \begin{displaymath}
-    L(\A)=\{w \mid \tilde\delta(\qinit,w)\in F \} = \bigcup_{q \in F} \{ w \mid \tilde\delta(\qinit,w) = q\}
+    L(\A)=\{w \mid \tilde\delta(\qinit,w)\in F \} = \bigcup_{q \in F} \{ w \mid \tilde\delta(\qinit,w) = q\}.
 \end{displaymath}
-
+%
 Nun sind $\{ w \mid \tilde\delta(\qinit,w)=q \} = [q]_\A$ genau die Äquivalenzklassen der Relation $R_\A$ aus \autoref{Bsp:R_m}, einer rechtskongruenten Äquivalenzrelation.
 Der Index ist die Anzahl der erreichbaren Zustände und somit endlich: $\operatorname{\operatorname{Index}}(R_\A) \le |Q| < \infty$.
         
-\paragraph{(2) \=> (3)} Sei $R$ rechtskongruente Äquivalenzrelation mit endlichem Index, so dass $L$ Vereinigung von $R$-Äquivalenzklassen
+\paragraph{(2) \=> (3)} Sei $R$ einer rechtskongruente Äquivalenzrelation mit endlichem Index, so dass $L$ die Vereinigung von $R$-Äquivalenzklassen ist.
         
-Es genügt zu zeigen, dass die Nerode Relation $R_L$ eine Obermenge von $R$ ist.\footnote{
-Zur Erklärung: Falls $R \subseteq R_L$, dann $\operatorname{Index}(R) \ge \operatorname{Index}(R_L)$.
-Intuitiv: Je mehr Elemente eine Äquivalenzrelation $R$ enthält, desto mehr Elemente sind bzgl. dieser Relation äquivalent, d.h. desto weniger unterschiedliche Klassen gibt es.
+Es genügt zu zeigen, dass die Nerode-Relation $R_L$ eine Obermenge von $R$ ist.%
+\footnote{
+Zur Erklärung: Falls $R \subseteq R_L$, dann gilt $\operatorname{Index}(R) \ge \operatorname{Index}(R_L)$.
+Intuitiv: Je mehr Elemente eine Äquivalenzrelation $R$ enthält, desto mehr Elemente sind bzgl.\ dieser Relation äquivalent, d.h.\ desto weniger unterschiedliche Äquivalenzklassen gibt es.
 }
 \begin{comment}
 % Ausformulierter Beweis
@@ -849,17 +863,17 @@ Das aber ist die Definition der Nerode-Relation, d.h. $(u, v) \in R_L$. Da wir $
 \[\text{\#Klassen($R_L$) $\leq$ \#Klassen($R$)}<\infty\]
 \end{comment}
 \begin{align*}
-(u, v) \in R & \quad\Rightarrow\quad u \in L \Leftrightarrow v \in L \text{, \ \ \  da L Vereinigung von Äquivalenzklassen ist} \\
-& \quad\Rightarrow\quad \forall w \in \Sigma^*: uw \in L \Leftrightarrow vw \in L \text{, \ \ \ da $R$ rechtskongruent } \\
-& \quad\Rightarrow\quad (u, v) \in R_L \text{, \ \ \  nach Definition der Nerode Relation}
+(u, v) \in R & \quad\Rightarrow\quad u \in L \Leftrightarrow v \in L \text{, \quad da $L$ Vereinigung von Äquivalenzklassen ist} \\
+& \quad\Rightarrow\quad \forall w \in \Sigma^*: uw \in L \Leftrightarrow vw \in L \text{, \quad da $R$ rechtskongruent } \\
+& \quad\Rightarrow\quad (u, v) \in R_L \text{, \quad nach Definition der Nerode-Relation}
 \end{align*}
 Es gilt also $R \subseteq R_L$ und somit $\operatorname{Index}(R_L) \leq \operatorname{Index}(R)<\infty$.
 
 
 \paragraph{(3) \=> (1)} Gegeben $R_L$, konstruiere $\A=(Q,\Sigma,\delta,\qinit,F)$
     \begin{itemize}
-    \item $Q = \{ [w]_{R_L} \mid w\in \Sigma^* \}$ \quad endlich, weil \textit{index}($R_L$) endlich
-    \item $\delta([w],a) = [wa]$ wohldefiniert, da $R_L$ rechtskongruent
+    \item $Q = \{ [w]_{R_L} \mid w\in \Sigma^* \}$ \quad endlich, da $\operatorname{Index}$($R_L$) endlich
+    \item $\delta([w],a) = [wa]$ \quad wohldefiniert, da $R_L$ rechtskongruent
     \item $\qinit = [\Eps]$
     \item $F = \{ [w] \mid w\in L \}$
     \end{itemize}
@@ -870,12 +884,12 @@ Es gilt also $R \subseteq R_L$ und somit $\operatorname{Index}(R_L) \leq \operat
     \end{displaymath}
     \begin{description}
     \item[IA] $(w = \Eps)$: $\tilde\delta([v],\Eps) = [v]=[v\cdot\Eps]$
-    \item [IS] Sei $w = aw'$ beliebiges Wort der Länge $n+1$.
+    \item[IS] Sei $w = aw'$ beliebiges Wort der Länge $n+1$.
       \begin{displaymath}
         \begin{array}{lcl}
         \tilde\delta([v],aw') &=& \tilde\delta(\delta([v],a),w') \\
                              &=& \tilde\delta([v\cdot a],w') \\
-                             &\stackrel{\text{I.V.}}{=}&[va\cdot w'] \\
+                             &\stackrel{\text{I.V.}}{=}&[v\cdot a\cdot w'] \\
                              &=& [v\cdot \underbrace{aw'}_{=w}]
         \end{array}
       \end{displaymath}
@@ -887,23 +901,24 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
         & \text{gdw} & \tilde\delta([\Eps],w)\in F\\
         & \text{gdw} & [w]\in F, \quad \text{(via Induktion gezeigte Eigenschaft für $v=\Eps$)}\\
         & \text{gdw} & w\in L
+        \qedherefix
 \end{eqnarray*}
 \end{proof}
 %
 \setcounter{Korollar}{4}
 \begin{Korollar}\label{kor:2.minAutomat}\datenote{3.11.16}
-        Der im Beweisschritt (3) \=> (1) konstruierte Automat $\A$ ist minimaler Automat für eine reguläre Sprache $L$.
+        Der im Beweisschritt (3) \=> (1) konstruierte Automat $\A$ ist ein minimaler Automat (bzgl.\ der Zustandsanzahl) für eine reguläre Sprache $L$.
 \end{Korollar}
 \begin{proof}
-        Sei $\A'$ \emph{beliebiger} \ac{DEA} mit $L(\A')=L$.
+        Sei $\A'$ ein \emph{beliebiger} \ac{DEA} mit $L(\A')=L$.
         
-        Aus "`\ref{itm:Nerode1} {\=>} \ref{itm:Nerode2}"' wissen wir, dass $\operatorname{index}(R_{\A'})\leq |Q'|$ gilt.
+        Aus "`\ref{itm:Nerode1} {\=>} \ref{itm:Nerode2}"' wissen wir, dass $\operatorname{Index}(R_{\A'})\leq |Q'|$ gilt.
         
-        Aus "`\ref{itm:Nerode2} \=> \ref{itm:Nerode3}"' wissen wir, dass $R_{\A'}\subseteq R_L$ und somit $\operatorname{index}(R_L) \leq \operatorname{index}(R_{\A'})$ gilt.
+        Aus "`\ref{itm:Nerode2} \=> \ref{itm:Nerode3}"' wissen wir, dass $R_{\A'}\subseteq R_L$ und somit $\operatorname{Index}(R_L) \leq \operatorname{Index}(R_{\A'})$ gilt.
         
-        In "`\ref{itm:Nerode3} \=> \ref{itm:Nerode1}"' definieren wir $A$ sodass $|Q|=\text{index}(R_L) \leq \text{index}(R_\A)\leq |Q'|$.
+        In "`\ref{itm:Nerode3} \=> \ref{itm:Nerode1}"' definieren wir $A$, sodass $|Q|=\operatorname{Index}(R_L) \leq \operatorname{Index}(R_\A)\leq |Q'|$ gilt.
         
-        Für beliebigen \acs*{DEA} $A'$ ist $|Q|$ also nie größer als $|Q'|$.
+        Für einen beliebigen \acs*{DEA} $A'$ ist $|Q|$ also nie größer als $|Q'|$.
 \end{proof}
 
 
@@ -1070,7 +1085,7 @@ Naiver Lösungsversuch:
 	\end{figure}
 Problem: Diagramm beschreibt keinen \acs*{DEA}. Startzustand hat zwei ausgehende Kanten für $1$.
 
-Untersuche Sprache mit Hilfe von Nerode Relation.
+Untersuche Sprache mit Hilfe von Nerode-Relation.
 Beobachtung: Je zwei Wörter der Länge $n$ sind in unterschiedlichen Äquivalenzklassen.
 Es gibt also mindestens $2^n$ Äquivalenzklassen und aus \autoref{kor:2.minAutomat} wissen wir dass ein minimaler \acs*{DEA}, der $L_n$ akzeptiert $2^n$ Zustände hat.
 
@@ -1352,7 +1367,7 @@ Die vier Zustände auf der rechten Seite sind nicht erreichbar.
         I.S. ($n\rightsquigarrow n+1$): Seit $w=aw'$ beliebiges Wort der Länge $n+1$.
         \begin{eqnarray*}
                 q\in\tilde\delta_\calP(p,w) 
-                & \Leftrightarrow & q\in\tilde\delta_\calP(\delta_\calP(p,a),w')\\
+                \hspace*{-2.5mm}& \Leftrightarrow & q\in\tilde\delta_\calP(\delta_\calP(p,a),w')\\
                 & \stackrel{IV}{\Leftrightarrow} & \exists\underbrace{q_1q_2\ldots q_{n+1}}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, q_1\in \delta_\calP(p,a) \text{ und } q_{n+1}=q\\
                 & \Leftrightarrow & \exists\underbrace{q_1q_2\ldots q_{n+1}}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, \exists q_0\in p, q_1\in\delta(q_0,a) \text{ und } q_{n+1}=q\\
                 & \Leftrightarrow & \exists\underbrace{q_0q_1q_2\ldots q_{n+1}}_{\text{Lauf}}\in Q,\text{ sodass }  n+1=|w|, q_0\in p \text{ und } q_{n+1}=q
@@ -1369,10 +1384,11 @@ Die vier Zustände auf der rechten Seite sind nicht erreichbar.
 \end{proof}
 
 Bemerkung: Es gelten also die folgenden Äquivalenzen.
-$$ L \text{ regulär} 
-\quad \stackrel{\autoref{def:2.sprache}}{\Longleftrightarrow} \quad L = L(\A) \text{ für einen \ac{DEA} }\A
-\quad \Longleftrightarrow \quad L = L(\calN) \text{ für einen \ac{NEA} }\calN
-$$
+\[
+L \text{ regulär} 
+\ \ \stackrel{\text{\autoref{def:2.sprache}}}{\Longleftrightarrow} \ \ L = L(\A) \text{ für einen \ac{DEA} }\A
+\ \ \Longleftrightarrow \ \ L = L(\calN) \text{ für einen \ac{NEA} }\calN
+\]
 Bemerkung: \ac{NEA}s sind eine exponentiell kompaktere Repräsentation von regulären Sprachen im folgenden Sinne:
 \begin{enumerate}
  \item Es gibt mit $L_n$ ($n$-letztes Zeichen) eine Menge von Sprachen die sich mit Hilfe eines $n+1$ Zustands \ac{NEA} darstellen lassen, aber bei denen ein minimaler \ac{DEA} mindestens $2^n$ Zustände hat. (Siehe Übungsblatt 3, Aufgabe 2)
@@ -1466,7 +1482,7 @@ Unten: \acs*{NEA} $\calN_\mathsf{naiv}$, Resultat einer einer naiven und inkorre
                         \draw [->] (v2) edge [loop above] node[auto] {0} (v2);
                 \end{tikzpicture}
   \end{center}
-Dieser \acs*{NEA} akzeptiert nun auch das Wort $w=11011$. Allerdings ist $w$ nicht in der Konkatenation $L(\A_1)\cdot L(\A_2)$ denn es gibt keine Zerlegung $w=w_1\cdot w_2$ bei der sowohl der Prefix $w_1$ von $\A_1$ als auch der Suffix $w_2$ von $\A_2$ akzeptiert wird.
+Dieser \acs*{NEA} akzeptiert nun auch das Wort $w=11011$. Allerdings ist $w$ nicht in der Konkatenation $L(\A_1)\cdot L(\A_2)$ denn es gibt keine Zerlegung $w=w_1\cdot w_2$ bei der sowohl der Präfix $w_1$ von $\A_1$ als auch der Suffix $w_2$ von $\A_2$ akzeptiert wird.
 \end{Bsp}
 
 
