@@ -9,7 +9,7 @@ Ein weiteres Beispiel ist die folgende Zeile.
 L_\mathsf{even}=\{w\in\{0,1\}^*\mid \text{ die Anzahl der Einsen in $w$ ist gerade. }\}
 \]
 Eine häufig interessante Fragestellung für ein gegebenes Wort $w$ und eine Sprache $L$ ist: "`Ist $w$ in $L$ enthalten?"' (Also: "`Gilt $w\in L$?"')
-Wir nennen dieses Entscheidunsproblem das \emph{Wortproblem}. Eine konkrete Instanz des Wortproblems wäre z.B. "`$1100101\in L_\mathsf{prim}$?"' oder "`$1100101\in L_\mathsf{even}$?"'
+Wir nennen dieses Entscheidunsproblem das \emph{Wortproblem}. Eine konkrete Instanz des Wortproblems wäre z.B.\ "`$1100101\in L_\mathsf{prim}$?"' oder "`$1100101\in L_\mathsf{even}$?"'
 
 Die obige Darstellung der unendlichen Mengen $L_\mathsf{prim}$ und $L_\mathsf{even}$ ist zwar sehr kompakt, 
 wir können daraus aber nicht direkt ein Vorgehen zur Lösung des Wortproblems ableiten.
@@ -17,7 +17,7 @@ Wir müssen zunächst verstehen, was die Begriffe "`Binärcodierung"', "`Primzah
 
 In diesem Kapitel werden wir mit \emph{endlichen Automaten} einen weiteren Formalismus kennenlernen, um (potentiell unendlich große) Mengen von Wörtern darzustellen. 
 Ein Vorteil dieser Darstellung ist, dass es einen einheitlichen und effizienten Algorithmus für das Wortproblem gibt.
-Wir werden aber auch sehen, dass sich nicht jede Sprache (z.B. $L_\mathsf{prim}$) mit Hilfe eines endlichen Automaten darstellen lässt.
+Wir werden aber auch sehen, dass sich nicht jede Sprache (z.B.\ $L_\mathsf{prim}$) mit Hilfe eines endlichen Automaten darstellen lässt.
 
 \subsection{Endliche Automaten}
 Wir beschreiben zunächst informell die Bestandteile eines endlichen Automaten:
@@ -277,7 +277,7 @@ aus der Einleitung dieses Kapitels hat die folgende graphische Repräsentation.
 %         \begin{equation*}
 %                 L = \{ a_1\dots a_n \mid \exists J\subseteq \{1,\dots,n \}: \sum_{i\in J} a_i = A \} \subseteq \Sigma^* 
 %         \end{equation*}
-%         D.h. gegeben eine Liste von Zahlen $\in\Sigma$.
+%         D.h.\ gegeben eine Liste von Zahlen $\in\Sigma$.
 %         Akzeptiere diejenigen Listen, für die eine Teilliste existiert, deren Summe genau $A$ ist.
 %         \begin{align*}
 %                 Q &=\Powerset\{0,1,\dots,A\} \\
@@ -451,14 +451,14 @@ Beobachtung: Der Zustand $q_{01}$ im Beispiel~\ref{bsp:2.schnitt} scheint nutzlo
 % \begin{proof}~\\
 %   \vspace{-\baselineskip}
 %   \begin{itemize}
-%   \item Fasse $A$ als Graphen auf.
+%   \item Fasse $\A$ als Graphen auf.
 %   \item Wende Tiefensuche an, markiere dabei alle besuchten Zustände.
 %   \item Die markierten Zustände bilden die Menge der erreichbaren Zustände.
 %   \end{itemize}
 % \end{proof}
 Bemerkung: Die Menge der erreichbaren Zustände kann mit dem folgenden Verfahren in $O(|Q|*|\Sigma|)$ berechnet werden.
   \begin{itemize}
-  \item Fasse $A$ als Graph auf.
+  \item Fasse $\A$ als Graph auf.
   \item Wende Tiefensuche an und markiere dabei alle besuchten Zustände.
   \item Die markierten Zustände bilden die Menge der erreichbaren Zustände.
   \end{itemize}
@@ -530,7 +530,7 @@ Geschrieben als Menge von Paaren sieht die Relation $\equiv\;\subseteq Q\times Q
 \subsubsection{Exkurs: Äquivalenzrelationen}
 Sie haben Äquivalenzrelationen bereits in "`Mathematik II für Studierende der Informatik"'\footnote{\url{http://home.mathematik.uni-freiburg.de/junker/ss17/matheII.html}} kennengelernt.
 Dieser kurze Exkurs wiederholt die für unsere Vorlesung relevanten Definitionen.
-Sei $X$ eine beliebige Menge. Eine \emph{Relation} $R$ über $X$ ist eine Teilmenge des Produkts $X\times X$ (d.h. $R\subseteq X\times X$).
+Sei $X$ eine beliebige Menge. Eine \emph{Relation} $R$ über $X$ ist eine Teilmenge des Produkts $X\times X$ (d.h.\ $R\subseteq X\times X$).
 
 Eine Relation $R\subseteq X\times X$ heißt
 \begin{itemize}
@@ -859,7 +859,7 @@ Intuitiv: Je mehr Elemente eine Äquivalenzrelation $R$ enthält, desto mehr Ele
 % Ausformulierter Beweis
 Es folgt $u \in L \Leftrightarrow v \in L$, da $L$ aus Vereinigung von Äquivalenzklassen besteht. Da $R$ rechtskongruent ist, folgt für alle $w$:
 \[ uw \in L \Leftrightarrow vw \in L \]
-Das aber ist die Definition der Nerode-Relation, d.h. $(u, v) \in R_L$. Da wir $(u, v)$ beliebig gewählt haben, gilt somit: 
+Das aber ist die Definition der Nerode-Relation, d.h.\ $(u, v) \in R_L$. Da wir $(u, v)$ beliebig gewählt haben, gilt somit: 
 \[\text{\#Klassen($R_L$) $\leq$ \#Klassen($R$)}<\infty\]
 \end{comment}
 \begin{align*}
@@ -926,7 +926,7 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
 Welche interessanten Eigenschaften haben reguläre Sprachen?
 
 Notation: Sei $\operatorname{bin}:\{0,1\}^*\rightarrow \N$ die Decodierung von Bitstrings in natürliche Zahlen;
-z.B. $\operatorname{bin}(101) = 5$, $\operatorname{bin}(\Eps) = 0$.
+z.B.\ $\operatorname{bin}(101) = 5$, $\operatorname{bin}(\Eps) = 0$.
 
 \begin{Bsp*} Betrachte den folgenden \ac{DEA}, der die Sprache der Binärcodierung von durch drei teilbaren Zahlen akzeptiert:
                 $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$
@@ -1371,10 +1371,10 @@ Die vier Zustände auf der rechten Seite sind nicht erreichbar.
         I.S. ($n\rightsquigarrow n+1$): Sei $w=aw'$ ein beliebiges Wort der Länge $n+1$.
         \begin{eqnarray*}
                 q\in\tilde\delta_\calP(p,w) 
-                \hspace*{-2.5mm}& \Leftrightarrow & q\in\tilde\delta_\calP(\delta_\calP(p,a),w')\\
-                & \stackrel{\text{I.V.}}{\Leftrightarrow} & \exists\underbrace{q_1,q_2,\ldots, q_{n+1}}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, q_1\in \delta_\calP(p,a) \text{ und } q_{n+1}=q\\
-                & \Leftrightarrow & \exists\underbrace{q_1,q_2,\ldots, q_{n+1}}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, \exists q_0\in p, q_1\in\delta(q_0,a) \text{ und } q_{n+1}=q\\
-                & \Leftrightarrow & \exists\underbrace{q_0q_1,q_2,\ldots, q_{n+1}}_{\text{Lauf}}\in Q,\text{ sodass }  n+1=|w|, q_0\in p \text{ und } q_{n+1}=q
+                \hspace*{-2.5mm} & \Leftrightarrow & \hspace*{-2.5mm} q\in\tilde\delta_\calP(\delta_\calP(p,a),w')\\
+                & \stackrel{\text{I.V.}}{\Leftrightarrow} & \hspace*{-2.5mm} \exists\underbrace{q_1,q_2,\ldots, q_{n+1}}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, q_1\in \delta_\calP(p,a) \text{ und } q_{n+1}=q\\
+                & \Leftrightarrow & \hspace*{-2.5mm}\exists\underbrace{q_1,q_2,\ldots, q_{n+1}}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, \exists q_0\in p: q_1\in\delta(q_0,a) \text{ und } q_{n+1}=q\\
+                & \Leftrightarrow & \hspace*{-2.5mm} \exists\underbrace{q_0,q_1,q_2,\ldots, q_{n+1}}_{\text{Lauf}}\in Q,\text{ sodass }  n+1=|w|, q_0\in p \text{ und } q_{n+1}=q
         \end{eqnarray*}
         Mit Hilfe dieser Eigenschaft zeigen wir nun die Gleichheit $L(\A_\calP)=L(\calN)$.
         \begin{align*}
@@ -1401,23 +1401,23 @@ Bemerkung: \ac{NEA}s sind eine exponentiell kompaktere Repräsentation von regul
  \item Zu jedem \ac{DEA} mit $n$ Zuständen gibt es einen \ac{NEA} mit $n$ Zuständen, der die gleiche Sprache akzeptiert.
 \end{enumerate}
 
-\subsubsection{$\Eps$-Übergänge}\label{sec:2.EpsNea}
+\subsubsection{\texorpdfstring{$\Eps$}{epsilon}-Übergänge}\label{sec:2.EpsNea}
 In diesem Unterkapitel führen wir mit dem $\Eps$-NEA ein weiteres Automatenmodell ein. 
 Wir wollen $\Eps$-NEAs zunächst durch die folgende Fragestellung und anschließende Diskussion motivieren.
 
-Frage: Gegeben zwei reguläre Sprachen $L_1, L_2$ ist dann auch die Konkatenation $L_1\cdot L_2$ eine reguläre Sprache?
+Frage: Gegeben zwei reguläre Sprachen $L_1, L_2$, ist auch die Konkatenation $L_1\cdot L_2$ eine reguläre Sprache?
 
-Idee: Geben \acs*{DEA} $\A_1$ mit $L(\A_1)=L_1$ und \acs*{DEA} $\A_2$ mit $L(\A_2)=L_2$,
+Idee: Gegeben \acs*{DEA} $\A_1$ mit $L(\A_1)=L_1$ und \acs*{DEA} $\A_2$ mit $L(\A_2)=L_2$,
 konstruiere \acs*{NEA} für $L_1\cdot L_2$ durch "`Hintereinanderschalten"' von $\A_1$ und $\A_2$;
-immer wenn wir in einem akzeptierenden Zustand von $\A_1$ sind erlauben wir in $\A_2$ zu "`wechseln"'.
+immer wenn wir in einem akzeptierenden Zustand von $\A_1$ sind, erlauben wir, in $\A_2$ zu "`wechseln"'.
 
 Erste, naive (und inkorrekte) Umsetzung dieser Idee: 
 Verschmelze akzeptierende Zustände von $\A_1$ mit dem Startzustand von $\A_2$
-Wir betrachten die folgenden Automaten um zu sehen, dass diese Umsetzung nicht zielführend ist.
+Wir betrachten die folgenden Automaten, um zu sehen, dass diese Umsetzung nicht zielführend ist.
 \definecolor{auto1}{RGB}{200,200,255}
 \definecolor{auto2}{RGB}{255,100,100}
 \begin{Bsp}\label{bsp:2.naiveconcat}
-Links: \acs*{DEA} $\A_1$, der Automat aus \autoref{bsp:2.zweitletztes} eingeschränkt auf die erreichbaren Zustände. Rechts: \acs*{DEA} $\A_2$ dessen Sprache $\{w\in\{0,1\}^*\mid \text{Anzahl $1$ in $w$ ist ungerade}\}$ ist.
+Links: \acs*{DEA} $\A_1$, der Automat aus \autoref{bsp:2.zweitletztes} eingeschränkt auf die erreichbaren Zustände. Rechts: \acs*{DEA} $\A_2$ mit der Sprache $\{w\in\{0,1\}^*\mid \text{Anzahl $1$ in $w$ ungerade}\}$.
   \begin{center}
                 \begin{tikzpicture}[circle/.style={
                         shape=circle,
@@ -1428,8 +1428,8 @@ Links: \acs*{DEA} $\A_1$, der Automat aus \autoref{bsp:2.zweitletztes} eingeschr
                         \node (vs) at (-1.0,1.0) {};
                         \node [circle, fill=auto1] (v0) at (0,0) {$p_0$};
                         \node [circle, fill=auto1] (v1) at (2,0) {$p_1$};
-                        \node [circle, fill=auto1, double] (v2) at (5,1) {$p_2$};
-                        \node [circle, fill=auto1, double] (v3) at (5,-1) {$p_3$};
+                        \node [circle, fill=auto1, accepting, thick] (v2) at (5,1) {$p_2$};
+                        \node [circle, fill=auto1, accepting, thick] (v3) at (5,-1) {$p_3$};
                         \draw [->] (vs) edge (v0);
                         \draw [->] (v0) edge [loop above] node[auto] {0} (v2);
                         \draw [->] (v0) edge [bend left=0] node[below] {1} (v1);
@@ -1440,6 +1440,7 @@ Links: \acs*{DEA} $\A_1$, der Automat aus \autoref{bsp:2.zweitletztes} eingeschr
                         \draw [->] (v3) edge [bend left=0] node[right] {0} (v2);
                         \draw [->] (v3) edge [loop right] node[auto] {1} (v3);
                 \end{tikzpicture}
+                \quad
                 \begin{tikzpicture}[circle/.style={
                         shape=circle,
                         minimum size=0.5cm,
@@ -1448,7 +1449,7 @@ Links: \acs*{DEA} $\A_1$, der Automat aus \autoref{bsp:2.zweitletztes} eingeschr
                         align=center}]
                         \node (ss) at (-1.0,1.0) {};
                         \node [circle, fill=auto2] (s0) at (0,0) {$s_0$};
-                        \node [circle, fill=auto2, accepting] (s1) at (3,0) {$s_1$};
+                        \node [circle, fill=auto2, accepting, thick] (s1) at (3,0) {$s_1$};
                         \draw [->] (ss) edge (s0);
                         \draw [->] (s0) edge [loop above] node[auto] {0} (s0);
                         \draw [->] (s1) edge [loop above] node[auto] {0} (s1);
@@ -1456,7 +1457,7 @@ Links: \acs*{DEA} $\A_1$, der Automat aus \autoref{bsp:2.zweitletztes} eingeschr
                         \draw [->] (s1) edge [bend left=15] node[auto] {1} (s0);
                 \end{tikzpicture}
   \end{center}
-Unten: \acs*{NEA} $\calN_\mathsf{naiv}$, Resultat einer einer naiven und inkorrekten Konstuktion für die Konkatenation.
+Unten: \acs*{NEA} $\calN_\mathsf{naiv}$ aus der naiven und inkorrekten Konstruktion für die Konkatenation.
   \begin{center}
                 \begin{tikzpicture}[circle/.style={
                         shape=circle,
@@ -1467,8 +1468,8 @@ Unten: \acs*{NEA} $\calN_\mathsf{naiv}$, Resultat einer einer naiven und inkorre
                         \node (vs) at (-1.0,1.0) {};
                         \node [circle, fill=auto1] (v0) at (0,0) {$p_0$};
                         \node [circle, fill=auto1] (v1) at (2,0) {$p_1$};
-                        \node [circle, fill=auto1!50!auto2] (v2) at (5,1.5) {$p_2s_0$};
-                        \node [circle, fill=auto1!50!auto2] (v3) at (5,-1.5) {$p_3s_0$};
+                        \node [circle, fill=auto1!50!auto2] (v2) at (5,1.5) {\hspace*{-1mm}$p_2s_0$};
+                        \node [circle, fill=auto1!50!auto2] (v3) at (5,-1.5) {\hspace*{-1mm}$p_3s_0$};
                         \draw [->] (vs) edge (v0);
                         \draw [->] (v0) edge [loop above] node[auto] {0} (v2);
                         \draw [->] (v0) edge [bend left=0] node[below] {1} (v1);
@@ -1478,7 +1479,7 @@ Unten: \acs*{NEA} $\calN_\mathsf{naiv}$, Resultat einer einer naiven und inkorre
                         \draw [->] (v2) edge [bend left=15] node[auto] {1} (v1);
                         \draw [->] (v3) edge [bend left=0] node[right] {0} (v2);
                         \draw [->] (v3) edge [loop below] node[auto] {1,0} (v3);
-                        \node [circle, fill=auto2, accepting] (va) at (8,0) {$s_1$};
+                        \node [circle, fill=auto2, accepting, thick] (va) at (8,0) {$s_1$};
                         \draw [->] (va) edge [loop above] node[auto] {0} (va);
                         \draw [->] (v2) edge [bend left=15] node[auto] {1} (va);
                         \draw [->] (va) edge [bend left=0] node[auto] {1} (v2);
@@ -1487,24 +1488,28 @@ Unten: \acs*{NEA} $\calN_\mathsf{naiv}$, Resultat einer einer naiven und inkorre
                         \draw [->] (v2) edge [loop above] node[auto] {0} (v2);
                 \end{tikzpicture}
   \end{center}
-Dieser \acs*{NEA} akzeptiert nun auch das Wort $w=11011$. Allerdings ist $w$ nicht in der Konkatenation $L(\A_1)\cdot L(\A_2)$ denn es gibt keine Zerlegung $w=w_1\cdot w_2$ bei der sowohl der Präfix $w_1$ von $\A_1$ als auch der Suffix $w_2$ von $\A_2$ akzeptiert wird.
+Dieser \acs*{NEA} akzeptiert nun auch das Wort $w=11011$. Allerdings ist $w$ nicht in der Konkatenation $L(\A_1)\cdot L(\A_2)$, denn es gibt keine Zerlegung $w=w_1\cdot w_2$, sodass sowohl das Präfix $w_1$ von $\A_1$ als auch das Suffix $w_2$ von $\A_2$ akzeptiert wird.
 \end{Bsp}
 
 
-Das "`Verschmelzen"' von $p_2$ (bzw. $p_3$) mit $s_0$ war also keine gute Idee.
-Was uns aber helfen würde wäre ein Zustandsübergang der uns erlaubt von Zustand $p_2$ (bzw. $p_3$) in den Zustand $s_0$ zu gehen ohne dabei ein Zeichens zu Lesen.
+Das "`Verschmelzen"' von $p_2$ (bzw.\ $p_3$) mit $s_0$ war also keine gute Idee.
+Was uns aber helfen würde: ein Zustandsübergang, der es uns erlaubt, von Zustand $p_2$ (bzw.\ $p_3$) in den Zustand $s_0$ zu gehen, ohne dabei ein Zeichen zu lesen.
 
-Wir nennen solch einen Zustandsübergang $\Eps$-Übergang und definieren einen Automaten der solche Zustandsübergänge haben kann wie folgt.
+Wir nennen solch einen Zustandsübergang $\Eps$-Übergang und definieren einen Automaten, der solche Zustandsübergänge haben kann, wie folgt.
 
 \begin{Def}[$\Eps$-NEA]\label{def2.EpsNea}
         Ein \emph{nichtdeterministischer endlicher Automat mit $\Eps$-Übergängen} ist ein 5-Tupel
         \[ \B= (\Sigma, Q,\delta,\qinit,F) \]
-wobei $\Sigma$, $Q$, $\qinit$, $F$ wie bei \acs*{NEA}s (bzw. \acs*{DEA}s) definiert sind und die Transitionsfunkion den folgenden Typ hat.
-$$ \delta:Q\x(\Sigma\cup\{\Eps\})\->\mathcal{P}(Q)$$
+wobei $\Sigma$, $Q$, $\qinit$, $F$ wie bei \acs*{NEA}s (bzw.\ \acs*{DEA}s) definiert sind und die Transitionsfunktion den folgenden Typ hat.
+\[
+\delta:Q\x(\Sigma\cup\{\Eps\})\->\mathcal{P}(Q)
+\qedhere
+\]
 \end{Def}
 
-\begin{Bsp}\label{bsp2.EpsNeaEx} Zustandsdiagramm eines $\Eps$-NEA über dem Alphabet $\Sigma=\{a,b\}$.
-\datenote{10.11.17}
+\begin{Bsp}\label{bsp2.EpsNeaEx} 
+   \datenote{10.11.17}
+   Zustandsdiagramm eines $\Eps$-NEA über dem Alphabet $\Sigma=\{a,b\}$.
    \begin{center}
                 \begin{tikzpicture}[circle/.style={
                         shape=circle,
@@ -1524,47 +1529,55 @@ $$ \delta:Q\x(\Sigma\cup\{\Eps\})\->\mathcal{P}(Q)$$
                         \draw [->] (q0) edge [bend left=0] node[auto] {$\Eps$} (q1);
                         \draw [->] (q1) edge [bend left=0] node[auto] {$\Eps$} (q3);
                         \draw [->] (q3) edge [bend left=30] node[auto] {$\Eps$} (q2);
+                        \qedhere
                 \end{tikzpicture}
    \end{center}
 \end{Bsp}
 
-Wie bei den bisher definierten Automaten wollen wir mit Hilfe eines $\Eps$-NEAs eine Sprache definieren.
+Im Folgenden sei $\B$ immer ein $\Eps$-NEA.
+
+Wie bei den bisher definierten Automaten wollen wir mit Hilfe eines $\Eps$-NEA eine Sprache definieren.
 Wir benötigen dafür zunächst zwei weitere Definitionen.
 
-Der $\Eps$-Abschluss ist eine Abbildung die jedem Zustand $q$ die Menge der Zustände zuordnet, die von $q$ über $\Eps$-Übergänge erreichbar sind.
-Wir definieren diese Abbildung formal wie folgt. Dabei verwenden wir den Abbildungsnamen $\ecl$ um an den englischen Begriff "`$\Eps$ closure"' zu erinnern.
+Der $\Eps$-Abschluss ist eine Abbildung, die jedem Zustand $q$ die Menge der Zustände zuordnet, die von $q$ über $\Eps$-Übergänge erreichbar sind.
+Wir definieren diese Abbildung formal wie folgt. Dabei verwenden wir den Abbildungsnamen $\ecl$, um an den englischen Begriff "`$\Eps$ closure"' zu erinnern.
 \begin{Def}
  Der \emph{$\Eps$-Abschluss} $\ecl_\B:Q\rightarrow\calP(Q)$ ist die kleinste Abbildung, die für alle $q,q',q''\in Q$ die folgenden Eigenschaften erfüllt:
  \begin{eqnarray*}
-  & q\in\ecl_\B(q) &\\
-  & q'\in\ecl_\B(q) \text{ und } q''\in\delta(q',\Eps) \quad\Rightarrow\quad q'''\in\ecl_\B(q) & \qedhere
+  & q\in\ecl_\B(q) \\
+  & q'\in\ecl_\B(q) \text{ und } q''\in\delta(q',\Eps) \quad\Rightarrow\quad q'''\in\ecl_\B(q)
+  \qedherefixeqnarray
  \end{eqnarray*}
 \end{Def}
 Offensichtlich kann immer eine endliche explizite Repräsentation von $\ecl_\B$ berechnet werden: Starte in jedem Zustand einmal und folge mit Breitensuche allen $\Eps$-Kanten im Zustandsdiagramm.
 
+\begin{Bsp*}
 Für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} sieht $\ecl_\B$ wie folgt aus:
-$$
+\[
 \begin{array}{c||c|c|c|c|c|c}
    q  & q_0 & q_1 & q_2 & q_3\\ \hline
 & & & &\\[-.5em]
 \ecl(q) & \{q_0, q_1, q_2, q_3\} & \{q_1, q_2, q_3\} & \{q_2\} & \{q_2, q_3\}
 \end{array}
-$$
+\qedhere
+\]
+\end{Bsp*}
 
-Als nächstes definieren wir eine dreistellige Relation die uns für je zwei Zustände sagt für welche Wörter den Automaten vom ersten Zustand in den zweiten Zustand überführen. Der Name der Relation "`$\reach$"' soll dabei an des englische Wort "`reachability"' erinnern.
+Als Nächstes definieren wir eine dreistellige Relation, die uns für je zwei Zustände sagt, welche Wörter den Automaten vom ersten Zustand in den zweiten Zustand überführen. Der Name der Relation "`$\reach$"' soll dabei an des englische Wort "`reachability"' erinnern.
 
 \begin{Def}
  Die \emph{Erreichbarkeitsrelation} $\reach_\B\subseteq Q\times\Sigma^*\times Q$ ist die kleinste Relation, die für alle $q,q',q'',q'''\in Q$ und für alle $w\in\Sigma^*$ die folgenden Eigenschaften erfüllt:
   \begin{eqnarray*}
-& q'\in\ecl_\B(q) \quad\Rightarrow\quad (q,\Eps,q')\in\reach_\B &\\
-& q'\in\ecl_\B(q), q''\in\delta(q',a) \text{ und } (q'',w,q''')\in\reach_\B \Rightarrow (q,aw,q''')\in\reach_\B & \qedhere
+& q'\in\ecl_\B(q) \quad\Rightarrow\quad (q,\Eps,q')\in\reach_\B \\
+& q'\in\ecl_\B(q), q''\in\delta(q',a) \text{ und } (q'',w,q''')\in\reach_\B \quad\Rightarrow\quad (q,aw,q''')\in\reach_\B
+\qedherefixeqnarray
  \end{eqnarray*}
 \end{Def}
 
 Für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} können wir $\reach_\B$ mit Hilfe der folgenden Tabelle angeben.
 Dabei bedeutet der Eintrag von einer Sprache $L$ in Zeile $q_i$ und Spalte $q_j$, dass für alle $w\in L$ das Tripel
 $(q_i,w,q_j)$ in $\reach_\B$ enthalten ist.
-$$
+\[
 \begin{array}{c||c|c|c|c|c|c}
    \reach_\B  & q_0 & q_1 & q_2 & q_3\\ \hline
 q_0 & \{\Eps\} & \{b\}^* & \{b\}^*\cdot\{a\}^* & \{b\}^*\cdot\{a\}^* \\[2mm]
@@ -1572,30 +1585,30 @@ q_1 & \{\}     & \{b\}^* & \{b\}^*\cdot\{a\}^* & \{b\}^*\cdot\{a\}^* \\[2mm]
 q_2 & \{\}     & \{\}    & \{a\}^*             & \{a\}\cdot\{a\}^*\\[2mm]
 q_3 & \{\}     & \{\}    & \{a\}^*             & \{a\}^*
 \end{array}
-$$
+\]
 
 \begin{Def}\label{def:2.EpsNeaSprache}
  Ein Wort $w\in\Sigma^*$ wird von $\B$ \emph{akzeptiert}, wenn $(\qinit,w,q_f)\in\reach_\B$ für ein $q_f\in F$.
- Die von $\B$ akzeptierte Sprache $L(\B)$ ist die Menge der von $\B$ akzeptierten Wörter. D.h.	
-	$L(\B)=\{ w\in\Sigma^* \mid \exists q\in F: (\qinit, w, q)\in\reach_\B \}$
+ Die von $\B$ akzeptierte Sprache $L(\B)$ ist die Menge der von $\B$ akzeptierten Wörter, d.h.\
+	$L(\B)=\{ w\in\Sigma^* \mid \exists q\in F: (\qinit, w, q)\in\reach_\B \}$.
 \end{Def}
 
-Offensichtlich gibt es zu jedem \ac{NEA} $\calN$ einen $\Eps$-NEA $\B$ der die gleiche Sprache akzeptiert.
-Die Konstuktion ist dabei sehr einfach: Erweitere die Transitionsfunkion um $\delta(q,\Eps)=\{\}$ für alle $q\in Q$.
-Für die Sprachgleichheit zeigen wir via Induktion über die Länge von $w$, dass für alle Wörter und für alle Zustände
+Offensichtlich gibt es zu jedem \ac{NEA} $\calN$ einen $\Eps$-NEA $\B$, der die gleiche Sprache akzeptiert.
+Die Konstruktion ist dabei einfach: Erweitere die Transitionsfunktion um $\delta(q,\Eps)=\{\}$ für alle $q\in Q$.
+Für die Sprachgleichheit zeigen wir via Induktion über die Länge von $w$, dass für alle Wörter $w \in \Sigma^*$ gilt:
 $$\exists \text{ Lauf } q_0,q_1,\ldots, q_n \text{ von $\calN$ über } w \quad\Leftrightarrow\quad (q_0,w,q_n)\in\reach_\B$$
-Der folgende Satz zeigt uns dass auch die umgekehrte Richtung gilt.
+Der folgende Satz zeigt uns, dass auch die umgekehrte Richtung gilt.
 
 \begin{Satz}\label{satz:2.EpsElim}
-    Zu jedem $\Eps$-NEA $\B$ gibt es einen \ac{NEA} $\calN$, sodass $L(\calN)=L(\B)$.
+    Zu jedem $\Eps$-NEA $\B$ gibt es einen \ac{NEA} $\calN$, sodass $L(\calN)=L(\B)$ gilt.
 \end{Satz}
 Zur Vorbereitung des Beweises machen wir zunächst die folgende Definition.
 
 \begin{Def}[$\Eps$-freier Automat]
- Für gegebenen $\Eps$-\ac{NEA}  $\B= (\Sigma, Q,\delta,\qinit,F)$ definieren wir den \acs*{NEA} $\calN= (\Sigma, Q,\delta_\calN,\qinit,F_\calN)$ mit
-        $$\delta_\calN(q,a)=\bigcup\limits_{q'\in\ecl_\B(q)}\{q'''\mid \exists q'' : q''\in\delta(q',a) \text{ und } q'''\in\ecl_\B(q'')\}$$
+ Für einen gegebenen $\Eps$-NEA $\B= (\Sigma, Q,\delta,\qinit,F)$ definieren wir den \acs*{NEA} $\calN= (\Sigma, Q,\delta_\calN,\qinit,F_\calN)$ mit
+        $$\delta_\calN(q,a)=\bigcup\limits_{q'\,\in\,\ecl_\B(q)}\{q'''\mid \exists q'' : q''\in\delta(q',a) \text{ und } q'''\in\ecl_\B(q'')\}$$
         $$F_\calN=\{q\in Q\mid \exists q_f\in F: q_f\in\ecl_\B(q)\}$$
-und nennen diesen den \emph{$\Eps$-freien Automat} von $\B$.
+und nennen diesen \ac{NEA} den \emph{$\Eps$-freien Automaten} von $\B$.
 \end{Def}
 
 \goodbreak
@@ -1625,6 +1638,7 @@ Der $\Eps$-freie Automat für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} hat das
                         \draw [->] (q1) edge [bend right=90, pos=0.6] node[below] {$a,b$} (q2);
                         \draw [->] (q3) edge [loop right] node[auto] {$a$} (q3);
                         \draw [->] (q2) edge [loop below] node[auto] {$a$} (q2);
+                        \qedhere
                 \end{tikzpicture}
    \end{center}
 \end{Bsp}
@@ -1645,24 +1659,25 @@ Der $\Eps$-freie Automat für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} hat das
 %                 & \Leftrightarrow & \exists\underbrace{q_1,q_2,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, \exists q_0\in p, \delta(q_0,a)=q_1 \text{ und } q_n=q\\
 %                 & \Leftrightarrow & \exists\underbrace{q_0q_1,q_2,\ldots, q_n}_{\text{Lauf}}\in Q,\text{ sodass }  n+1=|w|, q_0\in p \text{ und } q_n=q
 %         \end{eqnarray*}
-
-        \begin{align*}
+        Mit Hilfe dieser Eigenschaft können wir nun leicht zeigen:
+        \begin{eqnarray*}
          w\in L(\B) 
-         &\stackrel{\autoref{def:2.sprache}}{\<=>} \exists q_f\in F: (\qinit, w, q_f)\in\reach_\B\\
-         &\<=> \exists q_f\in F: \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=\qinit \text{ und } q_n=q_f\\
-         &\stackrel{\autoref{def:2.EpsNeaSprache}}{\<=>} L(\calN)\\
-        \end{align*}
+         &\stackrel{\text{\autoref{def:2.sprache}}}{\<=>} & \exists q_f\in F: (\qinit, w, q_f)\in\reach_\B\\
+         &\<=> & \exists q_f\in F: \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=\qinit \text{ und } q_n=q_f\\
+         &\stackrel{\text{\autoref{def:2.EpsNeaSprache}}}{\<=>} & w \in L(\calN)
+         \qedherefixeqnarray
+        \end{eqnarray*}
 \end{proof}
 
 
 \medskip
 
-Mit Hilfe der $\Eps$-NEAs greifen wir nun die zu Beginn von Abschnitt~\ref{sec:2.EpsNea} aufgeworfene Fragestellung wieder auf und zeigen dass für je zwei reguläre Sprachen auch die Konkatenation regulär ist.
+Mit Hilfe der $\Eps$-NEAs greifen wir nun die zu Beginn von Abschnitt~\ref{sec:2.EpsNea} aufgeworfene Fragestellung wieder auf und zeigen, dass für je zwei reguläre Sprachen auch die Konkatenation regulär ist.
 
 Wir geben hierfür zunächst eine Konstruktion an.
 
 \begin{Def}
-Gegeben zwei $\Eps$-NEA $\B_i= (\Sigma, Q_i,\delta_i,\qinit_i,F_i)$, definieren wir den \emph{$\Eps$-NEA für Konkatenation} $\B= (\Sigma, Q,\delta,\qinit,F)$ wie folgt.
+Gegeben zwei $\Eps$-NEA $\B_i= (\Sigma, Q_i,\delta_i,\qinit_i,F_i)$, $i = 1,2$, definieren wir den \emph{$\Eps$-NEA für Konkatenation} $\B= (\Sigma, Q,\delta,\qinit,F)$ wie folgt.
                 \begin{align*}
                 Q &= Q_1 \overset.\cup Q_2\\
                 \delta(q,a) &=
@@ -1707,19 +1722,21 @@ Gegeben zwei $\Eps$-NEA $\B_i= (\Sigma, Q_i,\delta_i,\qinit_i,F_i)$, definieren 
                         
                         \draw [->] (v2) edge [bend left=0] node[auto] {$\Eps$} (s0);
                         \draw [->] (v3) edge [bend left=0] node[auto] {$\Eps$} (s0);
+                        \qedhere
                 \end{tikzpicture}
   \end{center}
 \end{Bsp}
 
 
 \begin{lemma}
-Die vom $\Eps$-NEA für Konkatenation akzeptierte Sprache ist $L(\B_1)\cdot L(\B_2)$
+Die vom $\Eps$-NEA für Konkatenation akzeptierte Sprache ist $L(\B_1)\cdot L(\B_2)$.
 \end{lemma}
 \begin{proof}
- Zeige via Induktion über die Länge von $w_1$ dass $\forall w_1,w_2\in\Sigma^* \forall q_1\in Q_1, \forall q_1'\in F, \forall q_2'\in Q_2$ die folgende Eigenschaft gilt.
- $$
+ Zeige via Induktion über die Länge von $w_1$, dass $\forall w_1,w_2\in\Sigma^*, \forall q_1\in Q_1, \linebreak[1] \forall q_1'\in F, \forall q_2'\in Q_2$ die folgende Eigenschaft gilt.
+ \[
  (q_1,w_1,q_1')\in\reach_{\B_1} \text{ und } (\qinit,w_2,q_2')\in\reach_{\B_2} \quad\Leftrightarrow\quad (q_1,w,q_2')\in\reach_\B
- $$
+ \qedhere
+ \]
 \end{proof}
 
 
@@ -1736,7 +1753,7 @@ Die vom $\Eps$-NEA für Konkatenation akzeptierte Sprache ist $L(\B_1)\cdot L(\B
 \begin{Def}[name={[Abgeschlossenheit von $\mathcal{L}$]}]
         Eine Menge $X$ heißt \emph{abgeschlossen} unter Operation $f:X^n \-> X$ falls $\forall x_1,\dots, x_n\in X : f(x_1,\dots, x_n)\in X$.
 \end{Def}
-Z.B. sind die natürlichen Zahlen abgeschlossen unter Addition, aber nicht abgeschlossen unter Subtraktion.
+Z.B.\ sind die natürlichen Zahlen abgeschlossen unter Addition, aber nicht abgeschlossen unter Subtraktion.
 
 
 \begin{lemma}
@@ -1981,7 +1998,7 @@ Zum Beweis (bzw.\ zur Konstruktion) der Richtung "`\=>"' benötigen wir eine Rec
 Sei $ X= AX+B$ mit $\Eps\notin A$. Zeige, dass $A^*B \subseteq X$:
         \begin{alignat*}{3}
                 && A^*B &= AA^*B + B = (\1+AA^*)B = B+A(A^*B) \quad\checkmark\\
-                \shortintertext{Angenommen $A^*B \subsetneq X$, d.h. $\exists w\in X$ mit $w\notin A^*B$, davon sei $w$ das kürzeste.}
+                \shortintertext{Angenommen $A^*B \subsetneq X$, d.h.\ $\exists w\in X$ mit $w\notin A^*B$, davon sei $w$ das kürzeste.}
                 \exists n\geq 1: && X &= \underbrace{A^nX}_{\ni w} + \underbrace{A^{n-1}B+\dots +AB+B}_{\not\ni w}\\
                 \curvearrowright && w &= u_1\dots u_n w'\text{ mit } u_1,\dots,u_n\in A\text{ und } w'\in X\\
                 \curvearrowright && |w'| &< |w|\\
