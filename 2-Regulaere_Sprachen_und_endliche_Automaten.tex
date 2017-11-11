@@ -164,7 +164,7 @@ Dabei ist
         \end{itemize}
 \end{Def}
 
-DEAs lassen sich auch graphisch darstellen.
+\acs*{DEA}s lassen sich auch graphisch darstellen.
 Dabei gibt man für den Automaten einen gerichteten Graphen an.
 Die Knoten des Graphen sind die Zustände, und mit Zeichen beschriftete Kanten zeigen, welchen Zustandsübergang die Transitionsfunktion für das nächste Zeichen erlaubt.
 Der Startzustand ist mit einem unbeschrifteten Pfeil markiert, akzeptierende Zustände sind doppelt eingekreist.
@@ -189,10 +189,10 @@ Hier ist die graphische Darstellung von $A_{\mathtt{Macaron}}$ aus Beispiel~\ref
 \end{tikzpicture}
 \end{center}
 
-% DEAs charakterisieren die Sprachen durch die Menge an Wörtern, die sie akzeptieren.
-Die folgenden beiden Definitionen erlauben uns mit Hilfe eines DEA eine Sprache zu charakterisieren.
+% \acs*{DEA}s charakterisieren die Sprachen durch die Menge an Wörtern, die sie akzeptieren.
+Die folgenden beiden Definitionen erlauben uns mit Hilfe eines \acs*{DEA} eine Sprache zu charakterisieren.
 % \begin{Bsp}
-%     Sei $M=(\Sigma, Q,\delta,q_0,F)$ ein DEA.
+%     Sei $M=(\Sigma, Q,\delta,q_0,F)$ ein \acs*{DEA}.
 %     \begin{itemize}
 %     \item Wenn $F=Q$, dann ist $L(M)=\Sigma^*$.
 %     \item Wenn $F=\emptyset$, dann ist $L(M)=\emptyset$.
@@ -211,11 +211,11 @@ Die folgenden beiden Definitionen erlauben uns mit Hilfe eines DEA eine Sprache 
         Ein Wort $w\in\Sigma^*$ wird von $\A$ \emph{akzeptiert}, falls $\tilde\delta(\qinit,w)\in F$.
         Die \emph{von $\A$ akzeptierte Sprache}, geschrieben $L(\A)$, ist die Menge aller Wörter, die von $\A$ akzeptiert werden. D.h., 
         \[ L(\A) = \{ w\in\Sigma^* \mid \tilde\delta(\qinit,w)\in F \}. \]
-        Eine durch einen \ac{DEA} akzeptierte Sprache heißt \emph{regulär}.
+        Eine durch einen \acs*{DEA} akzeptierte Sprache heißt \emph{regulär}.
 \end{Def}
 
 \begin{Bsp} 
-\label{bsp:3.1} Ein möglicher DEA für die Sprache 
+\label{bsp:3.1} Ein möglicher \acs*{DEA} für die Sprache 
 $$L_\mathsf{even}=\{w\in\{0,1\}^*\mid \text{ die Anzahl der Einsen in $w$ ist gerade. }\}$$ 
 aus der Einleitung dieses Kapitels hat die folgende graphische Repräsentation.
 %         $L=\{w\in\{0,1\}^* \mid w \text{ enthält gerade Anzahl von 0 und gerade Anzahl von 1}\}$
@@ -437,7 +437,7 @@ Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende
 % \end{tikzpicture}
 % \end{center}
 % Es ist zu bemerken, dass manche Zustände von $Q$ nie erreicht werden können, z.B.\ $\emptyset$.
-% Sei für die folgenden Überlegungen $M = (Q, \Sigma, \delta, \qinit, F)$ ein DEA.
+% Sei für die folgenden Überlegungen $M = (Q, \Sigma, \delta, \qinit, F)$ ein \acs*{DEA}.
 
 Beobachtung: Der Zustand $q_{01}$ im Beispiel~\ref{bsp:2.schnitt} scheint nutzlos. Wir charakterisieren diese "`Nutzlosigkeit"' formal wie folgt.
 
@@ -497,7 +497,7 @@ Bemerkung: Die Menge der erreichbaren Zustände kann mit dem folgenden Verfahren
 
 \medskip
 
-Beobachtung: Auch nach dem Entfernen der nicht erreichbaren Zustände $q_{01}$ und $q_{10}$ scheint der DEA aus \autoref{bsp:2.schnitt} unnötig groß zu sein. Das Verhalten des DEA in den Zuständen $q_{11}$, $q_{20}$ und $q_{21}$ ist sehr ähnlich. 
+Beobachtung: Auch nach dem Entfernen der nicht erreichbaren Zustände $q_{01}$ und $q_{10}$ scheint der \acs*{DEA} aus \autoref{bsp:2.schnitt} unnötig groß zu sein. Das Verhalten des \acs*{DEA} in den Zuständen $q_{11}$, $q_{20}$ und $q_{21}$ ist sehr ähnlich. 
 Wir charakterisieren diese "`Ähnlichkeit"' formal wie folgt.
 
 \begin{Def}[name={[Äquivalenz von \acs*{DEA}-Zuständen]}] %\rlnote{Def.-Num. überprüfen}
@@ -649,7 +649,7 @@ Für alle $p,q\in Q$ gilt:
 \end{proof}
 Wir formalisieren das "`Verschmelzen"' von Zuständen wie folgt.
 \begin{Def}[name={[Äquivalenzklassenautomat]}]
-        Der Äquivalenzklassenautomat $\A_\equiv=(Q_\equiv,\Sigma,\delta_\equiv,{\qinit}_\equiv,F_\equiv)$ zu einem DEA $\A=(Q,\Sigma,\delta,\qinit,F)$ ist bestimmt durch:
+        Der Äquivalenzklassenautomat $\A_\equiv=(Q_\equiv,\Sigma,\delta_\equiv,{\qinit}_\equiv,F_\equiv)$ zu einem \acs*{DEA} $\A=(Q,\Sigma,\delta,\qinit,F)$ ist bestimmt durch:
         \begin{align*}
                 Q_\equiv &= \{[q]\mid q\in Q\} & \delta_\equiv([q],a) &= [\delta(q,a)]\\
                 \qinit_\equiv &= [\qinit] & F_\equiv & =\{[q]\mid q\in F \}
@@ -711,7 +711,7 @@ Der Äquivalenzklassenautomat $\A_\equiv$ zum \ac{DEA} aus \autoref{bsp:2.schnit
 \end{proof}
 In den Übungen werden wir ein Verfahren mit $O(|Q|^4\cdot |\Sigma|\log|Q|)$ Laufzeit zur Konstruktion des Äquivalenzklassenautomaten kennenlernen. Es gibt aber auch schnellere Verfahren. Mit dem Algorithmus von Hopcroft kann $\A_\equiv$ in $O(|Q||\Sigma|\log|Q|)$ erzeugt werden.
 
-Wir werden später (\-> Satz von Myhill-Nerode) sehen, dass $\A_\equiv$ der kleinste DEA ist, der $L(\A)$ akzeptiert.
+Wir werden später (\-> Satz von Myhill-Nerode) sehen, dass $\A_\equiv$ der kleinste \acs*{DEA} ist, der $L(\A)$ akzeptiert.
 
 \begin{Def}[name={[Rechtskongruente Äquivalenzrelation]}]
         \datenote{27.10.17}
@@ -903,7 +903,7 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
         
         In "`\ref{itm:Nerode3} \=> \ref{itm:Nerode1}"' definieren wir $A$ sodass $|Q|=\text{index}(R_L) \leq \text{index}(R_\A)\leq |Q'|$.
         
-        Für beliebigen DEA $A'$ ist $|Q|$ also nie größer als $|Q'|$.
+        Für beliebigen \acs*{DEA} $A'$ ist $|Q|$ also nie größer als $|Q'|$.
 \end{proof}
 
 
@@ -1041,7 +1041,7 @@ Wir formalisieren diesen Verdacht im folgenden Lemma.
 
 
 \subsection[\acf{NEA}]{Nichtdeterministischer endlicher Automat (NEA)}
-Aufgabe: Konstruiere für eine natürliche Zahl $n\in\N$ einen DEA für die folgende Sprache.
+Aufgabe: Konstruiere für eine natürliche Zahl $n\in\N$ einen \acs*{DEA} für die folgende Sprache.
 	\begin{align*}
 		L_n &= \{ w\in\{0,1\}^* \mid \text{das $n$-letzte Symbol von $w$ ist 1} \}
 	\end{align*}
@@ -1068,11 +1068,11 @@ Naiver Lösungsversuch:
 		\caption{Nichtdet. Automat für $L_n$}
 		\label{fig:2.nletztesNea}
 	\end{figure}
-Problem: Diagramm beschreibt keinen DEA. Startzustand hat zwei ausgehende Kanten für $1$.
+Problem: Diagramm beschreibt keinen \acs*{DEA}. Startzustand hat zwei ausgehende Kanten für $1$.
 
 Untersuche Sprache mit Hilfe von Nerode Relation.
 Beobachtung: Je zwei Wörter der Länge $n$ sind in unterschiedlichen Äquivalenzklassen.
-Es gibt also mindestens $2^n$ Äquivalenzklassen und aus \autoref{kor:2.minAutomat} wissen wir dass ein minimaler DEA, der $L_n$ akzeptiert $2^n$ Zustände hat.
+Es gibt also mindestens $2^n$ Äquivalenzklassen und aus \autoref{kor:2.minAutomat} wissen wir dass ein minimaler \acs*{DEA}, der $L_n$ akzeptiert $2^n$ Zustände hat.
 
 Idee: Definiere einen neue Art von Automaten bei dem ein Zustand pro Zeichen mehrere Nachfolger haben darf.
 
@@ -1112,7 +1112,7 @@ Idee: Definiere einen neue Art von Automaten bei dem ein Zustand pro Zeichen meh
 % 				(q4) edge [loop right]    node [auto]  {$\Sigma$} ()
 % 			;
 % 		\end{tikzpicture}
-% 	\caption{DEA für $L$}
+% 	\caption{\acs*{DEA} für $L$}
 % 	\label{fig:dfa-teilwort}
 % 	\end{figure}
 % 	\hyperref[fig:dfa-teilwort]{Abbildung~\ref*{fig:dfa-teilwort}} enthält einen \ac{DEA} für die Sprache $L$. Beobachtung: nicht-trivial zu konstruieren.
@@ -1157,7 +1157,7 @@ Idee: Definiere einen neue Art von Automaten bei dem ein Zustand pro Zeichen meh
 % 				(q2) edge              node [auto] {$a$} (q3)
 % 			;
 % 		\end{tikzpicture}
-% 	\caption{Potenzmengenkonstruktion auf dem NEA}
+% 	\caption{Potenzmengenkonstruktion auf dem \acs*{NEA}}
 % 	\label{fig:nfa-teilwort-powerset}
 % 	\end{figure}
 % 	
@@ -1234,10 +1234,10 @@ dabei ist
                 \item $F\subseteq Q$ eine Teilmenge der Zustände deren Elemente wir \emph{akzeptierende} Zustände nennen.
         \end{itemize}
 \end{Def}
-Bemerkung: Die Definition des NEA unterscheidet sich vom DEA also nur in der Transitionsfunktion. Beim DEA ist der Bildbereich der Transitionsfunktion die Menge der Zustände $Q$. Hier ist der Bildbereich die Potenzmenge der Zustandsmenge $\mathcal{P}(Q)$.
-Analog zu DEAs werden wir auch NEAs mit Hilfe eines Zustandsdiagramms beschrieben. Z.B. beschreibt \autoref{fig:2.nletztesNea} für jedes $n\in\N$ einen NEA für die Sprache $L_n$.
+Bemerkung: Die Definition des \acs*{NEA} unterscheidet sich vom \acs*{DEA} also nur in der Transitionsfunktion. Beim \acs*{DEA} ist der Bildbereich der Transitionsfunktion die Menge der Zustände $Q$. Hier ist der Bildbereich die Potenzmenge der Zustandsmenge $\mathcal{P}(Q)$.
+Analog zu \acs*{DEA}s werden wir auch \acs*{NEA}s mit Hilfe eines Zustandsdiagramms beschrieben. Z.B. beschreibt \autoref{fig:2.nletztesNea} für jedes $n\in\N$ einen \acs*{NEA} für die Sprache $L_n$.
 
-Im folgenden sei $\calN$ immer ein NEA.
+Im folgenden sei $\calN$ immer ein \acs*{NEA}.
 \begin{Def}[name={[Lauf eines Automaten]}]
 	Wir nennen eine Folge von Zuständen $q_0q_1\dots q_n$ einen \emph{Lauf von $\calN$ über $w=a_1\dots a_n$} wenn
 	$q_i\in\delta(q_{i-1},a_i)$ für alle $i$ mit $1\leq i\leq n$.
@@ -1255,7 +1255,7 @@ Im folgenden sei $\calN$ immer ein NEA.
 
 
 \begin{Bsp}
-\label{bsp:2.zweitletztes} Der NEA für die Sprache 
+\label{bsp:2.zweitletztes} Der \acs*{NEA} für die Sprache 
 $$L_2=\{w\in\{0,1\}^*\mid \text{ das zweitletzte Zeichen von $w$ ist $1$ }\}$$ hat die folgende graphische Repräsentation.
   \begin{center}
                 \begin{tikzpicture}[circle/.style={
@@ -1277,8 +1277,8 @@ $$L_2=\{w\in\{0,1\}^*\mid \text{ das zweitletzte Zeichen von $w$ ist $1$ }\}$$ h
 \end{Bsp}
 
 
-Bemerkung: Die Frage ob ein gegebenes Wort $w$ akzeptiert wird (das "`Wortproblem"') lässt sich für NEAs nicht mehr so leicht beantworten wie wir es von DEAs gewohnt sind.
-Ein sinvolles Vorgehen scheint jeden initialen Lauf zu betrachten, doch z.B. für das Wort $111$ hat obiger NEA bereits  drei verschiedene initiale Läufe: $q_0q_0q_0$, $q_0q_0q_1$, $q_0q_0q_2$.
+Bemerkung: Die Frage ob ein gegebenes Wort $w$ akzeptiert wird (das "`Wortproblem"') lässt sich für \acs*{NEA}s nicht mehr so leicht beantworten wie wir es von \acs*{DEA}s gewohnt sind.
+Ein sinvolles Vorgehen scheint jeden initialen Lauf zu betrachten, doch z.B. für das Wort $111$ hat obiger \acs*{NEA} bereits  drei verschiedene initiale Läufe: $q_0q_0q_0$, $q_0q_0q_1$, $q_0q_0q_2$.
 
 
 Bemerkung: Die Definitionen von \ac{NEA} und \ac{DEA} in der Literatur sind nicht einheitlich. 
@@ -1305,7 +1305,7 @@ Z.B. der \ac{NEA} $\calN= (\Sigma, Q,\delta_\mathsf{NEA},\qinit,F)$, mit $\delta
         \end{align*}
 \end{Def}
 \begin{Bsp}
-Der Potzenzmengenautomat für den NEA aus \autoref{bsp:2.zweitletztes} hat das folgende Zutandsdiagramm.
+Der Potzenzmengenautomat für den \acs*{NEA} aus \autoref{bsp:2.zweitletztes} hat das folgende Zutandsdiagramm.
   \begin{center}
                 \begin{tikzpicture}[circle/.style={
                         shape=circle,
@@ -1386,8 +1386,8 @@ Wir wollen $\Eps$-NEAs zunächst durch die folgende Fragestellung und anschließ
 
 Frage: Gegeben zwei reguläre Sprachen $L_1, L_2$ ist dann auch die Konkatenation $L_1\cdot L_2$ eine reguläre Sprache?
 
-Idee: Geben DEA $\A_1$ mit $L(\A_1)=L_1$ und DEA $\A_2$ mit $L(\A_2)=L_2$,
-konstruiere NEA für $L_1\cdot L_2$ durch "`Hintereinanderschalten"' von $\A_1$ und $\A_2$;
+Idee: Geben \acs*{DEA} $\A_1$ mit $L(\A_1)=L_1$ und \acs*{DEA} $\A_2$ mit $L(\A_2)=L_2$,
+konstruiere \acs*{NEA} für $L_1\cdot L_2$ durch "`Hintereinanderschalten"' von $\A_1$ und $\A_2$;
 immer wenn wir in einem akzeptierenden Zustand von $\A_1$ sind erlauben wir in $\A_2$ zu "`wechseln"'.
 
 Erste, naive (und inkorrekte) Umsetzung dieser Idee: 
@@ -1396,7 +1396,7 @@ Wir betrachten die folgenden Automaten um zu sehen, dass diese Umsetzung nicht z
 \definecolor{auto1}{RGB}{200,200,255}
 \definecolor{auto2}{RGB}{255,100,100}
 \begin{Bsp}\label{bsp:2.naiveconcat}
-Links: DEA $\A_1$, der Automat aus \autoref{bsp:2.zweitletztes} eingeschränkt auf die erreichbaren Zustände. Rechts: DEA $\A_2$ dessen Sprache $\{w\in\{0,1\}^*\mid \text{Anzahl $1$ in $w$ ist ungerade}\}$ ist.
+Links: \acs*{DEA} $\A_1$, der Automat aus \autoref{bsp:2.zweitletztes} eingeschränkt auf die erreichbaren Zustände. Rechts: \acs*{DEA} $\A_2$ dessen Sprache $\{w\in\{0,1\}^*\mid \text{Anzahl $1$ in $w$ ist ungerade}\}$ ist.
   \begin{center}
                 \begin{tikzpicture}[circle/.style={
                         shape=circle,
@@ -1435,7 +1435,7 @@ Links: DEA $\A_1$, der Automat aus \autoref{bsp:2.zweitletztes} eingeschränkt a
                         \draw [->] (s1) edge [bend left=15] node[auto] {1} (s0);
                 \end{tikzpicture}
   \end{center}
-Unten: NEA $\calN_\mathsf{naiv}$, Resultat einer einer naiven und inkorrekten Konstuktion für die Konkatenation.
+Unten: \acs*{NEA} $\calN_\mathsf{naiv}$, Resultat einer einer naiven und inkorrekten Konstuktion für die Konkatenation.
   \begin{center}
                 \begin{tikzpicture}[circle/.style={
                         shape=circle,
@@ -1466,7 +1466,7 @@ Unten: NEA $\calN_\mathsf{naiv}$, Resultat einer einer naiven und inkorrekten Ko
                         \draw [->] (v2) edge [loop above] node[auto] {0} (v2);
                 \end{tikzpicture}
   \end{center}
-Dieser NEA akzeptiert nun auch das Wort $w=11011$. Allerdings ist $w$ nicht in der Konkatenation $L(\A_1)\cdot L(\A_2)$ denn es gibt keine Zerlegung $w=w_1\cdot w_2$ bei der sowohl der Prefix $w_1$ von $\A_1$ als auch der Suffix $w_2$ von $\A_2$ akzeptiert wird.
+Dieser \acs*{NEA} akzeptiert nun auch das Wort $w=11011$. Allerdings ist $w$ nicht in der Konkatenation $L(\A_1)\cdot L(\A_2)$ denn es gibt keine Zerlegung $w=w_1\cdot w_2$ bei der sowohl der Prefix $w_1$ von $\A_1$ als auch der Suffix $w_2$ von $\A_2$ akzeptiert wird.
 \end{Bsp}
 
 
@@ -1478,7 +1478,7 @@ Wir nennen solch einen Zustandsübergang $\Eps$-Übergang und definieren einen A
 \begin{Def}[$\Eps$-NEA]\label{def2.EpsNea}
         Ein \emph{nichtdeterministischer endlicher Automat mit $\Eps$-Übergängen} ist ein 5-Tupel
         \[ \B= (\Sigma, Q,\delta,\qinit,F) \]
-wobei $\Sigma$, $Q$, $\qinit$, $F$ wie bei NEAs (bzw. DEAs) definiert sind und die Transitionsfunkion den folgenden Typ hat.
+wobei $\Sigma$, $Q$, $\qinit$, $F$ wie bei \acs*{NEA}s (bzw. \acs*{DEA}s) definiert sind und die Transitionsfunkion den folgenden Typ hat.
 $$ \delta:Q\x(\Sigma\cup\{\Eps\})\->\mathcal{P}(Q)$$
 \end{Def}
 
@@ -1571,7 +1571,7 @@ Der folgende Satz zeigt uns dass auch die umgekehrte Richtung gilt.
 Zur Vorbereitung des Beweises machen wir zunächst die folgende Definition.
 
 \begin{Def}[$\Eps$-freier Automat]
- Für gegebenen $\Eps$-\ac{NEA}  $\B= (\Sigma, Q,\delta,\qinit,F)$ definieren wir den NEA $\calN= (\Sigma, Q,\delta_\calN,\qinit,F_\calN)$ mit
+ Für gegebenen $\Eps$-\ac{NEA}  $\B= (\Sigma, Q,\delta,\qinit,F)$ definieren wir den \acs*{NEA} $\calN= (\Sigma, Q,\delta_\calN,\qinit,F_\calN)$ mit
         $$\delta_\calN(q,a)=\bigcup\limits_{q'\in\ecl_\B(q)}\{q'''\mid \exists q'' : q''\in\delta(q',a) \text{ und } q'''\in\ecl_\B(q'')\}$$
         $$F_\calN=\{q\in Q\mid \exists q_f\in F: q_f\in\ecl_\B(q)\}$$
 und nennen diesen den \emph{$\Eps$-freien Automat} von $\B$.
@@ -1801,14 +1801,14 @@ Z.B. sind die natürlichen Zahlen abgeschlossen unter Addition, aber nicht abges
             \label{fig:reg-closure-union}
         \end{figure}
         \item $\cap:$ 
-        Annahme: Seien $\A_1$ und $\A_2$ zwei DEAs. Konstruiere nun  den \emph{Produktautomaten} $\A$, für den gilt (Aufgabe zum Eigenstudium!): $L(\A) = L(\A_1) \cap L(\A_2)$.
+        Annahme: Seien $\A_1$ und $\A_2$ zwei \acs*{DEA}s. Konstruiere nun  den \emph{Produktautomaten} $\A$, für den gilt (Aufgabe zum Eigenstudium!): $L(\A) = L(\A_1) \cap L(\A_2)$.
 		\begin{align*}
 			Q &= Q_1\x Q_2\\
 			\delta((q_1,q_2),a) &= (\delta_1(q_1,a),\delta_2(q_2,a))\\
 			q_0 &= (q_{01},q_{02})\\
 			F &= F_1\x F_2\\
 		\end{align*}
-	\item Komplement: Ang. $\A_1$ ist \ac{DEA}, der $L$ erkennt. Ersetze $F_1$ durch $Q_1\setminus F_1$ und erhalte einen DEA $\A_1'$, der genau das Komplement von $L$ erkennt. 
+	\item Komplement: Ang. $\A_1$ ist \ac{DEA}, der $L$ erkennt. Ersetze $F_1$ durch $Q_1\setminus F_1$ und erhalte einen \acs*{DEA} $\A_1'$, der genau das Komplement von $L$ erkennt. 
 %
 %
         \item Produkt: Seien $L_1$, $L_2$ regulär.\\
