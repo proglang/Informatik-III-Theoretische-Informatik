@@ -168,7 +168,7 @@ DEAs lassen sich auch graphisch darstellen.
 Dabei gibt man für den Automaten einen gerichteten Graphen an.
 Die Knoten des Graphen sind die Zustände, und mit Zeichen beschriftete Kanten zeigen, welchen Zustandsübergang die Transitionsfunktion für das nächste Zeichen erlaubt.
 Der Startzustand ist mit einem unbeschrifteten Pfeil markiert, akzeptierende Zustände sind doppelt eingekreist.
-Hier ist die graphische Darstellung von $A_{\mathtt{Macaron}}$ aus Beispiel \ref{Bsp:3.1}:
+Hier ist die graphische Darstellung von $A_{\mathtt{Macaron}}$ aus Beispiel~\ref{Bsp:3.1}:
 
 \begin{center}
 \begin{tikzpicture}[node distance = 3cm]
@@ -190,7 +190,7 @@ Hier ist die graphische Darstellung von $A_{\mathtt{Macaron}}$ aus Beispiel \ref
 \end{center}
 
 % DEAs charakterisieren die Sprachen durch die Menge an Wörtern, die sie akzeptieren.
-Die folgenden beiden Definitionen erlauben uns mit Hilfe eines DEAs eine Sprache zu charakterisieren.
+Die folgenden beiden Definitionen erlauben uns mit Hilfe eines DEA eine Sprache zu charakterisieren.
 % \begin{Bsp}
 %     Sei $M=(\Sigma, Q,\delta,q_0,F)$ ein DEA.
 %     \begin{itemize}
@@ -275,7 +275,7 @@ aus der Einleitung dieses Kapitels hat die folgende graphische Repräsentation.
 %         
 %         Sei $A\ge 0$ nat. Zahl, $\Sigma=\{0,1,\dots,A\}$
 %         \begin{equation*}
-%                 L = \{ a_1\dots a_n \mid \exists J\subseteq \{1,\dots,n \},\ \sum_{i\in J} a_i = A \} \subseteq \Sigma^* 
+%                 L = \{ a_1\dots a_n \mid \exists J\subseteq \{1,\dots,n \}: \sum_{i\in J} a_i = A \} \subseteq \Sigma^* 
 %         \end{equation*}
 %         D.h. gegeben eine Liste von Zahlen $\in\Sigma$.
 %         Akzeptiere diejenigen Listen, für die eine Teilliste existiert, deren Summe genau $A$ ist.
@@ -412,7 +412,7 @@ Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende
 \subsection{Minimierung endlicher Automaten}
 %  \datenote{26.10.16}
 
-% Betrachte den Automaten aus Beispiel \ref{bsp:3.2}.
+% Betrachte den Automaten aus Beispiel~\ref{bsp:3.2}.
 % Sei $A =4$, $\Sigma = \{0, 1, 2, 3, 4\}$ mit Zustandsmenge $Q = \Powerset(\Sigma)$.
 % D.h.\ unter anderem: $\{0, 1, 3\} \in Q$.
 % Hier ist ein Ausschnitt aus dem Zustandsdiagramm:
@@ -439,7 +439,7 @@ Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende
 % Es ist zu bemerken, dass manche Zustände von $Q$ nie erreicht werden können, z.B.\ $\emptyset$.
 % Sei für die folgenden Überlegungen $M = (Q, \Sigma, \delta, \qinit, F)$ ein DEA.
 
-Beobachtung: Der Zustand $q_{01}$ im Beispiel \ref{bsp:2.schnitt} scheint nutzlos. Wir charakterisieren diese "`Nutzlosigkeit"' formal wie folgt.
+Beobachtung: Der Zustand $q_{01}$ im Beispiel~\ref{bsp:2.schnitt} scheint nutzlos. Wir charakterisieren diese "`Nutzlosigkeit"' formal wie folgt.
 
 \begin{Def}
   Ein Zustand $q \in Q$ heißt \emph{erreichbar}, falls ein $w \in \Sigma^*$ existiert, so dass $\hat \delta(\qinit, w) = q$.
@@ -486,7 +486,7 @@ Bemerkung: Die Menge der erreichbaren Zustände kann mit dem folgenden Verfahren
 %                         \draw [->] (q3) edge[bend left] node [auto] {1,0} (q2);
 %                 \end{tikzpicture}\\
 %               \end{center}
-%         Dieser Automat erkennt die gleiche Sprache wie in \eqref{bsp:3.1} ("`höchstens eine 1"'), hat nur erreichbare Zustände, aber mehr Zustände als in \eqref{bsp:3.1}.
+%         Dieser Automat erkennt die gleiche Sprache wie in~\eqref{bsp:3.1} ("`höchstens eine 1"'), hat nur erreichbare Zustände, aber mehr Zustände als in~\eqref{bsp:3.1}.
 %         
 %         \emph{Beobachtung:} Aber $q_2$ und $q_3$ verhalten sich gleich in dem Sinn, dass
 %         \[ \forall w: \tilde\delta(q_2,w) \notin F\text{ und }\tilde\delta(q_3,w)\notin F \]
@@ -497,14 +497,15 @@ Bemerkung: Die Menge der erreichbaren Zustände kann mit dem folgenden Verfahren
 
 \medskip
 
-Beobachtung: Auch nach dem Entfernen der nicht erreichbaren Zustände $q_{01}$ und $q_{10}$ scheint der DEA aus \autoref{bsp:2.schnitt} unnötig groß. Das Verhalten des DEA in den Zuständen $q_{11}$, $q_{20}$ und $q_{21}$ ist sehr ähnlich. 
+Beobachtung: Auch nach dem Entfernen der nicht erreichbaren Zustände $q_{01}$ und $q_{10}$ scheint der DEA aus \autoref{bsp:2.schnitt} unnötig groß zu sein. Das Verhalten des DEA in den Zuständen $q_{11}$, $q_{20}$ und $q_{21}$ ist sehr ähnlich. 
 Wir charakterisieren diese "`Ähnlichkeit"' formal wie folgt.
 
 \begin{Def}[name={[Äquivalenz von \acs*{DEA}-Zuständen]}] %\rlnote{Def.-Num. überprüfen}
   Wir nennen zwei Zustände $p,q\in Q$ eines \ac{DEA} \emph{äquivalent}, geschrieben $p\equiv q$, falls
   \begin{displaymath}
-  \forall w\in\Sigma^*, \tilde\delta(p,w)\in F \text{ gdw } \tilde\delta(q,w)\in F
-\end{displaymath}
+  \forall w\in\Sigma^*: \tilde\delta(p,w)\in F \text{ gdw } \tilde\delta(q,w)\in F
+  \qedhere
+  \end{displaymath}
 \end{Def}
 %\stepcounter{lemma}
 
@@ -520,7 +521,7 @@ $$\{ \,
 (q_{11}, q_{20}), (q_{20}, q_{11}), \,
 (q_{20}, q_{21}), (q_{21}, q_{20}), \,
 (q_{21}, q_{11}), (q_{11}, q_{21}) \,
-\}$$
+\}\qedhere$$
 \end{Bsp}
 
 
@@ -531,9 +532,9 @@ Sie $X$ eine beliebige Menge. Eine \emph{Relation} $R$ über $X$ ist eine Teilme
 
 Eine Relation $R\subseteq X\times X$ heißt
 \begin{itemize}
- \item \emph{reflexiv}, wenn $\forall x\in X$\ $(x,x)\in R$, 
- \item \emph{symmetrisch}, wenn $\forall x, y\in X$\ $(x,y)\in R \;\; \Rightarrow\;\; (y,x)\in R$, 
- \item \emph{transitiv}, wenn $\forall x, y, z\in X$\ $(x,y)\in R \land (y,z)\in R\;\; \Rightarrow\;\; (x,z)\in R$.
+ \item \emph{reflexiv}, wenn $\forall x\in X$: $(x,x)\in R$, 
+ \item \emph{symmetrisch}, wenn $\forall x, y\in X$: $(x,y)\in R \;\; \Rightarrow\;\; (y,x)\in R$, 
+ \item \emph{transitiv}, wenn $\forall x, y, z\in X$: $(x,y)\in R \land (y,z)\in R\;\; \Rightarrow\;\; (x,z)\in R$.
 \end{itemize}
 
 \begin{Bsp} Im folgenden interessieren wir uns nur Relationen die alle drei Eigenschaften erfüllen, 
@@ -626,13 +627,13 @@ Sind zwei Zustände äquivalent so sind auch für jedes Zeichen ihre Nachfolger 
 %                 \draw [->] (q0) edge node [auto] {1} (q1);
 %                 \draw [->] (q1) edge node [auto] {1} (q2);
 %         \end{tikzpicture}
-%         \captionof{figure}{Automat zu \eqref{bsp:3.1}}
+%         \captionof{figure}{Automat zu~\eqref{bsp:3.1}}
 % \end{minipage}
 
 \begin{lemma}
 \label{eqn:delta-wohldefiniert}
 Für alle $p,q\in Q$ gilt:
-        $$p \equiv q \quad\=>\quad \forall a\in\Sigma\;\; \delta(p,a)\equiv\delta(q,a)$$
+        $$p \equiv q \quad\=>\quad \forall a\in\Sigma: \delta(p,a)\equiv\delta(q,a)$$
 \end{lemma}
 \begin{proof}
 \begin{eqnarray*}
@@ -711,7 +712,7 @@ Wir werden später (\-> Satz von Myhill-Nerode) sehen dass $\A_\equiv$ der klein
 \begin{Def}[name={[Rechtskongruente Äquivalenzrelation]}]
         \datenote{27.10.17}
         Eine Äquivalenzrelation $R\subseteq\Sigma^*\x\Sigma^*$ heißt \emph{rechtskongruent}, falls
-        \[ (u,v)\in R \quad\=>\quad \forall w\in\Sigma^*\;(u\cdot w,v\cdot w) \in R \]
+        \[ (u,v)\in R \quad\=>\quad \forall w\in\Sigma^*: (u\cdot w,v\cdot w) \in R \]
 \end{Def}
 %\setcounter{Bsp}{5}
 \begin{Bsp} %\rlnote{Bsp.-Num. überprüfen (3.6)}
@@ -741,7 +742,7 @@ Wir werden später (\-> Satz von Myhill-Nerode) sehen dass $\A_\equiv$ der klein
 \end{Bsp}
 \begin{Def}
         Für eine Sprache $L\subseteq \Sigma^*$ ist die \emph{Nerode Relation} wie folgt definiert.
-        \[ R_L = \{(u,v) \mid \forall w\in\Sigma^*\; uw\in L \<=> vw\in L \} \]
+        \[ R_L = \{(u,v) \mid \forall w\in\Sigma^*: uw\in L \<=> vw\in L \} \]
 \end{Def}
 \begin{description}
  \item[Beobachtung 1] Die Nerode Relation ist eine Äquivalenzrelation.
@@ -749,7 +750,7 @@ Wir werden später (\-> Satz von Myhill-Nerode) sehen dass $\A_\equiv$ der klein
  Folgt daraus dass "`$\Leftrightarrow$"' (Biimplikation, "`Genau dann wenn"`) eine Äquivalenzrelation ist.
  \item[Beobachtung 2] Die Nerode Relation ist rechtskongruent.
                 \begin{proof}
-                Sei $(u,v)\in R_L$. Zeige $\forall w\in\Sigma^*$ , dass $(uw,vw)\in R_L$.
+                Sei $(u,v)\in R_L$. Zeige $\forall w\in\Sigma^*: (uw,vw)\in R_L$.
                 Wir führen diesen Beweis via Induktion über die Länge von $w$.\\
                 I.A. ($n=0$) Für $w=\Eps$ ist $ (u\Eps,v\Eps)=(u,v)\in R_L$.\\
 %                 I.S. Sei Aussage gezeigt für alle Wörter $w'$ mit $|w'| \le k$.\\
@@ -757,7 +758,7 @@ Wir werden später (\-> Satz von Myhill-Nerode) sehen dass $\A_\equiv$ der klein
                 Nach Induktionsvoraussetzung ist dann auch $(uw', vw') \in R_L $.
                 \begin{eqnarray*}
 		(uw',vw')\in R_L 
-		& \stackrel{\text{def } R_L}{\text{gdw}} & \forall z\in\Sigma^*, \quad uw'z\in L \<=> vw'z\in L\\
+		& \stackrel{\text{def } R_L}{\text{gdw}} & \forall z\in\Sigma^*: uw'z\in L \<=> vw'z\in L\\
 		& \stackrel{\text{zerlege } z=az'}{\text{impliziert}} & \forall a\in \Sigma, z'\in\Sigma^*: uw'az'\in L \<=> vw'az'\in L\\
 		& \stackrel{\text{def } R_L}{\text{gdw}} & (uw'a,vw'a)\in R_L
 	      \end{eqnarray*}
@@ -827,7 +828,7 @@ Bemerkung: Die Äquivalenzklasse $[11]$ enthält alle Wörter die kein Präfix e
     L(\A)=\{w \mid \tilde\delta(\qinit,w)\in F \} = \bigcup_{q \in F} \{ w \mid \tilde\delta(\qinit,w) = q\}
 \end{displaymath}
 
-Nun sind $\{ w \mid \tilde\delta(\qinit,w)=q \} = [q]_\A$ genau die Äquivalenzklassen der Relation $R_\A$ aus Bsp \ref{Bsp:R_m}, einer rechtskongruenten Äquivalenzrelation.
+Nun sind $\{ w \mid \tilde\delta(\qinit,w)=q \} = [q]_\A$ genau die Äquivalenzklassen der Relation $R_\A$ aus Bsp.~\ref{Bsp:R_m}, einer rechtskongruenten Äquivalenzrelation.
 Der Index ist die Anzahl der erreichbaren Zustände und somit endlich: $\operatorname{\operatorname{Index}}(R_\A) \le |Q| < \infty$.
         
 \paragraph{(2) \=> (3)} Sei $R$ rechtskongruente Äquivalenzrelation mit endlichem Index, so dass $L$ Vereinigung von $R$-Äquivalenzklassen
@@ -845,7 +846,7 @@ Das aber ist die Definition der Nerode-Relation, d.h. $(u, v) \in R_L$. Da wir $
 \end{comment}
 \begin{align*}
 (u, v) \in R & \quad\Rightarrow\quad u \in L \Leftrightarrow v \in L \text{, \ \ \  da L Vereinigung von Äquivalenzklassen ist} \\
-& \quad\Rightarrow\quad \forall w \in \Sigma^*\; uw \in L \Leftrightarrow vw \in L \text{, \ \ \ da $R$ rechtskongruent } \\
+& \quad\Rightarrow\quad \forall w \in \Sigma^*: uw \in L \Leftrightarrow vw \in L \text{, \ \ \ da $R$ rechtskongruent } \\
 & \quad\Rightarrow\quad (u, v) \in R_L \text{, \ \ \  nach Definition der Nerode Relation}
 \end{align*}
 Es gilt also $R \subseteq R_L$ und somit $\operatorname{Index}(R_L) \leq \operatorname{Index}(R)<\infty$.
@@ -946,7 +947,7 @@ Wir formalisieren diesen Verdacht im folgenden Lemma.
                 &\exists n\in\N,\ n>0:\quad \forall z\in L,\ |z|\geq n:\\
                 &\exists u,v,w\in\Sigma^* :\\
                 &z = uvw,\ |uv| \leq n,\ |v| \geq 1\\
-                \text{und }& \forall i\in\N:\ uv^iw\in L
+                \text{und }& \forall i\in\N: uv^iw\in L
         \end{alignat*}
 \end{lemma}
 \vspace{-2em}
@@ -982,7 +983,7 @@ Wir formalisieren diesen Verdacht im folgenden Lemma.
         
         Sei $n$ die Konstante aus dem \ac{PL}. Wähle $z=0^n10^n$. 
         (Gültige Wahl, da $|z|=2n+1\geq n$)\\
-        Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N$ $uv^iw \in L$. 
+        Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N: uv^iw \in L$. 
         Nach Wahl von $z$ gilt nun
   \begin{itemize}
   \item $uv = 0^m$ mit $m\leq n$
@@ -1006,7 +1007,7 @@ Wir formalisieren diesen Verdacht im folgenden Lemma.
 %         Sei $n$ die Konstante aus dem \ac{PL}.
 %         
 %         Wähle $z=0^{n^2}$. Also $|z|=n^2\geq n$\\
-%         Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N$ $uv^iw \in L$. Nach Wahl von $z$ gilt nun
+%         Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N: uv^iw \in L$. Nach Wahl von $z$ gilt nun
 %   \begin{itemize}
 %   \item $uv = 0^m$ mit $m\leq n$
 %   \item $v = 0^k$ mit $k\geq 1$
@@ -1077,7 +1078,7 @@ Idee: Definiere einen neue Art von Automaten bei dem ein Zustand pro Zeichen meh
 % 	Gegeben: festes Wort $w$.\\
 % 	Gesucht: Sprache aller Worte, in denen $w$ als Teilwort vorkommt.
 % 	\begin{align*}
-% 		L &= \{ v\in\Sigma^* \mid \exists u,x\in\Sigma^*, v=uwx \}\\
+% 		L &= \{ v\in\Sigma^* \mid \exists u,x\in\Sigma^*: v=uwx \}\\
 % 		\Sigma &= \{a,b,c\}\\
 % 		& \text{konkretes Beispiel:}\\
 % 		w &= abac
@@ -1159,7 +1160,7 @@ Idee: Definiere einen neue Art von Automaten bei dem ein Zustand pro Zeichen meh
 % 	\hyperref[fig:nfa-teilwort-powerset]{Abbildung~\ref{fig:nfa-teilwort-powerset}} zeigt (einen Ausschnitt) aus dem deterministischen Automaten, der schematisch aus dem \acsu{NEA} in \autoref{fig:nfa-teilwort} konstruiert werden kann. Idee: bei Schritt mit Symbol $a$ ist der \ac{NEA} gleichzeitig in allen Zuständen, die durch $a$ von (der Menge der) aktuellen Zustände erreichbar sind.
 % 	
 % 	Variante: erkenne \textbf{Subwort} $w=a_1,\dots,a_n$
-% 	\[ L' = \{ v\in\Sigma^* \mid \exists x_0,\dots,x_n\in\Sigma^*, v=x_0a_1x_1a_2\dots a_nx_n \} \]
+% 	\[ L' = \{ v\in\Sigma^* \mid \exists x_0,\dots,x_n\in\Sigma^*: v=x_0a_1x_1a_2\dots a_nx_n \} \]
 % 	Nicht det. Automat für $L'$ mit $(w=abac)$ ist sehr einfach. Der entsprechende deterministische Automat ist deutlich komplizierter. (selbst)
 % 	\begin{figure}[H]\centering
 % 		\begin{tikzpicture}[>=stealth, shorten >=1pt,
@@ -1341,7 +1342,7 @@ Die vier Zustände auf der rechten Seite sind nicht erreichbar.
         Zeige $L(\A_\calP)=L(\calN)$. 
         Dafür beweisen wir zunächst via Induktion über die Länge von $w$, die folgende Eigenschaft:
         
-        $\forall w\in\Sigma^*\; \forall p\in Q_\calP\backslash\{\{\}\}\; \forall q\in Q$
+        $\forall w\in\Sigma^*\; \forall p\in Q_\calP\backslash\{\{\}\}\; \forall q\in Q:$
         $$q\in\tilde\delta_\calP(p,w) \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in p \text{ und } q_n=q$$
         I.A. $(n=0,$ also $w=\Eps)$: Gilt trivialerweise da $p\neq\{\}$\\
         I.S. ($n\rightsquigarrow n+1$): Seit $w=aw'$ beliebiges Wort der Länge $n+1$.
@@ -1608,7 +1609,7 @@ Der $\Eps$-freie Automat für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} hat das
 \begin{proof}[von \autoref{satz:2.EpsElim}: $\Eps$-Eliminierung]
         Zeige $L(\calN)=L(\B)$. Dabei verwenden wir die folgende Eigenschaft, die wir via Induktion über die Länge von $w$ in den Übungen zeigen werden.
         
-        $\forall w\in\Sigma^*\; \forall q, q'\in Q$
+        $\forall w\in\Sigma^*\; \forall q, q'\in Q:$
         $$(q,w,q')\in\reach_\B \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=q \text{ und } q_n=q'$$
 %         I.A. $(n=0,$ also $w=\Eps)$: Gilt trivialerweise da $(q,\Eps,q)\in\reach$ für alle $q$\\
 %         I.S. ($n\rightsquigarrow n+1$): Seit $w=aw'$ beliebiges Wort der Länge $n+1$.
@@ -1843,7 +1844,7 @@ Z.B. sind die natürlichen Zahlen abgeschlossen unter Addition, aber nicht abges
         \begin{itemize}
         \item $\0\in RE(\Sigma)$
         \item $\1\in RE(\Sigma)$
-        \item $\forall a\in\Sigma$, $a\in RE(\Sigma)$
+        \item $\forall a\in\Sigma: a\in RE(\Sigma)$
         \item falls $r,s\in RE(\Sigma)$
                 \begin{itemize}[label=\textbullet]
                 \item $r+s\in RE(\Sigma)$
@@ -2135,7 +2136,7 @@ Ein Problem ist \emph{entscheidbar} wenn es sich durch eine binäre Antwort (ja/
 	$L$ unendlich \<=> $\exists w\in L : n\leq |w| <2n$
 	\begin{description}[font=\normalfont,labelwidth=\widthof{"'\<="':},leftmargin=!]
 	\item["'\<="':] $w$ erfüllt Voraussetzung des \ac{PL}, also $w=uvx$ mit $|uv|\leq n$ und $|v|\geq 1$.\\
-		Nach \ac{PL}: $\forall i\in\N$, $uv^ix\in L$, also $L$ unendlich.
+		Nach \ac{PL}: $\forall i\in\N: uv^ix\in L$, also $L$ unendlich.
 	\item["'\=>"'] \emph{Angenommen} $L$ unendlich, aber $\forall w\in L : |w|<n$ oder $|w|\geq 2 n$\\
 	Sei $w\in L$ minimal gewählt, so dass $|w|\geq 2n$.
 	
@@ -2161,7 +2162,7 @@ Ein Problem ist \emph{entscheidbar} wenn es sich durch eine binäre Antwort (ja/
         D.h. $L_1,L_2$ reguläre Sprachen. Ist $L_1\cap L_2 = \varnothing$?
 \end{Satz}
 \begin{proof}
-        Nach Satz \ref{satz:schnittproblem} ist $L_1\cap L_2$ regulär. $L_1\cap L_2=\varnothing$ entscheidbar nach \autoref{satz:leerheitsproblem}.
+        Nach Satz~\ref{satz:schnittproblem} ist $L_1\cap L_2$ regulär. $L_1\cap L_2=\varnothing$ entscheidbar nach \autoref{satz:leerheitsproblem}.
 \end{proof}
 
 \begin{Satz}[name={[Äquivalenzproblem]}]\label{satz:äquivalenzproblem}
