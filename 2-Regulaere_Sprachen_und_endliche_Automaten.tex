@@ -1508,15 +1508,15 @@ Wir benötigen dafür zunächst zwei weitere Definitionen.
 Der $\Eps$-Abschluss ist eine Abbildung die jedem Zustand $q$ die Menge der Zustände zuordnet, die von $q$ über $\Eps$-Übergänge erreichbar sind.
 Wir definieren diese Abbildung formal wie folgt. Dabei verwenden wir den Abbildungsnamen $\ecl$ um an den englischen Begriff "`$\Eps$ closure"' zu erinnern.
 \begin{Def}
- Der \emph{$\Eps$-Abschluss} $\ecl:Q\rightarrow\calP(Q)$ ist die kleinste Abbildung, die für alle $q,q',q"'\in Q$ die folgenden Eigenschaften erfüllt:
+ Der \emph{$\Eps$-Abschluss} $\ecl_\B:Q\rightarrow\calP(Q)$ ist die kleinste Abbildung, die für alle $q,q',q''\in Q$ die folgenden Eigenschaften erfüllt:
  \begin{eqnarray*}
-  & q\in\ecl(q) &\\
-  & q'\in\ecl(q) \text{ und } q"'\in\delta(q',\Eps) \quad\Rightarrow\quad q"'\in\ecl(q) & \qedhere
+  & q\in\ecl_\B(q) &\\
+  & q'\in\ecl_\B(q) \text{ und } q''\in\delta(q',\Eps) \quad\Rightarrow\quad q'''\in\ecl_\B(q) & \qedhere
  \end{eqnarray*}
 \end{Def}
-Offensichtlich kann immer eine endliche explizite Repräsentation von $\ecl$ berechnet werden: Starte in jedem Zustand einmal und folge mit Breitensuche allen $\Eps$-Kanten im Zustandsdiagramm.
+Offensichtlich kann immer eine endliche explizite Repräsentation von $\ecl_\B$ berechnet werden: Starte in jedem Zustand einmal und folge mit Breitensuche allen $\Eps$-Kanten im Zustandsdiagramm.
 
-Für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} sieht $\ecl$ wie folgt aus:
+Für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} sieht $\ecl_\B$ wie folgt aus:
 $$
 \begin{array}{c||c|c|c|c|c|c}
    q  & q_0 & q_1 & q_2 & q_3\\ \hline
@@ -1528,19 +1528,19 @@ $$
 Als nächstes definieren wir eine dreistellige Relation die uns für je zwei Zustände sagt für welche Wörter den Automaten vom ersten Zustand in den zweiten Zustand überführen. Der Name der Relation "`$\reach$"' soll dabei an des englische Wort "`reachability"' erinnern.
 
 \begin{Def}
- Die \emph{Erreichbarkeitsrelation} $\reach\subseteq Q\times\Sigma^*\times Q$ ist die kleinste Relation, die für alle $q,q',q"',q"''\in Q$ und für alle $w\in\Sigma^*$ die folgenden Eigenschaften erfüllt:
+ Die \emph{Erreichbarkeitsrelation} $\reach_\B\subseteq Q\times\Sigma^*\times Q$ ist die kleinste Relation, die für alle $q,q',q'',q'''\in Q$ und für alle $w\in\Sigma^*$ die folgenden Eigenschaften erfüllt:
   \begin{eqnarray*}
-& q'\in\ecl(q) \quad\Rightarrow\quad (q,\Eps,q')\in\reach &\\
-& q'\in\ecl(q), q"'\in\delta(q',a) \text{ und } (q"',w,q"'')\in\reach \Rightarrow (q,aw,q"'')\in\reach & \qedhere
+& q'\in\ecl_\B(q) \quad\Rightarrow\quad (q,\Eps,q')\in\reach_\B &\\
+& q'\in\ecl_\B(q), q''\in\delta(q',a) \text{ und } (q'',w,q''')\in\reach_\B \Rightarrow (q,aw,q''')\in\reach_\B & \qedhere
  \end{eqnarray*}
 \end{Def}
 
-Für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} können wir $\reach$ mit Hilfe der folgenden Tabelle angeben.
+Für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} können wir $\reach_\B$ mit Hilfe der folgenden Tabelle angeben.
 Dabei bedeutet der Eintrag von einer Sprache $L$ in Zeile $q_i$ und Spalte $q_j$, dass für alle $w\in L$ das Tripel
-$(q_i,w,q_j)$ in $\reach$ enthalten ist.
+$(q_i,w,q_j)$ in $\reach_\B$ enthalten ist.
 $$
 \begin{array}{c||c|c|c|c|c|c}
-   \reach  & q_0 & q_1 & q_2 & q_3\\ \hline
+   \reach_\B  & q_0 & q_1 & q_2 & q_3\\ \hline
 q_0 & \{\Eps\} & \{b\}^* & \{b\}^*\cdot\{a\}^* & \{b\}^*\cdot\{a\}^* \\[2mm]
 q_1 & \{\}     & \{b\}^* & \{b\}^*\cdot\{a\}^* & \{b\}^*\cdot\{a\}^* \\[2mm]
 q_2 & \{\}     & \{\}    & \{a\}^*             & \{a\}\cdot\{a\}^*\\[2mm]
@@ -1549,15 +1549,15 @@ q_3 & \{\}     & \{\}    & \{a\}^*             & \{a\}^*
 $$
 
 \begin{Def}\label{def:2.EpsNeaSprache}
- Ein Wort $w\in\Sigma^*$ wird von $\B$ \emph{akzeptiert}, wenn $(\qinit,w,q_f)\in\reach$ für ein $q_f\in F$.
+ Ein Wort $w\in\Sigma^*$ wird von $\B$ \emph{akzeptiert}, wenn $(\qinit,w,q_f)\in\reach_\B$ für ein $q_f\in F$.
  Die von $\B$ akzeptierte Sprache $L(\B)$ ist die Menge der von $\B$ akzeptierten Wörter. D.h.	
-	$L(\B)=\{ w\in\Sigma^* \mid \exists q\in F: (\qinit, w, q)\in\reach \}$
+	$L(\B)=\{ w\in\Sigma^* \mid \exists q\in F: (\qinit, w, q)\in\reach_\B \}$
 \end{Def}
 
 Offensichtlich gibt es zu jedem \ac{NEA} $\calN$ einen $\Eps$-NEA $\B$ der die gleiche Sprache akzeptiert.
 Die Konstuktion ist dabei sehr einfach: Erweitere die Transitionsfunkion um $\delta(q,\Eps)=\{\}$ für alle $q\in Q$.
 Für die Sprachgleichheit zeigen wir via Induktion über die Länge von $w$, dass für alle Wörter und für alle Zustände
-$$\exists \text{ Lauf } q_0q_1\ldots q_n \text{ von $\calN$ über } w \quad\Leftrightarrow\quad (q_0,w,q_n)\in\reach$$
+$$\exists \text{ Lauf } q_0q_1\ldots q_n \text{ von $\calN$ über } w \quad\Leftrightarrow\quad (q_0,w,q_n)\in\reach_\B$$
 Der folgende Satz zeigt uns dass auch die umgekehrte Richtung gilt.
 
 \begin{Satz}\label{satz:2.EpsElim}
@@ -1566,9 +1566,9 @@ Der folgende Satz zeigt uns dass auch die umgekehrte Richtung gilt.
 Zur Vorbereitung des Beweises machen wir zunächst die folgende Definition.
 
 \begin{Def}[$\Eps$-freier Automat]
- Für gegebenen $Eps$-\ac{NEA}  $\B= (\Sigma, Q,\delta,\qinit,F)$ definieren wir den NEA $\calN= (\Sigma, Q,\delta_\calN,\qinit,F_\calN)$ mit
-        $$\delta_\calN(q,a)=\bigcup\limits_{q'\in\ecl(q)}\{q'''\mid \exists q'' : q''\in\delta(q',a) \text{ und } q'''\in\ecl(p'')\}$$
-        $$F_\calN=\{q\in Q\mid \exists q_f\in F: q_f\in\ecl(q)\}$$
+ Für gegebenen $\Eps$-\ac{NEA}  $\B= (\Sigma, Q,\delta,\qinit,F)$ definieren wir den NEA $\calN= (\Sigma, Q,\delta_\calN,\qinit,F_\calN)$ mit
+        $$\delta_\calN(q,a)=\bigcup\limits_{q'\in\ecl_\B(q)}\{q'''\mid \exists q'' : q''\in\delta(q',a) \text{ und } q'''\in\ecl_\B(q'')\}$$
+        $$F_\calN=\{q\in Q\mid \exists q_f\in F: q_f\in\ecl_\B(q)\}$$
 und nennen diesen den \emph{$\Eps$-freien Automat} von $\B$.
 \end{Def}
 
@@ -1609,7 +1609,7 @@ Der $\Eps$-freie Automat für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} hat das
         Zeige $L(\calN)=L(\B)$. Dabei verwenden wir die folgende Eigenschaft, die wir via Induktion über die Länge von $w$ in den Übungen zeigen werden.
         
         $\forall w\in\Sigma^*\; \forall q, q'\in Q$
-        $$(q,w,q')\in\reach \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=q \text{ und } q_n=q'$$
+        $$(q,w,q')\in\reach_\B \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=q \text{ und } q_n=q'$$
 %         I.A. $(n=0,$ also $w=\Eps)$: Gilt trivialerweise da $(q,\Eps,q)\in\reach$ für alle $q$\\
 %         I.S. ($n\rightsquigarrow n+1$): Seit $w=aw'$ beliebiges Wort der Länge $n+1$.
 %         \begin{eqnarray*}
@@ -1622,7 +1622,7 @@ Der $\Eps$-freie Automat für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} hat das
 
         \begin{align*}
          w\in L(\B) 
-         &\stackrel{\autoref{def:2.sprache}}{\<=>} \exists q_f\in F: (\qinit, w, q_f)\in\reach\\
+         &\stackrel{\autoref{def:2.sprache}}{\<=>} \exists q_f\in F: (\qinit, w, q_f)\in\reach_\B\\
          &\<=> \exists q_f\in F: \underbrace{q_0, q_1,\ldots q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=\qinit \text{ und } q_n=q_f\\
          &\stackrel{\autoref{def:2.EpsNeaSprache}}{\<=>} L(\calN)\\
         \end{align*}
@@ -1692,7 +1692,7 @@ Die vom $\Eps$-NEA für Konkatenation akzeptierte Sprache ist $L(\B_1)\cdot L(\B
 \begin{proof}
  Zeige via Induktion über die Länge von $w_1$ dass $\forall w_1,w_2\in\Sigma^* \forall q_1\in Q_1, \forall q_1'\in F, \forall q_2'\in Q_2$ die folgende Eigenschaft gilt.
  $$
- (q_1,w_1,q_1')\in\reach \text{ und } (\qinit,w_2,q_2')\in\reach \quad\Leftrightarrow\quad (q_1,w,q_2')\in\reach
+ (q_1,w_1,q_1')\in\reach_{\B_1} \text{ und } (\qinit,w_2,q_2')\in\reach_{\B_2} \quad\Leftrightarrow\quad (q_1,w,q_2')\in\reach_\B
  $$
 \end{proof}
 
