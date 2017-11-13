@@ -309,7 +309,7 @@ aus der Einleitung dieses Kapitels hat die folgende graphische Repräsentation.
 
 Frage: Gegeben seien zwei reguläre Sprachen $L_1$, $L_2$ über einem gemeinsamen Alphabet $\Sigma$; ist dann auch der Schnitt $L_1\cap L_2$ eine reguläre Sprache? Wir beantworten diese Frage mit dem folgenden Satz.
 
-\begin{Satz}
+\begin{Satz}\label{satz:2.ClosedIntersection}
   Reguläre Sprachen sind abgeschlossen unter der Schnittoperation. (D.h.\ für zwei gegebene reguläre Sprachen $L_1$, $L_2$ über $\Sigma$ ist auch der Schnitt $L_1\cap L_2$ eine reguläre Sprache.)
 \end{Satz}
 
@@ -1728,7 +1728,7 @@ Gegeben zwei $\Eps$-NEA $\B_i= (\Sigma, Q_i,\delta_i,\qinit_i,F_i)$, $i = 1,2$, 
 \end{Bsp}
 
 
-\begin{lemma}
+\begin{lemma}\label{satz:2.ClosedConcatenation}
 Die vom $\Eps$-NEA für Konkatenation akzeptierte Sprache ist $L(\B_1)\cdot L(\B_2)$.
 \end{lemma}
 \begin{proof}
@@ -1755,129 +1755,143 @@ Die vom $\Eps$-NEA für Konkatenation akzeptierte Sprache ist $L(\B_1)\cdot L(\B
 \end{Def}
 Z.B.\ sind die natürlichen Zahlen abgeschlossen unter Addition, aber nicht abgeschlossen unter Subtraktion.
 
+Im folgenden schreiben wir $REG$ für die Menge alles regulären Sprachen.
 
-\begin{lemma}
+\begin{lemma}\label{satz:2.ClosedComplement}
  Die Menge $REG$ der regulären Sprachen ist abgeschlossen unter Komplement.
 \end{lemma}
 
 \begin{proof}
- 
+Sei $L$ eine reguläre Sprache. 
+Dann gibt es (per Definition) einen DEA $\A=(\Sigma, Q, \delta, \qinit, F)$ der L akzeptiert.
+Wir konstruieren den DEA $\overline{\A}=(\Sigma, Q, \delta, \qinit, Q\backslash F)$ bei dem ein Zustand akzeptierend ist genau dann wenn der Zustand in $\A$ nicht akzeptierend ist.
+Man kann leicht zeigen, dass $L(\overline{\A})=\overline{L}$ und somit ist auch $\overline{L}$ regulär.
 \end{proof}
 
-\begin{lemma}
- Die Menge $REG$ der regulären Sprache ist abgeschlossen unter dem Stern Operator
+\begin{lemma}\label{satz:2.ClosedStar}
+Die Menge $REG$ der regulären Sprache ist abgeschlossen unter dem Stern Operator
 \end{lemma}
 
 \begin{proof}
-         \begin{align*}
-                Q &= Q_1\overset.\cup \{q_0\}\\
-                \delta(q,a) &=
+Sei $L$ eine reguläre Sprache. Dann gibt es einen $\Eps$-NEA $\B=(\Sigma, Q, \delta, \qinit, F)$ der $L$ akzeptiert. 
+Wir konstruieren einen $\Eps$-NEA $\B_*=(\Sigma, Q, \delta_*, \qinit, F)$ für $L^*$ indem wir von jedem akzeptierenden Zustand einen $\Eps$-Übergang zum Startzustand hinzufügen.
+\[
+                \delta(q,x) =
                         \begin{cases}
-                                \delta_1(q,a) & q\in Q_1\setminus F_1\\
-                                \delta_1(q,a)\cup\delta_1(q_{01},a) & q\in F_1\\
-                                \delta_1(q_{01},a) & q=q_0
-                        \end{cases}\\
-                F &= \{q_0\}\cup F_1\\
-                \dots\ L(\A) &= L(\A_1)^*
-        \end{align*}
+                                \delta(q,x) & q\notin F \text{ oder } x \neq \Eps\\
+                                \qinit & q\in F \text{ und } x = \Eps
+                        \end{cases}
+\]
+Man kann via induktion über die Länge von Wörtern zeigen, dass $L(\B_*)=L^*$ gilt.
 \end{proof}
 
+Bemerkung: Die Menge der regulären Sprachen REG ist unter den folgenden Operationen abgeschlossen.
+
+\begin{tabular}{cl@{\quad}l}
+ $\cap$ & (Durchschnitt) & \autoref{satz:2.ClosedIntersection}\\
+ $\cup$ & (Vereinigung) & Präsenzübungen erste Woche, Aufgabe~3\\
+ $\overline{\phantom{X}}$ & (Komplement) & \autoref{satz:2.ClosedComplement}\\
+ $\cdot$ & (Konkatenation) & \autoref{satz:2.ClosedConcatenation}\\
+ $\phantom{X}^*$ & (Kleene Stern) & \autoref{satz:2.ClosedStar} 
+\end{tabular}
 
 
 
-\hide{
-\begin{Satz}[name={[Abgeschlossenheit von $REG$]}]\label{satz:3.8}
-        Die Menge $REG$ der regulären Sprachen ist abgeschlossen unter $\cup$ (Vereinigung), $\cap$ (Durchschnitt), $\overline{\phantom{X}}$ (Komplement), Produkt (Konkatenation), Stern. Beispielsweise ist für $L_1, L_2$ reguläre Sprachen also auch $L_1 \cup L_2$, wie auch $L_1 \cap L_2$ etc. wieder eine reguläre Sprache.
-\end{Satz}
-\begin{proof}
-	Sei $\A_i:=(Q_i,\Sigma,\delta_i,q_{0i},F_i)$, $\quad i=1,2$ \acs{NEA}s
-	\begin{itemize}
-	\item $\cup:$ Def $\A$ durch (vgl.\ Abb.~\ref{fig:reg-closure-union}):
-		\begin{align*}
-			Q &= Q_1\overset.\cup Q_2\overset.\cup\{q_0\}\\
-			\delta(q,a) &=
-                \begin{cases}
-                    \delta_1(q,a) & q\in Q_1\\
-                    \delta_2(q,a) & q\in Q_2\\
-                    \delta_1(q,a)\cup\delta_2(q,a) & q=q_0
-                        \end{cases}\\
-                        F &= F_1\overset.\cup F_2\overset.\cup (q_{01}\in F_1\lor q_{02}\in F_2) \rhd \{q_0\}
-                \end{align*}
-                Zeige $L(\A)=L(\A_1)\cup L(\A_2)$ (Aufgabe zum Eigenstudium: Betrachte die Läufe).
-                \begin{figure}[tp]\centering
-                \begin{tikzpicture}[>=stealth]
-                \node (q0) at (0,0) {$q_0$};
-                
-                \node (q01) at (1.5,1.5) {$q_{01}$};
-                \node (y) at (2.5,2) {$\bullet$};
-                \node (x1) at (2.5,1) {$\bullet$};
-                \node (qf1) at (4,1.5) {$q_{f_1}$};
-                
-                \node (q02) at (1.5,-1.5) {$q_{02}$};
-                \node (x2) at (2.5,-1) {$\bullet$};
-                \node (l) at (2.5,-2) {$\bullet$};
-                \node (qf2) at (4,-1.5) {$q_{f_2}$};
-                
-                \path [->] (q0) edge [bend left=45] (y)
-                                edge (x1)
-                                edge (x2)
-                                edge [bend right=45] (l)
-                          (q01) edge (y)
-                                edge (x1)
-                          (q02) edge (x2)
-                                edge (l)
-%                ;
-%                \path (q01) edge [bend left=80] (qf1)
-%                                    edge [bend right=80] (qf1)
-                ;\draw (2.75,-1.5) ellipse (1.75 and 1.35);
-                \node at (5,2) {$A_1$}
-                ;
-                \draw (2.75,1.5) ellipse (1.75 and 1.35);
-                \node at (5,-1) {$A_2$};
-            \end{tikzpicture}
-            \caption{\acs{NEA} für Vereinigung}
-            \label{fig:reg-closure-union}
-        \end{figure}
-        \item $\cap:$ 
-        Annahme: Seien $\A_1$ und $\A_2$ zwei \acs*{DEA}s. Konstruiere nun  den \emph{Produktautomaten} $\A$, für den gilt (Aufgabe zum Eigenstudium!): $L(\A) = L(\A_1) \cap L(\A_2)$.
-		\begin{align*}
-			Q &= Q_1\x Q_2\\
-			\delta((q_1,q_2),a) &= (\delta_1(q_1,a),\delta_2(q_2,a))\\
-			q_0 &= (q_{01},q_{02})\\
-			F &= F_1\x F_2\\
-		\end{align*}
-	\item Komplement: Ang. $\A_1$ ist \ac{DEA}, der $L$ erkennt. Ersetze $F_1$ durch $Q_1\setminus F_1$ und erhalte einen \acs*{DEA} $\A_1'$, der genau das Komplement von $L$ erkennt. 
+
+% \begin{Satz}[name={[Abgeschlossenheit von $REG$]}]\label{satz:3.8}
+%         Die Menge $REG$ der regulären Sprachen ist abgeschlossen unter $\cup$ (Vereinigung), $\cap$ (Durchschnitt), $\overline{\phantom{X}}$ (Komplement), Produkt (Konkatenation), Stern. Beispielsweise ist für $L_1, L_2$ reguläre Sprachen also auch $L_1 \cup L_2$, wie auch $L_1 \cap L_2$ etc. wieder eine reguläre Sprache.
+% \end{Satz}
+% \begin{proof}
+% 	Sei $\A_i:=(Q_i,\Sigma,\delta_i,q_{0i},F_i)$, $\quad i=1,2$ \acs{NEA}s
+% 	\begin{itemize}
+% 	\item $\cup:$ Def $\A$ durch (vgl.\ Abb.~\ref{fig:reg-closure-union}):
+% 		\begin{align*}
+% 			Q &= Q_1\overset.\cup Q_2\overset.\cup\{q_0\}\\
+% 			\delta(q,a) &=
+%                 \begin{cases}
+%                     \delta_1(q,a) & q\in Q_1\\
+%                     \delta_2(q,a) & q\in Q_2\\
+%                     \delta_1(q,a)\cup\delta_2(q,a) & q=q_0
+%                         \end{cases}\\
+%                         F &= F_1\overset.\cup F_2\overset.\cup (q_{01}\in F_1\lor q_{02}\in F_2) \rhd \{q_0\}
+%                 \end{align*}
+%                 Zeige $L(\A)=L(\A_1)\cup L(\A_2)$ (Aufgabe zum Eigenstudium: Betrachte die Läufe).
+%                 \begin{figure}[tp]\centering
+%                 \begin{tikzpicture}[>=stealth]
+%                 \node (q0) at (0,0) {$q_0$};
+%                 
+%                 \node (q01) at (1.5,1.5) {$q_{01}$};
+%                 \node (y) at (2.5,2) {$\bullet$};
+%                 \node (x1) at (2.5,1) {$\bullet$};
+%                 \node (qf1) at (4,1.5) {$q_{f_1}$};
+%                 
+%                 \node (q02) at (1.5,-1.5) {$q_{02}$};
+%                 \node (x2) at (2.5,-1) {$\bullet$};
+%                 \node (l) at (2.5,-2) {$\bullet$};
+%                 \node (qf2) at (4,-1.5) {$q_{f_2}$};
+%                 
+%                 \path [->] (q0) edge [bend left=45] (y)
+%                                 edge (x1)
+%                                 edge (x2)
+%                                 edge [bend right=45] (l)
+%                           (q01) edge (y)
+%                                 edge (x1)
+%                           (q02) edge (x2)
+%                                 edge (l)
+% %                ;
+% %                \path (q01) edge [bend left=80] (qf1)
+% %                                    edge [bend right=80] (qf1)
+%                 ;\draw (2.75,-1.5) ellipse (1.75 and 1.35);
+%                 \node at (5,2) {$A_1$}
+%                 ;
+%                 \draw (2.75,1.5) ellipse (1.75 and 1.35);
+%                 \node at (5,-1) {$A_2$};
+%             \end{tikzpicture}
+%             \caption{\acs{NEA} für Vereinigung}
+%             \label{fig:reg-closure-union}
+%         \end{figure}
+%         \item $\cap:$ 
+%         Annahme: Seien $\A_1$ und $\A_2$ zwei \acs*{DEA}s. Konstruiere nun  den \emph{Produktautomaten} $\A$, für den gilt (Aufgabe zum Eigenstudium!): $L(\A) = L(\A_1) \cap L(\A_2)$.
+% 		\begin{align*}
+% 			Q &= Q_1\x Q_2\\
+% 			\delta((q_1,q_2),a) &= (\delta_1(q_1,a),\delta_2(q_2,a))\\
+% 			q_0 &= (q_{01},q_{02})\\
+% 			F &= F_1\x F_2\\
+% 		\end{align*}
+% 	\item Komplement: Ang. $\A_1$ ist \ac{DEA}, der $L$ erkennt. Ersetze $F_1$ durch $Q_1\setminus F_1$ und erhalte einen \acs*{DEA} $\A_1'$, der genau das Komplement von $L$ erkennt. 
+% %
+% %
+%         \item Produkt: Seien $L_1$, $L_2$ regulär.\\
+%                 Zeige $L_1\cdot L_2$ regulär.
+%                 \begin{align*}
+%                         Q &= Q_1 \overset.\cup Q_2\\
+%                         \delta(q,a) &=
+%                                 \begin{cases}
+%                                         \delta_1(q,a) & q\in Q_1\setminus F_1\\
+%                                         \delta_1(q,a)\cup\delta_2(q_{02},a) & q\in F_1\\
+%                                         \delta_2(q,a) & q\in Q_2
+%                                 \end{cases}\\
+%                 q_0& = q_{01}\\
+%                 F &= F_2\cup(q_{02}\in F_2) \rhd F_1
+%                 \end{align*}
+%                 Zeige $L(\A) = L(\A_1)\cdot L(A_2)$
+%         \item Stern
+%         \begin{align*}
+%                 Q &= Q_1\overset.\cup \{q_0\}\\
+%                 \delta(q,a) &=
+%                         \begin{cases}
+%                                 \delta_1(q,a) & q\in Q_1\setminus F_1\\
+%                                 \delta_1(q,a)\cup\delta_1(q_{01},a) & q\in F_1\\
+%                                 \delta_1(q_{01},a) & q=q_0
+%                         \end{cases}\\
+%                 F &= \{q_0\}\cup F_1\\
+%                 \dots\ L(\A) &= L(\A_1)^*
+%         \end{align*}
+%         \end{itemize}
+% \end{proof}
 %
-%
-        \item Produkt: Seien $L_1$, $L_2$ regulär.\\
-                Zeige $L_1\cdot L_2$ regulär.
-                \begin{align*}
-                        Q &= Q_1 \overset.\cup Q_2\\
-                        \delta(q,a) &=
-                                \begin{cases}
-                                        \delta_1(q,a) & q\in Q_1\setminus F_1\\
-                                        \delta_1(q,a)\cup\delta_2(q_{02},a) & q\in F_1\\
-                                        \delta_2(q,a) & q\in Q_2
-                                \end{cases}\\
-                q_0& = q_{01}\\
-                F &= F_2\cup(q_{02}\in F_2) \rhd F_1
-                \end{align*}
-                Zeige $L(\A) = L(\A_1)\cdot L(A_2)$
-        \item Stern
-        \begin{align*}
-                Q &= Q_1\overset.\cup \{q_0\}\\
-                \delta(q,a) &=
-                        \begin{cases}
-                                \delta_1(q,a) & q\in Q_1\setminus F_1\\
-                                \delta_1(q,a)\cup\delta_1(q_{01},a) & q\in F_1\\
-                                \delta_1(q_{01},a) & q=q_0
-                        \end{cases}\\
-                F &= \{q_0\}\cup F_1\\
-                \dots\ L(\A) &= L(\A_1)^*
-        \end{align*}
-        \end{itemize}
-\end{proof}
-%
+
+
 
 \subsection{Reguläre Ausdrücke}
 \draftnote{9.11.16}
@@ -1960,6 +1974,7 @@ Z.B.\ sind die natürlichen Zahlen abgeschlossen unter Addition, aber nicht abge
 $L$ ist regulär \<=> $L$ ist Sprache eines regulären Ausdrucks.
 \end{Satz}
 
+\hide{
 \begin{proof}[Kleene, $\<=$]
 Betrachte zu einem regulärem Ausdruck $r\in RE(\Sigma)$ die durch diesen erzeugte Sprache $L=\llbracket r \rrbracket$. Zeige per Induktion über $r$, dass $ \forall r\in RE(\Sigma) $ gilt: $ \llbracket r \rrbracket$ ist regulär.
     	\begin{description}[font=\normalfont]
