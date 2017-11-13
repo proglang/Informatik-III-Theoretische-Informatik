@@ -1648,7 +1648,7 @@ Der $\Eps$-freie Automat für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} hat das
 \begin{proof}[von \autoref{satz:2.EpsElim}: $\Eps$-Eliminierung]
         Zeige $L(\calN)=L(\B)$. Dabei verwenden wir die folgende Eigenschaft, die wir via Induktion über die Länge von $w$ in den Übungen zeigen werden.
         
-        $\forall w\in\Sigma^*\; \forall q, q'\in Q:$
+        $\forall w\in\Sigma^+\; \forall q, q'\in Q:$
         $$(q,w,q')\in\reach_\B \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=q \text{ und } q_n=q'$$
 %         I.A. $(n=0,$ also $w=\Eps)$: Gilt trivialerweise da $(q,\Eps,q)\in\reach$ für alle $q$\\
 %         I.S. ($n\rightsquigarrow n+1$): Seit $w=aw'$ beliebiges Wort der Länge $n+1$.
@@ -1659,14 +1659,14 @@ Der $\Eps$-freie Automat für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} hat das
 %                 & \Leftrightarrow & \exists\underbrace{q_1,q_2,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, \exists q_0\in p, \delta(q_0,a)=q_1 \text{ und } q_n=q\\
 %                 & \Leftrightarrow & \exists\underbrace{q_0q_1,q_2,\ldots, q_n}_{\text{Lauf}}\in Q,\text{ sodass }  n+1=|w|, q_0\in p \text{ und } q_n=q
 %         \end{eqnarray*}
-        Mit Hilfe dieser Eigenschaft können wir nun leicht zeigen:
+        Mit Hilfe dieser Eigenschaft können wir nun leicht für $w \neq \varepsilon$ zeigen:
         \begin{eqnarray*}
          w\in L(\B) 
          &\stackrel{\text{\autoref{def:2.sprache}}}{\<=>} & \exists q_f\in F: (\qinit, w, q_f)\in\reach_\B\\
-         &\<=> & \exists q_f\in F: \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=\qinit \text{ und } q_n=q_f\\
+         &\<=> & \exists q_f\in F_\calN: \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=\qinit \text{ und } q_n=q_f\\
          &\stackrel{\text{\autoref{def:2.EpsNeaSprache}}}{\<=>} & w \in L(\calN)
-         \qedherefixeqnarray
         \end{eqnarray*}
+        Der Fall $w = \varepsilon$ folgt mit $\varepsilon \in L(\B) \Leftrightarrow \exists q \in F \cap \ecl_\B(\qinit) \Leftrightarrow \qinit \in F_\calN \Leftrightarrow \varepsilon \in L(\calN)$.
 \end{proof}
 
 
