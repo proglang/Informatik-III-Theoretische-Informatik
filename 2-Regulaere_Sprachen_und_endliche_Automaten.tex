@@ -28,6 +28,8 @@ Wir beschreiben zunächst informell die Bestandteile eines endlichen Automaten:
 \newcommand{\calP}{\mathcal{P}}
 \newcommand{\ecl}{\textsf{ecl}}
 \newcommand{\reach}{\textsf{reach}}
+\renewcommand{\0}{\underline{\emptyset}}
+\renewcommand{\1}{\underline{\Eps}}
 \newcommand{\hide}[1]{}
 
 \begin{description}
@@ -928,7 +930,8 @@ Welche interessanten Eigenschaften haben reguläre Sprachen?
 Notation: Sei $\operatorname{bin}:\{0,1\}^*\rightarrow \N$ die Decodierung von Bitstrings in natürliche Zahlen;
 z.B.\ $\operatorname{bin}(101) = 5$, $\operatorname{bin}(\Eps) = 0$.
 
-\begin{Bsp*} Betrachte den folgenden \ac{DEA}, der die Sprache der Binärcodierung von durch drei teilbaren Zahlen akzeptiert:
+\begin{Bsp}\label{bsp:2.mod3}
+Betrachte den folgenden \ac{DEA}, der die Sprache der Binärcodierung von durch drei teilbaren Zahlen akzeptiert:
                 $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$
     \begin{center}
                 \begin{tikzpicture}
@@ -954,7 +957,7 @@ z.B.\ $\operatorname{bin}(101) = 5$, $\operatorname{bin}(\Eps) = 0$.
   \item Im Allgemeinen gilt $\forall i\in\N: 1(00)^i1 \in L$.
   \qedhere
   \end{itemize}
-\end{Bsp*}
+\end{Bsp}
 Verdacht: Alle "`langen"' Wörter lassen sich in der Mitte "`aufpumpen"'.
 Wir formalisieren diesen Verdacht im folgenden Lemma.
 
@@ -995,7 +998,7 @@ Wir formalisieren diesen Verdacht im folgenden Lemma.
 \end{proof}
 
 
-\begin{Bsp*}
+\begin{Bsp}
         Die Sprache $L_\text{centered}=\{0^n10^n \mid n\in\N\}$ ist nicht regulär.
         
         Wir geben hierfür einen Widerspruchsbeweis mit Hilfe des Pumping Lemmas \ac{PL}.
@@ -1019,7 +1022,7 @@ Wir formalisieren diesen Verdacht im folgenden Lemma.
     \ruleplaceholder[w]{\widthof{\ \ \ $1\ \dots\dots\ 1$}}\!|
     \qedhere
   \end{gather*}
-\end{Bsp*}
+\end{Bsp}
 
 % \begin{Bsp*}
 %         $L=\{0^{x^2} \mid x\in\N\}$ ist nicht regulär.\\
@@ -1784,7 +1787,8 @@ Wir konstruieren einen NEA $\B_*=(\Sigma, Q\overset.\cup\{\qinit_*\}, \delta_*, 
                 \delta_*(q,x) =
                         \begin{cases}
                                 \delta(q,x) & q\notin F \text{ oder } x \neq \Eps\\
-                                \{\qinit\} & q\in F \text{ und } x = \Eps \\
+                                \delta(q,x)\cup\{\qinit\} & q\in F \text{ und } x = \Eps \\
+                                \{\} & q=\qinit_* \text{ und } x \in\Sigma\\
                                 \{\qinit\} & q=\qinit_* \text{ und } x = \Eps
                         \end{cases}
 \]
@@ -1917,7 +1921,7 @@ Die Wörter, die getestet werden sollen, sind die Zeilen aller Dateien auf dem R
 Eine Umsetzung: Gib Rechner den folgenden NEA ...
 
 
-...
+... TODO
 
 \begin{Def}[name={[RE($\Sigma$)]}]
         Die Menge $RE(\Sigma)$ der \emph{regulären Ausdrücke über $\Sigma$} ist induktiv definiert durch:
@@ -1942,15 +1946,18 @@ Sofern mit Hilfe dieser Regeln der reguläre Ausdruck zweifelsfrei rekonstruiert
 Wir schreiben z.B. $110 + 0$ statt $((1\cdot (1\cdot 0)) + 0)$.
 
 \begin{Bsp}~
+TODO 
 
 $\0\1\0\1$ ist ein regulärer Ausdruck
 
 $a^4b^7$ ist kein regulärer Ausdruck
 \end{Bsp}
 
+\medskip
 
+Wir geben regulären Ausdrücken mit Hilfe der folgenden Definition eine Semantik.
 \begin{Def}[name={[Semantik eines regulären Ausdrucks]}]
-        Die Semantik eines regulären Ausdrucks $\llbracket\cdot \rrbracket : RE(\Sigma) \-> \mathcal{P}(\Sigma^*)$ ist induktiv definiert durch
+        Die von einem regulären Ausdruck \emph{erzeugte Sprache} $\llbracket\cdot \rrbracket : RE(\Sigma) \-> \mathcal{P}(\Sigma^*)$ ist induktiv definiert durch
         \begin{align*}
                 \llbracket \0 \rrbracket &= \varnothing\\
                 \llbracket \1 \rrbracket &= \{\Eps\}\\
@@ -1960,22 +1967,106 @@ $a^4b^7$ ist kein regulärer Ausdruck
                 \llbracket r^* \rrbracket &= \llbracket r\rrbracket^* \qedhere
         \end{align*}
 \end{Def}
+\begin{Bsp}
+ TODO Einmal ausrechnen
+\end{Bsp}
+\begin{Bsp}
+ TODO 1 Bekannte Sprache
+\end{Bsp}
+
+
 %
-    \begin{Bsp*} Mustererkennung
+%     \begin{Bsp*} Mustererkennung
+%         \begin{itemize}
+%         \item Akzeptiere alle Wörter, die $abac$ enthalten: 
+%         \begin{align*} & \Sigma^* abac \Sigma^* \\
+%                        \Leftrightarrow & (a_1 + a_2 + ...)^* abac (a_1 + a_2 + ...)^* \forall a_i \in \Sigma
+%           \end{align*}
+%         \item Sei $\Sigma=\{0,1\}$. Die Sprache aller Wörter, deren $n$-letztes Symbol = 1, ist nicht regulär, denn:
+%         \begin{gather*}
+%         (0+1)^*1\underbrace{(0+1)\dots(0+1)}_{n-1}\\
+%         \xcancel{0^n1^n}\notin RE(\Sigma)
+%         \end{gather*}
+%         \item Ein regulärer Ausdrück für alle Wörter $\omega \in (0, 1)^*$, s.d. $\omega \mod 3=0$:
+%         \[ (0+1(01^*0)^*1)^* \]
+%         
+%     \captionsetup{type=figure}
+%     \begin{tikzpicture}[>=stealth, shorten >=1pt, on grid, node distance=2cm, initial text=]
+%         \node[state, initial, accepting] (q0) {$q_0$};
+%         \node[state] (q1) [right=of q0] {$q_1$};
+%         \node[state] (q2) [right=of q1] {$q_2$};
+%         \path [->]
+%             (q0) edge[loop below] node[auto] {0} ()
+%                  edge[bend left]  node[auto] {1} (q1)
+%             (q1) edge[bend left]  node[auto] {0} (q2)
+%                  edge[bend left]  node[auto] {1} (q0)
+%             (q2) edge[loop right] node[auto] {1} ()
+%                  edge[bend left]  node[auto] {0} (q1)
+%         ;
+%         
+%         \draw [->,decorate,decoration=snake] ($(q1.south) - (0,.5cm)$) -- ++(0,-1cm);
+%         
+%         \node [state, initial, accepting] (q0) [below=3cm of q0] {$q_0$};
+%         \node [state] (q1) [right=of q0] {$q_1$};
+%         \path [->]
+%             (q0) edge[loop below] node[auto] {0} ()
+%                  edge[bend left]  node[auto] {1} (q1)
+%             (q1) edge[loop right] node[auto] {$01^*0$} ()
+%                  edge[bend left]  node[auto] {1} (q0)
+%         ;
+%         
+%         \node [state, initial, accepting] (q0) [below=2.5cm of q0] {$q_0$};
+%         \path [->]
+%             (q0) edge[loop below] node[auto] {0} ()
+%                  edge[loop right] node[auto] {$1(01^*0)^*1$} ()
+%         ;
+%     \end{tikzpicture}
+%     \captionof{figure}{Informell vom Automaten zum regulären Ausdruck für mod 3}
+%   \qedhere
+% \end{itemize}
+%     \end{Bsp*}
+    
+    
+\begin{Satz}[Kleene]
+$L$ ist regulär \<=> $L$ ist Sprache eines regulären Ausdrucks.
+\end{Satz}
+
+
+\begin{proof}[Kleene, $\<=$]
+Betrachte zu einem regulärem Ausdruck $r\in RE(\Sigma)$ die durch diesen erzeugte Sprache $L=\llbracket r \rrbracket$. 
+Zeige via stuktureller Induktion über $r$ den Aufbau regulärer Ausdrücke, dass $ \llbracket r \rrbracket$ regulär ist.
+    	\begin{description}[font=\normalfont]
+      \item[I.A.:] \hfill
+        \vspace{-\baselineskip}
         \begin{itemize}
-        \item Akzeptiere alle Wörter, die $abac$ enthalten: 
-        \begin{align*} & \Sigma^* abac \Sigma^* \\
-                       \leadsto\ & (a_1 + a_2 + ...)^* abac (a_1 + a_2 + ...)^* \quad \forall a_i \in \Sigma
-          \end{align*}
-        \item Sei $\Sigma=\{0,1\}$. Die Sprache aller Wörter, deren $n$-letztes Symbol eine 1 ist, ist nicht regulär, denn:
-        \begin{gather*}
-        (0+1)^*1\underbrace{(0+1)\dots(0+1)}_{n-1}\\
-        \xcancel{0^n1^n}\notin RE(\Sigma)
-        \end{gather*}
-        \item Ein regulärer Ausdrück für alle Wörter $w \in \{0, 1\}^*$, sodass $w \mod 3=0$:
-        \[ (0+1(01^*0)^*1)^* \]
-        
-    \captionsetup{type=figure}
+        \item $r = \0$, $\llbracket r \rrbracket = \emptyset$ ist regulär
+        \item $r = \1$, $\llbracket r \rrbracket = \{ \Eps \}$ ist regulär
+        \item $r = a$, $\llbracket r \rrbracket = \{ a \}$ ist regulär \\
+          (\tikz[>=stealth, shorten >=1pt, initial text=,
+    					on grid, baseline=-.6ex,
+    					every state/.style={minimum size=0pt,inner sep=0pt}
+    				]{
+    				\node [state,initial] (a) {}; \node [state,accepting] (b) [right=of a] {};
+    				\path [->] (a) edge node [auto] {$a$} (b);
+    			}
+    			 \quad\acs{NEA}) 
+        \end{itemize}
+        \item[I.V.:] Für $i \in \{1, 2\}$ gilt: $\llbracket r_i \rrbracket$ ist regulär.
+    		\item[I.S.:] \hfill
+          \vspace{-\baselineskip}
+          \begin{itemize}
+          \item $r = r_1 + r_2$, $\llbracket r \rrbracket = \llbracket r_1 \rrbracket \cup \llbracket r_2 \rrbracket$ ist regulär (gezeigt in Präsenzübungen, Aufgabe~3)
+          \item $r = r_1 \cdot r_2$, $\llbracket r \rrbracket = \llbracket r_1 \rrbracket \cdot \llbracket r_2 \rrbracket$ ist regulär nach \autoref{satz:2.ClosedConcatenation}
+          \item $r = r_1^*$, $\llbracket r \rrbracket = \llbracket r_1 \rrbracket^*$ ist regulär nach \autoref{satz:2.ClosedStar}
+          \end{itemize}
+		\end{description}
+\end{proof}
+
+
+Im verbleibenden Teil des Abschnittes zu regulären Ausdrücken werden wir Zeigen, dass wir für jeden DEA einen regulären Ausdruck mit der gleichen Sprache konstruieren können.
+Wir beschreiben zunächst ein mögliches Vorgehen an einem Beispiel
+\begin{Bsp} Betrachten den aus \autoref{bsp:2.mod3} (Pumping Lemma) bekannten DEA.
+\begin{center}
     \begin{tikzpicture}[>=stealth, shorten >=1pt, on grid, node distance=2cm, initial text=]
         \node[state, initial, accepting] (q0) {$q_0$};
         \node[state] (q1) [right=of q0] {$q_1$};
@@ -2006,78 +2097,59 @@ $a^4b^7$ ist kein regulärer Ausdruck
                  edge[loop right] node[auto] {$1(01^*0)^*1$} ()
         ;
     \end{tikzpicture}
-    \captionof{figure}{Informell vom Automaten zum regulären Ausdruck für mod 3}
-  \qedhere
-\end{itemize}
-    \end{Bsp*}
-\begin{Satz}[Kleene]
-$L$ ist regulär \<=> $L$ ist Sprache eines regulären Ausdrucks.
-\end{Satz}
+\end{center}
+
+\end{Bsp}
 
 
-\begin{proof}[Kleene, $\<=$]
-Betrachte zu einem regulärem Ausdruck $r\in RE(\Sigma)$ die durch diesen erzeugte Sprache $L=\llbracket r \rrbracket$. Zeige per Induktion über $r$, dass $ \forall r\in RE(\Sigma) $ gilt: $ \llbracket r \rrbracket$ ist regulär.
-    	\begin{description}[font=\normalfont]
-      \item[I.A.:] \hfill
-        \vspace{-\baselineskip}
-        \begin{itemize}
-        \item $r = \0$, $\llbracket r \rrbracket = \emptyset$ ist regulär
-        \item $r = \1$, $\llbracket r \rrbracket = \{ \Eps \}$ ist regulär
-        \item $r = a$, $\llbracket r \rrbracket = \{ a \}$ ist regulär \\
-          (\tikz[>=stealth, shorten >=1pt, initial text=,
-    					on grid, baseline=-.6ex,
-    					every state/.style={minimum size=0pt,inner sep=0pt}
-    				]{
-    				\node [state,initial] (a) {}; \node [state,accepting] (b) [right=of a] {};
-    				\path [->] (a) edge node [auto] {$a$} (b);
-    			}
-    			 \quad\acs{NEA}) 
-        \end{itemize}
-        \item[I.V.:] Für $i \in \{1, 2\}$ gilt: $\llbracket r_i \rrbracket$ ist regulär.
-    		\item[I.S.:] \hfill
-          \vspace{-\baselineskip}
-          \begin{itemize}
-          \item $r = r_1 + r_2$, $\llbracket r \rrbracket = \llbracket r_1 \rrbracket \cup \llbracket r_2 \rrbracket$ ist regulär nach \autoref{satz:3.8}
-          \item $r = r_1 \cdot r_2$, $\llbracket r \rrbracket = \llbracket r_1 \rrbracket \cdot \llbracket r_2 \rrbracket$ ist regulär nach \autoref{satz:3.8}
-          \item $r = r_1^*$, $\llbracket r \rrbracket = \llbracket r_1 \rrbracket^*$ ist regulär nach \autoref{satz:3.8}
-          \end{itemize}
-		\end{description}
-\end{proof}
 
-Zum Beweis (bzw.\ zur Konstruktion) der Richtung "`\=>"' benötigen wir eine Rechenregel zum Lösen von Gleichungen zwischen regulären Sprachen und Ausdrücken:
+
+Zum Beweis (bzw.\ zur Konstruktion) der Richtung "`\=>"' verwenden wir eine Rechenregel zum Lösen von Gleichungen über Sprachen.
 \begin{lemma}[Ardens Lemma]\label{lem:arden}\ \\
-        Sei die lineare Gleichung $X=A\cdot X+B$ über $A, B, X\subseteq \Sigma^*$ gegeben. Dann ist $X=A^*B$ eine Lösung. Falls $\Eps \notin A$ ist diese Lösung ausserdem eindeutig.
+        Für die Gleichung $X=A\cdot X\cup B$ über den Sprachen $A, B, X\subseteq \Sigma^*$ gilt: 
+        \begin{enumerate}
+         \item Die Sprache $A^*B$ ist eine Lösung für $X$.
+         \item Falls $\Eps \notin A$ ist diese Lösung eindeutig.
+        \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Sei $ X= AX+B$ mit $\Eps\notin A$. Zeige, dass $A^*B \subseteq X$:
-        \begin{alignat*}{3}
-                && A^*B &= AA^*B + B = (\1+AA^*)B = B+A(A^*B) \quad\checkmark\\
-                \shortintertext{Angenommen $A^*B \subsetneq X$, d.h.\ $\exists w\in X$ mit $w\notin A^*B$, davon sei $w$ das kürzeste.}
-                \exists n\geq 1: && X &= \underbrace{A^nX}_{\ni w} + \underbrace{A^{n-1}B+\dots +AB+B}_{\not\ni w}\\
-                \curvearrowright && w &= u_1\dots u_n w'\text{ mit } u_1,\dots,u_n\in A\text{ und } w'\in X\\
-                \curvearrowright && |w'| &< |w|\\
-                \text{Falls}&& w'&\in A^*B \curvearrowright w\in A^nA^*B\subseteq A^*B \quad \lightning\\
-                \text{Also} && w'&\notin A^*B \quad\lightning\text{ gegen Minimalität von }w\\
-                \curvearrowright && X&\subseteq A^*B\\
-                \-> && X &= A^*B
-                \qedherefixalignat
-        \end{alignat*}
+\begin{enumerate}
+ \item Wir können leicht nachrechnen, dass $A^*B$ tatsächlich Lösung ist.
+ $$ A^*B = A\cdot A^*B \cup B = (AA^*\cup \{\Eps\})B = A(A^*B)\cup B$$
+ \item Aus dem Beweis für 1. wissen wir außerdem, dass jede Lösung Obermenge von $A^*B$ sein muss.
+ Wir führen einen Widerspruchsbeweis dass keine Lösung ein Wort $x\in\Sigma^*$ mit $x\notin A^*B$ enthalten kann.
+ 
+ Angenommen es gäbe Wörter $x$ mit dieser Eigenschaft. 
+ Dann gibt es auch Wörter minimaler Länge mit dieser Eigenschaft.
+ Sei $w$ solch ein Wort minimaler Länge.
+ Da alle Lösungen von der Form $\underbrace{A^nX}_{\ni w} + \underbrace{A^{n-1}B+\dots +AB+B}_{\not\ni w}$ sind hat $w$ die Form
+ $w = u_1\dots u_n w'\text{ mit } u_1,\dots,u_n\in A\text{ und } w'\in X$.
+ Fallunterscheidung
+ \begin{itemize}
+  \item $w' \in A^*B$ \ $\Rightarrow w\in A^nA^*B\subseteq A^*B$ Widerspruch!
+  \item $W' \notin A^*B$ \ $\Rightarrow w'$ auch schon Element einer Lösung. Widerspruch zur minimalen Länge von $w$.
+ \end{itemize}
+ Die Sprache $A^*B$ ist also die einzige Lösung für $X$.
+\end{enumerate}
 \end{proof}
 
+Wir können Ardens Lemma wie folgt auch für reguläre Ausdrücke formulieren:
 \begin{Korollar}
-  Ardens Lemma lässt sich auch für reguläre Ausdrücke formulieren: Seien $r_X,r_A,r_B$ reguläre Ausdrücke mit $\Eps \not \in \llbracket r_A \rrbracket$ für die die folgende Gleichung gilt:
+   Seien $r_X,r_A,r_B$ reguläre Ausdrücke mit $\Eps \not \in \llbracket r_A \rrbracket$ sodass die folgende Gleichung gilt:
   \begin{displaymath}
     \llbracket r_x \rrbracket = \llbracket r_A \cdot r_x + r_B \rrbracket
   \end{displaymath}
-  Dann ist 
+  Dann ist der reguläre Ausdruck
   \begin{displaymath}
-    r_x := r_A^*r_B
+    r_A^*r_B
   \end{displaymath}
-  eine eindeutige Lösung für $r_x$, die die Gleichung erfüllt.
+  eine Lösung für $r_x$ die die Gleichung erfüllt. Außerdem erzeugen alle anderen Lösungen die gleiche Sprache wie $r_A^*r_B$.
 \end{Korollar}
 
 % \datenote{11.11.16}
+
+\medskip
 
 \begin{proof}[Kleene, \=>]
   Sei $L=L(\A)$ für einen \ac{DEA} $\A=({Q},\Sigma,\delta,q_0,F)$ mit $Q = \{q_0,q_1,\dots,q_n\}$.
