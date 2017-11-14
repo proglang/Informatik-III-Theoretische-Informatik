@@ -1774,13 +1774,18 @@ Die Menge $REG$ der regulären Sprache ist abgeschlossen unter dem Stern-Operato
 
 \begin{proof}
 Sei $L$ eine reguläre Sprache. Dann gibt es einen $\Eps$-NEA $\B=(\Sigma, Q, \delta, \qinit, F)$, der $L$ akzeptiert. 
-Wir konstruieren einen NEA $\B_*=(\Sigma, Q, \delta_*, \qinit, \{\qinit\})$ für $L^*$, bei dem wir von jedem akzeptierenden Zustand einen $\Eps$-Übergang zum Startzustand hinzufügen und nur den Startzustand akzeptierend machen.
+Wir konstruieren einen NEA $\B_*=(\Sigma, Q\overset.\cup\{\qinit_*\}, \delta_*, \qinit_*, F\overset.\cup\{\qinit_*\})$ für $L^*$, indem wir
+\begin{itemize}
+ \item einen neuen akzeptierenden Startzustand einführen,
+ \item vom neuen Startzustand einen $\Eps$-Übergang zum alten Startzustand hinzufügen und
+ \item von jedem akzeptierenden Zustand einen $\Eps$-Übergang zum alten Startzustand hinzufügen.
+\end{itemize}
 \[
                 \delta_*(q,x) =
                         \begin{cases}
                                 \delta(q,x) & q\notin F \text{ oder } x \neq \Eps\\
                                 \{\qinit\} & q\in F \text{ und } x = \Eps \\
-                                \{\} & q\notin F \text{ und } x = \Eps
+                                \{\qinit\} & q=\qinit_* \text{ und } x = \Eps
                         \end{cases}
 \]
 Man kann via Induktion über die Länge von Wörtern zeigen, dass $L(\B_*)=L^*$ gilt.
@@ -1788,6 +1793,7 @@ Man kann via Induktion über die Länge von Wörtern zeigen, dass $L(\B_*)=L^*$ 
 
 Bemerkung: Die Menge der regulären Sprachen $REG$ ist unter den folgenden Operationen abgeschlossen.
 
+\begin{center}
 \begin{tabular}{cl@{\quad}l}
  $\cap$ & (Durchschnitt) & \autoref{satz:2.ClosedIntersection}\\
  $\cup$ & (Vereinigung) & Präsenzübungen erste Woche, Aufgabe~3\\
@@ -1795,7 +1801,7 @@ Bemerkung: Die Menge der regulären Sprachen $REG$ ist unter den folgenden Opera
  $\cdot$ & (Konkatenation) & \autoref{satz:2.ClosedConcatenation}\\
  $\phantom{\cdot}^*$ & (Kleene-Stern) & \autoref{satz:2.ClosedStar} 
 \end{tabular}
-
+\end{center}
 
 
 
