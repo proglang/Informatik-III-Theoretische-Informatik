@@ -1916,16 +1916,52 @@ Sie wissen aber noch, dass die Zeichenkette \texttt{info3} oder \texttt{infoIII}
 Möglicherweise war das \texttt{i} am Anfang aber auch groß geschrieben.
 Da Sie mehrere Dateien mit dieser Zeichenkette haben, soll der Rechner jeweils Dateinamen und die entsprechenden Zeilen ausgeben.
 
-Auf Systemen, auf denen die GNU Tools installiert sind, kann dieses Problem mit dem Befehl \texttt{find} gelöst werden.
+Auf Systemen, auf denen die GNU Tools installiert sind, kann dieses Problem mit dem folgenden Befehl gelöst werden.
+\begin{center}
+\verb+grep -r "\(I\|i\)nfo\(III\|3\)" /+ 
+\end{center}
+
+
 
 Konzeptuell soll Ihr Rechner hier Instanzen des Wortproblems lösen.
 Ihre Sprache besteht aus allen Zeichenketten, die \texttt{info3} in den oben beschriebenen Varianten enthalten.
 Die Wörter, die getestet werden sollen, sind die Zeilen aller Dateien auf dem Rechner.
 
-Eine Umsetzung: Gib Rechner den folgenden NEA ...
-
-
-... TODO
+Eine Umsetzung: Gib Rechner den folgenden NEA, dieser konvertiert den NEA dann in einem DEA um das Wortproblem effizient zu lösen.
+  \begin{center}
+                \begin{tikzpicture}[circle/.style={
+                        shape=circle,
+                        minimum size=0.5cm,
+                        text=black, draw,
+                        text width=0.5cm,
+                        align=center}]
+                        \node (vs) at (-1.0,1.0) {};
+                        \node [circle] (v0) at (0,0) {$q_{0}$};
+                        \node [circle] (v1) at (2,0) {$q_{1}$};
+                        \node [circle] (v2) at (4,0) {$q_{2}$};
+                        \node [circle] (v3) at (6,0) {$q_{3}$};
+                        \node [circle] (v4) at (8,0) {$q_{4}$};
+                        \node [circle, double] (v4drei) at (10,1) {$q_{5}$};
+                        \node [circle] (v4I) at (10,-1) {$q_{6}$};
+                        \node [circle] (v4II) at (12,-1) {$q_{7}$};
+                        \node [circle, double] (v4III) at (14,-1) {$q_{8}$};
+                        \draw [->] (vs) edge (v0);
+                        \draw [->] (v0) edge [loop above] node[auto] {$\Sigma$} (v2);
+                        \draw [->] (v0) edge [bend left=0] node[auto] {\texttt{I}, \texttt{i}} (v1);
+                        \draw [->] (v1) edge [bend left=0] node[auto] {\texttt{n}} (v2);
+                        \draw [->] (v2) edge [bend left=0] node[auto] {\texttt{f}} (v3);
+                        \draw [->] (v3) edge [bend left=0] node[auto] {\texttt{o}} (v4);
+                        \draw [->] (v4) edge [bend left=0] node[auto] {\texttt{3}} (v4drei);
+                        \draw [->] (v4) edge [bend left=0] node[auto] {\texttt{I}} (v4I);
+                        \draw [->] (v4I) edge [bend left=0] node[auto] {\texttt{I}} (v4II);
+                        \draw [->] (v4II) edge [bend left=0] node[auto] {\texttt{I}} (v4III);
+                        \draw [->] (v4drei) edge [loop right] node[auto] {$\Sigma$} (v2);
+                        \draw [->] (v4III) edge [loop above] node[auto] {$\Sigma$} (v2);
+                \end{tikzpicture}
+  \end{center}
+Problem: Einen Graph als Eingabe den den Rechner zu übermitteln ist unkomfortabel oder zeitaufwändig.
+Wir führen deshalb einen weiteren textbasierten Formalismus für reguläre Sprachen ein.
+Dieser hat große Ähnlichkeiten zum dem in der Praxis verwendeten Input von \texttt{grep}.
 
 \begin{Def}[name={[RE($\Sigma$)]}]
         Die Menge $RE(\Sigma)$ der \emph{regulären Ausdrücke über $\Sigma$} ist induktiv definiert durch:
@@ -1950,18 +1986,21 @@ Sofern mit Hilfe dieser Regeln der reguläre Ausdruck zweifelsfrei rekonstruiert
 Wir schreiben z.B. $110 + 0$ statt $((1\cdot (1\cdot 0)) + 0)$.
 
 \begin{Bsp}~
-TODO 
-
-$\0\1\0\1$ ist ein regulärer Ausdruck
-
-$a^4b^7$ ist kein regulärer Ausdruck
+\begin{enumerate}
+ \item \texttt{(I+i)nfo(3+III)} ist ein regulärer Ausdruck über dem Alphabet der ASCII Zeichen.
+ \item $(\0\1)^*+a$ ist ein regulärer Ausdruck über $\Sigma=\{a\}$.
+ \item $\0\1\0\1$ ist über jedem Alphabet ein regulärer Ausdruck.
+ \item $aaaabbbbbbb$ ist ein regulärer Ausdruck über $\Sigma=\{a,b\}$.
+ \item $a^4b^7$ ist \textbf{kein} regulärer Ausdruck
+ \item $(0+1\cdot (01^*0)^*\cdot 1)^*$ ist ein regulärer Ausdruck über $\Sigma=\{0,1\}$.
+\end{enumerate}
 \end{Bsp}
 
 \medskip
 
 Wir geben regulären Ausdrücken mit Hilfe der folgenden Definition eine Semantik.
 \begin{Def}[name={[Semantik eines regulären Ausdrucks]}]
-        Die von einem regulären Ausdruck \emph{erzeugte Sprache} $\llbracket\cdot \rrbracket : RE(\Sigma) \-> \mathcal{P}(\Sigma^*)$ ist induktiv definiert durch
+        Die durch einen regulären Ausdruck \emph{beschriebene Sprache} $\llbracket\cdot \rrbracket : RE(\Sigma) \-> \mathcal{P}(\Sigma^*)$ ist induktiv definiert durch
         \begin{align*}
                 \llbracket \0 \rrbracket &= \varnothing\\
                 \llbracket \1 \rrbracket &= \{\Eps\}\\
@@ -1972,10 +2011,17 @@ Wir geben regulären Ausdrücken mit Hilfe der folgenden Definition eine Semanti
         \end{align*}
 \end{Def}
 \begin{Bsp}
- TODO Einmal ausrechnen
+$$
+\llbracket a + (\0\1)^*\rrbracket
+\quad=\quad \llbracket a\rrbracket \cup (\llbracket \0\rrbracket \cdot \llbracket \1\rrbracket)^*
+\quad=\quad \{ a\} \cup (\emptyset)^*
+\quad=\quad \{ a\} \cup \{\emptyset\}
+$$
 \end{Bsp}
 \begin{Bsp}
- TODO 1 Bekannte Sprache
+Die aus \autoref{bsp:2.zweitletztes} bekannte Sprache 
+$$L_2=\{w\in\{0,1\}^*\mid \text{ das zweitletzte Zeichen von $w$ ist $1$ }\}$$
+wird durch den regulären Ausdruck $(0+1)^*1(0+1)$ beschrieben.
 \end{Bsp}
 
 
