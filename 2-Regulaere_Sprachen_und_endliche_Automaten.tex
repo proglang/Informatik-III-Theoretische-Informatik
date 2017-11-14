@@ -1903,18 +1903,18 @@ Bemerkung: Die Menge der regulären Sprachen $REG$ ist unter den folgenden Opera
 
 \subsection{Reguläre Ausdrücke}
 \subsubsection{Motivation}
-Problemstellung: Sie habe auf ihrem Rechner irgendwo eine Textdatei mit Notizen zu dieser Vorlesung, können sich aber grade nicht an den Pfad erinnern.
-Sie wissen aber noch dass die Zeichenkette \texttt{info3} oder \texttt{infoIII} enthalten ist. 
+Problemstellung: Sie haben auf Ihrem Rechner irgendwo eine Textdatei mit Notizen zu dieser Vorlesung, können sich aber gerade nicht an den Pfad erinnern.
+Sie wissen aber noch, dass die Zeichenkette \texttt{info3} oder \texttt{infoIII} enthalten ist. 
 Möglicherweise war das \texttt{i} am Anfang aber auch groß geschrieben.
-Da sie ein paar Dateien mit dieser Zeichenkette haben soll der Rechner jeweils Dateinamen und die entsprechenden Zeilen ausgeben.
+Da Sie mehrere Dateien mit dieser Zeichenkette haben, soll der Rechner jeweils Dateinamen und die entsprechenden Zeilen ausgeben.
 
-Auf Systemen auf denen die GNU Tools installiert sind kann dieses Problem mit dem Befehl \texttt{find ....} gelöst werden.
+Auf Systemen, auf denen die GNU Tools installiert sind, kann dieses Problem mit dem Befehl \texttt{find} gelöst werden.
 
-Konzeptuell soll ihr Rechner hier instanzen des Wortproblem lösen.
-Ihre Sprache sind alle Zeichenketten die \texttt{info3} in den oben beschriebenen Variationen enthalten.
-Ihre Wörter sind die Zeilen aller Dateien auf dem Rechner.
+Konzeptuell soll Ihr Rechner hier Instanzen des Wortproblems lösen.
+Ihre Sprache besteht aus allen Zeichenketten, die \texttt{info3} in den oben beschriebenen Varianten enthalten.
+Die Wörter, die getestet werden sollen, sind die Zeilen aller Dateien auf dem Rechner.
 
-Eine Umsetung: Gib Rechner den folgenden NEA ...
+Eine Umsetzung: Gib Rechner den folgenden NEA ...
 
 
 ...
@@ -1930,15 +1930,16 @@ Eine Umsetung: Gib Rechner den folgenden NEA ...
                 \item $(r+s)\in RE(\Sigma)$
                 \item $(r\cdot s)\in RE(\Sigma)$
                 \item $(r)^*\in RE(\Sigma)$
+                \qedhere
                 \end{itemize}
         \end{itemize}
 \end{Def}
 Konventionen: Wir möchten nicht immer alle Klammern schreiben müssen. 
-Wir führen deshalb die folgenden Präzedenzregeln ein: ``$\strut^*$'' bindet stärker als ``$\cdot$'' und ``$\cdot$'' bindet stärker als ``$+$''.
-Nach Definition der Semantik werden wir außerdem sehen, dass ``$\cdot$'' und ``$+$'' assoziativ sind. 
+Wir führen deshalb die folgenden Präzedenzregeln ein: "`$\strut^*$"' bindet stärker als "`$\cdot$"' und "`$\cdot$"' bindet stärker als "`$+$"'.
+Nach Definition der Semantik werden wir außerdem sehen, dass "`$\cdot$"' und "`$+$"' assoziativ sind. 
 Unsere Konvention ist: 
-Sofern mit Hilfe dieser Regeln der reguläre Ausdruck zweifelsfrei rekonstruiert werden kann dürfen wir Klammern und ``$\cdot$'' weglassen.
-Wir schreiben z.B. $110 + 0$ statt $((1\cdot (1\cdot 0)) + 0)$
+Sofern mit Hilfe dieser Regeln der reguläre Ausdruck zweifelsfrei rekonstruiert werden kann, dürfen wir Klammern und "`$\cdot$"' weglassen.
+Wir schreiben z.B. $110 + 0$ statt $((1\cdot (1\cdot 0)) + 0)$.
 
 \begin{Bsp}~
 
@@ -1964,14 +1965,14 @@ $a^4b^7$ ist kein regulärer Ausdruck
         \begin{itemize}
         \item Akzeptiere alle Wörter, die $abac$ enthalten: 
         \begin{align*} & \Sigma^* abac \Sigma^* \\
-                       \Leftrightarrow & (a_1 + a_2 + ...)^* abac (a_1 + a_2 + ...)^* \forall a_i \in \Sigma
+                       \leadsto\ & (a_1 + a_2 + ...)^* abac (a_1 + a_2 + ...)^* \quad \forall a_i \in \Sigma
           \end{align*}
-        \item Sei $\Sigma=\{0,1\}$. Die Sprache aller Wörter, deren $n$-letztes Symbol = 1, ist nicht regulär, denn:
+        \item Sei $\Sigma=\{0,1\}$. Die Sprache aller Wörter, deren $n$-letztes Symbol eine 1 ist, ist nicht regulär, denn:
         \begin{gather*}
         (0+1)^*1\underbrace{(0+1)\dots(0+1)}_{n-1}\\
         \xcancel{0^n1^n}\notin RE(\Sigma)
         \end{gather*}
-        \item Ein regulärer Ausdrück für alle Wörter $\omega \in (0, 1)^*$, s.d. $\omega \mod 3=0$:
+        \item Ein regulärer Ausdrück für alle Wörter $w \in \{0, 1\}^*$, sodass $w \mod 3=0$:
         \[ (0+1(01^*0)^*1)^* \]
         
     \captionsetup{type=figure}
