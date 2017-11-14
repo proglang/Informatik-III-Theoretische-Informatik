@@ -1661,7 +1661,7 @@ Der $\Eps$-freie Automat für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} hat das
 %         \end{eqnarray*}
         Mit Hilfe dieser Eigenschaft können wir nun leicht für $w \neq \varepsilon$ zeigen:
         \begin{eqnarray*}
-         w\in L(\B) 
+         w\in L(\B) \hspace*{-1mm}
          &\stackrel{\text{\autoref{def:2.sprache}}}{\<=>} & \exists q_f\in F: (\qinit, w, q_f)\in\reach_\B\\
          &\<=> & \exists q_f\in F_\calN: \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=\qinit \text{ und } q_n=q_f\\
          &\stackrel{\text{\autoref{def:2.EpsNeaSprache}}}{\<=>} & w \in L(\calN)
@@ -1751,11 +1751,11 @@ Die vom $\Eps$-NEA für Konkatenation akzeptierte Sprache ist $L(\B_1)\cdot L(\B
 % \end{Def}
 
 \begin{Def}[name={[Abgeschlossenheit von $\mathcal{L}$]}]
-        Eine Menge $X$ heißt \emph{abgeschlossen} unter Operation $f:X^n \-> X$ falls $\forall x_1,\dots, x_n\in X : f(x_1,\dots, x_n)\in X$.
+        Eine Menge $X$ heißt \emph{abgeschlossen} unter Operation $f:X^n \-> X$, falls $\forall x_1,\dots, x_n\in X : f(x_1,\dots, x_n)\in X$.
 \end{Def}
-Z.B.\ sind die natürlichen Zahlen abgeschlossen unter Addition, aber nicht abgeschlossen unter Subtraktion.
+Zum Beispiel sind die natürlichen Zahlen abgeschlossen unter Addition, aber nicht abgeschlossen unter Subtraktion.
 
-Im folgenden schreiben wir $REG$ für die Menge alles regulären Sprachen.
+Im Folgenden schreiben wir $REG$ für die Menge aller regulären Sprachen.
 
 \begin{lemma}\label{satz:2.ClosedComplement}
  Die Menge $REG$ der regulären Sprachen ist abgeschlossen unter Komplement.
@@ -1764,35 +1764,36 @@ Im folgenden schreiben wir $REG$ für die Menge alles regulären Sprachen.
 \begin{proof}
 Sei $L$ eine reguläre Sprache. 
 Dann gibt es (per Definition) einen DEA $\A=(\Sigma, Q, \delta, \qinit, F)$ der L akzeptiert.
-Wir konstruieren den DEA $\overline{\A}=(\Sigma, Q, \delta, \qinit, Q\backslash F)$ bei dem ein Zustand akzeptierend ist genau dann wenn der Zustand in $\A$ nicht akzeptierend ist.
-Man kann leicht zeigen, dass $L(\overline{\A})=\overline{L}$ und somit ist auch $\overline{L}$ regulär.
+Wir konstruieren den DEA $\overline{\A}=(\Sigma, Q, \delta, \qinit, Q\backslash F)$ für $\overline{L}$, bei dem ein Zustand genau dann akzeptierend ist, wenn der Zustand in $\A$ nicht akzeptierend ist.
+Man kann leicht zeigen, dass $L(\overline{\A})=\overline{L}$; somit ist auch $\overline{L}$ regulär.
 \end{proof}
 
 \begin{lemma}\label{satz:2.ClosedStar}
-Die Menge $REG$ der regulären Sprache ist abgeschlossen unter dem Stern Operator
+Die Menge $REG$ der regulären Sprache ist abgeschlossen unter dem Stern-Operator.
 \end{lemma}
 
 \begin{proof}
-Sei $L$ eine reguläre Sprache. Dann gibt es einen $\Eps$-NEA $\B=(\Sigma, Q, \delta, \qinit, F)$ der $L$ akzeptiert. 
-Wir konstruieren einen $\Eps$-NEA $\B_*=(\Sigma, Q, \delta_*, \qinit, F)$ für $L^*$ indem wir von jedem akzeptierenden Zustand einen $\Eps$-Übergang zum Startzustand hinzufügen.
+Sei $L$ eine reguläre Sprache. Dann gibt es einen $\Eps$-NEA $\B=(\Sigma, Q, \delta, \qinit, F)$, der $L$ akzeptiert. 
+Wir konstruieren einen NEA $\B_*=(\Sigma, Q, \delta_*, \qinit, \{\qinit\})$ für $L^*$, bei dem wir von jedem akzeptierenden Zustand einen $\Eps$-Übergang zum Startzustand hinzufügen und nur den Startzustand akzeptierend machen.
 \[
-                \delta(q,x) =
+                \delta_*(q,x) =
                         \begin{cases}
                                 \delta(q,x) & q\notin F \text{ oder } x \neq \Eps\\
-                                \qinit & q\in F \text{ und } x = \Eps
+                                \{\qinit\} & q\in F \text{ und } x = \Eps \\
+                                \{\} & q\notin F \text{ und } x = \Eps
                         \end{cases}
 \]
-Man kann via induktion über die Länge von Wörtern zeigen, dass $L(\B_*)=L^*$ gilt.
+Man kann via Induktion über die Länge von Wörtern zeigen, dass $L(\B_*)=L^*$ gilt.
 \end{proof}
 
-Bemerkung: Die Menge der regulären Sprachen REG ist unter den folgenden Operationen abgeschlossen.
+Bemerkung: Die Menge der regulären Sprachen $REG$ ist unter den folgenden Operationen abgeschlossen.
 
 \begin{tabular}{cl@{\quad}l}
  $\cap$ & (Durchschnitt) & \autoref{satz:2.ClosedIntersection}\\
  $\cup$ & (Vereinigung) & Präsenzübungen erste Woche, Aufgabe~3\\
  $\overline{\phantom{X}}$ & (Komplement) & \autoref{satz:2.ClosedComplement}\\
  $\cdot$ & (Konkatenation) & \autoref{satz:2.ClosedConcatenation}\\
- $\phantom{X}^*$ & (Kleene Stern) & \autoref{satz:2.ClosedStar} 
+ $\phantom{\cdot}^*$ & (Kleene-Stern) & \autoref{satz:2.ClosedStar} 
 \end{tabular}
 
 
