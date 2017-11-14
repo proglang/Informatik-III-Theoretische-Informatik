@@ -715,7 +715,7 @@ Der Äquivalenzklassenautomat $\A_\equiv$ zum \ac{DEA} aus \autoref{bsp:2.schnit
                 \end{align*}
         \end{enumerate}
 \end{proof}
-In den Übungen werden wir ein Verfahren mit Laufzeit $O(|Q|^4\cdot |\Sigma|\log|Q|)$ zur Konstruktion des Äquivalenzklassenautomaten kennenlernen. Es gibt aber auch schnellere Verfahren. Mit dem Algorithmus von Hopcroft kann $\A_\equiv$ in $O(|Q||\Sigma|\log|Q|)$ erzeugt werden.
+In den Übungen werden wir ein Verfahren mit Laufzeit $O(|Q|^4\cdot |\Sigma|)$ zur Konstruktion des Äquivalenzklassenautomaten kennenlernen. Es gibt aber auch schnellere Verfahren. Mit dem Algorithmus von Hopcroft kann $\A_\equiv$ in $O(|Q||\Sigma|\log|Q|)$ erzeugt werden.
 
 Wir werden später (\-> Satz von Myhill-Nerode) sehen, dass $\A_\equiv$ der kleinste \acs*{DEA} ist, der $L(\A)$ akzeptiert.
 
@@ -847,7 +847,7 @@ Bemerkung: Die Äquivalenzklasse $[11]$ enthält alle Wörter, die kein Präfix 
     L(\A)=\{w \mid \tilde\delta(\qinit,w)\in F \} = \bigcup_{q \in F} \{ w \mid \tilde\delta(\qinit,w) = q\}.
 \end{displaymath}
 %
-Nun sind $\{ w \mid \tilde\delta(\qinit,w)=q \} = [q]_\A$ genau die Äquivalenzklassen der Relation $R_\A$ aus \autoref{Bsp:R_m}, einer rechtskongruenten Äquivalenzrelation.
+Nun sind $\{ w \mid \tilde\delta(\qinit,w)=q \}$ genau die Äquivalenzklassen der Relation $R_\A$ aus \autoref{Bsp:R_m}, einer rechtskongruenten Äquivalenzrelation.
 Der Index ist die Anzahl der erreichbaren Zustände und somit endlich: $\operatorname{\operatorname{Index}}(R_\A) \le |Q| < \infty$.
         
 \paragraph{(2) \=> (3)} Sei $R$ einer rechtskongruente Äquivalenzrelation mit endlichem Index, sodass $L$ die Vereinigung von $R$-Äquivalenzklassen ist.
@@ -1683,11 +1683,11 @@ Wir geben hierfür zunächst eine Konstruktion an.
 Gegeben zwei $\Eps$-NEA $\B_i= (\Sigma, Q_i,\delta_i,\qinit_i,F_i)$, $i = 1,2$, definieren wir den \emph{$\Eps$-NEA für Konkatenation} $\B= (\Sigma, Q,\delta,\qinit,F)$ wie folgt.
                 \begin{align*}
                 Q &= Q_1 \overset.\cup Q_2\\
-                \delta(q,a) &=
+                \delta(q,x) &=
                                 \begin{cases}
-                                        \delta_1(q,a) & q\in Q_1\land (q\notin F_1 \lor a\neq \Eps)\\
-                                        \delta_1(q,a)\cup\{\qinit_2\} & q\in F_1\land a=\Eps\\
-                                        \delta_2(q,a) & q\in Q_2
+                                        \delta_1(q,x) & q\in Q_1\land (q\notin F_1 \lor x\neq \Eps)\\
+                                        \delta_1(q,x)\cup\{\qinit_2\} & q\in F_1\land x=\Eps\\
+                                        \delta_2(q,x) & q\in Q_2
                                 \end{cases}\\
                 \qinit & = \qinit_1\\
                 F &= F_2 \qedhere
@@ -1738,6 +1738,10 @@ Die vom $\Eps$-NEA für Konkatenation akzeptierte Sprache ist $L(\B_1)\cdot L(\B
  Zeige via Induktion über die Länge von $w_1$, dass $\forall w_1,w_2\in\Sigma^*, \forall q_1\in Q_1, \linebreak[1] \forall q_1'\in F, \forall q_2'\in Q_2$ die folgende Eigenschaft gilt.
  \[
  (q_1,w_1,q_1')\in\reach_{\B_1} \text{ und } (\qinit,w_2,q_2')\in\reach_{\B_2} \quad\Leftrightarrow\quad (q_1,w,q_2')\in\reach_\B
+ \]
+ Mit dieser Eigenschaft folgt leicht für alle $w_1, w_2 \in \Sigma^*$:
+ \[
+ w_1 \in L(\B_1) \text{ und } w_2 \in L(\B_2) \quad\Leftrightarrow\quad w_1 \cdot w_2 \in L(\B)
  \qedhere
  \]
 \end{proof}
