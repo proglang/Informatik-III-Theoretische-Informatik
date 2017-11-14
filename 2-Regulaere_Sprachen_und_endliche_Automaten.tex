@@ -1891,24 +1891,56 @@ Bemerkung: Die Menge der regulären Sprachen REG ist unter den folgenden Operati
 % \end{proof}
 %
 
-
+\renewcommand{\llbracket}{[\![}
+\renewcommand{\rrbracket}{]\!]}
 
 \subsection{Reguläre Ausdrücke}
-\draftnote{9.11.16}
+\subsubsection{Motivation}
+Problemstellung: Sie habe auf ihrem Rechner irgendwo eine Textdatei mit Notizen zu dieser Vorlesung, können sich aber grade nicht an den Pfad erinnern.
+Sie wissen aber noch dass die Zeichenkette \texttt{info3} oder \texttt{infoIII} enthalten ist. 
+Möglicherweise war das \texttt{i} am Anfang aber auch groß geschrieben.
+Da sie ein paar Dateien mit dieser Zeichenkette haben soll der Rechner jeweils Dateinamen und die entsprechenden Zeilen ausgeben.
+
+Auf Systemen auf denen die GNU Tools installiert sind kann dieses Problem mit dem Befehl \texttt{find ....} gelöst werden.
+
+Konzeptuell soll ihr Rechner hier instanzen des Wortproblem lösen.
+Ihre Sprache sind alle Zeichenketten die \texttt{info3} in den oben beschriebenen Variationen enthalten.
+Ihre Wörter sind die Zeilen aller Dateien auf dem Rechner.
+
+Eine Umsetung: Gib Rechner den folgenden NEA ...
+
+
+...
+
 \begin{Def}[name={[RE($\Sigma$)]}]
         Die Menge $RE(\Sigma)$ der \emph{regulären Ausdrücke über $\Sigma$} ist induktiv definiert durch:
         \begin{itemize}
         \item $\0\in RE(\Sigma)$
         \item $\1\in RE(\Sigma)$
-        \item $\forall a\in\Sigma: a\in RE(\Sigma)$
+        \item $a\in RE(\Sigma)$ für alle $a\in\Sigma$
         \item falls $r,s\in RE(\Sigma)$
                 \begin{itemize}[label=\textbullet]
-                \item $r+s\in RE(\Sigma)$
-                \item $r\cdot s\in RE(\Sigma)$
-                \item $r^*\in RE(\Sigma)$
+                \item $(r+s)\in RE(\Sigma)$
+                \item $(r\cdot s)\in RE(\Sigma)$
+                \item $(r)^*\in RE(\Sigma)$
                 \end{itemize}
         \end{itemize}
 \end{Def}
+Konventionen: Wir möchten nicht immer alle Klammern schreiben müssen. 
+Wir führen deshalb die folgenden Präzedenzregeln ein: ``$\strut^*$'' bindet stärker als ``$\cdot$'' und ``$\cdot$'' bindet stärker als ``$+$''.
+Nach Definition der Semantik werden wir außerdem sehen, dass ``$\cdot$'' und ``$+$'' assoziativ sind. 
+Unsere Konvention ist: 
+Sofern mit Hilfe dieser Regeln der reguläre Ausdruck zweifelsfrei rekonstruiert werden kann dürfen wir Klammern und ``$\cdot$'' weglassen.
+Wir schreiben z.B. $110 + 0$ statt $((1\cdot (1\cdot 0)) + 0)$
+
+\begin{Bsp}~
+
+$\0\1\0\1$ ist ein regulärer Ausdruck
+
+$a^4b^7$ ist kein regulärer Ausdruck
+\end{Bsp}
+
+
 \begin{Def}[name={[Semantik eines regulären Ausdrucks]}]
         Die Semantik eines regulären Ausdrucks $\llbracket\cdot \rrbracket : RE(\Sigma) \-> \mathcal{P}(\Sigma^*)$ ist induktiv definiert durch
         \begin{align*}
@@ -1974,7 +2006,7 @@ Bemerkung: Die Menge der regulären Sprachen REG ist unter den folgenden Operati
 $L$ ist regulär \<=> $L$ ist Sprache eines regulären Ausdrucks.
 \end{Satz}
 
-\hide{
+
 \begin{proof}[Kleene, $\<=$]
 Betrachte zu einem regulärem Ausdruck $r\in RE(\Sigma)$ die durch diesen erzeugte Sprache $L=\llbracket r \rrbracket$. Zeige per Induktion über $r$, dass $ \forall r\in RE(\Sigma) $ gilt: $ \llbracket r \rrbracket$ ist regulär.
     	\begin{description}[font=\normalfont]
@@ -2037,7 +2069,7 @@ Sei $ X= AX+B$ mit $\Eps\notin A$. Zeige, dass $A^*B \subseteq X$:
   eine eindeutige Lösung für $r_x$, die die Gleichung erfüllt.
 \end{Korollar}
 
-\datenote{11.11.16}
+% \datenote{11.11.16}
 
 \begin{proof}[Kleene, \=>]
   Sei $L=L(\A)$ für einen \ac{DEA} $\A=({Q},\Sigma,\delta,q_0,F)$ mit $Q = \{q_0,q_1,\dots,q_n\}$.
@@ -2141,7 +2173,7 @@ Sei $ X= AX+B$ mit $\Eps\notin A$. Zeige, dass $A^*B \subseteq X$:
 	\end{align*}
 \end{Bsp*}
 %
-
+\hide{
 \draftnote{11.11.16}
 \subsection{Entscheidungsprobleme}
 Ein Problem ist \emph{entscheidbar} wenn es sich durch eine binäre Antwort (ja/nein) lösen lässt und es einen Algorithmus gibt, der für alle Instanzen des Problem die korrekte Antwort liefert.
