@@ -28,8 +28,8 @@ Wir beschreiben zunächst informell die Bestandteile eines endlichen Automaten:
 \newcommand{\calP}{\mathcal{P}}
 \newcommand{\ecl}{\textsf{ecl}}
 \newcommand{\reach}{\textsf{reach}}
-\renewcommand{\0}{\underline{\emptyset}}
-\renewcommand{\1}{\underline{\Eps}}
+\renewcommand{\0}{\underline{\smash{\emptyset}}}
+\renewcommand{\1}{\underline{\smash{\Eps}}}
 \newcommand{\hide}[1]{}
 
 \begin{description}
@@ -1927,7 +1927,7 @@ Konzeptuell soll Ihr Rechner hier Instanzen des Wortproblems lösen.
 Ihre Sprache besteht aus allen Zeichenketten, die \texttt{info3} in den oben beschriebenen Varianten enthalten.
 Die Wörter, die getestet werden sollen, sind die Zeilen aller Dateien auf dem Rechner.
 
-Eine Umsetzung: Gib Rechner den folgenden NEA, dieser konvertiert den NEA dann in einem DEA um das Wortproblem effizient zu lösen.
+Eine Umsetzung: Gib dem Rechner den folgenden NEA, welchen er dann in einen DEA konvertiert, um das Wortproblem effizient zu lösen.
   \begin{center}
                 \begin{tikzpicture}[circle/.style={
                         shape=circle,
@@ -1941,10 +1941,10 @@ Eine Umsetzung: Gib Rechner den folgenden NEA, dieser konvertiert den NEA dann i
                         \node [circle] (v2) at (4,0) {$q_{2}$};
                         \node [circle] (v3) at (6,0) {$q_{3}$};
                         \node [circle] (v4) at (8,0) {$q_{4}$};
-                        \node [circle, double] (v4drei) at (10,1) {$q_{5}$};
-                        \node [circle] (v4I) at (10,-1) {$q_{6}$};
-                        \node [circle] (v4II) at (12,-1) {$q_{7}$};
-                        \node [circle, double] (v4III) at (14,-1) {$q_{8}$};
+                        \node [circle, double] (v4drei) at (10,0) {$q_{5}$};
+                        \node [circle] (v4I) at (8,-2) {$q_{6}$};
+                        \node [circle] (v4II) at (10,-2) {$q_{7}$};
+                        \node [circle, double] (v4III) at (12,-2) {$q_{8}$};
                         \draw [->] (vs) edge (v0);
                         \draw [->] (v0) edge [loop above] node[auto] {$\Sigma$} (v2);
                         \draw [->] (v0) edge [bend left=0] node[auto] {\texttt{I}, \texttt{i}} (v1);
@@ -1959,7 +1959,7 @@ Eine Umsetzung: Gib Rechner den folgenden NEA, dieser konvertiert den NEA dann i
                         \draw [->] (v4III) edge [loop above] node[auto] {$\Sigma$} (v2);
                 \end{tikzpicture}
   \end{center}
-Problem: Einen Graph als Eingabe den den Rechner zu übermitteln ist unkomfortabel oder zeitaufwändig.
+Problem: Dem Rechner einen Graphen als Eingabe zu übermitteln ist unkomfortabel oder zeitaufwändig.
 Wir führen deshalb einen weiteren textbasierten Formalismus für reguläre Sprachen ein.
 Dieser hat große Ähnlichkeiten zum dem in der Praxis verwendeten Input von \texttt{grep}.
 
@@ -1987,15 +1987,16 @@ Wir schreiben z.B. $110 + 0$ statt $((1\cdot (1\cdot 0)) + 0)$.
 
 \begin{Bsp}~
 \begin{enumerate}
- \item \texttt{(A+...+Z+a+...+z+0...+9)}$^*$\texttt{(I+i)nfo(3+III)(A+...+Z+a+...+z+0...+9)}$^*$ 
+ \item \texttt{(A+...+Z+a+...+z+0+...+9)}$^*$\texttt{(I+i)nfo(3+III)(A+...+Z+a+...+z+0+...+9)}$^*$ \linebreak
  ist ein regulärer Ausdruck\footnote{Wir verwenden hier \texttt{A+...+Z} als Abkürzung für die Disjunktion aus 26 Zeichen. 
- Der reguläre Ausdruck besteht uns der Disjunktion drei Punkte kommen darin nicht vor.}
+ Der eigentliche reguläre Ausdruck besteht aus der Disjunktion; die drei Punkte kommen darin nicht vor.}
  über dem Alphabet $\Sigma=\{\texttt{A},\ldots,\texttt{Z},\texttt{a},\ldots,\texttt{z},\texttt{0},\ldots,\texttt{9}\}$.
  \item $(\0\1)^*+a$ ist ein regulärer Ausdruck über $\Sigma=\{a\}$.
- \item $\0\1\0\1$ ist über jedem Alphabet.
+ \item $\0\1\0\1$ ist ein regulärer Ausdruck über jedem Alphabet.
  \item $aaaabbbbbbb$ ist ein regulärer Ausdruck über $\Sigma=\{a,b\}$.
  \item $a^4b^7$ ist \textbf{kein} regulärer Ausdruck
  \item $(0+1\cdot (01^*0)^*\cdot 1)^*$ ist ein regulärer Ausdruck über $\Sigma=\{0,1\}$.
+ \qedhere
 \end{enumerate}
 \end{Bsp}
 
@@ -2003,14 +2004,15 @@ Wir schreiben z.B. $110 + 0$ statt $((1\cdot (1\cdot 0)) + 0)$.
 
 Wir geben regulären Ausdrücken mit Hilfe der folgenden Definition eine Semantik.
 \begin{Def}[name={[Semantik eines regulären Ausdrucks]}]
-        Die durch einen regulären Ausdruck \emph{beschriebene Sprache} $\llbracket\cdot \rrbracket : RE(\Sigma) \-> \mathcal{P}(\Sigma^*)$ ist induktiv definiert durch
+        Die durch einen regulären Ausdruck \emph{beschriebene Sprache} $\llbracket\cdot \rrbracket : RE(\Sigma) \-> \mathcal{P}(\Sigma^*)$ ist induktiv definiert durch:
         \begin{align*}
                 \llbracket \0 \rrbracket &= \varnothing\\
                 \llbracket \1 \rrbracket &= \{\Eps\}\\
                 \llbracket a \rrbracket &= \{a\} \quad a\in\Sigma\\
                 \llbracket r+s \rrbracket &= \llbracket r\rrbracket \cup \llbracket s\rrbracket\\
                 \llbracket r\cdot s \rrbracket &= \llbracket r\rrbracket \cdot \llbracket s\rrbracket\\
-                \llbracket r^* \rrbracket &= \llbracket r\rrbracket^* \qedhere
+                \llbracket r^* \rrbracket &= \llbracket r\rrbracket^*
+                \qedhere
         \end{align*}
 \end{Def}
 \begin{Bsp}
@@ -2019,6 +2021,7 @@ $$
 \quad=\quad \llbracket a\rrbracket \cup (\llbracket \0\rrbracket \cdot \llbracket \1\rrbracket)^*
 \quad=\quad \{ a\} \cup (\emptyset)^*
 \quad=\quad \{ a\} \cup \{\emptyset\}
+\qedhere
 $$
 \end{Bsp}
 \begin{Bsp}
