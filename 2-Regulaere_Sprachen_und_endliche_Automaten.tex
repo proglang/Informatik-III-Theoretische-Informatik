@@ -1987,9 +1987,12 @@ Wir schreiben z.B. $110 + 0$ statt $((1\cdot (1\cdot 0)) + 0)$.
 
 \begin{Bsp}~
 \begin{enumerate}
- \item \texttt{(I+i)nfo(3+III)} ist ein regulärer Ausdruck über dem Alphabet der ASCII Zeichen.
+ \item \texttt{(A+...+Z+a+...+z+0...+9)}$^*$\texttt{(I+i)nfo(3+III)(A+...+Z+a+...+z+0...+9)}$^*$ 
+ ist ein regulärer Ausdruck\footnote{Wir verwenden hier \texttt{A+...+Z} als Abkürzung für die Disjunktion aus 26 Zeichen. 
+ Der reguläre Ausdruck besteht uns der Disjunktion drei Punkte kommen darin nicht vor.}
+ über dem Alphabet $\Sigma=\{\texttt{A},\ldots,\texttt{Z},\texttt{a},\ldots,\texttt{z},\texttt{0},\ldots,\texttt{9}\}$.
  \item $(\0\1)^*+a$ ist ein regulärer Ausdruck über $\Sigma=\{a\}$.
- \item $\0\1\0\1$ ist über jedem Alphabet ein regulärer Ausdruck.
+ \item $\0\1\0\1$ ist über jedem Alphabet.
  \item $aaaabbbbbbb$ ist ein regulärer Ausdruck über $\Sigma=\{a,b\}$.
  \item $a^4b^7$ ist \textbf{kein} regulärer Ausdruck
  \item $(0+1\cdot (01^*0)^*\cdot 1)^*$ ist ein regulärer Ausdruck über $\Sigma=\{0,1\}$.
@@ -2077,7 +2080,7 @@ wird durch den regulären Ausdruck $(0+1)^*1(0+1)$ beschrieben.
 %     \end{Bsp*}
     
     
-\begin{Satz}[Kleene]
+\begin{Satz}[Kleene]\label{sat:2.kleene}
 $L$ ist regulär \<=> $L$ ist Sprache eines regulären Ausdrucks.
 \end{Satz}
 
@@ -2113,48 +2116,67 @@ Zeige via stuktureller Induktion über $r$ den Aufbau regulärer Ausdrücke, das
 \end{proof}
 
 
-Im verbleibenden Teil des Abschnittes zu regulären Ausdrücken werden wir Zeigen, dass wir für jeden DEA einen regulären Ausdruck mit der gleichen Sprache konstruieren können.
-Wir beschreiben zunächst ein mögliches Vorgehen an einem Beispiel
-\begin{Bsp} Betrachten den aus \autoref{bsp:2.mod3} (Pumping Lemma) bekannten DEA.
-\begin{center}
-    \begin{tikzpicture}[>=stealth, shorten >=1pt, on grid, node distance=2cm, initial text=]
-        \node[state, initial, accepting] (q0) {$q_0$};
-        \node[state] (q1) [right=of q0] {$q_1$};
-        \node[state] (q2) [right=of q1] {$q_2$};
-        \path [->]
-            (q0) edge[loop below] node[auto] {0} ()
-                 edge[bend left]  node[auto] {1} (q1)
-            (q1) edge[bend left]  node[auto] {0} (q2)
-                 edge[bend left]  node[auto] {1} (q0)
-            (q2) edge[loop right] node[auto] {1} ()
-                 edge[bend left]  node[auto] {0} (q1)
-        ;
-        
-        \draw [->,decorate,decoration=snake] ($(q1.south) - (0,.5cm)$) -- ++(0,-1cm);
-        
-        \node [state, initial, accepting] (q0) [below=3cm of q0] {$q_0$};
-        \node [state] (q1) [right=of q0] {$q_1$};
-        \path [->]
-            (q0) edge[loop below] node[auto] {0} ()
-                 edge[bend left]  node[auto] {1} (q1)
-            (q1) edge[loop right] node[auto] {$01^*0$} ()
-                 edge[bend left]  node[auto] {1} (q0)
-        ;
-        
-        \node [state, initial, accepting] (q0) [below=2.5cm of q0] {$q_0$};
-        \path [->]
-            (q0) edge[loop below] node[auto] {0} ()
-                 edge[loop right] node[auto] {$1(01^*0)^*1$} ()
-        ;
-    \end{tikzpicture}
-\end{center}
+Im verbleibenden Teil des Abschnittes zu regulären Ausdrücken werden wir Zeigen, dass wir für jeden DEA einen regulären Ausdruck mit der gleichen Sprache konstruieren können. (Richtung "`\=>"' von \autoref{sat:2.kleene})
+Um unsere Idee zu beschreiben benötigen wir zunächst die folgende Definition.
+\begin{Def}
+  Sei $L=L(\A)$ für einen \ac{DEA} $\A=({Q},\Sigma,\delta,\qinit,F)$ .
+  Definiere für einen Zustand $q$ die \emph{Sprache des Zustands} $L_q=\{ w \mid \tilde\delta(q,w)\in F \}$ als die Sprache der Wörter, die von Zustand $q$ aus in einen akzeptierenden Zustand führen.
+\end{Def}
 
+Im folgenden betrachten wir einen beliebigen DEA und nummerieren dessen Zustände $Q = \{q_0,q_1,\dots,q_n\}$.
+Wir leiten nun ein Gleichungssystem zwischen den Sprachen $L_{q_i}$ her.
+  \begin{align*}
+    L_{q_i} & =  \{ w \mid \tilde\delta(q_i,w)\in F \} \\
+        \intertext{Zunächst teilen wir $L{q_i}$ in den Teil der (potentiell) das leere Wort enthält und den, der die nicht-leeren Wörter enthält.}
+        & =  \{ \Eps \mid q_i \in F \} \cup \bigcup_{a \in \Sigma} \{a\} \{w' \mid w' \in \Sigma^*, \tilde\delta(\delta(q_i, a), w') \in F\} \\
+        \intertext{Die nicht-leeren Wörter hängen von den Sprachen der Folgezustände ab}
+        & =  \{ \Eps \mid q_i \in F \} \cup \bigcup_{a \in \Sigma} \{a\} L_{\delta(q_i, a)}  \\
+        \intertext{Anstatt die Vereinigung über die Transitionen $a$ und Folgezustandssprachen $L_{q_j}$ zu bilden, lassen sich die nicht-leeren Wörter von $L_{q_i}$ auch als Vereinigung über aller Zustände mit entsprechend gewählten \emph{Koeffizienten} $A_{ij}$ formulieren; die Zustände die keine Folgezustände sind, habe den Koeffizienten $\emptyset$.}
+        & =  \{ \Eps \mid q_i \in F \} \cup \bigcup_{j = 0}^{n} \underbrace{\{a \mid a \in \Sigma, \delta(q_i, a) = q_j\}}_{A_{ij} \not \ni \Eps} L_{q_j}  \\
+    \end{align*}
+    Diese Gleichungen lassen sich analog als Gleichungen von regulären Ausdrücken $r_i$ formulieren:
+    \begin{align*}
+      r_i &= N(q_i) + \sum_{j = 0}^n R_{ij} r_j
+    \end{align*}
+    wobei $\llbracket r_i \rrbracket = L_{q_i}$ und $R_{ij } = \sum \{a \mid a \in \Sigma, \delta(q_i, a) = q_j\}$ mit $\Eps \not \in \llbracket R_{ij} \rrbracket$ und
+    \begin{displaymath}
+      N(q_i) =
+      \begin{cases}
+        \1 & q_i\in F\\
+        \0 & q_i\notin F
+      \end{cases}
+    \end{displaymath}
+    
+
+\begin{Bsp}\label{bsp:2.mod3gleichungen}
+Wir wollen diese Gleichungen zunächst an einem Beispiel betrachten und verwenden dafür den
+aus \autoref{bsp:2.mod3} bekannten DEA der die Sprache der Binärcodierung von durch drei teilbaren Zahlen akzeptiert.
+                $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$
+	\begin{figure}[H]\centering
+		\begin{tikzpicture}[>=stealth, shorten >=1pt, on grid, node distance=2cm, initial text=]
+			\node[state, initial, accepting] (q0) {$q_0$};
+			\node[state] (q1) [right=of q0] {$q_1$};
+			\node[state] (q2) [right=of q1] {$q_2$};
+			\path [->]
+			    (q0) edge[loop above] node[auto] {0} ()
+			         edge[bend left]  node[auto] {1} (q1)
+			    (q1) edge[bend left]  node[auto] {0} (q2)
+			         edge[bend left]  node[auto] {1} (q0)
+			    (q2) edge[loop right] node[auto] {1} ()
+			         edge[bend left]  node[auto] {0} (q1)
+			;
+		\end{tikzpicture}
+		\caption{\ac{DEA} "`modulo 3"'}
+	\end{figure}
+Wir erhalten das folgende Gleichungssystem mit 3 Unbekannten.
+	\begin{align*}
+		r_0 &= \1 + 0\cdot r_0 + 1\cdot r_1\\
+		r_1 &= 1\cdot r_0 + 0\cdot r_2\\
+		r_2 &= 0\cdot r_1 + 1\cdot r_2\\
+	\end{align*}
 \end{Bsp}
 
-
-
-
-Zum Beweis (bzw.\ zur Konstruktion) der Richtung "`\=>"' verwenden wir eine Rechenregel zum Lösen von Gleichungen über Sprachen.
+Wir kennen bisher kein systematisches Verfahren zum Lösen solcher Gleichungen und betrachten deshalb das folgende Lemma.
 \begin{lemma}[Ardens Lemma]\label{lem:arden}\ \\
         Für die Gleichung $X=A\cdot X\cup B$ über den Sprachen $A, B, X\subseteq \Sigma^*$ gilt: 
         \begin{enumerate}
@@ -2201,48 +2223,12 @@ Wir können Ardens Lemma wie folgt auch für reguläre Ausdrücke formulieren:
 
 \medskip
 
-\begin{proof}[Kleene, \=>]
-  Sei $L=L(\A)$ für einen \ac{DEA} $\A=({Q},\Sigma,\delta,q_0,F)$ mit $Q = \{q_0,q_1,\dots,q_n\}$.
-        Definiere $L_i=\{ w \mid \tilde\delta(q_i,w)\in F \}$ als die Sprache der Wörter, die von Zustand $q_i$ aus in einen akzeptierenden Zustand führen.
-  Insbesondere gilt $L_0 = L$.
+Wir haben nun alle Hilfsmittel um den Beweis für die fehlende Richtung zu führen.
 
-  Wir leiten nun ein lineares Gleichungssystem zwischen den Sprachen $L_i$ her.
-  Zunächst teilen wir $Li$ in den Teil der (potentiell) das leere Wort enthält und den, der die nicht-leeren Wörter enthält.
-  \begin{align*}
-    L_i & =  \{ w \mid \tilde\delta(q_i,w)\in F \} \\
-        & =  \{ \Eps \mid \tilde\delta(q_i, \Eps) \in F \} \cup \{a w' \mid a \in \Sigma, w' \in \Sigma^*, \tilde\delta(\delta(q_i, a), w') \in F\} \\
-        & =  \{ \Eps \mid q_i \in F \} \cup \{a w' \mid a \in \Sigma, w' \in \Sigma^*, \tilde\delta(\delta(q_i, a), w') \in F\}
-    \end{align*}
-    Die nicht-leeren Wörter hängen von den Sprachen der Folgezustände ab:
-    \begin{align*}
-      \{a w' \mid a \in \Sigma, w' \in \Sigma^*, \tilde\delta(\delta(q_i, a), w') \in F\} & =
-         \bigcup_{a \in \Sigma} \{a\} \{w' \mid a \in \Sigma, w' \in \Sigma^*, \tilde\delta(\delta(q_i, a), w') \in F\}
-      \\
-      & = \bigcup_{a \in \Sigma} \{a\} (L_j \text{ wobei  $q_j = \delta(q_i, a)$}) 
-    \end{align*}
-    Anstatt die Vereinigung über die Transitionen $a$ und Folgezustandssprachen $L_j$ zu bilden, lassen sich die nicht-leeren Wörter von $L_i$ auch als Vereinigung über aller Zustände mit entsprechend gewählten \emph{Koeffizienten} formulieren; die Zustände die keine Folgezustände sind, habe den Koeffizienten $\emptyset$.
-    \begin{align*}
-      \bigcup_{a \in \Sigma} \{a\} (L_j \text{ wobei  $q_j = \delta(q_i, a)$}) & = \bigcup_{j = 0}^{n} \underbrace{\{a \mid a \in \Sigma, \delta(q_i, a) = q_j\}}_{A_{ij} \not \ni \Eps} L_j
-    \end{align*}
-    Man beachte das die Koeffizienten $A_{ij}$ nie das leere Wort enthalten.
-    Nach diesen Überlegungen ergibt sich also für die Sprachen $L_i$ das lineare Gleichungssystem
-    \begin{displaymath}
-      L_i = \{ \Eps \mid q_i \in F \} \cup \bigcup_{j = 0}^{n} \underbrace{\{a \mid a \in \Sigma, \delta(q_i, a) = q_j\}}_{A_{ij} \not \ni \Eps} L_j
-    \end{displaymath}
-    Diese Gleichungen lassen sich analog als Gleichungen von regulären Ausdrücken $r_i$ formulieren:
-    \begin{align*}
-      r_i &= N(q_i) + \sum_{j = 0}^n R_{ij} r_j
-    \end{align*}
-    wobei $\llbracket r_i \rrbracket = L_i$ und $R_{ij } = \sum \{a \mid a \in \Sigma, \delta(q_i, a) = q_j\}$ mit $\Eps \not \in \llbracket R_{ij} \rrbracket$ und
-    \begin{displaymath}
-      N(q_i) =
-      \begin{cases}
-        \1 & q_i\in F\\
-        \0 & q_i\notin F
-      \end{cases}
-    \end{displaymath}
-    Dieses Gleichungssystem lässt sich, wie lineare Gleichungssysteme in der Arithmetik, mit dem \emph{Substituitionsverfahren} lösen ("`auflösen nach einer Variablen und einsetzen"').
-    Dazu werden Ardens Lemma und weitere Rechenregeln für Sprachen, wie Distributivität, verwendet.
+\begin{proof}[Kleene, \=>]
+  Sei $\A=({Q},\Sigma,\delta,q_0,F)$ der oben diskutierte DEA mit $Q = \{q_0,q_1,\dots,q_n\}$ für dessen Sprache wir einen regulären Ausdruck konstruieren möchten.
+  
+  Mit Hilfe von Ardens Lemma (und weitere Rechenregeln für Sprachen) können wir nun das Gleichungssystemm (TODO refer to) iterativ lösen.
     Wir beginnen mit Gleichung $r_n$:
     \begin{align*}
       r_n &= N(q_n) + \sum_{j = 0}^n R_{nj} r_j \\
@@ -2262,46 +2248,30 @@ Wir können Ardens Lemma wie folgt auch für reguläre Ausdrücke formulieren:
     \end{align*}
   Nach diesen Umformungen ergeben sich $\Eps$-freie Koeffizienten $R_{nj} + R_{in}R_{nn}^*R_{nj}$ für $r_j$ und wir mit dem Auflösen von $n-1$ analog zu $n$ fortfahren.
   Am Ende erhalten wir einen regulären Ausdruck als Lösung für $r_0$.
-  Per Konstruktion haben wir immer noch $\llbracket r_0 \rrbracket = L_0 = L$.
+  Per Konstruktion gilt $\llbracket r_0 \rrbracket = L_{q_0} = L_{\qinit} = L(\A)$.
   \end{proof}
     
 
-\begin{Bsp*} Ein Beispiel für die Konvertierung eines \ac{DEA} in einen reg. Ausdruck.
-	\begin{figure}[H]\centering
-		\begin{tikzpicture}[>=stealth, shorten >=1pt, on grid, node distance=2cm, initial text=]
-			\node[state, initial, accepting] (q0) {$q_0$};
-			\node[state] (q1) [right=of q0] {$q_1$};
-			\node[state] (q2) [right=of q1] {$q_2$};
-			\path [->]
-			    (q0) edge[loop above] node[auto] {0} ()
-			         edge[bend left]  node[auto] {1} (q1)
-			    (q1) edge[bend left]  node[auto] {0} (q2)
-			         edge[bend left]  node[auto] {1} (q0)
-			    (q2) edge[loop right] node[auto] {1} ()
-			         edge[bend left]  node[auto] {0} (q1)
-			;
-		\end{tikzpicture}
-		\caption{\ac{DEA} "`modulo 3"'}
-	\end{figure}
-	lineares Gleichungssystem mit 3 Unbekannten.
+\begin{Bsp}
+Wir betrachten noch einmal \autoref{bsp:2.mod3gleichungen} und lösen das Gleichungssystem auf die im Beweis beschriebene Weise.
 	\begin{align*}
-		L_0 &= \1 + 0\cdot L_0 + 1\cdot L_1\\
-		L_1 &= 1\cdot L_0 + 0\cdot L_2\\
-		L_2 &= \underbrace{0\cdot L_1}_B + \underbrace{1}_A\cdot L_2\\
+		r_0 &= \1 + 0\cdot r_0 + 1\cdot r_1\\
+		r_1 &= 1\cdot r_0 + 0\cdot r_2\\
+		r_2 &= \underbrace{0\cdot r_1}_B + \underbrace{1}_A\cdot r_2\\
 		\shortintertext{\nameref{lem:arden} auf $q_2$:}
-		L_2 &= 1^*\cdot 0\cdot L_1\\
+		r_2 &= 1^*\cdot 0\cdot r_1\\
 		\shortintertext{Einsetzen in $q_1$}
-		L_1 &= \underbrace{1\cdot L_0}_B+\underbrace{0\cdot 1^*\cdot 0}_A\cdot L_1\\
+		r_1 &= \underbrace{1\cdot r_0}_B+\underbrace{0\cdot 1^*\cdot 0}_A\cdot r_1\\
 		\shortintertext{\nameref{lem:arden} auf $q_1$:}
-		L_1 &= (01^*0)^*\cdot 1\cdot L_0\\
+		r_1 &= (01^*0)^*\cdot 1\cdot r_0\\
 		\shortintertext{Einsetzen:}
-		L_0 &= \1 + 0\cdot L_0+1\cdot (01^*0)^*\cdot 1\cdot L_0\\
-		&= \1+(0+1\cdot (01^*0)^*\cdot 1)\cdot L_0\\
+		r_0 &= \1 + 0\cdot r_0+1\cdot (01^*0)^*\cdot 1\cdot r_0\\
+		&= \1+(0+1\cdot (01^*0)^*\cdot 1)\cdot r_0\\
 		\shortintertext{\nameref{lem:arden} auf $q_0$:}
-		L_0 &= (0+1\cdot (01^*0)^*\cdot 1)^*
+		r_0 &= (0+1\cdot (01^*0)^*\cdot 1)^*
 		\qedhere
 	\end{align*}
-\end{Bsp*}
+\end{Bsp}
 %
 \hide{
 \draftnote{11.11.16}
