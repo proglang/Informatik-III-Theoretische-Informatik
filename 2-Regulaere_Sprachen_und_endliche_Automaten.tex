@@ -1770,8 +1770,8 @@ Im Folgenden schreiben wir $REG$ für die Menge aller regulären Sprachen.
 
 \begin{proof}
 Sei $L$ eine reguläre Sprache. 
-Dann gibt es (per Definition) einen DEA $\A=(\Sigma, Q, \delta, \qinit, F)$ der L akzeptiert.
-Wir konstruieren den DEA $\overline{\A}=(\Sigma, Q, \delta, \qinit, Q\backslash F)$ für $\overline{L}$, bei dem ein Zustand genau dann akzeptierend ist, wenn der Zustand in $\A$ nicht akzeptierend ist.
+Dann gibt es (per Definition) einen \acs*{DEA} $\A=(\Sigma, Q, \delta, \qinit, F)$ der L akzeptiert.
+Wir konstruieren den \acs*{DEA} $\overline{\A}=(\Sigma, Q, \delta, \qinit, Q\backslash F)$ für $\overline{L}$, bei dem ein Zustand genau dann akzeptierend ist, wenn der Zustand in $\A$ nicht akzeptierend ist.
 Man kann leicht zeigen, dass $L(\overline{\A})=\overline{L}$; somit ist auch $\overline{L}$ regulär.
 \end{proof}
 
@@ -1927,7 +1927,7 @@ Konzeptuell soll Ihr Rechner hier Instanzen des Wortproblems lösen.
 Ihre Sprache besteht aus allen Zeichenketten, die \texttt{info3} in den oben beschriebenen Varianten enthalten.
 Die Wörter, die getestet werden sollen, sind die Zeilen aller Dateien auf dem Rechner.
 
-Eine Umsetzung: Gib dem Rechner den folgenden NEA, welchen er dann in einen DEA konvertiert, um das Wortproblem effizient zu lösen.
+Eine Umsetzung: Gib dem Rechner den folgenden \acs*{NEA}, welchen er dann in einen \acs*{DEA} konvertiert, um das Wortproblem effizient zu lösen.
   \begin{center}
                 \begin{tikzpicture}[circle/.style={
                         shape=circle,
@@ -2020,13 +2020,14 @@ $$
 \llbracket a + (\0\1)^*\rrbracket
 \quad=\quad \llbracket a\rrbracket \cup (\llbracket \0\rrbracket \cdot \llbracket \1\rrbracket)^*
 \quad=\quad \{ a\} \cup (\emptyset)^*
-\quad=\quad \{ a\} \cup \{\emptyset\}
+\quad=\quad \{ a\} \cup \{\varepsilon\}
+\quad=\quad \{ a, \varepsilon\}
 \qedhere
 $$
 \end{Bsp}
 \begin{Bsp}
 Die aus \autoref{bsp:2.zweitletztes} bekannte Sprache 
-$$L_2=\{w\in\{0,1\}^*\mid \text{ das zweitletzte Zeichen von $w$ ist $1$ }\}$$
+$$L_2=\{w\in\{0,1\}^*\mid \text{das zweitletzte Zeichen von $w$ ist $1$}\}$$
 wird durch den regulären Ausdruck $(0+1)^*1(0+1)$ beschrieben.
 \end{Bsp}
 
@@ -2090,58 +2091,59 @@ $L$ ist regulär \<=> $L$ ist Sprache eines regulären Ausdrucks.
 
 \begin{proof}[Kleene, $\<=$]
 Betrachte zu einem regulärem Ausdruck $r\in RE(\Sigma)$ die durch diesen erzeugte Sprache $L=\llbracket r \rrbracket$. 
-Zeige via stuktureller Induktion über $r$ den Aufbau regulärer Ausdrücke, dass $ \llbracket r \rrbracket$ regulär ist.
+Zeige via stukturelle Induktion über den Aufbau regulärer Ausdrücke, dass $ \llbracket r \rrbracket$ regulär ist.
     	\begin{description}[font=\normalfont]
       \item[I.A.:] \hfill
-        \vspace{-\baselineskip}
+        \vspace{-1.45\baselineskip}
         \begin{itemize}
         \item $r = \0$, $\llbracket r \rrbracket = \emptyset$ ist regulär
         \item $r = \1$, $\llbracket r \rrbracket = \{ \Eps \}$ ist regulär
-        \item $r = a$, $\llbracket r \rrbracket = \{ a \}$ ist regulär \\
-          (\tikz[>=stealth, shorten >=1pt, initial text=,
+        \item $r = a$, $\llbracket r \rrbracket = \{ a \}$ ist regulär
+          (\acs{NEA}: \tikz[>=stealth, shorten >=1pt, initial text=,
     					on grid, baseline=-.6ex,
     					every state/.style={minimum size=0pt,inner sep=0pt}
     				]{
     				\node [state,initial] (a) {}; \node [state,accepting] (b) [right=of a] {};
     				\path [->] (a) edge node [auto] {$a$} (b);
     			}
-    			 \quad\acs{NEA}) 
+    			) 
         \end{itemize}
         \item[I.V.:] Für $i \in \{1, 2\}$ gilt: $\llbracket r_i \rrbracket$ ist regulär.
     		\item[I.S.:] \hfill
-          \vspace{-\baselineskip}
+          \vspace{-1.45\baselineskip}
           \begin{itemize}
-          \item $r = r_1 + r_2$, $\llbracket r \rrbracket = \llbracket r_1 \rrbracket \cup \llbracket r_2 \rrbracket$ ist regulär (gezeigt in Präsenzübungen, Aufgabe~3)
-          \item $r = r_1 \cdot r_2$, $\llbracket r \rrbracket = \llbracket r_1 \rrbracket \cdot \llbracket r_2 \rrbracket$ ist regulär nach \autoref{satz:2.ClosedConcatenation}
-          \item $r = r_1^*$, $\llbracket r \rrbracket = \llbracket r_1 \rrbracket^*$ ist regulär nach \autoref{satz:2.ClosedStar}
+          \item $r = r_1 + r_2$, $\llbracket r \rrbracket = \llbracket r_1 \rrbracket \cup \llbracket r_2 \rrbracket$ ist regulär nach I.V.\ und Abschluss unter Vereinigung (gezeigt in Präsenzübungen, Aufgabe~3)
+          \item $r = r_1 \cdot r_2$, $\llbracket r \rrbracket = \llbracket r_1 \rrbracket \cdot \llbracket r_2 \rrbracket$ ist regulär nach I.V.\ und \autoref{satz:2.ClosedConcatenation}
+          \item $r = r_1^*$, $\llbracket r \rrbracket = \llbracket r_1 \rrbracket^*$ ist regulär nach I.V.\ und \autoref{satz:2.ClosedStar}
+          \qedhere
           \end{itemize}
 		\end{description}
 \end{proof}
 
 
-Im verbleibenden Teil des Abschnittes zu regulären Ausdrücken werden wir Zeigen, dass wir für jeden DEA einen regulären Ausdruck mit der gleichen Sprache konstruieren können. (Richtung "`\=>"' von \autoref{sat:2.kleene})
-Um unsere Idee zu beschreiben benötigen wir zunächst die folgende Definition.
+Im verbleibenden Teil des Abschnitts zu regulären Ausdrücken werden wir zeigen, dass wir für jeden \acs*{DEA} einen regulären Ausdruck mit der gleichen Sprache konstruieren können. (Richtung "`\=>"' von \autoref{sat:2.kleene}).
+Um unsere Idee zu beschreiben, benötigen wir zunächst die folgende Definition.
 \begin{Def}
-  Sei $L=L(\A)$ für einen \ac{DEA} $\A=({Q},\Sigma,\delta,\qinit,F)$ .
-  Definiere für einen Zustand $q$ die \emph{Sprache des Zustands} $L_q=\{ w \mid \tilde\delta(q,w)\in F \}$ als die Sprache der Wörter, die von Zustand $q$ aus in einen akzeptierenden Zustand führen.
+  Sei $L=L(\A)$ für einen \ac{DEA} $\A=({Q},\Sigma,\delta,\qinit,F)$.
+  Definiere für einen Zustand $q$ die \emph{Sprache des Zustands} $L_q=\{ w \in \Sigma^* \mid \tilde\delta(q,w)\in F \}$ als die Sprache der Wörter, die von Zustand $q$ aus in einen akzeptierenden Zustand führen.
 \end{Def}
 
-Im folgenden betrachten wir einen beliebigen DEA und nummerieren dessen Zustände $Q = \{q_0,q_1,\dots,q_n\}$.
+Im Folgenden betrachten wir einen beliebigen \acs*{DEA} und nummerieren dessen Zustände $Q = \{q_0,q_1,\dots,q_n\}$.
 Wir leiten nun ein Gleichungssystem zwischen den Sprachen $L_{q_i}$ her.
   \begin{align*}
-    L_{q_i} & =  \{ w \mid \tilde\delta(q_i,w)\in F \} \\
-        \intertext{Zunächst teilen wir $L{q_i}$ in den Teil der (potentiell) das leere Wort enthält und den, der die nicht-leeren Wörter enthält.}
-        & =  \{ \Eps \mid q_i \in F \} \cup \bigcup_{a \in \Sigma} \{a\} \{w' \mid w' \in \Sigma^*, \tilde\delta(\delta(q_i, a), w') \in F\} \\
+    L_{q_i} & =  \{ w \in \Sigma^* \mid \tilde\delta(q_i,w)\in F \} \\
+        \intertext{Zunächst teilen wir $L_{q_i}$ in den Teil, der (potentiell) das leere Wort enthält, und den Teil, der die nicht-leeren Wörter enthält.}
+        & =  \{ \Eps \mid q_i \in F \} \cup \bigcup_{a \in \Sigma} \{a\} \{w' \in \Sigma^* \mid \tilde\delta(\delta(q_i, a), w') \in F\} \\
         \intertext{Die nicht-leeren Wörter hängen von den Sprachen der Folgezustände ab}
         & =  \{ \Eps \mid q_i \in F \} \cup \bigcup_{a \in \Sigma} \{a\} L_{\delta(q_i, a)}  \\
-        \intertext{Anstatt die Vereinigung über die Transitionen $a$ und Folgezustandssprachen $L_{q_j}$ zu bilden, lassen sich die nicht-leeren Wörter von $L_{q_i}$ auch als Vereinigung über aller Zustände mit entsprechend gewählten \emph{Koeffizienten} $A_{ij}$ formulieren; die Zustände die keine Folgezustände sind, habe den Koeffizienten $\emptyset$.}
-        & =  \{ \Eps \mid q_i \in F \} \cup \bigcup_{j = 0}^{n} \underbrace{\{a \mid a \in \Sigma, \delta(q_i, a) = q_j\}}_{A_{ij} \not \ni \Eps} L_{q_j}  \\
+        \intertext{Anstatt die Vereinigung über die Transitionen $a$ und Folgezustandssprachen $L_{q_j}$ zu bilden, lassen sich die nicht-leeren Wörter von $L_{q_i}$ auch als Vereinigung über alle Zustände mit entsprechend gewählten \emph{Koeffizienten} $A_{ij}$ formulieren; die Zustände, die keine Folgezustände sind, habe den Koeffizienten $\emptyset$.}
+        & =  \{ \Eps \mid q_i \in F \} \cup \bigcup_{j = 0}^{n} \underbrace{\{a \in \Sigma \mid \delta(q_i, a) = q_j\}}_{A_{ij} \not \ni \Eps} L_{q_j}
     \end{align*}
     Diese Gleichungen lassen sich analog als Gleichungen von regulären Ausdrücken $r_i$ formulieren:
     \begin{align*}
       r_i &= N(q_i) + \sum_{j = 0}^n R_{ij} r_j
     \end{align*}
-    wobei $\llbracket r_i \rrbracket = L_{q_i}$ und $R_{ij } = \sum \{a \mid a \in \Sigma, \delta(q_i, a) = q_j\}$ mit $\Eps \not \in \llbracket R_{ij} \rrbracket$ und
+    wobei $\llbracket r_i \rrbracket = L_{q_i}$ und $R_{ij } = \sum \{a \in \Sigma \mid \delta(q_i, a) = q_j\}$ mit $\Eps \not \in \llbracket R_{ij} \rrbracket$ und
     \begin{displaymath}
       N(q_i) =
       \begin{cases}
@@ -2153,7 +2155,7 @@ Wir leiten nun ein Gleichungssystem zwischen den Sprachen $L_{q_i}$ her.
 
 \begin{Bsp}\label{bsp:2.mod3gleichungen}
 Wir wollen diese Gleichungen zunächst an einem Beispiel betrachten und verwenden dafür den
-aus \autoref{bsp:2.mod3} bekannten DEA der die Sprache der Binärcodierung von durch drei teilbaren Zahlen akzeptiert.
+aus \autoref{bsp:2.mod3} bekannten \acs*{DEA} der die Sprache der Binärcodierung von durch drei teilbaren Zahlen akzeptiert.
                 $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$
 	\begin{figure}[H]\centering
 		\begin{tikzpicture}[>=stealth, shorten >=1pt, on grid, node distance=2cm, initial text=]
@@ -2229,7 +2231,7 @@ Wir können Ardens Lemma wie folgt auch für reguläre Ausdrücke formulieren:
 Wir haben nun alle Hilfsmittel um den Beweis für die fehlende Richtung zu führen.
 
 \begin{proof}[Kleene, \=>]
-  Sei $\A=({Q},\Sigma,\delta,q_0,F)$ der oben diskutierte DEA mit $Q = \{q_0,q_1,\dots,q_n\}$ für dessen Sprache wir einen regulären Ausdruck konstruieren möchten.
+  Sei $\A=({Q},\Sigma,\delta,q_0,F)$ der oben diskutierte \acs*{DEA} mit $Q = \{q_0,q_1,\dots,q_n\}$ für dessen Sprache wir einen regulären Ausdruck konstruieren möchten.
   
   Mit Hilfe von Ardens Lemma (und weitere Rechenregeln für Sprachen) können wir nun das Gleichungssystemm (TODO refer to) iterativ lösen.
     Wir beginnen mit Gleichung $r_n$:
