@@ -2091,7 +2091,7 @@ $L$ ist regulär \<=> $L$ ist Sprache eines regulären Ausdrucks.
 
 \begin{proof}[Kleene, $\<=$]
 Betrachte zu einem regulärem Ausdruck $r\in RE(\Sigma)$ die durch diesen erzeugte Sprache $L=\llbracket r \rrbracket$. 
-Zeige via stukturelle Induktion über den Aufbau regulärer Ausdrücke, dass $ \llbracket r \rrbracket$ regulär ist.
+Zeige via strukturelle Induktion über den Aufbau regulärer Ausdrücke, dass $ \llbracket r \rrbracket$ regulär ist.
     	\begin{description}[font=\normalfont]
       \item[I.A.:] \hfill
         \vspace{-1.45\baselineskip}
@@ -2236,27 +2236,27 @@ Wir können Ardens Lemma wie folgt auch für reguläre Ausdrücke formulieren:
 Wir haben nun alle Hilfsmittel, um den Beweis für die fehlende Richtung zu führen.
 
 \begin{proof}[Kleene, \=>]
-  Sei $\A=({Q},\Sigma,\delta,q_0,F)$ der oben diskutierte \acs*{DEA} mit $Q = \{q_0,q_1,\dots,q_n\}$ für dessen Sprache wir einen regulären Ausdruck konstruieren möchten.
+  Sei $\A=({Q},\Sigma,\delta,q_0,F)$ der oben diskutierte \acs*{DEA} mit $Q = \{q_0,q_1,\dots,q_n\}$, für dessen Sprache wir einen regulären Ausdruck konstruieren möchten.
   
-  Mit Hilfe von Ardens Lemma (und weitere Rechenregeln für Sprachen) können wir nun das Gleichungssystemm (TODO refer to) iterativ lösen.
+  Mit Hilfe von Ardens Lemma (und weiteren Rechenregeln für Sprachen) können wir nun das Gleichungssystem (TODO refer to) iterativ lösen.
     Wir beginnen mit Gleichung $r_n$:
     \begin{align*}
       r_n &= N(q_n) + \sum_{j = 0}^n R_{nj} r_j \\
           &= \underbrace{N(q_n) + \left (\sum_{j = 0}^{n-1} R_{nj} r_j \right)}_{r_B} + \underbrace{R_{nn}}_{r_A} r_n
     \end{align*}
-    Wie oben angedeutet ist nach dem Herausziehen des $n$ten Summenglieds Ardens Lemma anwendbar (merke, $\Eps \not \in \llbracket R_{nn} \rrbracket$), und wir setzen:
+    Wie oben angedeutet ist nach dem Herausziehen des $n$-ten Summenglieds Ardens Lemma anwendbar (beachte: $\Eps \not \in \llbracket R_{nn} \rrbracket$); wir erhalten:
     \begin{displaymath}
       r_n := R_{nn}^*\left(N(q_n) + \sum_{j = 0}^{n-1} R_{nj} r_j  \right)
     \end{displaymath}
     Dieses Ergebnis in $r_0,\ldots,r_{n-1}$ eingesetzt ergibt:
     \begin{align*}
-      r_i &= N(q_i) + \left (\sum_{j = 0}^{n-1} R_{nj} r_j \right) + R_{in}R_{nn}^*\left(N(q_n) + \sum_{j = 0}^{n-1} R_{nj} r_j  \right) \\
+      r_i &= N(q_i) + \left (\sum_{j = 0}^{n-1} R_{ij} r_j \right) + R_{in} \underbrace{R_{nn}^*\left(N(q_n) + \sum_{j = 0}^{n-1} R_{nj} r_j  \right)}_{r_n} \\
       \intertext{(Ausmultiplizieren von $R_{in}R_{nn}^*$)}
-          &= N(q_i) + \left (\sum_{j = 0}^{n-1} R_{nj} r_j \right) + R_{in}R_{nn}^*N(q_n) + \sum_{j = 0}^{n-1} R_{in}R_{nn}^*R_{nj} r_j  \\
+          &= N(q_i) + \left (\sum_{j = 0}^{n-1} R_{ij} r_j \right) + R_{in}R_{nn}^*N(q_n) + \sum_{j = 0}^{n-1} R_{in}R_{nn}^*R_{nj} r_j  \\
       \intertext{(Zusammenlegen der Summen und Ausklammern von $r_j$)}
-          &= N(q_i) + R_{in}R_{nn}^*N(q_n) + \sum_{j = 0}^{n-1} (R_{nj} + R_{in}R_{nn}^*R_{nj}) r_j  \\
+          &= N(q_i) + R_{in}R_{nn}^*N(q_n) + \sum_{j = 0}^{n-1} (R_{ij} + R_{in}R_{nn}^*R_{nj}) r_j
     \end{align*}
-  Nach diesen Umformungen ergeben sich $\Eps$-freie Koeffizienten $R_{nj} + R_{in}R_{nn}^*R_{nj}$ für $r_j$ und wir mit dem Auflösen von $n-1$ analog zu $n$ fortfahren.
+  Nach diesen Umformungen ergeben sich $\Eps$-freie Koeffizienten $R_{nj} + R_{in}R_{nn}^*R_{nj}$ für $r_j$ und wir können mit dem Auflösen der Summe von $n-1$ analog zu $n$ fortfahren.
   Am Ende erhalten wir einen regulären Ausdruck als Lösung für $r_0$.
   Per Konstruktion gilt $\llbracket r_0 \rrbracket = L_{q_0} = L_{\qinit} = L(\A)$.
   \end{proof}
@@ -2267,18 +2267,19 @@ Wir betrachten noch einmal \autoref{bsp:2.mod3gleichungen} und lösen das Gleich
 	\begin{align*}
 		r_0 &= \1 + 0\cdot r_0 + 1\cdot r_1\\
 		r_1 &= 1\cdot r_0 + 0\cdot r_2\\
-		r_2 &= \underbrace{0\cdot r_1}_B + \underbrace{1}_A\cdot r_2\\
-		\shortintertext{\nameref{lem:arden} auf $q_2$:}
+		r_2 &= \underbrace{0\cdot r_1}_B + \underbrace{1}_A \mathop{\cdot} r_2\\
+		\shortintertext{\nameref{lem:arden} auf $r_2$ anwenden:}
 		r_2 &= 1^*\cdot 0\cdot r_1\\
-		\shortintertext{Einsetzen in $q_1$}
-		r_1 &= \underbrace{1\cdot r_0}_B+\underbrace{0\cdot 1^*\cdot 0}_A\cdot r_1\\
-		\shortintertext{\nameref{lem:arden} auf $q_1$:}
+		\shortintertext{Einsetzen in $r_1$:}
+		r_1 &= \underbrace{1\cdot r_0}_B+\underbrace{0\cdot 1^*\cdot 0}_A \mathop{\cdot} r_1\\
+		\shortintertext{\nameref{lem:arden} auf $r_1$ anwenden:}
 		r_1 &= (01^*0)^*\cdot 1\cdot r_0\\
-		\shortintertext{Einsetzen:}
+		\shortintertext{Einsetzen in $r_0$:}
 		r_0 &= \1 + 0\cdot r_0+1\cdot (01^*0)^*\cdot 1\cdot r_0\\
-		&= \1+(0+1\cdot (01^*0)^*\cdot 1)\cdot r_0\\
-		\shortintertext{\nameref{lem:arden} auf $q_0$:}
-		r_0 &= (0+1\cdot (01^*0)^*\cdot 1)^*
+		&= \underbrace{\1}_B+\underbrace{(0+1\cdot (01^*0)^*\cdot 1)}_A \mathop{\cdot} r_0\\
+		\shortintertext{\nameref{lem:arden} auf $r_0$ anwenden:}
+		r_0 &= (0+1\cdot (01^*0)^*\cdot 1)^*\cdot \1 \\
+		&= (0+1(01^*0)^*1)^*
 		\qedhere
 	\end{align*}
 \end{Bsp}
