@@ -2009,9 +2009,9 @@ Wir geben regulären Ausdrücken mit Hilfe der folgenden Definition eine Semanti
                 \llbracket \0 \rrbracket &= \varnothing\\
                 \llbracket \1 \rrbracket &= \{\Eps\}\\
                 \llbracket a \rrbracket &= \{a\} \quad a\in\Sigma\\
-                \llbracket r+s \rrbracket &= \llbracket r\rrbracket \cup \llbracket s\rrbracket\\
-                \llbracket r\cdot s \rrbracket &= \llbracket r\rrbracket \cdot \llbracket s\rrbracket\\
-                \llbracket r^* \rrbracket &= \llbracket r\rrbracket^*
+                \llbracket (r+s) \rrbracket &= \llbracket r\rrbracket \cup \llbracket s\rrbracket\\
+                \llbracket (r\cdot s) \rrbracket &= \llbracket r\rrbracket \cdot \llbracket s\rrbracket\\
+                \llbracket (r)^* \rrbracket &= \llbracket r\rrbracket^*
                 \qedhere
         \end{align*}
 \end{Def}
