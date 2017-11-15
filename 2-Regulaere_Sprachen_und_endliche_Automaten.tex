@@ -1973,7 +1973,7 @@ Dieser hat große Ähnlichkeiten zum dem in der Praxis verwendeten Input von \te
                 \begin{itemize}[label=\textbullet]
                 \item $(r+s)\in RE(\Sigma)$
                 \item $(r\cdot s)\in RE(\Sigma)$
-                \item $(r)^*\in RE(\Sigma)$
+                \item $r^*\in RE(\Sigma)$
                 \qedhere
                 \end{itemize}
         \end{itemize}
@@ -2011,7 +2011,7 @@ Wir geben regulären Ausdrücken mit Hilfe der folgenden Definition eine Semanti
                 \llbracket a \rrbracket &= \{a\} \quad a\in\Sigma\\
                 \llbracket (r+s) \rrbracket &= \llbracket r\rrbracket \cup \llbracket s\rrbracket\\
                 \llbracket (r\cdot s) \rrbracket &= \llbracket r\rrbracket \cdot \llbracket s\rrbracket\\
-                \llbracket (r)^* \rrbracket &= \llbracket r\rrbracket^*
+                \llbracket r^* \rrbracket &= \llbracket r\rrbracket^*
                 \qedhere
         \end{align*}
 \end{Def}
