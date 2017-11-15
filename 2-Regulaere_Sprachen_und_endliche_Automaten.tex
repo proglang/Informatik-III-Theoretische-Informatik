@@ -2136,7 +2136,7 @@ Wir leiten nun ein Gleichungssystem zwischen den Sprachen $L_{q_i}$ her.
         & =  \{ \Eps \mid q_i \in F \} \cup \bigcup_{a \in \Sigma} \{a\} \{w' \in \Sigma^* \mid \tilde\delta(\delta(q_i, a), w') \in F\} \\
         \intertext{Die nicht-leeren Wörter hängen von den Sprachen der Folgezustände ab}
         & =  \{ \Eps \mid q_i \in F \} \cup \bigcup_{a \in \Sigma} \{a\} L_{\delta(q_i, a)}  \\
-        \intertext{Anstatt die Vereinigung über die Transitionen $a$ und Folgezustandssprachen $L_{q_j}$ zu bilden, lassen sich die nicht-leeren Wörter von $L_{q_i}$ auch als Vereinigung über alle Zustände mit entsprechend gewählten \emph{Koeffizienten} $A_{ij}$ formulieren; die Zustände, die keine Folgezustände sind, habe den Koeffizienten $\emptyset$.}
+        \intertext{Anstatt die Vereinigung über die Transitionen $a$ und Folgezustandssprachen $L_{q_j}$ zu bilden, lassen sich die nicht-leeren Wörter von $L_{q_i}$ auch als Vereinigung über alle Zustände mit entsprechend gewählten \emph{Koeffizienten} $A_{ij}$ formulieren; die Zustände, die keine Folgezustände sind, haben den Koeffizienten $\emptyset$.}
         & =  \{ \Eps \mid q_i \in F \} \cup \bigcup_{j = 0}^{n} \underbrace{\{a \in \Sigma \mid \delta(q_i, a) = q_j\}}_{A_{ij} \not \ni \Eps} L_{q_j}
     \end{align*}
     Diese Gleichungen lassen sich analog als Gleichungen von regulären Ausdrücken $r_i$ formulieren:
@@ -2155,8 +2155,8 @@ Wir leiten nun ein Gleichungssystem zwischen den Sprachen $L_{q_i}$ her.
 
 \begin{Bsp}\label{bsp:2.mod3gleichungen}
 Wir wollen diese Gleichungen zunächst an einem Beispiel betrachten und verwenden dafür den
-aus \autoref{bsp:2.mod3} bekannten \acs*{DEA} der die Sprache der Binärcodierung von durch drei teilbaren Zahlen akzeptiert.
-                $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$
+aus \autoref{bsp:2.mod3} bekannten \acs*{DEA}, der die Sprache der Binärcodierung von durch drei teilbaren Zahlen akzeptiert:
+                $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$.
 	\begin{figure}[H]\centering
 		\begin{tikzpicture}[>=stealth, shorten >=1pt, on grid, node distance=2cm, initial text=]
 			\node[state, initial, accepting] (q0) {$q_0$};
@@ -2173,11 +2173,12 @@ aus \autoref{bsp:2.mod3} bekannten \acs*{DEA} der die Sprache der Binärcodierun
 		\end{tikzpicture}
 		\caption{\ac{DEA} "`modulo 3"'}
 	\end{figure}
-Wir erhalten das folgende Gleichungssystem mit 3 Unbekannten.
+Wir erhalten das folgende Gleichungssystem mit drei Unbekannten.
 	\begin{align*}
 		r_0 &= \1 + 0\cdot r_0 + 1\cdot r_1\\
 		r_1 &= 1\cdot r_0 + 0\cdot r_2\\
-		r_2 &= 0\cdot r_1 + 1\cdot r_2\\
+		r_2 &= 0\cdot r_1 + 1\cdot r_2
+		\qedhere
 	\end{align*}
 \end{Bsp}
 
@@ -2186,49 +2187,53 @@ Wir kennen bisher kein systematisches Verfahren zum Lösen solcher Gleichungen u
         Für die Gleichung $X=A\cdot X\cup B$ über den Sprachen $A, B, X\subseteq \Sigma^*$ gilt: 
         \begin{enumerate}
          \item Die Sprache $A^*B$ ist eine Lösung für $X$.
-         \item Falls $\Eps \notin A$ ist diese Lösung eindeutig.
+         \item Falls $\Eps \notin A$, so ist diese Lösung eindeutig.
+         \qedhere
         \end{enumerate}
 \end{lemma}
 
 \begin{proof}
+\hfill \vspace{-\baselineskip} \\
 \begin{enumerate}
- \item Wir können leicht nachrechnen, dass $A^*B$ tatsächlich Lösung ist.
- $$ A^*B = A\cdot A^*B \cup B = (AA^*\cup \{\Eps\})B = A(A^*B)\cup B$$
- \item Aus dem Beweis für 1. wissen wir außerdem, dass jede Lösung Obermenge von $A^*B$ sein muss.
- Wir führen einen Widerspruchsbeweis dass keine Lösung ein Wort $x\in\Sigma^*$ mit $x\notin A^*B$ enthalten kann.
+ \item Wir können leicht nachrechnen, dass $A^*B$ tatsächlich eine Lösung ist.
+ $$ \underbrace{A^*B}_X = A\cdot A^*B \cup B = (AA^*\cup \{\Eps\})B = A(\underbrace{A^*B}_X)\cup B$$
+ \item Sei $\Eps \notin A$.
+ Aus dem Beweis für 1.\ wissen wir außerdem, dass jede Lösung eine Obermenge von $A^*B$ sein muss.
+ Wir führen einen Widerspruchsbeweis, dass keine Lösung ein Wort $x\in\Sigma^*$ mit $x\notin A^*B$ enthalten kann.
  
  Angenommen es gäbe Wörter $x$ mit dieser Eigenschaft. 
  Dann gibt es auch Wörter minimaler Länge mit dieser Eigenschaft.
  Sei $w$ solch ein Wort minimaler Länge.
- Da alle Lösungen von der Form $\underbrace{A^nX}_{\ni w} + \underbrace{A^{n-1}B+\dots +AB+B}_{\not\ni w}$ sind hat $w$ die Form
+ Da alle Lösungen von der Form $\underbrace{A^nX}_{\ni w} + \underbrace{A^{n-1}B+\dots +AB+B}_{\not\ni w}$ sind, hat $w$ die Form
  $w = u_1\dots u_n w'\text{ mit } u_1,\dots,u_n\in A\text{ und } w'\in X$.
- Fallunterscheidung
+ Fallunterscheidung:
  \begin{itemize}
-  \item $w' \in A^*B$ \ $\Rightarrow w\in A^nA^*B\subseteq A^*B$ Widerspruch!
-  \item $W' \notin A^*B$ \ $\Rightarrow w'$ auch schon Element einer Lösung. Widerspruch zur minimalen Länge von $w$.
+  \item $w' \in A^*B$ \ $\Rightarrow w\in A^nA^*B\subseteq A^*B$ -- Widerspruch!
+  \item $w' \notin A^*B$ \ $\Rightarrow w'$ ist bereits Element einer Lösung. Widerspruch zur minimalen Länge von $w$.
  \end{itemize}
  Die Sprache $A^*B$ ist also die einzige Lösung für $X$.
+ \qedhere
 \end{enumerate}
 \end{proof}
 
 Wir können Ardens Lemma wie folgt auch für reguläre Ausdrücke formulieren:
 \begin{Korollar}
-   Seien $r_X,r_A,r_B$ reguläre Ausdrücke mit $\Eps \not \in \llbracket r_A \rrbracket$ sodass die folgende Gleichung gilt:
+   Seien $r_X,r_A,r_B$ reguläre Ausdrücke mit $\Eps \not \in \llbracket r_A \rrbracket$, sodass die folgende Gleichung gilt:
   \begin{displaymath}
-    \llbracket r_x \rrbracket = \llbracket r_A \cdot r_x + r_B \rrbracket
+    \llbracket r_X \rrbracket = \llbracket r_A \cdot r_X + r_B \rrbracket
   \end{displaymath}
   Dann ist der reguläre Ausdruck
   \begin{displaymath}
     r_A^*r_B
   \end{displaymath}
-  eine Lösung für $r_x$ die die Gleichung erfüllt. Außerdem erzeugen alle anderen Lösungen die gleiche Sprache wie $r_A^*r_B$.
+  eine Lösung für $r_X$, welche die Gleichung erfüllt. Außerdem erzeugen alle anderen Lösungen die gleiche Sprache wie $r_A^*r_B$.
 \end{Korollar}
 
 % \datenote{11.11.16}
 
 \medskip
 
-Wir haben nun alle Hilfsmittel um den Beweis für die fehlende Richtung zu führen.
+Wir haben nun alle Hilfsmittel, um den Beweis für die fehlende Richtung zu führen.
 
 \begin{proof}[Kleene, \=>]
   Sei $\A=({Q},\Sigma,\delta,q_0,F)$ der oben diskutierte \acs*{DEA} mit $Q = \{q_0,q_1,\dots,q_n\}$ für dessen Sprache wir einen regulären Ausdruck konstruieren möchten.
