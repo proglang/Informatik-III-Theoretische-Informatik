@@ -88,8 +88,8 @@ Außerdem gilt: $L(\mathcal{G})$ ist die Sprache der Wörter über $\{0,1\}$, di
   \end{align*}
   Per Induktion über $|w|$ mit $w \in \Sigma^*$ lässt sich leicht zeigen, dass $L = \{w \in \Sigma^* \mid d(w) = 0\}$ und $d(v \cdot w) = d(v) + d(w)$.
   
-Wir zeigen nun via Induktion über die Länge von $w$ die folgende Eigenschaft:
-$$\forall w \in \Sigma^*: \text{ falls } w \in L, \text{ dann } w \in L(\mathcal{G})$$
+Wir zeigen nun via Induktion über $n$ die folgende Eigenschaft:
+$$\forall n' < n: \forall w \in \Sigma^*: \text{ falls } |w| = n' \text{ und } w \in L, \text{ dann } w \in L(\mathcal{G})$$
 
 \begin{description}[font=\normalfont]
 \item[I.A.:] $n = 0$: $w = \Eps$. Es gilt $\Eps \in L$, da $\#_0(\Eps) = \#_1(\Eps) = 0$.
@@ -101,7 +101,7 @@ $$\forall w \in \Sigma^*: \text{ falls } w \in L, \text{ dann } w \in L(\mathcal
 
   Da $0 = d(w) = d(0w') = d(w') - 1$, ist $d(w') = 1$.
 
-  Es stellt sich heraus, dass $w' = w_11w_2$, $d(w_1) = 0$ und $d(w_2) = 0$.
+  Also können wir $w'$ in $w_11w_2$ mit $d(w_1) = 0$ und $d(w_2) = 0$ zerlegen.
 %   \begin{itemize}
 %   \item[] 
 
