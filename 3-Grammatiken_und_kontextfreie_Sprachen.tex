@@ -2,21 +2,22 @@
 % \datenote{18.11.16}
 % Im folgenden Kapitel wechseln wir den Standpunkt von Spracherkennung auf \emph{Spracherzeugung}.
 % Das Werkzeug sind hierbei sogenannte \emph{Phasenstrukturgrammatiken}, oder kurz, \emph{Grammatiken}.
-% Bei Grammatiken gibt es neben dem Alphabet weitere Symbole, sogenannte \emph{Nichtterminale} oder \emph{Variablen}, und ein Regelsystem mit dem Worte, die Nichtterminale enthalten, geändert werden können.
+% Bei Grammatiken gibt es neben dem Alphabet weitere Symbole, sogenannte \emph{Nichtterminale} oder \emph{Variablen}, und ein Regelsystem mit dem Wörter, die Nichtterminale enthalten, geändert werden können.
 \begin{Def}
-	Eine \emph{Grammatik} ist ein 4-Tupel $(\Sigma,N,P,S)$
+	Eine \emph{Grammatik} ist ein 4-Tupel $(\Sigma,N,P,S)$ mit folgenden Komponenten:
 	\begin{itemize}
-	\item $\Sigma$ ist ein Alphabet dessen Elemente wir in diesem Kontext auch \emph{Terminalsymbole} nennen.
-	\item $N$ ist eine endliche Menge deren Elemente wir \emph{Nichtterminalsymbole} oder Variablen nennen.
-	\item $P\subseteq (N\cup\Sigma)^*N(N\cup\Sigma)^* \x (N\cup\Sigma)^*$ ist endliche Relation, 
-	deren Elemente wir von \emph{Regeln} oder \emph{Produktionen} nennen.
-	\item $S\in N$ ist ein Nichtterminalsymbol dass wir \emph{Startsymbol} nennen.
+	\item $\Sigma$ ist ein Alphabet, dessen Elemente wir in diesem Kontext auch \emph{Terminalsymbole} nennen.
+	\item $N$ ist eine endliche Menge, deren Elemente wir \emph{Nichtterminalsymbole} oder \emph{Variablen} nennen.
+	\item $P\subseteq (N\cup\Sigma)^*N(N\cup\Sigma)^* \x (N\cup\Sigma)^*$ ist eine endliche Relation, 
+	deren Elemente wir \emph{Regeln} oder \emph{Produktionen} nennen.
+	\item $S\in N$ ist ein Nichtterminalsymbol, das wir \emph{Startsymbol} nennen.
+	\qedhere
 	\end{itemize}
 \end{Def}
 
 \begin{Bsp}\label{bsp:3.sameNumber}
   $\mathcal{G} = (\Sigma, N, P, S)$ mit\footnote{$P$ ist eine ``normale'' binäre Relation, 
-  doch wir verwenden meist ``$x\-> y$'', also einen Pfeil und infix Notation, statt ``$(x,y)\in P$'' um die Lesbarkeit zu erhöhen}
+  doch wir verwenden statt ``$(x,y)\in P$'' meist ``$x\-> y$'', also einen Pfeil und Infix-Notation, um die Lesbarkeit zu erhöhen.}
 	\begin{align*}
 		\Sigma &= \{ 0, 1 \}\\
 		N &= \{S\}\\
@@ -26,15 +27,16 @@
         S & \to \Eps
       \}
         \end{aligned}
+      \qedhere
 	\end{align*}
 \end{Bsp}
 % 
 %   $G$ erzeugt geklammerte arithmetische Ausdrücke über der Konstante $\mathtt{a}$, wie zum Beispiel das Wort $\mathtt{(a*(a+a))}$.
-%   Eine Grammatik erzeugt Worte durch \emph{Ableitungen}, die wir im Folgenden definieren.
+%   Eine Grammatik erzeugt Wörter durch \emph{Ableitungen}, die wir im Folgenden definieren.
 %   
 \begin{Def}[Ableitungsrelation, Ableitung, Sprache einer Grammatik]
   Sei $\mathcal{G} =(\Sigma,N,P,S)$ eine Grammatik.
-	Die \emph{Ableitungsrelation}\footnote{Analog zur Relation $P$ verwenden auch für die Ableitungsrelation wieder infix Notation. Also $\alpha\vdash\beta$ statt $(\alpha,\beta)\in\vdash$}
+	Die \emph{Ableitungsrelation}\footnote{Analog zur Relation $P$ verwenden wir auch für die Ableitungsrelation wieder Infix-Notation, also $\alpha\vdash\beta$ statt $(\alpha,\beta)\in\;\vdash$.}
 	zu $\mathcal{G}$ ist 
   \begin{displaymath}
     \cdot \vdash_\mathcal{G} \cdot \subseteq (N\cup\Sigma)^*\x(N\cup\Sigma)^*
@@ -44,10 +46,10 @@
   Eine Folge $\alpha = \alpha_0,\ldots,\alpha_n = \beta$ heißt \emph{Ableitung von $\beta$ aus $\alpha$ in $n$ Schritten}, geschrieben $\alpha \stackrel{n}{\vdash}_\mathcal{G} \beta$, gdw $\alpha_i \vdash_\mathcal{G} \alpha_{i+1}$ für $0 \le i < n$.
   Jedes solche $\alpha_i$ heißt \emph{Satzform von $\mathcal{G}$}.
 
-  Die \emph{Ableitung von $\beta$ aus $\alpha$}, geschrieben $\alpha \stackrel{*}{\vdash}_\mathcal{G} \beta$, existiert gdw ein $n \in \N$ existiert, so dass $\alpha \stackrel{n}{\vdash}_\mathcal{G} \beta$.
+  Die \emph{Ableitung von $\beta$ aus $\alpha$}, geschrieben $\alpha \stackrel{*}{\vdash}_\mathcal{G} \beta$, existiert gdw ein $n \in \N$ existiert, sodass $\alpha \stackrel{n}{\vdash}_\mathcal{G} \beta$.
   Damit ist ,,$\stackrel{*}{\vdash}_\mathcal{G}$'' die reflexive, transitive Hülle von ,,$\vdash_\mathcal{G}$''.
 
-  Ein Wort $w\in\Sigma^*$ wird von $\mathcal{G}$ \emph{erzeugt}, wenn $ \mid S \stackrel{*}{\vdash}_{\mathcal{G}} w$ gilt.
+  Ein Wort $w\in\Sigma^*$ wird von $\mathcal{G}$ \emph{erzeugt}, wenn $S \stackrel{*}{\vdash}_{\mathcal{G}} w$ gilt.
 	Die von $\mathcal{G}$ \emph{erzeugte Sprache} ist definiert als:
 	\[ L(\mathcal{G}) = \{w\in\Sigma^* \mid S \stackrel{*}{\vdash}_{\mathcal{G}} w \} \qedhere \]
 \end{Def}
@@ -57,8 +59,7 @@
 
 % \draftnote{18.11.16}
 
-\begin{Bsp}Wir betrachten nochmal die Grammatik aus \autoref{bsp:3.sameNumber}
-
+\begin{Bsp}Wir betrachten nochmal die Grammatik aus \autoref{bsp:3.sameNumber}.
 Es gilt: $1001\in L(\mathcal{G})$.
 $$ S 
 \vdash_\mathcal{G} 1S0S
@@ -68,57 +69,64 @@ $$ S
 \vdash_\mathcal{G} 1001
 $$
 
-Außerdem gilt: $L(\mathcal{G})$ ist die Sprache der Worte über $\{0,1\}^*$, die gleich viele Nullen wie Einsen haben:
+Außerdem gilt: $L(\mathcal{G})$ ist die Sprache der Wörter über $\{0,1\}$, die gleich viele Nullen wie Einsen haben:
   \begin{displaymath}
     L = \{ w \in \Sigma^* \mid \#_0(w) = \#_1(w)\}
   \end{displaymath}
   Die Funktion $\#_a(w)$ berechnet hierbei die Anzahl der Vorkommen von $a \in \{0, 1\}$ in $w$.
 
-  Dass $L(\mathcal{G}) \subseteq L$ lässt sich per Induktion über die Länge der Ableitung von $S \stackrel{*}{\==>}_\mathcal{G} w$ zeigen.
+  Dass $L(\mathcal{G}) \subseteq L$, lässt sich per Induktion über die Länge der Ableitung von $S \stackrel{*}{\vdash}_\mathcal{G} w$ zeigen.
   Der Beweis wird als Übung dem Leser überlassen.
 
-  Wir zeigen das $L \subseteq L(\mathcal{G})$, also dass wenn $w \in L$, dann $w \in L(\mathcal{G})$ per Induktion über die Länge von $w$.
-  Hierzu definieren wir die noch die Hilfsfunktion $d : \Sigma^* \to \N$ als
+  Wir zeigen $L \subseteq L(\mathcal{G})$.
+  Dazu zeigen wir "`Wenn $w \in L$, dann $w \in L(\mathcal{G})$"' per Induktion über die Länge von $w$.
+  Hierzu definieren wir noch die Hilfsfunktion $d : \Sigma^* \to \N$:
   \begin{align*}
     d(\Eps) &= 0 \\
     d(1w) &= d(w) + 1 \\
     d(0w) &= d(w) - 1
   \end{align*}
-  Per Induktion über $w \in \Sigma^*$ lässt sich zeigen, dass $L = \{w \in \Sigma^* \mid d(w) = 0\}$ und $d(v \cdot w) = d(v) + d(w)$.
+  Per Induktion über $|w|$ mit $w \in \Sigma^*$ lässt sich leicht zeigen, dass $L = \{w \in \Sigma^* \mid d(w) = 0\}$ und $d(v \cdot w) = d(v) + d(w)$.
   
-Wir zeigen nun via Induktion über $n$ die folgende Eigenschaft:
-$$\forall n' < n: \forall w' \in \Sigma^*: \text{ falls } |w| = n' \text{ und } w \in L \text{ dann } w \in L(\mathcal{G})$$
+Wir zeigen nun via Induktion über die Länge von $w$ die folgende Eigenschaft:
+$$\forall w \in \Sigma^*: \text{ falls } w \in L, \text{ dann } w \in L(\mathcal{G})$$
 
-\begin{description}
-\item[IA] $n = 0$: $w = \Eps$. Es gilt $\Eps \in L$, da $\#_0(\Eps) = \#_1(\Eps) = 0$.
+\begin{description}[font=\normalfont]
+\item[I.A.:] $n = 0$: $w = \Eps$. Es gilt $\Eps \in L$, da $\#_0(\Eps) = \#_1(\Eps) = 0$.
 % \item[IV] $\forall n' < n: \forall w' \in \Sigma^*: falls |w| = n' \text{ und } w \in L \text{ dann } w \in L(\mathcal{G})$
-\item[IS] $n \rightsquigarrow n+1$: $|w| = n > 1$, $w = aw'$, $a \in \{0,1\}$.
+\item[I.S.:] $n \rightsquigarrow n+1$: $|w| = n > 1$, $w = aw'$, $a \in \{0,1\}$.
+  Beachte: $|w|$ ist gerade für alle $w \in L$.
 
   Betrachte $a = 0$ (der Fall für $a = 1$ funktioniert analog).
 
-  Da $d(w) = d(0w') = d(w') - 1 = 0$ ist $d(w') = 1$.
+  Da $0 = d(w) = d(0w') = d(w') - 1$, ist $d(w') = 1$.
 
   Es stellt sich heraus, dass $w' = w_11w_2$, $d(w_1) = 0$ und $d(w_2) = 0$.
-  \begin{itemize}
-  \item[] 
-    Sei $w' = a_1 \ldots a_n$.
-    Betrachte die Folge $d_0,\ldots,d_n$ mit $d_0 = 0$ und $d_i = d(a_1\ldots a_i)$ für $1 \le i < n$.
-    Wähle $0 \le i < n$ maximal, so dass für alle $0 \le j \le i$: $d_j < 1$.
+%   \begin{itemize}
+%   \item[] 
 
-    Da $i$ maximal ist folgt $d_{i+1} \ge 1$ und da $d_{i+1} - d_i \le 1$  folgt $d_i = 0$, $d_{i+1} = 1$ und $a_i = 1$.
-    Setze also $w_1 = a_1\ldots a_{i}$.
+  \bigskip
+    Sei $w' = a_1 \ldots a_n$.
+    Betrachte die Folge $d_0,\ldots,d_n$ mit $d_0 = 0$ und $d_i = d(a_1\ldots a_i)$ für $1 \le i \leq n$.
+    Wähle $0 \le i < n$ maximal, sodass für alle $0 \le j \le i$ gilt: $d_j < 1$.%
+    \footnote{Wir wissen, dass $i < n$, da $d_n = d(w') = 1$.}
+
+    Da $i$ maximal ist, folgt $d_{i+1} \ge 1$.
+    Da $d_{j+1} - d_j \le 1$ für alle $0 \le j \le i$, folgt $d_{i+1} - d_i \le 1$ und damit auch $d_i = 0$, $d_{i+1} = 1$ und $a_{i+1} = 1$.
+    Setze $w_1 = a_1\ldots a_{i}$.
 
     Es gilt also $w' = a_1\ldots a_{i}a_{i+1}w_2 = w_1w_2$ mit $d(w_1) = 0$.
 
-    Da $d(v \cdot w) = d(v) + d(w)$ und $d(w') = d(w_11w_2) = 1$ folgt $d(w_2) = 0$.
-  \end{itemize}
+    Da $d(v \cdot w) = d(v) + d(w)$ und $d(w') = d(w_11w_2) = 1$, folgt $d(w_2) = 0$.
+%   \end{itemize}
+  \bigskip
+  \goodbreak
 
-  Da $|w_1| < n$ und $|w_2| < n$, folgt per IV, dass $S \stackrel{*}{ \==>_{\mathcal{G}} } w_1$ und $S \stackrel{*}{\==>_{\mathcal{G}}} w_2$.
+  Da $|w_1| < n$ und $|w_2| < n$, folgt per I.V., dass $S \stackrel{*}{\vdash}_{\mathcal{G}} w_1$ und $S \stackrel{*}{\vdash}_{\mathcal{G}} w_2$.
 
-  Es folgt mit den Produktionsregeln $S \==>_{\mathcal{G}} 0S1S \stackrel{*}{\==>}_{\mathcal{G}} 0w_11S \stackrel{*}{\==>}_{\mathcal{G}} 0w_11w_2$.
+  Es folgt mit den Produktionsregeln $S \vdash_{\mathcal{G}} 0S1S \stackrel{*}{\vdash}_{\mathcal{G}} 0w_11S \stackrel{*}{\vdash}_{\mathcal{G}} 0w_11w_2$.
+  \qedhere
 \end{description}
-
-
 \end{Bsp}
 
 \begin{Bsp} $\mathcal{G}=(\Sigma,N,P,S)$ mit
@@ -135,38 +143,39 @@ $$\forall n' < n: \forall w' \in \Sigma^*: \text{ falls } |w| = n' \text{ und } 
 % 		S &\=> aSBC \xRightarrow{n-2} n \=> a^{n-1}S(BC)^{n-1} \=> a^n(BC)^n = a^nBCBC \dots \=> a^nBBCCBC\\
 % 		&\=> a^nB^nC^n \xRightarrow* a^nb^nc^n
 	\end{align*}
-Es gilt z.B. $aaabbbcc\in L\mathcal{G}$.
+Es gilt z.B. $aaabbbccc\in L\mathcal{G}$.
 
-Außerdem gilt $L(\mathcal{G}) =  \{ a^nb^nc^n \mid n\geq 1 \}$. (Ohne Beweis)\\
+Außerdem gilt $L(\mathcal{G}) =  \{ a^nb^nc^n \mid n\geq 1 \}$. (Ohne Beweis)
 \end{Bsp}
 
-
+\bigskip
 
 Die Chomsky-Hierarchie teilt die Grammatiken in vier Typen unterschiedlicher Mächtigkeit ein.
-\begin{Def}[Chomsky Hierarchie]\
+\begin{Def}[Chomsky-Hierarchie]\
 	\begin{itemize}
-	\item Jede Grammatik ist eine \emph{Typ-0 Grammatik}.
+	\item Jede Grammatik ist eine \emph{Typ-0-Grammatik}.
 	\item Eine Grammatik ist \emph{Typ-1} oder
           \emph{kontextsensitiv}, falls alle Regeln expansiv sind,
           d.h., für alle Regeln $\alpha\->\beta\in P$ ist
           $|\alpha|\leq |\beta|$. Ausnahme: falls $S$ nicht in einer
           rechten Regelseite auftritt, dann ist $S\->\Eps$ erlaubt. 
 	\item Eine Grammatik heißt \emph{Typ-2} oder \emph{kontextfrei}, falls alle Regeln die Form $A\->\alpha$ mit $A\in N$ und $\alpha\in(N\cup\Sigma)^*$ haben.
-	\item Eine Grammatik heißt \emph{Typ-3} oder \emph{regulär}, falls alle Regeln die Form
+	\item Eine Grammatik heißt \emph{Typ-3} oder \emph{regulär}, falls alle Regeln die folgende Form haben:
 	\begin{alignat*}{2}
-		\text{Form}\quad &A\->w &\quad w&\in\Sigma^*\\
+		&A\->w &\quad w&\in\Sigma^*\\
 		\text{oder}\quad &A\->aB& a&\in\Sigma,\ B\in N
 	\end{alignat*}
 	\end{itemize}
-	Eine Sprache heißt Typ-$i$ Sprache, falls $\exists$ Typ-$i$ Grammatik für sie.
+	Eine Sprache heißt Typ-$i$-Sprache, falls es eine Typ-$i$-Grammatik für sie gibt.
 \end{Def}
 
 \begin{Beobachtung}
-	Jede Typ-$i+1$ Sprache ist auch Typ-$i$ Sprache.
+	Jede Typ-$(i+1)$-Sprache ist auch eine Typ-$i$-Sprache.
 \end{Beobachtung}
-Jede Typ-3 Grammatik ist Typ-2 Grammatik.\\
-Jede Typ-2 Grammatik kann in äquivalente $\Eps$-freie Typ-2 Grammatik transformiert werden. \-> Typ-1 Grammatik. (Vgl.\ Elimination von $\Eps$-Produktionen)\\
-Jede Typ-1 Grammatik ist auch Typ-0 Grammatik.
+Jede Typ-3-Grammatik ist eine Typ-2-Grammatik.\\
+Jede Typ-2-Grammatik kann in eine äquivalente $\Eps$-freie\footnote{Auf keiner rechten Seite steht $\Eps$; Ausnahme: Startsymbol $S$; vgl.\ Elimination von $\Eps$-Produktionen.} Typ-2-Grammatik transformiert werden.
+Damit gibt es auch eine Typ-1-Grammatik.\\
+Jede Typ-1-Grammatik ist auch eine Typ-0-Grammatik.
 \hide{
 Ziel: Hierarchie-Satz (Chomsky)\\
 Sei $\mathcal{L}_i$ die Menge der Typ-$i$ Sprachen.\\
@@ -248,7 +257,7 @@ Hier sind einige Beispiele kontextfreier Sprachen und Grammatiken:
 	Terminalsymbol --- alles andere.
 \item Palindrome über $\{a,b\}$
 	\[ S\-> aSa \mid bSb \mid a \mid b \mid \Eps \]
-\item Sprache der Worte über $\{0,1\}^*$, die gleich viele Nullen wie Einsen haben:
+\item Sprache der Wörter über $\{0,1\}^*$, die gleich viele Nullen wie Einsen haben:
   \begin{displaymath}
     L = \{ w \in \Sigma^* \mid \#_0(w) = \#_1(w)\}
   \end{displaymath}
@@ -289,7 +298,7 @@ Hier sind einige Beispiele kontextfreier Sprachen und Grammatiken:
   \item[] 
     Sei $w' = a_1 \ldots a_n$.
     Betrachte die Folge $d_0,\ldots,d_n$ mit $d_0 = 0$ und $d_i = d(a_1\ldots a_i)$ für $1 \le i < n$.
-    Wähle $0 \le i < n$ maximal, so dass für alle $0 \le j \le i$: $d_j < 1$.
+    Wähle $0 \le i < n$ maximal, sodass für alle $0 \le j \le i$: $d_j < 1$.
 
     Da $i$ maximal ist folgt $d_{i+1} \ge 1$ und da $d_{i+1} - d_i \le 1$  folgt $d_i = 0$, $d_{i+1} = 1$ und $a_i = 1$.
     Setze also $w_1 = a_1\ldots a_{i}$.
@@ -529,7 +538,7 @@ Das ist genau die Anzahl an Zeichen aus $\Sigma$, die man benötigt, um die Prod
               \alpha \in M_i^* \}
   \end{align*}
   Es gilt für alle $i \in \N$, dass $M_i \subseteq N$.
-  Da $|N|$ endlich ist, existiert ein $m \in \N$, so dass
+  Da $|N|$ endlich ist, existiert ein $m \in \N$, sodass
   \begin{displaymath}
     M_m = M_{m+1} = \bigcup_{i \in \N} M_i
   \end{displaymath}
@@ -569,7 +578,7 @@ Das ist genau die Anzahl an Zeichen aus $\Sigma$, die man benötigt, um die Prod
   
   \paragraph{,,$\subseteq$''}
   Wenn $A \in \operatorname{Nullable}(\mathcal{G})$, dann existiert $m
-  \in \N$, so dass $A \stackrel{*}{\==>} \Eps$ mit einem
+  \in \N$, sodass $A \stackrel{*}{\==>} \Eps$ mit einem
   Ableitungsbaum der Höhe $m$.
   Wir zeigen per Induktion über $m$, dass $A \in M_{m+1} \subseteq \bigcup_{i \in \N} M_i$.
   \begin{description}
@@ -645,7 +654,7 @@ return M
     Fahre fort mit Schritt \ref{alg:unit-step-dg}.
   \item \label{alg:unit-step-dag}
     Der Graph $G$ ist ein gerichteter, azyklischer Graph (DAG, \emph{Directed Acyclic Graph}).
-    Sortiere die Knoten von $G$ topologisch als $A_1, \ldots, A_n$, so dass $A_n$ auf keiner linken Seite einer Kettenregel vorkommt.
+    Sortiere die Knoten von $G$ topologisch als $A_1, \ldots, A_n$, sodass $A_n$ auf keiner linken Seite einer Kettenregel vorkommt.
   \item $\mathbf{for}~j = m \ldots 1$
     \begin{itemize}
     \item[] $\mathbf{for}~\mathbf{each}~A_j \to A_k \in P'$
@@ -687,7 +696,7 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
 \begin{Satz}[Pumping lemma für \acs*{CFL}, uvwxy Lemma]
 \label{satz:PL für CFL}
 %\rlnote{Satz \# 4.2?}
-	Sei $L\in {CFL}$. Dann $\exists n>0$, so dass $\forall z\in L$ mit $|z|\geq n\ \exists u,v,w,x,y$ so dass $z=uvwxy$ mit
+	Sei $L\in {CFL}$. Dann $\exists n>0$, sodass $\forall z\in L$ mit $|z|\geq n\ \exists u,v,w,x,y$ sodass $z=uvwxy$ mit
 	\begin{itemize}
 	\item $|vwx|\leq n$
 	\item $|vx|\geq 1$
@@ -702,7 +711,7 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
     \footnote{Intuition: Da $\mathcal{G}$ in CNF, ist Ableitungsbaum $\mathcal{A}$ ein Binärbaum. 
         Mit $|N|$ 
     verschiedenen Nichtterminalsymbolen kann man 
-    also maximal Worte der Länge $2^{|N|}$ ableiten, wenn man keine Ableitung doppelt nutzen möchte. 
+    also maximal Wörter der Länge $2^{|N|}$ ableiten, wenn man keine Ableitung doppelt nutzen möchte. 
     Leitet man ein längeres Wort ab, so muss man mind. eine Ableitung doppelt nutzen.
      Dann kann man sie aber auch gleich $i$-fach nutzen ($v^i$ und $x^i$), und ist immernoch in der Sprache.}
   $\mathcal{A}$ ist ein Binärbaum mit $|z|\geq n = 2^{|N|}$ Blättern. In einem solchen Binärbaum existiert ein Pfad $\zeta$ der Länge $\geq |N|$.
@@ -1099,8 +1108,8 @@ $.
     \end{aligned}
     $
   \end{itemize}
-  Durch die $S \to \ldots$ Regeln erzeugt $\mathcal{G}'$ offensichtlich genau die Worte, die durch die Nichtterminale $(q_0, S, q)$ für $q \in F$ erzeugt werden.
-  Es bleibt zu zeigen, dass ein Nichtterminal genau die Worte aus $L$ erzeugt die gleichzeitig einen (akzeptierenden) Lauf $q_0\ldots q$ von $M$ erlauben.
+  Durch die $S \to \ldots$ Regeln erzeugt $\mathcal{G}'$ offensichtlich genau die Wörter, die durch die Nichtterminale $(q_0, S, q)$ für $q \in F$ erzeugt werden.
+  Es bleibt zu zeigen, dass ein Nichtterminal genau die Wörter aus $L$ erzeugt die gleichzeitig einen (akzeptierenden) Lauf $q_0\ldots q$ von $M$ erlauben.
   Wir zeigen eine Verallgemeinerung: für alle $p,q \in Q$ und $A \in N$ gilt
   \begin{align*}
     &(p,A,q) \stackrel{*}{\Longrightarrow}_{\mathcal{G}'} w \\
@@ -1121,7 +1130,7 @@ $.
         \item $\pi = A \to BC$, $\mathcal{A} = \pi(\mathcal{A}_1, \mathcal{A}_2)$, $Y(\mathcal{A}_1) = w_1$, $Y(\mathcal{A}_2) = w_2$, \mbox{$\mathcal{A}_1 \in \operatorname{Abl}(\mathcal{G}, B)$} und $\mathcal{A}_2 \in \operatorname{Abl}(\mathcal{G}, C)$.
 
           Es gilt $w = w_1w_2$ und $\zeta = p\ldots q$ ist Lauf auf $w_1w_2$.
-          Es existiert also $q'$ so dass $\zeta = p\ldots q' \ldots q$ und $p\ldots q'$ ist Lauf auf $w_1$ und $q' \ldots q$ ist Lauf auf $w_2$.
+          Es existiert also $q'$ sodass $\zeta = p\ldots q' \ldots q$ und $p\ldots q'$ ist Lauf auf $w_1$ und $q' \ldots q$ ist Lauf auf $w_2$.
 
           Es folgt per IV, dass
           \begin{displaymath}
