@@ -1,81 +1,86 @@
 \section{Grammatiken und kontextfreie Sprachen}
 \datenote{18.11.16}
-Im folgenden Kapitel wechseln wir den Standpunkt von Spracherkennung auf \emph{Spracherzeugung}.
-Das Werkzeug sind hierbei sogenannte \emph{Phasenstrukturgrammatiken}, oder kurz, \emph{Grammatiken}.
-Bei Grammatiken gibt es neben dem Alphabet weitere Symbole, sogenannte \emph{Nichtterminale} oder \emph{Variablen}, und ein Regelsystem mit dem Worte, die Nichtterminale enthalten, geändert werden können.
+% Im folgenden Kapitel wechseln wir den Standpunkt von Spracherkennung auf \emph{Spracherzeugung}.
+% Das Werkzeug sind hierbei sogenannte \emph{Phasenstrukturgrammatiken}, oder kurz, \emph{Grammatiken}.
+% Bei Grammatiken gibt es neben dem Alphabet weitere Symbole, sogenannte \emph{Nichtterminale} oder \emph{Variablen}, und ein Regelsystem mit dem Worte, die Nichtterminale enthalten, geändert werden können.
 \begin{Def}
-	Eine \emph{Grammatik} ist ein 4-Tupel $(N,\Sigma,P,S)$
+	Eine \emph{Grammatik} ist ein 4-Tupel $(\Sigma,N,P,S)$
 	\begin{itemize}
-	\item $N$ ist eine endliche Menge von \emph{Nichtterminalsymbolen} (Variablen).
-	\item $\Sigma$ ist ein Alphabet von \emph{Terminalsymbolen}.
-	\item $P\subset (N\cup\Sigma)^*N(N\cup\Sigma)^* \x (N\cup\Sigma)^*$ ist endliche Menge von Regeln, sogenannte \emph{Produktionen}.
-	\item $S\in N$ ist das \emph{Startsymbol}.
+	\item $\Sigma$ ist ein Alphabet dessen Elemente wir in diesem Kontext auch \emph{Terminalsymbole} nennen.
+	\item $N$ ist eine endliche Menge deren Elemente wir \emph{Nichtterminalsymbole} oder Variablen nennen.
+	\item $P\subseteq (N\cup\Sigma)^*N(N\cup\Sigma)^* \x (N\cup\Sigma)^*$ ist endliche Relation, 
+	deren Elemente wir von \emph{Regeln} oder \emph{Produktionen} nennen.
+	\item $S\in N$ ist ein Nichtterminalsymbol dass wir \emph{Startsymbol} nennen.
 	\end{itemize}
 \end{Def}
-\begin{Bsp}
-  $\mathcal{G} = (N, \Sigma, P, E)$ mit
+
+\begin{Bsp}\label{bsp:3.palindromeGrammar}
+  $\mathcal{G} = (\Sigma, N, P, S)$ mit
 	\begin{align*}
-		\Sigma &= \{ \mathtt{a},\mathtt{(},\mathtt{)},\mathtt{*},\mathtt{+} \}\\
-		N &= \{E\}\\
+		\Sigma &= \{ 0, 1 \}\\
+		N &= \{S\}\\
 		P &= \begin{aligned}[t]
-      \{ E &\-> a,\\
-      E &\-> (E*E),\\
-      E &\-> (E+E) \}
+      \{ S &\-> 0S0,\\
+         S &\-> 1S1, \\
+         S &\-> 0, \\
+         S &\-> 1, \\
+         S &\-> \Eps \; \}
         \end{aligned}
 	\end{align*}
 \end{Bsp}
-  $G$ erzeugt geklammerte arithmetische Ausdrücke über der Konstante $\mathtt{a}$, wie zum Beispiel das Wort $\mathtt{(a*(a+a))}$.
-  Eine Grammatik erzeugt Worte durch \emph{Ableitungen}, die wir im Folgenden definieren.
+% 
+%   $G$ erzeugt geklammerte arithmetische Ausdrücke über der Konstante $\mathtt{a}$, wie zum Beispiel das Wort $\mathtt{(a*(a+a))}$.
+%   Eine Grammatik erzeugt Worte durch \emph{Ableitungen}, die wir im Folgenden definieren.
+%   
 \begin{Def}[Ableitungsrelation, Ableitung, Sprache einer Grammatik]
-  Sei $\mathcal{G} =(N,\Sigma,P,S)$ eine Grammatik.
-
+  Sei $\mathcal{G} =(\Sigma,N,P,S)$ eine Grammatik.
 	Die \emph{Ableitungsrelation} zu $\mathcal{G}$ ist 
   \begin{displaymath}
-    \cdot \==>_\mathcal{G} \cdot \subseteq (N\cup\Sigma)^*\x(N\cup\Sigma)^*
+    \cdot \vdash_\mathcal{G} \cdot \subseteq (N\cup\Sigma)^*\x(N\cup\Sigma)^*
   \end{displaymath}
-  mit $\alpha \==>_\mathcal{G} \beta$ gdw 
-  \begin{itemize}
-  \item $\alpha = \gamma_1\alpha'\gamma_2$,
-  \item $\beta = \gamma_1\beta'\gamma_2$ und
-  \item $\alpha' \to \beta' \in P$
-  \end{itemize}
+  mit \ \ $\alpha \vdash_\mathcal{G} \beta$\ \  gdw\ \  $\alpha = \gamma_1\alpha'\gamma_2$,\ \  $\beta = \gamma_1\beta'\gamma_2$\ \  und \ \ $\alpha' \to \beta' \in P$
 
-  Eine Folge $\alpha = \alpha_0,\ldots,\alpha_n = \beta$ heißt \emph{Ableitung von $\beta$ aus $\alpha$ in $n$ Schritten}, geschrieben $\alpha \stackrel{n}{\==>}_\mathcal{G} \beta$, gdw $\alpha_i \==>_\mathcal{G} \alpha_{i+1}$ für $0 \le i < n$.
+  Eine Folge $\alpha = \alpha_0,\ldots,\alpha_n = \beta$ heißt \emph{Ableitung von $\beta$ aus $\alpha$ in $n$ Schritten}, geschrieben $\alpha \stackrel{n}{\vdash}_\mathcal{G} \beta$, gdw $\alpha_i \vdash_\mathcal{G} \alpha_{i+1}$ für $0 \le i < n$.
   Jedes solche $\alpha_i$ heißt \emph{Satzform von $\mathcal{G}$}.
 
-  Die \emph{Ableitung von $\beta$ aus $\alpha$}, geschrieben $\alpha \stackrel{*}{\==>}_\mathcal{G} \beta$, existiert gdw ein $n \in \N$ existiert, so dass $\alpha \stackrel{n}{\==>}_\mathcal{G} \beta$.
-  Damit ist ,,$\stackrel{*}{\==>}_\mathcal{G}$'' die reflexive, transitive Hülle von ,,$\==>_\mathcal{G}$''.
+  Die \emph{Ableitung von $\beta$ aus $\alpha$}, geschrieben $\alpha \stackrel{*}{\vdash}_\mathcal{G} \beta$, existiert gdw ein $n \in \N$ existiert, so dass $\alpha \stackrel{n}{\vdash}_\mathcal{G} \beta$.
+  Damit ist ,,$\stackrel{*}{\vdash}_\mathcal{G}$'' die reflexive, transitive Hülle von ,,$\vdash_\mathcal{G}$''.
 
 	Die \emph{Sprache, die von $\mathcal{G}$ erzeugt wird} ist definiert als:
-	\[ L(\mathcal{G}) = \{w\in\Sigma^* \mid S \stackrel{*}{\==>}_{\mathcal{G}} w \}\]
-	
+	\[ L(\mathcal{G}) = \{w\in\Sigma^* \mid S \stackrel{*}{\vdash}_{\mathcal{G}} w \}\]
 \end{Def}
 
-\draftnote{18.11.16}
+% \draftnote{18.11.16}
 
-\begin{Bsp}
-  \begin{align*}
-		E &\=> a\\
-		E &\=> (E*E) \=> (a*E)\\
-		&\=> (a*(E+E)) \=> \dots \=> (a*(a+a))
-  \end{align*}
+\begin{Bsp}Für die Grammatik aus \autoref{bsp:3.palindromeGrammar} gilt: $01010\in L(\mathcal{G})$.
+$$ S 
+\vdash_\mathcal{G} 0S0
+\vdash_\mathcal{G} 01S10
+\vdash_\mathcal{G} 01010
+$$
 \end{Bsp}
 
-\begin{Bsp} $\mathcal{G}=(N,\Sigma,P,S)$ mit
+\begin{Bsp} $\mathcal{G}=(\Sigma,N,P,S)$ mit
 	\begin{align*}
+		\Sigma &= \{a,b,c\}\\
 		N &= \{S,B,C\}\\
-		\Sigma &= \{a,b,c\}\\8
 		P &= 
 		\begin{aligned}[t]
-			 \{ &S \-> aSBC,\ S\->aBC,\ CB\-> BC,\ aB\-> ab,\\
-			 &bB\-> bb, bC\-> bc, cC\-> cc \} & \quad\text{Startsymbol }S
-		\end{aligned}\\
-		L(\mathcal{G}) &=  \{ a^nb^nc^n \mid n\geq 1 \}\\
-		S &\=> aBC \=> abC \=> abc \qquad S\=>a\emph{S}BC \=> aa\emph{S}BCBC\\
-		S &\=> aSBC \xRightarrow{n-2} n \=> a^{n-1}S(BC)^{n-1} \=> a^n(BC)^n = a^nBCBC \dots \=> a^nBBCCBC\\
-		&\=> a^nB^nC^n \xRightarrow* a^nb^nc^n
+			 \{ &S \-> aSBC,\ S\->aBC,\ CB\-> BC,\ aB\-> ab,
+			bB\-> bb, bC\-> bc, cC\-> cc \}
+		\end{aligned}
+% 		L(\mathcal{G}) &=  \{ a^nb^nc^n \mid n\geq 1 \}\\
+% 		S &\=> aBC \=> abC \=> abc \qquad S\=>a\emph{S}BC \=> aa\emph{S}BCBC\\
+% 		S &\=> aSBC \xRightarrow{n-2} n \=> a^{n-1}S(BC)^{n-1} \=> a^n(BC)^n = a^nBCBC \dots \=> a^nBBCCBC\\
+% 		&\=> a^nB^nC^n \xRightarrow* a^nb^nc^n
 	\end{align*}
+Es gilt z.B. $aaabbbcc\in L\mathcal{G}$.
+
+Außerdem gilt $L(\mathcal{G}) =  \{ a^nb^nc^n \mid n\geq 1 \}$. (Ohne Beweis)\\
 \end{Bsp}
+
+
+
 Die Chomsky-Hierarchie teilt die Grammatiken in vier Typen unterschiedlicher Mächtigkeit ein.
 \begin{Def}[Chomsky Hierarchie]\
 	\begin{itemize}
@@ -101,7 +106,7 @@ Die Chomsky-Hierarchie teilt die Grammatiken in vier Typen unterschiedlicher Mä
 Jede Typ-3 Grammatik ist Typ-2 Grammatik.\\
 Jede Typ-2 Grammatik kann in äquivalente $\Eps$-freie Typ-2 Grammatik transformiert werden. \-> Typ-1 Grammatik. (Vgl.\ Elimination von $\Eps$-Produktionen)\\
 Jede Typ-1 Grammatik ist auch Typ-0 Grammatik.
-
+\hide{
 Ziel: Hierarchie-Satz (Chomsky)\\
 Sei $\mathcal{L}_i$ die Menge der Typ-$i$ Sprachen.\\
 Es gilt $\mathcal{L}_3 \subsetneq \mathcal{L}_2 \subsetneq\mathcal{L}_1 \subsetneq\mathcal{L}_0$
@@ -113,14 +118,14 @@ Es gilt $\mathcal{L}_3 \subsetneq \mathcal{L}_2 \subsetneq\mathcal{L}_1 \subsetn
 \begin{proof}
 	\begin{description}[font=\normalfont,labelwidth=\widthof{"'\=>"':},leftmargin=!]
 	\item["`\=>"'] Sei $\A =(Q,\Sigma,\delta,q_0,F)$ \ac{DFA} für $L$.\\
-		Konstruiere Grammatik $\mathcal{G}=(N,\Sigma,P,S)$
+		Konstruiere Grammatik $\mathcal{G}=(\Sigma,N,P,S)$
 		\begin{alignat*}{2}
 			N &=Q &\qquad S&=q_0\\
 			q&\in Q\ \mathrlap{\forall a: \delta(q,a)=q'\ \curvearrowright\ q\->aq'\in P}\\
 			q&\in F & q&\->\Eps\in P
 		\end{alignat*}
 		Zeige noch $L(\mathcal{G})=L(\A)$
-	\item["`\<="'] Sei $\mathcal{G}=(N,\Sigma,P,S)$ Typ-3 Grammatik
+	\item["`\<="'] Sei $\mathcal{G}=(\Sigma,N,P,S)$ Typ-3 Grammatik
 	Def. $\A=(Q,\Sigma,\delta,q_0,F)$ \ac{NFA}
 	\begin{alignat*}{2}
 		Q &=N\cup\dots\\
@@ -629,7 +634,7 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
 	\end{itemize}
 \end{Satz}
 \begin{proof}
-	Sei $\mathcal{G}= (N,\Sigma,P,S)$ in \ac{CNF} mit
+	Sei $\mathcal{G}= (\Sigma,N,P,S)$ in \ac{CNF} mit
     $L(\mathcal{G}) = L$. Wähle die Pumping-Konstante $n=2^{|N|}$.
     
      Betrachte den Ableitungsbaum $\mathcal{A} \in \operatorname{Abl}(\mathcal{G}, S)$ von $z$ mit $|z|\geq n$. 
@@ -1081,7 +1086,7 @@ $.
   Nach Satz \ref{thm:cfl-closed-reg-intersect} ist $L \cap\overline{R} \in \mathrm{CFL}$.
   Nach Satz \ref{thm:cfl-decidable-emptyness} ist $L \cap\overline{R} = \emptyset$ daher entscheidbar
 \end{proof}
-
+}
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "Info_3_Skript_WS2016-17"
