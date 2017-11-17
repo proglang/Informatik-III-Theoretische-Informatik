@@ -1,5 +1,5 @@
 \section{Grammatiken und kontextfreie Sprachen}
-\datenote{18.11.16}
+% \datenote{18.11.16}
 % Im folgenden Kapitel wechseln wir den Standpunkt von Spracherkennung auf \emph{Spracherzeugung}.
 % Das Werkzeug sind hierbei sogenannte \emph{Phasenstrukturgrammatiken}, oder kurz, \emph{Grammatiken}.
 % Bei Grammatiken gibt es neben dem Alphabet weitere Symbole, sogenannte \emph{Nichtterminale} oder \emph{Variablen}, und ein Regelsystem mit dem Worte, die Nichtterminale enthalten, geändert werden können.
@@ -14,17 +14,17 @@
 	\end{itemize}
 \end{Def}
 
-\begin{Bsp}\label{bsp:3.palindromeGrammar}
-  $\mathcal{G} = (\Sigma, N, P, S)$ mit
+\begin{Bsp}\label{bsp:3.sameNumber}
+  $\mathcal{G} = (\Sigma, N, P, S)$ mit\footnote{$P$ ist eine ``normale'' binäre Relation, 
+  doch wir verwenden meist ``$x\-> y$'', also einen Pfeil und infix Notation, statt ``$(x,y)\in P$'' um die Lesbarkeit zu erhöhen}
 	\begin{align*}
 		\Sigma &= \{ 0, 1 \}\\
 		N &= \{S\}\\
 		P &= \begin{aligned}[t]
-      \{ S &\-> 0S0,\\
-         S &\-> 1S1, \\
-         S &\-> 0, \\
-         S &\-> 1, \\
-         S &\-> \Eps \; \}
+      \{ S & \to 1S0S \\
+        S & \to 0S1S \\
+        S & \to \Eps
+      \}
         \end{aligned}
 	\end{align*}
 \end{Bsp}
@@ -34,7 +34,8 @@
 %   
 \begin{Def}[Ableitungsrelation, Ableitung, Sprache einer Grammatik]
   Sei $\mathcal{G} =(\Sigma,N,P,S)$ eine Grammatik.
-	Die \emph{Ableitungsrelation} zu $\mathcal{G}$ ist 
+	Die \emph{Ableitungsrelation}\footnote{Analog zur Relation $P$ verwenden auch für die Ableitungsrelation wieder infix Notation. Also $\alpha\vdash\beta$ statt $(\alpha,\beta)\in\vdash$}
+	zu $\mathcal{G}$ ist 
   \begin{displaymath}
     \cdot \vdash_\mathcal{G} \cdot \subseteq (N\cup\Sigma)^*\x(N\cup\Sigma)^*
   \end{displaymath}
@@ -46,18 +47,78 @@
   Die \emph{Ableitung von $\beta$ aus $\alpha$}, geschrieben $\alpha \stackrel{*}{\vdash}_\mathcal{G} \beta$, existiert gdw ein $n \in \N$ existiert, so dass $\alpha \stackrel{n}{\vdash}_\mathcal{G} \beta$.
   Damit ist ,,$\stackrel{*}{\vdash}_\mathcal{G}$'' die reflexive, transitive Hülle von ,,$\vdash_\mathcal{G}$''.
 
-	Die \emph{Sprache, die von $\mathcal{G}$ erzeugt wird} ist definiert als:
-	\[ L(\mathcal{G}) = \{w\in\Sigma^* \mid S \stackrel{*}{\vdash}_{\mathcal{G}} w \}\]
+  Ein Wort $w\in\Sigma^*$ wird von $\mathcal{G}$ \emph{erzeugt}, wenn $ \mid S \stackrel{*}{\vdash}_{\mathcal{G}} w$ gilt.
+	Die von $\mathcal{G}$ \emph{erzeugte Sprache} ist definiert als:
+	\[ L(\mathcal{G}) = \{w\in\Sigma^* \mid S \stackrel{*}{\vdash}_{\mathcal{G}} w \} \qedhere \]
 \end{Def}
+
+
+
 
 % \draftnote{18.11.16}
 
-\begin{Bsp}Für die Grammatik aus \autoref{bsp:3.palindromeGrammar} gilt: $01010\in L(\mathcal{G})$.
+\begin{Bsp}Wir betrachten nochmal die Grammatik aus \autoref{bsp:3.sameNumber}
+
+Es gilt: $1001\in L(\mathcal{G})$.
 $$ S 
-\vdash_\mathcal{G} 0S0
-\vdash_\mathcal{G} 01S10
-\vdash_\mathcal{G} 01010
+\vdash_\mathcal{G} 1S0S
+\vdash_\mathcal{G} 10S
+\vdash_\mathcal{G} 100S1S
+\vdash_\mathcal{G} 100S1
+\vdash_\mathcal{G} 1001
 $$
+
+Außerdem gilt: $L(\mathcal{G})$ ist die Sprache der Worte über $\{0,1\}^*$, die gleich viele Nullen wie Einsen haben:
+  \begin{displaymath}
+    L = \{ w \in \Sigma^* \mid \#_0(w) = \#_1(w)\}
+  \end{displaymath}
+  Die Funktion $\#_a(w)$ berechnet hierbei die Anzahl der Vorkommen von $a \in \{0, 1\}$ in $w$.
+
+  Dass $L(\mathcal{G}) \subseteq L$ lässt sich per Induktion über die Länge der Ableitung von $S \stackrel{*}{\==>}_\mathcal{G} w$ zeigen.
+  Der Beweis wird als Übung dem Leser überlassen.
+
+  Wir zeigen das $L \subseteq L(\mathcal{G})$, also dass wenn $w \in L$, dann $w \in L(\mathcal{G})$ per Induktion über die Länge von $w$.
+  Hierzu definieren wir die noch die Hilfsfunktion $d : \Sigma^* \to \N$ als
+  \begin{align*}
+    d(\Eps) &= 0 \\
+    d(1w) &= d(w) + 1 \\
+    d(0w) &= d(w) - 1
+  \end{align*}
+  Per Induktion über $w \in \Sigma^*$ lässt sich zeigen, dass $L = \{w \in \Sigma^* \mid d(w) = 0\}$ und $d(v \cdot w) = d(v) + d(w)$.
+  
+Wir zeigen nun via Induktion über $n$ die folgende Eigenschaft:
+$$\forall n' < n: \forall w' \in \Sigma^*: \text{ falls } |w| = n' \text{ und } w \in L \text{ dann } w \in L(\mathcal{G})$$
+
+\begin{description}
+\item[IA] $n = 0$: $w = \Eps$. Es gilt $\Eps \in L$, da $\#_0(\Eps) = \#_1(\Eps) = 0$.
+% \item[IV] $\forall n' < n: \forall w' \in \Sigma^*: falls |w| = n' \text{ und } w \in L \text{ dann } w \in L(\mathcal{G})$
+\item[IS] $n \rightsquigarrow n+1$: $|w| = n > 1$, $w = aw'$, $a \in \{0,1\}$.
+
+  Betrachte $a = 0$ (der Fall für $a = 1$ funktioniert analog).
+
+  Da $d(w) = d(0w') = d(w') - 1 = 0$ ist $d(w') = 1$.
+
+  Es stellt sich heraus, dass $w' = w_11w_2$, $d(w_1) = 0$ und $d(w_2) = 0$.
+  \begin{itemize}
+  \item[] 
+    Sei $w' = a_1 \ldots a_n$.
+    Betrachte die Folge $d_0,\ldots,d_n$ mit $d_0 = 0$ und $d_i = d(a_1\ldots a_i)$ für $1 \le i < n$.
+    Wähle $0 \le i < n$ maximal, so dass für alle $0 \le j \le i$: $d_j < 1$.
+
+    Da $i$ maximal ist folgt $d_{i+1} \ge 1$ und da $d_{i+1} - d_i \le 1$  folgt $d_i = 0$, $d_{i+1} = 1$ und $a_i = 1$.
+    Setze also $w_1 = a_1\ldots a_{i}$.
+
+    Es gilt also $w' = a_1\ldots a_{i}a_{i+1}w_2 = w_1w_2$ mit $d(w_1) = 0$.
+
+    Da $d(v \cdot w) = d(v) + d(w)$ und $d(w') = d(w_11w_2) = 1$ folgt $d(w_2) = 0$.
+  \end{itemize}
+
+  Da $|w_1| < n$ und $|w_2| < n$, folgt per IV, dass $S \stackrel{*}{ \==>_{\mathcal{G}} } w_1$ und $S \stackrel{*}{\==>_{\mathcal{G}}} w_2$.
+
+  Es folgt mit den Produktionsregeln $S \==>_{\mathcal{G}} 0S1S \stackrel{*}{\==>}_{\mathcal{G}} 0w_11S \stackrel{*}{\==>}_{\mathcal{G}} 0w_11w_2$.
+\end{description}
+
+
 \end{Bsp}
 
 \begin{Bsp} $\mathcal{G}=(\Sigma,N,P,S)$ mit
