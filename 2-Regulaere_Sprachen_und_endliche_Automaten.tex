@@ -2199,7 +2199,7 @@ Wir kennen bisher kein systematisches Verfahren zum Lösen solcher Gleichungen u
 \hfill \vspace{-\baselineskip} \\
 \begin{enumerate}
  \item Wir können leicht nachrechnen, dass $A^*B$ tatsächlich eine Lösung ist.
- $$ \underbrace{A^*B}_X = A\cdot A^*B \cup B = (AA^*\cup \{\Eps\})B = A(\underbrace{A^*B}_X)\cup B$$
+ $$ \underbrace{A^*B}_X = (AA^*\cup \{\Eps\})B = A\cdot (\underbrace{A^*B}_X)\cup B$$
  \item Sei $\Eps \notin A$.
  Aus dem Beweis für 1.\ wissen wir außerdem, dass jede Lösung eine Obermenge von $A^*B$ sein muss.
  Wir führen einen Widerspruchsbeweis, dass keine Lösung ein Wort $x\in\Sigma^*$ mit $x\notin A^*B$ enthalten kann.
@@ -2207,7 +2207,7 @@ Wir kennen bisher kein systematisches Verfahren zum Lösen solcher Gleichungen u
  Angenommen es gäbe Wörter $x$ mit dieser Eigenschaft. 
  Dann gibt es auch Wörter minimaler Länge mit dieser Eigenschaft.
  Sei $w$ solch ein Wort minimaler Länge.
- Da alle Lösungen von der Form $\underbrace{A^nX}_{\ni w} + \underbrace{A^{n-1}B+\dots +AB+B}_{\not\ni w}$ sind, hat $w$ die Form
+ Da alle Lösungen von der Form $\underbrace{A^nX}_{\ni w} \cup \underbrace{A^{n-1}B \cup \dots \cup AB \cup B}_{\not\ni w}$ sind, hat $w$ die Form
  $w = u_1\dots u_n w'\text{ mit } u_1,\dots,u_n\in A\text{ und } w'\in X$.
  Fallunterscheidung:
  \begin{itemize}
@@ -2239,7 +2239,7 @@ Wir können Ardens Lemma wie folgt auch für reguläre Ausdrücke formulieren:
 Wir haben nun alle Hilfsmittel, um den Beweis für die fehlende Richtung zu führen.
 
 \begin{proof}[Kleene, \=>]
-  Sei $\A=({Q},\Sigma,\delta,q_0,F)$ der oben diskutierte \acs*{DEA} mit $Q = \{q_0,q_1,\dots,q_n\}$, für dessen Sprache wir einen regulären Ausdruck konstruieren möchten.
+  Sei $\A=(\Sigma,{Q},\delta,\qinit,F)$ der oben diskutierte \acs*{DEA} mit $Q = \{q_0,q_1,\dots,q_n\}$ und $\qinit=q_0$, für dessen Sprache wir einen regulären Ausdruck konstruieren möchten.
   
   Mit Hilfe von Ardens Lemma (und weiteren Rechenregeln für Sprachen) können wir nun das Gleichungssystem (TODO refer to) iterativ lösen.
     Wir beginnen mit Gleichung $r_n$:
