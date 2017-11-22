@@ -51,7 +51,9 @@
 
   Ein Wort $w\in\Sigma^*$ wird von $\mathcal{G}$ \emph{erzeugt}, wenn $S \stackrel{*}{\vdash}_{\mathcal{G}} w$ gilt.
 	Die von $\mathcal{G}$ \emph{erzeugte Sprache} ist definiert als:
-	\[ L(\mathcal{G}) = \{w\in\Sigma^* \mid S \stackrel{*}{\vdash}_{\mathcal{G}} w \} \qedhere \]
+	\[ L(\mathcal{G}) = \{w\in\Sigma^* \mid S \stackrel{*}{\vdash}_{\mathcal{G}} w \}  \]
+	
+	Wir nennen zwei Grammatiken \emph{äquivalent} wenn beide die gleichen Sprachen erzeugen. $\qedhere$
 \end{Def}
 
 
@@ -100,12 +102,13 @@ $$\forall n' < n: \forall w \in \Sigma^*: \text{ falls } |w| = n' \text{ und } w
   Betrachte $a = 0$ (der Fall für $a = 1$ funktioniert analog).
 
   Da $0 = d(w) = d(0w') = d(w') - 1$, ist $d(w') = 1$.
+  
+  \medskip
 
-  Also können wir $w'$ in $w_11w_2$ mit $d(w_1) = 0$ und $d(w_2) = 0$ zerlegen.
+  Wir zeigen zunächst, dass wir $w'$ in $w_11w_2$ mit $d(w_1) = 0$ und $d(w_2) = 0$ zerlegen können:
 %   \begin{itemize}
 %   \item[] 
 
-  \bigskip
     Sei $w' = a_1 \ldots a_n$.
     Betrachte die Folge $d_0,\ldots,d_n$ mit $d_0 = 0$ und $d_i = d(a_1\ldots a_i)$ für $1 \le i \leq n$.
     Wähle $0 \le i < n$ maximal, sodass für alle $0 \le j \le i$ gilt: $d_j < 1$.%
@@ -143,7 +146,7 @@ $$\forall n' < n: \forall w \in \Sigma^*: \text{ falls } |w| = n' \text{ und } w
 % 		S &\=> aSBC \xRightarrow{n-2} n \=> a^{n-1}S(BC)^{n-1} \=> a^n(BC)^n = a^nBCBC \dots \=> a^nBBCCBC\\
 % 		&\=> a^nB^nC^n \xRightarrow* a^nb^nc^n
 	\end{align*}
-Es gilt z.B. $aaabbbccc\in L\mathcal{G}$.
+Es gilt z.B. $aaabbbccc\in L(\mathcal{G})$.
 
 Außerdem gilt $L(\mathcal{G}) =  \{ a^nb^nc^n \mid n\geq 1 \}$. (Ohne Beweis)
 \end{Bsp}
@@ -172,295 +175,192 @@ Die Chomsky-Hierarchie teilt die Grammatiken in vier Typen unterschiedlicher Mä
 \begin{Beobachtung}
 	Jede Typ-$(i+1)$-Sprache ist auch eine Typ-$i$-Sprache.
 \end{Beobachtung}
-Jede Typ-3-Grammatik ist eine Typ-2-Grammatik.\\
-Jede Typ-2-Grammatik kann in eine äquivalente $\Eps$-freie\footnote{Auf keiner rechten Seite steht $\Eps$; Ausnahme: Startsymbol $S$; vgl.\ Elimination von $\Eps$-Produktionen.} Typ-2-Grammatik transformiert werden.
-Damit gibt es auch eine Typ-1-Grammatik.\\
-Jede Typ-1-Grammatik ist auch eine Typ-0-Grammatik.
-\hide{
-Ziel: Hierarchie-Satz (Chomsky)\\
-Sei $\mathcal{L}_i$ die Menge der Typ-$i$ Sprachen.\\
-Es gilt $\mathcal{L}_3 \subsetneq \mathcal{L}_2 \subsetneq\mathcal{L}_1 \subsetneq\mathcal{L}_0$
-
-\draftnote{25.11.16}
-\begin{Satz}[name={[Typ-3 Sprache ist regulär]}]
-	$L$ ist regulär \<=> $L$ ist Type-3 Sprache
-\end{Satz}
-\begin{proof}
-	\begin{description}[font=\normalfont,labelwidth=\widthof{"'\=>"':},leftmargin=!]
-	\item["`\=>"'] Sei $\A =(Q,\Sigma,\delta,q_0,F)$ \ac{DFA} für $L$.\\
-		Konstruiere Grammatik $\mathcal{G}=(\Sigma,N,P,S)$
-		\begin{alignat*}{2}
-			N &=Q &\qquad S&=q_0\\
-			q&\in Q\ \mathrlap{\forall a: \delta(q,a)=q'\ \curvearrowright\ q\->aq'\in P}\\
-			q&\in F & q&\->\Eps\in P
-		\end{alignat*}
-		Zeige noch $L(\mathcal{G})=L(\A)$
-	\item["`\<="'] Sei $\mathcal{G}=(\Sigma,N,P,S)$ Typ-3 Grammatik
-	Def. $\A=(Q,\Sigma,\delta,q_0,F)$ \ac{NFA}
-	\begin{alignat*}{2}
-		Q &=N\cup\dots\\
-		q_0 &=S\\
-		A &\->aB\in P & \delta(A,a)&\ni B\\
-		A &\->a,\dots a_n &\qquad n=0\=>A &\in F\\
-		&\mathclap{\tikz[shorten >=1pt,on grid,node distance=1.5cm, every state/.style={minimum size=0pt,inner sep=0pt}]{
-			\node[state,inner sep=3pt] (q0) {$A$};
-			\node [above=0pt of q0.north] {$n>0$: $n$ weitere Zust"ande erforderlich, letzter Endzustand};
-			\node[state] (q1) [right=of q0] {};
-			\node (dots) [right=of q1] {\dots};
-			\node[state,accepting] (qa) [right=of dots] {};
-			\path[-stealth] (q0) edge node[auto] {$a_1$} (q1)
-				(q1)   edge node[auto] {$a_2$} (dots)
-				(dots) edge node[auto] {$a_n$} (qa);
-		}}\\
-		\text{Zeige noch }\quad
-		L(\mathcal{G})&=L(\A) \tag*{\qedhere}
-	\end{alignat*}
-	\end{description}
-\end{proof}
-
-
-\begin{lemma}
-	$\mathcal{L}_3 \subsetneq \mathcal{L}_2$
-\end{lemma}
-\begin{proof}
-	Betrachte $L=\{a^nb^n \mid n\in\N \}$\\
-	Bekannt, dass $L$ nicht regulär. 
-	Aber es gibt eine Typ-2 Grammatik für $L$:
-	\[ \mathcal{G} = (\{S\}, \{a,b\}, \{S\->\Eps, S\->aSb \}, S) \]
-	Korrektheitsbeweis $L=L(\mathcal{G})$ ist dem Leser zur Übung selbst überlassen.
-\end{proof}
-
-\datenote{30.11.16}
-\subsection{Kontextfreie Sprachen}
-Hier sind einige Beispiele kontextfreier Sprachen und Grammatiken:
 \begin{itemize}
-\item Arithmetische Ausdrücke: $(\{E\}, \{a, \mathnormal{+}, \mathnormal{*}, \mathnormal{(}, \mathnormal{)}\}, P, E)$ mit
+ \item Jede Typ-3-Grammatik ist eine Typ-2-Grammatik.\\
+ \item Wir werden im folgenden Unterkapitel zeigen, dass jede Typ-2-Grammatik in eine äquivalente $\Eps$-freie\footnote{Auf keiner rechten Seite steht $\Eps$; Ausnahme: Startsymbol $S$; vgl.\ Elimination von $\Eps$-Produktionen.} Typ-2-Grammatik transformiert werden kann.
+ Diese erfüllt dann auch alle Bedingungen einer Typ-1-Grammatik.\\
+ \item Jede Typ-1-Grammatik ist auch eine Typ-0-Grammatik.
+\end{itemize}
+
+Im Lauf der Vorlesung werden wir das folgende Zeigen:\\
+Sei $\mathcal{M}_i$ die Menge der Typ-$i$ Sprachen, dann gilt: 
+$\mathcal{M}_3 \subsetneq \mathcal{M}_2 \subsetneq\mathcal{M}_1 \subsetneq\mathcal{M}_0$
+
+
+
+
+\subsection{Kontextfreie Sprachen}
+Die Sprache aus \autoref{bsp:3.sameNumber} ist kontextfrei. Weitere Beispiele sind:
+
+\begin{Bsp}\label{bsp:3.ArithExpr}
+Arithmetische Ausdrücke ohne Klammern: 
+$\mathcal{G}=(\{E\}, \{a, \mathnormal{+}, \mathnormal{*}\}, P, E)$ mit
   \begin{displaymath}
-    P =
-    \begin{aligned}[t]
-      \{ E &\->a, \\
-        E &\->(E+E), \\
-        E &\->(E*E) \}
-    \end{aligned}
+    P = \{ E \->a \mid E+E \mid E*E\}.
   \end{displaymath}
-\item Syntax von Programmiersprachen%\\[\abovedisplayskip]
+\end{Bsp}
+
+\begin{Bsp}
+Arithmetische Ausdrücke mit Klammern: 
+$\mathcal{G}=(\{E\}, \{a, \mathnormal{+}, \mathnormal{*}, \mathnormal{(}, \mathnormal{)}\}, P, E)$ mit
+  \begin{displaymath}
+    P = \{ E \->a \mid (E+E) \mid (E*E)\}.
+  \end{displaymath}
+\end{Bsp}
+% 
+\newcommand{\boxedt}[1]{\tikz[baseline]{\node[shape=rectangle,draw=lightgray,fill=lightgray!50,inner sep=0pt] at (0,.64ex){\hspace{.3em}\texttt{\strut#1}\hspace{.3em}\strut};}}
+% 
+\begin{Bsp}
+Syntax von Programmiersprachen. 
+Wir zeigen hier nur exemplarisch Produktionen für einige typische Bestandteile einer Programmiersprache.~\footnote{
+Sie finden am Ende der Java Language Specification \url{https://docs.oracle.com/javase/specs/} auf ca. 25 Seiten die kontextfreie Grammatik für diese Programmiersprache.
+}
+Wörter in spitzen Klammern sind hier Nichtterminalsymbole.
+Terminalsymbole sind grau unterlegt.
 	\begin{center}
 		\begin{tabular}[t]{r@{ }l}
-			<Stmt> &\-> <Var> = <Exp>\\
-			&| <Stmt>\,;\,<Stmt>\\
-			&| if\,(<Exp>) <Stmt>\\
-			&\phantom{|} else <Stmt>\\
-			&| while\,(<Exp>) <Stmt>
+			<Stmt> \-> & <Var> \boxedt{=} <Exp>\\
+			|\, & <Stmt>\,\boxedt{;}\,<Stmt>\\
+			|\, & \boxedt{if}\,\boxedt{(}<Exp>\boxedt{)} <Stmt> \boxedt{else} <Stmt>\\
+			|\, & \boxedt{while}\,\boxedt{(}<Exp>\boxedt{)} <Stmt>
 		\end{tabular}
-	\end{center}%\\[\belowdisplayskip]
-	Hier: Nichtterminal$\hat=$ Wort in spitzen Klammern <Stmt>;
-	Terminalsymbol --- alles andere.
-\item Palindrome über $\{a,b\}$
-	\[ S\-> aSa \mid bSb \mid a \mid b \mid \Eps \]
-\item Sprache der Wörter über $\{0,1\}^*$, die gleich viele Nullen wie Einsen haben:
-  \begin{displaymath}
-    L = \{ w \in \Sigma^* \mid \#_0(w) = \#_1(w)\}
-  \end{displaymath}
-  Die Funktion $\#_a(w)$ berechnet hierbei die Anzahl der Vorkommen von $a \in \{0, 1\}$ in $w$.
-  Eine Grammatik für $L$ ist $\mathcal{G} = (\{S\}, \{0,1\}, P, S)$ mit
-  \begin{displaymath}
-    P =
-    \begin{aligned}[t]
-      \{ S & \to 1S0S \\
-        S & \to 0S1S \\
-        S & \to \Eps
-      \}
-    \end{aligned}
-  \end{displaymath}
+	\end{center}
+\end{Bsp}
 
-  Dass $L(\mathcal{G}) \subseteq L$ lässt sich per Induktion über die Länge der Ableitung von $S \stackrel{*}{\==>}_\mathcal{G} w$ zeigen.
-  Der Beweis wird als Übung dem Leser überlassen.
-
-  Wir zeigen das $L \subseteq L(\mathcal{G})$, also dass wenn $w \in L$, dann $w \in L(\mathcal{G})$ per Induktion über die Länge von $w$.
-  Hierzu definieren wir die noch die Hilfsfunktion $d : \Sigma^* \to \N$ als
-  \begin{align*}
-    d(\Eps) &= 0 \\
-    d(1w) &= d(w) + 1 \\
-    d(0w) &= d(w) - 1
-  \end{align*}
-  Per Induktion über $w \in \Sigma^*$ lässt sich zeigen, dass $L = \{w \in \Sigma^* \mid d(w) = 0\}$ und $d(v \cdot w) = d(v) + d(w)$.
-\begin{description}
-\item[IA] $|w| = n = 0$, $w = \Eps$. Es gilt $\Eps \in L$, da $\#_0(\Eps) = \#_1(\Eps) = 0$.
-\item[IV] $\forall n' < n: \forall w' \in \Sigma^*: falls |w| = n' \text{ und } w \in L \text{ dann } w \in L(\mathcal{G})$
-\item[IS] $|w| = n > 1$, $w = aw'$, $a \in \{0,1\}$.
-
-  Betrachte $a = 0$ (der Fall für $a = 1$ funktioniert analog).
-
-  Da $d(w) = d(0w') = d(w') - 1 = 0$ ist $d(w') = 1$.
-
-  Es stellt sich heraus, dass $w' = w_11w_2$, $d(w_1) = 0$ und $d(w_2) = 0$.
-  \begin{itemize}
-  \item[] 
-    Sei $w' = a_1 \ldots a_n$.
-    Betrachte die Folge $d_0,\ldots,d_n$ mit $d_0 = 0$ und $d_i = d(a_1\ldots a_i)$ für $1 \le i < n$.
-    Wähle $0 \le i < n$ maximal, sodass für alle $0 \le j \le i$: $d_j < 1$.
-
-    Da $i$ maximal ist folgt $d_{i+1} \ge 1$ und da $d_{i+1} - d_i \le 1$  folgt $d_i = 0$, $d_{i+1} = 1$ und $a_i = 1$.
-    Setze also $w_1 = a_1\ldots a_{i}$.
-
-    Es gilt also $w' = a_1\ldots a_{i}a_{i+1}w_2 = w_1w_2$ mit $d(w_1) = 0$.
-
-    Da $d(v \cdot w) = d(v) + d(w)$ und $d(w') = d(w_11w_2) = 1$ folgt $d(w_2) = 0$.
-  \end{itemize}
-
-  Da $|w_1| < n$ und $|w_2| < n$, folgt per IV, dass $S \stackrel{*}{ \==>_{\mathcal{G}} } w_1$ und $S \stackrel{*}{\==>_{\mathcal{G}}} w_2$.
-
-  Es folgt mit den Produktionsregeln $S \==>_{\mathcal{G}} 0S1S \stackrel{*}{\==>}_{\mathcal{G}} 0w_11S \stackrel{*}{\==>}_{\mathcal{G}} 0w_11w_2$.
-
-\end{description}
-\end{itemize}
+% \begin{Bsp}
+%  \item Palindrome über $\{a,b\}$
+% 	\[ S\-> aSa \mid bSb \mid a \mid b \mid \Eps \]
+% \end{Bsp}
 
 %Abk.: \aclu{CFL}: \acs{CFL}\\
 %\phantom{Abk.:} \aclu{CFG}: \acs{CFG}
 
-\begin{Def}[name={[Ableitungsbaum]}] Sei $\mathcal{G} = (N, \Sigma, P, S)$ eine kontextfreie Grammatik.
-  Definiere die Menge der \emph{Ableitungsbäume von $\mathcal{G}$ beginnend mit $A \in N$}, $\operatorname{Abl(G,A)}$, als Menge von markierten, geordneten Bäumen induktiv durch:
+
+Für den arithmetischen Ausdruck ohne Klammern $a+a$ gibt es in der Grammatik aus \autoref{bsp:3.ArithExpr} zwei verschiedene Ableitungen:
+\begin{itemize}
+ \item $E\vdash_\mathcal{G} E+E\vdash_\mathcal{G} a+E\vdash_\mathcal{G} a+a$
+ \item $E\vdash_\mathcal{G} E+E\vdash_\mathcal{G} E+a\vdash_\mathcal{G} a+a$
+\end{itemize}
+Beide Ableitungen unterscheiden sich nur durch die Reihenfolge in der Variablen ersetzt werden.
+Die folgende Definition erlaubt uns beide Ableitungen durch das gleiche Objekt,
+den sogenannten Ableitungsbaum, darzustellen.
+
+
+\newcommand{\T}{\mathcal{T}}
+
+\begin{Def}[name={[Ableitungsbaum]}] Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine kontextfreie Grammatik.
+  Wir definieren die Menge der \emph{in $A$ beginnenden Ableitungsbäume von $\mathcal{G}$}, $\operatorname{Abl(A)}$, für $A\in N$ als Menge von beschrifteten, geordneten Bäumen induktiv durch:
   \begin{itemize}
-  \item[] Falls $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$ mit $A_i \in N$, $w_i \in \Sigma^*$, $0 \le i \le n$ und $\mathcal{A}_i \in \operatorname{Abl}(G, A_i)$ dann ist
+  \item[] Falls $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$ mit $A_i \in N$, $w_i \in \Sigma^*$, $0 \le i \le n$ und $\T_i \in \operatorname{Abl}(A_i)$ dann ist
     \begin{center}
-			\tikz[baseline=0cm]{\Tree [.$\pi$ $\mathcal{A}_1$ \edge[draw=none]; {$\dots$} $\mathcal{A}_n$ ]} $\in \operatorname{Abl}(G, A)$
+			\tikz[baseline=0cm]{\Tree [.$\pi$ $\T_1$ \edge[draw=none]; {$\dots$} $\T_n$ ]} $\in \operatorname{Abl}(A)$
     \end{center}
-    Abgekürzt: $\pi(\mathcal{A}_1, \ldots, \mathcal{A}_n)$
+    Da es manchmal schwierig ist Bäume zu zeichnen verwenden wir alternativ die folgende Notation: $\pi(\T_1, \ldots, \T_n)$
 
   \end{itemize}
-    Das \emph{abgeleitete Wort zu einem $\mathcal{A} \in \operatorname{Abl}(G, A)$}, $Y(\mathcal{A})$ (,,yield'' von $\mathcal{A}$), ist definiert durch
+    Das \emph{abgeleitete Wort zu einem $\T \in \operatorname{Abl}(A)$}, $Y(\T)$\footnote{Wir verwenden $Y(\T)$ um an das englische Wort ,,yield'' zu erinnern.}, ist definiert durch
     \begin{displaymath}
-      Y\left(\tikz[baseline=-0.4cm]{\Tree [.$\pi$ $\mathcal{A}_1$ \edge[draw=none]; {$\dots$} $\mathcal{A}_n$ ]} \right) = w_oY(\mathcal{A}_1)w_1\ldots Y(\mathcal{A}_n)w_n
+      Y\left(\tikz[baseline=-0.4cm]{\Tree [.$\pi$ $\T_1$ \edge[draw=none]; {$\dots$} $\T_n$ ]} \right) = w_)Y(\T_1)w_1\ldots Y(\T_n)w_n
     \end{displaymath}
-    wobei $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$
+    wobei $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$ \qedhere
 \end{Def}
 
-\begin{Bsp}\label{bsp:Ableitungsbaum} 
-  Einige Ableitungsbäume für die Grammatik $\mathcal{G} = (\{S\}, \{0,1\}, P, S)$ mit
-  \begin{displaymath}
-    P =
-    \begin{aligned}[t]
-      \{ S & \to 1S0S \\
-        S & \to 0S1S \\
-        S & \to \Eps
-      \}
-    \end{aligned}
-  \end{displaymath}
-  \begin{description}
-  \item[$\operatorname{Abl}(\mathcal{G}, S) = $]\hfill\\
-    \tikz[baseline=0cm]{\Tree [ .$S\to\Eps$ ]}
-    \quad
-    \tikz[baseline=0cm]{\Tree [ .$S\to0S1S$ $S\to\Eps$ $S\to\Eps$ ]}
-    \quad
-    \tikz[baseline=0cm]{\Tree [ .$S\to1S0S$ $S\to\Eps$ $S\to\Eps$ ]}
-    \quad
-    \tikz[baseline=0cm]{\Tree [ .$S\to0S1S$ $S\to\Eps$ [ .$S\to0S1S$ $S\to\Eps$ $S\to\Eps$ ] ]}
-    \quad
-    \dots
-  \end{description}
-  
-	% \begin{figure}[H]\centering
-	% 	\begin{subfigure}[t]{.25\linewidth}\centering
-	% 		\tikz{\Tree [.$E$ $a$ ]}
-	% 		\caption{$E \Rightarrow a$}
-	% 	\end{subfigure}
-	% 	\begin{subfigure}[t]{.4\linewidth}\centering
-	% 		\begin{tikzpicture}[every tree node/.style={execute at begin node=$, execute at end node=$}]
-	% 			\Tree [.E (
-	% 		          [.E a ]
-	% 		          +
-	% 		          [.E ( [.E a ] * [.E a ] ) ]
-	% 		          )
-	% 		        ]
-	% 		\end{tikzpicture}
-	% 		\caption[$E \xRightarrow{*} (a+(a*a))$]{$E \xRightarrow{*} (a+(a*a)) \newline \longrightarrow E \Rightarrow (E+E)\Rightarrow(E+(E*E))\xRightarrow{*}$}
-	% 	\end{subfigure}
-	% 	\begin{subfigure}[t]{.3\linewidth}\centering
-	% 		\begin{tikzpicture}[every tree node/.style={execute at begin node=$, execute at end node=$}]
-	% 			\Tree [.A X_1 X_2 \edge[draw=none]; {\dots} X_n ]
-	% 		\end{tikzpicture}
-	% 		\caption{$A\rightarrow X_1\dots X_n$}
-	% 	\end{subfigure}
-	% 	\caption{Ableitungsbäume zu \autoref{bsp:Ableitungsbaum}}\label{fig:Ableitungsbäume}
-	% \end{figure}
-\end{Bsp}
-\begin{lemma}
-  Sei $\mathcal{G} = (N, \Sigma, P, S)$ eine kontextfreie Grammatik.
 
+\begin{Bsp}\label{bsp:Ableitungsbaum} 
+Für die Grammatik aus \autoref{bsp:3.ArithExpr} sind das folgende drei Beispiele für in E beginnende Ableitungsbäume.
+
+    \tikz[baseline=0cm]{\Tree [ .$E\to a$ ]}
+    \hfill
+    \tikz[baseline=0cm]{\Tree [ .$E\to E+E$ $E\to a$ [ .$E\to E*E$ $E\to a$ $E\to a$ ] ]}
+    \hfill
+    \tikz[baseline=0cm]{\Tree [ .$E\to E*E$ [ .$E\to E+E$ $E\to a$ $E\to a$ ] $E\to a$ ]}
+\end{Bsp}
+
+\begin{lemma}
+  Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine kontextfreie Grammatik.
   \begin{displaymath}
-    w \in L(\mathcal{G})  \text{ gdw } \exists \mathcal{A} \in \operatorname{Abl}(G, S) \text{ mit } Y(\mathcal{A}) = w
+    w \in L(\mathcal{G})  \quad\text{ gdw }\quad \exists \;\T \in \operatorname{Abl}(S) \text{ mit } Y(\T) = w
   \end{displaymath}
 \end{lemma}
+(Ohne Beweis.)
 
-\begin{proof}[,,links nach rechts'']
-  Zu zeigen:
-  \begin{displaymath}
-   \forall n \in \N: \forall w \in \Sigma^*: \forall A \in N: A \stackrel{n}{\==>} w \text{ dann } \exists \mathcal{A} \in \operatorname{Abl}(\mathcal{G}, A) \text{ mit } Y(\mathcal{A}) = w
-\end{displaymath}
-     Per Induktion über die Länge der Ableitung von $A \stackrel{n}{\==>} w \in \Sigma^*$:
-   \begin{description}
-   \item[IA] $n=0$ (nichts zu tun, da $A \stackrel{n}{\==>} \Eps$ unmöglich)
-   \item[IS] Sei $n > 0$: $A \stackrel{n}{\==>}$ hat die Form
-     \begin{displaymath}
-       A {\==>} w_0A_1w_1\ldots A_nw_n \stackrel{n-1}{\==>} w
-     \end{displaymath}
-     Also ist $w = w_0v_1w_1\ldots v_nw_n$ mit $A_i \stackrel{n_i}{\==>} v_i$ für $1 \le i \le n$ und $n_i < n$.\footnote{Dieser Beweisschritt ist nicht ganz präzise\ldots die Ableitungen der $v_i$ sind nicht unbedingt Teil der gesamten Ableitung $A \stackrel{n}{\Longrightarrow} w$.
-     Man kann aber beweisen dass eine alternative Ableitung existieren muss, bei der dies der Fall ist.}
-   Nach IV ergibt sich
-   \begin{displaymath}
-     \exists \mathcal{A}_i \in \operatorname{Abl}(G, A_i) \text{ mit } Y(\mathcal{A}_i) = v_i
-   \end{displaymath}
-   Dann ist $\mathcal{A} = \pi(\mathcal{A}_1,\ldots, \mathcal{A}_n)$ mit $\pi = A \to w_0A_1w_1\ldots A_nw_n \in \operatorname{Abl}(\mathcal{G}, A)$ und $Y(\mathcal{A}) = w_0Y(\mathcal{A}_1)w_1\ldots Y(\mathcal{A}_n)w_n= w_0v_1w_1\ldots v_nw_n$.
-   \end{description}
-\end{proof}
-
-\begin{proof}[,,rechts nach links'']
-  Zu zeigen:
-  \begin{displaymath}
-    \forall n \in \N: \forall \mathcal{A} \in \operatorname{Abl}(\mathcal{G}, A): \text{falls } Y(\mathcal{A}) = w \text{ dann } A \stackrel{*}{\==>} w
-  \end{displaymath}
-  \begin{description}
-  \item[IS]
-\footnote{ Der Induktionsanfang ist bei Ableitungsbäumen ein Spezialfall des Induktionsschritts (Bäume ohne Kinder bzw.\ Regeln, die nur Terminale ableiten) und wird daher nicht gesondert aufgeführt }
-    Falls für $n \ge 0$
-    \begin{itemize}
-    \item  $\mathcal{A} = \pi(\mathcal{A}_1, \ldots, \mathcal{A}_n)$,
-    \item $\pi = w_0A_1w_1\ldots A_nw_n$,
-    \item $\mathcal{A}_i \in \operatorname{Abl}(\mathcal{G}, A_i)$,
-    \item $Y(\mathcal{A}) = w_0Y(\mathcal{A}_1)w_1\ldots Y(\mathcal{A}_n)w_n$
-    \end{itemize}
-    dann gilt per IV:\footnote{Strengenommen müsste die Folgerung, die hier mit ,,\ldots'' abgekürzt ist noch per Induktion über Ableitungen gezeigt werden} 
-    \begin{align*}
-      A &\==> w_0A_1\ldots A_nw_n \\
-        &\stackrel{*}{\==>} w_0Y(\mathcal{A}_1)\ldots A_nw_n \\
-        & \dots \\
-        & \stackrel{*}{\==>} w_0Y(\mathcal{A}_1)\ldots Y(\mathcal{A}_n)w_n \\
-        &= w
-    \end{align*}
-  \end{description}
-  
-\end{proof}
+% \begin{proof}[$\Longrightarrow$]
+%   Wir zeigen via vollständiger Induktion über die Länge der Ableitung $n$:
+%   \begin{displaymath}
+%    \forall n \in \N: \forall w \in \Sigma^*: \forall A \in N: A \stackrel{n}{\==>} w \text{ dann } \exists \T \in \operatorname{Abl}(\mathcal{G}, A) \text{ mit } Y(\T) = w
+% \end{displaymath}
+%    \begin{description}
+%    \item[IA] $n=0$ (nichts zu tun, da $A \stackrel{n}{\==>} \Eps$ unmöglich)
+%    \item[IS] Sei $n > 0$: $A \stackrel{n}{\==>}$ hat die Form
+%      \begin{displaymath}
+%        A {\==>} w_0A_1w_1\ldots A_nw_n \stackrel{n-1}{\==>} w
+%      \end{displaymath}
+%      Also ist $w = w_0v_1w_1\ldots v_nw_n$ mit $A_i \stackrel{n_i}{\==>} v_i$ für $1 \le i \le n$ und $n_i < n$.\footnote{Dieser Beweisschritt ist nicht ganz präzise\ldots die Ableitungen der $v_i$ sind nicht unbedingt Teil der gesamten Ableitung $A \stackrel{n}{\Longrightarrow} w$.
+%      Man kann aber beweisen dass eine alternative Ableitung existieren muss, bei der dies der Fall ist.}
+%    Nach IV ergibt sich
+%    \begin{displaymath}
+%      \exists \T_i \in \operatorname{Abl}(G, A_i) \text{ mit } Y(\T_i) = v_i
+%    \end{displaymath}
+%    Dann ist $\T = \pi(\T_1,\ldots, \T_n)$ mit $\pi = A \to w_0A_1w_1\ldots A_nw_n \in \operatorname{Abl}(\mathcal{G}, A)$ und $Y(\T) = w_0Y(\T_1)w_1\ldots Y(\T_n)w_n= w_0v_1w_1\ldots v_nw_n$.
+%    \end{description}
+% \end{proof}
+% 
+% \begin{proof}[,,rechts nach links'']
+%   Zu zeigen:
+%   \begin{displaymath}
+%     \forall n \in \N: \forall \T \in \operatorname{Abl}(\mathcal{G}, A): \text{falls } Y(\T) = w \text{ dann } A \stackrel{*}{\==>} w
+%   \end{displaymath}
+%   \begin{description}
+%   \item[IS]
+% \footnote{ Der Induktionsanfang ist bei Ableitungsbäumen ein Spezialfall des Induktionsschritts (Bäume ohne Kinder bzw.\ Regeln, die nur Terminale ableiten) und wird daher nicht gesondert aufgeführt }
+%     Falls für $n \ge 0$
+%     \begin{itemize}
+%     \item  $\T = \pi(\T_1, \ldots, \T_n)$,
+%     \item $\pi = w_0A_1w_1\ldots A_nw_n$,
+%     \item $\T_i \in \operatorname{Abl}(\mathcal{G}, A_i)$,
+%     \item $Y(\T) = w_0Y(\T_1)w_1\ldots Y(\T_n)w_n$
+%     \end{itemize}
+%     dann gilt per IV:\footnote{Strengenommen müsste die Folgerung, die hier mit ,,\ldots'' abgekürzt ist noch per Induktion über Ableitungen gezeigt werden} 
+%     \begin{align*}
+%       A &\==> w_0A_1\ldots A_nw_n \\
+%         &\stackrel{*}{\==>} w_0Y(\T_1)\ldots A_nw_n \\
+%         & \dots \\
+%         & \stackrel{*}{\==>} w_0Y(\T_1)\ldots Y(\T_n)w_n \\
+%         &= w
+%     \end{align*}
+%   \end{description}
+%   
+% \end{proof}
 
 \begin{Def}[name={[Eindeutigkeit von \acs*{CFG} und \acs*{CFL}]}]\
 	\begin{itemize}
-	\item Sei CFG die Menge der kontextfreien Grammatiken.
-    Eine Grammatik $\mathcal{G}\in \text{CFG}$ heißt \emph{eindeutig}, falls es für jedes Wort $\in L(\mathcal{G})$ genau einen Ableitungsbaum gibt.
-	\item Eine kontextfreie Sprache heißt \emph{eindeutig}, falls eine eindeutige \ac{CFG} für sie existiert.
+% 	\item Sei CFG die Menge der kontextfreien Grammatiken.
+  \item Eine Grammatik $\mathcal{G}$ heißt \emph{eindeutig}, falls es für jedes Wort $\in L(\mathcal{G})$ genau einen Ableitungsbaum gibt.
+	\item Eine kontextfreie Sprache $L$ heißt \emph{eindeutig}, falls eine eindeutige kontextfreie Grammatik gibt, die $L$ erzeugt. \qedhere
 	\end{itemize}
 \end{Def}
-\begin{Bsp}
-	\begin{align*}
-		L &= \{ a^ib^jc^k \mid i=j\text{ oder }j=k \}\\
-		S &\-> AC \mid DB\\
-		A &\-> aAb \mid \Eps & D &\->aD \mid \Eps\\
-		C &\->cC \mid \Eps & B &\-> bBc \mid \Eps \quad[\text{für $L$ gibt es keine eindeutige \ac{CFG}}]
-	\end{align*}
-	Werte der Form $a^nb^nc^n$ haben zwei Ableitungen $\curvearrowright$ Grammatik ist nicht eindeutig.
-\end{Bsp}
+% \begin{Bsp}
+% 	\begin{align*}
+% 		L &= \{ a^ib^jc^k \mid i=j\text{ oder }j=k \}\\
+% 		S &\-> AC \mid DB\\
+% 		A &\-> aAb \mid \Eps & D &\->aD \mid \Eps\\
+% 		C &\->cC \mid \Eps & B &\-> bBc \mid \Eps \quad[\text{für $L$ gibt es keine eindeutige \ac{CFG}}]
+% 	\end{align*}
+% 	Werte der Form $a^nb^nc^n$ haben zwei Ableitungen $\curvearrowright$ Grammatik ist nicht eindeutig.
+% \end{Bsp}
 
-\datenote{2.12.16}
+Die Grammatik aus \autoref{bsp:3.ArithExpr} ist also nicht eindeutig, denn sowohl für den zweiten als auch für den dritte Ableitungsbaum aus \autoref{bsp:Ableitungsbaum} ist das abgeleitete Wort $a+a*a$.
+
+
+
 \subsection{Die Chomsky Normalform für kontextfreie Sprachen}
-Notwendig für das Pumping Lemma kontextfreier Sprachen und für einen effizienten Algorithmus für das \nameref{satz:wortproblem}.
+\datenote{24.11.2017}
+% Notwendig für das Pumping Lemma kontextfreier Sprachen und für einen effizienten Algorithmus für das \nameref{satz:wortproblem}.
+Wir lernen in diesem Unterkapitel eine spezielle Form von kontextfreien Grammatiken (Chomsky Normalform) kennen für die gilt:
+\begin{itemize}
+ \item Das Wortproblem ($w\in L(\mathcal{G})$?) lässt sich mit Hilfe eines einfachen Algorithmus entscheiden.
+ \item Jede kontextfreie Grammatik lässt sich ``effizient'' in diese Normalform transformieren.
+\end{itemize}
 
 
 \begin{Def}
@@ -476,7 +376,7 @@ Notwendig für das Pumping Lemma kontextfreier Sprachen und für einen effizient
   Zu jeder CFG gibt es eine äquivalente separierte CFG.
 \end{lemma}
 \begin{proof}
-  Sei $\mathcal{G} = (N, \Sigma, P, S)$ eine CFG.
+  Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine CFG.
   Konstruiere $\mathcal{G}' = (N', \Sigma, P', S)$ mit
   \begin{itemize}
   \item $N' = N \uplus \{Y_a \mid a \in \Sigma \}$ (,,$\uplus$'' steht für ,,disjunkte Vereinigung'')
@@ -514,19 +414,19 @@ Das ist genau die Anzahl an Zeichen aus $\Sigma$, die man benötigt, um die Prod
 \end{proof}
 
 
+Wir definieren die Menge der Nichtterminalsymbole aus denen das leere Wort abgeleitet werden kann formal wie folgt:
 \begin{Def}
-  Sie $\mathcal{G} = (N, \Sigma, P, S)$ eine CFG.
+  Sie $\mathcal{G} = (\Sigma, N, P, S)$ eine CFG.
   Definiere die Menge $\operatorname{Nullable}(\mathcal{G}) \subseteq N$ als
   \begin{displaymath}
     \operatorname{Nullable}(\mathcal{G}) = \{ A \in N \mid A
-    \stackrel{*}{\==>} \Eps \}
+    \stackrel{*}{\vdash} \Eps \}
     \text{.}
   \end{displaymath}
-  Es handelt sich um die Menge an Nichtterminalen, aus denen das leere Wort abgeleitet werden kann.
 \end{Def}
 
 \begin{Satz}
-  Es gibt einen Algorithmus, der $\operatorname{Nullable}(\mathcal{G})$ in $O(|\mathcal{G}|^2)$ ausrechnet.
+  Es gibt einen Algorithmus, der $\operatorname{Nullable}(\mathcal{G})$ in $O(|\mathcal{G}|^3)$ ausrechnet.
 \end{Satz}
 \begin{proof}
   Definiere $M_i$ als die Menge der Nichtterminale, aus denen sich
@@ -564,12 +464,12 @@ Das ist genau die Anzahl an Zeichen aus $\Sigma$, die man benötigt, um die Prod
       $1 \le j \le n$.
       Per IV existieren Ableitungen
       \begin{displaymath}
-        A_j \stackrel{*}{\==>} \Eps
+        A_j \stackrel{*}{\vdash} \Eps
       \end{displaymath}
       denen kann die obige Produktion vorangestellt werden, sodass auch
       eine Ableitung von $A$ nach $\Eps$ existert.
       \begin{displaymath}
-        A  \==> A_1 \ldots A_n \stackrel{*}{\==>} \underbrace{\Eps \ldots \Eps}_{n \text{ mal}} = \Eps
+        A  \vdash A_1 \ldots A_n \stackrel{*}{\vdash} \underbrace{\Eps \ldots \Eps}_{n \text{ mal}} = \Eps
       \end{displaymath}
       Also gilt $A \in \operatorname{Nullable}(\mathcal{G})$
     \end{itemize}
@@ -578,11 +478,11 @@ Das ist genau die Anzahl an Zeichen aus $\Sigma$, die man benötigt, um die Prod
   
   \paragraph{,,$\subseteq$''}
   Wenn $A \in \operatorname{Nullable}(\mathcal{G})$, dann existiert $m
-  \in \N$, sodass $A \stackrel{*}{\==>} \Eps$ mit einem
+  \in \N$, sodass $A \stackrel{*}{\vdash} \Eps$ mit einem
   Ableitungsbaum der Höhe $m$.
   Wir zeigen per Induktion über $m$, dass $A \in M_{m+1} \subseteq \bigcup_{i \in \N} M_i$.
   \begin{description}
-  \item[IA] $m = 0$. Die Ableitung ist $A \==> \Eps$, sodass $A\in M_1$.
+  \item[IA] $m = 0$. Die Ableitung ist $A \vdash \Eps$, sodass $A\in M_1$.
   \item[IS] $m > 0$.
     Die Wurzel des Ableitungsbaum muss mit $A \to A_1\ldots A_n$ ($n>0$)
     markiert sein und die Kinder sind jeweils Ableitungsbäume für
@@ -615,7 +515,7 @@ return M
   Prüfe ob $S \in \operatorname{Nullable}(\mathcal{G})$
 \end{proof}
 \begin{lemma}[\textsc{Del}]
-  Zu jeder CFG $\mathcal{G}=(N, \Sigma, P, S)$ gibt es eine äquivalente CFG $\mathcal{G'} =(N', \Sigma, P', S')$, bei der die einzige $\Eps$-Regel $S' \to \Eps$ ist (falls $\Eps \in L(\mathcal{G})$) und bei der $S'$ auf keiner rechten Seite einer Produktion vorkommt.
+  Zu jeder CFG $\mathcal{G}=(\Sigma, N, P, S)$ gibt es eine äquivalente CFG $\mathcal{G'} =(N', \Sigma, P', S')$, bei der die einzige $\Eps$-Regel $S' \to \Eps$ ist (falls $\Eps \in L(\mathcal{G})$) und bei der $S'$ auf keiner rechten Seite einer Produktion vorkommt.
 \end{lemma}
 \begin{proof}
   \hfill
@@ -635,13 +535,13 @@ return M
 \end{proof}
 
 \begin{Def}
-  Sei $\mathcal{G} = (N, \Sigma, P, S)$ eine Grammatik.
+  Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine Grammatik.
   Eine \emph{Kettenregel} von $\mathcal{G}$ ist eine Produktion in $P$ der Form $A \to B$, wobei $A,B \in N$.
 \end{Def}
 
-\datenote{7.12.16}
+% \datenote{7.12.16}
 \begin{lemma}[\textsc{Unit}]
-  Zu jeder CFG $\mathcal{G} = (N, \Sigma, P, S)$ gibt es eine äquivalente CFG $\mathcal{G}' = (N, \Sigma, P', S)$ ohne Kettenregeln.
+  Zu jeder CFG $\mathcal{G} = (\Sigma, N, P, S)$ gibt es eine äquivalente CFG $\mathcal{G}' = (N, \Sigma, P', S)$ ohne Kettenregeln.
 \end{lemma}
 \begin{proof}
   Setze zu Anfang $P' = P$ und eliminiere alle Kettenregeln mit folgendem Algorithmus:
@@ -672,16 +572,21 @@ return M
 
 
 \begin{Def}[name={[\acs*{CFG} in \acs*{CNF}]}]
-	Eine \ac{CFG} $\mathcal{G} = (N, \Sigma, P, S)$ ist in \ac{CNF}, falls jede
+	Eine CFG $\mathcal{G} = (\Sigma, N, P, S)$ ist in CNF, falls jede
   Produktion die Form $A\->a$, $A\->BC$, oder $S \-> \Eps$ hat, wobei $A,B,C\in N$, $a\in\Sigma$.
   Falls $S \to \Eps \in P$, dann darf $S$ auf keiner rechten Seite einer Produktion vorkommen.
 \end{Def}
+\begin{Satz}
+Zu jeder CFG exisistiert eine äquivalente CFG in CNF.
+\end{Satz}
+
 \begin{proof}
-    Wende der Reihe nach \textsc{Sep}, \textsc{Bin}, \textsc{Del} und \textsc{Unit} an.\footnote{Es genügt sogar nur \textsc{Del} und dann \textsc{Unit} anzuwenden, da \textsc{Del} schon \textsc{Sep} und \textsc{Bin} ausführt.}
+    Wir erhalten eine äquivalente CFG in CNF indem wir 
+    der Reihe nach \textsc{Sep}, \textsc{Bin}, \textsc{Del} und \textsc{Unit} anwenden.\footnote{Es genügt sogar nur \textsc{Del} und dann \textsc{Unit} anzuwenden, da \textsc{Del} schon \textsc{Sep} und \textsc{Bin} ausführt.}
 \end{proof}
 
 \begin{Beobachtung}
-  Ist $\mathcal{G} = (N, \Sigma, P, S)$ in CNF, dann lassen sich für die Ableitungsbäume $\mathcal{A} \in \operatorname{Abl}(\mathcal{G}, S)$ folgende Eigenschaften feststellen:
+  Ist $\mathcal{G} = (\Sigma, N, P, S)$ in CNF, dann lassen sich für die Ableitungsbäume $\mathcal{A} \in \operatorname{Abl}(\mathcal{G}, S)$ folgende Eigenschaften feststellen:
   \begin{enumerate}
   \item $\mathcal{A}$ ist ein Binärbaum. 
   \item Falls $Y(\mathcal{A}) = w$ dann ist die Anzahl der Blätter des Baumes $|w|$.		% das gilt doch für alle Grammatiken?!
@@ -691,6 +596,73 @@ return M
 \begin{Bemerkung} Sei $|\mathcal{G}|=\sum\limits_{A\->\alpha\in P}(|\alpha|+1)$ die Gr"o"se einer CFG.\\
 Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größe der \ac{CNF}-Grammatik ist $O(|\mathcal{G}|^2)$.
 \end{Bemerkung}
+
+
+
+
+
+
+
+
+
+
+\hide{
+
+
+\draftnote{25.11.16}
+\begin{Satz}[name={[Typ-3 Sprache ist regulär]}]
+	$L$ ist regulär \<=> $L$ ist Type-3 Sprache
+\end{Satz}
+\begin{proof}
+	\begin{description}[font=\normalfont,labelwidth=\widthof{"'\=>"':},leftmargin=!]
+	\item["`\=>"'] Sei $\A =(\Sigma, Q,\delta,\qinit,F)$ \ac{DFA} für $L$.\\
+		Konstruiere Grammatik $\mathcal{G}=(\Sigma,N,P,S)$ mit
+		\begin{align*}
+		 N &= Q\\
+		 S &= \qinit\\
+		 P &= \{ q\rightarrow aq'\mid q,q'\in Q, a\in\Sigma, \delta(q,a)=q'\}\cup \{ q\rightarrow\Eps\mid q\in F\}
+		\end{align*}
+		zeige $L(\mathcal{G})=L(\A)$.
+	\item["`\<="'] Sei $\mathcal{G}=(\Sigma,N,P,S)$ Typ-3 Grammatik
+	Def. $\A=(Q,\Sigma,\delta,q_0,F)$ \ac{NFA}
+	\begin{alignat*}{2}
+		Q &=N\cup\dots\\
+		q_0 &=S\\
+		A &\->aB\in P & \delta(A,a)&\ni B\\
+		A &\->a,\dots a_n &\qquad n=0\=>A &\in F\\
+		&\mathclap{\tikz[shorten >=1pt,on grid,node distance=1.5cm, every state/.style={minimum size=0pt,inner sep=0pt}]{
+			\node[state,inner sep=3pt] (q0) {$A$};
+			\node [above=0pt of q0.north] {$n>0$: $n$ weitere Zust"ande erforderlich, letzter Endzustand};
+			\node[state] (q1) [right=of q0] {};
+			\node (dots) [right=of q1] {\dots};
+			\node[state,accepting] (qa) [right=of dots] {};
+			\path[-stealth] (q0) edge node[auto] {$a_1$} (q1)
+				(q1)   edge node[auto] {$a_2$} (dots)
+				(dots) edge node[auto] {$a_n$} (qa);
+		}}\\
+		\text{Zeige noch }\quad
+		L(\mathcal{G})&=L(\A) \tag*{\qedhere}
+	\end{alignat*}
+	\end{description}
+\end{proof}
+
+
+\begin{lemma}
+	$\mathcal{L}_3 \subsetneq \mathcal{L}_2$
+\end{lemma}
+\begin{proof}
+	Betrachte $L=\{a^nb^n \mid n\in\N \}$\\
+	Bekannt, dass $L$ nicht regulär. 
+	Aber es gibt eine Typ-2 Grammatik für $L$:
+	\[ \mathcal{G} = (\{S\}, \{a,b\}, \{S\->\Eps, S\->aSb \}, S) \]
+	Korrektheitsbeweis $L=L(\mathcal{G})$ ist dem Leser zur Übung selbst überlassen.
+\end{proof}
+
+\datenote{30.11.16}
+
+
+\datenote{2.12.16}
+
 
 \subsection{Das Pumping Lemma für kontextfreie Sprachen}
 \begin{Satz}[Pumping lemma für \acs*{CFL}, uvwxy Lemma]
@@ -1036,7 +1008,7 @@ $M\ n\x n$ Matrix mit $M_{ij}=\varnothing$
 \end{Satz}
 
 \begin{proof}
-    Sei $\mathcal{G} = (N, \Sigma, P, S)$ eine CFG für $L$.
+    Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine CFG für $L$.
     Gefragt ist, ob $L(\mathcal{G}) = \{ w\in\Sigma^* \mid S\overset{*}{\=>} w \} \overset?= \varnothing
 $. 
     Betrachte dazu die Menge $M$ der nützlichen Nichtterminalsymbole, aus denen ein Terminalwort herleitbar ist.
@@ -1093,7 +1065,7 @@ $.
   Das heißt, für alle $L \in \mathrm{CFL}$ und $R \in \mathrm{REG}$ gilt $L \cap R \in \mathrm{CFL}$.
 \end{Satz}
 \begin{proof}
-  Sei $\mathcal{G} = (N, \Sigma, P, S)$ kontextfreie Grammatik in CNF mit $L(\mathcal{G}) = L$.
+  Sei $\mathcal{G} = (\Sigma, N, P, S)$ kontextfreie Grammatik in CNF mit $L(\mathcal{G}) = L$.
 
   Sei $M = (Q, \Sigma, q, \delta, q_0, F)$ NEA mit $L(M) = R$.
 
