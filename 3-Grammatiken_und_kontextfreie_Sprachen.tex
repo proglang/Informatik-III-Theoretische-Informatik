@@ -195,9 +195,11 @@ Die Sprache aus \autoref{bsp:3.sameNumber} ist kontextfrei. Weitere Beispiele si
 \begin{Bsp}\label{bsp:3.ArithExpr}
 Arithmetische Ausdrücke ohne Klammern: 
 $\mathcal{G}=(\{E\}, \{a, \mathnormal{+}, \mathnormal{*}\}, P, E)$ mit
-  \begin{displaymath}
-    P = \{ E \->a \mid E+E \mid E*E\}.
-  \end{displaymath}
+\begin{center}
+ $P = \{ E \->a \mid E+E \mid E*E\}.$
+ \footnote{Notation: Wenn wir mehrere Regeln mit gleicher linker Seite wie 
+ z.B. ``$A \-> \alpha$'' und ``$A \-> \beta$'' haben, dann dürfen wir diese auch mit Hilfe eines senkrechten Striches als ``$A \-> \alpha\mid\beta$'' schreiben. }
+\end{center}
 \end{Bsp}
 
 \begin{Bsp}
