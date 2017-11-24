@@ -537,6 +537,13 @@ return M
   \item Entferne alle Regeln $A \to \Eps$ für $A \neq S'$.
   \end{enumerate}
 \end{proof}
+\begin{Bemerkung}
+\textsc{Del} kann in $O(|\mathcal{G}|^3)$ berechnet werde und die Größe der resultierenden Grammatik ist $O(|\mathcal{G}|)$.
+
+- Höchste Kosten Nullable berechnen.
+
+- Anzahl Regel verdoppelt sich höchstens
+\end{Bemerkung}
 
 \begin{Def}
   Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine Grammatik.
@@ -573,10 +580,19 @@ return M
     Beim Verlassen der Schleife ist $j = 1$ und es existieren überhaupt keine Kettenregeln mehr.
   \end{enumerate}
 \end{proof}
+\begin{Bemerkung}
+\textsc{Unit} kann in $O(|\mathcal{G}|^3)$ berechnet werde und die Größe der resultierenden Grammatik ist $O(|\mathcal{G}|^2)$.
+
+- Innere Schleife in 5 nur ein mal pro Regel.
+
+- höchstens anzahl Regeln neue in innnerer Schleife.
+\end{Bemerkung}
+
+
 
 
 \begin{Def}[name={[\acs*{CFG} in \acs*{CNF}]}]
-	Eine CFG $\mathcal{G} = (\Sigma, N, P, S)$ ist in CNF, falls jede
+	Eine CFG $\mathcal{G} = (\Sigma, N, P, S)$ ist in Chomsky Normal Form (CNF), falls jede
   Regel die Form $A\->a$, $A\->BC$, oder $S \-> \Eps$ hat, wobei $A,B,C\in N$, $a\in\Sigma$.
   Falls $S \to \Eps \in P$, dann darf $S$ auf keiner rechten Seite einer Regel vorkommen.
 \end{Def}
@@ -590,25 +606,69 @@ Zu jeder CFG exisistiert eine äquivalente CFG in CNF.
 \end{proof}
 
 \begin{Beobachtung}
-  Ist $\mathcal{G} = (\Sigma, N, P, S)$ in CNF, dann lassen sich für die Ableitungsbäume $\mathcal{A} \in \operatorname{Abl}(\mathcal{G}, S)$ folgende Eigenschaften feststellen:
+  Ist $\mathcal{G} = (\Sigma, N, P, S)$ in CNF, dann lassen sich für die Ableitungsbäume $\T \in \operatorname{Abl}(S)$ folgende Eigenschaften feststellen:
   \begin{enumerate}
-  \item $\mathcal{A}$ ist ein Binärbaum. 
-  \item Falls $Y(\mathcal{A}) = w$ dann ist die Anzahl der Blätter des Baumes $|w|$.		% das gilt doch für alle Grammatiken?!
+  \item $\T$ ist ein Binärbaum. 
+  \item Falls $Y(\T) = w$ dann ist die Anzahl der Blätter des Baumes $|w|$.		% das gilt doch für alle Grammatiken?!
   \end{enumerate}
 \end{Beobachtung}
 	
-\begin{Bemerkung} Sei $|\mathcal{G}|=\sum\limits_{A\->\alpha\in P}(|\alpha|+1)$ die Gr"o"se einer CFG.\\
-Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größe der \ac{CNF}-Grammatik ist $O(|\mathcal{G}|^2)$.
+\begin{Bemerkung} 
+% Sei $|\mathcal{G}|=\sum\limits_{A\->\alpha\in P}(|\alpha|+1)$ die Gr"o"se einer CFG.\\
+Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^3)$. Die Größe der \ac{CNF}-Grammatik ist $O(|\mathcal{G}|^2)$.
 \end{Bemerkung}
 
 
 \subsection{Entscheidungsprobleme für kontextfreie Sprachen}
 \begin{Satz}[name={[Wortproblem für \acs*{CFL} entscheidbar]}]
-	Das Wortproblem "`$w\in L?$"' ist für \ac{CFL} entscheidbar. Falls $|w|=n$, benötigt der Algorithmus $O(n^3)$ Schritte und $O(n^2)$ Platz.
+	Es gibt einen Algorithmus der das Wortproblem für kontextfreie Sprachen $w\in L(\mathcal{G})$ in $O(n^3)$ Schritte und mit $O(n^2)$ Platz entscheidet.
 \end{Satz}
-\begin{proof}
-	Algorithmus \ac{CYK}.
+
+\begin{proof}[CYK-Algorithmus] Sei $\mathcal{G}$ ein CFG in CNF und sei $w = a_1\dots a_n\in\Sigma^*$.
+Der CYK-Algorithmus bereichnet bei Eingabe von $\mathcal{G}$ und $w$, ob $w\in L(\mathcal{G})$.
+
+Idee: Definiere für $1\leq i < j\leq n$
+	\begin{align*}
+	\intertext{Es gilt für $i=j$}
+		M_{ii} &= \{A \mid A\-> a_i \} \\
+	\intertext{Es gilt für $i<j$}
+		M_{ij} &= \{ A \mid A\-> BC \land BC \stackrel{*}{\vdash} a_i\dots a_j \}\\
+		&= \{ A \mid A\-> BC \land \exists k: i\leq k<j\quad 
+			\begin{aligned}[t]
+				B &\stackrel{*}{\vdash} a_i\dots a_k \land{}\\
+				C &\stackrel{*}{\vdash} a_{k+1}\dots a_j \}
+			\end{aligned}\\
+		&= \{ A \mid A\-> BC \land \exists k: i\leq k<j\quad B\in M_{i,k} \land C \in M_{k+1,j}\}
+		% &= \bigcup_{k=i}^{j-1} \{ A \mid A \-> BC \land 
+		% 	\begin{aligned}[t]
+		% 		B &\xRightarrow{*} a_i\dots a_k \land{}\\
+		% 		C &\xRightarrow{*} a_{k+1}\dots a_j \}
+		% 	\end{aligned}\\
+		% &= \bigcup_{k=i}^{j-1} \{ A \mid A \-> BC \land B \in M_{i,k} \land C \in M_{k+1,j} \}
+	\end{align*}
+Es gilt:
+\begin{itemize}
+ \item Wir können die $M_{ij}$ als eine $(n\x n)$ Matrix $M$ mit Einträgen in $\mathcal{P}(N)$ darstellen.
+ \item Der Wert von $M_{ij}$ hängt nur von $M_{i'j'}$ mit $i'>i$ und $j'<j$ ab.
+ \item $w\in L$ genau dann, wenn $S \=>^* w$ genau dann, wenn $S \in M_{1,n}$
+\end{itemize}
+
+Wir können die $M_{ij}$ wie folgt ermitteln:
+
+$\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$\\
+$M\ n\x n$ Matrix mit $M_{ij}=\varnothing$
+\begin{lstlisting}[mathescape,morekeywords={for,do,return},morecomment={[l]{//}}]
+  for i=1 .. n do  // $O(|\mathcal{G}|)\cdot O(n)$
+    $M_{ii}=\{A \mid A \-> a_i \}$
+  for i=n-1 ..  1 do
+    for j=i+1 .. n do
+      for k=i .. j-1 do  // $O(|\mathcal{G}|)\cdot O(n^3)$
+        $M_{ij}=M_{ij}\cup \{ A \mid A \-> BC, B\in M_{ik}, C\in M_{k+1,j} \}$
+  return $S\in M_{1n}$
+\end{lstlisting}
 \end{proof}
+
+
 \begin{Bsp}
 	$L=\{a^nb^nc^m \mid n,m\geq 1\}$ mit Grammatik (\acs{CFG})
 	\begin{align*}
@@ -624,34 +684,7 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
 		Y &\-> CY | c\\
 		A &\-> a, B \-> b, C \-> c
 	\end{aligned}$
-\end{Bsp}
 
-\begin{proof}[CYK-Algorithmus] Sei $\mathcal{G}$ ein CFG in CNF und sei $w = a_1\dots a_n\in\Sigma^*, |w|=n$. Der CYK-Algorithmus bereichnet bei Eingabe von $\mathcal{G}$ und $w$, ob $w\in L(\mathcal{G})$.
-		
-		Idee dabei: Berechne eine $(n\x n)$ Matrix $M$ mit Einträgen in $\mathcal{P}(N)$ mit folgender Spezifikation:
-	\begin{align*}
-		M_{ij} &= \{ A \mid A\xRightarrow{*} a_i\dots a_j \} && 1\leq i\leq j\leq n \quad\text{nur diese }M_{ij}\neq \varnothing\\
-		& \text{falls $i=j$:}\\
-		M_{ii} &= \{ A \mid A\xRightarrow{*} a_i\}\\
-		&= \{A \mid A\-> a_i \} \\
-		&\text{falls }1\leq i<j\leq n:\\
-		M_{ij} &= \{ A \mid A\xRightarrow{*} a_i\dots a_j \}\\
-		&= \{ A \mid A\=> BC \xRightarrow{*} a_i\dots a_j \}\\
-		&= \{ A \mid A\-> BC \land BC \xRightarrow{*} a_i\dots a_j \}\\
-		&= \{ A \mid A\-> BC \land \exists k: i\leq k<j\quad 
-			\begin{aligned}[t]
-				B &\xRightarrow{*} a_i\dots a_k \land{}\\
-				C &\xRightarrow{*} a_{k+1}\dots a_j \}
-			\end{aligned}\\
-		% &= \bigcup_{k=i}^{j-1} \{ A \mid A \-> BC \land 
-		% 	\begin{aligned}[t]
-		% 		B &\xRightarrow{*} a_i\dots a_k \land{}\\
-		% 		C &\xRightarrow{*} a_{k+1}\dots a_j \}
-		% 	\end{aligned}\\
-		% &= \bigcup_{k=i}^{j-1} \{ A \mid A \-> BC \land B \in M_{i,k} \land C \in M_{k+1,j} \}
-	\end{align*}
-	Damit: $w\in L$ genau dann, wenn $S \=>^* w$ genau dann, wenn $S \in M_{1,n}$.
-	
   Beispiel der Matrix für $w = aaabbbcc$.
   Zellen, die mit ,,${\bullet}$'' markiert sind, sind leer.
   Die Reihenfolge, in der die nicht-diagonalen, nicht leeren Zellen, eingetragen wurden ist mit kleinen Zahlen.
@@ -679,19 +712,8 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^2)$. Die Größ
 		\cline{9-9}
 		\end{tabular} 
   \end{center}
-\end{proof}
+\end{Bsp}
 
-$\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$\\
-$M\ n\x n$ Matrix mit $M_{ij}=\varnothing$
-\begin{lstlisting}[mathescape,morekeywords={for,do,return},morecomment={[l]{//}}]
-  for i=1 .. n do  // $O(|\mathcal{G}|)\cdot O(n)$
-    $M_{ii}=\{A \mid A \-> a_i \}$
-  for i=n-1 ..  1 do
-    for j=i+1 .. n do
-      for k=i .. j-1 do  // $O(|\mathcal{G}|)\cdot O(n^3)$
-        $M_{ij}=M_{ij}\cup \{ A \mid A \-> BC, B\in M_{ik}, C\in M_{k+1,j} \}$
-  return $S\in M_{1n}$
-\end{lstlisting}
 
 
 
