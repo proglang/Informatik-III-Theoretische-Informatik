@@ -371,6 +371,15 @@ Wir lernen in diesem Unterkapitel eine spezielle Form von kontextfreien Grammati
  \item Jede kontextfreie Grammatik lässt sich "`effizient"' in diese Normalform transformieren.
 \end{itemize}
 
+Wir stellen im Folgenden vier Transformationen (\textsc{Sep, Bin, Del, Unit}) 
+vor und wollen dabei jeweils den Zeitaufwand und die Größe der resultierenden GFG analysieren.
+
+Dafür definieren wir die Größe einer Grammatik wie folgt.
+\begin{displaymath}
+  |\mathcal{G}| = \sum_{A \in N}\sum_{A \to \alpha \in P} |A\alpha|
+\end{displaymath}
+Die Größe ist also genau die Anzahl an Zeichen aus $\Sigma\cup N$, die man benötigt, um die Regeln der Grammatik aufzuschreiben.
+
 \begin{Def}
   Eine \ac{CFG} heißt \emph{separiert}, wenn jede Regel eine der folgenden beiden Formen hat.
   \begin{alignat*}{3}
@@ -394,13 +403,16 @@ Wir lernen in diesem Unterkapitel eine spezielle Form von kontextfreien Grammati
   \end{itemize}
   Offenbar gilt $L(\mathcal{G}) = L(\mathcal{G'})$ und $\mathcal{G}'$ ist separiert (ohne Beweis).
 \end{proof}
+\begin{Bemerkung}
+\textsc{Sep} kann in $O(|\mathcal{G}|^2)$ berechnet werden und die Größe der resultierenden Grammatik ist $O(|\mathcal{G}|)$.
+\begin{itemize}
+	\item Laufe für jedes Terminal einmal über alle Regeln.
+	
+	\item Für jedes Nichtterminal bekommen wir eine Regel der Größe 2 zusätzlich
+\end{itemize}
+\end{Bemerkung}
 
-Der Aufwand für \textsc{Sep} beträgt $O(|\mathcal{G}|)$, wobei die
-Größe einer Grammatik definiert ist durch
-\begin{displaymath}
-  |\mathcal{G}| = \sum_{A \in N}\sum_{A \to \alpha \in P} |A\alpha|
-\end{displaymath}
-Das ist genau die Anzahl an Zeichen aus $\Sigma\cup N$, die man benötigt, um die Regeln der Grammatik aufzuschreiben.
+
 
 \begin{lemma}[\textsc{Bin}]
   Zu jeder \ac{CFG} gibt es eine äquivalente \ac{CFG}, bei der für alle Regeln $A \to \alpha$ gilt, dass $|\alpha| \le 2$.
@@ -408,7 +420,7 @@ Das ist genau die Anzahl an Zeichen aus $\Sigma\cup N$, die man benötigt, um di
 \begin{proof}
   Ersetze jede Regel der Form 
   \begin{displaymath}
-    A \to X_1X_2\ldots X_n
+    A \to X_1X_2\ldots X_n, \quad n\geq 3
   \end{displaymath}
   mit $X_i \in N \cup \Sigma$, $1 \le i \le n$,
   durch die Regeln 
@@ -420,9 +432,14 @@ Das ist genau die Anzahl an Zeichen aus $\Sigma\cup N$, die man benötigt, um di
   \end{align*}
   Dabei sind  $\langle  X_2\ldots X_n \rangle$, \ldots, $\langle  X_{n-1}\ldots X_n \rangle$ neue Nichtterminalsymbole.
 \end{proof}
- Der Aufwand von \textsc{Bin} liegt in $O(|\mathcal{G}|)$.
-
- \bigskip
+\begin{Bemerkung}
+\textsc{Bin} kann in $O(|\mathcal{G}|)$ berechnet werden und die Größe der resultierenden Grammatik ist $O(|\mathcal{G}|)$.
+\begin{itemize}
+	\item Laufe einmal über alle Regeln.
+	
+	\item Für jede Regel der Größe $n+1$, $n\geq 3$ fügen wir $n-1$ neue Regeln der Größe 3 hinzu.
+\end{itemize}
+\end{Bemerkung}
 
 
 Wir definieren die Menge der Nichtterminalsymbole, aus denen das leere Wort abgeleitet werden kann, formal wie folgt:
@@ -453,7 +470,27 @@ Wir definieren die Menge der Nichtterminalsymbole, aus denen das leere Wort abge
   \begin{displaymath}
     M_m = M_{m+1} = \bigcup_{i \in \N} M_i
   \end{displaymath}
-  Das bedeutet, $\bigcup_{i \in \N} M_i$ lässt sich iterativ berechnen (s.u.).
+  Wir können $\bigcup_{i \in \N} M_i$ mit dem folgenden Verfahren in $O(|\mathcal{G}|^3)$ berechnen.
+  
+  \begin{center}
+  \begin{minipage}{7cm}
+  \begin{lstlisting}[
+  mathescape,
+  columns=fullflexible,
+  basicstyle=\fontfamily{lmvtt}\selectfont,
+]
+M = {}
+done = $false$
+while (not done):
+    done = $true$
+    foreach $A \to a \in P$:
+         if ($ A \not \in M \wedge a \in M^*$):
+             $M = M \cup A$
+             done = $false$
+return M
+\end{lstlisting}
+\end{minipage}
+\end{center}
 
   Wir zeigen nun, dass $\operatorname{Nullable}(\mathcal{G}) = \bigcup_{i \in \N} M_i$.
 
@@ -494,33 +531,18 @@ Wir definieren die Menge der Nichtterminalsymbole, aus denen das leere Wort abge
   Ableitungsbaum der Höhe $m$.
   Wir zeigen via Induktion über $m$, dass $A \in M_{m+1} \subseteq \bigcup_{i \in \N} M_i$.
   \begin{description}
-  \item[IA] $m = 0$. Die Ableitung ist $A \vdash \Eps$, sodass $A\in M_1$.
+  \item[IA] $m = 1$. Die Ableitung ist $A \vdash \Eps$, sodass $A\in M_1$.
   \item[IS] $m > 0$.
     Die Wurzel des Ableitungsbaum muss mit $A \to A_1\ldots A_n$ ($n>0$)
-    markiert sein und die Kinder sind jeweils Ableitungsbäume für
-    $\Eps$ in  $Abl(\mathcal{G}, A_i)$ der Höhe $m_i \le m-1$, wobei $1 \le i \le n$.
+    beschriftet sein und die Kinder sind jeweils Ableitungsbäume für
+    $\Eps$ in  $Abl(A_i)$ der Höhe $m_i \le m-1$, wobei $1 \le i \le n$.
     
     Es gilt nun nach IV, dass $A_i \in M_{m_i} \subseteq M_{m-1}$.
     Somit ist $A_i \in M_{m-1}$ und damit, nach Definition, $A \in M_m$.
     \qedhere
   \end{description}
 \end{proof}
-Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_{i \in \N} M_i$.
-\begin{lstlisting}[
-  mathescape,
-  columns=fullflexible,
-  basicstyle=\fontfamily{lmvtt}\selectfont,
-]
-M = {}
-done = $false$
-while (not done):
-    done = $true$
-    foreach $A \to a \in P$:
-         if ($ A \not \in M \wedge a \in M^*$):
-             $M = M \cup A$
-             done = $false$
-return M
-\end{lstlisting}
+
 \begin{Korollar}
   Man kann zu einer \ac{CFG} $\mathcal{G}$ berechnen, ob $\Eps \in L(\mathcal{G})$.
 \end{Korollar}
@@ -609,6 +631,7 @@ return M
 
 
 \begin{Def}[name={[\acs*{CFG} in \acs*{CNF}]}]
+\datenote{29.11.2017}
 	Eine \ac{CFG} $\mathcal{G} = (\Sigma, N, P, S)$ ist in \ac{CNF}, falls jede
   Regel die Form $A\->a$, $A\->BC$, oder $S \-> \Eps$ hat, wobei $A,B,C\in N$, $a\in\Sigma$.
   Falls $S \to \Eps \in P$, dann darf $S$ auf keiner rechten Seite einer Regel vorkommen.
@@ -627,6 +650,15 @@ Zu jeder \ac{CFG} existiert eine äquivalente \ac{CFG} in \ac{CNF}.
 Die Transformation in \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^3)$. Die Größe der \ac{CNF}-Grammatik ist $O(|\mathcal{G}|^2)$.
 \end{Bemerkung}
 
+\begin{lemma}
+ Die Menge der Typ-2 Sprachen ist eine Teilmenge der Typ-1 Sprachen.
+\end{lemma}
+\begin{proof}
+ Zu jeder Typ-2 Grammatik existiert eine äquivalente $\Eps$-freie Typ-2 Gammatik
+\end{proof}
+
+
+
 \begin{Beobachtung}
   Ist $\mathcal{G} = (\Sigma, N, P, S)$ in \ac{CNF}, dann lassen sich für die Ableitungsbäume $\T \in \operatorname{Abl}(S)$ folgende Eigenschaften feststellen:
   \begin{enumerate}
@@ -635,6 +667,9 @@ Die Transformation in \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^3)$. Die Größe 
   \qedhere
   \end{enumerate}
 \end{Beobachtung}
+
+
+
 
 
 \subsection{Entscheidungsprobleme für kontextfreie Sprachen}
@@ -734,15 +769,6 @@ $M\ n\x n$-Matrix mit $M_{ij}=\varnothing$ für alle $i, j$
 
 
 
-
-
-
-
-
-\hide{
-
-
-\draftnote{25.11.16}
 \begin{Satz}[name={[Typ-3 Sprache ist regulär]}]
 	$L$ ist regulär \<=> $L$ ist Type-3 Sprache
 \end{Satz}
@@ -756,10 +782,14 @@ $M\ n\x n$-Matrix mit $M_{ij}=\varnothing$ für alle $i, j$
 		 P &= \{ q\rightarrow aq'\mid q,q'\in Q, a\in\Sigma, \delta(q,a)=q'\}\cup \{ q\rightarrow\Eps\mid q\in F\}
 		\end{align*}
 		zeige $L(\mathcal{G})=L(\A)$.
-	\item["`\<="'] Sei $\mathcal{G}=(\Sigma,N,P,S)$ Typ-3 Grammatik
+	\item["`\<="'] Sei $\mathcal{G}=(\Sigma,N,P,S)$ Typ-3 Grammatik.
+	Dann erhalten wir durch anwenden von \textsc{Bin} eine äquivalente Grammatik in der jede Regel eine der folgenden Formen hat
+	
+	
+	
 	Def. $\A=(Q,\Sigma,\delta,q_0,F)$ \ac{NFA}
 	\begin{alignat*}{2}
-		Q &=N\cup\dots\\
+		Q &=N\\
 		q_0 &=S\\
 		A &\->aB\in P & \delta(A,a)&\ni B\\
 		A &\->a,\dots a_n &\qquad n=0\=>A &\in F\\
@@ -790,6 +820,15 @@ $M\ n\x n$-Matrix mit $M_{ij}=\varnothing$ für alle $i, j$
 	\[ \mathcal{G} = (\{S\}, \{a,b\}, \{S\->\Eps, S\->aSb \}, S) \]
 	Korrektheitsbeweis $L=L(\mathcal{G})$ ist dem Leser zur Übung selbst überlassen.
 \end{proof}
+
+
+
+
+\hide{
+
+
+\draftnote{25.11.16}
+
 
 \datenote{30.11.16}
 
