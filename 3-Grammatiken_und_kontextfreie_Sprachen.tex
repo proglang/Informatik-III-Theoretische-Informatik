@@ -639,13 +639,13 @@ Die Transformation in \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^3)$. Die Größe 
 
 \subsection{Entscheidungsprobleme für kontextfreie Sprachen}
 \begin{Satz}[name={[Wortproblem für \acs*{CFL} entscheidbar]}]
-	Es gibt einen Algorithmus der das Wortproblem für kontextfreie Sprachen $w\in L(\mathcal{G})$ in $O(n^3)$ Schritte und mit $O(n^2)$ Platz entscheidet.
+	Es gibt einen Algorithmus, der für kontextfreie Sprachen~$L$ das Wortproblem "`$w\in L$"' in $O(n^3)$ Schritten und mit $O(n^2)$ Speicherplatz entscheidet.
 \end{Satz}
 
-\begin{proof}[CYK-Algorithmus] Sei $\mathcal{G}$ ein \ac{CFG} in \ac{CNF} und sei $w = a_1\dots a_n\in\Sigma^*$.
-Der CYK-Algorithmus bereichnet bei Eingabe von $\mathcal{G}$ und $w$, ob $w\in L(\mathcal{G})$.
+\begin{proof}[\acsu{CYK}-Algorithmus] Sei $\mathcal{G}$ eine \ac{CFG} in \ac{CNF} und sei $w = a_1\dots a_n\in\Sigma^*$.
+Der \ac{CYK}-Algorithmus berechnet bei Eingabe von $\mathcal{G}$ und $w$, ob $w\in L(\mathcal{G})$.
 
-Idee: Definiere für $1\leq i < j\leq n$
+Idee: Definiere für $1\leq i < j\leq n$:
 	\begin{align*}
 	\intertext{Es gilt für $i=j$}
 		M_{ii} &= \{A \mid A\-> a_i \} \\
@@ -653,10 +653,9 @@ Idee: Definiere für $1\leq i < j\leq n$
 		M_{ij} &= \{ A \mid A\-> BC \land BC \stackrel{*}{\vdash} a_i\dots a_j \}\\
 		&= \{ A \mid A\-> BC \land \exists k: i\leq k<j\quad 
 			\begin{aligned}[t]
-				B &\stackrel{*}{\vdash} a_i\dots a_k \land{}\\
-				C &\stackrel{*}{\vdash} a_{k+1}\dots a_j \}
+				B &\stackrel{*}{\vdash} a_i\dots a_k \land C \stackrel{*}{\vdash} a_{k+1}\dots a_j \}
 			\end{aligned}\\
-		&= \{ A \mid A\-> BC \land \exists k: i\leq k<j\quad B\in M_{i,k} \land C \in M_{k+1,j}\}
+		&= \{ A \mid A\-> BC \land \exists k: i\leq k<j\quad B\in M_{ik} \land C \in M_{(k+1)j}\}
 		% &= \bigcup_{k=i}^{j-1} \{ A \mid A \-> BC \land 
 		% 	\begin{aligned}[t]
 		% 		B &\xRightarrow{*} a_i\dots a_k \land{}\\
@@ -666,24 +665,25 @@ Idee: Definiere für $1\leq i < j\leq n$
 	\end{align*}
 Es gilt:
 \begin{itemize}
- \item Wir können die $M_{ij}$ als eine $(n\x n)$ Matrix $M$ mit Einträgen in $\mathcal{P}(N)$ darstellen.
- \item Der Wert von $M_{ij}$ hängt nur von $M_{i'j'}$ mit $i'>i$ und $j'<j$ ab.
- \item $w\in L$ genau dann, wenn $S \=>^* w$ genau dann, wenn $S \in M_{1,n}$
+ \item Wir können die $M_{ij}$ als eine $(n\x n)$-Matrix $M$ mit Einträgen in $\mathcal{P}(N)$ darstellen.
+ \item Der Wert von $M_{ij}$ hängt nur von $M_{i'j'}$ mit $i'>i, j'\leq j$ oder $i'\geq i,j'<j$ ab.
+ \item $w\in L$ genau dann, wenn $S \=>^* w$ genau dann, wenn $S \in M_{1n}$.
 \end{itemize}
 
 Wir können die $M_{ij}$ wie folgt ermitteln:
 
 $\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$\\
-$M\ n\x n$ Matrix mit $M_{ij}=\varnothing$
+$M\ n\x n$-Matrix mit $M_{ij}=\varnothing$ für alle $i, j$
 \begin{lstlisting}[mathescape,morekeywords={for,do,return},morecomment={[l]{//}}]
   for i=1 .. n do  // $O(|\mathcal{G}|)\cdot O(n)$
     $M_{ii}=\{A \mid A \-> a_i \}$
-  for i=n-1 ..  1 do
+  for i=n-1 .. 1 do
     for j=i+1 .. n do
       for k=i .. j-1 do  // $O(|\mathcal{G}|)\cdot O(n^3)$
-        $M_{ij}=M_{ij}\cup \{ A \mid A \-> BC, B\in M_{ik}, C\in M_{k+1,j} \}$
+        $M_{ij}=M_{ij}\cup \{ A \mid A \-> BC, B\in M_{ik}, C\in M_{(k+1)j} \}$
   return $S\in M_{1n}$
 \end{lstlisting}
+\qedherefixlstlisting
 \end{proof}
 
 
@@ -705,9 +705,9 @@ $M\ n\x n$ Matrix mit $M_{ij}=\varnothing$
 
   Beispiel der Matrix für $w = aaabbbcc$.
   Zellen, die mit "`${\bullet}$"' markiert sind, sind leer.
-  Die Reihenfolge, in der die nicht-diagonalen, nicht leeren Zellen, eingetragen wurden ist mit kleinen Zahlen.
+  Die Reihenfolge, in der die nicht-diagonalen, nicht leeren Zellen eingetragen wurden, ist mit kleinen Zahlen markiert.
   Beispielsweise wurde $M_{35} = \{Z\}$ mit Zahl "`{\scriptsize 3}"' \emph{nach} $M_{78} = \{Y\}$ mit Zahl "`{\scriptsize 1}"' eingetragen.
-  Da $M_{1n} = \{S\}$ gilt $w \in L$.
+  Da $S \in M_{1n} = \{S\}$, gilt $w \in L$.
   \begin{center}
 		\begin{tabular}[t]{M{c}|*8{M{c}|}}
       w = & a & a & a & b & b & b & c & c \\
@@ -728,7 +728,7 @@ $M\ n\x n$ Matrix mit $M_{ij}=\varnothing$
 		\cline{8-9}
 			                              \multicolumn{8}{c|}{}                               & C,Y     \\
 		\cline{9-9}
-		\end{tabular} 
+		\end{tabular}
   \end{center}
 \end{Bsp}
 
