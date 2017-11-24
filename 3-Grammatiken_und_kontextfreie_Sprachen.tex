@@ -77,11 +77,11 @@ Außerdem gilt: $L(\mathcal{G})$ ist die Sprache der Wörter über $\{0,1\}$, di
   \end{displaymath}
   Die Funktion $\#_a(w)$ berechnet hierbei die Anzahl der Vorkommen von $a \in \{0, 1\}$ in $w$.
 
-  Dass $L(\mathcal{G}) \subseteq L$, lässt sich per Induktion über die Länge der Ableitung von $S \stackrel{*}{\vdash}_\mathcal{G} w$ zeigen.
+  Dass $L(\mathcal{G}) \subseteq L$, lässt sich via Induktion über die Länge der Ableitung von $S \stackrel{*}{\vdash}_\mathcal{G} w$ zeigen.
   Der Beweis wird als Übung dem Leser überlassen.
 
   Wir zeigen $L \subseteq L(\mathcal{G})$.
-  Dazu zeigen wir "`Wenn $w \in L$, dann $w \in L(\mathcal{G})$"' per Induktion über die Länge von $w$.
+  Dazu zeigen wir "`Wenn $w \in L$, dann $w \in L(\mathcal{G})$"' via Induktion über die Länge von $w$.
   Hierzu definieren wir noch die Hilfsfunktion $d : \Sigma^* \to \N$:
   \begin{align*}
     d(\Eps) &= 0 \\
@@ -125,7 +125,7 @@ $$\forall n' < n: \forall w \in \Sigma^*: \text{ falls } |w| = n' \text{ und } w
   \bigskip
   \goodbreak
 
-  Da $|w_1| < n$ und $|w_2| < n$, folgt per I.V., dass $S \stackrel{*}{\vdash}_{\mathcal{G}} w_1$ und $S \stackrel{*}{\vdash}_{\mathcal{G}} w_2$.
+  Da $|w_1| < n$ und $|w_2| < n$, folgt nach I.V., dass $S \stackrel{*}{\vdash}_{\mathcal{G}} w_1$ und $S \stackrel{*}{\vdash}_{\mathcal{G}} w_2$.
 
   Es folgt mit den Produktionsregeln $S \vdash_{\mathcal{G}} 0S1S \stackrel{*}{\vdash}_{\mathcal{G}} 0w_11S \stackrel{*}{\vdash}_{\mathcal{G}} 0w_11w_2$.
   \qedhere
@@ -326,7 +326,7 @@ Für die Grammatik aus \autoref{bsp:3.ArithExpr} sind die folgenden drei Beispie
 %     \item $\T_i \in \operatorname{Abl}(\mathcal{G}, A_i)$,
 %     \item $Y(\T) = w_0Y(\T_1)w_1\ldots Y(\T_n)w_n$
 %     \end{itemize}
-%     dann gilt per IV:\footnote{Strengenommen müsste die Folgerung, die hier mit "`\ldots"' abgekürzt ist noch per Induktion über Ableitungen gezeigt werden} 
+%     dann gilt nach IV:\footnote{Strengenommen müsste die Folgerung, die hier mit "`\ldots"' abgekürzt ist noch via Induktion über Ableitungen gezeigt werden} 
 %     \begin{align*}
 %       A &\==> w_0A_1\ldots A_nw_n \\
 %         &\stackrel{*}{\==>} w_0Y(\T_1)\ldots A_nw_n \\
@@ -358,33 +358,33 @@ Für die Grammatik aus \autoref{bsp:3.ArithExpr} sind die folgenden drei Beispie
 
 Die Grammatik aus \autoref{bsp:3.ArithExpr} ist also nicht eindeutig, denn sowohl für den zweiten als auch für den dritten Ableitungsbaum aus \autoref{bsp:Ableitungsbaum} ist das abgeleitete Wort $a+a*a$.
 
+Im Folgenden verwenden wir auch die Abkürzung \acsu{CFG} für "`kontextfreie Grammatik"' (engl.\ context-free grammar).
+
 
 
 \subsection{Die Chomsky-Normalform für kontextfreie Sprachen}
 \datenote{24.11.2017}
 % Notwendig für das Pumping Lemma kontextfreier Sprachen und für einen effizienten Algorithmus für das \nameref{satz:wortproblem}.
-Wir lernen in diesem Unterkapitel eine spezielle Form von kontextfreien Grammatiken (Chomsky-Normalform) kennen für die gilt:
+Wir lernen in diesem Unterkapitel eine spezielle Form von kontextfreien Grammatiken (Chomsky-Normalform) kennen, für die gilt:
 \begin{itemize}
  \item Das Wortproblem ($w\in L(\mathcal{G})$?) lässt sich mit Hilfe eines einfachen Algorithmus entscheiden.
  \item Jede kontextfreie Grammatik lässt sich "`effizient"' in diese Normalform transformieren.
 \end{itemize}
 
-
 \begin{Def}
-  Eine CFG heißt \emph{separiert}, wenn jede Regel eine der folgenden beiden Formen hat.
-  \begin{center}
-  \begin{tabular}{ll}
-   $A\-> A_1\dots A_n$ & \ \ für $A\in N, A_i\in N,n\geq 0$\\[1mm]
-   $A \-> a$ & \ \ für $A\in N, a\in\Sigma$
-  \end{tabular}
-  \end{center}
+  Eine \ac{CFG} heißt \emph{separiert}, wenn jede Regel eine der folgenden beiden Formen hat.
+  \begin{alignat*}{3}
+   A &\-> A_1\dots A_n && \quad \text{für } A\in N, A_i\in N,n\geq 0\\[1mm]
+   A &\-> a && \quad \text{für } A\in N, a\in\Sigma
+  \qedherefixalignat
+  \end{alignat*}
 \end{Def}
 
 \begin{lemma}[\textsc{Sep}]
-  Zu jeder CFG gibt es eine äquivalente separierte CFG.
+  Zu jeder \ac{CFG} gibt es eine äquivalente separierte \ac{CFG}.
 \end{lemma}
 \begin{proof}
-  Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine CFG.
+  Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine \ac{CFG}.
   Konstruiere $\mathcal{G}' = (\Sigma, N', P', S)$ mit
   \begin{itemize}
   \item $N' = N \overset.\cup \{Y_a \mid a \in \Sigma \}$\footnote{"`$\overset.\cup$"' steht für "`disjunkte Vereinigung"'}
@@ -403,7 +403,7 @@ Größe einer Grammatik definiert ist durch
 Das ist genau die Anzahl an Zeichen aus $\Sigma\cup N$, die man benötigt, um die Regeln der Grammatik aufzuschreiben.
 
 \begin{lemma}[\textsc{Bin}]
-  Zu jeder CFG gibt es eine äquivalente CFG, bei der für alle Regeln $A \to \alpha$ gilt, dass $|\alpha| \le 2$.
+  Zu jeder \ac{CFG} gibt es eine äquivalente \ac{CFG}, bei der für alle Regeln $A \to \alpha$ gilt, dass $|\alpha| \le 2$.
 \end{lemma}
 \begin{proof}
   Ersetze jede Regel der Form 
@@ -418,16 +418,16 @@ Das ist genau die Anzahl an Zeichen aus $\Sigma\cup N$, die man benötigt, um di
     \vdots \\
     \langle  X_{n-1}X_n \rangle & \to X_{n-1}X_n
   \end{align*}
-  Dabei sind  $\langle  X_2\ldots X_n \rangle$, \ldots, $\langle  X_{n-1}\ldots X_n \rangle$ neue Nichterminalsymbole.
+  Dabei sind  $\langle  X_2\ldots X_n \rangle$, \ldots, $\langle  X_{n-1}\ldots X_n \rangle$ neue Nichtterminalsymbole.
 \end{proof}
  Der Aufwand von \textsc{Bin} liegt in $O(|\mathcal{G}|)$.
 
  \bigskip
 
 
-Wir definieren die Menge der Nichtterminalsymbole aus denen das leere Wort abgeleitet werden kann formal wie folgt:
+Wir definieren die Menge der Nichtterminalsymbole, aus denen das leere Wort abgeleitet werden kann, formal wie folgt:
 \begin{Def}
-  Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine CFG.
+  Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine \ac{CFG}.
   Definiere die Menge $\operatorname{Nullable}(\mathcal{G}) \subseteq N$ als
   \begin{displaymath}
     \operatorname{Nullable}(\mathcal{G}) = \{ A \in N \mid A
@@ -437,12 +437,12 @@ Wir definieren die Menge der Nichtterminalsymbole aus denen das leere Wort abgel
 \end{Def}
 
 \begin{Satz}
-  Es gibt einen Algorithmus, der $\operatorname{Nullable}(\mathcal{G})$ in $O(|\mathcal{G}|^3)$ ausrechnet.
+  Es gibt einen Algorithmus, der $\operatorname{Nullable}(\mathcal{G})$ in $O(|\mathcal{G}|^3)$ berechnet.
 \end{Satz}
 \begin{proof}
-  Definiere $M_i$ als die Menge der Nichtterminale, aus denen sich
+  Definiere $M_i$ als die Menge der Nichtterminalsymbole, aus denen sich
   $\Eps$ mit einem Ableitungsbaum der Höhe $< i$ ableiten lässt:\footnote{
-  Im Folgenden ist mit $*$ bei $M_i^*$ und $M^*$ der Kleene-Stern gemeint} 
+  Im Folgenden ist mit $*$ bei $M_i^*$ und $M^*$ der Kleene-Stern gemeint.} 
   \begin{align*}
     M_0 &= \emptyset \\
     M_{i+1} &= M_i \cup \{ A \mid A \to \alpha \in P \text{ und }
@@ -457,39 +457,42 @@ Wir definieren die Menge der Nichtterminalsymbole aus denen das leere Wort abgel
 
   Wir zeigen nun, dass $\operatorname{Nullable}(\mathcal{G}) = \bigcup_{i \in \N} M_i$.
 
-  \paragraph{"`$\supseteq$"'} Wir zeigen via Induktion über die Höhe des Ableitungsbaumes $i$, dass 
+  \medskip
+  
+  "`$\supseteq$"'\quad
+  Wir zeigen via Induktion über die Höhe des Ableitungsbaums $i$, dass 
   $$\forall i \in \N: M_i \subseteq \operatorname{Nullable}(\mathcal{G})$$
   \begin{description}
   \item[IA] $i = 0$: $M_0 = \emptyset \subseteq \operatorname{Nullable}(\mathcal{G})$
   \item[IS] $i \rightsquigarrow i+1$
 
-    Wenn $A \in M_{i+1}$, dann ist
+    Wenn $A \in M_{i+1}$, dann
     \begin{itemize}
-    \item entweder
+    \item gilt entweder
       $A \in M_i \subseteq \operatorname{Nullable}(\mathcal{G})$ nach
       IV oder
     \item 
       es existiert $A \to A_1\ldots A_n \in P$ mit $A_j \in M_i$ für
       $1 \le j \le n$.
-      Per IV existieren Ableitungen
+      Nach IV existieren Ableitungen
       \begin{displaymath}
         A_j \stackrel{*}{\vdash} \Eps
       \end{displaymath}
-      denen kann die obige Regel vorangestellt werden, sodass auch
-      eine Ableitung von $A$ nach $\Eps$ existert.
+      sodass auch eine Ableitung von $A$ nach $\Eps$ existiert:
       \begin{displaymath}
         A  \vdash A_1 \ldots A_n \stackrel{*}{\vdash} \underbrace{\Eps \ldots \Eps}_{n \text{ mal}} = \Eps
       \end{displaymath}
-      Also gilt $A \in \operatorname{Nullable}(\mathcal{G})$
+      Also gilt $A \in \operatorname{Nullable}(\mathcal{G})$.
     \end{itemize}
   \end{description}
 
+  \medskip
   
-  \paragraph{"`$\subseteq$"'}
+  "`$\subseteq$"'\quad
   Wenn $A \in \operatorname{Nullable}(\mathcal{G})$, dann existiert $m
   \in \N$, sodass $A \stackrel{*}{\vdash} \Eps$ mit einem
   Ableitungsbaum der Höhe $m$.
-  Wir zeigen per Induktion über $m$, dass $A \in M_{m+1} \subseteq \bigcup_{i \in \N} M_i$.
+  Wir zeigen via Induktion über $m$, dass $A \in M_{m+1} \subseteq \bigcup_{i \in \N} M_i$.
   \begin{description}
   \item[IA] $m = 0$. Die Ableitung ist $A \vdash \Eps$, sodass $A\in M_1$.
   \item[IS] $m > 0$.
@@ -497,8 +500,9 @@ Wir definieren die Menge der Nichtterminalsymbole aus denen das leere Wort abgel
     markiert sein und die Kinder sind jeweils Ableitungsbäume für
     $\Eps$ in  $Abl(\mathcal{G}, A_i)$ der Höhe $m_i \le m-1$, wobei $1 \le i \le n$.
     
-    Es gilt nun per IV, dass $A_i \in M_{m_i} \subseteq M_{m-1}$.
-    Somit ist $A_i \in M_{m-1}$ und damit, per Definition, $A \in M_m$.
+    Es gilt nun nach IV, dass $A_i \in M_{m_i} \subseteq M_{m-1}$.
+    Somit ist $A_i \in M_{m-1}$ und damit, nach Definition, $A \in M_m$.
+    \qedhere
   \end{description}
 \end{proof}
 Aus dem Beweis ergibt sich der folgende Algorithmus zur Berechnung von $\bigcup_{i \in \N} M_i$.
@@ -518,18 +522,18 @@ while (not done):
 return M
 \end{lstlisting}
 \begin{Korollar}
-  Es gibt einen Algorithmus, der zu einer CFG $\mathcal{G}$ berechnet ob $\Eps \in L(\mathcal{G})$.
+  Man kann zu einer \ac{CFG} $\mathcal{G}$ berechnen, ob $\Eps \in L(\mathcal{G})$.
 \end{Korollar}
 \begin{proof}
-  Prüfe ob $S \in \operatorname{Nullable}(\mathcal{G})$
+  Prüfe, ob $S \in \operatorname{Nullable}(\mathcal{G})$.
 \end{proof}
 \begin{lemma}[\textsc{Del}]
-  Zu jeder CFG $\mathcal{G}=(\Sigma, N, P, S)$ gibt es eine äquivalente CFG $\mathcal{G'} =(N', \Sigma, P', S')$, bei der die einzige $\Eps$-Regel $S' \to \Eps$ ist (falls $\Eps \in L(\mathcal{G})$) und bei der $S'$ auf keiner rechten Seite einer Regel vorkommt.
+  Zu jeder \ac{CFG} $\mathcal{G}=(\Sigma, N, P, S)$ gibt es eine äquivalente \ac{CFG} $\mathcal{G'} =(N', \Sigma, P', S')$, bei der die einzige $\Eps$-Regel $S' \to \Eps$ ist (falls $\Eps \in L(\mathcal{G})$) und bei der $S'$ auf keiner rechten Seite einer Regel vorkommt.
 \end{lemma}
 \begin{proof}
   \hfill
   \begin{enumerate}
-  \item Erweitere $\mathcal{G}$ um ein neues Startsymbol $S'$ mit $S' \to S$ als neue Regel.
+  \item Erweitere $\mathcal{G}$ um ein neues Startsymbol $S' \notin N$ mit $S' \to S$ als neue Regel.
     Dieser Schritt stellt sicher, dass $S'$ auf keiner rechten Regelseite vorkommt.
   \item Wende erst \textsc{Sep}, dann \textsc{Bin} an.
     Nun hat jede rechte Regelseite die Form $a \in \Sigma$ oder $\Eps$ oder $A$ oder $BC$.
@@ -538,16 +542,19 @@ return M
     \item Falls $B \in \operatorname{Nullable}(\mathcal{G})$ füge $A \to C$ hinzu.
     \item Falls $C \in \operatorname{Nullable}(\mathcal{G})$ füge $A \to B$ hinzu.
     \end{itemize}
-  \item Falls $S \in \operatorname{Nullable}(\mathcal{G})$ füge $S' \to \Eps$ hinzu
+  \item Falls $S \in \operatorname{Nullable}(\mathcal{G})$, füge $S' \to \Eps$ hinzu
   \item Entferne alle Regeln $A \to \Eps$ für $A \neq S'$.
+  \qedhere
   \end{enumerate}
 \end{proof}
 \begin{Bemerkung}
-\textsc{Del} kann in $O(|\mathcal{G}|^3)$ berechnet werde und die Größe der resultierenden Grammatik ist $O(|\mathcal{G}|)$.
-
-- Höchste Kosten Nullable berechnen.
-
-- Anzahl Regel verdoppelt sich höchstens
+\textsc{Del} kann in $O(|\mathcal{G}|^3)$ berechnet werden und die Größe der resultierenden Grammatik ist $O(|\mathcal{G}|)$.
+\begin{itemize}
+	\item Die höchsten Kosten entstehen beim Berechnen von Nullable.
+	
+	\item In Schritt 3 verdoppelt sich die Anzahl der Regeln höchstens.
+	\qedhere
+\end{itemize}
 \end{Bemerkung}
 
 \begin{Def}
@@ -557,71 +564,77 @@ return M
 
 % \datenote{7.12.16}
 \begin{lemma}[\textsc{Unit}]
-  Zu jeder CFG $\mathcal{G} = (\Sigma, N, P, S)$ gibt es eine äquivalente CFG $\mathcal{G}' = (N, \Sigma, P', S)$ ohne Kettenregeln.
+  Zu jeder \ac{CFG} $\mathcal{G} = (\Sigma, N, P, S)$ gibt es eine äquivalente \ac{CFG} $\mathcal{G}' = (N, \Sigma, P', S)$ ohne Kettenregeln.
 \end{lemma}
 \begin{proof}
   Setze zu Anfang $P' = P$ und eliminiere alle Kettenregeln mit folgendem Algorithmus:
   \begin{enumerate}
-  \item Betrachte den gerichteten Graphen $G$ mit Knoten $N$ und Kanten $\{(A, B) \mid A,B \in N \text{ und } A \to B \in P' \}$ \label{alg:unit-step-dg}.
-  \item Suche, z.B. mittels Tiefensuche, einen Zyklus in $G$ .
-    Wenn kein Zyklus gefunden wurde, weiter mit Schritt \ref{alg:unit-step-dag}.
+  \item Betrachte den gerichteten Graphen $G$ mit Knoten $N$ und Kanten $\{(A, B) \mid A \to B \in P' \}$. \label{alg:unit-step-dg}
+  \item Suche, z.B. mittels Tiefensuche, einen Zyklus in $G$.
+    Wenn kein Zyklus gefunden wurde, fahre mit Schritt \ref{alg:unit-step-dag} fort.
   \item Wurde der Zyklus $A_1 \to A_2 \to \ldots \to A_k \to A_1$ gefunden, dann ersetze in $P'$ alle Vorkommen von $A_j$ mit $j > 1$ durch $A_1$ (auf linker \emph{und} rechter Regelseite).
     Entferne dann alle Regeln der Form $A \to A$.
     Fahre fort mit Schritt \ref{alg:unit-step-dg}.
   \item \label{alg:unit-step-dag}
-    Der Graph $G$ ist ein gerichteter, azyklischer Graph (DAG, \emph{Directed Acyclic Graph}).
+    Der Graph $G$ ist ein \ac{DAG} (engl.\ \emph{directed acyclic graph}).
     Sortiere die Knoten von $G$ topologisch als $A_1, \ldots, A_n$, sodass $A_n$ auf keiner linken Seite einer Kettenregel vorkommt.
-  \item $\mathbf{for}~j = m \ldots 1$
+  \item $\mathbf{for}~j = n, \ldots, 1$ \label{alg:unit-step-chain}
     \begin{itemize}
     \item[] $\mathbf{for}~\mathbf{each}~A_j \to A_k \in P'$
       \begin{itemize}
       \item[] (wegen topologischer Sortierung gilt $k > j$)
       \item[] entferne $A_j \to A_k$ aus $P'$
       \item[] füge $A_j \to BC$ zu $P'$ hinzu, falls $A_k \to BC \in P'$,\quad $B,C \in N$.
-      \item[] füge $A_j \to \mathtt{a}$ zu $P'$ hinzu, falls $A_k \to \mathtt{a} \in P'$,\quad $\mathtt{a} \in \Sigma$.
+      \item[] füge $A_j \to a$ zu $P'$ hinzu, falls $A_k \to a \in P'$,\quad $a \in \Sigma$.
       \end{itemize}
     \end{itemize}
-    Die äußere Schleife hat die Invariante, dass am Ende jedes Durchlaufs für $m \ge i \ge j$ keine Kettenregel $A_i \to \ldots$ in $P'$ existiert.
+    Die äußere Schleife hat die Invariante, dass am Ende jedes Durchlaufs für $n \ge i \ge j$ keine Kettenregel $A_i \to \ldots$ in $P'$ existiert.
     Beim Verlassen der Schleife ist $j = 1$ und es existieren überhaupt keine Kettenregeln mehr.
+    \qedhere
   \end{enumerate}
 \end{proof}
 \begin{Bemerkung}
-\textsc{Unit} kann in $O(|\mathcal{G}|^3)$ berechnet werde und die Größe der resultierenden Grammatik ist $O(|\mathcal{G}|^2)$.
-
-- Innere Schleife in 5 nur ein mal pro Regel.
-
-- höchstens anzahl Regeln neue in innnerer Schleife.
+\textsc{Unit} kann in $O(|\mathcal{G}|^3)$ berechnet werden und die Größe der resultierenden Grammatik ist $O(|\mathcal{G}|^2)$.
+\begin{itemize}
+	\item Die innere Schleife in Schritt~\ref{alg:unit-step-chain} wird nur einmal pro Regel ausgeführt.
+	
+	\item In Schritt~\ref{alg:unit-step-chain} kommen keine neuen Kettenregeln hinzu.
+	
+	\item Es gibt nur höchstens $|P'|$ neue Regeln in der inneren Schleife.
+	\qedhere
+\end{itemize}
 \end{Bemerkung}
 
 
 
 
 \begin{Def}[name={[\acs*{CFG} in \acs*{CNF}]}]
-	Eine CFG $\mathcal{G} = (\Sigma, N, P, S)$ ist in Chomsky Normal Form (CNF), falls jede
+	Eine \ac{CFG} $\mathcal{G} = (\Sigma, N, P, S)$ ist in \ac{CNF}, falls jede
   Regel die Form $A\->a$, $A\->BC$, oder $S \-> \Eps$ hat, wobei $A,B,C\in N$, $a\in\Sigma$.
   Falls $S \to \Eps \in P$, dann darf $S$ auf keiner rechten Seite einer Regel vorkommen.
 \end{Def}
 \begin{Satz}
-Zu jeder CFG exisistiert eine äquivalente CFG in CNF.
+Zu jeder \ac{CFG} existiert eine äquivalente \ac{CFG} in \ac{CNF}.
 \end{Satz}
 
 \begin{proof}
-    Wir erhalten eine äquivalente CFG in CNF indem wir 
+    Wir erhalten eine äquivalente \ac{CFG} in \ac{CNF}, indem wir 
     der Reihe nach \textsc{Sep}, \textsc{Bin}, \textsc{Del} und \textsc{Unit} anwenden.\footnote{Es genügt sogar nur \textsc{Del} und dann \textsc{Unit} anzuwenden, da \textsc{Del} schon \textsc{Sep} und \textsc{Bin} ausführt.}
 \end{proof}
-
-\begin{Beobachtung}
-  Ist $\mathcal{G} = (\Sigma, N, P, S)$ in CNF, dann lassen sich für die Ableitungsbäume $\T \in \operatorname{Abl}(S)$ folgende Eigenschaften feststellen:
-  \begin{enumerate}
-  \item $\T$ ist ein Binärbaum. 
-  \item Falls $Y(\T) = w$ dann ist die Anzahl der Blätter des Baumes $|w|$.		% das gilt doch für alle Grammatiken?!
-  \end{enumerate}
-\end{Beobachtung}
 	
 \begin{Bemerkung} 
-% Sei $|\mathcal{G}|=\sum\limits_{A\->\alpha\in P}(|\alpha|+1)$ die Gr"o"se einer CFG.\\
-Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^3)$. Die Größe der \ac{CNF}-Grammatik ist $O(|\mathcal{G}|^2)$.
+% Sei $|\mathcal{G}|=\sum\limits_{A\->\alpha\in P}(|\alpha|+1)$ die Gr"o"se einer \ac{CFG}.\\
+Die Transformation in \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^3)$. Die Größe der \ac{CNF}-Grammatik ist $O(|\mathcal{G}|^2)$.
 \end{Bemerkung}
+
+\begin{Beobachtung}
+  Ist $\mathcal{G} = (\Sigma, N, P, S)$ in \ac{CNF}, dann lassen sich für die Ableitungsbäume $\T \in \operatorname{Abl}(S)$ folgende Eigenschaften feststellen:
+  \begin{enumerate}
+  \item $\T$ ist ein Binärbaum. 
+  \item Falls $Y(\T) = w$, so ist die Anzahl der Blätter des Baumes $|w|$.
+  \qedhere
+  \end{enumerate}
+\end{Beobachtung}
 
 
 \subsection{Entscheidungsprobleme für kontextfreie Sprachen}
@@ -629,7 +642,7 @@ Die Transformation nach \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^3)$. Die Größ
 	Es gibt einen Algorithmus der das Wortproblem für kontextfreie Sprachen $w\in L(\mathcal{G})$ in $O(n^3)$ Schritte und mit $O(n^2)$ Platz entscheidet.
 \end{Satz}
 
-\begin{proof}[CYK-Algorithmus] Sei $\mathcal{G}$ ein CFG in CNF und sei $w = a_1\dots a_n\in\Sigma^*$.
+\begin{proof}[CYK-Algorithmus] Sei $\mathcal{G}$ ein \ac{CFG} in \ac{CNF} und sei $w = a_1\dots a_n\in\Sigma^*$.
 Der CYK-Algorithmus bereichnet bei Eingabe von $\mathcal{G}$ und $w$, ob $w\in L(\mathcal{G})$.
 
 Idee: Definiere für $1\leq i < j\leq n$
@@ -681,7 +694,7 @@ $M\ n\x n$ Matrix mit $M_{ij}=\varnothing$
 		X &\-> ab \mid aXb\\
 		Y &\-> c \mid cY
 	\end{align*}
-	In CNF:
+	In \ac{CNF}:
 	$\begin{aligned}[t]
 		S &\-> XY\\
 		X &\-> AB \mid AZ\\
@@ -800,7 +813,7 @@ $M\ n\x n$ Matrix mit $M_{ij}=\varnothing$
     $L(\mathcal{G}) = L$. Wähle die Pumping-Konstante $n=2^{|N|}$.
     
      Betrachte den Ableitungsbaum $\mathcal{A} \in \operatorname{Abl}(\mathcal{G}, S)$ von $z$ mit $|z|\geq n$. 
-    \footnote{Intuition: Da $\mathcal{G}$ in CNF, ist Ableitungsbaum $\mathcal{A}$ ein Binärbaum. 
+    \footnote{Intuition: Da $\mathcal{G}$ in \ac{CNF}, ist Ableitungsbaum $\mathcal{A}$ ein Binärbaum. 
         Mit $|N|$ 
     verschiedenen Nichtterminalsymbolen kann man 
     also maximal Wörter der Länge $2^{|N|}$ ableiten, wenn man keine Ableitung doppelt nutzen möchte. 
@@ -849,7 +862,7 @@ $M\ n\x n$ Matrix mit $M_{ij}=\varnothing$
       Nun gilt
       \begin{itemize}
       \item $|vx|\geq 1$, da $\zeta$ entweder durch $B$ oder durch $C$ läuft. Nehme also an, $\zeta$ verläuft durch $B$.
-        Somit muss $C \stackrel{*}{\Longrightarrow} x$. In CNF ist $C \stackrel{*}{\Longrightarrow} \Eps$ nicht möglich und somit ist $|x| \ge 1$.
+        Somit muss $C \stackrel{*}{\Longrightarrow} x$. In \ac{CNF} ist $C \stackrel{*}{\Longrightarrow} \Eps$ nicht möglich und somit ist $|x| \ge 1$.
         Der Fall, das $\zeta$ durch $C$ verläuft, ist analog.
       \item $|vwx| \le 2^{|N|} = n$ TODO
       \end{itemize}
@@ -1039,7 +1052,7 @@ $M\ n\x n$ Matrix mit $M_{ij}=\varnothing$
 \end{Satz}
 
 \begin{proof}
-    Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine CFG für $L$.
+    Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine \ac{CFG} für $L$.
     Gefragt ist, ob $L(\mathcal{G}) = \{ w\in\Sigma^* \mid S\overset{*}{\=>} w \} \overset?= \varnothing
 $. 
     Betrachte dazu die Menge $M$ der nützlichen Nichtterminalsymbole, aus denen ein Terminalwort herleitbar ist.
@@ -1096,7 +1109,7 @@ $.
   Das heißt, für alle $L \in \mathrm{CFL}$ und $R \in \mathrm{REG}$ gilt $L \cap R \in \mathrm{CFL}$.
 \end{Satz}
 \begin{proof}
-  Sei $\mathcal{G} = (\Sigma, N, P, S)$ kontextfreie Grammatik in CNF mit $L(\mathcal{G}) = L$.
+  Sei $\mathcal{G} = (\Sigma, N, P, S)$ kontextfreie Grammatik in \ac{CNF} mit $L(\mathcal{G}) = L$.
 
   Sei $M = (Q, \Sigma, q, \delta, q_0, F)$ NEA mit $L(M) = R$.
 
@@ -1135,11 +1148,11 @@ $.
           Es gilt $w = w_1w_2$ und $\zeta = p\ldots q$ ist Lauf auf $w_1w_2$.
           Es existiert also $q'$ sodass $\zeta = p\ldots q' \ldots q$ und $p\ldots q'$ ist Lauf auf $w_1$ und $q' \ldots q$ ist Lauf auf $w_2$.
 
-          Es folgt per IV, dass
+          Es folgt nach IV, dass
           \begin{displaymath}
             (p, B, q') \stackrel{*}{\Longrightarrow}_{\mathcal{G}'} Y(\mathcal{A}_1) = w_1 \text{ und } (q', C, q) \stackrel{*}{\Longrightarrow}_{\mathcal{G}'} Y(\mathcal{A}_2) = w_2.
           \end{displaymath}
-          Nun ist $(p,A,q) \to (p,B,q')(q',C,q) \in P'$ per Konstruktion, also ist folgende Ableitung möglich:
+          Nun ist $(p,A,q) \to (p,B,q')(q',C,q) \in P'$ nach Konstruktion, also ist folgende Ableitung möglich:
           \begin{displaymath}
             (p,A,q) \Longrightarrow_{\mathcal{G}'} (p,B,q')(q',C,q) \stackrel{*}{\Longrightarrow}_{\mathcal{G}'} w_1(q',C,q) \stackrel{*}{\Longrightarrow}_{\mathcal{G}'} w_1w_2 = w
           \end{displaymath}
