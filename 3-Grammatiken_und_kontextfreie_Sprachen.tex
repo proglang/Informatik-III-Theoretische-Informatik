@@ -16,8 +16,8 @@
 \end{Def}
 
 \begin{Bsp}\label{bsp:3.sameNumber}
-  $\mathcal{G} = (\Sigma, N, P, S)$ mit\footnote{$P$ ist eine ``normale'' binäre Relation, 
-  doch wir verwenden statt ``$(x,y)\in P$'' meist ``$x\-> y$'', also einen Pfeil und Infix-Notation, um die Lesbarkeit zu erhöhen.}
+  $\mathcal{G} = (\Sigma, N, P, S)$ mit\footnote{$P$ ist eine "`normale"' binäre Relation, 
+  doch wir verwenden statt "`$(x,y)\in P$"' meist "`$x\-> y$"', also einen Pfeil und Infix-Notation, um die Lesbarkeit zu erhöhen.}
 	\begin{align*}
 		\Sigma &= \{ 0, 1 \}\\
 		N &= \{S\}\\
@@ -47,7 +47,7 @@
   Jedes solche $\alpha_i$ heißt \emph{Satzform von $\mathcal{G}$}.
 
   Die \emph{Ableitung von $\beta$ aus $\alpha$}, geschrieben $\alpha \stackrel{*}{\vdash}_\mathcal{G} \beta$, existiert gdw ein $n \in \N$ existiert, sodass $\alpha \stackrel{n}{\vdash}_\mathcal{G} \beta$.
-  Damit ist ,,$\stackrel{*}{\vdash}_\mathcal{G}$'' die reflexive, transitive Hülle von ,,$\vdash_\mathcal{G}$''.
+  Damit ist "`$\stackrel{*}{\vdash}_\mathcal{G}$"' die reflexive, transitive Hülle von "`$\vdash_\mathcal{G}$"'.
 
   Ein Wort $w\in\Sigma^*$ wird von $\mathcal{G}$ \emph{erzeugt}, wenn $S \stackrel{*}{\vdash}_{\mathcal{G}} w$ gilt.
 	Die von $\mathcal{G}$ \emph{erzeugte Sprache} ist definiert als:
@@ -177,7 +177,7 @@ Die Chomsky-Hierarchie teilt die Grammatiken in vier Typen unterschiedlicher Mä
 \end{Beobachtung}
 \begin{itemize}
  \item Jede Typ-3-Grammatik ist eine Typ-2-Grammatik.
- \item Wir werden im folgenden Unterkapitel zeigen, dass jede Typ-2-Grammatik in eine äquivalente $\Eps$-freie\footnote{Auf keiner rechten Seite steht $\Eps$; Ausnahme: Startsymbol $S$; vgl.\ Elimination von $\Eps$-Produktionen.} Typ-2-Grammatik transformiert werden kann.
+ \item Wir werden im folgenden Unterkapitel zeigen, dass jede Typ-2-Grammatik in eine äquivalente $\Eps$-freie\footnote{Auf keiner rechten Seite steht $\Eps$; Ausnahme: Startsymbol $S$; vgl. Elimination von $\Eps$-Produktionen.} Typ-2-Grammatik transformiert werden kann.
  Diese erfüllt dann auch alle Bedingungen einer Typ-1-Grammatik.
  \item Jede Typ-1-Grammatik ist auch eine Typ-0-Grammatik.
 \end{itemize}
@@ -195,11 +195,12 @@ Die Sprache aus \autoref{bsp:3.sameNumber} ist kontextfrei. Weitere Beispiele si
 \begin{Bsp}\label{bsp:3.ArithExpr}
 Arithmetische Ausdrücke ohne Klammern: 
 $\mathcal{G}=(\{E\}, \{a, \mathnormal{+}, \mathnormal{*}\}, P, E)$ mit
-\begin{center}
- $P = \{ E \->a \mid E+E \mid E*E\}.$
+\begin{displaymath}
+ P = \{ E \->a \mid E+E \mid E*E\}.
  \footnote{Notation: Wenn wir mehrere Regeln mit gleicher linker Seite wie 
- z.B. ``$A \-> \alpha$'' und ``$A \-> \beta$'' haben, dann dürfen wir diese auch mit Hilfe eines senkrechten Striches als ``$A \-> \alpha\mid\beta$'' schreiben. }
-\end{center}
+ z.B. "`$A \-> \alpha$"' und "`$A \-> \beta$"' haben, dann dürfen wir diese auch mit Hilfe eines senkrechten Striches als "`$A \-> \alpha\mid\beta$"' schreiben.}
+ \qedhere
+\end{displaymath}
 \end{Bsp}
 
 \begin{Bsp}
@@ -207,6 +208,7 @@ Arithmetische Ausdrücke mit Klammern:
 $\mathcal{G}=(\{E\}, \{a, \mathnormal{+}, \mathnormal{*}, \mathnormal{(}, \mathnormal{)}\}, P, E)$ mit
   \begin{displaymath}
     P = \{ E \->a \mid (E+E) \mid (E*E)\}.
+  \qedhere
   \end{displaymath}
 \end{Bsp}
 % 
@@ -214,8 +216,8 @@ $\mathcal{G}=(\{E\}, \{a, \mathnormal{+}, \mathnormal{*}, \mathnormal{(}, \mathn
 % 
 \begin{Bsp}
 Syntax von Programmiersprachen. 
-Wir zeigen hier nur exemplarisch Produktionen für einige typische Bestandteile einer Programmiersprache.~\footnote{
-Sie finden am Ende der Java Language Specification \url{https://docs.oracle.com/javase/specs/} auf ca. 25 Seiten die kontextfreie Grammatik für diese Programmiersprache.
+Wir zeigen hier nur exemplarisch Produktionen für einige typische Bestandteile einer Programmiersprache.\footnote{
+Sie finden am Ende der Java Language Specification \url{https://docs.oracle.com/javase/specs/} auf ca.\ 25 Seiten die kontextfreie Grammatik für diese Programmiersprache.
 }
 Wörter in spitzen Klammern sind hier Nichtterminalsymbole.
 Terminalsymbole sind grau unterlegt.
@@ -225,6 +227,7 @@ Terminalsymbole sind grau unterlegt.
 			|\, & <Stmt>\,\boxedt{;}\,<Stmt>\\
 			|\, & \boxedt{if}\,\boxedt{(}<Exp>\boxedt{)} <Stmt> \boxedt{else} <Stmt>\\
 			|\, & \boxedt{while}\,\boxedt{(}<Exp>\boxedt{)} <Stmt>
+		\qedhere
 		\end{tabular}
 	\end{center}
 \end{Bsp}
@@ -243,33 +246,33 @@ Für den arithmetischen Ausdruck ohne Klammern $a+a$ gibt es in der Grammatik au
  \item $E\vdash_\mathcal{G} E+E\vdash_\mathcal{G} a+E\vdash_\mathcal{G} a+a$
  \item $E\vdash_\mathcal{G} E+E\vdash_\mathcal{G} E+a\vdash_\mathcal{G} a+a$
 \end{itemize}
-Beide Ableitungen unterscheiden sich nur durch die Reihenfolge in der Variablen ersetzt werden.
-Die folgende Definition erlaubt uns beide Ableitungen durch das gleiche Objekt,
+Beide Ableitungen unterscheiden sich nur durch die Reihenfolge, in der Variablen ersetzt werden.
+Die folgende Definition erlaubt es uns, beide Ableitungen durch das gleiche Objekt,
 den sogenannten Ableitungsbaum, darzustellen.
 
 
 \newcommand{\T}{\mathcal{T}}
 
 \begin{Def}[name={[Ableitungsbaum]}] Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine kontextfreie Grammatik.
-  Wir definieren die Menge der \emph{in $A$ beginnenden Ableitungsbäume von $\mathcal{G}$}, $\operatorname{Abl(A)}$, für $A\in N$ als Menge von beschrifteten, geordneten Bäumen induktiv durch:
+  Wir definieren die Menge der \emph{in $A$ beginnenden Ableitungsbäume von $\mathcal{G}$}, $\operatorname{Abl}(A)$, für $A\in N$ als Menge von beschrifteten, geordneten Bäumen induktiv durch:
   \begin{itemize}
-  \item[] Falls $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$ mit $A_i \in N$, $w_i \in \Sigma^*$, $0 \le i \le n$ und $\T_i \in \operatorname{Abl}(A_i)$ dann ist
+  \item[] Falls $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$ mit $A_i \in N$, $w_0, w_i \in \Sigma^*$, $1 \le i \le n$ und $\T_i \in \operatorname{Abl}(A_i)$, dann ist
     \begin{center}
 			\tikz[baseline=0cm]{\Tree [.$\pi$ $\T_1$ \edge[draw=none]; {$\dots$} $\T_n$ ]} $\in \operatorname{Abl}(A)$
     \end{center}
-    Da es manchmal schwierig ist Bäume zu zeichnen verwenden wir alternativ die folgende Notation: $\pi(\T_1, \ldots, \T_n)$
+    Da es manchmal aufwendig ist, Bäume zu zeichnen, verwenden wir alternativ die folgende Notation: $\pi(\T_1, \ldots, \T_n)$
 
   \end{itemize}
-    Das \emph{abgeleitete Wort zu einem $\T \in \operatorname{Abl}(A)$}, $Y(\T)$\footnote{Wir verwenden $Y(\T)$ um an das englische Wort ,,yield'' zu erinnern.}, ist definiert durch
+    Das \emph{abgeleitete Wort zu einem $\T \in \operatorname{Abl}(A)$}, $Y(\T)$\footnote{Wir verwenden $Y(\T)$, um an das englische Wort "`yield"' zu erinnern.}, ist definiert durch
     \begin{displaymath}
-      Y\left(\tikz[baseline=-0.4cm]{\Tree [.$\pi$ $\T_1$ \edge[draw=none]; {$\dots$} $\T_n$ ]} \right) = w_)Y(\T_1)w_1\ldots Y(\T_n)w_n
+      Y\left(\tikz[baseline=-0.4cm]{\Tree [.$\pi$ $\T_1$ \edge[draw=none]; {$\dots$} $\T_n$ ]} \right) = w_0Y(\T_1)w_1\ldots Y(\T_n)w_n
     \end{displaymath}
-    wobei $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$ \qedhere
+    wobei $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$.
 \end{Def}
 
 
 \begin{Bsp}\label{bsp:Ableitungsbaum} 
-Für die Grammatik aus \autoref{bsp:3.ArithExpr} sind das folgende drei Beispiele für in E beginnende Ableitungsbäume.
+Für die Grammatik aus \autoref{bsp:3.ArithExpr} sind die folgenden drei Beispiele in $E$ beginnende Ableitungsbäume.
 
     \tikz[baseline=0cm]{\Tree [ .$E\to a$ ]}
     \hfill
@@ -282,6 +285,7 @@ Für die Grammatik aus \autoref{bsp:3.ArithExpr} sind das folgende drei Beispiel
   Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine kontextfreie Grammatik.
   \begin{displaymath}
     w \in L(\mathcal{G})  \quad\text{ gdw }\quad \exists \;\T \in \operatorname{Abl}(S) \text{ mit } Y(\T) = w
+    \qedhere
   \end{displaymath}
 \end{lemma}
 (Ohne Beweis.)
@@ -307,7 +311,7 @@ Für die Grammatik aus \autoref{bsp:3.ArithExpr} sind das folgende drei Beispiel
 %    \end{description}
 % \end{proof}
 % 
-% \begin{proof}[,,rechts nach links'']
+% \begin{proof}["`rechts nach links"']
 %   Zu zeigen:
 %   \begin{displaymath}
 %     \forall n \in \N: \forall \T \in \operatorname{Abl}(\mathcal{G}, A): \text{falls } Y(\T) = w \text{ dann } A \stackrel{*}{\==>} w
@@ -322,7 +326,7 @@ Für die Grammatik aus \autoref{bsp:3.ArithExpr} sind das folgende drei Beispiel
 %     \item $\T_i \in \operatorname{Abl}(\mathcal{G}, A_i)$,
 %     \item $Y(\T) = w_0Y(\T_1)w_1\ldots Y(\T_n)w_n$
 %     \end{itemize}
-%     dann gilt per IV:\footnote{Strengenommen müsste die Folgerung, die hier mit ,,\ldots'' abgekürzt ist noch per Induktion über Ableitungen gezeigt werden} 
+%     dann gilt per IV:\footnote{Strengenommen müsste die Folgerung, die hier mit "`\ldots"' abgekürzt ist noch per Induktion über Ableitungen gezeigt werden} 
 %     \begin{align*}
 %       A &\==> w_0A_1\ldots A_nw_n \\
 %         &\stackrel{*}{\==>} w_0Y(\T_1)\ldots A_nw_n \\
@@ -338,7 +342,8 @@ Für die Grammatik aus \autoref{bsp:3.ArithExpr} sind das folgende drei Beispiel
 	\begin{itemize}
 % 	\item Sei CFG die Menge der kontextfreien Grammatiken.
   \item Eine Grammatik $\mathcal{G}$ heißt \emph{eindeutig}, falls es für jedes Wort $\in L(\mathcal{G})$ genau einen Ableitungsbaum gibt.
-	\item Eine kontextfreie Sprache $L$ heißt \emph{eindeutig}, falls eine eindeutige kontextfreie Grammatik gibt, die $L$ erzeugt. \qedhere
+	\item Eine kontextfreie Sprache $L$ heißt \emph{eindeutig}, falls es eine eindeutige kontextfreie Grammatik gibt, die $L$ erzeugt.
+	\qedhere
 	\end{itemize}
 \end{Def}
 % \begin{Bsp}
@@ -351,17 +356,17 @@ Für die Grammatik aus \autoref{bsp:3.ArithExpr} sind das folgende drei Beispiel
 % 	Werte der Form $a^nb^nc^n$ haben zwei Ableitungen $\curvearrowright$ Grammatik ist nicht eindeutig.
 % \end{Bsp}
 
-Die Grammatik aus \autoref{bsp:3.ArithExpr} ist also nicht eindeutig, denn sowohl für den zweiten als auch für den dritte Ableitungsbaum aus \autoref{bsp:Ableitungsbaum} ist das abgeleitete Wort $a+a*a$.
+Die Grammatik aus \autoref{bsp:3.ArithExpr} ist also nicht eindeutig, denn sowohl für den zweiten als auch für den dritten Ableitungsbaum aus \autoref{bsp:Ableitungsbaum} ist das abgeleitete Wort $a+a*a$.
 
 
 
-\subsection{Die Chomsky Normalform für kontextfreie Sprachen}
+\subsection{Die Chomsky-Normalform für kontextfreie Sprachen}
 \datenote{24.11.2017}
 % Notwendig für das Pumping Lemma kontextfreier Sprachen und für einen effizienten Algorithmus für das \nameref{satz:wortproblem}.
-Wir lernen in diesem Unterkapitel eine spezielle Form von kontextfreien Grammatiken (Chomsky Normalform) kennen für die gilt:
+Wir lernen in diesem Unterkapitel eine spezielle Form von kontextfreien Grammatiken (Chomsky-Normalform) kennen für die gilt:
 \begin{itemize}
  \item Das Wortproblem ($w\in L(\mathcal{G})$?) lässt sich mit Hilfe eines einfachen Algorithmus entscheiden.
- \item Jede kontextfreie Grammatik lässt sich ``effizient'' in diese Normalform transformieren.
+ \item Jede kontextfreie Grammatik lässt sich "`effizient"' in diese Normalform transformieren.
 \end{itemize}
 
 
@@ -382,7 +387,7 @@ Wir lernen in diesem Unterkapitel eine spezielle Form von kontextfreien Grammati
   Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine CFG.
   Konstruiere $\mathcal{G}' = (\Sigma, N', P', S)$ mit
   \begin{itemize}
-  \item $N' = N \overset.\cup \{Y_a \mid a \in \Sigma \}$\footnote{``$\overset.\cup$'' steht für ,,disjunkte Vereinigung''}
+  \item $N' = N \overset.\cup \{Y_a \mid a \in \Sigma \}$\footnote{"`$\overset.\cup$"' steht für "`disjunkte Vereinigung"'}
   \item $P' = \{Y_a \to a \mid a \in \Sigma \} \cup \{A \to \beta[a \to Y_a] \mid A \to \beta \in P \}$.
   
     Die Schreibweise $\beta[a\to Y_a]$ bedeutet hier, dass alle $a \in \Sigma$, die in $\beta$ vorkommen, durch $Y_a$ ersetzt werden.
@@ -452,7 +457,7 @@ Wir definieren die Menge der Nichtterminalsymbole aus denen das leere Wort abgel
 
   Wir zeigen nun, dass $\operatorname{Nullable}(\mathcal{G}) = \bigcup_{i \in \N} M_i$.
 
-  \paragraph{,,$\supseteq$''} Wir zeigen via Induktion über die Höhe des Ableitungsbaumes $i$, dass 
+  \paragraph{"`$\supseteq$"'} Wir zeigen via Induktion über die Höhe des Ableitungsbaumes $i$, dass 
   $$\forall i \in \N: M_i \subseteq \operatorname{Nullable}(\mathcal{G})$$
   \begin{description}
   \item[IA] $i = 0$: $M_0 = \emptyset \subseteq \operatorname{Nullable}(\mathcal{G})$
@@ -480,7 +485,7 @@ Wir definieren die Menge der Nichtterminalsymbole aus denen das leere Wort abgel
   \end{description}
 
   
-  \paragraph{,,$\subseteq$''}
+  \paragraph{"`$\subseteq$"'}
   Wenn $A \in \operatorname{Nullable}(\mathcal{G})$, dann existiert $m
   \in \N$, sodass $A \stackrel{*}{\vdash} \Eps$ mit einem
   Ableitungsbaum der Höhe $m$.
@@ -686,9 +691,9 @@ $M\ n\x n$ Matrix mit $M_{ij}=\varnothing$
 	\end{aligned}$
 
   Beispiel der Matrix für $w = aaabbbcc$.
-  Zellen, die mit ,,${\bullet}$'' markiert sind, sind leer.
+  Zellen, die mit "`${\bullet}$"' markiert sind, sind leer.
   Die Reihenfolge, in der die nicht-diagonalen, nicht leeren Zellen, eingetragen wurden ist mit kleinen Zahlen.
-  Beispielsweise wurde $M_{35} = \{Z\}$ mit Zahl ,,{\scriptsize 3}'' \emph{nach} $M_{78} = \{Y\}$ mit Zahl ,,{\scriptsize 1}'' eingetragen.
+  Beispielsweise wurde $M_{35} = \{Z\}$ mit Zahl "`{\scriptsize 3}"' \emph{nach} $M_{78} = \{Y\}$ mit Zahl "`{\scriptsize 1}"' eingetragen.
   Da $M_{1n} = \{S\}$ gilt $w \in L$.
   \begin{center}
 		\begin{tabular}[t]{M{c}|*8{M{c}|}}
@@ -1087,7 +1092,7 @@ $.
 
 \datenote{14.12.16}
 \begin{Satz} % 4.8
-	Die Menge \ac{CFL} ist abgeschlossen unter ,,$\cap$ mit regulären Sprachen REG''.
+	Die Menge \ac{CFL} ist abgeschlossen unter "`$\cap$ mit regulären Sprachen REG"'.
   Das heißt, für alle $L \in \mathrm{CFL}$ und $R \in \mathrm{REG}$ gilt $L \cap R \in \mathrm{CFL}$.
 \end{Satz}
 \begin{proof}
@@ -1114,8 +1119,8 @@ $.
     \text{ gdw } & A \stackrel{*}{\Longrightarrow}_{\mathcal{G}} w \text{ und es existiert ein Lauf } p\ldots q \text{ von $M$ auf $w$}
   \end{align*}
   \begin{itemize}
-  \item Richtung ,,links nach rechts'': (siehe Übung)
-  \item Richtung ,,rechts nach links'':
+  \item Richtung "`links nach rechts"': (siehe Übung)
+  \item Richtung "`rechts nach links"':
 
     Per Induktion über den Ableitungsbaum $\mathcal{A} = \pi(\mathcal{A}_1,\ldots,\mathcal{A}_n) \in \operatorname{Abl}(\mathcal{G}, A)$ mit $Y(\mathcal{A}) = w$.
     \begin{description}
