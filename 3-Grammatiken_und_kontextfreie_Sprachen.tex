@@ -372,7 +372,7 @@ Wir lernen in diesem Unterkapitel eine spezielle Form von kontextfreien Grammati
 \end{itemize}
 
 Wir stellen im Folgenden vier Transformationen (\textsc{Sep, Bin, Del, Unit}) 
-vor und wollen dabei jeweils den Zeitaufwand und die Größe der resultierenden GFG analysieren.
+vor und wollen dabei jeweils den Zeitaufwand und die Größe der resultierenden \ac{CFG} analysieren.
 
 Dafür definieren wir die Größe einer Grammatik wie folgt.
 \begin{displaymath}
@@ -404,11 +404,12 @@ Die Größe ist also genau die Anzahl an Zeichen aus $\Sigma\cup N$, die man ben
   Offenbar gilt $L(\mathcal{G}) = L(\mathcal{G'})$ und $\mathcal{G}'$ ist separiert (ohne Beweis).
 \end{proof}
 \begin{Bemerkung}
-\textsc{Sep} kann in $O(|\mathcal{G}|^2)$ berechnet werden und die Größe der resultierenden Grammatik ist $O(|\mathcal{G}|)$.
+\textsc{Sep} berechnet in $O(|\mathcal{G}|^2)$ eine Grammatik der Größe $O(|\mathcal{G}|)$.
 \begin{itemize}
-	\item Laufe für jedes Terminal einmal über alle Regeln.
+	\item Laufe für jedes Terminalsymbol einmal über alle Regeln.
 	
-	\item Für jedes Nichtterminal bekommen wir eine Regel der Größe 2 zusätzlich
+	\item Für jedes neue Nichtterminalsymbol fügen wir eine Regel der Größe 2 hinzu.
+	\qedhere
 \end{itemize}
 \end{Bemerkung}
 
@@ -433,11 +434,12 @@ Die Größe ist also genau die Anzahl an Zeichen aus $\Sigma\cup N$, die man ben
   Dabei sind  $\langle  X_2\ldots X_n \rangle$, \ldots, $\langle  X_{n-1}\ldots X_n \rangle$ neue Nichtterminalsymbole.
 \end{proof}
 \begin{Bemerkung}
-\textsc{Bin} kann in $O(|\mathcal{G}|)$ berechnet werden und die Größe der resultierenden Grammatik ist $O(|\mathcal{G}|)$.
+\textsc{Bin} berechnet in $O(|\mathcal{G}|)$ eine Grammatik der Größe $O(|\mathcal{G}|)$.
 \begin{itemize}
 	\item Laufe einmal über alle Regeln.
 	
-	\item Für jede Regel der Größe $n+1$, $n\geq 3$ fügen wir $n-1$ neue Regeln der Größe 3 hinzu.
+	\item Für jede Regel der Größe $n+1$, $n\geq 3$ fügen wir höchstens $n-1$ neue Regeln der Größe 3 hinzu.
+	\qedhere
 \end{itemize}
 \end{Bemerkung}
 
@@ -532,7 +534,7 @@ return M
   Wir zeigen via Induktion über $m$, dass $A \in M_{m+1} \subseteq \bigcup_{i \in \N} M_i$.
   \begin{description}
   \item[IA] $m = 1$. Die Ableitung ist $A \vdash \Eps$, sodass $A\in M_1$.
-  \item[IS] $m > 0$.
+  \item[IS] $m > 1$.
     Die Wurzel des Ableitungsbaum muss mit $A \to A_1\ldots A_n$ ($n>0$)
     beschriftet sein und die Kinder sind jeweils Ableitungsbäume für
     $\Eps$ in  $Abl(A_i)$ der Höhe $m_i \le m-1$, wobei $1 \le i \le n$.
@@ -651,10 +653,11 @@ Die Transformation in \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^3)$. Die Größe 
 \end{Bemerkung}
 
 \begin{lemma}
- Die Menge der Typ-2 Sprachen ist eine Teilmenge der Typ-1 Sprachen.
+ Die Menge der Typ-2-Sprachen ist eine Teilmenge der Typ-1-Sprachen.
 \end{lemma}
 \begin{proof}
- Zu jeder Typ-2 Grammatik existiert eine äquivalente $\Eps$-freie Typ-2 Gammatik
+ Zu jeder Typ-2-Grammatik existiert eine äquivalente $\Eps$-freie Typ-2-Grammatik.
+ Diese ist nach Definition auch eine Typ-1-Grammatik.
 \end{proof}
 
 
@@ -769,8 +772,8 @@ $M\ n\x n$-Matrix mit $M_{ij}=\varnothing$ für alle $i, j$
 
 
 
-\begin{Satz}[name={[Typ-3 Sprache ist regulär]}]
-	$L$ ist regulär \<=> $L$ ist Type-3 Sprache
+\begin{Satz}[name={[Typ-3-Sprache ist regulär]}]
+	$L$ ist regulär \<=> $L$ ist Typ-3 Sprache
 \end{Satz}
 \begin{proof}
 	\begin{description}[font=\normalfont,labelwidth=\widthof{"'\=>"':},leftmargin=!]
@@ -781,9 +784,9 @@ $M\ n\x n$-Matrix mit $M_{ij}=\varnothing$ für alle $i, j$
 		 S &= \qinit\\
 		 P &= \{ q\rightarrow aq'\mid q,q'\in Q, a\in\Sigma, \delta(q,a)=q'\}\cup \{ q\rightarrow\Eps\mid q\in F\}
 		\end{align*}
-		zeige $L(\mathcal{G})=L(\A)$.
-	\item["`\<="'] Sei $\mathcal{G}=(\Sigma,N,P,S)$ Typ-3 Grammatik.
-	Dann erhalten wir durch anwenden von \textsc{Bin} eine äquivalente Grammatik in der jede Regel eine der folgenden Formen hat
+		Zeige $L(\mathcal{G})=L(\A)$.
+	\item["`\<="'] Sei $\mathcal{G}=(\Sigma,N,P,S)$ Typ-3-Grammatik.
+	Dann erhalten wir durch Anwenden von \textsc{Bin} eine äquivalente Grammatik, in der jede Regel eine der folgenden Formen hat:
 	
 	
 	
@@ -816,7 +819,7 @@ $M\ n\x n$-Matrix mit $M_{ij}=\varnothing$ für alle $i, j$
 \begin{proof}
 	Betrachte $L=\{a^nb^n \mid n\in\N \}$\\
 	Bekannt, dass $L$ nicht regulär. 
-	Aber es gibt eine Typ-2 Grammatik für $L$:
+	Aber es gibt eine Typ-2-Grammatik für $L$:
 	\[ \mathcal{G} = (\{S\}, \{a,b\}, \{S\->\Eps, S\->aSb \}, S) \]
 	Korrektheitsbeweis $L=L(\mathcal{G})$ ist dem Leser zur Übung selbst überlassen.
 \end{proof}
