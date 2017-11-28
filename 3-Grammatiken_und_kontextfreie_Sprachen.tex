@@ -675,7 +675,7 @@ Die Transformation in \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^3)$. Die Größe 
 
 
 
-\subsection{Entscheidungsprobleme für kontextfreie Sprachen}
+\subsection{Wortproblem für kontextfreie Sprachen}
 \begin{Satz}[name={[Wortproblem für \acs*{CFL} entscheidbar]}]
 	Es gibt einen Algorithmus, der für kontextfreie Sprachen~$L$ das Wortproblem "`$w\in L$"' in $O(n^3)$ Schritten und mit $O(n^2)$ Speicherplatz entscheidet.
 \end{Satz}
@@ -771,7 +771,7 @@ $M\ n\x n$-Matrix mit $M_{ij}=\varnothing$ für alle $i, j$
 \end{Bsp}
 
 
-
+\subsection{Einschub: Typ-3-Sprachen}
 \begin{Satz}[name={[Typ-3-Sprache ist regulär]}]
 	$L$ ist regulär \<=> $L$ ist Typ-3 Sprache
 \end{Satz}
@@ -787,41 +787,43 @@ $M\ n\x n$-Matrix mit $M_{ij}=\varnothing$ für alle $i, j$
 		Zeige $L(\mathcal{G})=L(\A)$.
 	\item["`\<="'] Sei $\mathcal{G}=(\Sigma,N,P,S)$ Typ-3-Grammatik.
 	Dann erhalten wir durch Anwenden von \textsc{Bin} eine äquivalente Grammatik, in der jede Regel eine der folgenden Formen hat:
-	
-	
-	
-	Def. $\A=(Q,\Sigma,\delta,q_0,F)$ \ac{NFA}
+	  \begin{alignat*}{3}
+	 A &\-> \Eps && \quad \text{für } A\in N\\[0.5mm]
+   A &\-> a && \quad \text{für } A\in N, a\in\Sigma\\[0.5mm]
+   A &\-> a_1a_2 && \quad \text{für } A\in N, a_1,a_2\in\Sigma\\[0.5mm]
+   A &\-> aB && \quad \text{für } A\in N, a\in\Sigma, B\in N
+  \end{alignat*}
+  Wir machen nun die folgenden Modifikationen.
+  \begin{itemize}
+   \item Wir fügen nun eine frische Variable $Y_{\Eps}$ und die Regel $Y_{\Eps}\rightarrow\Eps$ hinzu.
+   \item Wir löschen jede Regel der zweiten Form und führen statt dessen die Regel $A \-> aY_{\Eps}$ ein.
+  \item wir löschen jede Regel der dritten Form und führen statt dessen die Variable $Y_{a_2}$ und die Regeln $A \-> a_1Y_{a_2}$ und $Y_{a_2} \-> a_2Y_\Eps$ ein.
+  \end{itemize}
+	Die resultierenden Grammatik $\mathcal{G}=(\Sigma,N',P',S)$ ist äquivalent zu $\mathcal{G}$. (Ohne Beweis)
+
+	Wir konstruieren nun den folgenden NEA. $\calN=(\Sigma,Q,\delta,\qinit,F)$
 	\begin{alignat*}{2}
-		Q &=N\\
-		q_0 &=S\\
-		A &\->aB\in P & \delta(A,a)&\ni B\\
-		A &\->a,\dots a_n &\qquad n=0\=>A &\in F\\
-		&\mathclap{\tikz[shorten >=1pt,on grid,node distance=1.5cm, every state/.style={minimum size=0pt,inner sep=0pt}]{
-			\node[state,inner sep=3pt] (q0) {$A$};
-			\node [above=0pt of q0.north] {$n>0$: $n$ weitere Zust"ande erforderlich, letzter Endzustand};
-			\node[state] (q1) [right=of q0] {};
-			\node (dots) [right=of q1] {\dots};
-			\node[state,accepting] (qa) [right=of dots] {};
-			\path[-stealth] (q0) edge node[auto] {$a_1$} (q1)
-				(q1)   edge node[auto] {$a_2$} (dots)
-				(dots) edge node[auto] {$a_n$} (qa);
-		}}\\
-		\text{Zeige noch }\quad
-		L(\mathcal{G})&=L(\A) \tag*{\qedhere}
+		Q &=N'\\
+		B\in\delta(A,a) & \text{ \  gdw \ } A\rightarrow aB \in P'\\
+		\qinit &=S\\
+		F &= \{ A\in N'\mid A\rightarrow\Eps\in P'\}\\
 	\end{alignat*}
+		Es gilt $L(\mathcal{G})=L(\A)$. (ohne Beweis) \qedhere
+
 	\end{description}
 \end{proof}
 
 
 \begin{lemma}
-	$\mathcal{L}_3 \subsetneq \mathcal{L}_2$
+	$\mathcal{M}_3 \subsetneq \mathcal{M}_2$ (D.h., die regulären Sprachen sind eine \emph{echte} Teilmenge der kontextfreien Sprachen)
 \end{lemma}
 \begin{proof}
-	Betrachte $L=\{a^nb^n \mid n\in\N \}$\\
-	Bekannt, dass $L$ nicht regulär. 
-	Aber es gibt eine Typ-2-Grammatik für $L$:
-	\[ \mathcal{G} = (\{S\}, \{a,b\}, \{S\->\Eps, S\->aSb \}, S) \]
-	Korrektheitsbeweis $L=L(\mathcal{G})$ ist dem Leser zur Übung selbst überlassen.
+	Betrachte $L_\text{centered}=\{0^n10^n \mid n\in\N \}\subseteq\{0,1\}^*$\\
+	Sowohl aus \autoref{bsp:2.centeredMyhillNerode} als auch aus \autoref{bsp:2.centeredPL} ist bekannt, 
+	dass $L_\text{centered}$ nicht regulär ist.
+	Es gibt aber eine Typ-2-Grammatik für $L_\text{centered}$:
+	\[ \mathcal{G} = (\{0,1\}, \{S\}, \{S\->1, S\->0S0 \}, S) \]
+	(ohne Beweis).
 \end{proof}
 
 
