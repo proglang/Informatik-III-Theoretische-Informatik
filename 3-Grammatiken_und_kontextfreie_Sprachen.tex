@@ -662,20 +662,20 @@ Die Transformation in \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^3)$. Die Größe 
 
 
 
-\begin{Beobachtung}
-  Ist $\mathcal{G} = (\Sigma, N, P, S)$ in \ac{CNF}, dann lassen sich für die Ableitungsbäume $\T \in \operatorname{Abl}(S)$ folgende Eigenschaften feststellen:
-  \begin{enumerate}
-  \item $\T$ ist ein Binärbaum. 
-  \item Falls $Y(\T) = w$, so ist die Anzahl der Blätter des Baumes $|w|$.
-  \qedhere
-  \end{enumerate}
-\end{Beobachtung}
+% \begin{Beobachtung}
+%   Ist $\mathcal{G} = (\Sigma, N, P, S)$ in \ac{CNF}, dann lassen sich für die Ableitungsbäume $\T \in \operatorname{Abl}(S)$ folgende Eigenschaften feststellen:
+%   \begin{enumerate}
+%   \item $\T$ ist ein Binärbaum. 
+%   \item Falls $Y(\T) = w$, so ist die Anzahl der Blätter des Baumes $|w|$.
+%   \qedhere
+%   \end{enumerate}
+% \end{Beobachtung}
 
 
 
 
 
-\subsection{Entscheidbarkeitsfragen für kontextfreie Sprachen}
+\subsection{Worproblem und Leerheitsproblem für kontextfreie Sprachen}
 \begin{Satz}[name={[Wortproblem für \acs*{CFL} entscheidbar]}]
 	Es gibt einen Algorithmus, der für eine beliebige kontextfreie Sprache~$L$ das Wortproblem "`$w\in L$"' in $O(n^3)$ Schritten und mit $O(n^2)$ Speicherplatz entscheidet.
 \end{Satz}
@@ -684,6 +684,7 @@ Die Transformation in \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^3)$. Die Größe 
 Der \ac{CYK}-Algorithmus berechnet bei Eingabe von $\mathcal{G}$ und $w$, ob $w\in L(\mathcal{G})$.
 
 Idee: Definiere für $1\leq i < j\leq n$:
+$$M_{ij} = \{ A \in N \mid A \stackrel{*}{\vdash} a_i\dots a_j \}$$
 	\begin{align*}
 	\intertext{Es gilt für $i=j$}
 		M_{ii} &= \{A \mid A\-> a_i \} \\
@@ -708,11 +709,14 @@ Es gilt:
  \item $w\in L$ genau dann, wenn $S \=>^* w$ genau dann, wenn $S \in M_{1n}$.
 \end{itemize}
 
-Wir können die $M_{ij}$ wie folgt ermitteln:
+\medskip
 
+Wir können die $M_{ij}$ mit dem folgenden Verfahren ermitteln:
+  \begin{center}
 $\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$
+  \begin{minipage}{12cm}
 \begin{lstlisting}[mathescape,morekeywords={for,do,return},morecomment={[l]{//}}]
-  $M=n\x n\text{-Matrix mit } M_{ij}=\varnothing \text{ für alle } i, j$  // $O(n^2)$
+  $M=n\x n\text{-Matrix mit (initial) } M_{ij}=\varnothing \text{ für alle } i, j$  // $O(n^2)$
   for i=1 .. n do  // $O(|\mathcal{G}|)\cdot O(n)$
     $M_{ii}=\{A \mid A \-> a_i \}$
   for i=n-1 .. 1 do
@@ -722,6 +726,8 @@ $\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$
   return $S\in M_{1n}$
 \end{lstlisting}
 \qedherefixlstlisting
+\end{minipage}
+   \end{center}
 \end{proof}
 
 
@@ -781,32 +787,38 @@ $.} für kontextfreie Sprachen ist entscheidbar.
 
 \begin{proof}
     Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine \ac{CFG} für $L$.
-    Wir definieren:
+    Wir definieren die Menge $M$ der co-erreichbaren Nichtterminalsymbole.
+    
+    $$M = \{ A \mid A \stackrel{*}{\vdash}_\mathcal{G} w, w\in \Sigma^* \}$$
+   
+    Offensichtlich gilt: $L =\varnothing \<=> S\notin $
+    
+    Wir können $M$ induktiv berechnen.
+	\begin{align*}
+		M_0 &= \{ A \mid A \-> w\in P, w\in \Sigma^* \}\\
+		M_{i+1} &= M_i\cup \{ A \mid A \-> \alpha\in P, \alpha\in(\Sigma\cup M_i)^* \}\\
+	\end{align*}
+    
+    
     Ein Symbol $X \in \Sigma \cup N$ heißt \emph{co-erreichbar}, wenn ein $w \in \Sigma^*$ existiert mit $X \stackrel{*}{\vdash}_\mathcal{G} w$.
      
     Betrachte nun die Menge $M$ der co-erreichbaren Nichtterminalsymbole.
-	\begin{align*}
-		M &= \{ A \mid A \stackrel{*}{\vdash}_\mathcal{G} w, w\in \Sigma^* \}\\
-		M_0 &= \{ A \mid A \-> w\in P, w\in \Sigma^* \}\\
-		M_{i+1} &= M_i\cup \{ A \mid A \-> \alpha\in P, \alpha\in(\Sigma\cup M_i)^* \}\\
-		\exists n : M_n &= M_{n+1} \overset!= M\\
-		L =\varnothing &\<=> S\notin M \qedhere
-	\end{align*}
 	Offenbar ist $M_0 \subseteq M$ eine Approximation von $M$, $M \supseteq M_{i+1} \supseteq M_i$ verbessert $M_i$ und das jeweils nächste $M_i$ ist in Linearzeit berechenbar. Da $M \subseteq N$ endlich ist, muss es ein $n$ geben, sodass $M_n = M_{n+1}$. Für dieses $n$ kann man zeigen, dass $M = M_n$. 
 \end{proof}
 \begin{Bem}
 	$M$ ist die Menge der nützlichen Nichtterminalsymbole. Alle weiteren Nichtterminalsymbole können entfernt werden, ohne dass $L(\mathcal{G})$ sich ändert.
 \end{Bem}
-\begin{Satz}[name={[Entscheidbarkeit des Endlichkeitsproblem für \acs*{CFL}]}]
-	Das Endlichkeitsproblem für kontextfreie Sprachen ist entscheidbar.
-\end{Satz}
-\begin{proof}
-	Mit \ac{PL} analog zum Endlichkeitsproblem für reguläre Sprachen (Prüfe, ob $\exists w \in L$ mit $n < |w| \le 2n$).
-	Die Grundidee ist: $L$ ist endlich genau dann, wenn es keinen (echt wachsenden) Zyklus gibt, der zu einer Wortbildung beitragen kann.
-\end{proof}
+% \begin{Satz}[name={[Entscheidbarkeit des Endlichkeitsproblem für \acs*{CFL}]}]
+% 	Das Endlichkeitsproblem für kontextfreie Sprachen ist entscheidbar.
+% \end{Satz}
+% \begin{proof}
+% 	Mit \ac{PL} analog zum Endlichkeitsproblem für reguläre Sprachen (Prüfe, ob $\exists w \in L$ mit $n < |w| \le 2n$).
+% 	Die Grundidee ist: $L$ ist endlich genau dann, wenn es keinen (echt wachsenden) Zyklus gibt, der zu einer Wortbildung beitragen kann.
+% \end{proof}
 
 
 \subsection{Einschub: Typ-3-Sprachen}
+\datenote{1.12.2017}
 \begin{Satz}[name={[Typ-3-Sprache ist regulär]}]
 	$L$ ist regulär \<=> $L$ ist Typ-3-Sprache.
 \end{Satz}

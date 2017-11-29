@@ -1,4 +1,5 @@
 \section[Kellerautomaten (\acs*{PDA})]{Kellerautomaten \quad\normalfont\normalsize \acf{PDA}}
+\newcommand{\ConfRel}{\rhd}
 Kellerautomat $\approx$ Endlicher Automat + Kellerspeicher von unbeschränkter Größe (Stack, push down)
 \paragraph*{Neu:}
 \begin{itemize}
@@ -60,22 +61,22 @@ Im weiteren sei $M=(\dots)$ ein \ac{NPDA}.
         Die Menge der \emph{Konfigurationen} von $M$ ist $\Konf(M) = Q\x\Sigma^*\x\Gamma^*$\\
         Die \emph{Schrittrelation} von $M$
   \begin{displaymath}
-    \vdash\ \subseteq \Konf(M) \times \Konf(M) 
+    \ConfRel\ \subseteq \Konf(M) \times \Konf(M) 
   \end{displaymath}
   ist definiert durch
         \begin{align*}
-                (q,aw,Z\gamma) &\vdash (q',w,\beta\gamma) &&\text{falls }\delta(q,a,z)\ni(q',\beta)\\
-                (q,w,Z\gamma) &\vdash (q',w,\beta\gamma) &&\text{falls }\delta(q,\Eps,z)\ni(q',\beta)\\
+                (q,aw,Z\gamma) &\ConfRel (q',w,\beta\gamma) &&\text{falls }\delta(q,a,z)\ni(q',\beta)\\
+                (q,w,Z\gamma) &\ConfRel (q',w,\beta\gamma) &&\text{falls }\delta(q,\Eps,z)\ni(q',\beta)\\
         \end{align*}
 
-  Wir schreiben $(q,w,\gamma) \vdash^n (q',w',\gamma')$ wenn $M$ in $n \in \mathbb{N}$ Schritten von Konfiguration $(q,w,\gamma)$ nach Konfiguration $(q',w',\gamma')$ gelangt.
+  Wir schreiben $(q,w,\gamma) \ConfRel^n (q',w',\gamma')$ wenn $M$ in $n \in \mathbb{N}$ Schritten von Konfiguration $(q,w,\gamma)$ nach Konfiguration $(q',w',\gamma')$ gelangt.
 
-  Wir schreiben ${\vdash^*}$ für die reflexive, transitive Hülle von ${\vdash}$.
-  Falls $(q,w,\gamma) \vdash^* (q',w',\gamma')$ existiert also $n \in \mathbb{N}$, so dass $(q,w,\gamma) \vdash^n (q',w',\gamma')$.
+  Wir schreiben ${\ConfRel^*}$ für die reflexive, transitive Hülle von ${\ConfRel}$.
+  Falls $(q,w,\gamma) \ConfRel^* (q',w',\gamma')$ existiert also $n \in \mathbb{N}$, so dass $(q,w,\gamma) \ConfRel^n (q',w',\gamma')$.
   
         Die von $M$ \emph{erkannte Sprache} ist
   \begin{displaymath}
-                L(M) = \{ w\in\Sigma^* \mid (q_0,w,Z_0) \vdash^{\!\!*} (q',\Eps,\Eps) \} \tag*{\qedhere}
+                L(M) = \{ w\in\Sigma^* \mid (q_0,w,Z_0) \ConfRel^{\!\!*} (q',\Eps,\Eps) \} \tag*{\qedhere}
   \end{displaymath}
 \end{Def}
 
@@ -84,12 +85,12 @@ Im weiteren sei $M=(\dots)$ ein \ac{NPDA}.
   \begin{displaymath}
   \begin{array}{ll}
     (q_0, 0110, \bot) \\
-    \vdash (q_0, 110, 0\bot)  &\text{(,,pushen'' des Eingabesymbols $0$)}\\
-    \vdash (q_0, 10, 10\bot)  &\text{(,,pushen'' des Eingabesymbols $1$)}\\
-    \vdash (q_1, 10, 10\bot)  &\text{($\Eps$-Übergang von $q_0$ nach $q_1$)} \\
-    \vdash (q_1, 0, 0\bot)  &\text{(,,poppen'' des Eingabesymbols $1$)}\\
-    \vdash (q_1,\Eps, \bot) &\text{(,,poppen'' des Eingabesymbols $0$)}\\
-    \vdash (q_1, \Eps, \Eps) &\text{($\Eps$-Übergang zum Entfernen von $\bot$)}
+    \ConfRel (q_0, 110, 0\bot)  &\text{(,,pushen'' des Eingabesymbols $0$)}\\
+    \ConfRel (q_0, 10, 10\bot)  &\text{(,,pushen'' des Eingabesymbols $1$)}\\
+    \ConfRel (q_1, 10, 10\bot)  &\text{($\Eps$-Übergang von $q_0$ nach $q_1$)} \\
+    \ConfRel (q_1, 0, 0\bot)  &\text{(,,poppen'' des Eingabesymbols $1$)}\\
+    \ConfRel (q_1,\Eps, \bot) &\text{(,,poppen'' des Eingabesymbols $0$)}\\
+    \ConfRel (q_1, \Eps, \Eps) &\text{($\Eps$-Übergang zum Entfernen von $\bot$)}
   \end{array}
 \end{displaymath}
 \end{Bsp*}
@@ -117,50 +118,50 @@ Im weiteren sei $M=(\dots)$ ein \ac{NPDA}.
 
   Zum Führen des Beweises benötigen wir folgende Beobachtung, die für alle NPDAs $M = (\ldots),\enspace q,q' \in Q,\enspace w \in \Sigma^*,\enspace Z \in \Gamma$ gilt:
   \begin{displaymath}
-    \text{Wenn } (q,w,Z) \vdash^* (q', \Eps, \Eps) \text{ dann } \forall v \in \Sigma^*, \gamma \in \Gamma^*: (q, wv, Z\gamma) \vdash^* (q', v, \gamma)
+    \text{Wenn } (q,w,Z) \ConfRel^* (q', \Eps, \Eps) \text{ dann } \forall v \in \Sigma^*, \gamma \in \Gamma^*: (q, wv, Z\gamma) \ConfRel^* (q', v, \gamma)
   \end{displaymath}
   Der Beweis ist per Induktion über die Länge der Ableitung (nicht gezeigt).
 
   \begin{itemize}
   \item Wir zeigen
     \begin{displaymath}
-      \text{wenn } S \stackrel{*}{\Longrightarrow} w \text{ dann } (q_0, w, S) \vdash^* (q_0, \Eps, \Eps)
+      \text{wenn } S \stackrel{*}{\Longrightarrow} w \text{ dann } (q_0, w, S) \ConfRel^* (q_0, \Eps, \Eps)
     \end{displaymath}
     Wir beweisen dazu die stärkere Aussage
     \begin{displaymath}
-      \forall A \in N: \text{ wenn } A \stackrel{*}{\Longrightarrow} w\text{ dann } (q_0, w, A) \vdash^* (q_0, \Eps, \Eps)
+      \forall A \in N: \text{ wenn } A \stackrel{*}{\Longrightarrow} w\text{ dann } (q_0, w, A) \ConfRel^* (q_0, \Eps, \Eps)
     \end{displaymath}
     per Induktion über den Ableitungsbaum $\mathcal{A} = \pi(\mathcal{A}_1, \ldots, \mathcal{A}_n)\in \operatorname{Abl}(\mathcal{G}, A)$ mit $Y(\mathcal{A}) = w$.
     \begin{description}
     \item[IV] Für alle $n' \le n$ und $1 \le i \le n',\enspace A_i \in N,\enspace \mathcal{A}_i \in \operatorname{Abl}(\mathcal{G}, A_i)$ gilt:
       \begin{equation}
       \label{eq:pda-step-base}
-      (q_0, Y(\mathcal{A}_i), A_i) \vdash^* (q_0, \Eps, \Eps) \tag{$\star$}
+      (q_0, Y(\mathcal{A}_i), A_i) \ConfRel^* (q_0, \Eps, \Eps) \tag{$\star$}
     \end{equation}
     \item[IS] Unterscheide die Form der Produktionen der CNF-Grammatik $\mathcal{G}$:
       \begin{itemize}
       \item $\pi = S \to \Eps$.
-        Per Konstruktion gilt $(q_0, \Eps) \in \delta(q_0, \Eps, S)$ und somit $(q_0, \Eps, S) \vdash (q_0, \Eps, \Eps)$.
+        Per Konstruktion gilt $(q_0, \Eps) \in \delta(q_0, \Eps, S)$ und somit $(q_0, \Eps, S) \ConfRel (q_0, \Eps, \Eps)$.
       \item $\pi = A \to a$, $a \in \Sigma^*$.
         Per Konstruktion gilt $(q_0, a) \in \delta(q_0, \Eps, A)$ und $(q_0, \Eps) \in \delta(q_0, \Eps)$.
 
-        Somit gilt $(q_0, a, A) \vdash (q_0, a, a) \vdash (q_0, \Eps, \Eps)$.
+        Somit gilt $(q_0, a, A) \ConfRel (q_0, a, a) \ConfRel (q_0, \Eps, \Eps)$.
       \item $\pi = A \to BC$, $B,C \in N$, $\mathcal{A} = \pi(\mathcal{A}_1, \mathcal{A}_2)$, $\mathcal{A}_1 \in \operatorname{Abl}(\mathcal{G}, B)$, $\mathcal{A}_1 \in \operatorname{Abl}(\mathcal{G}, B)$, $w = Y(\mathcal{A}_1)Y(\mathcal{A}_2)$.
 
         Per Konstruktion gilt $(q_0, BC) \in \delta(q_0, \Eps, A)$. 
 
-        Ferner gilt per IV, dass $(q_0, Y(\mathcal{A}_1), B) \vdash^* (q_0, \Eps, \Eps)$ und $(q_0, Y(\mathcal{A}_2), C) \vdash^* (q_0, \Eps, \Eps)$.
+        Ferner gilt per IV, dass $(q_0, Y(\mathcal{A}_1), B) \ConfRel^* (q_0, \Eps, \Eps)$ und $(q_0, Y(\mathcal{A}_2), C) \ConfRel^* (q_0, \Eps, \Eps)$.
 
-        Es folgt mit Beobachtung \eqref{eq:pda-step-base}, dass $(q_0, w, A) = (q_0, Y(\mathcal{A}_1)Y(\mathcal{A}_2), A)\vdash (q_0, Y(\mathcal{A}_1)Y(\mathcal{A}_2), BC) \vdash^* (q_0, Y(\mathcal{A}_2), C) \vdash^* (q_0, \Eps, \Eps)$.
+        Es folgt mit Beobachtung \eqref{eq:pda-step-base}, dass $(q_0, w, A) = (q_0, Y(\mathcal{A}_1)Y(\mathcal{A}_2), A)\ConfRel (q_0, Y(\mathcal{A}_1)Y(\mathcal{A}_2), BC) \ConfRel^* (q_0, Y(\mathcal{A}_2), C) \ConfRel^* (q_0, \Eps, \Eps)$.
       \end{itemize}
     \end{description}
   \item Wir zeigen
     \begin{displaymath}
-      \text{wenn } (q_0, w, S) \vdash^* (q_0, \Eps, \Eps) \text{ dann } S \stackrel{*}{\Longrightarrow} w
+      \text{wenn } (q_0, w, S) \ConfRel^* (q_0, \Eps, \Eps) \text{ dann } S \stackrel{*}{\Longrightarrow} w
     \end{displaymath}
     Wir beweisen dazu die stärkere Aussage
     \begin{displaymath}
-      \forall n \in \mathbb{N}: \forall w \in \Sigma^*, \alpha \in \Gamma^*: \text{ wenn } (q_0, w, \alpha) \vdash^n (q_0, \Eps, \Eps) \text{ dann } \alpha \stackrel{*}{\Longrightarrow} w 
+      \forall n \in \mathbb{N}: \forall w \in \Sigma^*, \alpha \in \Gamma^*: \text{ wenn } (q_0, w, \alpha) \ConfRel^n (q_0, \Eps, \Eps) \text{ dann } \alpha \stackrel{*}{\Longrightarrow} w 
     \end{displaymath}
     per Induktion über die Anzahl der Berechnungsschritte $n$.
 
@@ -169,11 +170,11 @@ Im weiteren sei $M=(\dots)$ ein \ac{NPDA}.
       $w = \Eps$, $\alpha = \Eps$: es gilt $\Eps \Longrightarrow \Eps$.
     \item[IV] Für alle $n' < n$ und $w \in \Sigma^*, \alpha \in \Gamma^*$ gilt
       \begin{displaymath}
-      \text{ wenn } (q_0, w, \alpha) \vdash^{n'} (q_0, \Eps, \Eps) \text{ dann } \alpha \stackrel{*}{\Longrightarrow} w
+      \text{ wenn } (q_0, w, \alpha) \ConfRel^{n'} (q_0, \Eps, \Eps) \text{ dann } \alpha \stackrel{*}{\Longrightarrow} w
     \end{displaymath}
   \item[IS] $n > 0$, $\alpha = Z\alpha'$,
 
-    $(q_0,w,Z\alpha') \vdash (q_0, w', \beta\alpha') \vdash^{n-1} (q_0, \Eps, \Eps)$, $\delta(q_0, x, Z) \ni (q_0, \beta)$
+    $(q_0,w,Z\alpha') \ConfRel (q_0, w', \beta\alpha') \ConfRel^{n-1} (q_0, \Eps, \Eps)$, $\delta(q_0, x, Z) \ni (q_0, \beta)$
 
     Es gibt zwei Fälle für $Z$:
     \begin{itemize}
@@ -230,27 +231,27 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
     \begin{itemize}
     \item Wir zeigen, dass 
       \begin{displaymath}
-        \text{wenn }(q,Z,q')\stackrel{*}{\Longrightarrow} w \text{ dann } (q,w,Z) \vdash^* (q',\Eps,\Eps)
+        \text{wenn }(q,Z,q')\stackrel{*}{\Longrightarrow} w \text{ dann } (q,w,Z) \ConfRel^* (q',\Eps,\Eps)
       \end{displaymath}
       per Induktion über den Ableitungsbaum $\mathcal{A}=\pi(\mathcal{A}_1, \ldots, \mathcal{A}_n) \in \operatorname{Abl}(\mathcal{G}, (q,Z,q'))$ mit $Y(\mathcal{A}) = w$.
 
       \begin{description}
       \item[IV] Für $1 \le i \le n$ und $Z_i \in \Gamma,\enspace q_i,q_i' \in Q,\enspace \mathcal{A}_i \in \operatorname{Abl}(\mathcal{G}, (q_i, Z_i, q_i'))$ gilt
         \begin{displaymath}
-          (q_i,Y(\mathcal{A}_i),Z_i) \vdash^* (q_i',\Eps,\Eps)
+          (q_i,Y(\mathcal{A}_i),Z_i) \ConfRel^* (q_i',\Eps,\Eps)
         \end{displaymath}
       \item[IS]
         Es gibt $3$ Fälle für $\pi$:
         \begin{itemize}
         \item $(q, Z, q') \to x,\enspace \delta(q, x, Z) \ni (q', \Eps), x \in \Sigma \cup \{\Eps\}$.
 
-          Es folgt $w = x$ und damit: $(q, x, Z) \vdash (q', \Eps, \Eps)$.
+          Es folgt $w = x$ und damit: $(q, x, Z) \ConfRel (q', \Eps, \Eps)$.
 
         \item $(q, Z, q') \to x(q'', Z', q'), \enspace \delta(q, x, Z) \ni (q'', Z'), q'' \in Q, x \in \Sigma \cup \{\Eps\}$
 
           Es folgt $w = xY(\mathcal{A}_1)$, $\mathcal{A} = \pi(\mathcal{A}_1)$, $\mathcal{A}_1 \in \operatorname{Abl}(\mathcal{G}, (q'', Z', q'))$.
 
-          Es folgt per IV, dass $(q'', Y(\mathcal{A}_1), (q'', Z', q')) \vdash^* (q_0, \Eps, \Eps)$ und damit auch $(q, xY(\mathcal{A}_1), (q, Z, q')) \vdash (q'', Y(\mathcal{A}_1), (q'', Z', q')) \vdash^* (q_0, \Eps, \Eps)$.
+          Es folgt per IV, dass $(q'', Y(\mathcal{A}_1), (q'', Z', q')) \ConfRel^* (q_0, \Eps, \Eps)$ und damit auch $(q, xY(\mathcal{A}_1), (q, Z, q')) \ConfRel (q'', Y(\mathcal{A}_1), (q'', Z', q')) \ConfRel^* (q_0, \Eps, \Eps)$.
 
         \item $(q, Z, q') \to x(q_1,Z_1,q_2)(q_2, Z_2, q')$, $\delta(q, x, Z) \ni (q_1, Z_1Z_2)$, $q_1 \in Q, q_2 \in Q, x \in \Sigma \cup \{\Eps\}$ 
 
@@ -258,21 +259,21 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
 
           Es folgt per IV, dass
           \begin{displaymath}
-            (q_1, Y(\mathcal{A}_1), Z_1)) \vdash^* (q_2, \Eps, \Eps)
+            (q_1, Y(\mathcal{A}_1), Z_1)) \ConfRel^* (q_2, \Eps, \Eps)
           \end{displaymath}
           mit Beobachtung \eqref{eq:pda-step-base} auch
           \begin{displaymath}
-            (q_1, Y(\mathcal{A}_1)Y(\mathcal{A}_2), Z_1Z_2) \vdash^* (q_2, Y(\mathcal{A}_2), Z_2)
+            (q_1, Y(\mathcal{A}_1)Y(\mathcal{A}_2), Z_1Z_2) \ConfRel^* (q_2, Y(\mathcal{A}_2), Z_2)
           \end{displaymath}
 
           Es folgt ferner per IV, dass
           \begin{displaymath}
-            (q_2, Y(\mathcal{A}_2), Z_2) \vdash^* (q', \Eps, \Eps)
+            (q_2, Y(\mathcal{A}_2), Z_2) \ConfRel^* (q', \Eps, \Eps)
           \end{displaymath}
 
           Somit gilt
           \begin{displaymath}
-            (q, xY(\mathcal{A}_1)Y(\mathcal{A}_2), Z) \vdash (q_1, Y(\mathcal{A}_1)Y(\mathcal{A}_2), Z_1Z_2)) \vdash^* (q_2, Y(\mathcal{A}_2), Z_2) \vdash^* (q', \Eps, \Eps)
+            (q, xY(\mathcal{A}_1)Y(\mathcal{A}_2), Z) \ConfRel (q_1, Y(\mathcal{A}_1)Y(\mathcal{A}_2), Z_1Z_2)) \ConfRel^* (q_2, Y(\mathcal{A}_2), Z_2) \ConfRel^* (q', \Eps, \Eps)
           \end{displaymath}
           
           
@@ -281,7 +282,7 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
 
     \item Wir zeigen für alle $n \in \mathbb{N}: \forall m \in \mathbb{N},\enspace Z_1,\ldots,Z_m \in \Gamma,\enspace q,q' \in Q$, dass wenn
       \begin{displaymath}
-        (q,w,Z_1\ldots Z_m) \vdash^n (q', \Eps, \Eps)
+        (q,w,Z_1\ldots Z_m) \ConfRel^n (q', \Eps, \Eps)
       \end{displaymath}
       dann existieren $q_1,\ldots,q_{m+1} \in Q$, so dass
       \begin{displaymath}
@@ -296,7 +297,7 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
         Es folgt $\Eps \stackrel{*}{\Longrightarrow} w$.
       \item[IV] Für alle $n' < n$,\enspace $m \in \mathbb{N},\enspace Z_1,\ldots,Z_m\in \Gamma,\enspace q,q' \in Q$ gilt, dass wenn
         \begin{displaymath}
-        (q,w,Z_1\ldots Z_m) \vdash^{n'} (q', \Eps, \Eps)
+        (q,w,Z_1\ldots Z_m) \ConfRel^{n'} (q', \Eps, \Eps)
       \end{displaymath}
       dann existieren $q_1,\ldots,q_{m+1} \in Q$, so dass
       \begin{displaymath}
@@ -304,7 +305,7 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
       \end{displaymath}
 
     \item[IS] $n > 0$.
-      $(q, w, Z_1\ldots Z_m) \vdash (q'', w', \gamma Z_2\ldots Z_m) \vdash^{n-1} (q',\Eps, \Eps)$.
+      $(q, w, Z_1\ldots Z_m) \ConfRel (q'', w', \gamma Z_2\ldots Z_m) \ConfRel^{n-1} (q',\Eps, \Eps)$.
       $w =xw'$, \enspace $x \in \{\Eps\} \cup \Sigma$.
       \begin{itemize}
       \item $\gamma = \Eps$, \enspace $(q, Z_1, q'') \to x \in P$.
@@ -333,8 +334,8 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
         \item $F\subseteq Q$ akzeptierende Zustände
         \item $\delta: Q\x (\Sigma\cup\{\Eps\})\x \Gamma \-> \mathcal{P}(Q\x \Gamma^*)$ wobei für alle $q\in Q,a\in\Sigma,Z\in\Gamma$ gelten muss, dass
         $|\delta(q,a,Z)| + |\delta(q,\Eps,Z)| \leq 1$
-        \item Die Schrittrelation ,,$\vdash$'' ist definiert wie bei NPDAs.
-        \item $L(M) = \{w\in\Sigma^* \mid (q_0,w,Z_0) \vdash^* (q',\Eps,\gamma) \land q'\in F \}$ \qedhere
+        \item Die Schrittrelation ,,$\ConfRel$'' ist definiert wie bei NPDAs.
+        \item $L(M) = \{w\in\Sigma^* \mid (q_0,w,Z_0) \ConfRel^* (q',\Eps,\gamma) \land q'\in F \}$ \qedhere
         \end{itemize}
 \end{Def}
 
@@ -388,7 +389,7 @@ Sei $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le
   \end{itemize}
 
   Es verbleibt zu zeigen, dass $\forall w\in \Sigma^*$ $\exists q\in Q'$
-  $\gamma\in\Gamma'^*$ so dass $(q_0', w, Z_0') \vdash^* (q,
+  $\gamma\in\Gamma'^*$ so dass $(q_0', w, Z_0') \ConfRel^* (q,
   \varepsilon, \gamma)$. (Induktion über $w$) Weiter ist zu zeigen,
   dass $L (M) = L (M')$.
 \end{proof}
