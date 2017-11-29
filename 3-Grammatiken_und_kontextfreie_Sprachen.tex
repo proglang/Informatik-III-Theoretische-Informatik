@@ -2,7 +2,7 @@
 % \datenote{18.11.16}
 % Im folgenden Kapitel wechseln wir den Standpunkt von Spracherkennung auf \emph{Spracherzeugung}.
 % Das Werkzeug sind hierbei sogenannte \emph{Phasenstrukturgrammatiken}, oder kurz, \emph{Grammatiken}.
-% Bei Grammatiken gibt es neben dem Alphabet weitere Symbole, sogenannte \emph{Nichtterminale} oder \emph{Variablen}, und ein Regelsystem mit dem Wörter, die Nichtterminale enthalten, geändert werden können.
+% Bei Grammatiken gibt es neben dem Alphabet weitere Symbole, sogenannte \emph{Nichtterminalsymbole} oder \emph{Variablen}, und ein Regelsystem mit dem Wörter, die Nichtterminalsymbole enthalten, geändert werden können.
 \begin{Def}
 	Eine \emph{Grammatik} ist ein 4-Tupel $(\Sigma,N,P,S)$ mit folgenden Komponenten:
 	\begin{itemize}
@@ -677,7 +677,7 @@ Die Transformation in \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^3)$. Die Größe 
 
 \subsection{Entscheidbarkeitsfragen für kontextfreie Sprachen}
 \begin{Satz}[name={[Wortproblem für \acs*{CFL} entscheidbar]}]
-	Es gibt einen Algorithmus, der für kontextfreie Sprachen~$L$ das Wortproblem "`$w\in L$"' in $O(n^3)$ Schritten und mit $O(n^2)$ Speicherplatz entscheidet.
+	Es gibt einen Algorithmus, der für eine beliebige kontextfreie Sprache~$L$ das Wortproblem "`$w\in L$"' in $O(n^3)$ Schritten und mit $O(n^2)$ Speicherplatz entscheidet.
 \end{Satz}
 
 \begin{proof}[\acsu{CYK}-Algorithmus] Sei $\mathcal{G}$ eine \ac{CFG} in \ac{CNF} und sei $w = a_1\dots a_n\in\Sigma^*$.
@@ -710,9 +710,9 @@ Es gilt:
 
 Wir können die $M_{ij}$ wie folgt ermitteln:
 
-$\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$\\
-$M\ n\x n$-Matrix mit $M_{ij}=\varnothing$ für alle $i, j$
+$\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$
 \begin{lstlisting}[mathescape,morekeywords={for,do,return},morecomment={[l]{//}}]
+  $M=n\x n\text{-Matrix mit } M_{ij}=\varnothing \text{ für alle } i, j$  // $O(n^2)$
   for i=1 .. n do  // $O(|\mathcal{G}|)\cdot O(n)$
     $M_{ii}=\{A \mid A \-> a_i \}$
   for i=n-1 .. 1 do
@@ -726,7 +726,7 @@ $M\ n\x n$-Matrix mit $M_{ij}=\varnothing$ für alle $i, j$
 
 
 \begin{Bsp}
-	$L=\{a^nb^nc^m \mid n,m\geq 1\}$ mit Grammatik (\acs{CFG})
+	$L=\{a^nb^nc^m \mid n,m\geq 1\}$ mit Grammatik (\acs{CFG}) mit folgenden Regeln.
 	\begin{align*}
 		S &\-> XY\\
 		X &\-> ab \mid aXb\\
@@ -764,7 +764,7 @@ $M\ n\x n$-Matrix mit $M_{ij}=\varnothing$ für alle $i, j$
 		\cline{7-9}
 			                         \multicolumn{7}{c|}{}                          & C,Y     & Y ~\text{\tiny 1}      \\
 		\cline{8-9}
-			                              \multicolumn{7}{c}{} & l                               & C,Y     \\
+			                              \multicolumn{7}{c}{} &                                & C,Y     \\
 		\cline{9-9}
 		\end{tabular}
   \end{center}
@@ -773,18 +773,18 @@ $M\ n\x n$-Matrix mit $M_{ij}=\varnothing$ für alle $i, j$
 
 \begin{Satz}[name={[Entscheidbarkeit des Leerheitsproblems für kontextfreie Sprachen]}] % 4.7
   \label{thm:cfl-decidable-emptyness}
-    Das Leerheitsproblem~\footnote{Gefragt ist, ob $L(\mathcal{G}) = \{ w\in\Sigma^* \mid S\overset{*}{\vdash} w \} \overset{?}{=} \emptyset
-$.} für Kontextfreie Sprachen ist entscheidbar.
+    Das Leerheitsproblem\footnote{Gefragt ist, ob $L(\mathcal{G}) = \{ w\in\Sigma^* \mid S\overset{*}{\vdash} w \} \overset{?}{=} \emptyset
+$.} für kontextfreie Sprachen ist entscheidbar.
 \end{Satz}
 
 \begin{proof}
     Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine \ac{CFG} für $L$.
     Wir definieren:
-    Ein Symbol $X \in \Sigma \cup N$ heißt \emph{co-erreichbar}, wenn ein $w \in \Sigma^*$ existiert mit $X \vdash^* w$.
+    Ein Symbol $X \in \Sigma \cup N$ heißt \emph{co-erreichbar}, wenn ein $w \in \Sigma^*$ existiert mit $X \stackrel{*}{\vdash}_\mathcal{G} w$.
      
-    Betrachte dazu die Menge $M$ der nützlichen Nichtterminalsymbole, aus denen ein Terminalwort herleitbar ist.
+    Betrachte nun die Menge $M$ der co-erreichbaren Nichtterminalsymbole.
 	\begin{align*}
-		M &= \{ A \mid A \overset{*}{\=>} w, w\in \Sigma^* \}\\
+		M &= \{ A \mid A \stackrel{*}{\vdash}_\mathcal{G} w, w\in \Sigma^* \}\\
 		M_0 &= \{ A \mid A \-> w\in P, w\in \Sigma^* \}\\
 		M_{i+1} &= M_i\cup \{ A \mid A \-> \alpha\in P, \alpha\in(\Sigma\cup M_i)^* \}\\
 		\exists n : M_n &= M_{n+1} \overset!= M\\
@@ -793,30 +793,31 @@ $.} für Kontextfreie Sprachen ist entscheidbar.
 	Offenbar ist $M_0 \subseteq M$ eine Approximation von $M$, $M \supseteq M_{i+1} \supseteq M_i$ verbessert $M_i$ und das jeweils nächste $M_i$ ist in Linearzeit berechenbar. Da $M \subseteq N$ endlich ist, muss es ein $n$ geben, sodass $M_n = M_{n+1}$. Für dieses $n$ kann man zeigen, dass $M = M_n$. 
 \end{proof}
 \begin{Bem}
-	$M$ ist die Menge der nützlichen Nichterminale. Nicht nützliche Nichtterminale können entfernt werden, ohne dass $L(\mathcal{G})$ sich ändert.
+	$M$ ist die Menge der nützlichen Nichtterminalsymbole. Alle weiteren Nichtterminalsymbole können entfernt werden, ohne dass $L(\mathcal{G})$ sich ändert.
 \end{Bem}
 \begin{Satz}[name={[Entscheidbarkeit des Endlichkeitsproblem für \acs*{CFL}]}]
-	Das Endlichkeitsproblem für \ac{CFL} ist entscheidbar.
+	Das Endlichkeitsproblem für kontextfreie Sprachen ist entscheidbar.
 \end{Satz}
 \begin{proof}
 	Mit \ac{PL} analog zum Endlichkeitsproblem für reguläre Sprachen (Prüfe, ob $\exists w \in L$ mit $n < |w| \le 2n$).
+	Die Grundidee ist: $L$ ist endlich genau dann, wenn es keinen (echt wachsenden) Zyklus gibt, der zu einer Wortbildung beitragen kann.
 \end{proof}
 
 
 \subsection{Einschub: Typ-3-Sprachen}
 \begin{Satz}[name={[Typ-3-Sprache ist regulär]}]
-	$L$ ist regulär \<=> $L$ ist Typ-3 Sprache
+	$L$ ist regulär \<=> $L$ ist Typ-3-Sprache.
 \end{Satz}
 \begin{proof}
 	\begin{description}[font=\normalfont,labelwidth=\widthof{"'\=>"':},leftmargin=!]
-	\item["`\=>"'] Sei $\A =(\Sigma, Q,\delta,\qinit,F)$ \ac{DFA} für $L$.\\
+	\item["`\=>"'] Sei $\A =(\Sigma, Q,\delta,\qinit,F)$ \ac{DEA} für $L$.\\
 		Konstruiere Grammatik $\mathcal{G}=(\Sigma,N,P,S)$ mit
 		\begin{align*}
 		 N &= Q\\
 		 S &= \qinit\\
 		 P &= \{ q\rightarrow aq'\mid q,q'\in Q, a\in\Sigma, \delta(q,a)=q'\}\cup \{ q\rightarrow\Eps\mid q\in F\}
 		\end{align*}
-		Zeige $L(\mathcal{G})=L(\A)$.
+		Es gilt $L(\mathcal{G})=L(\A)$. (ohne Beweis)
 	\item["`\<="'] Sei $\mathcal{G}=(\Sigma,N,P,S)$ Typ-3-Grammatik.
 	Dann erhalten wir durch Anwenden von \textsc{Bin} eine äquivalente Grammatik, in der jede Regel eine der folgenden Formen hat:
 	  \begin{alignat*}{3}
@@ -827,18 +828,18 @@ $.} für Kontextfreie Sprachen ist entscheidbar.
   \end{alignat*}
   Wir machen nun die folgenden Modifikationen.
   \begin{itemize}
-   \item Wir fügen nun eine frische Variable $Y_{\Eps}$ und die Regel $Y_{\Eps}\rightarrow\Eps$ hinzu.
-   \item Wir löschen jede Regel der zweiten Form und führen statt dessen die Regel $A \-> aY_{\Eps}$ ein.
-  \item wir löschen jede Regel der dritten Form und führen statt dessen die Variable $Y_{a_2}$ und die Regeln $A \-> a_1Y_{a_2}$ und $Y_{a_2} \-> a_2Y_\Eps$ ein.
+   \item Wir fügen eine frische Variable $Y_{\Eps}$ und die Regel $Y_{\Eps}\rightarrow\Eps$ hinzu.
+   \item Wir löschen jede Regel der zweiten Form und führen stattdessen die Regel $A \-> aY_{\Eps}$ ein.
+  \item Wir löschen jede Regel der dritten Form und führen stattdessen eine frische Variable $Y_{a_2}$ und die Regeln $A \-> a_1Y_{a_2}$ und $Y_{a_2} \-> a_2Y_\Eps$ ein.
   \end{itemize}
-	Die resultierenden Grammatik $\mathcal{G}=(\Sigma,N',P',S)$ ist äquivalent zu $\mathcal{G}$. (Ohne Beweis)
+	Die resultierende Grammatik $\mathcal{G}=(\Sigma,N',P',S)$ ist äquivalent zu $\mathcal{G}$. (Ohne Beweis)
 
 	Wir konstruieren nun den folgenden NEA. $\calN=(\Sigma,Q,\delta,\qinit,F)$
 	\begin{alignat*}{2}
 		Q &=N'\\
 		B\in\delta(A,a) & \text{ \  gdw \ } A\rightarrow aB \in P'\\
 		\qinit &=S\\
-		F &= \{ A\in N'\mid A\rightarrow\Eps\in P'\}\\
+		F &= \{ A\in N'\mid A\rightarrow\Eps\in P'\}
 	\end{alignat*}
 		Es gilt $L(\mathcal{G})=L(\A)$. (ohne Beweis) \qedhere
 
@@ -847,7 +848,7 @@ $.} für Kontextfreie Sprachen ist entscheidbar.
 
 
 \begin{lemma}
-	$\mathcal{M}_3 \subsetneq \mathcal{M}_2$ (D.h., die regulären Sprachen sind eine \emph{echte} Teilmenge der kontextfreien Sprachen)
+	$\mathcal{M}_3 \subsetneq \mathcal{M}_2$ (d.h., die regulären Sprachen sind eine \emph{echte} Teilmenge der kontextfreien Sprachen).
 \end{lemma}
 \begin{proof}
 	Betrachte $L_\text{centered}=\{0^n10^n \mid n\in\N \}\subseteq\{0,1\}^*$\\
@@ -855,23 +856,23 @@ $.} für Kontextfreie Sprachen ist entscheidbar.
 	dass $L_\text{centered}$ nicht regulär ist.
 	Es gibt aber eine Typ-2-Grammatik für $L_\text{centered}$:
 	\[ \mathcal{G} = (\{0,1\}, \{S\}, \{S\->1, S\->0S0 \}, S) \]
-	(ohne Beweis).
+	(ohne Beweis)
 \end{proof}
 
 
-\subsection{Abschlusseingenschaften für kontextfreie Sprachen}
+\subsection{Abschlusseigenschaften für kontextfreie Sprachen}
 
 
 \begin{Satz} % 4.7
   \label{thm:cfl-closed-reg-intersect}
-	Die Menge \acs{CFL} ist abgeschlossen unter $\cup, \cdot, ^*$, jedoch \emph{nicht} unter $\cap, \overline{\phantom{A}}$.
+	Die \ac{CFL} ist abgeschlossen unter $\cup, \cdot, ^*$, jedoch \emph{nicht} unter $\cap$ und $\overline{\!\phantom{i}\cdot\!\phantom{i}}$.
 \end{Satz}
 \begin{proof}
+	Für zwei \ac{CFG} $\mathcal{G}_i = (N_i, \Sigma,P_i,S_i), i=1,2$, konstruiere $\mathcal{G}_i = (N,\Sigma,P,S)$ mit
 	\begin{align*}
-		\mathcal{G}_i :&= (N_i, \Sigma,P_i,S_i) \quad i=1,2\\
 		\text{"`}\cup\text{"'}: N &= N_1\dotcup N_2\dotcup\{S\}\\
 		P &= \{S\->S_1, S\->S_2 \} \cup P_1\cup P_2\\
-		\text{"`}\cdot\text{"'}:: N &= N_1\dotcup N_2\dotcup\{S\}\\
+		\text{"`}\cdot\text{"'}: N &= N_1\dotcup N_2\dotcup\{S\}\\
 		P &= \{ S\->S_1S_2 \} \cup P_1\cup P_2\\
 		\text{"`}^*\text{"'}: N &= N_1 \dotcup \{S\}\\
 		P &= \{ S\->\Eps, S\-> S_1S \} \dotcup P_1
@@ -880,10 +881,10 @@ $.} für Kontextfreie Sprachen ist entscheidbar.
 	\item für $n\geq 1$
 		\[ \underbrace{\{a^nb^nc^n\}}_{\notin \acs{CFL}} = \underbrace{\{a^nb^nc^m \mid n,m\geq 1 \}}_{\in \acs{CFL}} \cap \underbrace{\{a^mb^nc^n \mid m,n\geq 1 \}}_{\in \acs{CFL}} \]
 		Also \ac{CFL} nicht abgeschlossen unter $\cap$.
-	\item Angenommen CFL wäre abgeschlossen unter $\overline{\phantom{X}}$\\
+	\item Angenommen, CFL wäre abgeschlossen unter $\overline{\!\phantom{i}\cdot\!\phantom{i}}$.\\
 		Falls $L_1,L_2\in \acs*{CFL}$, dann ist $\overline{L}_1,\overline{L}_2\in\acs*{CFL}$ nach Annahme.\\
-		$\curvearrowright \overline{L}_1\cup \overline{L}_2\in\acs*{CFL}$ wegen Teil "'$\cup$"'.\\
-		$\curvearrowright \overline{\overline{L}_1\cup \overline{L}_2} = L_1\cap L_2\in\acs*{CFL}\ \lightning$ zu Teil "'$\cap$"'. \qedhere
+		$\Rightarrow \overline{L}_1\cup \overline{L}_2\in\acs*{CFL}$ wegen Abschluss unter "`$\cup$"'.\\
+		$\Rightarrow \overline{\overline{L}_1\cup \overline{L}_2} = L_1\cap L_2\in\acs*{CFL}$ -- Widerspruch zu Nicht-Abschluss unter "`$\cap$"'. \qedhere
 	\end{itemize}
 \end{proof}
 
@@ -894,7 +895,7 @@ $.} für Kontextfreie Sprachen ist entscheidbar.
 \hide{
 
 
-\subsection{Abschlusseingenschaften für kontextfreie Sprachen}
+\subsection{Abschlusseigenschaften für kontextfreie Sprachen}
 
 
 \begin{Satz} % 4.7
@@ -950,7 +951,7 @@ $.} für Kontextfreie Sprachen ist entscheidbar.
     \end{aligned}
     $
   \end{itemize}
-  Durch die $S \to \ldots$ Regeln erzeugt $\mathcal{G}'$ offensichtlich genau die Wörter, die durch die Nichtterminale $(q_0, S, q)$ für $q \in F$ erzeugt werden.
+  Durch die $S \to \ldots$ Regeln erzeugt $\mathcal{G}'$ offensichtlich genau die Wörter, die durch die Nichtterminalsymbole $(q_0, S, q)$ für $q \in F$ erzeugt werden.
   Es bleibt zu zeigen, dass ein Nichtterminal genau die Wörter aus $L$ erzeugt die gleichzeitig einen (akzeptierenden) Lauf $q_0\ldots q$ von $M$ erlauben.
   Wir zeigen eine Verallgemeinerung: für alle $p,q \in Q$ und $A \in N$ gilt
   \begin{align*}
