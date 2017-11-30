@@ -450,7 +450,7 @@ Wir definieren die Menge der Nichtterminalsymbole, aus denen das leere Wort abge
   Definiere die Menge $\operatorname{Nullable}(\mathcal{G}) \subseteq N$ als
   \begin{displaymath}
     \operatorname{Nullable}(\mathcal{G}) = \{ A \in N \mid A
-    \stackrel{*}{\vdash} \Eps \}
+    \stackrel{*}{\vdash}\mathcal{G} \Eps \}
     \text{.} \qedhere
   \end{displaymath}
 \end{Def}
@@ -515,11 +515,11 @@ return M
       $1 \le j \le n$.
       Nach IV existieren Ableitungen
       \begin{displaymath}
-        A_j \stackrel{*}{\vdash} \Eps
+        A_j \stackrel{*}{\vdash}\mathcal{G} \Eps
       \end{displaymath}
       sodass auch eine Ableitung von $A$ nach $\Eps$ existiert:
       \begin{displaymath}
-        A  \vdash A_1 \ldots A_n \stackrel{*}{\vdash} \underbrace{\Eps \ldots \Eps}_{n \text{ mal}} = \Eps
+        A  \vdash_\mathcal{G} A_1 \ldots A_n \stackrel{*}{\vdash}\mathcal{G} \underbrace{\Eps \ldots \Eps}_{n \text{ mal}} = \Eps
       \end{displaymath}
       Also gilt $A \in \operatorname{Nullable}(\mathcal{G})$.
     \end{itemize}
@@ -529,11 +529,11 @@ return M
   
   "`$\subseteq$"'\quad
   Wenn $A \in \operatorname{Nullable}(\mathcal{G})$, dann existiert $m
-  \in \N$, sodass $A \stackrel{*}{\vdash} \Eps$ mit einem
+  \in \N$, sodass $A \stackrel{*}{\vdash}\mathcal{G} \Eps$ mit einem
   Ableitungsbaum der Höhe $m$.
   Wir zeigen via Induktion über $m$, dass $A \in M_{m+1} \subseteq \bigcup_{i \in \N} M_i$.
   \begin{description}
-  \item[IA] $m = 1$. Die Ableitung ist $A \vdash \Eps$, sodass $A\in M_1$.
+  \item[IA] $m = 1$. Die Ableitung ist $A \vdash_\mathcal{G} \Eps$, sodass $A\in M_1$.
   \item[IS] $m > 1$.
     Die Wurzel des Ableitungsbaum muss mit $A \to A_1\ldots A_n$ ($n>0$)
     beschriftet sein und die Kinder sind jeweils Ableitungsbäume für
@@ -593,7 +593,7 @@ return M
 \begin{proof}
   Setze zu Anfang $P' = P$ und eliminiere alle Kettenregeln mit folgendem Algorithmus:
   \begin{enumerate}
-  \item Betrachte den gerichteten Graphen $G$ mit Knoten $N$ und Kanten $\{(A, B) \mid A \to B \in P' \}$. \label{alg:unit-step-dg}
+  \item Betrachte den gerichteten Graphen $G$ mit Knoten $N$ und Kanten für jede Kettenregel, d.h., $\{(A, B) \mid A \to B \in P' \}$. \label{alg:unit-step-dg}
   \item Suche, z.B. mittels Tiefensuche, einen Zyklus in $G$.
     Wenn kein Zyklus gefunden wurde, fahre mit Schritt \ref{alg:unit-step-dag} fort.
   \item Wurde der Zyklus $A_1 \to A_2 \to \ldots \to A_k \to A_1$ gefunden, dann ersetze in $P'$ alle Vorkommen von $A_j$ mit $j > 1$ durch $A_1$ (auf linker \emph{und} rechter Regelseite).
@@ -684,15 +684,15 @@ Die Transformation in \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^3)$. Die Größe 
 Der \ac{CYK}-Algorithmus berechnet bei Eingabe von $\mathcal{G}$ und $w$, ob $w\in L(\mathcal{G})$.
 
 Idee: Definiere für $1\leq i < j\leq n$:
-$$M_{ij} = \{ A \in N \mid A \stackrel{*}{\vdash} a_i\dots a_j \}$$
+$$M_{ij} = \{ A \in N \mid A \stackrel{*}{\vdash}_\mathcal{G} a_i\dots a_j \}$$
 	\begin{align*}
 	\intertext{Es gilt für $i=j$}
 		M_{ii} &= \{A \mid A\-> a_i \} \\
 	\intertext{Es gilt für $i<j$}
-		M_{ij} &= \{ A \mid A\-> BC \land BC \stackrel{*}{\vdash} a_i\dots a_j \}\\
+		M_{ij} &= \{ A \mid A\-> BC \land BC \stackrel{*}{\vdash}\mathcal{G} a_i\dots a_j \}\\
 		&= \{ A \mid A\-> BC \land \exists k: i\leq k<j\quad 
 			\begin{aligned}[t]
-				B &\stackrel{*}{\vdash} a_i\dots a_k \land C \stackrel{*}{\vdash} a_{k+1}\dots a_j \}
+				B &\stackrel{*}{\vdash}\mathcal{G} a_i\dots a_k \land C \stackrel{*}{\vdash}\mathcal{G} a_{k+1}\dots a_j \}
 			\end{aligned}\\
 		&= \{ A \mid A\-> BC \land \exists k: i\leq k<j\quad B\in M_{ik} \land C \in M_{(k+1)j}\}
 		% &= \bigcup_{k=i}^{j-1} \{ A \mid A \-> BC \land 
@@ -759,21 +759,21 @@ $\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$
 % 			M =
 			& A               & \bullet & \bullet & \bullet & \bullet & X ~\text{\tiny 6}& \emph{S} ~\text{\tiny 7}& S~\text{\tiny 8}       \\
 		\cline{2-9}
-			\multicolumn{1}{c}{a} & & A       & \bullet & \bullet & {X} ~\text{\tiny 4}& {Z} ~\text{\tiny 5}& \bullet & \bullet \\
+			\multicolumn{1}{r@{}}{a} & & A       & \bullet & \bullet & {X} ~\text{\tiny 4}& {Z} ~\text{\tiny 5}& \bullet & \bullet \\
 		\cline{3-9}
-			     \multicolumn{1}{c}{} & \multicolumn{1}{c}{a} &    & A       & X ~\text{\tiny 2}      & Z     ~\text{\tiny 3}  & \bullet & \bullet & \bullet \\
+			     \multicolumn{1}{c}{} & \multicolumn{1}{r@{}}{a} &    & A       & X ~\text{\tiny 2}      & Z     ~\text{\tiny 3}  & \bullet & \bullet & \bullet \\
 		\cline{4-9}
-			          \multicolumn{2}{c}{} & \multicolumn{1}{c}{a} &         & B       & \bullet & \bullet & \bullet & \bullet \\
+			          \multicolumn{2}{c}{} & \multicolumn{1}{r@{}}{a} &         & B       & \bullet & \bullet & \bullet & \bullet \\
 		\cline{5-9}
-			               \multicolumn{3}{c}{} & \multicolumn{1}{c}{b} &              & B       & \bullet & \bullet & \bullet \\
+			               \multicolumn{3}{c}{} & \multicolumn{1}{r@{}}{b} &              & B       & \bullet & \bullet & \bullet \\
 		\cline{6-9}
-			                    \multicolumn{4}{c}{} & \multicolumn{1}{c}{b} &                   & B & \bullet & \bullet \\
+			                    \multicolumn{4}{c}{} & \multicolumn{1}{r@{}}{b} &                   & B & \bullet & \bullet \\
 		\cline{7-9}
-			                         \multicolumn{5}{c}{} & \multicolumn{1}{c}{b} &                        & C,Y     & Y ~\text{\tiny 1}      \\
+			                         \multicolumn{5}{c}{} & \multicolumn{1}{r@{}}{b} &                        & C,Y     & Y ~\text{\tiny 1}      \\
 		\cline{8-9}
-			                              \multicolumn{6}{c}{} & \multicolumn{1}{c}{c} &                              & C,Y     \\
+			                              \multicolumn{6}{c}{} & \multicolumn{1}{r@{}}{c} &                              & C,Y     \\
 		\cline{9-9}
-		\multicolumn{7}{c}{} & \multicolumn{1}{c}{c} & \multicolumn{1}{c}{}
+		\multicolumn{7}{c}{} & \multicolumn{1}{r@{}}{c} & \multicolumn{1}{c}{}
 		\end{tabular}
   \end{center}
 \end{Bsp}
@@ -781,7 +781,7 @@ $\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$
 
 \begin{Satz}[name={[Entscheidbarkeit des Leerheitsproblems für kontextfreie Sprachen]}] % 4.7
   \label{thm:cfl-decidable-emptyness}
-    Das Leerheitsproblem\footnote{Gefragt ist, ob $L(\mathcal{G}) = \{ w\in\Sigma^* \mid S\overset{*}{\vdash} w \} \overset{?}{=} \emptyset
+    Das Leerheitsproblem\footnote{Gefragt ist, ob $L(\mathcal{G}) = \{ w\in\Sigma^* \mid S\overset{*}{\vdash}\mathcal{G} w \} \overset{?}{=} \emptyset
 $.} für kontextfreie Sprachen ist entscheidbar.
 \end{Satz}
 
@@ -791,12 +791,12 @@ $.} für kontextfreie Sprachen ist entscheidbar.
     
     $$M = \{ A \mid A \stackrel{*}{\vdash}_\mathcal{G} w, w\in \Sigma^* \}$$
    
-    Offensichtlich gilt: $L =\varnothing \<=> S\notin $
+    Offensichtlich gilt: $L =\varnothing \<=> S\notin M$.
     
     Wir können $M$ induktiv berechnen.
 	\begin{align*}
 		M_0 &= \{ A \mid A \-> w\in P, w\in \Sigma^* \}\\
-		M_{i+1} &= M_i\cup \{ A \mid A \-> \alpha\in P, \alpha\in(\Sigma\cup M_i)^* \}\\
+		M_{i+1} &= M_i\cup \{ A \mid A \-> \alpha\in P, \alpha\in(\Sigma\cup M_i)^* \}
 	\end{align*}
     
     
