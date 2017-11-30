@@ -455,7 +455,7 @@ Wir definieren die Menge der Nichtterminalsymbole, aus denen das leere Wort abge
   \end{displaymath}
 \end{Def}
 
-\begin{Satz}
+\begin{Satz}\label{satz:3.nullable}
   Es gibt einen Algorithmus, der $\operatorname{Nullable}(\mathcal{G})$ in $O(|\mathcal{G}|^3)$ berechnet.
 \end{Satz}
 \begin{proof}
@@ -706,7 +706,7 @@ Es gilt:
 \begin{itemize}
  \item Wir können die $M_{ij}$ als eine $(n\x n)$-Matrix $M$ mit Einträgen in $\mathcal{P}(N)$ darstellen.
  \item Der Wert von $M_{ij}$ hängt nur von $M_{i'j'}$ mit $i'>i, j'\leq j$ oder $i'\geq i,j'<j$ ab.
- \item $w\in L$ genau dann, wenn $S \=>^* w$ genau dann, wenn $S \in M_{1n}$.
+ \item $w\in L$ genau dann, wenn $S \vdash^* w$ genau dann, wenn $S \in M_{1n}$.
 \end{itemize}
 
 \medskip
@@ -781,8 +781,8 @@ $\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$
 
 \begin{Satz}[name={[Entscheidbarkeit des Leerheitsproblems für kontextfreie Sprachen]}] % 4.7
   \label{thm:cfl-decidable-emptyness}
-    Das Leerheitsproblem\footnote{Gefragt ist, ob $L(\mathcal{G}) = \{ w\in\Sigma^* \mid S\overset{*}{\vdash}\mathcal{G} w \} \overset{?}{=} \emptyset
-$.} für kontextfreie Sprachen ist entscheidbar.
+    Es gibt einen Algorithmus, der das Leerheitsproblem\footnote{Gefragt ist, ob $L(\mathcal{G}) = \{ w\in\Sigma^* \mid S\overset{*}{\vdash} w \} \overset{?}{=} \emptyset
+$.} für kontextfreie Sprachen in $O(|\mathcal{G}|)$ entscheidet.
 \end{Satz}
 
 \begin{proof}
@@ -793,20 +793,19 @@ $.} für kontextfreie Sprachen ist entscheidbar.
    
     Offensichtlich gilt: $L =\varnothing \<=> S\notin M$.
     
-    Wir können $M$ induktiv berechnen.
+    Wir können $M$ induktiv berechnen. Wir definieren hierfür:
 	\begin{align*}
 		M_0 &= \{ A \mid A \-> w\in P, w\in \Sigma^* \}\\
 		M_{i+1} &= M_i\cup \{ A \mid A \-> \alpha\in P, \alpha\in(\Sigma\cup M_i)^* \}
 	\end{align*}
+    Offensichtlich gilt für alle $i\in\N$ $M_i\subseteq M_{i+}$ und $M_i\subseteq M$.
+    Da $M\subseteq N$ endlich gibt es ein $n$, sodass $M_n = M_{n+1}$ (hier ohne Beweis).
     
-    
-    Ein Symbol $X \in \Sigma \cup N$ heißt \emph{co-erreichbar}, wenn ein $w \in \Sigma^*$ existiert mit $X \stackrel{*}{\vdash}_\mathcal{G} w$.
-     
-    Betrachte nun die Menge $M$ der co-erreichbaren Nichtterminalsymbole.
-	Offenbar ist $M_0 \subseteq M$ eine Approximation von $M$, $M \supseteq M_{i+1} \supseteq M_i$ verbessert $M_i$ und das jeweils nächste $M_i$ ist in Linearzeit berechenbar. Da $M \subseteq N$ endlich ist, muss es ein $n$ geben, sodass $M_n = M_{n+1}$. Für dieses $n$ kann man zeigen, dass $M = M_n$. 
+    Wir können daher $M$ analog zu $\operatorname{Nullable}(\mathcal{G})$ (siehe \autoref{satz:3.nullable}) in $O(|\mathcal{G}|)$ berechnen.
 \end{proof}
 \begin{Bem}
-	$M$ ist die Menge der nützlichen Nichtterminalsymbole. Alle weiteren Nichtterminalsymbole können entfernt werden, ohne dass $L(\mathcal{G})$ sich ändert.
+        Wenn wir in einer Grammatik $\mathcal{G}$ ein nicht co-erreichbares Nichtterminalsymbol (und alle zugehörigen Regeln) entfernen, ändert sich $L(\mathcal{G})$ nicht.
+        Wir können eine gegebenen Grammatik also optimieren indem wir alle nicht co-erreichbares Nichtterminalsymbole entfernen.
 \end{Bem}
 % \begin{Satz}[name={[Entscheidbarkeit des Endlichkeitsproblem für \acs*{CFL}]}]
 % 	Das Endlichkeitsproblem für kontextfreie Sprachen ist entscheidbar.
@@ -825,7 +824,7 @@ $.} für kontextfreie Sprachen ist entscheidbar.
 \begin{proof}
 	\begin{description}[font=\normalfont,labelwidth=\widthof{"'\=>"':},leftmargin=!]
 	\item["`\=>"'] Sei $\A =(\Sigma, Q,\delta,\qinit,F)$ \ac{DEA} für $L$.\\
-		Konstruiere Grammatik $\mathcal{G}=(\Sigma,N,P,S)$ mit
+		Konstruiere Typ-3 Grammatik $\mathcal{G}=(\Sigma,N,P,S)$ mit
 		\begin{align*}
 		 N &= Q\\
 		 S &= \qinit\\
