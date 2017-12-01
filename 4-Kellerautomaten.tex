@@ -1,5 +1,7 @@
 \section[Kellerautomaten (\acs*{PDA})]{Kellerautomaten \quad\normalfont\normalsize \acf{PDA}}
 \newcommand{\ConfRel}{\rhd}
+\newcommand{\Zinit}{Z^\mathsf{init}}
+\newcommand{\K}{\mathcal{K}}
 Kellerautomat $\approx$ Endlicher Automat + Kellerspeicher von unbeschränkter Größe (Stack, push down)
 \paragraph*{Neu:}
 \begin{itemize}
@@ -37,27 +39,27 @@ Kellerautomat $\approx$ Endlicher Automat + Kellerspeicher von unbeschränkter G
 \end{center}
 wobei hier $a \in \Sigma$ und $Z \in \Gamma$.
 
-Der Automat beginnt im Startzustand $\qinit$ mit einem Kellerspeicher, der nur das Kellerbodensymbol $Z_0$ enthält.
+Der Automat beginnt im Startzustand $\qinit$ mit einem Kellerspeicher, der nur das Kellerbodensymbol $\Zinit$ enthält.
 Er akzeptiert ein Wort, wenn er alle Eingabesymbole gelesen und den Keller komplett leeren konnte.
 Anders als bei EAs gibt es \emph{keine} finalen Zustände.
 
 Die erkannte Sprache ist hier $L=\{ww^R \mid w\in\{0,1\}^*\}$.
 \end{Bsp}
 
-\datenote{16.12.16}
 \begin{Def}[name={[NPDA]}]
-        Ein \ac{NPDA} ist 6-Tupel $(\Sigma,Q,\Gamma,\qinit,Z_0,\delta)$.
+        Ein \ac{NPDA} \footnote{Englisch: Nondeterministic Pushdown Automaton} ist ein 6-Tupel 
+        $$(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta).$$
         Dabei ist
         \begin{itemize}
 		\item $\Sigma$ ein Alphabet, das wir auch \emph{Eingabealphabet} nennen,
                 \item $Q$ eine endliche Menge, deren Elemente wir \emph{Zustände} nennen,
                 \item $\Gamma$ ein Alphabet, das wir auch \emph{Kelleralphabet} nennen,
                 \item $\qinit\in Q$ ein Zustand den wir Startzustand nennen,
-                \item $Z_0\in\Gamma$ ein Zeichen, dass wir \emph{Kellerbodensymbol} nennen,
+                \item $\Zinit\in\Gamma$ ein Zeichen, dass wir \emph{Kellerbodensymbol} nennen,
                 \item $\delta: Q\x(\Sigma\cup\{\Eps\})\x\Gamma \-> \mathcal{P}(Q\x\Gamma^*)$ eine Funktion, die wir \emph{Transitionsfunktion} nennen. \qedhere
         \end{itemize}
 \end{Def}
-Im weiteren sei $M=(\dots)$ ein \ac{NPDA}.
+Im weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
 \begin{Def}[name={[Menge der Konfigurationen eines \acs*{NPDA}]}]
         Die Menge der \emph{Konfigurationen} von $M$ ist $\Konf(M) = Q\x\Sigma^*\x\Gamma^*$\\
         Die \emph{Schrittrelation} von $M$
@@ -75,9 +77,9 @@ Im weiteren sei $M=(\dots)$ ein \ac{NPDA}.
   Wir schreiben ${\ConfRel^*}$ für die reflexive, transitive Hülle von ${\ConfRel}$.
   Falls $(q,w,\gamma) \ConfRel^* (q',w',\gamma')$ existiert also $n \in \mathbb{N}$, so dass $(q,w,\gamma) \ConfRel^n (q',w',\gamma')$.
   
-        Die von $M$ \emph{erkannte Sprache} ist
+        Die von $M$ \emph{akzeptierte Sprache} ist
   \begin{displaymath}
-                L(M) = \{ w\in\Sigma^* \mid (\qinit,w,Z_0) \ConfRel^{\!\!*} (q',\Eps,\Eps) \} \tag*{\qedhere}
+                L(M) = \{ w\in\Sigma^* \mid \exists q\in Q: (\qinit,w,\Zinit) \ConfRel^{\!\!*} (q,\Eps,\Eps) \} \tag*{\qedhere}
   \end{displaymath}
 \end{Def}
 
@@ -96,83 +98,72 @@ Im weiteren sei $M=(\dots)$ ein \ac{NPDA}.
 \end{displaymath}
 \end{Bsp*}
 
-\begin{Satz}\label{satz:5.1}
-  \begin{align*}
-                L \in \ac{CFL}  \text{ gdw } L =L(M) \text{ für einen NPDA $M$}
-  \end{align*}
-\end{Satz}
-\datenote{21.12.16}
-\begin{proof}\hfill
-        \begin{itemize}
-        \item CFG zu NPDA:
-                Sei $\mathcal{G} = (N,\Sigma,P,S)$ Grammatik für $L$ in \ac{CNF}.
-    
-                Definiere \ac{NPDA} $M$ durch
-                \begin{itemize}
-                        \item $Q = \{\qinit\}$ 
-                        \item $\Gamma = \Sigma\uplus N$
-                        \item $Z_0 = S$
-                        \item $\delta(\qinit,a,a) = \{(\qinit,\Eps)\} $ für $ a\in\Sigma$
-                        \item $\delta(\qinit,\Eps,A) = \{(\qinit,\alpha)\}$ für $A\to\alpha\in P$
-                \end{itemize}
-  Wir zeigen nun, dass $L(M) = L(\mathcal{G})$.
+\begin{lemma}\label{lem:4.cfgToNpda}
+ Zu jeder CFG $\mathcal{G}$ gibt es einen NPDA $\mathcal{K}$ sodass $L(\mathcal{K})=L(\mathcal{G})$.
+\end{lemma}
 
-  Zum Führen des Beweises benötigen wir folgende Beobachtung, die für alle NPDAs $M = (\ldots),\enspace q,q' \in Q,\enspace w \in \Sigma^*,\enspace Z \in \Gamma$ gilt:
+  Zum Führen des Beweises benötigen wir das folgende Lemma.
+
+\begin{lemma}[Mehr Keller -- mehr Möglichkeiten.]\label{lem:4.mehrKeller}
+Für alle $q,q' \in Q,\enspace w \in \Sigma^*,\enspace Z \in \Gamma$ gilt:
   \begin{displaymath}
     \text{Wenn } (q,w,Z) \ConfRel^* (q', \Eps, \Eps) \text{ dann } \forall v \in \Sigma^*, \gamma \in \Gamma^*: (q, wv, Z\gamma) \ConfRel^* (q', v, \gamma)
   \end{displaymath}
-  Der Beweis ist per Induktion über die Länge der Ableitung (nicht gezeigt).
+\end{lemma}
+\begin{proof}
+Übungsaufgabe.
+\end{proof}
 
+
+  
+\begin{proof}[von \autoref{lem:4.cfgToNpda}]
+Sei $\mathcal{G} = (N,\Sigma,P,S)$ Grammatik für $L$ in \ac{CNF}.
+    
+                Definiere \ac{NPDA} $\mathcal{K}$ durch
+                \begin{itemize}
+                        \item $Q = \{\qinit\}$ 
+                        \item $\Gamma = \Sigma\uplus N$
+                        \item $\Zinit = S$
+                        \item $\delta(\qinit,a,a) = \{(\qinit,\Eps)\} $ für $ a\in\Sigma$
+                        \item $\delta(\qinit,\Eps,A) = \{(\qinit,\alpha)\}$ für $A\to\alpha\in P$
+                \end{itemize}
+Wir zeigen nun, dass $L(\K) = L(\mathcal{G})$.
+\begin{description}
+ \item[``$\supseteq$'']
+ Sei $w\in L(\mathcal{G})$, dann gilt $S\vdash^* w$.
+ Wir wollen zeigen dass $(\qinit, w, S) \ConfRel^* (\qinit, \Eps, \Eps)$ folgt und beweisen dafür via vollständige Induktion über die Länge der Ableitung die folgende stärkere Eigenschaft.
+     \begin{displaymath}
+      \forall A \in N: \text{ wenn } A \vdash^* w\text{ dann } (\qinit, w, A) \ConfRel^* (\qinit, \Eps, \Eps)
+    \end{displaymath}
+  IA: $n=1$ Es gibt nur zwei Arten von Regeln, die für Ableitungen der Länge 1 in Frage kommen:
   \begin{itemize}
-  \item Wir zeigen
-    \begin{displaymath}
-      \text{wenn } S \stackrel{*}{\Longrightarrow} w \text{ dann } (\qinit, w, S) \ConfRel^* (\qinit, \Eps, \Eps)
-    \end{displaymath}
-    Wir beweisen dazu die stärkere Aussage
-    \begin{displaymath}
-      \forall A \in N: \text{ wenn } A \stackrel{*}{\Longrightarrow} w\text{ dann } (\qinit, w, A) \ConfRel^* (\qinit, \Eps, \Eps)
-    \end{displaymath}
-    per Induktion über den Ableitungsbaum $\mathcal{A} = \pi(\mathcal{A}_1, \ldots, \mathcal{A}_n)\in \operatorname{Abl}(\mathcal{G}, A)$ mit $Y(\mathcal{A}) = w$.
-    \begin{description}
-    \item[IV] Für alle $n' \le n$ und $1 \le i \le n',\enspace A_i \in N,\enspace \mathcal{A}_i \in \operatorname{Abl}(\mathcal{G}, A_i)$ gilt:
-      \begin{equation}
-      \label{eq:pda-step-base}
-      (\qinit, Y(\mathcal{A}_i), A_i) \ConfRel^* (\qinit, \Eps, \Eps) \tag{$\star$}
-    \end{equation}
-    \item[IS] Unterscheide die Form der Produktionen der CNF-Grammatik $\mathcal{G}$:
-      \begin{itemize}
-      \item $\pi = S \to \Eps$.
+        \item $\S \to \Eps$.
         Per Konstruktion gilt $(\qinit, \Eps) \in \delta(\qinit, \Eps, S)$ und somit $(\qinit, \Eps, S) \ConfRel (\qinit, \Eps, \Eps)$.
-      \item $\pi = A \to a$, $a \in \Sigma^*$.
+      \item $A \to a$, $a \in \Sigma$.
         Per Konstruktion gilt $(\qinit, a) \in \delta(\qinit, \Eps, A)$ und $(\qinit, \Eps) \in \delta(\qinit, \Eps)$.
 
         Somit gilt $(\qinit, a, A) \ConfRel (\qinit, a, a) \ConfRel (\qinit, \Eps, \Eps)$.
-      \item $\pi = A \to BC$, $B,C \in N$, $\mathcal{A} = \pi(\mathcal{A}_1, \mathcal{A}_2)$, $\mathcal{A}_1 \in \operatorname{Abl}(\mathcal{G}, B)$, $\mathcal{A}_1 \in \operatorname{Abl}(\mathcal{G}, B)$, $w = Y(\mathcal{A}_1)Y(\mathcal{A}_2)$.
+   \end{itemize}
+   
+   IS: $n\rightsquigarrow n+1$ In diesem Fall verwendet der erste Ableitungsschritt eine Regel der Form $\pi = A \to BC$ mit $B,C \in N$.
+   Wir betrachten den zugehörigen Ableitungsbaum $\mathcal{T} = \pi(\mathcal{T}_1, \mathcal{T}_2)$, $\mathcal{T}_1 \in \operatorname{Abl}(B)$, $\mathcal{A}_2 \in \operatorname{Abl}(C)$, $w = Y(\mathcal{A}_1)Y(\mathcal{A}_2)$.
 
         Per Konstruktion gilt $(\qinit, BC) \in \delta(\qinit, \Eps, A)$. 
 
         Ferner gilt per IV, dass $(\qinit, Y(\mathcal{A}_1), B) \ConfRel^* (\qinit, \Eps, \Eps)$ und $(\qinit, Y(\mathcal{A}_2), C) \ConfRel^* (\qinit, \Eps, \Eps)$.
 
-        Es folgt mit Beobachtung \eqref{eq:pda-step-base}, dass $(\qinit, w, A) = (\qinit, Y(\mathcal{A}_1)Y(\mathcal{A}_2), A)\ConfRel (\qinit, Y(\mathcal{A}_1)Y(\mathcal{A}_2), BC) \ConfRel^* (\qinit, Y(\mathcal{A}_2), C) \ConfRel^* (\qinit, \Eps, \Eps)$.
-      \end{itemize}
-    \end{description}
-  \item Wir zeigen
-    \begin{displaymath}
-      \text{wenn } (\qinit, w, S) \ConfRel^* (\qinit, \Eps, \Eps) \text{ dann } S \stackrel{*}{\Longrightarrow} w
+        Es folgt mit \autoref{lem:4.mehrKeller}, dass $(\qinit, w, A) = (\qinit, Y(\mathcal{A}_1)Y(\mathcal{A}_2), A)\ConfRel (\qinit, Y(\mathcal{A}_1)Y(\mathcal{A}_2), BC) \ConfRel^* (\qinit, Y(\mathcal{A}_2), C) \ConfRel^* (\qinit, \Eps, \Eps)$.
+ \item[``$\subseteq$'']
+ Sei $w\in L(\K)$, dann gilt $(\qinit, w, S) \ConfRel^* (\qinit, \Eps, \Eps)$
+ Wir wollen $S \vdash^* w$ folgern und beweisen dafür via vollständige Induktion über die Anzahl der Berechnungsschritte $n$ die folgende Aussage:
+     \begin{displaymath}
+      \forall n \in \mathbb{N}: \forall w \in \Sigma^*, \alpha \in \Gamma^*: \text{ wenn } (\qinit, w, \alpha) \ConfRel^n (\qinit, \Eps, \Eps) \text{ dann } \alpha \vdash^* w 
     \end{displaymath}
-    Wir beweisen dazu die stärkere Aussage
-    \begin{displaymath}
-      \forall n \in \mathbb{N}: \forall w \in \Sigma^*, \alpha \in \Gamma^*: \text{ wenn } (\qinit, w, \alpha) \ConfRel^n (\qinit, \Eps, \Eps) \text{ dann } \alpha \stackrel{*}{\Longrightarrow} w 
-    \end{displaymath}
-    per Induktion über die Anzahl der Berechnungsschritte $n$.
-
+    
     \begin{description}
     \item[IA] $n = 0$.
       $w = \Eps$, $\alpha = \Eps$: es gilt $\Eps \Longrightarrow \Eps$.
-    \item[IV] Für alle $n' < n$ und $w \in \Sigma^*, \alpha \in \Gamma^*$ gilt
-      \begin{displaymath}
-      \text{ wenn } (\qinit, w, \alpha) \ConfRel^{n'} (\qinit, \Eps, \Eps) \text{ dann } \alpha \stackrel{*}{\Longrightarrow} w
-    \end{displaymath}
+
   \item[IS] $n > 0$, $\alpha = Z\alpha'$,
 
     $(\qinit,w,Z\alpha') \ConfRel (\qinit, w', \beta\alpha') \ConfRel^{n-1} (\qinit, \Eps, \Eps)$, $\delta(\qinit, x, Z) \ni (\qinit, \beta)$
@@ -183,15 +174,32 @@ Im weiteren sei $M=(\dots)$ ein \ac{NPDA}.
 
       Es folgt $\beta = \Eps$ und $w = aw'$.
 
-      Per IV gilt $\alpha' \stackrel{*}{\Longrightarrow} w'$ und somit auch $\alpha = a\alpha' \stackrel{*}{\Longrightarrow}aw' = w$.
+      Per IV gilt $\alpha' \vdash^* w'$ und somit auch $\alpha = a\alpha' \vdash^*aw' = w$.
     \item $Z = A$, $A \to \beta \in P$.
 
       Es folgt $w = w'$.
 
-      Per IV gilt $\beta\alpha' \stackrel{*}{\Longrightarrow} w'$ und somit auch $A\alpha \Longrightarrow \beta\alpha' \stackrel{*}{\Longrightarrow} w' = w$.
+      Per IV gilt $\beta\alpha' \vdash^* w'$ und somit auch $A\alpha \Longrightarrow \beta\alpha' \vdash^* w' = w$.
     \end{itemize}
     \end{description}
-  \end{itemize}
+ 
+\end{description}
+
+\end{proof}
+
+\hide{
+
+\begin{Satz}\label{satz:5.1}
+  \begin{align*}
+                L \in \ac{CFL}  \text{ gdw } L =L(M) \text{ für einen NPDA $M$}
+  \end{align*}
+\end{Satz}
+\datenote{21.12.16}
+\begin{proof}\hfill
+        \begin{itemize}
+        \item CFG zu NPDA:
+
+
   \item NPDA zu CFG:
 
     Zunächst zeigen wir, dass es genügt NPDAs zu betrachten, die bei jeder Transition Wörter der maximalen Länge $2$ auf den Keller schreiben:
@@ -211,7 +219,7 @@ Im weiteren sei $M=(\dots)$ ein \ac{NPDA}.
         Wiederhole bis alle Transitionen die gew"unschte Form haben. \qedhere
 \end{proof}
 
-Sei $M = (Q, \Sigma, \Gamma, \qinit, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| \le 2$ für alle $(q', \gamma) \in \delta(q, x, Z), q \in Q, x \in \Sigma \cup \{\Eps\}, Z \in \Gamma$.
+Sei $M = (Q, \Sigma, \Gamma, \qinit, \Zinit, \delta)$ nun ein NPDA wobei $|\gamma| \le 2$ für alle $(q', \gamma) \in \delta(q, x, Z), q \in Q, x \in \Sigma \cup \{\Eps\}, Z \in \Gamma$.
 
     Definiere $\mathcal{G} = (N, \Sigma, S, P)$ mit
     \begin{itemize}
@@ -329,14 +337,14 @@ Sei $M = (Q, \Sigma, \Gamma, \qinit, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| 
 \end{proof}
 
 \begin{Def}[name={[DPDA]}]
-        Ein \ac{DPDA} ist ein Tupel $(\underbrace{Q,\Sigma,\Gamma,\qinit,Z_0}_{\text{wie gehabt}},\delta,F)$
+        Ein \ac{DPDA} ist ein Tupel $(\underbrace{Q,\Sigma,\Gamma,\qinit,\Zinit}_{\text{wie gehabt}},\delta,F)$
         \vspace{-1em}
         \begin{itemize}
         \item $F\subseteq Q$ akzeptierende Zustände
         \item $\delta: Q\x (\Sigma\cup\{\Eps\})\x \Gamma \-> \mathcal{P}(Q\x \Gamma^*)$ wobei für alle $q\in Q,a\in\Sigma,Z\in\Gamma$ gelten muss, dass
         $|\delta(q,a,Z)| + |\delta(q,\Eps,Z)| \leq 1$
         \item Die Schrittrelation ,,$\ConfRel$'' ist definiert wie bei NPDAs.
-        \item $L(M) = \{w\in\Sigma^* \mid (\qinit,w,Z_0) \ConfRel^* (q',\Eps,\gamma) \land q'\in F \}$ \qedhere
+        \item $L(M) = \{w\in\Sigma^* \mid (\qinit,w,\Zinit) \ConfRel^* (q',\Eps,\gamma) \land q'\in F \}$ \qedhere
         \end{itemize}
 \end{Def}
 
@@ -348,20 +356,20 @@ Sei $M = (Q, \Sigma, \Gamma, \qinit, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| 
 \draftnote{23.12.16}
 \begin{proof}
 
-  Sei $M = (Q, \Sigma, \Gamma, \qinit, Z_0, \delta, F)$. 
+  Sei $M = (Q, \Sigma, \Gamma, \qinit, \Zinit, \delta, F)$. 
   Zwei Möglichkeiten, warum $M$ nicht die gesamte Eingabe verarbeiten:
   Die Transitionsrelation ist nicht total \footnote{d.h. es gibt zwei Konfigurationen $a$, $b$
   so dass $a \not \Rightarrow^* b$} oder der Automat bleibt bei
   leerem Keller stecken.
 
-  Abhilfe: Führe einen Senkzustand ein, auf dem $M'$ weiterrechnet, wenn $M$ nicht mehr weiterrechnen kann. Definiere dazu $M' = (Q', \Sigma, \Gamma', {\qinit}', Z_0', \delta', F')$ mit
+  Abhilfe: Führe einen Senkzustand ein, auf dem $M'$ weiterrechnet, wenn $M$ nicht mehr weiterrechnen kann. Definiere dazu $M' = (Q', \Sigma, \Gamma', {\qinit}', {\Zinit}', \delta', F')$ mit
   \begin{align*}
   Q' &= Q \cup \{{\qinit}', q_s\} \text{ neue Zustände: ${\qinit}'$ neuer Startzustand und $q_s$ Senkzustand} \\
   F' &= F \\
-  \Gamma' &= \Gamma \cup \{Z_0'\} \text{ neues Kellerbodensymbol}
+  \Gamma' &= \Gamma \cup \{{\Zinit}'\} \text{ neues Kellerbodensymbol}
   \end{align*}
   und Transitionsfunktion $\delta'$ gegeben durch
-  \[\delta' ({\qinit}', \varepsilon, Z_0') = \{ (\qinit, Z_0Z_0') \} \]
+  \[\delta' ({\qinit}', \varepsilon, {\Zinit}') = \{ (\qinit, \Zinit{\Zinit}') \} \]
   \begin{itemize}
   \item Transition totalisieren: Für alle $q\in Q$, $Z \in \Gamma$\\
     \begin{align*}
@@ -379,18 +387,18 @@ Sei $M = (Q, \Sigma, \Gamma, \qinit, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| 
       \end{cases}
     \end{align*}
     Intuition: Wenn $\delta(q, a, Z) = \emptyset$ und ein $\epsilon$-Übergang ebenfalls ausscheidet, kann das Wort von $M$ nicht weiter abgearbeitet werden. $M'$ geht nun in Senkzustand $\qinit$ und arbeitet dort weiter. Analog für $\delta(q, \epsilon, Z)$.
-  \item Kellerunterlauf: $M$ hat $Z_0$ abgeräumt, so dass $Z_0'$
+  \item Kellerunterlauf: $M$ hat $\Zinit$ abgeräumt, so dass ${\Zinit}'$
     sichtbar geworden ist. Füge eine $\epsilon$-Transition in
      Senkzustand $q_s$ hinzu, indem man für alle $q\in Q$ definiere:\\
-    \[\delta' (q, \varepsilon, Z_0') = \{ (q_s, Z_0') \} \]
+    \[\delta' (q, \varepsilon, {\Zinit}') = \{ (q_s, {\Zinit}') \} \]
   In $q_s$ kann der Automat nun für alle $a\in\Sigma$, $Z\in \Gamma'$ abarbeiten:\\
-    \[\delta' (q_s, a, Z) = \{ (q_s, Z) \}\]   %TODO warum Z und nicht Z_0' ?!
+    \[\delta' (q_s, a, Z) = \{ (q_s, Z) \}\]   %TODO warum Z und nicht {\Zinit}' ?!
     Bemerke, dass $\qinit \not \in F'$, da ein Kellerunterlauf
     das Akzeptieren des eingelesen Wortes ausschliesst.
   \end{itemize}
 
   Es verbleibt zu zeigen, dass $\forall w\in \Sigma^*$ $\exists q\in Q'$
-  $\gamma\in\Gamma'^*$ so dass $({\qinit}', w, Z_0') \ConfRel^* (q,
+  $\gamma\in\Gamma'^*$ so dass $({\qinit}', w, {\Zinit}') \ConfRel^* (q,
   \varepsilon, \gamma)$. (Induktion über $w$) Weiter ist zu zeigen,
   dass $L (M) = L (M')$.
 \end{proof}
@@ -463,13 +471,13 @@ Sei $M = (Q, \Sigma, \Gamma, \qinit, Z_0, \delta)$ nun ein NPDA wobei $|\gamma| 
     Intution des Beweis: Konstruiere Produktautomaten, der akzeptiert gdw. der DFA und NDPA akzeptieren. Idee: Definiere Tupel $(q_1, q_2)$, DPDA arbeitet auf $q_1$, DFA arbeitet auf $q_2$. Beispielsweise werden $\epsilon$-Übergänge des DPDA nur auf der ,,DPDA-Seite'' d.h. auf $q_1$ abgearbeitet, ohne Beeinflussung von $q_2$.
     }
 
-    $L = L (M_1)$ mit $M_1 = (Q_1, \Sigma, \Gamma, q_{01}, Z_0,
+    $L = L (M_1)$ mit $M_1 = (Q_1, \Sigma, \Gamma, q_{01}, \Zinit,
     \delta_1, F_1)$ \ac{DPDA}
 
     $R = L (M_2)$ mit $M_2 = (Q_2, \Sigma, q_{02}, \delta_2, F_2)$
     \ac{DFA}
 
-    Konstruiere $M'= (Q, \Sigma, \Gamma, \qinit, Z_0, \delta, F)$ mit
+    Konstruiere $M'= (Q, \Sigma, \Gamma, \qinit, \Zinit, \delta, F)$ mit
     \begin{itemize}
     \item $Q = Q_1 \times Q_2$
     \item $\qinit = (q_{01}, q_{02})$
@@ -622,8 +630,8 @@ Anmerkung: first ist nicht die vollständige Lösung des Problems. Für
 den Lookahead müssen auch noch die Symbole betrachtet werden, die
 \emph{nach} einem bestimmten Nichtterminal auftreten können. Mehr dazu
 in Vorlesung Compilerbau. 
-
+}
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "Info_3_Skript_WS2016-17"
-%%% End:
+%%% End:(\dots)
