@@ -781,16 +781,17 @@ $\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$
 
 \begin{Satz}[name={[Entscheidbarkeit des Leerheitsproblems für kontextfreie Sprachen]}] % 4.7
   \label{thm:cfl-decidable-emptyness}
-    Es gibt einen Algorithmus, der das Leerheitsproblem\footnote{Gefragt ist, ob $L(\mathcal{G}) = \{ w\in\Sigma^* \mid S\overset{*}{\vdash} w \} \overset{?}{=} \emptyset
-$.} für kontextfreie Sprachen in $O(|\mathcal{G}|)$ entscheidet.
+    Es gibt einen Algorithmus, der das Leerheitsproblem%
+    \footnote{Gefragt ist, ob $L(\mathcal{G}) = \{ w\in\Sigma^* \mid S\overset{*}{\vdash} w \} \overset{?}{=} \varnothing$.}
+    für kontextfreie Sprachen in $O(|\mathcal{G}|)$ entscheidet.
 \end{Satz}
 
 \begin{proof}
     Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine \ac{CFG} für $L$.
     Wir definieren die Menge $M$ der co-erreichbaren Nichtterminalsymbole.
-    
+    %
     $$M = \{ A \mid A \stackrel{*}{\vdash}_\mathcal{G} w, w\in \Sigma^* \}$$
-   
+    %
     Offensichtlich gilt: $L =\varnothing \<=> S\notin M$.
     
     Wir können $M$ induktiv berechnen. Wir definieren hierfür:
@@ -799,13 +800,13 @@ $.} für kontextfreie Sprachen in $O(|\mathcal{G}|)$ entscheidet.
 		M_{i+1} &= M_i\cup \{ A \mid A \-> \alpha\in P, \alpha\in(\Sigma\cup M_i)^* \}
 	\end{align*}
     Offensichtlich gilt für alle $i\in\N$ $M_i\subseteq M_{i+}$ und $M_i\subseteq M$.
-    Da $M\subseteq N$ endlich gibt es ein $n$, sodass $M_n = M_{n+1}$ (hier ohne Beweis).
+    Da $M\subseteq N$ endlich ist, gibt es ein $n$, sodass $M_n = M_{n+1}$ (hier ohne Beweis).
     
     Wir können daher $M$ analog zu $\operatorname{Nullable}(\mathcal{G})$ (siehe \autoref{satz:3.nullable}) in $O(|\mathcal{G}|)$ berechnen.
 \end{proof}
 \begin{Bem}
         Wenn wir in einer Grammatik $\mathcal{G}$ ein nicht co-erreichbares Nichtterminalsymbol (und alle zugehörigen Regeln) entfernen, ändert sich $L(\mathcal{G})$ nicht.
-        Wir können eine gegebenen Grammatik also optimieren indem wir alle nicht co-erreichbares Nichtterminalsymbole entfernen.
+        Wir können eine gegebene Grammatik also optimieren, indem wir alle nicht co-erreichbaren Nichtterminalsymbole entfernen.
 \end{Bem}
 % \begin{Satz}[name={[Entscheidbarkeit des Endlichkeitsproblem für \acs*{CFL}]}]
 % 	Das Endlichkeitsproblem für kontextfreie Sprachen ist entscheidbar.
@@ -824,7 +825,7 @@ $.} für kontextfreie Sprachen in $O(|\mathcal{G}|)$ entscheidet.
 \begin{proof}
 	\begin{description}[font=\normalfont,labelwidth=\widthof{"'\=>"':},leftmargin=!]
 	\item["`\=>"'] Sei $\A =(\Sigma, Q,\delta,\qinit,F)$ \ac{DEA} für $L$.\\
-		Konstruiere Typ-3 Grammatik $\mathcal{G}=(\Sigma,N,P,S)$ mit
+		Konstruiere Typ-3-Grammatik $\mathcal{G}=(\Sigma,N,P,S)$ mit
 		\begin{align*}
 		 N &= Q\\
 		 S &= \qinit\\
