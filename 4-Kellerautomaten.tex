@@ -13,9 +13,9 @@ Kellerautomat $\approx$ Endlicher Automat + Kellerspeicher von unbeschränkter G
         \begin{align}
                 \Sigma &= \{0,1\} &\qquad&\text{Eingabealphabet} \notag\\
                 \Gamma &= \{0,1,\bot\} &&\text{Kelleralphabet} \notag\\
-                Q &= \{\qinit,q_1\} &&\bot\,\hat=\,\text{Kellerbodensymbol} \notag\\
-                \delta(\qinit,a,Z) &= \{(\qinit,aZ) \}&& a\in\{0,1\},Z\in\Gamma\\
-                \delta(\qinit,\Eps,Z) &= \{(q_1,Z)\} \label{eq:5.2}\\
+                Q &= \{q_0,q_1\} &&\bot\,\hat=\,\text{Kellerbodensymbol} \notag\\
+                \delta(q_0,a,Z) &= \{(q_0,aZ) \}&& a\in\{0,1\},Z\in\Gamma\\
+                \delta(q_0,\Eps,Z) &= \{(q_1,Z)\} \label{eq:5.2}\\
                 \delta(q_1,a,a) &= \{(q_1,\Eps)\}\\
                 \delta(q_1,\Eps,\bot) &= \{(q_1,\Eps)\}
         \end{align}
@@ -26,7 +26,7 @@ Kellerautomat $\approx$ Endlicher Automat + Kellerspeicher von unbeschränkter G
   Bei der graphischen Darstellung werden die Transitionen mit Tripeln $a;Z;\gamma$ beschriftet, wobei $a \in \Sigma$ das Eingabesymbol, $Z \in \Gamma$ das oberste Kellersymbol und $\gamma \in \Gamma^*$ der neue Kellerpräfix ist:
   \begin{center}
   \begin{tikzpicture}[node distance = 3cm]
-    \node[state] (0) at (0,0) {$\qinit$};
+    \node[state] (0) at (0,0) {$q_0$};
     \node[node distance = 1cm, left of = 0] (start) {};
     \node[state, right of = 0] (1) {$q_1$};
 
@@ -61,10 +61,10 @@ Die erkannte Sprache ist hier $L=\{ww^R \mid w\in\{0,1\}^*\}$.
 \end{Def}
 Im weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
 \begin{Def}[name={[Menge der Konfigurationen eines \acs*{NPDA}]}]
-        Die Menge der \emph{Konfigurationen} von $M$ ist $\Konf(M) = Q\x\Sigma^*\x\Gamma^*$\\
-        Die \emph{Schrittrelation} von $M$
+        Die Menge der \emph{Konfigurationen} von $\K$ ist $\Konf(M) = Q\x\Sigma^*\x\Gamma^*$\\
+        Die \emph{Schrittrelation} von $\K$
   \begin{displaymath}
-    \ConfRel\ \subseteq \Konf(M) \times \Konf(M) 
+    \ConfRel\ \subseteq \Konf(\K) \times \Konf(\K) 
   \end{displaymath}
   ist definiert durch
         \begin{align*}
@@ -137,7 +137,7 @@ Wir zeigen nun, dass $L(\K) = L(\mathcal{G})$.
     \end{displaymath}
   IA: $n=1$ Es gibt nur zwei Arten von Regeln, die für Ableitungen der Länge 1 in Frage kommen:
   \begin{itemize}
-        \item $\S \to \Eps$.
+        \item $S \to \Eps$.
         Per Konstruktion gilt $(\qinit, \Eps) \in \delta(\qinit, \Eps, S)$ und somit $(\qinit, \Eps, S) \ConfRel (\qinit, \Eps, \Eps)$.
       \item $A \to a$, $a \in \Sigma$.
         Per Konstruktion gilt $(\qinit, a) \in \delta(\qinit, \Eps, A)$ und $(\qinit, \Eps) \in \delta(\qinit, \Eps)$.
@@ -162,7 +162,7 @@ Wir zeigen nun, dass $L(\K) = L(\mathcal{G})$.
     
     \begin{description}
     \item[IA] $n = 0$.
-      $w = \Eps$, $\alpha = \Eps$: es gilt $\Eps \Longrightarrow \Eps$.
+      $w = \Eps$, $\alpha = \Eps$: es gilt $\Eps \vdash^* \Eps$.
 
   \item[IS] $n > 0$, $\alpha = Z\alpha'$,
 
