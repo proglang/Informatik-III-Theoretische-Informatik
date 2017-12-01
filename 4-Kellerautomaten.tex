@@ -2,6 +2,9 @@
 \newcommand{\ConfRel}{\rhd}
 \newcommand{\Zinit}{Z^\mathsf{init}}
 \newcommand{\K}{\mathcal{K}}
+
+{\color{red} TODO: Dieser rote Teil wird noch überarbeitet.
+
 Kellerautomat $\approx$ Endlicher Automat + Kellerspeicher von unbeschränkter Größe (Stack, push down)
 \paragraph*{Neu:}
 \begin{itemize}
@@ -45,6 +48,7 @@ Anders als bei EAs gibt es \emph{keine} finalen Zustände.
 
 Die erkannte Sprache ist hier $L=\{ww^R \mid w\in\{0,1\}^*\}$.
 \end{Bsp}
+}
 
 \begin{Def}[name={[NPDA]}]
         Ein \ac{NPDA} \footnote{Englisch: Nondeterministic Pushdown Automaton} ist ein 6-Tupel 
@@ -61,7 +65,7 @@ Die erkannte Sprache ist hier $L=\{ww^R \mid w\in\{0,1\}^*\}$.
 \end{Def}
 Im weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
 \begin{Def}[name={[Menge der Konfigurationen eines \acs*{NPDA}]}]
-        Die Menge der \emph{Konfigurationen} von $\K$ ist $\Konf(M) = Q\x\Sigma^*\x\Gamma^*$\\
+        Die Menge der \emph{Konfigurationen} von $\K$ ist $\Konf(\K) = Q\x\Sigma^*\x\Gamma^*$\\
         Die \emph{Schrittrelation} von $\K$
   \begin{displaymath}
     \ConfRel\ \subseteq \Konf(\K) \times \Konf(\K) 
@@ -72,19 +76,20 @@ Im weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
                 (q,w,Z\gamma) &\ConfRel (q',w,\beta\gamma) &&\text{falls }\delta(q,\Eps,z)\ni(q',\beta)\\
         \end{align*}
 
-  Wir schreiben $(q,w,\gamma) \ConfRel^n (q',w',\gamma')$ wenn $M$ in $n \in \mathbb{N}$ Schritten von Konfiguration $(q,w,\gamma)$ nach Konfiguration $(q',w',\gamma')$ gelangt.
+  Wir schreiben $(q,w,\gamma) \ConfRel^n (q',w',\gamma')$ wenn $\K$ in $n \in \mathbb{N}$ Schritten von Konfiguration $(q,w,\gamma)$ nach Konfiguration $(q',w',\gamma')$ gelangt.
 
   Wir schreiben ${\ConfRel^*}$ für die reflexive, transitive Hülle von ${\ConfRel}$.
   Falls $(q,w,\gamma) \ConfRel^* (q',w',\gamma')$ existiert also $n \in \mathbb{N}$, so dass $(q,w,\gamma) \ConfRel^n (q',w',\gamma')$.
   
-        Die von $M$ \emph{akzeptierte Sprache} ist
+        Die von $\K$ \emph{akzeptierte Sprache} ist
   \begin{displaymath}
-                L(M) = \{ w\in\Sigma^* \mid \exists q\in Q: (\qinit,w,\Zinit) \ConfRel^{\!\!*} (q,\Eps,\Eps) \} \tag*{\qedhere}
+                L(\K) = \{ w\in\Sigma^* \mid \exists q\in Q: (\qinit,w,\Zinit) \ConfRel^{\!\!*} (q,\Eps,\Eps) \} \tag*{\qedhere}
   \end{displaymath}
 \end{Def}
 
 \begin{Bsp*}
-  Die folgenden Schritte von $M$ aus Beispiel \ref{bsp:pda-wwr} zeigen, dass $w = 0110 \in L(M)$:
+\datenote{6.12.2017}
+  Die folgenden Schritte von $\K$ aus Beispiel \ref{bsp:pda-wwr} zeigen, dass $w = 0110 \in L(\K)$:
   \begin{displaymath}
   \begin{array}{ll}
     (\qinit, 0110, \bot) \\
