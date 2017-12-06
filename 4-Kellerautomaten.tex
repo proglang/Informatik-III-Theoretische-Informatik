@@ -316,6 +316,10 @@ Das folgende Lemma beantwortet diese Frage.
       dass der \ac{NPDA} in einem Schritt höchstens zwei Symbole auf den Stack legen darf kommen für den ersten Berechnungsschritt nur zwei Fälle in Frage:
       \begin{itemize}
       \item Fall $(q,w,Z)\ConfRel (q'', w',Z')$ mit $w=xw'$ für $x\in\Sigma\cup\{\Eps\}$.
+      
+      Aus $(q'', w',Z')\ConfRel^n (q',\Eps,\Eps)$ folgern wir mit IV
+      $[q'', Z',q']\vdash^n w'$.
+      Nach Konstuktion können wir $[q,Z,q'']\vdash x [q'', Z',q']$ ableiten.
 
       
       \item Fall $(q,w,Z)\ConfRel (q_1, w',Z_1Z_2)$ mit $w=xw'$ für $x\in\Sigma\cup\{\Eps\}$.
