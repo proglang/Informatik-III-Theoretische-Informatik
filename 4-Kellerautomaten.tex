@@ -260,13 +260,13 @@ Das folgende Lemma beantwortet diese Frage.
     
     \begin{itemize}
      \item Beweisrichtung ``$\Rightarrow$''
-     Wir zeigen diese Richtung via vollständiger Induktion über die Anzahl der Ableitungsschnitte.
+     Wir zeigen diese Richtung via vollständige Induktion über die Anzahl der Ableitungsschritte.
      \begin{description}
       \item[I.A.] $n=1$: Bereits oben gezeigt.
       \item[I.S.] $n\rightsquigarrow n+1$:
-      Sei $[q,Z,q']\vdash\alpha\stackrel{n+1}{\vdash} w$ eine Ableitung für $w$. Für den ersten Ableitungsschritt kommen zwei Fälle in Frage:
+      Sei $[q,Z,q']\vdash\alpha\stackrel{n}{\vdash} w$ eine Ableitung für $w$. Für den ersten Ableitungsschritt kommen zwei Fälle in Frage:
       \begin{itemize}
-      \item Fall $\alpha$ hat Form $x[q'', Z', q']$ ($[q,Z,q']\rightarrow\alpha \in P_1$)
+      \item Fall 1: $\alpha$ hat die Form $x[q'', Z', q']$ ($[q,Z,q']\rightarrow\alpha \in P_1$).
       
 	  Es folgt $w = xw'$ für ein $w'$ mit $[q'', Z', q']\stackrel{n}{\vdash} w'$.
 	  
@@ -274,31 +274,31 @@ Das folgende Lemma beantwortet diese Frage.
 	  
 	  Nach Konstruktion gilt $\delta(q, x, Z) \ni (q'', Z'), q'' \in Q, x \in \Sigma \cup \{\Eps\}$ und somit
 	  $(q, w, Z) \ConfRel (q'', w', Z') \ConfRel^n (q',\Eps,\Eps)$.
-      \item Fall $\alpha$ hat Form $x[q_1,Z_1,q_2][q_2, Z_2, q']$ ($[q,Z,q']\rightarrow\alpha \in P_2$)
+      \item Fall 2: $\alpha$ hat die Form $x[q_1,Z_1,q_2][q_2, Z_2, q']$ ($[q,Z,q']\rightarrow\alpha \in P_2$).
       
-      Es gibt also einen Ableitungsbaum $\mathcal{T} = \pi(\mathcal{T}_1,\mathcal{T}_2)$, mit $\mathcal{T}_1 \in \operatorname{Abl}([q_1, Z_1, q_2])$ und $\mathcal{T}_2 \in \operatorname{Abl}([q_2, Z_2, q'])$ sodass $w = xY(\mathcal{T}_1)Y(\mathcal{T}_2)$.
+      Es gibt also einen Ableitungsbaum $\mathcal{T} = \pi(\mathcal{T}_1,\mathcal{T}_2)$, mit $\mathcal{T}_1 \in \operatorname{Abl}([q_1, Z_1, q_2])$ und $\mathcal{T}_2 \in \operatorname{Abl}([q_2, Z_2, q'])$, sodass $w = xY(\mathcal{T}_1)Y(\mathcal{T}_2)$.
       
       Es gilt also $[q_1, Z_1, q_2]\stackrel{k_1}{\vdash} Y(\mathcal{T}_1)$ und 
-      $[q_2, Z_2, q']\stackrel{k_2}{\vdash} Y(\mathcal{T}_2)$ für $k_1,k_2\in\N$ sodass $k_1+k_2=n$.
+      $[q_2, Z_2, q']\stackrel{k_2}{\vdash} Y(\mathcal{T}_2)$ für $k_1,k_2\in\N$, sodass $k_1+k_2=n$.
       
-          Es folgt per I.V., dass
+          Per I.V.\ folgt
           \begin{displaymath}
-            (q_1, Y(\mathcal{T}_1), Z_1)) \ConfRel^{k_1} (q_2, \Eps, \Eps)
+            (q_1, Y(\mathcal{T}_1), Z_1) \ConfRel^{k_1} (q_2, \Eps, \Eps).
           \end{displaymath}
-          mit \autoref{lem:4.mehrKeller} auch
+          Mit \autoref{lem:4.mehrKeller} folgt auch
           \begin{displaymath}
-            (q_1, Y(\mathcal{T}_1)Y(\mathcal{T}_2), Z_1Z_2) \ConfRel^{k_2} (q_2, Y(\mathcal{T}_2), Z_2)
+            (q_1, Y(\mathcal{T}_1)Y(\mathcal{T}_2), Z_1Z_2) \ConfRel^{k_1} (q_2, Y(\mathcal{T}_2), Z_2).
           \end{displaymath}
           
 
-      Auch hier könnnen wir wieder I.V. anwenden und erhalten:
+      Auch hier können wir wieder I.V.\ anwenden und erhalten:
           \begin{displaymath}
             (q_2, Y(\mathcal{T}_2), Z_2) \ConfRel^{k_2} (q', \Eps, \Eps)
           \end{displaymath}
           
-                    Somit gilt
+                    Somit gilt:
           \begin{displaymath}
-            (q, xY(\mathcal{T}_1)Y(\mathcal{T}_2), Z) \ConfRel (q_1, Y(\mathcal{T}_1)Y(\mathcal{T}_2), Z_1Z_2)) \ConfRel^{k_1} (q_2, Y(\mathcal{T}_2), Z_2) \ConfRel^{k_2} (q', \Eps, \Eps)
+            (q, \underbrace{xY(\mathcal{T}_1)Y(\mathcal{T}_2)}_{w}, Z) \ConfRel (q_1, Y(\mathcal{T}_1)Y(\mathcal{T}_2), Z_1Z_2) \ConfRel^{k_1} (q_2, Y(\mathcal{T}_2), Z_2) \ConfRel^{k_2} (q', \Eps, \Eps)
           \end{displaymath}
       \end{itemize}
       
@@ -307,7 +307,7 @@ Das folgende Lemma beantwortet diese Frage.
     \end{itemize}
     
     \item Beweisrichtung ``$\Leftarrow$''
-     Wir zeigen diese Richtung via vollständiger Induktion über die Anzahl der Schritte des \ac{NPDA}.
+     Wir zeigen diese Richtung via vollständige Induktion über die Anzahl der Schritte des \ac{NPDA}.
      \begin{description}
       \item[IA] $n=1$: Bereits oben gezeigt.
       \item[IS] $n\rightsquigarrow n+1$:
