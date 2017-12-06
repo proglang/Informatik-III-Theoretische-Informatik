@@ -112,9 +112,9 @@ Im Weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
   Zum Führen des Beweises benötigen wir das folgende Lemma.
 
 \begin{lemma}[Mehr Keller -- mehr Möglichkeiten.]\label{lem:4.mehrKeller}
-Für alle $q,q' \in Q,\enspace w \in \Sigma^*,\enspace Z \in \Gamma$ gilt:
+Für alle $q,q' \in Q,\enspace w \in \Sigma^*,\enspace Z \in \Gamma$ und $n \in \N$ gilt:
   \begin{displaymath}
-    \text{Wenn } (q,w,Z) \ConfRel^* (q', \Eps, \Eps), \text{dann } \forall v \in \Sigma^*, \gamma \in \Gamma^*: (q, wv, Z\gamma) \ConfRel^* (q', v, \gamma).
+    \text{Wenn } (q,w,Z) \ConfRel^n (q', \Eps, \Eps), \text{dann } \forall v \in \Sigma^*, \gamma \in \Gamma^*: (q, wv, Z\gamma) \ConfRel^n (q', v, \gamma).
     \qedhere
   \end{displaymath}
 \end{lemma}
