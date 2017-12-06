@@ -225,6 +225,7 @@ Das folgende Lemma beantwortet diese Frage.
 
 
 \begin{lemma}\label{lem:4.npdaToCfg}
+\datenote{8.12.2017}
  Zu jedem \ac{NPDA} $\mathcal{K}$ gibt es eine \ac{CFG} $\mathcal{G}$, sodass $L(\mathcal{K})=L(\mathcal{G})$.
 \end{lemma}
 
@@ -262,7 +263,7 @@ Das folgende Lemma beantwortet diese Frage.
      \item Beweisrichtung ``$\Rightarrow$''
      Wir zeigen diese Richtung via vollständige Induktion über die Anzahl der Ableitungsschritte.
      \begin{description}
-      \item[I.A.] $n=1$: Bereits oben gezeigt.
+      \item[I.A.] $n=1$: Folgt wie oben erwähnt aus den $P_0$ Regeln.
       \item[I.S.] $n\rightsquigarrow n+1$:
       Sei $[q,Z,q']\vdash\alpha\stackrel{n}{\vdash} w$ eine Ableitung für $w$. Für den ersten Ableitungsschritt kommen zwei Fälle in Frage:
       \begin{itemize}
@@ -309,7 +310,7 @@ Das folgende Lemma beantwortet diese Frage.
     \item Beweisrichtung ``$\Leftarrow$''
      Wir zeigen diese Richtung via vollständige Induktion über die Anzahl der Schritte des \ac{NPDA}.
      \begin{description}
-      \item[IA] $n=1$: Bereits oben gezeigt.
+      \item[IA] $n=1$: Folgt wie oben erwähnt aus den $P_0$ Regeln.
       \item[IS] $n\rightsquigarrow n+1$:
       
       Sei $(q,w,Z) \ConfRel^{n+1} (q',\Eps,\Eps)$ eine Berechnung für $w$. Da wir annehmen, 
@@ -328,14 +329,14 @@ Das folgende Lemma beantwortet diese Frage.
       \begin{enumerate}
       \item $k_1+k_2=n$
       \item $w'=w_1w_2$
-      \item $(q_1, w',Z_1Z_2)\ConfRel^{k_2} (q_2, w_1,Z_1)$
-      \item $(q_2, w_1,Z_1)\ConfRel^{k_1} (q',\Eps,\Eps)$
+      \item $(q_1, w',Z_1Z_2)\ConfRel^{k_1} (q_2, w_2,Z_2)$
+      \item $(q_2, w_2,Z_2)\ConfRel^{k_2} (q',\Eps,\Eps)$
       \end{enumerate}
       
-      Aus 3. Folgern wir $(q_1, w_2,Z_2)\ConfRel^{k_2} (q_2, \Eps,\Eps)$ und mit IV
-      $[q_1, Z_2, q_2] \vdash^{k_2} w_2$.
+      Aus 3. Folgern wir $(q_1, w_1,Z_1)\ConfRel^{k_1} (q_2, \Eps,\Eps)$ und mit IV
+      $[q_1, Z_1, q_2] \vdash^{k_1} w_1$.
       
-      Aus 4. Folgern wir mit IV $[q_2, Z_1, q'] \vdash^{k_1} w_1$.
+      Aus 4. Folgern wir mit IV $[q_2, Z_2, q'] \vdash^{k_2} w_2$.
       
       Es gibt also einen Ableitungsbaum $\mathcal{T} = \pi(\mathcal{T}_1,\mathcal{T}_2)$, mit $\mathcal{T}_1 \in \operatorname{Abl}([q_1, Z_1, q_2])$ und $\mathcal{T}_2 \in \operatorname{Abl}([q_2, Z_2, q'])$ sodass $w = xY(\mathcal{T}_1)Y(\mathcal{T}_2)$.
       
