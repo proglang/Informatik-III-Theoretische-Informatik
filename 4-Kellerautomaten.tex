@@ -340,62 +340,9 @@ Das folgende Lemma beantwortet diese Frage.
       Es gibt also einen Ableitungsbaum $\mathcal{T} = \pi(\mathcal{T}_1,\mathcal{T}_2)$, mit $\mathcal{T}_1 \in \operatorname{Abl}([q_1, Z_1, q_2])$ und $\mathcal{T}_2 \in \operatorname{Abl}([q_2, Z_2, q'])$ sodass $w = xY(\mathcal{T}_1)Y(\mathcal{T}_2)$.
       
       Somit gibt es auch eine Ableitung 
-      $$[q, Z, q'] \vdash x[q_1,Z_1,q_2][q_2, Z_2, q'] \vdash^{k_1+k_2} w_1w_2.$$
-      
-       
+      $$[q, Z, q'] \vdash x[q_1,Z_1,q_2][q_2, Z_2, q'] \vdash^{k_1+k_2} w_1w_2. \qedhere$$
       \end{itemize}
      \end{description}
-     
-
-    \color{red}
-    
-
-    Es bleibt zu zeigen, dass .
-    \begin{itemize}
-
-    \item Wir zeigen für alle $n \in \mathbb{N}: \forall m \in \mathbb{N},\enspace Z_1,\ldots,Z_m \in \Gamma,\enspace q,q' \in Q$, dass wenn
-      \begin{displaymath}
-        (q,w,Z_1\ldots Z_m) \ConfRel^n (q', \Eps, \Eps)
-      \end{displaymath}
-      dann existieren $q_1,\ldots,q_{m+1} \in Q$, so dass
-      \begin{displaymath}
-        (q_1,Z_1,q_2)(q_2,Z_2,q_3)\ldots(q_m,Z_m,q_{m+1}) \stackrel{*}{\vdash} w
-      \end{displaymath}
-      mit $q_1 = q$ und $q_{m+1} = q'$ per Induktion über $n$.
-
-      \begin{description}
-      \item[I.A.] $n = 0$.
-        $w = \Eps$, $m = 0$.
-
-        Es folgt $\Eps \stackrel{*}{\vdash} w$.
-      \item[I.V.] Für alle $n' < n$,\enspace $m \in \mathbb{N},\enspace Z_1,\ldots,Z_m\in \Gamma,\enspace q,q' \in Q$ gilt, dass wenn
-        \begin{displaymath}
-        (q,w,Z_1\ldots Z_m) \ConfRel^{n'} (q', \Eps, \Eps)
-      \end{displaymath}
-      dann existieren $q_1,\ldots,q_{m+1} \in Q$, so dass
-      \begin{displaymath}
-        (q_1,Z_1,q_2)(q_2,Z_2,q_3)\ldots(q_m,Z_m,q_{m+1}) \stackrel{*}{\vdash} w
-      \end{displaymath}
-
-    \item[I.S.] $n > 0$.
-      $(q, w, Z_1\ldots Z_m) \ConfRel (q'', w', \gamma Z_2\ldots Z_m) \ConfRel^{n-1} (q',\Eps, \Eps)$.
-      $w =xw'$, \enspace $x \in \{\Eps\} \cup \Sigma$.
-      \begin{itemize}
-      \item $\gamma = \Eps$, \enspace $(q, Z_1, q'') \to x \in P$.
-
-        Per I.V.\ gilt: es existieren $q_2,\ldots,q_{m+1} \in Q$, so dass
-        \begin{displaymath}
-          (q_2, Z_2, q_3)\ldots(q_m,Z_m,q_{m+1}) \stackrel{*}{\vdash} w' \text{ und } q''=q_2 \text{ und } q'=q_{m+1}.
-        \end{displaymath}
-
-        Somit gilt auch
-        \begin{displaymath}
-          (q, Z_1, q'') (q_2, Z_2, q_3)\ldots(q_m,Z_m,q_{m+1})\vdash x\stackrel{*}{\vdash} xw'
-        \end{displaymath}
-      \item \ldots (andere Fälle ähnlich)
-      \end{itemize}
-      \end{description}
-  \end{itemize}
 \end{proof}
 
 
