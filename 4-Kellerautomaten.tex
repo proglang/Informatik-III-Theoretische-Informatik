@@ -128,7 +128,7 @@ Sei $\mathcal{G} = (N,\Sigma,P,S)$ Grammatik für $L$ in \ac{CNF}.
                 Definiere \ac{NPDA} $\mathcal{K}$ durch
                 \begin{itemize}
                         \item $Q = \{\qinit\}$ 
-                        \item $\Gamma = \Sigma\uplus N$
+                        \item $\Gamma = \Sigma\overset.\cup N$
                         \item $\Zinit = S$
                         \item $\delta(\qinit,a,a) = \{(\qinit,\Eps)\} $ für $ a\in\Sigma$
                         \item $\delta(\qinit,\Eps,A) = \{(\qinit,\alpha)\}$ für $A\to\alpha\in P$
