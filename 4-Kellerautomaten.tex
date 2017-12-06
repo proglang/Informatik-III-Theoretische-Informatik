@@ -316,7 +316,29 @@ Das folgende Lemma beantwortet diese Frage.
       dass der \ac{NPDA} in einem Schritt höchstens zwei Symbole auf den Stack legen darf kommen für den ersten Berechnungsschritt nur zwei Fälle in Frage:
       \begin{itemize}
       \item Fall $(q,w,Z)\ConfRel (q'', w',Z')$ mit $w=xw'$ für $x\in\Sigma\cup\{\Eps\}$.
+
+      
       \item Fall $(q,w,Z)\ConfRel (q_1, w',Z_1Z_2)$ mit $w=xw'$ für $x\in\Sigma\cup\{\Eps\}$.
+            Aus $(q_1, w',Z_1Z_2)\ConfRel^n (q',\Eps,\Eps)$ folgern wir:
+      $\exists k_1,k_2\in\N, \; q\in Q \; w_1,w_2\in \Sigma^*$ sodass 
+      \begin{enumerate}
+      \item $k_1+k_2=n$
+      \item $w'=w_1w_2$
+      \item $(q_1, w',Z_1Z_2)\ConfRel^{k_2} (q_2, w_1,Z_1)$
+      \item $(q_2, w_1,Z_1)\ConfRel^{k_1} (q',\Eps,\Eps)$
+      \end{enumerate}
+      
+      Aus 3. Folgern wir $(q_1, w_2,Z_2)\ConfRel^{k_2} (q_2, \Eps,\Eps)$ und mit IV
+      $[q_1, Z_2, q_2] \vdash^{k_2} w_2$.
+      
+      Aus 4. Folgern wir mit IV $[q_2, Z_1, q'] \vdash^{k_1} w_1$.
+      
+      Es gibt also einen Ableitungsbaum $\mathcal{T} = \pi(\mathcal{T}_1,\mathcal{T}_2)$, mit $\mathcal{T}_1 \in \operatorname{Abl}([q_1, Z_1, q_2])$ und $\mathcal{T}_2 \in \operatorname{Abl}([q_2, Z_2, q'])$ sodass $w = xY(\mathcal{T}_1)Y(\mathcal{T}_2)$.
+      
+      Somit gibt es auch eine Ableitung 
+      $$[q, Z, q'] \vdash x[q_1,Z_1,q_2][q_2, Z_2, q'] \vdash^{k_1+k_2} w_1w_2.$$
+      
+       
       \end{itemize}
      \end{description}
      
