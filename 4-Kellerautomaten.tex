@@ -257,7 +257,7 @@ Das folgende Lemma beantwortet diese Frage.
      \begin{description}
       \item[IA] $n=1$: Bereits oben gezeigt.
       \item[IS] $n\rightsquigarrow n+1$:
-      Sei $[q,Z,q']\vdash\alpha\stackrel{n}{\vdash} w$ eine Ableitung für $w$. Für den ersten Ableitungsschritt kommen zwei Fälle in Frage:
+      Sei $[q,Z,q']\vdash\alpha\stackrel{n+1}{\vdash} w$ eine Ableitung für $w$. Für den ersten Ableitungsschritt kommen zwei Fälle in Frage:
       \begin{itemize}
       \item Fall $\alpha$ hat Form $x[q'', Z', q']$ ($[q,Z,q']\rightarrow\alpha \in P_1$)
       
@@ -299,6 +299,21 @@ Das folgende Lemma beantwortet diese Frage.
      \end{description}
 
     \end{itemize}
+    
+    \item Beweisrichtung ``$\Leftarrow$''
+     Wir zeigen diese Richtung via vollständiger Induktion über die Anzahl der Schritte des \ac{NPDA}.
+     \begin{description}
+      \item[IA] $n=1$: Bereits oben gezeigt.
+      \item[IS] $n\rightsquigarrow n+1$:
+      
+      Sei $(q,w,Z) \ConfRel^{n+1} (q',\Eps,\Eps)$ eine Berechnung für $w$. Da wir annehmen, 
+      dass der \ac{NPDA} in einem Schritt höchstens zwei Symbole auf den Stack legen darf kommen für den ersten Berechnungsschritt nur zwei Fälle in Frage:
+      \begin{itemize}
+      \item Fall $(q,w,Z)\ConfRel (q'', w',Z')$ mit $w=xw'$ für $x\in\Sigma\cup\{\Eps\}$.
+      \item Fall $(q,w,Z)\ConfRel (q_1, w',Z_1Z_2)$ mit $w=xw'$ für $x\in\Sigma\cup\{\Eps\}$.
+      \end{itemize}
+     \end{description}
+     
 
     \color{red}
     
