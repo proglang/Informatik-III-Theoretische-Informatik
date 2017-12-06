@@ -259,7 +259,14 @@ Das folgende Lemma beantwortet diese Frage.
       \item[IS] $n\rightsquigarrow n+1$:
       Sei $[q,Z,q']\vdash\alpha\stackrel{n}{\vdash} w$ eine Ableitung für $w$. Für den ersten Ableitungsschritt kommen zwei Fälle in Frage:
       \begin{itemize}
-      \item Fall $[q,Z,q']\rightarrow\alpha \in P_1$
+      \item Fall $\alpha$ hat Form $x[q'', Z', q']$ ($[q,Z,q']\rightarrow\alpha \in P_1$)
+      
+	  Es folgt $w = xw'$ für ein $w'$ mit $[q'', Z', q']\stackrel{n}{\vdash} w'$.
+	  
+	  Nach IV gilt nun, dass $(q'', w', Z') \ConfRel^n (q',\Eps,\Eps)$.
+	  
+	  Nach Konstruktion gilt $\delta(q, x, Z) \ni (q'', Z'), q'' \in Q, x \in \Sigma \cup \{\Eps\}$ und somit
+	  $(q, w, Z) \ConfRel (q'', w', Z') \ConfRel^n (q',\Eps,\Eps)$.
       \item Fall $[q,Z,q']\rightarrow\alpha \in P_2$
       \end{itemize}
       
