@@ -8,8 +8,8 @@
 Kellerautomat $\approx$ Endlicher Automat + Kellerspeicher von unbeschränkter Größe (Stack, push down)
 \paragraph*{Neu:}
 \begin{itemize}
-        \item bei jedem Schritt darf der \ac{PDA} das oberste Kellersymbol inspizieren und durch beliebiges Kellerwort ersetzen (den neuen Kellerpräfix).
-        \item der \ac{PDA} darf auf dem Keller rechnen, ohne in der Eingabe weiter zu lesen. ($\Eps$-Transition oder Spontantransition).
+        \item Bei jedem Schritt darf der \ac{PDA} das oberste Kellersymbol inspizieren und durch ein beliebiges Kellerwort ersetzen (das neue Kellerpräfix).
+        \item Der \ac{PDA} darf auf dem Keller rechnen, ohne in der Eingabe weiterzulesen ($\Eps$-Transition oder Spontantransition).
 \end{itemize}
 \begin{Bsp}
 \label{bsp:pda-wwr}
@@ -22,11 +22,11 @@ Kellerautomat $\approx$ Endlicher Automat + Kellerspeicher von unbeschränkter G
                 \delta(q_1,a,a) &= \{(q_1,\Eps)\}\\
                 \delta(q_1,\Eps,\bot) &= \{(q_1,\Eps)\}
         \end{align}
-  Die Übergangsfunktion $\delta$ bildet den aktuellem Zustand, das aktuelle Eingabesymbol und das aktuell oberste Kellersymbol auf Paare von Folgezustand und neuem Kellerpräfix ab.
-  In diesem Beispiel ist die zurückgegebene Paarmenge in allen Fällen einelementig.
-  Durch die $\Eps$ Transitionen ist der PDA aber trotzdem nichtdeterministisch.
+  Die Übergangsfunktion $\delta$ bildet den aktuellen Zustand, das aktuelle Eingabesymbol und das aktuell oberste Kellersymbol auf Paare von Folgezustand und neuem Kellerpräfix ab.
+  In diesem Beispiel ist die zurückgegebene Menge von Paaren in allen Fällen einelementig.
+  Durch die $\Eps$-Transitionen ist der PDA aber trotzdem nichtdeterministisch.
 
-  Bei der graphischen Darstellung werden die Transitionen mit Tripeln $a;Z;\gamma$ beschriftet, wobei $a \in \Sigma$ das Eingabesymbol, $Z \in \Gamma$ das oberste Kellersymbol und $\gamma \in \Gamma^*$ der neue Kellerpräfix ist:
+  Bei der graphischen Darstellung werden die Transitionen mit Tripeln $(a;Z;\gamma)$ beschriftet, wobei $a \in \Sigma$ das Eingabesymbol, $Z \in \Gamma$ das oberste Kellersymbol und $\gamma \in \Gamma^*$ der neue Kellerpräfix ist:
   \begin{center}
   \begin{tikzpicture}[node distance = 3cm]
     \node[state] (0) at (0,0) {$q_0$};
@@ -40,50 +40,50 @@ Kellerautomat $\approx$ Endlicher Automat + Kellerspeicher von unbeschränkter G
     \draw[->, loop right] (1) to node[auto]{$\Eps;\bot;\Eps$} (1);
   \end{tikzpicture}
 \end{center}
-wobei hier $a \in \Sigma$ und $Z \in \Gamma$.
+wobei hier $a \in \Sigma$ und $Z \in \Gamma$ gilt.
 
 Der Automat beginnt im Startzustand $\qinit$ mit einem Kellerspeicher, der nur das Kellerbodensymbol $\Zinit$ enthält.
-Er akzeptiert ein Wort, wenn er alle Eingabesymbole gelesen und den Keller komplett leeren konnte.
-Anders als bei EAs gibt es \emph{keine} finalen Zustände.
+Er akzeptiert ein Wort, wenn er alle Eingabesymbole gelesen hat und den Keller komplett leeren konnte.
+Anders als bei endlichen Automaten gibt es \emph{keine} akzeptierenden Zustände.
 
-Die erkannte Sprache ist hier $L=\{ww^R \mid w\in\{0,1\}^*\}$.
+Die akzeptierte Sprache ist hier $L=\{ww^R \mid w\in\{0,1\}^*\}$.
 \end{Bsp}
 }
 
 \begin{Def}[name={[NPDA]}]
-        Ein \ac{NPDA} \footnote{Englisch: Nondeterministic Pushdown Automaton} ist ein 6-Tupel 
+        Ein \ac{NPDA}\footnote{Englisch: Nondeterministic Pushdown Automaton} ist ein 6-Tupel 
         $$(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta).$$
         Dabei ist
         \begin{itemize}
 		\item $\Sigma$ ein Alphabet, das wir auch \emph{Eingabealphabet} nennen,
                 \item $Q$ eine endliche Menge, deren Elemente wir \emph{Zustände} nennen,
                 \item $\Gamma$ ein Alphabet, das wir auch \emph{Kelleralphabet} nennen,
-                \item $\qinit\in Q$ ein Zustand den wir Startzustand nennen,
-                \item $\Zinit\in\Gamma$ ein Zeichen, dass wir \emph{Kellerbodensymbol} nennen,
+                \item $\qinit\in Q$ ein Zustand, den wir Startzustand nennen,
+                \item $\Zinit\in\Gamma$ ein Zeichen, das wir \emph{Kellerbodensymbol} nennen,
                 \item $\delta: Q\x(\Sigma\cup\{\Eps\})\x\Gamma \-> \mathcal{P}(Q\x\Gamma^*)$ eine Funktion, die wir \emph{Transitionsfunktion} nennen. \qedhere
         \end{itemize}
 \end{Def}
-Im weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
+Im Weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
 \begin{Def}[name={[Menge der Konfigurationen eines \acs*{NPDA}]}]
-        Die Menge der \emph{Konfigurationen} von $\K$ ist $\Konf(\K) = Q\x\Sigma^*\x\Gamma^*$\\
+        Die Menge der \emph{Konfigurationen} von $\K$ ist $\Konf(\K) = Q\x\Sigma^*\x\Gamma^*$.\\
         Die \emph{Schrittrelation} von $\K$
   \begin{displaymath}
-    \ConfRel\ \subseteq \Konf(\K) \times \Konf(\K) 
+    \mathop{\ConfRel} \subseteq \Konf(\K) \times \Konf(\K) 
   \end{displaymath}
   ist definiert durch
         \begin{align*}
                 (q,aw,Z\gamma) &\ConfRel (q',w,\beta\gamma) &&\text{falls }\delta(q,a,Z)\ni(q',\beta)\\
-                (q,w,Z\gamma) &\ConfRel (q',w,\beta\gamma) &&\text{falls }\delta(q,\Eps,Z)\ni(q',\beta)\\
+                (q,w,Z\gamma) &\ConfRel (q',w,\beta\gamma) &&\text{falls }\delta(q,\Eps,Z)\ni(q',\beta).
         \end{align*}
 
-  Wir schreiben $(q,w,\gamma) \ConfRel^n (q',w',\gamma')$ wenn $\K$ in $n \in \mathbb{N}$ Schritten von Konfiguration $(q,w,\gamma)$ nach Konfiguration $(q',w',\gamma')$ gelangt.
+  Wir schreiben $(q,w,\gamma) \ConfRel^n (q',w',\gamma')$, wenn $\K$ in $n \in \mathbb{N}$ Schritten von Konfiguration $(q,w,\gamma)$ in Konfiguration $(q',w',\gamma')$ gelangt.
 
   Wir schreiben ${\ConfRel^*}$ für die reflexive, transitive Hülle von ${\ConfRel}$.
-  Falls $(q,w,\gamma) \ConfRel^* (q',w',\gamma')$ existiert also $n \in \mathbb{N}$, so dass $(q,w,\gamma) \ConfRel^n (q',w',\gamma')$.
+  Falls $(q,w,\gamma) \ConfRel^* (q',w',\gamma')$, so existiert also $n \in \mathbb{N}$, sodass $(q,w,\gamma) \ConfRel^n (q',w',\gamma')$.
   
         Die von $\K$ \emph{akzeptierte Sprache} ist
   \begin{displaymath}
-                L(\K) = \{ w\in\Sigma^* \mid \exists q\in Q: (\qinit,w,\Zinit) \ConfRel^{\!\!*} (q,\Eps,\Eps) \} \tag*{\qedhere}
+                L(\K) = \{ w\in\Sigma^* \mid \exists q\in Q: (\qinit,w,\Zinit) \ConfRel^{\!\!*} (q,\Eps,\Eps) \}
   \end{displaymath}
   Wir nennen eine Konfiguration der Form $(q,\Eps,\Eps)$ mit $q\in Q$ eine \emph{akzeptierende Konfiguration}.
 \end{Def}
@@ -528,7 +528,7 @@ Das folgende Lemma beantwortet diese Frage.
 \begin{proof}
     Sei $L$ DCFL und $R$ regulär.
     Konstruiere das Produkt aus einem DPDA für $L$ und einem DFA für $R$.
-    Offenbar ist das Ergebnis ein DPDA, der $L\cap R$ erkennt. \footnote{
+    Offenbar ist das Ergebnis ein DPDA, der $L\cap R$ akzeptiert. \footnote{
     Intution des Beweis: Konstruiere Produktautomaten, der akzeptiert gdw. der DFA und NDPA akzeptieren. Idee: Definiere Tupel $(q_1, q_2)$, DPDA arbeitet auf $q_1$, DFA arbeitet auf $q_2$. Beispielsweise werden $\epsilon$-Übergänge des DPDA nur auf der ,,DPDA-Seite'' d.h. auf $q_1$ abgearbeitet, ohne Beeinflussung von $q_2$.
     }
 
@@ -572,7 +572,7 @@ Das folgende Lemma beantwortet diese Frage.
     Siehe Senizergues (2000) und Stirling (2001).
 \end{proof}
 
-Wir betrachten zum Ende des Kapitels noch eine praktische Fragestellung: Wie sieht man einer CFL an, dass sie von einem DPDA erkennbar ist?
+Wir betrachten zum Ende des Kapitels noch eine praktische Fragestellung: Wie sieht man einer CFL an, dass sie von einem DPDA akzeptierbar ist?
 
 Sei $\mathcal{G} = (N, \Sigma, P, S)$.
 Wir können nach Satz \ref{satz:5.1} einen PDA für $\mathcal{G}$ konstruieren, mit
