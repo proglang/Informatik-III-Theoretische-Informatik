@@ -445,7 +445,256 @@ Das folgende Lemma beantwortet diese Frage.
 \end{proof}
 
 
+\subsection{Das Pumping Lemma für kontextfreie Sprachen}
+\begin{Satz}[Pumping lemma für \acs*{CFL}]
+\label{satz:PL für CFL}
+%\rlnote{Satz \# 4.2?}
+	Sei $L$ eine kontextfreie Sprache. Dann gilt:
+	        \begin{alignat*}{2}
+                &\exists n\in\N,\ n>0:\quad \forall z\in L,\ |z|\geq n:\\
+                &\exists u,v,w,x,y\in\Sigma^* :\\
+                &z = uvwxy,\ |vwx| \leq n,\ |vx| \geq 1\\
+                \text{und }& \forall i\in\N: uv^iwx^iy\in L
+        \end{alignat*}
+\end{Satz}
+\begin{lemma}
+ In jedem Binärbaum (Baum bei dem jeder Knoten der kein Blatt is zwei Nachfolger hat) mit $\geq 2^k$ Blättern gibt es mindestens einen Pfad der Länge $\geq k$ von einem Blatt zur Wurzel.
+\end{lemma}
 
+\begin{proof}
+	Sei $\mathcal{G}= (\Sigma,N,P,S)$ in \ac{CNF} mit
+    $L(\mathcal{G}) = L$. Wähle die Pumping-Konstante $n=2^{|N|}$.
+    
+     Betrachte den Ableitungsbaum $\mathcal{A} \in \operatorname{Abl}(\mathcal{G}, S)$ von $z$ mit $|z|\geq n$. 
+    \footnote{Intuition: Da $\mathcal{G}$ in \ac{CNF}, ist Ableitungsbaum $\mathcal{A}$ ein Binärbaum. 
+        Mit $|N|$ 
+    verschiedenen Nichtterminalsymbolen kann man 
+    also maximal Wörter der Länge $2^{|N|}$ ableiten, wenn man keine Ableitung doppelt nutzen möchte. 
+    Leitet man ein längeres Wort ab, so muss man mind. eine Ableitung doppelt nutzen.
+     Dann kann man sie aber auch gleich $i$-fach nutzen ($v^i$ und $x^i$), und ist immernoch in der Sprache.}
+  $\mathcal{A}$ ist ein Binärbaum mit $|z|\geq n = 2^{|N|}$ Blättern. In einem solchen Binärbaum existiert ein Pfad $\zeta$ der Länge $\geq |N|$.
+	Auf $\zeta$ liegen $\geq |N|+1$ \acfp{NT}, es muss also mindestens ein Nichtterminal $A$ mehrmals vorkommen.
+	
+  Folge $\zeta$ vom Blatt Richtung Wurzel und bis sich das ein $A$ das erste Mal wiederholt. Das geschieht nach $\le |N|$ Schritten.
+  Nun teile $z = uvwxy$ wie hier skizziert:
+  
+			\begin{tikzpicture}[>=stealth,
+				widebox/.style={draw, minimum width=.75cm, minimum height=.35cm, inner sep=0pt}
+				,dot/.style={inner sep=0pt,outer sep=0pt,label={center:\scalebox{.75}{\textbullet}}}
+				]
+				
+				\node[dot,label={above right:$S$}] (v1) at (0,-1) {};
+				\node[dot] (v2) at (-0.25,-1.6) {};
+				\node[dot,] (v3) at (0,-2) {};
+				\node[dot] (v4) at (-0.5,-2.5) {};
+				\node[dot,label={above right:$A$}] (v5) at (0,-3) {};
+				\node[widebox] (v6) at (-1.5,-3.5) {$u$};
+				\node[widebox] (v7) at (-.75,-3.5) {$v$};
+				\node[widebox] (v8) at (0,-3.5) {$w$};
+				\node[widebox] (v9) at (.75,-3.5) {$x$};
+				\node[widebox] (v10) at (1.5,-3.5) {$y$};
+				
+				\draw  (v1) edge (v2);
+				\draw  (v2) edge (v3);
+				\draw  (v3) edge (v4);
+				\draw  (v4) edge (v7.north west);
+				\draw  (v4) edge (v5);
+				\draw  (v3) edge (v10.north west);
+				\draw  (v5) edge (v8.north west);
+				\draw  (v5) edge (v8.north east);
+				\draw  (v1) edge (v6.north west);
+				\draw  (v1) edge (v10.north east);
+				\node[align=left, text height=3em,inner sep=2pt] at (2.1,-1.5) {$A\rightarrow BC$~\small{ist Binärbaum}} edge[->,shorten >=.1cm] (v3);
+				\node[inner sep=0pt] at (2.75,-3.5) {$A\rightarrow a$} edge[->] (v10);
+				\node (v11) at (0,-4) {$z$};
+				\draw[semithick]
+				let \p1 = (v6.west), \p2 = (v11), \p3 = (v10.east) in 
+				 (\x1,\y2) edge[{Bar[]<}-] (v11) (v11) edge[-{>Bar[]}] (\x3,\y2);
+			\end{tikzpicture}
+	
+      Nun gilt
+      \begin{itemize}
+      \item $|vx|\geq 1$, da $\zeta$ entweder durch $B$ oder durch $C$ läuft. Nehme also an, $\zeta$ verläuft durch $B$.
+        Somit muss $C \stackrel{*}{\Longrightarrow} x$. In \ac{CNF} ist $C \stackrel{*}{\Longrightarrow} \Eps$ nicht möglich und somit ist $|x| \ge 1$.
+        Der Fall, das $\zeta$ durch $C$ verläuft, ist analog.
+      \item $|vwx| \le 2^{|N|} = n$ TODO
+      \end{itemize}
+		\begin{figure}[H]\centering
+		\begin{subfigure}[b]{.29\linewidth}\centering
+			\begin{tikzpicture}[node distance=.75cm, on grid,
+					every node/.style={
+						execute at begin node=$,
+						execute at end node=$
+					}
+				]
+				\node (0) {};
+				\node (A1) [below=of 0] {A};
+				\node (A2) [below=of A1] {A};
+				\node (A3) [below=of A2] {A};
+				
+				\newlength\Offset \setlength\Offset{.75cm}
+				\coordinate(p1) at ($(A2.south) - (0,\Offset)$);
+				%
+				\coordinate (A2l) at ($(p1) - (\Offset,0)$);
+				\coordinate (A1l) at ($(A2l) - (\Offset,0)$);
+				\coordinate (0l) at ($(A1l) - (\Offset,0)$);
+				%
+				\coordinate (A2r) at ($(p1) + (\Offset,0)$);
+				\coordinate (A1r) at ($(A2r) + (\Offset,0)$);
+				\coordinate (0r) at ($(A1r) + (\Offset,0)$) ;
+				
+				\coordinate (A3l) at ($(A3.south) - (\Offset,\Offset)$);
+				\coordinate (A2l2) at ($(A3l) - (\Offset,0)$);
+				%
+				\coordinate (A3r) at ($(A3.south) + (\Offset,-\Offset)$);
+				\coordinate (A2r2) at ($(A3r) + (\Offset,0)$);
+				
+				\node (dots) [below=\Offset of A3] {\vdots};
+				
+				\node (A4) [below=\Offset of dots] {A};
+				\coordinate (A4l) at ($(A3l) - (0,2*\Offset)$);
+				\coordinate (A4r) at ($(A3r) - (0,2*\Offset)$);
+				
+				\draw (0.south) edge (0l.center) edge (0r.center)
+					(A1.south) edge (A1l.center) edge (A1r.center)
+					(A2.south) edge (A2l2.center) edge (A2r2.center)
+					(A3.south) edge (A3l.center) edge (A3r.center)
+					(A4.south) edge (A4l.center) edge (A4r.center)
+				;
+				\draw (0l.center) edge node[below] {u} (A1l.center)
+					(A1l.center)  edge node[below] {v} (A2l.center)
+					(A2r.center)  edge node[below] {x} (A1r.center)
+					(A1r.center)  edge node[below] {y} (0r.center)
+					(A2l2.center) edge node[below] {v} (A3l.center)
+					(A3r.center)  edge node[below] {x} (A2r2.center)
+					(A4l.center)  edge node[below] {w} (A4r.center)
+				;
+			\end{tikzpicture}
+			\caption{$uv^iwx^iy\in L$}
+		\end{subfigure}
+		\begin{subfigure}[b]{.28\linewidth}\centering
+			\begin{tikzpicture}[node distance=.5cm, on grid,
+					every node/.style={
+						execute at begin node=$,
+						execute at end node=$
+					},
+					widebox/.style={draw, minimum width=.75cm, minimum height=.35cm, inner sep=0pt}
+				]
+				\node (S) {S};
+				\node[inner sep=2pt] (A) [below=of S.south, xshift=.2cm] {A};
+				\coordinate (Ap) at (A.south west);
+				\node[widebox] (w) [below=of Ap] {w};
+				\node[widebox] (u) at ($(Ap)!2!(w.north west)+.5*(-.75,-.3)$) {u};
+				\node[widebox] (y) at ($(Ap)!2!(w.north east)+.5*(.75,-.3)$) {y};
+				
+				\draw (S.south) edge (u.north west) edge (y.north east)
+					(Ap) edge (u.north east) edge (y.north west) edge (w.north)
+					($(S.south) - (.25,.6)$) edge (S.south) edge (Ap)
+				;
+			\end{tikzpicture}
+			\caption{$\curvearrowright uwy\in L$}
+		\end{subfigure}
+		\begin{subfigure}[b]{.33\linewidth}\centering
+			\begin{tikzpicture}[>=stealth,
+				widebox/.style={draw, minimum width=.75cm, minimum height=.35cm, inner sep=0pt}
+				,dot/.style={inner sep=0pt,outer sep=0pt,label={center:\scalebox{.75}{\textbullet}}}
+				]
+				
+				\node[dot,label={above right:$S$}] (v1) at (0,-1) {};
+				\node[dot] (v2) at (-0.25,-1.6) {};
+				\node[dot,label={above right:$A$}] (v3) at (0,-2) {};
+				\node[dot] (v4) at (-0.5,-2.5) {};
+				\node[dot,label={above right:$A$}] (v5) at (0,-3) {};
+				\node[widebox] (v6) at (-1.5,-3.5) {$u$};
+				\node[widebox] (v7) at (-.75,-3.5) {$v$};
+				\node[widebox] (v8) at (0,-3.5) {$w$};
+				\node[widebox] (v9) at (.75,-3.5) {$x$};
+				\node[widebox] (v10) at (1.5,-3.5) {$y$};
+				
+				\draw  (v1) edge (v2);
+				\draw  (v2) edge (v3);
+				\draw  (v3) edge (v4);
+				\draw  (v4) edge (v7.north west);
+				\draw  (v4) edge (v5);
+				\draw  (v3) edge (v10.north west);
+				\draw  (v5) edge (v8.north west);
+				\draw  (v5) edge (v8.north east);
+				\draw  (v1) edge (v6.north west);
+				\draw  (v1) edge (v10.north east);
+				\node[align=left, text height=3em,inner sep=2pt] at (2.1,-1.5) {$A\rightarrow BC$\small{ist Binärbaum}} edge[->,shorten >=.1cm] (v3);
+				\node[inner sep=0pt] at (2.75,-3.5) {$A\rightarrow a$} edge[->] (v10);
+				\node (v11) at (0,-4) {$z$};
+				\draw[semithick]
+				let \p1 = (v6.west), \p2 = (v11), \p3 = (v10.east) in 
+				 (\x1,\y2) edge[{Bar[]<}-] (v11) (v11) edge[-{>Bar[]}] (\x3,\y2);
+			\end{tikzpicture}
+			\caption{$\exists$ Pfad mit Länge $\geq k$}
+		\end{subfigure}
+		\caption{Schema zu \autoref{satz:PL für CFL}}
+	\end{figure}\vspace{-2em}\qedhere
+\end{proof}
+
+\begin{lemma} %\rlnote{Lemma \# 4.3?}
+	$\mathcal{L}_2 \subsetneq \mathcal{L}_1$
+\end{lemma}
+\begin{proof}
+	Sei $L=\{L=\{a^nb^nc^n \mid n\geq 1\}$.\\
+	$L$ ist nicht kontextfrei. Verwende \ac{PL}. Angenommen $L$ sei kontextfrei.
+	Sei dann $n$ die Konstante aus dem \ac{PL}.
+	
+	Wähle $z=a^nb^nc^n$ und somit $|z| = 3n \ge n$.
+  Nach PL ist $z = uvwxy$ mit $|vx| \ge 1$ und $|vwx| \le n$.
+
+  Durch $|vwx| \le n$ ergeben sich folgende Möglichkeiten:
+  \begin{itemize}
+  \item $vwx = a^j$: 
+    Für $i=0$ ist $vwx=w$ mit $|w| < j$.
+    Anzahl der $a$ stimmt nicht mehr mit $n$ überein.
+  \item $vwx = a^kb^j$:
+    \begin{itemize}
+    \item Falls $v = a^{k'}$, $x = b^{j'}$: Für $i=0$ stimmt die Anzahl der $a$ nicht mehr mit $n$ überein.
+    \item Falls $v$ ein Gemisch aus $a$ und $b$ enthält.
+      Für $i\ge 2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
+    \item Falls $x$ ein Gemisch aus $a$ und $b$ enthält.
+      Für $i \ge2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
+    \end{itemize}
+  \item $vwx = b^j$: analog Fall $a^j$
+  \item $vwx = b^kc^j$: analog Fall $a^kb^j$
+  \item $vwx = c^j$: analog Fall $a^j$
+  \end{itemize}
+  In jeder der Möglichkeiten lässt sich durch Pumpen ein Wort $w \not \in L$ finden.
+  Daher kann $L$ nicht kontextfrei sein.
+\end{proof}
+
+\begin{Bsp} Die Sprache
+  \begin{displaymath}
+    L = \{ww \mid w \in \{a,b\}^*\}
+  \end{displaymath}
+  ist kontextsensitiv aber nicht kontextfrei.
+
+  Sei $n$ die Konstante aus dem PL
+
+  Betrachte $z = a^nb^na^nb^n \in L$ mit $|z| = 4n \ge n$.
+  Nach PL ist $z = uvwxy$ mit $|vx| \ge 1$ und $|vwx| \le n$.
+
+  Es ergeben sich folgende Möglichkeiten:
+  \begin{itemize}
+  \item $vwx = a^j$, $j \le n$.
+    Für $i=0$ ist $vwx=w$ mit $|w| < j$.
+    Anzahl der $a$ stimmt nicht mehr mit $n$ überein.
+  \item $vwx = a^kb^j$, $k+j \le n$.
+
+    \begin{itemize}
+    \item Falls $v = a^{k'}$, $x = b^{j'}$: Für $i=0$ stimmt die Anzahl der $a$ nicht mehr mit $n$ überein.
+    \item Falls $v$ ein Gemisch aus $a$ und b enthält.
+      Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
+    \item Falls $x$ ein Gemisch aus $a$ und b enthält.
+      Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
+    \end{itemize}
+  \item $vwx = b^j$ analog Fall $a^j$
+  \item $vwx = b^ka^j$ analog Fall $a^kb^j$
+  \end{itemize}
+\end{Bsp}
 
 
 
