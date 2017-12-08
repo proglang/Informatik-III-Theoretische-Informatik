@@ -235,12 +235,12 @@ Das folgende Lemma beantwortet diese Frage.
     Definiere $\mathcal{G} = (\Sigma, N, P, S)$ mit $N = (Q \times \Gamma \times Q) \cup \{S\}$ und $P=P_S\cup P_0\cup P_1\cup P_2$ mit
     \begin{itemize}
     \item $P_S = \{S \to [\qinit, \Zinit, q']\mid q'\in Q\}$
-    \item $P_0 = \{ [q, Z, q'] \to x \mid \delta(q, x, Z) \ni (q', \Eps), x \in \Sigma \cup \{\Eps\} \}$
-    \item $P_1 = \{[q, Z, q'] \to x[q'', Z', q'] \mid \delta(q, x, Z) \ni (q'', Z'), q'' \in Q, x \in \Sigma \cup \{\Eps\}\}$
+    \item $P_0 = \{ [q, Z, q'] \to x \mid (q', \Eps)\in \delta(q, x, Z), x \in \Sigma \cup \{\Eps\} \}$
+    \item $P_1 = \{[q, Z, q'] \to x[q'', Z', q'] \mid (q'', Z')\in \delta(q, x, Z), q' \in Q, x \in \Sigma \cup \{\Eps\}\}$
     \item $P_2 = \{[q, Z, q'] \to x[q_1,Z_1,q_2][q_2, Z_2, q'] \mid
         \begin{aligned}[t]
-          & \delta(q, x, Z) \ni (q_1, Z_1Z_2), \\
-          & q_1, q_2 \in Q, x \in \Sigma \cup \{\Eps\} \}.
+          & (q_1, Z_1Z_2)\in\delta(q, x, Z), \\
+          & q_2, q' \in Q, x \in \Sigma \cup \{\Eps\} \}.
         \end{aligned}$
     \end{itemize}
     
@@ -252,6 +252,92 @@ Das folgende Lemma beantwortet diese Frage.
       \end{equation}
     In Worten: Wir können vom Nichtterminalsymbol $[q,Z,q']$ das Wort $w$ genau dann in $n$ Schritten ableiten,
     wenn der \ac{NPDA} die Konfiguration $(q,w,Z)$ in $n$ Schritten in eine akzeptierende Konfiguration mit Zustand $q'$ überführen kann.
+    
+    Beispiel:
+    
+    \ac{NPDA} für $L_\text{centered3}:=\{0^n10^n \mid n\in\N, n > 0 \}\subseteq\{0,1\}^*$
+    
+\newcommand{\el}[3]{{\color{red!70!black}#1};{\color{blue!70!black}#2};{\color{blue!70!black}#3}}
+    \begin{tikzpicture}
+ 
+    \node[circle,draw] (q0) at (-1.5,0) {$q_0$};
+    \node[circle,draw] (q1) at (1.5,0) {$q_1$};
+    
+    \draw[->] (-2.5,0.1) to  (q0) ;
+    
+    \draw[->] (q0) edge node[auto] {\el{1}{X}{X}} (q1) ;
+    
+    \draw[->,in=100, out=120, looseness=22, pos=0.50] (q0) edge node[auto] {\el{0}{X}{XX}} (q0) ;
+    \draw[->,in=260, out=240, looseness=22, pos=0.50] (q0) edge node[left] {\el{0}{\#}{X\#}} (q0) ;
+    
+    \draw[->,in=50, out=70, looseness=22, pos=0.50] (q1) edge node[right] {\el{0}{X}{$\varepsilon$}} (q1) ;
+    \draw[->,in=-70, out=-50, looseness=22, pos=0.45] (q1) edge node[right] {\el{$\varepsilon$}{\#}{$\varepsilon$}} (q1) ;
+    \end{tikzpicture}
+    
+    $010$ akzeptiert, weil
+        $(q_0, 010, \#)\ConfRel (q_0, 10, X\#)\ConfRel (q_1, 0, x\#)\ConfRel (q_1, \Eps, \#)\ConfRel (q_1, \Eps, \Eps)$
+    
+    \begin{center}
+    \begin{minipage}{50mm}
+    \begin{align*}
+    P_S = \{ 
+    & S \to [q_0, \#, q_0]\\
+    & S \to [q_0, \#, q_1] 
+    \}\\
+    \\
+    % \end{align*}
+    % \begin{align*}
+    P_0 = \{ 
+    & [q_1, X, q_1] \to 0\\
+    & [q_1, \#, q_1] \to \Eps
+    \}\\
+    \\
+    % \end{align*}
+    % \begin{align*}
+    P_1 = \{ 
+    & [q_0, X, q_0] \to 1[q_1, X, q_0]\\
+    & [q_0, X, q_1] \to 1[q_1, X, q_1]
+    \}\\
+    \end{align*}
+    \end{minipage}
+    \begin{minipage}{50mm}
+    \begin{align*}
+    P_2 = \{ 
+    & [q_0, \#,q_0] \to 0[q_0, X, q_0] [q_0 \#, q_0]\\
+    & [q_0, \#,q_1] \to 0[q_0, X, q_0] [q_0 \#, q_1]\\
+    & [q_0, \#,q_0] \to 0[q_0, X, q_1] [q_1 \#, q_0]\\
+    & [q_0, \#,q_1] \to 0[q_0, X, q_1] [q_1 \#, q_1]\\
+    % 
+    & [q_0, X,q_0] \to 0[q_0, X, q_0] [q_0 X, q_0]\\
+    & [q_0, X,q_1] \to 0[q_0, X, q_0] [q_0 X, q_1]\\
+    & [q_0, X,q_0] \to 0[q_0, X, q_1] [q_1 X, q_0]\\
+    & [q_0, X,q_1] \to 0[q_0, X, q_1] [q_1 X, q_1]
+    \}
+    \end{align*}
+    \end{minipage}
+    \end{center}
+    
+    Ableitungsbaum für $010$
+    
+    \begin{tikzpicture}
+ 
+    \node[] (root) at (0,0) {$S \to [q_0, \#, q_1]$};
+    
+    \node[] (m) at (0, -1.5) {$[q_0, \#,q_1] \to 0[q_0, X, q_1] [q_1 \#, q_1]$};
+    
+    \node[] (ml) at (-2, -3) {$[q_0, X, q_1] \to 1[q_1, X, q_1]$};
+    \node[] (mr) at (2, -3) {$[q_1, \#, q_1] \to \Eps$};
+    
+    \node[] (mlm) at (-2, -4.5) {$[q_1, X, q_1] \to 0$};
+    
+    
+    
+    \draw[] (root) to (m) ;
+    \draw[] (m) to (ml) ;
+    \draw[] (m) to (mr) ;
+    \draw[] (ml) to (mlm) ;
+    
+    \end{tikzpicture}
     
     Offensichtlich folgt aus dieser Eigenschaft $L(\mathcal{G}) = L(\mathcal{K})$, da wir vom Startsymbol $S$ genau die Nichtterminalsymbole der Form
     $[\qinit, \Zinit, q']$ ableiten können und der \ac{NPDA} genau die Wörter $w$ akzeptiert, für die  $(\qinit, w, \Zinit)$ in eine akzeptierende Konfiguration überführt werden kann.
@@ -320,7 +406,7 @@ Das folgende Lemma beantwortet diese Frage.
       
       Aus $(q'', w',Z')\ConfRel^n (q',\Eps,\Eps)$ folgern wir mit IV
       $[q'', Z',q']\vdash^n w'$.
-      Nach Konstuktion können wir $[q,Z,q'']\vdash x [q'', Z',q']$ ableiten.
+      Nach Konstruktion können wir $[q,Z,q'']\vdash x [q'', Z',q']$ ableiten.
 
       
       \item Fall $(q,w,Z)\ConfRel (q_1, w',Z_1Z_2)$ mit $w=xw'$ für $x\in\Sigma\cup\{\Eps\}$.
@@ -345,6 +431,11 @@ Das folgende Lemma beantwortet diese Frage.
       \end{itemize}
      \end{description}
 \end{proof}
+
+
+
+
+
 
 
 
