@@ -232,17 +232,16 @@ Das folgende Lemma beantwortet diese Frage.
 \begin{proof}
  Ohne Einschränkung (\autoref{lem:4.limitStackIncrease}) sei $\mathcal{K} = (Q, \Sigma, \Gamma, \qinit, \Zinit, \delta)$ ein \ac{NPDA} mit $|\gamma| \le 2$ für alle $(q', \gamma) \in \delta(q, x, Z), q, q' \in Q, x \in \Sigma \cup \{\Eps\}, Z \in \Gamma$.
 
-    Definiere $\mathcal{G} = (\Sigma, N, P, S)$ mit $N = (Q \times \Gamma \times Q) \cup \{S\}$ und $P=P_S\cup P_0\cup P_1\cup P_2$ mit
-    \begin{itemize}
-    \item $P_S = \{S \to [\qinit, \Zinit, q']\mid q'\in Q\}$
-    \item $P_0 = \{ [q, Z, q'] \to x \mid (q', \Eps)\in \delta(q, x, Z), x \in \Sigma \cup \{\Eps\} \}$
-    \item $P_1 = \{[q, Z, q'] \to x[q'', Z', q'] \mid (q'', Z')\in \delta(q, x, Z), q' \in Q, x \in \Sigma \cup \{\Eps\}\}$
-    \item $P_2 = \{[q, Z, q'] \to x[q_1,Z_1,q_2][q_2, Z_2, q'] \mid
-        \begin{aligned}[t]
-          & (q_1, Z_1Z_2)\in\delta(q, x, Z), \\
-          & q_2, q' \in Q, x \in \Sigma \cup \{\Eps\} \}.
-        \end{aligned}$
-    \end{itemize}
+    Definiere $\mathcal{G} = (\Sigma, N, P, S)$ mit $N = (Q \times \Gamma \times Q) \cup \{S\}$ und $P=P_S\cup P_0\cup P_1\cup P_2$ mit:
+    \begin{align*}
+    P_S &= \{S \to [\qinit, \Zinit, q']\mid q'\in Q\}, \\[1mm]
+    %
+    P_0 &= \{ [q, Z, q'] \to x \mid (q', \Eps)\in \delta(q, x, Z), x \in \Sigma \cup \{\Eps\} \}, \\[1mm]
+    %
+    P_1 &= \{[q, Z, q'] \to x[q'', Z', q'] \mid (q'', Z')\in \delta(q, x, Z), x \in \Sigma \cup \{\Eps\}\}, \\[1mm]
+    %
+    P_2 &= \{[q, Z, q'] \to x[q_1,Z_1,q_2][q_2, Z_2, q'] \mid (q_1, Z_1Z_2)\in\delta(q, x, Z), q_2 \in Q, x \in \Sigma \cup \{\Eps\} \}
+    \end{align*}
     
     Dabei unterscheiden $P_0$, $P_1$ und $P_2$ die Fälle, dass der Stack kleiner wird ($P_0$), gleich hoch bleibt ($P_1$) oder größer wird ($P_2$).
     
@@ -255,9 +254,10 @@ Das folgende Lemma beantwortet diese Frage.
     
     Beispiel:
     
-    \ac{NPDA} für $L_\text{centered3}:=\{0^n10^n \mid n\in\N, n > 0 \}\subseteq\{0,1\}^*$
+    \ac{NPDA} für $L_\text{centered3}:=\{0^n10^n \mid n\in\N, n > 0 \}\subseteq\{0,1\}^*$:
     
 \newcommand{\el}[3]{{\color{red!70!black}#1};{\color{blue!70!black}#2};{\color{blue!70!black}#3}}
+    \begin{center}
     \begin{tikzpicture}
  
     \node[circle,draw] (q0) at (-1.5,0) {$q_0$};
@@ -273,12 +273,14 @@ Das folgende Lemma beantwortet diese Frage.
     \draw[->,in=50, out=70, looseness=22, pos=0.50] (q1) edge node[right] {\el{0}{X}{$\varepsilon$}} (q1) ;
     \draw[->,in=-70, out=-50, looseness=22, pos=0.45] (q1) edge node[right] {\el{$\varepsilon$}{\#}{$\varepsilon$}} (q1) ;
     \end{tikzpicture}
+    \end{center}
     
-    $010$ akzeptiert, weil
-        $(q_0, 010, \#)\ConfRel (q_0, 10, X\#)\ConfRel (q_1, 0, x\#)\ConfRel (q_1, \Eps, \#)\ConfRel (q_1, \Eps, \Eps)$
+    $010$ wird akzeptiert, weil
+        $(q_0, 010, \#)\ConfRel (q_0, 10, X\#)\ConfRel (q_1, 0, X\#)\ConfRel (q_1, \Eps, \#)\ConfRel (q_1, \Eps, \Eps)$.
     
     \begin{center}
-    \begin{minipage}{50mm}
+    \vspace*{-1.5\baselineskip}
+    \begin{minipage}[t]{55mm}
     \begin{align*}
     P_S = \{ 
     & S \to [q_0, \#, q_0]\\
@@ -297,33 +299,35 @@ Das folgende Lemma beantwortet diese Frage.
     P_1 = \{ 
     & [q_0, X, q_0] \to 1[q_1, X, q_0]\\
     & [q_0, X, q_1] \to 1[q_1, X, q_1]
-    \}\\
+    \}
     \end{align*}
     \end{minipage}
-    \begin{minipage}{50mm}
+    \begin{minipage}[t]{70mm}
     \begin{align*}
     P_2 = \{ 
     & [q_0, \#,q_0] \to 0[q_0, X, q_0] [q_0 \#, q_0]\\
-    & [q_0, \#,q_1] \to 0[q_0, X, q_0] [q_0 \#, q_1]\\
     & [q_0, \#,q_0] \to 0[q_0, X, q_1] [q_1 \#, q_0]\\
+    & [q_0, \#,q_1] \to 0[q_0, X, q_0] [q_0 \#, q_1]\\
     & [q_0, \#,q_1] \to 0[q_0, X, q_1] [q_1 \#, q_1]\\
     % 
     & [q_0, X,q_0] \to 0[q_0, X, q_0] [q_0 X, q_0]\\
-    & [q_0, X,q_1] \to 0[q_0, X, q_0] [q_0 X, q_1]\\
     & [q_0, X,q_0] \to 0[q_0, X, q_1] [q_1 X, q_0]\\
+    & [q_0, X,q_1] \to 0[q_0, X, q_0] [q_0 X, q_1]\\
     & [q_0, X,q_1] \to 0[q_0, X, q_1] [q_1 X, q_1]
     \}
     \end{align*}
     \end{minipage}
     \end{center}
     
-    Ableitungsbaum für $010$
+    Ableitungsbaum für $010$:
     
+    \begin{center}
+    \vspace*{-\baselineskip}
     \begin{tikzpicture}
  
     \node[] (root) at (0,0) {$S \to [q_0, \#, q_1]$};
     
-    \node[] (m) at (0, -1.5) {$[q_0, \#,q_1] \to 0[q_0, X, q_1] [q_1 \#, q_1]$};
+    \node[] (m) at (0, -1.5) {$[q_0, \#,q_1] \to 0[q_0, X, q_1] [q_1, \#, q_1]$};
     
     \node[] (ml) at (-2, -3) {$[q_0, X, q_1] \to 1[q_1, X, q_1]$};
     \node[] (mr) at (2, -3) {$[q_1, \#, q_1] \to \Eps$};
@@ -338,6 +342,7 @@ Das folgende Lemma beantwortet diese Frage.
     \draw[] (ml) to (mlm) ;
     
     \end{tikzpicture}
+    \end{center}
     
     Offensichtlich folgt aus dieser Eigenschaft $L(\mathcal{G}) = L(\mathcal{K})$, da wir vom Startsymbol $S$ genau die Nichtterminalsymbole der Form
     $[\qinit, \Zinit, q']$ ableiten können und der \ac{NPDA} genau die Wörter $w$ akzeptiert, für die  $(\qinit, w, \Zinit)$ in eine akzeptierende Konfiguration überführt werden kann.
@@ -349,7 +354,7 @@ Das folgende Lemma beantwortet diese Frage.
      \item Beweisrichtung ``$\Rightarrow$''
      Wir zeigen diese Richtung via vollständige Induktion über die Anzahl der Ableitungsschritte.
      \begin{description}
-      \item[I.A.] $n=1$: Folgt wie oben erwähnt aus den $P_0$ Regeln.
+      \item[I.A.] $n=1$: Folgt wie oben erwähnt aus den $P_0$-Regeln.
       \item[I.S.] $n\rightsquigarrow n+1$:
       Sei $[q,Z,q']\vdash\alpha\stackrel{n}{\vdash} w$ eine Ableitung für $w$. Für den ersten Ableitungsschritt kommen zwei Fälle in Frage:
       \begin{itemize}
@@ -394,24 +399,25 @@ Das folgende Lemma beantwortet diese Frage.
     \end{itemize}
     
     \item Beweisrichtung ``$\Leftarrow$''
-     Wir zeigen diese Richtung via vollständige Induktion über die Anzahl der Schritte des \ac{NPDA}.
+     Wir zeigen diese Richtung via vollständige Induktion über die Anzahl der Berechnungsschritte des \ac{NPDA}.
      \begin{description}
-      \item[IA] $n=1$: Folgt wie oben erwähnt aus den $P_0$ Regeln.
-      \item[IS] $n\rightsquigarrow n+1$:
+      \item[I.A.] $n=1$: Folgt wie oben erwähnt aus den $P_0$-Regeln.
+      \item[I.S.] $n\rightsquigarrow n+1$:
       
       Sei $(q,w,Z) \ConfRel^{n+1} (q',\Eps,\Eps)$ eine Berechnung für $w$. Da wir annehmen, 
-      dass der \ac{NPDA} in einem Schritt höchstens zwei Symbole auf den Stack legen darf kommen für den ersten Berechnungsschritt nur zwei Fälle in Frage:
+      dass der \ac{NPDA} in einem Schritt höchstens zwei Symbole auf den Stack legen darf, kommen für den ersten Berechnungsschritt nur zwei Fälle in Frage:
       \begin{itemize}
-      \item Fall $(q,w,Z)\ConfRel (q'', w',Z')$ mit $w=xw'$ für $x\in\Sigma\cup\{\Eps\}$.
+      \item Fall 1: $(q,w,Z)\ConfRel (q'', w',Z')$ mit $w=xw'$ für $x\in\Sigma\cup\{\Eps\}$
       
-      Aus $(q'', w',Z')\ConfRel^n (q',\Eps,\Eps)$ folgern wir mit IV
+      Aus $(q'', w',Z')\ConfRel^n (q',\Eps,\Eps)$ folgern wir mit I.V.\
       $[q'', Z',q']\vdash^n w'$.
-      Nach Konstruktion können wir $[q,Z,q'']\vdash x [q'', Z',q']$ ableiten.
+      Nach Konstruktion können wir $[q,Z,q']\vdash x [q'', Z',q']$ ableiten.
 
       
-      \item Fall $(q,w,Z)\ConfRel (q_1, w',Z_1Z_2)$ mit $w=xw'$ für $x\in\Sigma\cup\{\Eps\}$.
+      \item Fall 2: $(q,w,Z)\ConfRel (q_1, w',Z_1Z_2)$ mit $w=xw'$ für $x\in\Sigma\cup\{\Eps\}$
+
             Aus $(q_1, w',Z_1Z_2)\ConfRel^n (q',\Eps,\Eps)$ folgern wir:
-      $\exists k_1,k_2\in\N, \; q\in Q \; w_1,w_2\in \Sigma^*$ sodass 
+      $\exists k_1,k_2\in\N, \; q_2\in Q, \; w_1,w_2\in \Sigma^*$, sodass gilt:
       \begin{enumerate}
       \item $k_1+k_2=n$
       \item $w'=w_1w_2$
@@ -419,15 +425,17 @@ Das folgende Lemma beantwortet diese Frage.
       \item $(q_2, w_2,Z_2)\ConfRel^{k_2} (q',\Eps,\Eps)$
       \end{enumerate}
       
-      Aus 3. folgern wir $(q_1, w_1,Z_1)\ConfRel^{k_1} (q_2, \Eps,\Eps)$ und mit IV
+      Aus 3.\ folgern wir $(q_1, w_1,Z_1)\ConfRel^{k_1} (q_2, \Eps,\Eps)$ und mit I.V.\
       $[q_1, Z_1, q_2] \vdash^{k_1} w_1$.
       
-      Aus 4. folgern wir mit IV $[q_2, Z_2, q'] \vdash^{k_2} w_2$.
+      Aus 4.\ folgern wir mit I.V.\ $[q_2, Z_2, q'] \vdash^{k_2} w_2$.
       
-      Es gibt also einen Ableitungsbaum $\mathcal{T} = \pi(\mathcal{T}_1,\mathcal{T}_2)$, mit $\mathcal{T}_1 \in \operatorname{Abl}([q_1, Z_1, q_2])$ und $\mathcal{T}_2 \in \operatorname{Abl}([q_2, Z_2, q'])$ sodass $w = xY(\mathcal{T}_1)Y(\mathcal{T}_2)$.
+      Es gibt also einen Ableitungsbaum $\mathcal{T} = \pi(\mathcal{T}_1,\mathcal{T}_2)$, mit $\mathcal{T}_1 \in \operatorname{Abl}([q_1, Z_1, q_2])$ und $\mathcal{T}_2 \in \operatorname{Abl}([q_2, Z_2, q'])$, sodass $w = xY(\mathcal{T}_1)Y(\mathcal{T}_2)$.
       
-      Somit gibt es auch eine Ableitung 
-      $$[q, Z, q'] \vdash x[q_1,Z_1,q_2][q_2, Z_2, q'] \vdash^{k_1+k_2} w_1w_2. \qedhere$$
+      Somit gibt es auch eine Ableitung
+      \begin{equation*}
+      [q, Z, q'] \vdash x[q_1,Z_1,q_2][q_2, Z_2, q'] \vdash^{k_1+k_2} xw_1w_2. \qedhere
+      \end{equation*}
       \end{itemize}
      \end{description}
 \end{proof}
