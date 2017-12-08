@@ -232,7 +232,18 @@ Das folgende Lemma beantwortet diese Frage.
 \begin{proof}
  Ohne Einschränkung (\autoref{lem:4.limitStackIncrease}) sei $\mathcal{K} = (Q, \Sigma, \Gamma, \qinit, \Zinit, \delta)$ ein \ac{NPDA} mit $|\gamma| \le 2$ für alle $(q', \gamma) \in \delta(q, x, Z), q, q' \in Q, x \in \Sigma \cup \{\Eps\}, Z \in \Gamma$.
 
-    Definiere $\mathcal{G} = (\Sigma, N, P, S)$ mit $N = (Q \times \Gamma \times Q) \cup \{S\}$ und $P=P_S\cup P_0\cup P_1\cup P_2$ mit:
+    Definiere $\mathcal{G} = (\Sigma, N, P, S)$ mit $N = (Q \times \Gamma \times Q) \cup \{S\}$.
+    Bevor wir $P$ beschreiben, wollen wir zunächst die Intuition hinter den Nichtterminalsymbolen vermitteln.
+        
+    Die dieser Konstruktion zugrunde liegende Idee wird durch die folgende Eigenschaft beschrieben:
+      \begin{equation}\label{eq:npdaToCfgProp}
+        [q,Z,q']\stackrel{n}{\vdash} w \text{ gdw } (q,w,Z) \ConfRel^n (q',\Eps,\Eps)
+      \end{equation}
+    In Worten: Wir können vom Nichtterminalsymbol $[q,Z,q']$ das Wort $w$ genau dann in $n$ Schritten ableiten,
+    wenn der \ac{NPDA} die Konfiguration $(q,w,Z)$ in $n$ Schritten in eine akzeptierende Konfiguration mit Zustand $q'$ überführen kann.
+    
+    Mit dieser Intuition können wir nun leicht die Menge der Produktionsregeln angeben.
+    Wir definieren $P=P_S\cup P_0\cup P_1\cup P_2$ mit:
     \begin{align*}
     P_S &= \{S \to [\qinit, \Zinit, q']\mid q'\in Q\}, \\[1mm]
     %
@@ -244,13 +255,6 @@ Das folgende Lemma beantwortet diese Frage.
     \end{align*}
     
     Dabei unterscheiden $P_0$, $P_1$ und $P_2$ die Fälle, dass der Stack kleiner wird ($P_0$), gleich hoch bleibt ($P_1$) oder größer wird ($P_2$).
-    
-    Die dieser Konstruktion zugrunde liegende Idee wird durch die folgende Eigenschaft beschrieben:
-      \begin{equation}\label{eq:npdaToCfgProp}
-        [q,Z,q']\stackrel{n}{\vdash} w \text{ gdw } (q,w,Z) \ConfRel^n (q',\Eps,\Eps)
-      \end{equation}
-    In Worten: Wir können vom Nichtterminalsymbol $[q,Z,q']$ das Wort $w$ genau dann in $n$ Schritten ableiten,
-    wenn der \ac{NPDA} die Konfiguration $(q,w,Z)$ in $n$ Schritten in eine akzeptierende Konfiguration mit Zustand $q'$ überführen kann.
     
     Beispiel:
     
