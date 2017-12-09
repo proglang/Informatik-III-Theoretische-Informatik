@@ -237,7 +237,7 @@ Das folgende Lemma beantwortet diese Frage.
         
     Die dieser Konstruktion zugrunde liegende Idee wird durch die folgende Eigenschaft beschrieben:
       \begin{equation}\label{eq:npdaToCfgProp}
-        [q,Z,q']\stackrel{n}{\vdash} w \text{ gdw } (q,w,Z) \ConfRel^n (q',\Eps,\Eps)
+        [q,Z,q']\stackrel{n}{\vdash} w \text{ gdw } (q,w,Z) \ConfRel^n (q',\Eps,\Eps) \tag{$*$}
       \end{equation}
     In Worten: Wir können vom Nichtterminalsymbol $[q,Z,q']$ das Wort $w$ genau dann in $n$ Schritten ableiten,
     wenn der \ac{NPDA} die Konfiguration $(q,w,Z)$ in $n$ Schritten in eine akzeptierende Konfiguration mit Zustand $q'$ überführen kann.
@@ -309,15 +309,15 @@ Das folgende Lemma beantwortet diese Frage.
     \begin{minipage}[t]{70mm}
     \begin{align*}
     P_2 = \{ 
-    & [q_0, \#,q_0] \to 0[q_0, X, q_0] [q_0 \#, q_0]\\
-    & [q_0, \#,q_0] \to 0[q_0, X, q_1] [q_1 \#, q_0]\\
-    & [q_0, \#,q_1] \to 0[q_0, X, q_0] [q_0 \#, q_1]\\
-    & [q_0, \#,q_1] \to 0[q_0, X, q_1] [q_1 \#, q_1]\\
+    & [q_0, \#,q_0] \to 0[q_0, X, q_0] [q_0, \#, q_0]\\
+    & [q_0, \#,q_0] \to 0[q_0, X, q_1] [q_1, \#, q_0]\\
+    & [q_0, \#,q_1] \to 0[q_0, X, q_0] [q_0, \#, q_1]\\
+    & [q_0, \#,q_1] \to 0[q_0, X, q_1] [q_1, \#, q_1]\\
     % 
-    & [q_0, X,q_0] \to 0[q_0, X, q_0] [q_0 X, q_0]\\
-    & [q_0, X,q_0] \to 0[q_0, X, q_1] [q_1 X, q_0]\\
-    & [q_0, X,q_1] \to 0[q_0, X, q_0] [q_0 X, q_1]\\
-    & [q_0, X,q_1] \to 0[q_0, X, q_1] [q_1 X, q_1]
+    & [q_0, X,q_0] \to 0[q_0, X, q_0] [q_0, X, q_0]\\
+    & [q_0, X,q_0] \to 0[q_0, X, q_1] [q_1, X, q_0]\\
+    & [q_0, X,q_1] \to 0[q_0, X, q_0] [q_0, X, q_1]\\
+    & [q_0, X,q_1] \to 0[q_0, X, q_1] [q_1, X, q_1]
     \}
     \end{align*}
     \end{minipage}
