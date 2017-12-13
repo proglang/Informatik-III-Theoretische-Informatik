@@ -242,7 +242,7 @@ Das folgende Lemma beantwortet diese Frage.
     In Worten: Wir können vom Nichtterminalsymbol $[q,Z,q']$ das Wort $w$ genau dann in $n$ Schritten ableiten,
     wenn der \ac{NPDA} die Konfiguration $(q,w,Z)$ in $n$ Schritten in eine akzeptierende Konfiguration mit Zustand $q'$ überführen kann.
     
-    Mit dieser Intuition können wir nun leicht die Menge der Produktionsregeln angeben.
+    Mit dieser Intuition können wir nun die Menge der Produktionsregeln angeben.
     Wir definieren $P=P_S\cup P_0\cup P_1\cup P_2$ mit:
     \begin{align*}
     P_S &= \{S \to [\qinit, \Zinit, q']\mid q'\in Q\}, \\[1mm]
@@ -476,25 +476,43 @@ Zu jedem NPDA gibt es einen äquivalenten NPDA der nur einen Zustand hat.
 \begin{lemma}
  In jedem Binärbaum (Baum bei dem jeder Knoten der kein Blatt is zwei Nachfolger hat) mit $\geq 2^k$ Blättern gibt es mindestens einen Pfad der Länge $\geq k$ von einem Blatt zur Wurzel.
 \end{lemma}
+(ohne Beweis)
 
-\begin{proof}
+\begin{proof}[von \autoref{satz:PL für CFL}]
 	Sei $\mathcal{G}= (\Sigma,N,P,S)$ in \ac{CNF} mit
-    $L(\mathcal{G}) = L$. Wähle die Pumping-Konstante $n=2^{|N|}$.
+    $L(\mathcal{G}) = L$. Wähle $n=2^{|N|}$.
     
-     Betrachte den Ableitungsbaum $\mathcal{T} \in \operatorname{Abl}(S)$ von $z$ mit $|z|\geq n$. 
-    \footnote{Intuition: Da $\mathcal{G}$ in \ac{CNF}, ist Ableitungsbaum $\mathcal{T}$ ein Binärbaum. 
-        Mit $|N|$ 
-    verschiedenen Nichtterminalsymbolen kann man 
-    also maximal Wörter der Länge $2^{|N|}$ ableiten, wenn man keine Ableitung doppelt nutzen möchte. 
-    Leitet man ein längeres Wort ab, so muss man mind. eine Ableitung doppelt nutzen.
-     Dann kann man sie aber auch gleich $i$-fach nutzen ($v^i$ und $x^i$), und ist immernoch in der Sprache.}
-  $\mathcal{A}$ ist ein Binärbaum mit $|z|\geq n = 2^{|N|}$ Blättern. In einem solchen Binärbaum existiert ein Pfad $\zeta$ der Länge $\geq |N|$.
-	Auf $\zeta$ liegen $\geq |N|+1$ \acfp{NT}, es muss also mindestens ein Nichtterminal $A$ mehrmals vorkommen.
+     Betrachte den Ableitungsbaum $\mathcal{T} \in \operatorname{Abl}(S)$ für ein Wort $z$ mit $|z|\geq n$. 
+%     \footnote{Intuition: Da $\mathcal{G}$ in \ac{CNF}, ist Ableitungsbaum $\mathcal{T}$ ein Binärbaum. 
+%         Mit $|N|$ 
+%     verschiedenen Nichtterminalsymbolen kann man 
+%     also maximal Wörter der Länge $2^{|N|}$ ableiten, wenn man keine Ableitung doppelt nutzen möchte. 
+%     Leitet man ein längeres Wort ab, so muss man mind. eine Ableitung doppelt nutzen.
+%      Dann kann man sie aber auch gleich $i$-fach nutzen ($v^i$ und $x^i$), und ist immernoch in der Sprache.}
+  $\mathcal{T}$ ist ein Binärbaum mit $|z|\geq n = 2^{|N|}$ Blättern. In einem solchen Binärbaum existiert ein Pfad $\zeta$ der Länge $\geq |N|$.
+	Auf $\zeta$ liegen $\geq |N|+1$ Nichtterminalsymbole, es muss also mindestens ein Nichtterminal $A$ mehrmals vorkommen.
 	
   Folge $\zeta$ vom Blatt Richtung Wurzel und bis sich das ein $A$ das erste Mal wiederholt. Das geschieht nach $\le |N|$ Schritten.
-  Nun teile $z = uvwxy$ wie hier skizziert:
-  \begin{center}
-			\begin{tikzpicture}[>=stealth,
+  Teile $z = uvwxy$ wie in \autoref{zerlegung} skizziert. Es gilt:
+      \begin{itemize}
+      \item $|vx|\geq 1$, da $\zeta$ entweder durch $B$ oder durch $C$ läuft. Nehme also an, $\zeta$ verläuft durch $B$.
+        Somit muss $C \stackrel{*}{\vdash} x$. In \ac{CNF} ist $C \stackrel{*}{\vdash} \Eps$ nicht möglich und somit ist $|x| \ge 1$.
+        Der Fall, das $\zeta$ durch $C$ verläuft, ist analog.
+      \item $|vwx| \le 2^{|N|} = n$, da das obere $A$ höchstens $|N|$ Schritte von Blattebene entfernt und $\mathcal{T}$ Binärbaum ist.
+      \item Für $\forall i\in\N: uv^iwx^iy\in L$ unterscheiden wir drei Fälle
+      \begin{itemize}
+				\item $i=0$: Aus dem unteren $A$ konnten wir $w$ ableiten.
+				Aus dem oberen $A$ konnten wir $vwx$ ableiten. 
+				Wir könnten also auch aus dem oberen $A$ direkt $w$ ableiten und erhalten $S\vdash^* uwy$.
+				(Siehe \autoref{uv0wx0y}).
+				\item $i=1$: Gilt trivialerweise da $uv^1wx^1y=z$
+				\item $i\geq n$: ..
+      \end{itemize}
+
+      \end{itemize}
+		\begin{figure}[H]\centering
+		\begin{subfigure}[b]{.35\linewidth}\centering
+					\begin{tikzpicture}[>=stealth,
 				widebox/.style={draw, minimum width=.75cm, minimum height=.35cm, inner sep=0pt}
 				,dot/.style={inner sep=0pt,outer sep=0pt,label={center:\scalebox{.75}{\textbullet}}}
 				]
@@ -520,28 +538,37 @@ Zu jedem NPDA gibt es einen äquivalenten NPDA der nur einen Zustand hat.
 				\draw  (v5) edge (v8.north east);
 				\draw  (v1) edge (v6.north west);
 				\draw  (v1) edge (v10.north east);
-				\node[align=left, text height=3em,inner sep=2pt] at (2.1,-1.5) {$A\rightarrow BC$~\small{ist Binärbaum}} edge[->,shorten >=.1cm] (v3);
-				\node[inner sep=0pt] at (2.75,-3.5) {$A\rightarrow a$} edge[->] (v10);
+				\node[align=left,inner sep=2pt] at (1.7,-1.4) {$A\rightarrow BC$} edge[->,shorten >=.1cm] (v3);
+				\node[inner sep=0pt] at (2.75,-3.0) {$A\rightarrow a$} edge[->] (v10);
 				\node (v11) at (0,-4) {$z$};
 				\draw[semithick]
 				let \p1 = (v6.west), \p2 = (v11), \p3 = (v10.east) in 
 				 (\x1,\y2) edge[{Bar[]<}-] (v11) (v11) edge[-{>Bar[]}] (\x3,\y2);
 			\end{tikzpicture}
-      \end{center}
-      Nun gilt
-      \begin{itemize}
-      \item $|vx|\geq 1$, da $\zeta$ entweder durch $B$ oder durch $C$ läuft. Nehme also an, $\zeta$ verläuft durch $B$.
-        Somit muss $C \stackrel{*}{\vdash} x$. In \ac{CNF} ist $C \stackrel{*}{\vdash} \Eps$ nicht möglich und somit ist $|x| \ge 1$.
-        Der Fall, das $\zeta$ durch $C$ verläuft, ist analog.
-      \item $|vwx| \le 2^{|N|} = n$, da das obere $A$ höchstens $|N|$ Schritte von Blattebene entfernt und $\mathcal{T}$ Binärbaum ist.
-      \item $\forall i\in\N: uv^iwx^iy\in L$
-      \begin{center}
-       
-       
-      \end{center}
-
-      \end{itemize}
-		\begin{figure}[H]\centering
+					\caption{Zerlegung $z = uvwxy$}\label{zerlegung}
+		\end{subfigure}
+		\begin{subfigure}[b]{.28\linewidth}\centering
+			\begin{tikzpicture}[node distance=.5cm, on grid,
+					every node/.style={
+						execute at begin node=$,
+						execute at end node=$
+					},
+					widebox/.style={draw, minimum width=.75cm, minimum height=.35cm, inner sep=0pt}
+				]
+				\node (S) {S};
+				\node[inner sep=2pt] (A) [below=of S.south, xshift=.2cm] {A};
+				\coordinate (Ap) at (A.south west);
+				\node[widebox] (w) [below=of Ap] {w};
+				\node[widebox] (u) at ($(Ap)!2!(w.north west)+.5*(-.75,-.3)$) {u};
+				\node[widebox] (y) at ($(Ap)!2!(w.north east)+.5*(.75,-.3)$) {y};
+				
+				\draw (S.south) edge (u.north west) edge (y.north east)
+					(Ap) edge (u.north east) edge (y.north west) edge (w.north)
+					($(S.south) - (.25,.6)$) edge (S.south) edge (Ap)
+				;
+			\end{tikzpicture}
+			\caption{$uwy\in L$}\label{uv0wx0y}
+		\end{subfigure}
 		\begin{subfigure}[b]{.29\linewidth}\centering
 			\begin{tikzpicture}[node distance=.75cm, on grid,
 					every node/.style={
@@ -549,7 +576,7 @@ Zu jedem NPDA gibt es einen äquivalenten NPDA der nur einen Zustand hat.
 						execute at end node=$
 					}
 				]
-				\node (0) {};
+				\node (0) {S};
 				\node (A1) [below=of 0] {A};
 				\node (A2) [below=of A1] {A};
 				\node (A3) [below=of A2] {A};
@@ -592,29 +619,7 @@ Zu jedem NPDA gibt es einen äquivalenten NPDA der nur einen Zustand hat.
 					(A4l.center)  edge node[below] {w} (A4r.center)
 				;
 			\end{tikzpicture}
-			\caption{$uv^iwx^iy\in L$}
-		\end{subfigure}
-		\begin{subfigure}[b]{.28\linewidth}\centering
-			\begin{tikzpicture}[node distance=.5cm, on grid,
-					every node/.style={
-						execute at begin node=$,
-						execute at end node=$
-					},
-					widebox/.style={draw, minimum width=.75cm, minimum height=.35cm, inner sep=0pt}
-				]
-				\node (S) {S};
-				\node[inner sep=2pt] (A) [below=of S.south, xshift=.2cm] {A};
-				\coordinate (Ap) at (A.south west);
-				\node[widebox] (w) [below=of Ap] {w};
-				\node[widebox] (u) at ($(Ap)!2!(w.north west)+.5*(-.75,-.3)$) {u};
-				\node[widebox] (y) at ($(Ap)!2!(w.north east)+.5*(.75,-.3)$) {y};
-				
-				\draw (S.south) edge (u.north west) edge (y.north east)
-					(Ap) edge (u.north east) edge (y.north west) edge (w.north)
-					($(S.south) - (.25,.6)$) edge (S.south) edge (Ap)
-				;
-			\end{tikzpicture}
-			\caption{$uwy\in L$}
+			\caption{$uv^iwx^iy\in L$}\label{uviwxiy}
 		\end{subfigure}
 % 		\begin{subfigure}[b]{.33\linewidth}\centering
 % 			\begin{tikzpicture}[>=stealth,
@@ -657,10 +662,13 @@ Zu jedem NPDA gibt es einen äquivalenten NPDA der nur einen Zustand hat.
 \end{proof}
 
 \begin{lemma} %\rlnote{Lemma \# 4.3?}
-	$\mathcal{L}_2 \subsetneq \mathcal{L}_1$
+\datenote{15.12.2017}
+  Die Menge der kontextfreien Sprachen ist eine echte Teilmenge der Menge der kontextsensitiven Sprachen.
+% 	$\mathcal{L}_2 \subsetneq \mathcal{L}_1$
 \end{lemma}
 \begin{proof}
-	Sei $L=\{L=\{a^nb^nc^n \mid n\geq 1\}$.\\
+	Sei $L=\{a^nb^nc^n \mid n\geq 1\}$.
+	Aus \autoref{bsp:3.anbncn} wissen wir bereits dass $L$ von einer kontextsensitiven Grammatik erzeugt wird.
 	$L$ ist nicht kontextfrei. Verwende \ac{PL}. Angenommen $L$ sei kontextfrei.
 	Sei dann $n$ die Konstante aus dem \ac{PL}.
 	
@@ -671,10 +679,10 @@ Zu jedem NPDA gibt es einen äquivalenten NPDA der nur einen Zustand hat.
   \begin{itemize}
   \item $vwx = a^j$: 
     Für $i=0$ ist $vwx=w$ mit $|w| < j$.
-    Anzahl der $a$ stimmt nicht mehr mit $n$ überein.
+    Anzahl der $a$ stimmt nicht mehr mit Anzahl $b$ überein.
   \item $vwx = a^kb^j$:
     \begin{itemize}
-    \item Falls $v = a^{k'}$, $x = b^{j'}$: Für $i=0$ stimmt die Anzahl der $a$ nicht mehr mit $n$ überein.
+    \item Falls $v = a^{k'}$, $x = b^{j'}$: Für $i=0$ stimmt die Anzahl der $a$ oder die Anzahl der $b$ nicht mehr mit Anzahl $c$ überein.
     \item Falls $v$ ein Gemisch aus $a$ und $b$ enthält.
       Für $i\ge 2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
     \item Falls $x$ ein Gemisch aus $a$ und $b$ enthält.
@@ -719,7 +727,33 @@ Zu jedem NPDA gibt es einen äquivalenten NPDA der nur einen Zustand hat.
 % \end{Bsp}
 
 
+\subsection{Abschlusseigenschaften für kontextfreie Sprachen}
 
+
+\begin{Satz} % 4.7
+  \label{thm:cfl-closed-reg-intersect}
+	Die \ac{CFL} ist abgeschlossen unter $\cup, \cdot, ^*$, jedoch \emph{nicht} unter $\cap$ und $\overline{\!\phantom{i}\cdot\!\phantom{i}}$.
+\end{Satz}
+\begin{proof}
+	Für zwei \ac{CFG} $\mathcal{G}_i = (N_i, \Sigma,P_i,S_i), i=1,2$, konstruiere $\mathcal{G}_i = (N,\Sigma,P,S)$ mit
+	\begin{align*}
+		\text{"`}\cup\text{"'}: N &= N_1\dotcup N_2\dotcup\{S\}\\
+		P &= \{S\->S_1, S\->S_2 \} \cup P_1\cup P_2\\
+		\text{"`}\cdot\text{"'}: N &= N_1\dotcup N_2\dotcup\{S\}\\
+		P &= \{ S\->S_1S_2 \} \cup P_1\cup P_2\\
+		\text{"`}^*\text{"'}: N &= N_1 \dotcup \{S\}\\
+		P &= \{ S\->\Eps, S\-> S_1S \} \dotcup P_1
+	\end{align*}
+	\begin{itemize}
+	\item für $n\geq 1$
+		\[ \underbrace{\{a^nb^nc^n\}}_{\notin \acs{CFL}} = \underbrace{\{a^nb^nc^m \mid n,m\geq 1 \}}_{\in \acs{CFL}} \cap \underbrace{\{a^mb^nc^n \mid m,n\geq 1 \}}_{\in \acs{CFL}} \]
+		Also \ac{CFL} nicht abgeschlossen unter $\cap$.
+	\item Angenommen, CFL wäre abgeschlossen unter $\overline{\!\phantom{i}\cdot\!\phantom{i}}$.\\
+		Falls $L_1,L_2\in \acs*{CFL}$, dann ist $\overline{L}_1,\overline{L}_2\in\acs*{CFL}$ nach Annahme.\\
+		$\Rightarrow \overline{L}_1\cup \overline{L}_2\in\acs*{CFL}$ wegen Abschluss unter "`$\cup$"'.\\
+		$\Rightarrow \overline{\overline{L}_1\cup \overline{L}_2} = L_1\cap L_2\in\acs*{CFL}$ -- Widerspruch zu Nicht-Abschluss unter "`$\cap$"'. \qedhere
+	\end{itemize}
+\end{proof}
 
 
 \hide{
