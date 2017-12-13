@@ -403,6 +403,7 @@ Das folgende Lemma beantwortet diese Frage.
     \end{itemize}
     
     \item Beweisrichtung ``$\Leftarrow$''
+    \datenote{13.12.2017}
      Wir zeigen diese Richtung via vollständige Induktion über die Anzahl der Berechnungsschritte des \ac{NPDA}.
      \begin{description}
       \item[I.A.] $n=1$: Folgt wie oben erwähnt aus den $P_0$-Regeln.
@@ -444,6 +445,21 @@ Das folgende Lemma beantwortet diese Frage.
      \end{description}
 \end{proof}
 
+\begin{Satz}
+Die Menge der von Kellerautomaten akzeptierten Sprachen und die Menge der kontextfreien Sprachen sind identisch.
+\end{Satz}
+\begin{proof}
+Folgt direkt aus \autoref{lem:4.cfgToNpda} und \autoref{lem:4.npdaToCfg}.
+\end{proof}
+
+\begin{Bemerkung}
+Zu jedem NPDA gibt es einen äquivalenten NPDA der nur einen Zustand hat.
+(Folgt aus \autoref{lem:4.npdaToCfg} und der Konstruktion aus dem Beweis von \autoref{lem:4.cfgToNpda}.)
+\end{Bemerkung}
+
+
+
+\section{Kontextfreie Sprachen -- Teil 2}
 
 \subsection{Das Pumping Lemma für kontextfreie Sprachen}
 \begin{Satz}[Pumping lemma für \acs*{CFL}]
@@ -465,8 +481,8 @@ Das folgende Lemma beantwortet diese Frage.
 	Sei $\mathcal{G}= (\Sigma,N,P,S)$ in \ac{CNF} mit
     $L(\mathcal{G}) = L$. Wähle die Pumping-Konstante $n=2^{|N|}$.
     
-     Betrachte den Ableitungsbaum $\mathcal{A} \in \operatorname{Abl}(\mathcal{G}, S)$ von $z$ mit $|z|\geq n$. 
-    \footnote{Intuition: Da $\mathcal{G}$ in \ac{CNF}, ist Ableitungsbaum $\mathcal{A}$ ein Binärbaum. 
+     Betrachte den Ableitungsbaum $\mathcal{T} \in \operatorname{Abl}(S)$ von $z$ mit $|z|\geq n$. 
+    \footnote{Intuition: Da $\mathcal{G}$ in \ac{CNF}, ist Ableitungsbaum $\mathcal{T}$ ein Binärbaum. 
         Mit $|N|$ 
     verschiedenen Nichtterminalsymbolen kann man 
     also maximal Wörter der Länge $2^{|N|}$ ableiten, wenn man keine Ableitung doppelt nutzen möchte. 
@@ -477,7 +493,7 @@ Das folgende Lemma beantwortet diese Frage.
 	
   Folge $\zeta$ vom Blatt Richtung Wurzel und bis sich das ein $A$ das erste Mal wiederholt. Das geschieht nach $\le |N|$ Schritten.
   Nun teile $z = uvwxy$ wie hier skizziert:
-  
+  \begin{center}
 			\begin{tikzpicture}[>=stealth,
 				widebox/.style={draw, minimum width=.75cm, minimum height=.35cm, inner sep=0pt}
 				,dot/.style={inner sep=0pt,outer sep=0pt,label={center:\scalebox{.75}{\textbullet}}}
@@ -511,13 +527,19 @@ Das folgende Lemma beantwortet diese Frage.
 				let \p1 = (v6.west), \p2 = (v11), \p3 = (v10.east) in 
 				 (\x1,\y2) edge[{Bar[]<}-] (v11) (v11) edge[-{>Bar[]}] (\x3,\y2);
 			\end{tikzpicture}
-	
+      \end{center}
       Nun gilt
       \begin{itemize}
       \item $|vx|\geq 1$, da $\zeta$ entweder durch $B$ oder durch $C$ läuft. Nehme also an, $\zeta$ verläuft durch $B$.
-        Somit muss $C \stackrel{*}{\Longrightarrow} x$. In \ac{CNF} ist $C \stackrel{*}{\Longrightarrow} \Eps$ nicht möglich und somit ist $|x| \ge 1$.
+        Somit muss $C \stackrel{*}{\vdash} x$. In \ac{CNF} ist $C \stackrel{*}{\vdash} \Eps$ nicht möglich und somit ist $|x| \ge 1$.
         Der Fall, das $\zeta$ durch $C$ verläuft, ist analog.
-      \item $|vwx| \le 2^{|N|} = n$ TODO
+      \item $|vwx| \le 2^{|N|} = n$, da das obere $A$ höchstens $|N|$ Schritte von Blattebene entfernt und $\mathcal{T}$ Binärbaum ist.
+      \item $\forall i\in\N: uv^iwx^iy\in L$
+      \begin{center}
+       
+       
+      \end{center}
+
       \end{itemize}
 		\begin{figure}[H]\centering
 		\begin{subfigure}[b]{.29\linewidth}\centering
@@ -592,45 +614,45 @@ Das folgende Lemma beantwortet diese Frage.
 					($(S.south) - (.25,.6)$) edge (S.south) edge (Ap)
 				;
 			\end{tikzpicture}
-			\caption{$\curvearrowright uwy\in L$}
+			\caption{$uwy\in L$}
 		\end{subfigure}
-		\begin{subfigure}[b]{.33\linewidth}\centering
-			\begin{tikzpicture}[>=stealth,
-				widebox/.style={draw, minimum width=.75cm, minimum height=.35cm, inner sep=0pt}
-				,dot/.style={inner sep=0pt,outer sep=0pt,label={center:\scalebox{.75}{\textbullet}}}
-				]
-				
-				\node[dot,label={above right:$S$}] (v1) at (0,-1) {};
-				\node[dot] (v2) at (-0.25,-1.6) {};
-				\node[dot,label={above right:$A$}] (v3) at (0,-2) {};
-				\node[dot] (v4) at (-0.5,-2.5) {};
-				\node[dot,label={above right:$A$}] (v5) at (0,-3) {};
-				\node[widebox] (v6) at (-1.5,-3.5) {$u$};
-				\node[widebox] (v7) at (-.75,-3.5) {$v$};
-				\node[widebox] (v8) at (0,-3.5) {$w$};
-				\node[widebox] (v9) at (.75,-3.5) {$x$};
-				\node[widebox] (v10) at (1.5,-3.5) {$y$};
-				
-				\draw  (v1) edge (v2);
-				\draw  (v2) edge (v3);
-				\draw  (v3) edge (v4);
-				\draw  (v4) edge (v7.north west);
-				\draw  (v4) edge (v5);
-				\draw  (v3) edge (v10.north west);
-				\draw  (v5) edge (v8.north west);
-				\draw  (v5) edge (v8.north east);
-				\draw  (v1) edge (v6.north west);
-				\draw  (v1) edge (v10.north east);
-				\node[align=left, text height=3em,inner sep=2pt] at (2.1,-1.5) {$A\rightarrow BC$\small{ist Binärbaum}} edge[->,shorten >=.1cm] (v3);
-				\node[inner sep=0pt] at (2.75,-3.5) {$A\rightarrow a$} edge[->] (v10);
-				\node (v11) at (0,-4) {$z$};
-				\draw[semithick]
-				let \p1 = (v6.west), \p2 = (v11), \p3 = (v10.east) in 
-				 (\x1,\y2) edge[{Bar[]<}-] (v11) (v11) edge[-{>Bar[]}] (\x3,\y2);
-			\end{tikzpicture}
-			\caption{$\exists$ Pfad mit Länge $\geq k$}
-		\end{subfigure}
-		\caption{Schema zu \autoref{satz:PL für CFL}}
+% 		\begin{subfigure}[b]{.33\linewidth}\centering
+% 			\begin{tikzpicture}[>=stealth,
+% 				widebox/.style={draw, minimum width=.75cm, minimum height=.35cm, inner sep=0pt}
+% 				,dot/.style={inner sep=0pt,outer sep=0pt,label={center:\scalebox{.75}{\textbullet}}}
+% 				]
+% 				
+% 				\node[dot,label={above right:$S$}] (v1) at (0,-1) {};
+% 				\node[dot] (v2) at (-0.25,-1.6) {};
+% 				\node[dot,label={above right:$A$}] (v3) at (0,-2) {};
+% 				\node[dot] (v4) at (-0.5,-2.5) {};
+% 				\node[dot,label={above right:$A$}] (v5) at (0,-3) {};
+% 				\node[widebox] (v6) at (-1.5,-3.5) {$u$};
+% 				\node[widebox] (v7) at (-.75,-3.5) {$v$};
+% 				\node[widebox] (v8) at (0,-3.5) {$w$};
+% 				\node[widebox] (v9) at (.75,-3.5) {$x$};
+% 				\node[widebox] (v10) at (1.5,-3.5) {$y$};
+% 				
+% 				\draw  (v1) edge (v2);
+% 				\draw  (v2) edge (v3);
+% 				\draw  (v3) edge (v4);
+% 				\draw  (v4) edge (v7.north west);
+% 				\draw  (v4) edge (v5);
+% 				\draw  (v3) edge (v10.north west);
+% 				\draw  (v5) edge (v8.north west);
+% 				\draw  (v5) edge (v8.north east);
+% 				\draw  (v1) edge (v6.north west);
+% 				\draw  (v1) edge (v10.north east);
+% 				\node[align=left, text height=3em,inner sep=2pt] at (2.1,-1.5) {$A\rightarrow BC$\small{ist Binärbaum}} edge[->,shorten >=.1cm] (v3);
+% 				\node[inner sep=0pt] at (2.75,-3.5) {$A\rightarrow a$} edge[->] (v10);
+% 				\node (v11) at (0,-4) {$z$};
+% 				\draw[semithick]
+% 				let \p1 = (v6.west), \p2 = (v11), \p3 = (v10.east) in 
+% 				 (\x1,\y2) edge[{Bar[]<}-] (v11) (v11) edge[-{>Bar[]}] (\x3,\y2);
+% 			\end{tikzpicture}
+% 			\caption{$\exists$ Pfad mit Länge $\geq k$}
+% 		\end{subfigure}
+		\caption{Erklärung zu \autoref{satz:PL für CFL}}
 	\end{figure}\vspace{-2em}\qedhere
 \end{proof}
 
@@ -666,35 +688,35 @@ Das folgende Lemma beantwortet diese Frage.
   Daher kann $L$ nicht kontextfrei sein.
 \end{proof}
 
-\begin{Bsp} Die Sprache
-  \begin{displaymath}
-    L = \{ww \mid w \in \{a,b\}^*\}
-  \end{displaymath}
-  ist kontextsensitiv aber nicht kontextfrei.
-
-  Sei $n$ die Konstante aus dem PL
-
-  Betrachte $z = a^nb^na^nb^n \in L$ mit $|z| = 4n \ge n$.
-  Nach PL ist $z = uvwxy$ mit $|vx| \ge 1$ und $|vwx| \le n$.
-
-  Es ergeben sich folgende Möglichkeiten:
-  \begin{itemize}
-  \item $vwx = a^j$, $j \le n$.
-    Für $i=0$ ist $vwx=w$ mit $|w| < j$.
-    Anzahl der $a$ stimmt nicht mehr mit $n$ überein.
-  \item $vwx = a^kb^j$, $k+j \le n$.
-
-    \begin{itemize}
-    \item Falls $v = a^{k'}$, $x = b^{j'}$: Für $i=0$ stimmt die Anzahl der $a$ nicht mehr mit $n$ überein.
-    \item Falls $v$ ein Gemisch aus $a$ und b enthält.
-      Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
-    \item Falls $x$ ein Gemisch aus $a$ und b enthält.
-      Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
-    \end{itemize}
-  \item $vwx = b^j$ analog Fall $a^j$
-  \item $vwx = b^ka^j$ analog Fall $a^kb^j$
-  \end{itemize}
-\end{Bsp}
+% \begin{Bsp} Die Sprache
+%   \begin{displaymath}
+%     L = \{ww \mid w \in \{a,b\}^*\}
+%   \end{displaymath}
+%   ist kontextsensitiv aber nicht kontextfrei.
+% 
+%   Sei $n$ die Konstante aus dem PL
+% 
+%   Betrachte $z = a^nb^na^nb^n \in L$ mit $|z| = 4n \ge n$.
+%   Nach PL ist $z = uvwxy$ mit $|vx| \ge 1$ und $|vwx| \le n$.
+% 
+%   Es ergeben sich folgende Möglichkeiten:
+%   \begin{itemize}
+%   \item $vwx = a^j$, $j \le n$.
+%     Für $i=0$ ist $vwx=w$ mit $|w| < j$.
+%     Anzahl der $a$ stimmt nicht mehr mit $n$ überein.
+%   \item $vwx = a^kb^j$, $k+j \le n$.
+% 
+%     \begin{itemize}
+%     \item Falls $v = a^{k'}$, $x = b^{j'}$: Für $i=0$ stimmt die Anzahl der $a$ nicht mehr mit $n$ überein.
+%     \item Falls $v$ ein Gemisch aus $a$ und b enthält.
+%       Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
+%     \item Falls $x$ ein Gemisch aus $a$ und b enthält.
+%       Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
+%     \end{itemize}
+%   \item $vwx = b^j$ analog Fall $a^j$
+%   \item $vwx = b^ka^j$ analog Fall $a^kb^j$
+%   \end{itemize}
+% \end{Bsp}
 
 
 
