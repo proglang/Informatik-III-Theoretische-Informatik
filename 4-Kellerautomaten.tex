@@ -665,21 +665,18 @@ Zu jedem NPDA gibt es einen äquivalenten NPDA der nur einen Zustand hat.
 	\end{figure}\vspace{-2em}\qedhere
 \end{proof}
 
-\begin{lemma} %\rlnote{Lemma \# 4.3?}
+\begin{lemma}\label{bsp:5.planbncn}
 \datenote{15.12.2017}
-  Die Menge der kontextfreien Sprachen ist eine echte Teilmenge der Menge der kontextsensitiven Sprachen.
-% 	$\mathcal{L}_2 \subsetneq \mathcal{L}_1$
+Die Sprache $L=\{a^nb^nc^n \mid n\geq 1\}$ ist nicht kontextfrei.
 \end{lemma}
 \begin{proof}
-	Sei $L=\{a^nb^nc^n \mid n\geq 1\}$.
-	Aus \autoref{bsp:3.anbncn} wissen wir bereits dass $L$ von einer kontextsensitiven Grammatik erzeugt wird.
-	$L$ ist nicht kontextfrei. Verwende \ac{PL}. Angenommen $L$ sei kontextfrei.
-	Sei dann $n$ die Konstante aus dem \ac{PL}.
-	
-	Wähle $z=a^nb^nc^n$ und somit $|z| = 3n \ge n$.
-  Nach PL ist $z = uvwxy$ mit $|vx| \ge 1$ und $|vwx| \le n$.
+  Wir nehmen an $L$ sei kontextfrei.
+	Sei $n$ die Konstante aus dem \ac{PL}.
+	Wir betrachten $z=a^nb^nc^n$. Es gilt also $|z| = 3n \ge n$.
+  Nach PL gibt es eine Zerlegung $z = uvwxy$ mit $|vx| \ge 1$ und $|vwx| \le n$.
+  Wir zeigen nun, dass $\forall i\in\N: uv^iwx^iy\in L$ nicht gilt (und folgern dass unsere Annahme falsch war).
 
-  Durch $|vwx| \le n$ ergeben sich folgende Möglichkeiten:
+  Durch $|vwx| \le n$ ergeben sich für $vwx$ folgende Möglichkeiten:
   \begin{itemize}
   \item $vwx = a^j$: 
     Für $i=0$ ist $vwx=w$ mit $|w| < j$.
@@ -696,8 +693,21 @@ Zu jedem NPDA gibt es einen äquivalenten NPDA der nur einen Zustand hat.
   \item $vwx = b^kc^j$: analog Fall $a^kb^j$
   \item $vwx = c^j$: analog Fall $a^j$
   \end{itemize}
-  In jeder der Möglichkeiten lässt sich durch Pumpen ein Wort $w \not \in L$ finden.
+  In jeder der Möglichkeiten lässt sich also durch ''Pumpen`` ein Wort $w \not \in L$ finden.
   Daher kann $L$ nicht kontextfrei sein.
+\end{proof}
+
+
+
+
+\begin{lemma} %\rlnote{Lemma \# 4.3?}
+
+  Die Menge der kontextfreien Sprachen ($\mathcal{M}_2$) ist eine echte Teilmenge der Menge der kontextsensitiven Sprachen ($\mathcal{M}_1$).
+\end{lemma}
+\begin{proof}
+Aus \autoref{beob:3.ChomskyHierarchie} wissen wir bereits, dass $\mathcal{M}_2 \subseteq \mathcal{M}_1$ gilt.
+Aus \autoref{bsp:3.anbncn} wissen wir dass $L=\{a^nb^nc^n \mid n\geq 1\}$ von einer kontextsensitiven Grammatik erzeugt wird.
+Mit Hilfe von \autoref{bsp:5.planbncn} folgern wir $\mathcal{M}_2 \subsetneq \mathcal{M}_1$.
 \end{proof}
 
 % \begin{Bsp} Die Sprache
