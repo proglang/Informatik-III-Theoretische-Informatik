@@ -501,12 +501,16 @@ Zu jedem NPDA gibt es einen äquivalenten NPDA der nur einen Zustand hat.
       \item $|vwx| \le 2^{|N|} = n$, da das obere $A$ höchstens $|N|$ Schritte von Blattebene entfernt und $\mathcal{T}$ Binärbaum ist.
       \item Für $\forall i\in\N: uv^iwx^iy\in L$ unterscheiden wir drei Fälle
       \begin{itemize}
-				\item $i=0$: Aus dem unteren $A$ konnten wir $w$ ableiten.
-				Aus dem oberen $A$ konnten wir $vwx$ ableiten. 
+				\item $i=0$: Aus dem ``unteren" $A$ haben wir $w$ abgeleitet,
+				aus dem oberen $A$ haben wir $vwx$ abgeleitet.
 				Wir könnten also auch aus dem oberen $A$ direkt $w$ ableiten und erhalten $S\vdash^* uwy$.
 				(Siehe \autoref{uv0wx0y}).
 				\item $i=1$: Gilt trivialerweise da $uv^1wx^1y=z$
-				\item $i\geq n$: ..
+				\item $i\geq 1$: Aus dem ''oberen`` $A$ haben wir $vAx$ abgeleitet,
+				aus dem unteren $A$ haben wir $w$ abgeleitet.
+				Wir könnten also auch aus dem unteren $A$ nochmal $vAx$ ableiten und wenn wir dies oft genug wiederholen jedes $uv^iwx^iy$ mit $i\geq 2$ erzeugen.
+				(Siehe \autoref{uviwxiy}).
+				
       \end{itemize}
 
       \end{itemize}
