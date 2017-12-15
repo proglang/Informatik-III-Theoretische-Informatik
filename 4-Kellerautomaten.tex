@@ -742,11 +742,9 @@ Mit Hilfe von \autoref{bsp:5.planbncn} folgern wir $\mathcal{M}_2 \subsetneq \ma
 
 
 \subsection{Abschlusseigenschaften für kontextfreie Sprachen}
-
-
 \begin{Satz} % 4.7
   \label{thm:cfl-closed-reg-intersect}
-	Die \ac{CFL} ist abgeschlossen unter $\cup, \cdot, ^*$, jedoch \emph{nicht} unter $\cap$ und $\overline{\!\phantom{i}\cdot\!\phantom{i}}$.
+	Die \ac{CFL} ist abgeschlossen unter Vereinigung ($\cup$), Konkatenation ($\cdot$) und dem Sternoperator ($^*$).
 \end{Satz}
 \begin{proof}
 	Für zwei \ac{CFG} $\mathcal{G}_i = (N_i, \Sigma,P_i,S_i), i=1,2$, konstruiere $\mathcal{G}_i = (N,\Sigma,P,S)$ mit
@@ -758,104 +756,129 @@ Mit Hilfe von \autoref{bsp:5.planbncn} folgern wir $\mathcal{M}_2 \subsetneq \ma
 		\text{"`}^*\text{"'}: N &= N_1 \dotcup \{S\}\\
 		P &= \{ S\->\Eps, S\-> S_1S \} \dotcup P_1
 	\end{align*}
-	\begin{itemize}
-	\item für $n\geq 1$
+\end{proof}
+
+\begin{Satz}
+ 	Die \ac{CFL} sind \emph{nicht} unter Schnitt ($\cap$) abgeschlossen.
+\end{Satz}
+\begin{proof}
+ für $n\geq 1$
 		\[ \underbrace{\{a^nb^nc^n\}}_{\notin \acs{CFL}} = \underbrace{\{a^nb^nc^m \mid n,m\geq 1 \}}_{\in \acs{CFL}} \cap \underbrace{\{a^mb^nc^n \mid m,n\geq 1 \}}_{\in \acs{CFL}} \]
 		Also \ac{CFL} nicht abgeschlossen unter $\cap$.
-	\item Angenommen, CFL wäre abgeschlossen unter $\overline{\!\phantom{i}\cdot\!\phantom{i}}$.\\
+		(siehe \autoref{bsp:5.planbncn})
+\end{proof}
+
+
+\begin{Satz}
+ 	Die \ac{CFL} sind \emph{nicht} unter Komplement ($\overline{\!\phantom{i}\cdot\!\phantom{i}}$) abgeschlossen.
+\end{Satz}
+\begin{proof}
+Angenommen, CFL wäre abgeschlossen unter $\overline{\!\phantom{i}\cdot\!\phantom{i}}$.\\
 		Falls $L_1,L_2\in \acs*{CFL}$, dann ist $\overline{L}_1,\overline{L}_2\in\acs*{CFL}$ nach Annahme.\\
 		$\Rightarrow \overline{L}_1\cup \overline{L}_2\in\acs*{CFL}$ wegen Abschluss unter "`$\cup$"'.\\
 		$\Rightarrow \overline{\overline{L}_1\cup \overline{L}_2} = L_1\cap L_2\in\acs*{CFL}$ -- Widerspruch zu Nicht-Abschluss unter "`$\cap$"'. \qedhere
-	\end{itemize}
 \end{proof}
 
 
-\hide{
 
-\begin{Satz}\label{satz:5.1}
-  \begin{align*}
-                L \in \ac{CFL}  \text{ gdw } L =L(M) \text{ für einen \ac{NPDA} $M$}
-  \end{align*}
-\end{Satz}
-\datenote{21.12.16}
-\begin{proof}\hfill
-        \begin{itemize}
-        \item \ac{CFG} zu \ac{NPDA}:
+\subsection{Deterministisch Kontextfreie Sprachen}
 
+\begin{Def}
+Wir definieren einen \emph{Kellerautomaten mit akzeptierenden Zuständen} als 7-Tupel
+\[
+	\mathcal{E} = (\Sigma,Q,\Gamma,q_0,\Zinit,\delta,F)
+\]
+mit den Komponenten $\Sigma,Q,\Gamma,q_0,\Zinit,\delta$ wie für einen gewöhnlichen Kellerautomaten und $F \subseteq Q$ als die Menge der akzeptierenden Zustände.
 
-  \item \ac{NPDA} zu \ac{CFG}:
+\smallskip
 
-    Zunächst zeigen wir, dass es genügt, \ac{NPDA}s zu betrachten, die bei jeder Transition Wörter der maximalen Länge $2$ auf den Keller schreiben:
+Weiterhin definieren wir das Akzeptanzverhalten folgendermaßen: \\
+Eine Konfiguration $(q, w, \gamma)$ eines Kellerautomaten mit akzeptierenden Zuständen ist \emph{akzeptierend}, falls $q \in F$ und $w = \varepsilon$.
+Die von einem Kellerautomaten mit akzeptierenden Zuständen $\mathcal{E}$ \emph{akzeptierte Sprache} ist
+\[
+	L(\mathcal{E}) = \{w \in \Sigma^* \mid \exists q \in F, \gamma \in \Gamma^*: (q^\text{init}, w, Z^\text{init}) \ConfRel^* (q, \varepsilon, \gamma)\}.
+\]
+Hierbei ist $\ConfRel$ die Schrittrelation genau wie für gewöhnliche Kellerautomaten.
+\end{Def}
 
-
-
-\end{itemize}
-  
+\begin{lemma}
+Zu jedem (gewöhnlichen) Kellerautomaten gibt es einen Kellerautomaten mit akzeptierenden Zuständen der die gleiche Sprache akzeptiert und umgekehrt.
+\end{lemma}
+\begin{proof}
+Siehe Übungsblatt~7 Aufgabe~5.
 \end{proof}
+
+
+
 
 \begin{Def}[name={[DPDA]}]
-        Ein \ac{DPDA} ist ein Tupel $(\underbrace{Q,\Sigma,\Gamma,\qinit,\Zinit}_{\text{wie gehabt}},\delta,F)$
+        Ein \ac{DPDA} ist ein 7-Tupel Tupel 
+        $$\mathcal{D} = (\underbrace{\Sigma,Q,\Gamma,\qinit,\Zinit}_{\text{wie gehabt}},\delta,F)$$
         \vspace{-1em}
         \begin{itemize}
         \item $F\subseteq Q$ akzeptierende Zustände
         \item $\delta: Q\x (\Sigma\cup\{\Eps\})\x \Gamma \-> \mathcal{P}(Q\x \Gamma^*)$ wobei für alle $q\in Q,a\in\Sigma,Z\in\Gamma$ gelten muss, dass
         $|\delta(q,a,Z)| + |\delta(q,\Eps,Z)| \leq 1$
         \item Die Schrittrelation ,,$\ConfRel$'' ist definiert wie bei \ac{NPDA}s.
-        \item $L(M) = \{w\in\Sigma^* \mid (\qinit,w,\Zinit) \ConfRel^* (q',\Eps,\gamma) \land q'\in F \}$ \qedhere
+        \item $L(\mathcal{D}) = \{w\in\Sigma^* \mid (\qinit,w,\Zinit) \ConfRel^* (q',\Eps,\gamma) \land q'\in F \}$ \qedhere
         \end{itemize}
 \end{Def}
 
 \begin{lemma}[name={[\acs*{DPDA}, der gesamte Eingabe verarbeitet]}]
         \label{lem:DPDA ges. Eingabe}
-        Zu jedem \ac{DPDA} $M$ gibt es einen äquivalenten \ac{DPDA} $M'$, der
+        Zu jedem \ac{DPDA} $(\mathcal{D}$ gibt es einen äquivalenten \ac{DPDA} $(\mathcal{D}_e$, der
         jede Eingabe bis zum Ende liest.
 \end{lemma}
-\draftnote{23.12.16}
+% \draftnote{23.12.16}
 \begin{proof}
 
-  Sei $M = (Q, \Sigma, \Gamma, \qinit, \Zinit, \delta, F)$. 
-  Zwei Möglichkeiten, warum $M$ nicht die gesamte Eingabe verarbeiten:
-  Die Transitionsrelation ist nicht total \footnote{d.h. es gibt zwei Konfigurationen $a$, $b$
-  so dass $a \not \Rightarrow^* b$} oder der Automat bleibt bei
+  Sei $\mathcal{D} = (\Sigma, Q, \Gamma, \qinit, \Zinit, \delta, F)$. 
+  Zwei Möglichkeiten, warum $\mathcal{D}$ nicht die gesamte Eingabe verarbeiten:
+  Die Transitionsrelation ist nicht total 
+%   \footnote{
+%   d.h. es gibt Konfigurationen mit nicht-leerem Keller
+%   so dass $a \not \Rightarrow^* b$} 
+  oder der Automat bleibt bei
   leerem Keller stecken.
 
-  Abhilfe: Führe einen Senkzustand ein, auf dem $M'$ weiterrechnet, wenn $M$ nicht mehr weiterrechnen kann. Definiere dazu $M' = (Q', \Sigma, \Gamma', {\qinit}', {\Zinit}', \delta', F')$ mit
+  Abhilfe: Führe einen Senkzustand ein, auf dem $\mathcal{D}_S$ weiterrechnet, wenn $\mathcal{D}$ nicht mehr weiterrechnen kann. 
+  Definiere dazu $\mathcal{D}_S = (\Sigma, Q_S, \Gamma_S, \qinit_S, \Zinit_S, \delta_S, F_S)$ mit
   \begin{align*}
-  Q' &= Q \cup \{{\qinit}', q_s\} \text{ neue Zustände: ${\qinit}'$ neuer Startzustand und $q_s$ Senkzustand} \\
-  F' &= F \\
-  \Gamma' &= \Gamma \cup \{{\Zinit}'\} \text{ neues Kellerbodensymbol}
+  Q_S &= Q \cup \{\qinit_S, q_s\} \text{ neue Zustände: $\qinit_S$ neuer Startzustand und $q_s$ Senkzustand} \\
+  F_S &= F \\
+  \Gamma_S &= \Gamma \cup \{\Zinit_S\} \text{ neues Kellerbodensymbol}
   \end{align*}
-  und Transitionsfunktion $\delta'$ gegeben durch
-  \[\delta' ({\qinit}', \varepsilon, {\Zinit}') = \{ (\qinit, \Zinit{\Zinit}') \} \]
+  und Transitionsfunktion $\delta_S$ gegeben durch
+  \[\delta_S (\qinit_S, \varepsilon, \Zinit_S) = \{ (\qinit, \Zinit\Zinit_S) \} \]
   \begin{itemize}
   \item Transition totalisieren: Für alle $q\in Q$, $Z \in \Gamma$\\
     \begin{align*}
-      \delta' (q, \varepsilon, Z) &=
+      \delta_S (q, \varepsilon, Z) &=
       \begin{cases}
         \delta (q, \varepsilon, Z) & \text{falls
         }\ne\emptyset\vee\exists a\in\Sigma, \delta (q, a, Z)\ne \emptyset \\
         \{ (q_s, Z) \} & \text{sonst}
       \end{cases} \\
-      \delta' (q, a, Z) &=
+      \delta_S (q, a, Z) &=
       \begin{cases}
         \delta (q, a, Z) & \text{falls }\ne\emptyset\vee\delta (q,
         \varepsilon, Z) \ne \emptyset \\
         \{ (q_s, Z) \} & \text{sonst}
       \end{cases}
     \end{align*}
-    Intuition: Wenn $\delta(q, a, Z) = \emptyset$ und ein $\epsilon$-Übergang ebenfalls ausscheidet, kann das Wort von $M$ nicht weiter abgearbeitet werden. $M'$ geht nun in Senkzustand $\qinit$ und arbeitet dort weiter. Analog für $\delta(q, \epsilon, Z)$.
-  \item Kellerunterlauf: $M$ hat $\Zinit$ abgeräumt, so dass ${\Zinit}'$
+    Intuition: Wenn $\delta(q, a, Z) = \emptyset$ und ein $\epsilon$-Übergang ebenfalls ausscheidet, kann das Wort von $\mathcal{D}$ nicht weiter abgearbeitet werden. $\mathcal{D}_S$ geht nun in Senkzustand $\qinit$ und arbeitet dort weiter. Analog für $\delta(q, \epsilon, Z)$.
+  \item Kellerunterlauf: $\mathcal{D}$ hat $\Zinit$ abgeräumt, so dass $\Zinit_S$
     sichtbar geworden ist. Füge eine $\epsilon$-Transition in
      Senkzustand $q_s$ hinzu, indem man für alle $q\in Q$ definiere:\\
-    \[\delta' (q, \varepsilon, {\Zinit}') = \{ (q_s, {\Zinit}') \} \]
-  In $q_s$ kann der Automat nun für alle $a\in\Sigma$, $Z\in \Gamma'$ abarbeiten:\\
-    \[\delta' (q_s, a, Z) = \{ (q_s, Z) \}\]   %TODO warum Z und nicht {\Zinit}' ?!
+    \[\delta_S (q, \varepsilon, \Zinit_S) = \{ (q_s, \Zinit_S) \} \]
+  In $q_s$ kann der Automat nun für alle $a\in\Sigma$, $Z\in \Gamma_S$ abarbeiten:\\
+    \[\delta_S (q_s, a, Z) = \{ (q_s, Z) \}\]   %TODO warum Z und nicht \Zinit_S ?!
     Bemerke, dass $\qinit \not \in F'$, da ein Kellerunterlauf
     das Akzeptieren des eingelesen Wortes ausschliesst.
   \end{itemize}
 
   Es verbleibt zu zeigen, dass $\forall w\in \Sigma^*$ $\exists q\in Q'$
-  $\gamma\in\Gamma'^*$ so dass $({\qinit}', w, {\Zinit}') \ConfRel^* (q,
+  $\gamma\in\Gamma_S^*$ so dass $(\qinit_S, w, \Zinit_S) \ConfRel^* (q,
   \varepsilon, \gamma)$. (Induktion über $w$) Weiter ist zu zeigen,
   dass $L (M) = L (M')$.
 \end{proof}
@@ -959,6 +982,43 @@ Mit Hilfe von \autoref{bsp:5.planbncn} folgern wir $\mathcal{M}_2 \subsetneq \ma
     
     Für kontextfreie Sprachen ist $L\ne \emptyset$ entscheidbar, also betrachte $L=\Sigma^*$ gdw.\ $\overline{L}=\emptyset$.
 \end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\hide{
+
+\begin{Satz}\label{satz:5.1}
+  \begin{align*}
+                L \in \ac{CFL}  \text{ gdw } L =L(M) \text{ für einen \ac{NPDA} $M$}
+  \end{align*}
+\end{Satz}
+\datenote{21.12.16}
+\begin{proof}\hfill
+        \begin{itemize}
+        \item \ac{CFG} zu \ac{NPDA}:
+
+
+  \item \ac{NPDA} zu \ac{CFG}:
+
+    Zunächst zeigen wir, dass es genügt, \ac{NPDA}s zu betrachten, die bei jeder Transition Wörter der maximalen Länge $2$ auf den Keller schreiben:
+
+
+
+\end{itemize}
+  
+\end{proof}
+
+
 
 \begin{Satz} \textbf{DPDA Äquivalenzproblem}
     Seien $L_1, L_2$ DCFL. Dann ist $L_1 = L_2$ entscheidbar.
