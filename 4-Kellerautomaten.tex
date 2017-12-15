@@ -866,68 +866,80 @@ Siehe Übungsblatt~7 Aufgabe~5.
         \{ (q_s, Z) \} & \text{sonst}
       \end{cases}
     \end{align*}
-    Intuition: Wenn $\delta(q, a, Z) = \emptyset$ und ein $\epsilon$-Übergang ebenfalls ausscheidet, kann das Wort von $\mathcal{D}$ nicht weiter abgearbeitet werden. $\mathcal{D}_S$ geht nun in Senkzustand $\qinit$ und arbeitet dort weiter. Analog für $\delta(q, \epsilon, Z)$.
-  \item Kellerunterlauf: $\mathcal{D}$ hat $\Zinit$ abgeräumt, so dass $\Zinit_S$
+    Intuition: Wenn $\delta(q, a, Z) = \emptyset$ und ein $\epsilon$-Übergang ebenfalls ausscheidet, kann das Wort von $\mathcal{D}$ nicht weiter abgearbeitet werden. $\mathcal{D}_S$ geht nun in Senkzustand $q_s$ und arbeitet dort weiter. Analog für $\delta(q, \epsilon, Z)$.
+  \item Kellerunterlauf vermeiden: $\mathcal{D}$ hat $\Zinit$ abgeräumt, so dass $\Zinit_S$
     sichtbar geworden ist. Füge eine $\epsilon$-Transition in
      Senkzustand $q_s$ hinzu, indem man für alle $q\in Q$ definiere:\\
     \[\delta_S (q, \varepsilon, \Zinit_S) = \{ (q_s, \Zinit_S) \} \]
   In $q_s$ kann der Automat nun für alle $a\in\Sigma$, $Z\in \Gamma_S$ abarbeiten:\\
     \[\delta_S (q_s, a, Z) = \{ (q_s, Z) \}\]   %TODO warum Z und nicht \Zinit_S ?!
-    Bemerke, dass $\qinit \not \in F'$, da ein Kellerunterlauf
+    Bemerke, dass $q_s \not \in F_S$, da ein Kellerunterlauf
     das Akzeptieren des eingelesen Wortes ausschliesst.
   \end{itemize}
 
-  Es verbleibt zu zeigen, dass $\forall w\in \Sigma^*$ $\exists q\in Q'$
+  Es verbleibt zu zeigen:
+  \begin{itemize}
+   \item $\forall w\in \Sigma^*$ $\exists q\in Q_S$
   $\gamma\in\Gamma_S^*$ so dass $(\qinit_S, w, \Zinit_S) \ConfRel^* (q,
-  \varepsilon, \gamma)$. (Induktion über $w$) Weiter ist zu zeigen,
-  dass $L (M) = L (M')$.
+  \varepsilon, \gamma)$
+  
+  (Induktion über $w$)
+  \item $L (\mathcal{D}) = L (\mathcal{D}_S)$.
+  \end{itemize}
 \end{proof}
 
 \begin{Satz}[name={[Abgeschlossenheit der deterministischen \acs*{CFL}]}]
         Die deterministischen \ac{CFL} sind unter Komplement abgeschlossen.
 \end{Satz}
 \begin{proof}
-  Sei $L=L(M)$ für \ac{DPDA} $M$. Nach \autoref{lem:DPDA ges. Eingabe} liest $M$ die komplette Eingabe. 
+  Sei $L$ deterministisch kontextfrei. 
+  Nach \autoref{lem:DPDA ges. Eingabe} gibt es \ac{DPDA} $\mathcal{D}$ der die komplette Eingabe liest mit $L(\mathcal{D})=L$.
 
-  Konstruiere \ac{DPDA} $M'$, s.d. $ L(M') = \overline{L}$. 
-  Definiere dazu $Q'= q \times \{0,1,2\}$. Bedeutung des zusätzlichen ,,Flags'' $\in \{0,1,2\}$:
+  Konstruiere \ac{DPDA} $\mathcal{D}_K$, s.d. $ L(\mathcal{D}_K) = \overline{L}$. 
+  Definiere dazu $Q_K= Q \times \{0,1,2\}$. Bedeutung des zusätzlichen ,,Flags'' $\in \{0,1,2\}$:
   \begin{itemize}
-  \item $0$: seit Lesen des letzten Symbols $\epsilon \vee a \in \Sigma$ wurde kein akzeptierender Zustand durchlaufen
+  \item $0$: seit Lesen des letzten Symbols $a \in \Sigma$ wurde kein akzeptierender Zustand durchlaufen
   \item $1$: seit Lesen des letzten Symbols wurde mindestens ein
     akzeptierender Zustand durchlaufen 
-  \item $2$: markiert einen akzeptierenden Zustand in $M'$.
+  \item $2$: markiert einen akzeptierenden Zustand in $\mathcal{D}_K$.
   \end{itemize}
         
-  $F'=F\x \{2\}$
+  $F_K=F\x \{2\}$
 
-  Definiere Hilfsfunktion $\mathit{final}:Q\to \{0,1\}$ durch 
+  Definiere Hilfsfunktion $\mathit{acc}:Q\to \{0,1\}$ durch 
   \begin{displaymath}
-    \mathit{final} (q) =
+    \mathit{acc} (q) =
     \begin{cases}
       0 & q\notin F \\ 1 & q \in F
     \end{cases}
   \end{displaymath}
   \begin{align*}
-    {\qinit}' &= (\qinit,\mathit{final} (\qinit))
+    \qinit_K &= (\qinit,\mathit{acc} (\qinit))
   \end{align*}
   Für alle $q \in Q$, $Z\in\Gamma$.
   
   Falls $\delta(q,\Eps,Z) = \{(q',\gamma)\}$, dann
   \begin{align*}
-    \delta'((q,0),\Eps,Z) &= ((q',\mathit{final} (q')),\gamma)
+    \delta'((q,0),\Eps,Z) &= ((q',\mathit{acc} (q')),\gamma)
     \\
     \delta'((q,1),\Eps,Z) &= ((q',1),\gamma)
   \end{align*}
   Falls $\delta(q,a,Z) = \{(q',\gamma)\}$, dann
   \begin{align*}
     \delta'((q,0), \Eps, Z) &= \{ ((q,2), Z) \} \\
-    \delta'((q,2), a, Z) &=((q',\mathit{final} (q')), \gamma)
+    \delta'((q,2), a, Z) &=((q',\mathit{acc} (q')), \gamma)
     \\
     \delta'((q,1), a, Z) &=
-    ((q',\mathit{final} (q')), \gamma)
+    ((q',\mathit{acc} (q')), \gamma)
     \\ \tag*{\qedhere}    %TODO Intuition?
   \end{align*}
 \end{proof}
+
+\begin{Satz}
+Die deterministisch kontextfreien Sprachen sind eine echte Teilmenge der kontextfreien Sprachen.
+\end{Satz}
+
+
 \begin{Satz}
     Die deterministischen \ac{CFL} sind \textbf{nicht} unter Vereinigung und Durchschnitt abgeschlossen.
 \end{Satz}
