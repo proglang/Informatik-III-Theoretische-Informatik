@@ -747,7 +747,7 @@ Mit Hilfe von \autoref{bsp:5.planbncn} folgern wir $\mathcal{M}_2 \subsetneq \ma
 	Die \ac{CFL} ist abgeschlossen unter Vereinigung ($\cup$), Konkatenation ($\cdot$) und dem Sternoperator ($^*$).
 \end{Satz}
 \begin{proof}
-	Für zwei \ac{CFG} $\mathcal{G}_i = (N_i, \Sigma,P_i,S_i), i=1,2$, konstruiere $\mathcal{G}_i = (N,\Sigma,P,S)$ mit
+	Für zwei \ac{CFG} $\mathcal{G}_i = (\Sigma, N_i, P_i,S_i), i=1,2$, konstruiere $\mathcal{G}_i = (\Sigma, N,P,S)$ mit
 	\begin{align*}
 		\text{"`}\cup\text{"'}: N &= N_1\dotcup N_2\dotcup\{S\}\\
 		P &= \{S\->S_1, S\->S_2 \} \cup P_1\cup P_2\\
@@ -939,6 +939,15 @@ Siehe Übungsblatt~7 Aufgabe~5.
 Die deterministisch kontextfreien Sprachen sind eine echte Teilmenge der kontextfreien Sprachen.
 \end{Satz}
 
+\begin{proof}
+ Offensichtlich gibt es eine Teilmengenbeziehung, denn die von nichtdeterministischen Kellerautomaten mit akzeptierendem Zustand akzeptierten Sprachen sind gerade die kontextfreien Sprachen und jeder deterministische Kellerautomat in ein Kellerautomaten mit akzeptierendem Zustand.
+ Die deterministisch kontextfreien Sprachen sind und Komplement abgeschlossen die kontextfreien Sprachen sind es nicht:
+ Beide Mengen von Sprachen können also nicht gleich sein.
+\end{proof}
+
+
+
+\hide{
 
 \begin{Satz}
     Die deterministischen \ac{CFL} sind \textbf{nicht} unter Vereinigung und Durchschnitt abgeschlossen.
@@ -1007,7 +1016,7 @@ Die deterministisch kontextfreien Sprachen sind eine echte Teilmenge der kontext
 
 
 
-\hide{
+
 
 \begin{Satz}\label{satz:5.1}
   \begin{align*}
