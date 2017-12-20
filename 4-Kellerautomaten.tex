@@ -429,6 +429,8 @@ Das folgende Lemma beantwortet diese Frage.
       \item $(q_1, w',Z_1Z_2)\ConfRel^{k_1} (q_2, w_2,Z_2)$
       \item $(q_2, w_2,Z_2)\ConfRel^{k_2} (q',\Eps,\Eps)$
       \end{enumerate}
+      Wir wählen $k_1$ als die kleinste Zahl, welche die obigen Eigenschaften erfüllt.
+      Damit wissen wir, dass wir $Z_2$ noch nie vom Keller genommen haben.
       
       Aus 3.\ folgern wir $(q_1, w_1,Z_1)\ConfRel^{k_1} (q_2, \Eps,\Eps)$ und mit I.V.\
       $[q_1, Z_1, q_2] \vdash^{k_1} w_1$.
@@ -453,7 +455,7 @@ Folgt direkt aus \autoref{lem:4.cfgToNpda} und \autoref{lem:4.npdaToCfg}.
 \end{proof}
 
 \begin{Bemerkung}
-Zu jedem NPDA gibt es einen äquivalenten NPDA der nur einen Zustand hat.
+Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, der nur einen Zustand hat.
 (Folgt aus \autoref{lem:4.npdaToCfg} und der Konstruktion aus dem Beweis von \autoref{lem:4.cfgToNpda}.)
 \end{Bemerkung}
 
