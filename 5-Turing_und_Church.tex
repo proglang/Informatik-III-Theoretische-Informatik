@@ -1,5 +1,7 @@
-\draftnote{11.1.17}
-\section{Turing und Church}
+\datenote{20.12.17}
+\section{Turingmaschinen}
+
+\hide{
 %\section{\acf{TM}}
 1930er Jahre\\
 Suche nach formalem Modell für maschinelle Berechenbarkeit
@@ -18,8 +20,10 @@ Suche nach formalem Modell für maschinelle Berechenbarkeit
 \end{itemize}\end{minipage}
 
 außerdem: Turing-Award
+}
 
 \subsection{Turingmaschine \normalfont(informell)}
+\hide{
 Ein primitives Rechenmodell:
 \begin{figure}[H]\centering
 	\begin{tikzpicture}[every node/.style={block}]
@@ -206,33 +210,34 @@ Was kann die \ac{TM} ausrechnen?
 		& q_1 & 1      & q_2 & 1 & L
 	\end{tabular}
 \end{Bsp}
+}
 
 \subsection{Formalisierung der \ac{TM}} % 2.2
 \begin{Def}[name={[\acs*{TM}]}] % 2.1
 	Eine \ac{TM} ist ein 7-Tupel
 	\begin{equation*}
-		\mathcal{A}=\left(Q,\Sigma,\Gamma,\delta,q_0,\blank,F\right)\\
+		\mathcal{M}=\left(\Sigma,Q,\Gamma,\delta,\qinit,\blank,F\right)\\
 	\end{equation*}
 	\begin{itemize}
 		\item $Q$ ist endliche Menge von Zuständen
 		\item $\Sigma$ ist endliches Alphabet
 		\item $\Gamma\supsetneq\Sigma$ ist endliches Bandalphabet
 		\item $\delta: Q\times\Gamma\--> \Powerset(Q\times\Gamma\times\{R,L,N\})$
-		\item $q_0\in Q$ Startzustand
+		\item $\qinit\in Q$ Startzustand
 		\item $\blank\in\Gamma\setminus\Sigma$ das Blank
 		\item $F\subseteq Q$ Menge der akzeptierenden Zustände
 	\end{itemize}
-        Die TM $\mathcal{A}$ heisst \emph{deterministisch}
+        Die TM $\mathcal{M}$ heisst \emph{deterministisch}
         (DTM), falls $\forall q\in Q, \forall a\in\Gamma, |\delta
         (q,a)| \le 1$.\\
-        Ansonsten ist $\mathcal{A}$ \emph{nichtdeterministisch} (NTM).
+        Ansonsten ist $\mathcal{M}$ \emph{nichtdeterministisch} (NTM).
 \end{Def}
-Im Folgenden sei $\A=(Q, \Sigma, \Gamma, \delta, q_0, \blank, F)$ eine \ac{TM}.
+Im Folgenden sei $\mathcal{M}=(Q, \Sigma, \Gamma, \delta, \qinit, \blank, F)$ eine \ac{TM}.
 
 \begin{Def}[name={[Konfiguration einer \acs*{TM}]}] % 2.2
 	Eine Konfiguration einer \ac{TM}
 	ist ein Tupel
-	\[ (v,q,w) \in \Konf(\A)=\Gamma^*\times Q\times\Gamma^+  \]
+	\[ (v,q,w) \in \Konf(\mathcal{M})=\Gamma^*\times Q\times\Gamma^+  \]
 \end{Def}
 %
 \begin{itemize}
@@ -242,7 +247,7 @@ Im Folgenden sei $\A=(Q, \Sigma, \Gamma, \delta, q_0, \blank, F)$ eine \ac{TM}.
 	\item Kopfposition auf erstem Symbol von $w$
 \end{itemize}
 
-Abk"urzend $ v qw \in \Konf(\mathcal{A}) $ steht für Band:
+Abk"urzend $ v qw \in \Konf(\mathcal{M}) $ steht für Band:
 \begin{figure}[H]\centering
 	\begin{tikzpicture}[every node/.style={block}, decoration={brace, amplitude=5pt}]
 		\node (A) {$v$};
@@ -261,13 +266,13 @@ Abk"urzend $ v qw \in \Konf(\mathcal{A}) $ steht für Band:
 	\caption{$vqw$-Band}
 \end{figure}
 %
-\paragraph{Forts.:} Die \emph{Startkonfiguration} bei Eingabe $w$ ist: $q_0\,w\,\blank$.
+\paragraph{Forts.:} Die \emph{Startkonfiguration} bei Eingabe $w$ ist: $\qinit\,w\,\blank$.
 \\
 Eine \emph{Haltekonfiguration} hat die Form: $vqaw$, so dass $\delta(q,a)=\emptyset$
 
 \begin{Def}[name={[Rechenschrittrelation]}] % 2.3
 	Die \emph{Rechenschrittrelation}
-	\[ {\vdash} \subseteq \Konf(\A)\x\Konf(A) \]
+	\[ {\vdash} \subseteq \Konf(\mathcal{M})\x\Konf(\mathcal{M}) \]
 	ist definiert durch
 	\begin{alignat*}{3}
 		1.&\ & v qaw &\vdash v q'a'w &\quad& \text{falls }\delta(q,a)=(q',a',N)\\
@@ -277,43 +282,43 @@ Eine \emph{Haltekonfiguration} hat die Form: $vqaw$, so dass $\delta(q,a)=\empty
 		&& vbqaw &\vdash vq'ba'w && \ruleplaceholder{\widthof{$\delta(q,a)=(q',a',L)$}}\  b\in\Gamma
 	\end{alignat*}
 	$\vdash$ Einzelschritt, gesuchte Relation für endlich viele Schritte \smallskip\\
-	${\vdash^*} \subseteq \Konf(\A) \x \Konf(\A)$ die reflexive transitive Hülle von $\vdash$
+	${\vdash^*} \subseteq \Konf(\mathcal{M}) \x \Konf(\mathcal{M})$ die reflexive transitive Hülle von $\vdash$
 \end{Def}
 
 
-$\vdash$ Relation auf $\Konf(\A)\hat=$ Berechnungsschritt\\
+$\vdash$ Relation auf $\Konf(\mathcal{M})\hat=$ Berechnungsschritt\\
 $\vdash^*$ reflexiv, transitiver Abschluss $\hat=$ endl.\ viele Berechnungsschritte
 %
 %
-\begin{Def}[Die von \acs*{TM} $\A$ akzeptierte Sprache] % 2.5
+\begin{Def}[Die von \acs*{TM} $\mathcal{M}$ akzeptierte Sprache] % 2.5
 	\begin{align*}
-		L(\A)=\{ w\in\Sigma^* \mid{}
-		& q_0 w \vdash^*uqv\\
+		L(\mathcal{M})=\{ w\in\Sigma^* \mid{}
+		& \qinit w \vdash^*uqv\\
 		&uqv \text{ Haltekonfiguration}\\
 		&q\in F\}
 	\end{align*}
 \end{Def}
 \emph{Beachte:}
-$w\notin L(\A)\begin{casesarrows}
-\A\text{ kann anhalten}          \\
-\A\text{ kann nicht terminieren}
+$w\notin L(\mathcal{M})\begin{casesarrows}
+\mathcal{M}\text{ kann anhalten}          \\
+\mathcal{M}\text{ kann nicht terminieren}
 \end{casesarrows}$
 
-\begin{Def}[Die von \ac{TM} $\A$ berechnete Funktion] % 2.6
+\begin{Def}[Die von \ac{TM} $\mathcal{M}$ berechnete Funktion] % 2.6
 	\begin{alignat*}{3}
-		&&&f_\A:\Sigma^*- \->\Sigma^*\\
-		&&&f_\A(w)=v\\
-		&\text{ falls } &&q_0w \vdash^*uqv'&\quad&\text{Haltekonf.}\\
+		&&&f_\mathcal{M}:\Sigma^*- \->\Sigma^*\\
+		&&&f_\mathcal{M}(w)=v\\
+		&\text{ falls } &&\qinit w \vdash^*uqv'&\quad&\text{Haltekonf.}\\
 		&\text{ und } &&v=\out( v')\\[.5em]
 		&\out:\Gamma^* &&\-> \Sigma^*\\
 		&\out(\Eps) &&= \Eps\\
 		&\out(au) &&= a\cdot\out(u) &\quad& a\in\Sigma\\
-		&\out(bu) &&= \Eps && b\in\Gamma\setminus\Sigma
+		&\out(bu) &&= \out(u) && b\in\Gamma\setminus\Sigma
 	\end{alignat*}
 \end{Def}
-\emph{Beachte:} Falls $q_0 w$ nicht terminiert, dann ist $f_\A(w)$ nicht definiert.
+\emph{Beachte:} Falls $\qinit w$ nicht terminiert, dann ist $f_\mathcal{M}(w)$ nicht definiert.
 
-Eine \ac{TM} $\A$ terminiert nicht bei Eingabe $w$, falls für alle $uq'v$, so dass $q_0w\vdash^*uq'v$\\
+Eine \ac{TM} $\mathcal{M}$ terminiert nicht bei Eingabe $w$, falls für alle $uq'v$, so dass $\qinit w\vdash^*uq'v$\\
 $uq'v$ ist keine Haltekonfiguration.
 
 \subsection{Techniken zur \ac{TM} Programmierung}
@@ -396,7 +401,7 @@ $uq'v$ ist keine Haltekonfiguration.
 		\text{Spur }1 & a_1a_2\dots a_2
 	\end{tabular} 
 	
-	Springe nach Sim($q_0$), der Zustand in $M'$, an dem die Simulation des Zustands $q$ aus $M$ beginnt.
+	Springe nach Sim($\qinit$), der Zustand in $M'$, an dem die Simulation des Zustands $q$ aus $M$ beginnt.
 	
 	\item Simulation eines Rechnerschritts im Zustand Sim($q$):\\
 	Kopf auf linker Begrenzung, d.h. linker \# auf Spur $2k+1$
