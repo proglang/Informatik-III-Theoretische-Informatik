@@ -754,7 +754,7 @@ Mit Hilfe von \autoref{bsp:5.planbncn} folgern wir $\mathcal{M}_2 \subsetneq \ma
 	Die \ac{CFL} ist abgeschlossen unter Vereinigung ($\cup$), Konkatenation ($\cdot$) und dem Sternoperator ($^*$).
 \end{Satz}
 \begin{proof}
-	Für zwei \ac{CFG} $\mathcal{G}_i = (\Sigma, N_i, P_i,S_i), i=1,2$, konstruiere $\mathcal{G}_i = (\Sigma, N,P,S)$ mit
+	Für zwei \ac{CFG} $\mathcal{G}_i = (\Sigma, N_i, P_i,S_i), i=1,2$, konstruiere $\mathcal{G} = (\Sigma, N,P,S)$ mit
 	\begin{align*}
 		\text{"`}\cup\text{"'}: N &= N_1\dotcup N_2\dotcup\{S\}\\
 		P &= \{S\->S_1, S\->S_2 \} \cup P_1\cup P_2\\
@@ -762,6 +762,7 @@ Mit Hilfe von \autoref{bsp:5.planbncn} folgern wir $\mathcal{M}_2 \subsetneq \ma
 		P &= \{ S\->S_1S_2 \} \cup P_1\cup P_2\\
 		\text{"`}^*\text{"'}: N &= N_1 \dotcup \{S\}\\
 		P &= \{ S\->\Eps, S\-> S_1S \} \dotcup P_1
+	\qedhere
 	\end{align*}
 \end{proof}
 
@@ -770,7 +771,7 @@ Mit Hilfe von \autoref{bsp:5.planbncn} folgern wir $\mathcal{M}_2 \subsetneq \ma
 \end{Satz}
 \begin{proof}
  für $n\geq 1$
-		\[ \underbrace{\{a^nb^nc^n\}}_{\notin \acs{CFL}} = \underbrace{\{a^nb^nc^m \mid n,m\geq 1 \}}_{\in \acs{CFL}} \cap \underbrace{\{a^mb^nc^n \mid m,n\geq 1 \}}_{\in \acs{CFL}} \]
+		\[ \underbrace{\{a^nb^nc^m \mid n,m\geq 1 \}}_{\in \acs{CFL}} \cap \underbrace{\{a^mb^nc^n \mid m,n\geq 1 \}}_{\in \acs{CFL}} = \underbrace{\{a^nb^nc^n\}}_{\notin \acs{CFL}} \]
 		Also \ac{CFL} nicht abgeschlossen unter $\cap$.
 		(siehe \autoref{bsp:5.planbncn})
 \end{proof}
