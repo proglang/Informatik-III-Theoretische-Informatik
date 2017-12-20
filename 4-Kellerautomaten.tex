@@ -789,14 +789,14 @@ Angenommen, CFL wäre abgeschlossen unter $\overline{\!\phantom{i}\cdot\!\phanto
 
 
 
-\subsection{Deterministisch Kontextfreie Sprachen}
+\subsection{Deterministisch kontextfreie Sprachen}
 
 \begin{Def}
 Wir definieren einen \emph{Kellerautomaten mit akzeptierenden Zuständen} als 7-Tupel
 \[
-	\mathcal{E} = (\Sigma,Q,\Gamma,q_0,\Zinit,\delta,F)
+	\mathcal{E} = (\Sigma,Q,\Gamma,q^\text{init},\Zinit,\delta,F)
 \]
-mit den Komponenten $\Sigma,Q,\Gamma,q_0,\Zinit,\delta$ wie für einen gewöhnlichen Kellerautomaten und $F \subseteq Q$ als die Menge der akzeptierenden Zustände.
+mit den Komponenten $\Sigma,Q,\Gamma,q^\text{init},\Zinit,\delta$ wie für einen gewöhnlichen Kellerautomaten und $F \subseteq Q$ als die Menge der akzeptierenden Zustände.
 
 \smallskip
 
@@ -810,7 +810,8 @@ Hierbei ist $\ConfRel$ die Schrittrelation genau wie für gewöhnliche Kelleraut
 \end{Def}
 
 \begin{lemma}
-Zu jedem (gewöhnlichen) Kellerautomaten gibt es einen Kellerautomaten mit akzeptierenden Zuständen der die gleiche Sprache akzeptiert und umgekehrt.
+Zu jedem (gewöhnlichen) Kellerautomaten gibt es einen Kellerautomaten mit akzeptierenden Zuständen, der die gleiche Sprache akzeptiert.
+Gleiches gilt in die andere Richtung.
 \end{lemma}
 \begin{proof}
 Siehe Übungsblatt~7 Aufgabe~5.
@@ -820,7 +821,7 @@ Siehe Übungsblatt~7 Aufgabe~5.
 
 
 \begin{Def}[name={[DPDA]}]
-        Ein \ac{DPDA} ist ein 7-Tupel Tupel 
+        Ein \ac{DPDA} ist ein 7-Tupel
         $$\mathcal{D} = (\underbrace{\Sigma,Q,\Gamma,\qinit,\Zinit}_{\text{wie gehabt}},\delta,F)$$
         \vspace{-1em}
         \begin{itemize}
@@ -834,14 +835,14 @@ Siehe Übungsblatt~7 Aufgabe~5.
 
 \begin{lemma}[name={[\acs*{DPDA}, der gesamte Eingabe verarbeitet]}]
         \label{lem:DPDA ges. Eingabe}
-        Zu jedem \ac{DPDA} $(\mathcal{D}$ gibt es einen äquivalenten \ac{DPDA} $(\mathcal{D}_e$, der
+        Zu jedem \ac{DPDA} $\mathcal{D}$ gibt es einen äquivalenten \ac{DPDA} $\mathcal{D}_e$, der
         jede Eingabe bis zum Ende liest.
 \end{lemma}
 % \draftnote{23.12.16}
 \begin{proof}
 
   Sei $\mathcal{D} = (\Sigma, Q, \Gamma, \qinit, \Zinit, \delta, F)$. 
-  Zwei Möglichkeiten, warum $\mathcal{D}$ nicht die gesamte Eingabe verarbeiten:
+  Es gibt zwei Möglichkeiten, warum $\mathcal{D}$ nicht die gesamte Eingabe verarbeitet:
   Die Transitionsrelation ist nicht total 
 %   \footnote{
 %   d.h. es gibt Konfigurationen mit nicht-leerem Keller
@@ -852,14 +853,14 @@ Siehe Übungsblatt~7 Aufgabe~5.
   Abhilfe: Führe einen Senkzustand ein, auf dem $\mathcal{D}_S$ weiterrechnet, wenn $\mathcal{D}$ nicht mehr weiterrechnen kann. 
   Definiere dazu $\mathcal{D}_S = (\Sigma, Q_S, \Gamma_S, \qinit_S, \Zinit_S, \delta_S, F_S)$ mit
   \begin{align*}
-  Q_S &= Q \cup \{\qinit_S, q_s\} \text{ neue Zustände: $\qinit_S$ neuer Startzustand und $q_s$ Senkzustand} \\
+  Q_S &= Q \cup \{\qinit_S, q_s\} \text{ mit neuen Zuständen: $\qinit_S$ neuer Startzustand und $q_s$ Senkzustand} \\
   F_S &= F \\
   \Gamma_S &= \Gamma \cup \{\Zinit_S\} \text{ neues Kellerbodensymbol}
   \end{align*}
   und Transitionsfunktion $\delta_S$ gegeben durch
   \[\delta_S (\qinit_S, \varepsilon, \Zinit_S) = \{ (\qinit, \Zinit\Zinit_S) \} \]
   \begin{itemize}
-  \item Transition totalisieren: Für alle $q\in Q$, $Z \in \Gamma$\\
+  \item Transition totalisieren: Für alle $q\in Q$, $Z \in \Gamma$
     \begin{align*}
       \delta_S (q, \varepsilon, Z) &=
       \begin{cases}
