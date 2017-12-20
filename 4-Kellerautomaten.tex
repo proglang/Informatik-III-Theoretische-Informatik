@@ -94,11 +94,11 @@ Im Weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
   \begin{displaymath}
   \begin{array}{r@{\ }ll}
     & (\qinit, 0110, \bot) \\
-    \ConfRel & (\qinit, 110, 0\bot)  &\text{(,,pushen'' des Eingabesymbols $0$)}\\
-    \ConfRel & (\qinit, 10, 10\bot)  &\text{(,,pushen'' des Eingabesymbols $1$)}\\
+    \ConfRel & (\qinit, 110, 0\bot)  &\text{("`pushen"' des Eingabesymbols $0$)}\\
+    \ConfRel & (\qinit, 10, 10\bot)  &\text{("`pushen"' des Eingabesymbols $1$)}\\
     \ConfRel & (q_1, 10, 10\bot)  &\text{($\Eps$-Übergang von $\qinit$ nach $q_1$)} \\
-    \ConfRel & (q_1, 0, 0\bot)  &\text{(,,poppen'' des Eingabesymbols $1$)}\\
-    \ConfRel & (q_1,\Eps, \bot) &\text{(,,poppen'' des Eingabesymbols $0$)}\\
+    \ConfRel & (q_1, 0, 0\bot)  &\text{("`poppen"' des Eingabesymbols $1$)}\\
+    \ConfRel & (q_1,\Eps, \bot) &\text{("`poppen"' des Eingabesymbols $0$)}\\
     \ConfRel & (q_1, \Eps, \Eps) &\text{($\Eps$-Übergang zum Entfernen von $\bot$)}
     \qedhere
   \end{array}
@@ -136,7 +136,7 @@ Sei $\mathcal{G} = (\Sigma,N,P,S)$ eine kontextfreie Grammatik für $L$ in \ac{C
                 \end{itemize}
 Wir zeigen nun, dass $L(\K) = L(\mathcal{G})$.
 \begin{itemize}
- \item Beweisrichtung ``$\supseteq$''
+ \item Beweisrichtung "`$\supseteq$"'
  
  Sei $w\in L(\mathcal{G})$, dann gilt $S\stackrel{*}{\vdash} w$.
  Wir wollen zeigen dass $(\qinit, w, S) \ConfRel^* (\qinit, \Eps, \Eps)$ folgt und beweisen dafür via vollständige Induktion über die Länge der Ableitung die folgende stärkere Eigenschaft.
@@ -166,7 +166,7 @@ Wir zeigen nun, dass $L(\K) = L(\mathcal{G})$.
           &\ConfRel^* (\qinit, Y(\mathcal{T}_2), C) \\
           &\ConfRel^* (\qinit, \Eps, \Eps).
         \end{align*}
- \item Beweisrichtung  ``$\subseteq$''
+ \item Beweisrichtung  "`$\subseteq$"'
  
  Sei $w\in L(\K)$, dann gilt $(\qinit, w, S) \ConfRel^* (\qinit, \Eps, \Eps)$.
  Wir wollen $S \stackrel{*}{\vdash} w$ folgern und beweisen dafür via vollständige Induktion über die Anzahl der Berechnungsschritte $n$ die folgende Aussage:
@@ -355,7 +355,7 @@ Das folgende Lemma beantwortet diese Frage.
     Für den Fall $n=1$ folgt die Eigenschaft direkt aus den $P_0$-Regeln (und der Tatsache, dass keine der anderen Regeln ein einzelnes Symbol oder $\Eps$ ableiten kann).
     
     \begin{itemize}
-     \item Beweisrichtung ``$\Rightarrow$''
+     \item Beweisrichtung "`$\Rightarrow$"'
      Wir zeigen diese Richtung via vollständige Induktion über die Anzahl der Ableitungsschritte.
      \begin{description}
       \item[I.A.] $n=1$: Folgt wie oben erwähnt aus den $P_0$-Regeln.
@@ -402,7 +402,7 @@ Das folgende Lemma beantwortet diese Frage.
 
     \end{itemize}
     
-    \item Beweisrichtung ``$\Leftarrow$''
+    \item Beweisrichtung "`$\Leftarrow$"'
     \datenote{13.12.2017}
      Wir zeigen diese Richtung via vollständige Induktion über die Anzahl der Berechnungsschritte des \ac{NPDA}.
      \begin{description}
@@ -464,7 +464,7 @@ Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, der nur einen Zustand 
 \section{Kontextfreie Sprachen -- Teil 2}
 
 \subsection{Das Pumping Lemma für kontextfreie Sprachen}
-\begin{Satz}[Pumping lemma für \acs*{CFL}]
+\begin{Satz}[Pumping Lemma für \acs*{CFL}]
 \label{satz:PL für CFL}
 %\rlnote{Satz \# 4.2?}
 	Sei $L$ eine kontextfreie Sprache. Dann gilt:
@@ -473,10 +473,11 @@ Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, der nur einen Zustand 
                 &\exists u,v,w,x,y\in\Sigma^* :\\
                 &z = uvwxy,\ |vwx| \leq n,\ |vx| \geq 1\\
                 \text{und }& \forall i\in\N: uv^iwx^iy\in L
+        \qedhere
         \end{alignat*}
 \end{Satz}
-\begin{lemma}
- In jedem Binärbaum (Baum bei dem jeder Knoten der kein Blatt is zwei Nachfolger hat) mit $\geq 2^k$ Blättern gibt es mindestens einen Pfad der Länge $\geq k$ von einem Blatt zur Wurzel.
+\begin{lemma}\label{lemma:Binärbaum}
+ In jedem Binärbaum (Baum, bei dem jeder innere Knoten zwei Nachfolger hat) mit $\geq 2^k$ Blättern gibt es mindestens einen Pfad der Länge $\geq k$ von einem Blatt zur Wurzel.
 \end{lemma}
 (ohne Beweis)
 
@@ -491,27 +492,31 @@ Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, der nur einen Zustand 
 %     also maximal Wörter der Länge $2^{|N|}$ ableiten, wenn man keine Ableitung doppelt nutzen möchte. 
 %     Leitet man ein längeres Wort ab, so muss man mind. eine Ableitung doppelt nutzen.
 %      Dann kann man sie aber auch gleich $i$-fach nutzen ($v^i$ und $x^i$), und ist immernoch in der Sprache.}
-  $\mathcal{T}$ ist ein Binärbaum mit $|z|\geq n = 2^{|N|}$ Blättern. In einem solchen Binärbaum existiert ein Pfad $\zeta$ der Länge $\geq |N|$.
-	Auf $\zeta$ liegen $\geq |N|+1$ Nichtterminalsymbole, es muss also mindestens ein Nichtterminal $A$ mehrmals vorkommen.
+  $\mathcal{T}$ ist ein Binärbaum mit $|z|\geq n = 2^{|N|}$ Blättern.
+  In einem solchen Binärbaum existiert nach \autoref{lemma:Binärbaum} ein Pfad $\zeta$ der Länge $\geq |N|$.
+	Auf $\zeta$ liegen $\geq |N|+1$ Nichtterminalsymbole.
+	Es muss also mindestens ein Nichtterminalsymbol $A$ mehrmals vorkommen.
 	
-  Folge $\zeta$ vom Blatt Richtung Wurzel und bis sich das ein $A$ das erste Mal wiederholt. Das geschieht nach $\le |N|$ Schritten.
+  Folge $\zeta$ vom Blatt in Richtung Wurzel, bis sich ein Nichtterminalsymbol $A$ das erste Mal wiederholt. Das geschieht nach $\le |N|$ Schritten.
   Teile $z = uvwxy$ wie in \autoref{zerlegung} skizziert. Es gilt:
       \begin{itemize}
-      \item $|vx|\geq 1$, da $\zeta$ entweder durch $B$ oder durch $C$ läuft. Nehme also an, $\zeta$ verläuft durch $B$.
-        Somit muss $C \stackrel{*}{\vdash} x$. In \ac{CNF} ist $C \stackrel{*}{\vdash} \Eps$ nicht möglich und somit ist $|x| \ge 1$.
-        Der Fall, das $\zeta$ durch $C$ verläuft, ist analog.
-      \item $|vwx| \le 2^{|N|} = n$, da das obere $A$ höchstens $|N|$ Schritte von Blattebene entfernt und $\mathcal{T}$ Binärbaum ist.
-      \item Für $\forall i\in\N: uv^iwx^iy\in L$ unterscheiden wir drei Fälle
+      \item $|vx|\geq 1$, da $\zeta$ entweder durch $B$ oder durch $C$ läuft.
+        Angenommen, $\zeta$ verläuft durch $B$.
+        Somit muss $C \stackrel{*}{\vdash} x$ gelten. In \ac{CNF} ist $C \stackrel{*}{\vdash} \Eps$ nicht möglich und somit ist $|x| \ge 1$.
+        Der Fall, dass $\zeta$ durch $C$ verläuft, ist analog.
+      \item $|vwx| \le 2^{|N|} = n$, da das obere $A$ höchstens $|N|$ Schritte von der Blattebene entfernt und $\mathcal{T}$ ein Binärbaum ist.
+      \item Für die Aussage $\forall i\in\N: uv^iwx^iy\in L$ unterscheiden wir drei Fälle:
       \begin{itemize}
-				\item $i=0$: Aus dem ``unteren" $A$ haben wir $w$ abgeleitet,
+				\item $i=0$: Aus dem "`unteren"' $A$ haben wir $w$ abgeleitet,
 				aus dem oberen $A$ haben wir $vwx$ abgeleitet.
 				Wir könnten also auch aus dem oberen $A$ direkt $w$ ableiten und erhalten $S\vdash^* uwy$.
 				(Siehe \autoref{uv0wx0y}).
-				\item $i=1$: Gilt trivialerweise da $uv^1wx^1y=z$
-				\item $i\geq 1$: Aus dem ''oberen`` $A$ haben wir $vAx$ abgeleitet,
+				\item $i=1$: Gilt trivialerweise, da $uv^1wx^1y=z$.
+				\item $i\geq 1$: Aus dem "`oberen"' $A$ haben wir $vAx$ abgeleitet,
 				aus dem unteren $A$ haben wir $w$ abgeleitet.
-				Wir könnten also auch aus dem unteren $A$ nochmal $vAx$ ableiten und wenn wir dies oft genug wiederholen jedes $uv^iwx^iy$ mit $i\geq 2$ erzeugen.
-				(Siehe \autoref{uviwxiy}).
+				Wir könnten also auch aus dem unteren $A$ nochmal $vAx$ ableiten.
+				Wenn wir dies oft genug wiederholen, können wir jedes $uv^iwx^iy$ mit $i\geq 2$ erzeugen
+				(siehe auch \autoref{uviwxiy}).
 				
       \end{itemize}
 
@@ -672,30 +677,30 @@ Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, der nur einen Zustand 
 Die Sprache $L=\{a^nb^nc^n \mid n\geq 1\}$ ist nicht kontextfrei.
 \end{lemma}
 \begin{proof}
-  Wir nehmen an $L$ sei kontextfrei.
+  Wir nehmen an, $L$ wäre kontextfrei.
 	Sei $n$ die Konstante aus dem \ac{PL}.
 	Wir betrachten $z=a^nb^nc^n$. Es gilt also $|z| = 3n \ge n$.
-  Nach PL gibt es eine Zerlegung $z = uvwxy$ mit $|vx| \ge 1$ und $|vwx| \le n$.
-  Wir zeigen nun, dass $\forall i\in\N: uv^iwx^iy\in L$ nicht gilt (und folgern dass unsere Annahme falsch war).
+  Dann gibt es eine Zerlegung $z = uvwxy$ mit $|vx| \ge 1$ und $|vwx| \le n$.
+  Wir zeigen nun, dass $\forall i\in\N: uv^iwx^iy\in L$ nicht gilt (und folgern, dass unsere Annahme falsch war).
 
   Durch $|vwx| \le n$ ergeben sich für $vwx$ folgende Möglichkeiten:
   \begin{itemize}
   \item $vwx = a^j$: 
-    Für $i=0$ ist $vwx=w$ mit $|w| < j$.
-    Anzahl der $a$ stimmt nicht mehr mit Anzahl $b$ überein.
+    Für $i=0$ ist $v^0wx^0=w$ mit $|w| < j$.
+    Die Anzahl der $a$ stimmt also nicht mehr mit der Anzahl der $b$ überein.
   \item $vwx = a^kb^j$:
     \begin{itemize}
-    \item Falls $v = a^{k'}$, $x = b^{j'}$: Für $i=0$ stimmt die Anzahl der $a$ oder die Anzahl der $b$ nicht mehr mit Anzahl $c$ überein.
-    \item Falls $v$ ein Gemisch aus $a$ und $b$ enthält.
+    \item Falls $v = a^{k'}$, $x = b^{j'}$: Für $i=0$ stimmt die Anzahl der $a$ oder die Anzahl der $b$ nicht mehr mit der Anzahl der $c$ überein.
+    \item Falls $v$ ein Gemisch aus $a$ und $b$ enthält:
       Für $i\ge 2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
-    \item Falls $x$ ein Gemisch aus $a$ und $b$ enthält.
+    \item Falls $x$ ein Gemisch aus $a$ und $b$ enthält:
       Für $i \ge2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
     \end{itemize}
-  \item $vwx = b^j$: analog Fall $a^j$
-  \item $vwx = b^kc^j$: analog Fall $a^kb^j$
-  \item $vwx = c^j$: analog Fall $a^j$
+  \item $vwx = b^j$: analog zu Fall $a^j$
+  \item $vwx = b^kc^j$: analog zu Fall $a^kb^j$
+  \item $vwx = c^j$: analog zu Fall $a^j$
   \end{itemize}
-  In jeder der Möglichkeiten lässt sich also durch ''Pumpen`` ein Wort $w \not \in L$ finden.
+  In jeder der Möglichkeiten lässt sich also durch "`Pumpen"' ein Wort $w \not \in L$ finden.
   Daher kann $L$ nicht kontextfrei sein.
 \end{proof}
 
@@ -708,7 +713,7 @@ Die Sprache $L=\{a^nb^nc^n \mid n\geq 1\}$ ist nicht kontextfrei.
 \end{lemma}
 \begin{proof}
 Aus \autoref{beob:3.ChomskyHierarchie} wissen wir bereits, dass $\mathcal{M}_2 \subseteq \mathcal{M}_1$ gilt.
-Aus \autoref{bsp:3.anbncn} wissen wir dass $L=\{a^nb^nc^n \mid n\geq 1\}$ von einer kontextsensitiven Grammatik erzeugt wird.
+Aus \autoref{bsp:3.anbncn} wissen wir, dass $L=\{a^nb^nc^n \mid n\geq 1\}$ von einer kontextsensitiven Grammatik erzeugt wird.
 Mit Hilfe von \autoref{bsp:5.planbncn} folgern wir $\mathcal{M}_2 \subsetneq \mathcal{M}_1$.
 \end{proof}
 
@@ -821,7 +826,7 @@ Siehe Übungsblatt~7 Aufgabe~5.
         \item $F\subseteq Q$ akzeptierende Zustände
         \item $\delta: Q\x (\Sigma\cup\{\Eps\})\x \Gamma \-> \mathcal{P}(Q\x \Gamma^*)$ wobei für alle $q\in Q,a\in\Sigma,Z\in\Gamma$ gelten muss, dass
         $|\delta(q,a,Z)| + |\delta(q,\Eps,Z)| \leq 1$
-        \item Die Schrittrelation ,,$\ConfRel$'' ist definiert wie bei \ac{NPDA}s.
+        \item Die Schrittrelation "`$\ConfRel$"' ist definiert wie bei \ac{NPDA}s.
         \item $L(\mathcal{D}) = \{w\in\Sigma^* \mid (\qinit,w,\Zinit) \ConfRel^* (q',\Eps,\gamma) \land q'\in F \}$ \qedhere
         \end{itemize}
 \end{Def}
@@ -898,7 +903,7 @@ Siehe Übungsblatt~7 Aufgabe~5.
   Nach \autoref{lem:DPDA ges. Eingabe} gibt es \ac{DPDA} $\mathcal{D}$ der die komplette Eingabe liest mit $L(\mathcal{D})=L$.
 
   Konstruiere \ac{DPDA} $\mathcal{D}_K$, s.d. $ L(\mathcal{D}_K) = \overline{L}$. 
-  Definiere dazu $Q_K= Q \times \{0,1,2\}$. Bedeutung des zusätzlichen ,,Flags'' $\in \{0,1,2\}$:
+  Definiere dazu $Q_K= Q \times \{0,1,2\}$. Bedeutung des zusätzlichen "`Flags"' $\in \{0,1,2\}$:
   \begin{itemize}
   \item $0$: seit Lesen des letzten Symbols $a \in \Sigma$ wurde kein akzeptierender Zustand durchlaufen
   \item $1$: seit Lesen des letzten Symbols wurde mindestens ein
@@ -971,7 +976,7 @@ Die deterministisch kontextfreien Sprachen sind eine echte Teilmenge der kontext
     Sei $L$ DCFL und $R$ regulär.
     Konstruiere das Produkt aus einem DPDA für $L$ und einem DFA für $R$.
     Offenbar ist das Ergebnis ein DPDA, der $L\cap R$ akzeptiert. \footnote{
-    Intution des Beweis: Konstruiere Produktautomaten, der akzeptiert gdw. der DFA und NDPA akzeptieren. Idee: Definiere Tupel $(q_1, q_2)$, DPDA arbeitet auf $q_1$, DFA arbeitet auf $q_2$. Beispielsweise werden $\epsilon$-Übergänge des DPDA nur auf der ,,DPDA-Seite'' d.h. auf $q_1$ abgearbeitet, ohne Beeinflussung von $q_2$.
+    Intution des Beweis: Konstruiere Produktautomaten, der akzeptiert gdw. der DFA und NDPA akzeptieren. Idee: Definiere Tupel $(q_1, q_2)$, DPDA arbeitet auf $q_1$, DFA arbeitet auf $q_2$. Beispielsweise werden $\epsilon$-Übergänge des DPDA nur auf der "`DPDA-Seite"' d.h. auf $q_1$ abgearbeitet, ohne Beeinflussung von $q_2$.
     }
 
     $L = L (M_1)$ mit $M_1 = (Q_1, \Sigma, \Gamma, q_{01}, \Zinit,
@@ -1062,7 +1067,7 @@ Wir können nach Satz \ref{satz:5.1} einen \ac{PDA} für $\mathcal{G}$ konstruie
 Die Transitionen für Eingabezeichen $a \in \Sigma$ sind deterministisch.
 Die $\Eps$-Transitionen sind es nicht unbedingt.
 
-Die Idee ist nun, den Automaten mit einem Symbol Lookahead \footnote{Das Problem ist, dass ein deterministischer \ac{PDA} nicht ,,alle mögl. Regeln gleichzeitig ausprobieren'' kann, so wie ein NDPA. Möchte der Automat ein Eingabesymbol $a$ matchen und kann aktuell mehrere Produktionen anwenden, müsste er in die Zukunft sehen können, um diejenige zu wählen, die das gewünschte $a$ an erster Position erzeugt. Diesen ,,Blick in die Zukunft'' gewähren die $first(A)$ Mengen: Sie geben für jedes Nichtterminal $A$ an, welche Terminale $a \in \Sigma$ als Präfix von $yield(A)$ auftreten können.} 
+Die Idee ist nun, den Automaten mit einem Symbol Lookahead \footnote{Das Problem ist, dass ein deterministischer \ac{PDA} nicht "`alle mögl. Regeln gleichzeitig ausprobieren"' kann, so wie ein NDPA. Möchte der Automat ein Eingabesymbol $a$ matchen und kann aktuell mehrere Produktionen anwenden, müsste er in die Zukunft sehen können, um diejenige zu wählen, die das gewünschte $a$ an erster Position erzeugt. Diesen "`Blick in die Zukunft"' gewähren die $first(A)$ Mengen: Sie geben für jedes Nichtterminalsymbol $A$ an, welche Terminale $a \in \Sigma$ als Präfix von $yield(A)$ auftreten können.} 
 erweitern. Dieses Symbol wird jeweils im Zustand des Automaten
 gespeichert. Der \ac{PDA} für $L (\mathcal{G})$ mit Lookahead hat nun
 folgende Komponenten:
@@ -1168,7 +1173,7 @@ Ergebnis nach vier Durchläufen.
 
 Anmerkung: first ist nicht die vollständige Lösung des Problems. Für
 den Lookahead müssen auch noch die Symbole betrachtet werden, die
-\emph{nach} einem bestimmten Nichtterminal auftreten können. Mehr dazu
+\emph{nach} einem bestimmten Nichtterminalsymbol auftreten können. Mehr dazu
 in Vorlesung Compilerbau. 
 }
 %%% Local Variables:
