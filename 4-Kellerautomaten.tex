@@ -860,7 +860,7 @@ Siehe Übungsblatt~7 Aufgabe~5.
   und Transitionsfunktion $\delta_S$ gegeben durch
   \[\delta_S (\qinit_S, \varepsilon, \Zinit_S) = \{ (\qinit, \Zinit\Zinit_S) \} \]
   \begin{itemize}
-  \item Transition totalisieren: Für alle $q\in Q$, $Z \in \Gamma$
+  \item Transitionsfunktion totalisieren: Für alle $q\in Q$, $Z \in \Gamma$
     \begin{align*}
       \delta_S (q, \varepsilon, Z) &=
       \begin{cases}
@@ -878,22 +878,23 @@ Siehe Übungsblatt~7 Aufgabe~5.
     Intuition: Wenn $\delta(q, a, Z) = \emptyset$ und ein $\epsilon$-Übergang ebenfalls ausscheidet, kann das Wort von $\mathcal{D}$ nicht weiter abgearbeitet werden. $\mathcal{D}_S$ geht nun in Senkzustand $q_s$ und arbeitet dort weiter. Analog für $\delta(q, \epsilon, Z)$.
   \item Kellerunterlauf vermeiden: $\mathcal{D}$ hat $\Zinit$ abgeräumt, so dass $\Zinit_S$
     sichtbar geworden ist. Füge eine $\epsilon$-Transition in
-     Senkzustand $q_s$ hinzu, indem man für alle $q\in Q$ definiere:\\
+     Senkzustand $q_s$ hinzu, indem man für alle $q\in Q$ definiert:
     \[\delta_S (q, \varepsilon, \Zinit_S) = \{ (q_s, \Zinit_S) \} \]
-  In $q_s$ kann der Automat nun für alle $a\in\Sigma$, $Z\in \Gamma_S$ abarbeiten:\\
-    \[\delta_S (q_s, a, Z) = \{ (q_s, Z) \}\]   %TODO warum Z und nicht \Zinit_S ?!
-    Bemerke, dass $q_s \not \in F_S$, da ein Kellerunterlauf
-    das Akzeptieren des eingelesen Wortes ausschliesst.
+  In $q_s$ kann $\mathcal{D}_S$ nun das Restwort für alle $a\in\Sigma$, $Z\in \Gamma_S$ abarbeiten:
+    \[\delta_S (q_s, a, Z) = \{ (q_s, Z) \}\]
+    Bemerkung: $q_s \not \in F_S$, da ein Kellerunterlauf
+    das Akzeptieren des eingelesen Worts ausschließt.
   \end{itemize}
 
   Es verbleibt zu zeigen:
   \begin{itemize}
-   \item $\forall w\in \Sigma^*$ $\exists q\in Q_S$
-  $\gamma\in\Gamma_S^*$ so dass $(\qinit_S, w, \Zinit_S) \ConfRel^* (q,
-  \varepsilon, \gamma)$
+   \item $\forall w\in \Sigma^*$ $\exists q\in Q_S$,
+  $\gamma\in\Gamma_S^*: (\qinit_S, w, \Zinit_S) \ConfRel^* (q,
+  \varepsilon, \gamma)$.
   
-  (Induktion über $w$)
+  (Induktion über die Länge von $w$)
   \item $L (\mathcal{D}) = L (\mathcal{D}_S)$.
+  \qedhere
   \end{itemize}
 \end{proof}
 
@@ -902,15 +903,15 @@ Siehe Übungsblatt~7 Aufgabe~5.
 \end{Satz}
 \begin{proof}
   Sei $L$ deterministisch kontextfrei. 
-  Nach \autoref{lem:DPDA ges. Eingabe} gibt es \ac{DPDA} $\mathcal{D}$ der die komplette Eingabe liest mit $L(\mathcal{D})=L$.
+  Nach \autoref{lem:DPDA ges. Eingabe} gibt es einen \ac{DPDA} $\mathcal{D}$ mit $L(\mathcal{D})=L$, der die komplette Eingabe liest.
 
-  Konstruiere \ac{DPDA} $\mathcal{D}_K$, s.d. $ L(\mathcal{D}_K) = \overline{L}$. 
-  Definiere dazu $Q_K= Q \times \{0,1,2\}$. Bedeutung des zusätzlichen "`Flags"' $\in \{0,1,2\}$:
+  Konstruiere einen \ac{DPDA} $\mathcal{D}_K$, sodass $ L(\mathcal{D}_K) = \overline{L}$. 
+  Definiere dazu $Q_K= Q \times \{0,1,2\}$. Bedeutung des zusätzlichen "`Flags"' in $\{0,1,2\}$:
   \begin{itemize}
-  \item $0$: seit Lesen des letzten Symbols $a \in \Sigma$ wurde kein akzeptierender Zustand durchlaufen
-  \item $1$: seit Lesen des letzten Symbols wurde mindestens ein
+  \item $0$: seit dem Lesen des letzten Symbols $a \in \Sigma$ wurde kein akzeptierender Zustand durchlaufen
+  \item $1$: seit dem Lesen des letzten Symbols $a \in \Sigma$ wurde mindestens ein
     akzeptierender Zustand durchlaufen 
-  \item $2$: markiert einen akzeptierenden Zustand in $\mathcal{D}_K$.
+  \item $2$: markiert einen akzeptierenden Zustand in $\mathcal{D}_K$
   \end{itemize}
         
   $F_K=F\x \{2\}$
@@ -925,7 +926,7 @@ Siehe Übungsblatt~7 Aufgabe~5.
   \begin{align*}
     \qinit_K &= (\qinit,\mathit{acc} (\qinit))
   \end{align*}
-  Für alle $q \in Q$, $Z\in\Gamma$.
+  Wir definieren $\delta'$ für alle $q \in Q$, $Z\in\Gamma$ folgendermaßen.
   
   Falls $\delta(q,\Eps,Z) = \{(q',\gamma)\}$, dann
   \begin{align*}
@@ -940,7 +941,7 @@ Siehe Übungsblatt~7 Aufgabe~5.
     \\
     \delta'((q,1), a, Z) &=
     ((q',\mathit{acc} (q')), \gamma)
-    \\ \tag*{\qedhere}    %TODO Intuition?
+    \qedhere    %TODO Intuition?
   \end{align*}
 \end{proof}
 
@@ -949,9 +950,9 @@ Die deterministisch kontextfreien Sprachen sind eine echte Teilmenge der kontext
 \end{Satz}
 
 \begin{proof}
- Offensichtlich gibt es eine Teilmengenbeziehung, denn die von nichtdeterministischen Kellerautomaten mit akzeptierendem Zustand akzeptierten Sprachen sind gerade die kontextfreien Sprachen und jeder deterministische Kellerautomat in ein Kellerautomaten mit akzeptierendem Zustand.
- Die deterministisch kontextfreien Sprachen sind und Komplement abgeschlossen die kontextfreien Sprachen sind es nicht:
- Beide Mengen von Sprachen können also nicht gleich sein.
+ Offensichtlich gibt es eine Teilmengenbeziehung, denn die von nichtdeterministischen Kellerautomaten mit akzeptierendem Zustand akzeptierten Sprachen sind gerade die kontextfreien Sprachen und jeder deterministische Kellerautomat ist ein spezieller nichtdeterminischer Kellerautomaten mit akzeptierenden Zuständen.
+ Die deterministisch kontextfreien Sprachen sind unter Komplement abgeschlossen, die kontextfreien Sprachen sind es nicht.
+ Die beiden Mengen von Sprachen können also nicht gleich sein.
 \end{proof}
 
 
