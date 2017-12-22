@@ -865,17 +865,17 @@ Siehe Übungsblatt~7 Aufgabe~5.
       \delta_S (q, \varepsilon, Z) &=
       \begin{cases}
         \delta (q, \varepsilon, Z) & \text{falls
-        }\ne\emptyset\vee\exists a\in\Sigma, \delta (q, a, Z)\ne \emptyset \\
+        }\delta (q, \Eps, Z)\ne\emptyset\vee\exists a\in\Sigma, \delta (q, a, Z)\ne \emptyset \\
         \{ (q_s, Z) \} & \text{sonst}
       \end{cases} \\
       \delta_S (q, a, Z) &=
       \begin{cases}
-        \delta (q, a, Z) & \text{falls }\ne\emptyset\vee\delta (q,
-        \varepsilon, Z) \ne \emptyset \\
+        \delta (q, a, Z) & \text{falls }\delta (q, \Eps, Z)\ne\emptyset\vee\delta (q,
+        a, Z) \ne \emptyset \\
         \{ (q_s, Z) \} & \text{sonst}
       \end{cases}
     \end{align*}
-    Intuition: Wenn $\delta(q, a, Z) = \emptyset$ und ein $\epsilon$-Übergang ebenfalls ausscheidet, kann das Wort von $\mathcal{D}$ nicht weiter abgearbeitet werden. $\mathcal{D}_S$ geht nun in Senkzustand $q_s$ und arbeitet dort weiter. Analog für $\delta(q, \epsilon, Z)$.
+    Intuition: Wenn $\delta(q, a, Z) = \emptyset$ und es keinen $\epsilon$-Übergang gibt, kann das Wort von $\mathcal{D}$ nicht weiter abgearbeitet werden. $\mathcal{D}_S$ geht nun in Senkzustand $q_s$ und arbeitet dort weiter. Analog für $\delta(q, \epsilon, Z)$.
   \item Kellerunterlauf vermeiden: $\mathcal{D}$ hat $\Zinit$ abgeräumt, so dass $\Zinit_S$
     sichtbar geworden ist. Füge eine $\epsilon$-Transition in
      Senkzustand $q_s$ hinzu, indem man für alle $q\in Q$ definiert:
