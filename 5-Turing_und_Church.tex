@@ -23,6 +23,8 @@ außerdem: Turing-Award
 }
 
 \subsection{Turingmaschine \normalfont(informell)}
+
+TODO (teilweise siehe Folien)
 \hide{
 Ein primitives Rechenmodell:
 \begin{figure}[H]\centering
@@ -218,36 +220,41 @@ Was kann die \ac{TM} ausrechnen?
 	\begin{equation*}
 		\mathcal{M}=\left(\Sigma,Q,\Gamma,\delta,\qinit,\blank,F\right)\\
 	\end{equation*}
+Dabei ist
 	\begin{itemize}
-		\item $Q$ ist endliche Menge von Zuständen
-		\item $\Sigma$ ist endliches Alphabet
-		\item $\Gamma\supsetneq\Sigma$ ist endliches Bandalphabet
-		\item $\delta: Q\times\Gamma\--> \Powerset(Q\times\Gamma\times\{R,L,N\})$
-		\item $\qinit\in Q$ Startzustand
-		\item $\blank\in\Gamma\setminus\Sigma$ das Blank
-		\item $F\subseteq Q$ Menge der akzeptierenden Zustände
+		\item $\Sigma$ ist Alphabet,
+		\item $Q$ ist endliche Menge deren Elemente wir Zustände nennen,
+		\item $\Gamma\supsetneq\Sigma$ ist Menge die wir \emph{Bandalphabet} nennen,
+		\item $\delta: Q\times\Gamma\--> \Powerset(Q\times\Gamma\times\{R,L,N\})$ eine Funktion, die wir \emph{Transitionsfunktion} nennen,
+		\item $\qinit\in Q$ ein Zustand, den wir \emph{Startzustand} nennen,
+		\item $\blank\in\Gamma\setminus\Sigma$ ein Zeichen dass wir \emph{Blank} nennen und
+		\item $F\subseteq Q$ eine Teilmenge der Zustände, deren Elemente wir \emph{akzeptierende} Zustände nennen.
 	\end{itemize}
         Die TM $\mathcal{M}$ heisst \emph{deterministisch}
         (DTM), falls $\forall q\in Q, \forall a\in\Gamma, |\delta
         (q,a)| \le 1$.\\
         Ansonsten ist $\mathcal{M}$ \emph{nichtdeterministisch} (NTM).
 \end{Def}
-Im Folgenden sei $\mathcal{M}=(Q, \Sigma, \Gamma, \delta, \qinit, \blank, F)$ eine \ac{TM}.
+Im Folgenden sei $\mathcal{M}=(\Sigma, Q, \Gamma, \delta, \qinit, \blank, F)$ eine \ac{TM}.
 
-\begin{Def}[name={[Konfiguration einer \acs*{TM}]}] % 2.2
-	Eine Konfiguration einer \ac{TM}
-	ist ein Tupel
-	\[ (v,q,w) \in \Konf(\mathcal{M})=\Gamma^*\times Q\times\Gamma^+  \]
-\end{Def}
-%
+
+Die Konfiguration einer Turingmaschine wird durch drei Dinge beschrieben:
+\begin{enumerate}
+ \item Der aktuelle Zustand
+ \item Der Bandinhalt
+ \item Die Position des Kopfes
+\end{enumerate}
+Die scheinbar ``natürlichste'' Beschreibung der Konfiguration wäre also ein Tripel aus
+$Q\times(\mathbb{Z}\rightarrow\Gamma)\times\mathbb{Z}$.
+Dies würde aber erfordern dass wir jeder Zelle des Bandes mit einer ganzen Zahl identifizieren
+und wir müssten uns eine endliche Repräsentation für die Abbildung $\mathbb{Z}\rightarrow\Gamma$ überlegen.
+Wir verwenden statt dessen den folgenden ``Trick'' und beschreiben eine Konfiguration durch ein Tripel $(v,q,w)$.
+Dabei beschreibt
 \begin{itemize}
-	\item $v$ linke Bandhälfte,
-	\item $q$ Zustand,
-	\item $w$ rechte Bandhälfte,
-	\item Kopfposition auf erstem Symbol von $w$
+	\item $v$ einen endlichen Suffix der Bandhälfte links des Kopfes der alle nicht-Blank Zeichen enthält,
+	\item $q$ den aktuellen Zustand und
+	\item $w$ einen endlichen Präfix der verbleibenden Bandhälfte (also unter Kopf und rechts davon) der alle nicht-Blank Zeichen enthält.
 \end{itemize}
-
-Abk"urzend $ v qw \in \Konf(\mathcal{M}) $ steht für Band:
 \begin{figure}[H]\centering
 	\begin{tikzpicture}[every node/.style={block}, decoration={brace, amplitude=5pt}]
 		\node (A) {$v$};
@@ -265,10 +272,15 @@ Abk"urzend $ v qw \in \Konf(\mathcal{M}) $ steht für Band:
 	\end{tikzpicture}
 	\caption{$vqw$-Band}
 \end{figure}
+
+\begin{Def}[name={[Konfiguration einer \acs*{TM}]}] % 2.2
+	Die Menge der Konfiguration einer \ac{TM} ist $\Konf(\mathcal{M})=\Gamma^*\times Q\times\Gamma^+$
+	Die \emph{Startkonfiguration} bei Eingabe $w$ ist: $\qinit\,w\,\blank$.
+	Eine \emph{Haltekonfiguration} ist eine Konfiguration $vqaw$ bei der $\delta(q,a)=\emptyset$ gilt.
+\end{Def}
 %
-\paragraph{Forts.:} Die \emph{Startkonfiguration} bei Eingabe $w$ ist: $\qinit\,w\,\blank$.
-\\
-Eine \emph{Haltekonfiguration} hat die Form: $vqaw$, so dass $\delta(q,a)=\emptyset$
+
+
 
 \begin{Def}[name={[Rechenschrittrelation]}] % 2.3
 	Die \emph{Rechenschrittrelation}
