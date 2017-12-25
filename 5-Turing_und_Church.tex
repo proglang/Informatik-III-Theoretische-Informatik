@@ -270,14 +270,15 @@ Dabei beschreibt
 		-- ++ ( 1cm,0) (C.south east)
 		-- ++ ( 1cm,0);
 	\end{tikzpicture}
-	\caption{$vqw$-Band}
+	\caption{Informelle graphische Darstellung einer Turingmaschinenkonfiguration}
 \end{figure}
 
 \begin{Def}[name={[Konfiguration einer \acs*{TM}]}] % 2.2
 	Die Menge der Konfiguration einer \ac{TM} ist $\Konf(\mathcal{M})=\Gamma^*\times Q\times\Gamma^+$
-	Die \emph{Startkonfiguration} bei Eingabe $w$ ist: $\qinit\,w\,\blank$.
-	Eine \emph{Haltekonfiguration} ist eine Konfiguration $vqaw$ bei der $\delta(q,a)=\emptyset$ gilt.
+	Die \emph{Startkonfiguration} bei Eingabe $w$ ist: $(\Eps,\qinit,w)$.
+	Eine \emph{Haltekonfiguration} ist eine Konfiguration $(v,q,aw)$ bei der $\delta(q,a)=\emptyset$ gilt.
 \end{Def}
+Notation: Wenn aus dem Kontext klar wird welcher Buchstabe zu welche Komponente des Tripels gehört, dürfen wir die Klammern und Kommata auch weglassen. Wir schreiben z.B. die Startkonfiguration als \ $\qinit w$\ .
 %
 
 
@@ -286,6 +287,7 @@ Dabei beschreibt
 	Die \emph{Rechenschrittrelation}
 	\[ {\vdash} \subseteq \Konf(\mathcal{M})\x\Konf(\mathcal{M}) \]
 	ist definiert durch
+	\footnote{Die beiden Spezialfälle dass $q$ ``ganz rechts'' oder ``ganz links'' steht wurde in der Vorlesung am 20.12.2017 vergessen. Die Definition wird am 10.1.2018 nochmal kurz besprochen werden.}
 	\begin{alignat*}{3}
 		1.&\ & v qaw &\vdash v q'a'w &\quad& \text{falls }\delta(q,a)=(q',a',N)\\
 		2.&& v qaw &\vdash v a'q'w && \text{falls }\delta(q,a)=(q',a',R), w\neq \Eps\\
@@ -293,13 +295,17 @@ Dabei beschreibt
 		3.&& qaw &\vdash q'\blank a'w && \delta(q,a)=(q',a',L)\\
 		&& vbqaw &\vdash vq'ba'w && \ruleplaceholder{\widthof{$\delta(q,a)=(q',a',L)$}}\  b\in\Gamma
 	\end{alignat*}
-	$\vdash$ Einzelschritt, gesuchte Relation für endlich viele Schritte \smallskip\\
-	${\vdash^*} \subseteq \Konf(\mathcal{M}) \x \Konf(\mathcal{M})$ die reflexive transitive Hülle von $\vdash$
 \end{Def}
+Analog zu den vorigen Kapiteln schreiben wir
+% $\vdash$ Einzelschritt, gesuchte Relation für endlich viele Schritte \smallskip\\
+	${\vdash^*} \subseteq \Konf(\mathcal{M}) \x \Konf(\mathcal{M})$ 
+	für die reflexive transitive Hülle von $\vdash$.
+\begin{itemize}
+ \item Das Symbol $\vdash$ steht also für eine Relation auf $\Konf(\mathcal{M})$ die einzelne Berechnungsschritte beschreibt und
+ \item der Ausdruck $\vdash^*$ steht für eine Relation auf $\Konf(\mathcal{M}$ die eine endliche Sequenz von  Berechnungsschritten beschreibt.
+\end{itemize}
 
-
-$\vdash$ Relation auf $\Konf(\mathcal{M})\hat=$ Berechnungsschritt\\
-$\vdash^*$ reflexiv, transitiver Abschluss $\hat=$ endl.\ viele Berechnungsschritte
+ 
 %
 %
 \begin{Def}[Die von \acs*{TM} $\mathcal{M}$ akzeptierte Sprache] % 2.5
