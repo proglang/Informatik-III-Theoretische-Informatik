@@ -316,13 +316,26 @@ Analog zu den vorigen Kapiteln schreiben wir
 		&q\in F\}
 	\end{align*}
 \end{Def}
-\emph{Beachte:}
-$w\notin L(\mathcal{M})\begin{casesarrows}
-\mathcal{M}\text{ kann anhalten}          \\
-\mathcal{M}\text{ kann nicht terminieren}
-\end{casesarrows}$
 
-\begin{Def}[Die von \ac{TM} $\mathcal{M}$ berechnete Funktion] % 2.6
+
+\begin{Def}[name={[Terminierung]}]
+ Eine \ac{DTM} $\mathcal{M}$ \emph{terminiert} auf Eingabe $w$ 
+ falls es eine Haltekonfiguration $uq'v$ gibt sodass $\qinit w\vdash^*uq'v$ gilt.
+\end{Def}
+
+Falls eine \ac{DTM} $\mathcal{M}$ ein Wort $w$ nicht akzeptiert kann dies zwei Ursachen haben:
+\begin{enumerate}
+ \item $\mathcal{M}$ terminiert nicht auf $w$.
+ \item Der Zustand der Haltekonfiguration von $\mathcal{M}$ auf $w$ ist nicht akzeptierend.
+\end{enumerate}
+
+% \emph{Beachte:}
+% $w\notin L(\mathcal{M})\begin{casesarrows}
+% \mathcal{M}\text{ kann anhalten}          \\
+% \mathcal{M}\text{ kann nicht terminieren}
+% \end{casesarrows}$
+
+\begin{Def}[Die von einer \ac{DTM} $\mathcal{M}$ berechnete Funktion] % 2.6
 	\begin{alignat*}{3}
 		&&&f_\mathcal{M}:\Sigma^*- \->\Sigma^*\\
 		&&&f_\mathcal{M}(w)=v\\
