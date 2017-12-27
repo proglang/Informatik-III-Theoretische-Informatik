@@ -336,21 +336,50 @@ Falls eine \ac{DTM} $\mathcal{M}$ ein Wort $w$ nicht akzeptiert kann dies zwei U
 % \end{casesarrows}$
 
 \begin{Def}[Die von einer \ac{DTM} $\mathcal{M}$ berechnete Funktion] % 2.6
+Sei $\mathcal{M}$ eine \ac{DTM} dann ist die von $\mathcal{M}$ \emph{berechnete partielle
+\footnote{Im Gegensatz zu einer Funktion muss eine partielle Funktion nicht für alle Elemente des Urbildes definiert sein.
+Ist $f$ nur eine partielle Funktion von $X$ nach $Y$ so schreiben wir $f: X\nrightarrow Y$ statt $f: X\rightarrow Y$. }
+Funktion} $f_\mathcal{M}:\Sigma^*\nrightarrow\Sigma^*$ wie folgt definiert.
+$$
+f_\mathcal{M}(w)= 
+\begin{cases}
+ v &\text{falls } \exists (u,q,v')\in \Konf(\mathcal{M}) \text{ sodass }
+ \begin{array}{ll}
+  & \qinit w \vdash^*uqv'\\
+  \text{und} & uqv'\text{ ist Haltekonfiguration}\\
+  \text{und} & v=\out( v')
+ \end{array}
+\\
+ \mathit{undef.} & \text{sonst}
+\end{cases}
+$$
+Dabei ist $\out$ die Funktion, die ein Wort auf das Eingabealphabet $\Sigma$ projeziert. 
+Wie definieren $\out:\Gamma^* \-> \Sigma^*$ formal wie folgt.
 	\begin{alignat*}{3}
-		&&&f_\mathcal{M}:\Sigma^*- \->\Sigma^*\\
-		&&&f_\mathcal{M}(w)=v\\
-		&\text{ falls } &&\qinit w \vdash^*uqv'&\quad&\text{Haltekonf.}\\
-		&\text{ und } &&v=\out( v')\\[.5em]
-		&\out:\Gamma^* &&\-> \Sigma^*\\
 		&\out(\Eps) &&= \Eps\\
 		&\out(au) &&= a\cdot\out(u) &\quad& a\in\Sigma\\
 		&\out(bu) &&= \out(u) && b\in\Gamma\setminus\Sigma
 	\end{alignat*}
+\emph{Beobachtung:} Die Funktion $f_\mathcal{M}(w)$ ist nicht definiert
+genau dann wenn $\mathcal{M}$ angesetzt auf $w$ nicht terminiert.
 \end{Def}
-\emph{Beachte:} Falls $\qinit w$ nicht terminiert, dann ist $f_\mathcal{M}(w)$ nicht definiert.
 
-Eine \ac{TM} $\mathcal{M}$ terminiert nicht bei Eingabe $w$, falls für alle $uq'v$, so dass $\qinit w\vdash^*uq'v$\\
-$uq'v$ ist keine Haltekonfiguration.
+% 
+% 	\begin{alignat*}{3}
+% 		&&&f_\mathcal{M}:\Sigma^*\nrightarrow\Sigma^*\\
+% 		&&&f_\mathcal{M}(w)=v\\
+% 		&\text{ falls } &&\qinit w \vdash^*uqv'&\quad&\text{Haltekonf.}\\
+% 		&\text{ und } &&v=\out( v')\\[.5em]
+% 		&\out:\Gamma^* &&\-> \Sigma^*\\
+% 		&\out(\Eps) &&= \Eps\\
+% 		&\out(au) &&= a\cdot\out(u) &\quad& a\in\Sigma\\
+% 		&\out(bu) &&= \out(u) && b\in\Gamma\setminus\Sigma
+% 	\end{alignat*}
+% \end{Def}
+% \emph{Beachte:} Falls $\qinit w$ nicht terminiert, dann ist $f_\mathcal{M}(w)$ nicht definiert.
+% 
+% Eine \ac{TM} $\mathcal{M}$ terminiert nicht bei Eingabe $w$, falls für alle $uq'v$, so dass $\qinit w\vdash^*uq'v$\\
+% $uq'v$ ist keine Haltekonfiguration.
 
 \subsection{Techniken zur \ac{TM} Programmierung}
 \datenote{10.01.2018}
