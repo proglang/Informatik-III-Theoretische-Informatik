@@ -302,7 +302,7 @@ Analog zu den vorigen Kapiteln schreiben wir
 	für die reflexive transitive Hülle von $\vdash$.
 \begin{itemize}
  \item Das Symbol $\vdash$ steht also für eine Relation auf $\Konf(\mathcal{M})$ die einzelne Berechnungsschritte beschreibt und
- \item der Ausdruck $\vdash^*$ steht für eine Relation auf $\Konf(\mathcal{M}$ die eine endliche Sequenz von  Berechnungsschritten beschreibt.
+ \item der Ausdruck $\vdash^*$ steht für eine Relation auf $\Konf(\mathcal{M})$ die eine endliche Sequenz von  Berechnungsschritten beschreibt.
 \end{itemize}
 
  
@@ -338,7 +338,7 @@ Falls eine \ac{DTM} $\mathcal{M}$ ein Wort $w$ nicht akzeptiert kann dies zwei U
 \begin{Def}[Die von einer \ac{DTM} $\mathcal{M}$ berechnete Funktion] % 2.6
 Sei $\mathcal{M}$ eine \ac{DTM} dann ist die von $\mathcal{M}$ \emph{berechnete partielle
 \footnote{Im Gegensatz zu einer Funktion muss eine partielle Funktion nicht für alle Elemente des Urbildes definiert sein.
-Ist $f$ nur eine partielle Funktion von $X$ nach $Y$ so schreiben wir $f: X\nrightarrow Y$ statt $f: X\rightarrow Y$. }
+Ist $f$ keine Funktion, sondern nur eine partielle Funktion von $X$ nach $Y$ so schreiben wir $f: X\nrightarrow Y$ statt $f: X\rightarrow Y$. }
 Funktion} $f_\mathcal{M}:\Sigma^*\nrightarrow\Sigma^*$ wie folgt definiert.
 $$
 f_\mathcal{M}(w)= 
@@ -360,8 +360,8 @@ Wie definieren $\out:\Gamma^* \-> \Sigma^*$ formal wie folgt.
 		&\out(au) &&= a\cdot\out(u) &\quad& a\in\Sigma\\
 		&\out(bu) &&= \out(u) && b\in\Gamma\setminus\Sigma
 	\end{alignat*}
-\emph{Beobachtung:} Die Funktion $f_\mathcal{M}(w)$ ist nicht definiert
-genau dann wenn $\mathcal{M}$ angesetzt auf $w$ nicht terminiert.
+\emph{Beobachtung:} Die Funktion $f_\mathcal{M}(w)$ ist genau für die Wörter definiert, 
+für die $\mathcal{M}$ angesetzt auf $w$ terminiert.
 \end{Def}
 
 % 
@@ -382,7 +382,7 @@ genau dann wenn $\mathcal{M}$ angesetzt auf $w$ nicht terminiert.
 % $uq'v$ ist keine Haltekonfiguration.
 
 \subsection{Techniken zur \ac{TM} Programmierung}
-\datenote{10.01.2018}
+\draftnote{10.01.2018}
 \begin{itemize}
 	\item Endlicher Speicher\\
 	Zum Abspeichern eines Elements aus endl. Menge $A$ verwende
