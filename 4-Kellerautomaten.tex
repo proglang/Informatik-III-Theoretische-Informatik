@@ -2,53 +2,79 @@
 \newcommand{\ConfRel}{\rhd}
 \newcommand{\Zinit}{Z^\mathsf{init}}
 \newcommand{\K}{\mathcal{K}}
+\newcommand{\el}[3]{{\color{red!70!black}#1};{\color{blue!70!black}#2};{\color{blue!70!black}#3}}
 
-{\color{red} TODO: Dieser rote Teil wird noch überarbeitet.
+Die im letzten Kapitel vorstellten kontextfreien Sprachen können wir bisher nur mit Hilfe von kontextfreien Grammatiken darstellen.
+Für die regulären Sprachen aus Kapitel~\ref{sec:reglang} haben wir dagegen mit DEAs, NEAs, $\Eps$-NEAs, regulären Ausdrücken und regulären Grammatiken verschiedene Darstellungsformen kennengelernt.
+Die Automaten hatten dabei für uns einen besonderen Reiz da diese Darstellungsform ähnlichkeiten mit Computern hat.
+In diesem Kapitel werden wir nun den Kellerautomaten, ein Automatenmodell für die kontextfreien Sprachen, kennenlernen.
 
-Kellerautomat $\approx$ Endlicher Automat + Kellerspeicher von unbeschränkter Größe (Stack, push down)
-\paragraph*{Neu:}
-\begin{itemize}
-        \item Bei jedem Schritt darf der \ac{PDA} das oberste Kellersymbol inspizieren und durch ein beliebiges Kellerwort ersetzen (das neue Kellerpräfix).
-        \item Der \ac{PDA} darf auf dem Keller rechnen, ohne in der Eingabe weiterzulesen ($\Eps$-Transition oder Spontantransition).
-\end{itemize}
-\begin{Bsp}
-\label{bsp:pda-wwr}
-        \begin{align}
-                \Sigma &= \{0,1\} &\qquad&\text{Eingabealphabet} \notag\\
-                \Gamma &= \{0,1,\bot\} &&\text{Kelleralphabet} \notag\\
-                Q &= \{q_0,q_1\} &&\bot\,\hat=\,\text{Kellerbodensymbol} \notag\\
-                \delta(q_0,a,Z) &= \{(q_0,aZ) \}&& a\in\{0,1\},Z\in\Gamma\\
-                \delta(q_0,\Eps,Z) &= \{(q_1,Z)\} \label{eq:5.2}\\
-                \delta(q_1,a,a) &= \{(q_1,\Eps)\}\\
-                \delta(q_1,\Eps,\bot) &= \{(q_1,\Eps)\}
-        \end{align}
-  Die Übergangsfunktion $\delta$ bildet den aktuellen Zustand, das aktuelle Eingabesymbol und das aktuell oberste Kellersymbol auf Paare von Folgezustand und neuem Kellerpräfix ab.
-  In diesem Beispiel ist die zurückgegebene Menge von Paaren in allen Fällen einelementig.
-  Durch die $\Eps$-Transitionen ist der \ac{PDA} aber trotzdem nichtdeterministisch.
+Ein Kellerautomat ist im wesentlichen ein $\Eps$-NEA der um einen Stapelspeicher mit unbeschränkter Kapazität erweitert wurde.
 
-  Bei der graphischen Darstellung werden die Transitionen mit Tripeln $(a;Z;\gamma)$ beschriftet, wobei $a \in \Sigma$ das Eingabesymbol, $Z \in \Gamma$ das oberste Kellersymbol und $\gamma \in \Gamma^*$ der neue Kellerpräfix ist:
-  \begin{center}
-  \begin{tikzpicture}[node distance = 3cm]
-    \node[state] (0) at (0,0) {$q_0$};
-    \node[node distance = 1cm, left of = 0] (start) {};
-    \node[state, right of = 0] (1) {$q_1$};
+Bei jedem Zustandsübergang darf der Kellerautomat das oberste Element des Stapelspeichers inspizieren und durch eine (potentiell leere) Sequenz von Elementen ersetzen.
+Der Automat darf dabei die Entscheidung über den Folgezustand vom inspizierten Element abhängig machen.
+Zu Beginn liegt genau ein Element, das \emph{Kellerbodensymbol}, auf dem Stapelspeicher.
 
-    \draw[->] (start) to (0);
-    \draw[->, loop above] (0) to node{$a;Z;aZ$} (0);
-    \draw[->] (0) to node[auto]{$\Eps;Z;Z$} (1);
-    \draw[->, loop above] (1) to node[auto]{$a;a;\Eps$} (1);
-    \draw[->, loop right] (1) to node[auto]{$\Eps;\bot;\Eps$} (1);
-  \end{tikzpicture}
-\end{center}
-wobei hier $a \in \Sigma$ und $Z \in \Gamma$ gilt.
+Der Kellerautomat unterscheidet sich noch in einem weiteren Detail vom $\Eps$-NEA:
+Es gibt keine akzeptierende Zustände. 
+Der Kellerautomat akzeptiert statt dessen wenn am Ende eines Zustandsüberganges das Eingabewort komplett gelesen 
+und der Stapelspeicher leer ist.
 
-Der Automat beginnt im Startzustand $\qinit$ mit einem Kellerspeicher, der nur das Kellerbodensymbol $\Zinit$ enthält.
-Er akzeptiert ein Wort, wenn er alle Eingabesymbole gelesen hat und den Keller komplett leeren konnte.
-Anders als bei endlichen Automaten gibt es \emph{keine} akzeptierenden Zustände.
+Analog zu Endlichen Automaten können wir auch Kellerautomaten mit Hilfe eines Zustandsdiagramms beschreiben.
+Ein Beispiel ist in \autoref{pdaEvenPalindrome} dargestellt.
+Alle transitionen sind mit einem Tripel beschriftet. 
+Die erste Komponete des Tripels ist dabei das gelesene Zeichen der Eingabe,
+die zweite Komponente ist das vom Stapelspeicher genommene Element und
+die dritte Komponente ist die Sequenz die auf den Stapelspeicher gelegt wird.
 
-Die akzeptierte Sprache ist hier $L=\{ww^R \mid w\in\{0,1\}^*\}$.
-\end{Bsp}
-}
+\begin{figure}[H]\centering
+\begin{tikzpicture}[line width=0.3mm,
+tape/.style={draw, node distance=0mm, minimum size=6mm, text=red!70!black, font=\bf},
+tapeend/.style={node distance=0mm, minimum size=6mm, text=red!70!black, font=\bf},
+stack/.style={draw=blue!50!black, node distance=0mm, minimum size=6mm, text=blue!70!black, font=\bf}
+]
+
+% \node (rect) at (0,0) [draw, rounded corners=2, fill=lightgray!20,thick,minimum width=9cm,minimum height=4cm] {};
+ 
+ \node[circle,draw] (q1) at (-1.5,0) {$q_0$};
+ \node[circle,draw] (q2) at (1.5,0) {$q_1$};
+ 
+ 
+ \draw[->] (-2.5,0.1) to  (q1) ;
+ 
+ \draw[->] (q1) edge node[auto] {\el{$\varepsilon$}{0}{0}} (q2) ;
+ \draw[->, bend left] (q1) edge node[auto] {\el{$\varepsilon$}{1}{1}} (q2) ;
+ \draw[->, bend right] (q1) edge node[auto] {\el{$\varepsilon$}{\#}{\#}} (q2) ;
+ 
+ \draw[->,in=140, out=160, looseness=22, pos=0.50] (q1) edge node[auto] {\el{0}{\#}{0\#}} (q1) ;
+ \draw[->,in=100, out=120, looseness=22, pos=0.50] (q1) edge node[auto] {\el{0}{0}{00}} (q1) ;
+ \draw[->,in=60, out=80, looseness=22, pos=0.50] (q1) edge node[auto] {\el{0}{1}{01}} (q1) ;
+ 
+ \draw[->,in=220, out=200, looseness=22, pos=0.50] (q1) edge node[left] {\el{1}{\#}{1\#}} (q1) ;
+ \draw[->,in=260, out=240, looseness=22, pos=0.50] (q1) edge node[left] {\el{1}{0}{10}} (q1) ;
+ \draw[->,in=300, out=280, looseness=22, pos=0.45] (q1) edge node[below] {\el{1}{1}{11}} (q1) ;
+ 
+
+ \draw[->,in=50, out=70, looseness=22, pos=0.50] (q2) edge node[right] {\el{0}{0}{$\varepsilon$}} (q2) ;
+ \draw[->,in=-10, out=10, looseness=22, pos=0.50] (q2) edge node[right] {\el{1}{1}{$\varepsilon$}} (q2) ;
+ \draw[->,in=-70, out=-50, looseness=22, pos=0.45] (q2) edge node[right] {\el{$\varepsilon$}{\#}{$\varepsilon$}} (q2) ;
+\end{tikzpicture}
+	\caption{Zustandsdiagramm eines Kellerautomaten}
+	\label{pdaEvenPalindrome}
+\end{figure}
+
+Der in \autoref{pdaEvenPalindrome} dargestellte Kellerautomat akzeptiert die Sprache $L=\{ww^R\mid w\in\{0,1\}\}$
+und verwendet das Zeichen $\#$ als Kellerbodensymbol.
+In Zustand $q_0$ wird für jedes Eingabezeichen das entsprechende Symbol auf den Stapelspeicher gelegt.
+Zu jedem Zeitpunkt kann der Automat nichtdeterministisch (mit Hilfe einer $\Eps$-Transition) in den Zustand $q_1$ wechseln.
+Diese Transition sollte genau bei der Hälfte des Eingabewortes genommen werden.
+In Zustand $q_1$ vergleicht der Automat sukzesive die verbleibenden Eingabesymbole mit dem Inhalt des Stapelspeicher.
+Nur bei Übereinstimmung wird der Stapelspeicher bis zum Kellerbodensymbol geleert.
+Falls nur noch das Kellerbodensymbol auf dem Stapelspeicher liegt kann der Automat dieses mit der $\Eps;\#;\Eps$ Transition entfernen und die Eingabe akzeptieren.
+
+Auf Englisch heißen Kellerautomaten \emph{pushdown automata} und wir werden die Abkürzung PDA für Kellerautomaten verwenden. 
+In diesem Kapitel befassen wir uns zunächst nur mit nichtdeterministischen Kellerautomaton und definieren diese formal wie folgt.
+
 
 \begin{Def}[name={[NPDA]}]
         Ein \ac{NPDA}\footnote{Englisch: Nondeterministic Pushdown Automaton} ist ein 6-Tupel 
@@ -63,6 +89,45 @@ Die akzeptierte Sprache ist hier $L=\{ww^R \mid w\in\{0,1\}^*\}$.
                 \item $\delta: Q\x(\Sigma\cup\{\Eps\})\x\Gamma \-> \mathcal{P}(Q\x\Gamma^*)$ eine Funktion, die wir \emph{Transitionsfunktion} nennen. \qedhere
         \end{itemize}
 \end{Def}
+
+\begin{Bsp}
+\label{bsp:pda-wwr}
+Wir beschreiben den in \autoref{pdaEvenPalindrome} abgebildeten Kellerautomaten formal wie folgt.
+        \begin{align}
+                \Sigma &= \{0,1\} &\qquad&\text{Eingabealphabet} \notag\\
+                \Gamma &= \{0,1,\#\} &&\text{Kelleralphabet} \notag\\
+                Q &= \{q_0,q_1\} &&\#\,\hat=\,\text{Kellerbodensymbol} \notag\\
+                \delta(q_0,a,Z) &= \{(q_0,aZ) \}&& a\in\{0,1\},Z\in\Gamma\\
+                \delta(q_0,\Eps,Z) &= \{(q_1,Z)\} \label{eq:5.2}\\
+                \delta(q_1,a,a) &= \{(q_1,\Eps)\}\\
+                \delta(q_1,\Eps,\#) &= \{(q_1,\Eps)\}
+        \end{align}
+Hat die graphische Darstellung eines Kellerautomaten sehr viele Transitionen müssen wir diese nicht alle explizit Zeichnen.
+Statt dessen können wir auch wie in \autoref{pdaEvenPalindromeNotEplicit}
+Variablen verwenden um mehrere Transitionen zusammenzufassen.
+        
+\begin{figure}[H]\centering
+   \begin{center}
+  \begin{tikzpicture}[node distance = 3cm]
+    \node[state] (0) at (0,0) {$q_0$};
+    \node[node distance = 1cm, left of = 0] (start) {};
+    \node[state, right of = 0] (1) {$q_1$};
+
+    \draw[->] (start) to (0);
+    \draw[->, loop above] (0) to node{$a;Z;aZ$} (0);
+    \draw[->] (0) to node[auto]{$\Eps;Z;Z$} (1);
+    \draw[->, loop above] (1) to node[auto]{$a;a;\Eps$} (1);
+    \draw[->, loop right] (1) to node[auto]{$\Eps;\#;\Eps$} (1);
+  \end{tikzpicture}
+  $a\in\{0,1\}, Z\in\Gamma$
+\end{center}
+	\caption{Zustandsdiagramm der Kellerautomaten aus \autoref{pdaEvenPalindrome}. 
+	Statt alle Transitionen explizit zu zeichnen verwenden wir die Variablen $a$ und $Z$ um eine Menge von Transitionen durch eine einzige Kante zu repräsentieren. }
+	\label{pdaEvenPalindromeNotEplicit}
+\end{figure}
+\end{Bsp}
+
+
 Im Weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
 \begin{Def}[name={[Menge der Konfigurationen eines \acs*{NPDA}]}]
         Die Menge der \emph{Konfigurationen} von $\K$ ist $\Konf(\K) = Q\x\Sigma^*\x\Gamma^*$.\\
@@ -89,17 +154,16 @@ Im Weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
 \end{Def}
 
 \begin{Bsp*}
-\datenote{6.12.2017}
-  Die folgenden Schritte von $\K$ aus Beispiel \ref{bsp:pda-wwr} zeigen, dass $w = 0110 \in L(\K)$:
+  Die folgenden Schritte von $\K$ aus Beispiel \ref{bsp:pda-wwr} zeigen, dass $w = 0110 \in L(\K)$:\datenote{6.12.2017}
   \begin{displaymath}
   \begin{array}{r@{\ }ll}
-    & (\qinit, 0110, \bot) \\
-    \ConfRel & (\qinit, 110, 0\bot)  &\text{("`pushen"' des Eingabesymbols $0$)}\\
-    \ConfRel & (\qinit, 10, 10\bot)  &\text{("`pushen"' des Eingabesymbols $1$)}\\
-    \ConfRel & (q_1, 10, 10\bot)  &\text{($\Eps$-Übergang von $\qinit$ nach $q_1$)} \\
-    \ConfRel & (q_1, 0, 0\bot)  &\text{("`poppen"' des Eingabesymbols $1$)}\\
-    \ConfRel & (q_1,\Eps, \bot) &\text{("`poppen"' des Eingabesymbols $0$)}\\
-    \ConfRel & (q_1, \Eps, \Eps) &\text{($\Eps$-Übergang zum Entfernen von $\bot$)}
+    & (q_0, 0110, \#) \\
+    \ConfRel & (q_0, 110, 0\#)  &\text{("`pushen"' des Eingabesymbols $0$)}\\
+    \ConfRel & (q_0, 10, 10\#)  &\text{("`pushen"' des Eingabesymbols $1$)}\\
+    \ConfRel & (q_1, 10, 10\#)  &\text{($\Eps$-Übergang von $q_0$ nach $q_1$)} \\
+    \ConfRel & (q_1, 0, 0\#)  &\text{("`poppen"' des Eingabesymbols $1$)}\\
+    \ConfRel & (q_1,\Eps, \#) &\text{("`poppen"' des Eingabesymbols $0$)}\\
+    \ConfRel & (q_1, \Eps, \Eps) &\text{($\Eps$-Übergang zum Entfernen von $\#$)}
     \qedhere
   \end{array}
 \end{displaymath}
@@ -260,7 +324,6 @@ Das folgende Lemma beantwortet diese Frage.
     
     \ac{NPDA} für $L_\text{centered3}:=\{0^n10^n \mid n\in\N, n > 0 \}\subseteq\{0,1\}^*$:
     
-\newcommand{\el}[3]{{\color{red!70!black}#1};{\color{blue!70!black}#2};{\color{blue!70!black}#3}}
     \begin{center}
     \begin{tikzpicture}
  
