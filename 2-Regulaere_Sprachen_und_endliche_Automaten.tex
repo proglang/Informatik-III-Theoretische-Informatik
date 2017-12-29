@@ -733,16 +733,16 @@ Wir werden später (\-> Satz von Myhill-Nerode) sehen, dass $\A_\equiv$ der klei
 In weiteren Verlauf dieses Unterkapitels wollen wir reguläre Sprachen charakterisieren.
 Informell ist die Idee dieser Charakterisierung die folgende:
 
-Angenommen wir möchten für eine gegebene Sprache $L$ einen \ac{DEA} $\A$ konstruieren.
-Angenommen wir haben bereits einen ersten Entwurf gemacht und in diesem führen sowohl das Wort $u\in\Sigma^*$
-als auch das Wort $v\in\Sigma^*$ in den Zustand $q_{42}$ (Formal $\tilde\delta(\qinit, u) = \tilde\delta(\qinit, v) = q_{42}$).
+Angenommen, wir möchten für eine gegebene Sprache $L$ einen \ac{DEA} $\A$ konstruieren.
+Angenommen, wir haben bereits einen ersten Entwurf gemacht und in diesem führen sowohl das Wort $u\in\Sigma^*$
+als auch das Wort $v\in\Sigma^*$ in den Zustand $q_{42}$ (formal: $\tilde\delta(\qinit, u) = \tilde\delta(\qinit, v) = q_{42}$).
 \begin{figure}[H]\centering
                 \begin{tikzpicture}
                         \node (start) at (-1,0.5) {};
                         \node (q0) [circle] at (0,0) {$\qinit$};
                         \node (q42) [circle] at (8,0) {$q_{42}$};
-                        \draw[->,decoration = {zigzag,segment length = 2mm, amplitude = 0.5mm},decorate] (q0) .. controls (2,1) .. (3,0.5) .. controls (4,1) .. node[auto] {u} (q42);
-                        \draw[->,decoration = {zigzag,segment length = 2mm, amplitude = 0.5mm},decorate] (q0) .. controls (3,-1) .. node[below] {v} (4,-0.5) .. controls (7,-1) .. (q42);
+                        \draw[->,decoration = {zigzag,segment length = 2mm, amplitude = 0.5mm},decorate] (q0) .. controls (2,1) .. (3,0.5) .. controls (4,1) .. node[auto] {$u$} (q42);
+                        \draw[->,decoration = {zigzag,segment length = 2mm, amplitude = 0.5mm},decorate] (q0) .. controls (3,-1) .. node[below] {$v$} (4,-0.5) .. controls (7,-1) .. (q42);
                         \draw [->] (start) edge (q0);
 %                         \draw [->] (q0) edge [loop above] node {0} (q0);
 %                         \draw [->] (q0) edge node [auto] {1} (q1);
@@ -751,24 +751,24 @@ als auch das Wort $v\in\Sigma^*$ in den Zustand $q_{42}$ (Formal $\tilde\delta(\
 %                         \draw [->] (q2) edge [bend left] node [auto] {0} (q1);
 %                         \draw [->] (q2) edge [loop above] node {1} (q2);
                 \end{tikzpicture}
-	\caption{Schematische darstellung eines \ac{DEA}, mit $\tilde\delta(\qinit, u) = \tilde\delta(\qinit, v) = q_{42}$}
+	\caption{Schematische Darstellung eines \ac{DEA}, mit $\tilde\delta(\qinit, u) = \tilde\delta(\qinit, v) = q_{42}$}
 \end{figure}
 \begin{itemize}
- \item Angenommen es gibt ein Wort $w\in\Sigma^*$, sodass die Äquivalenz $uw\in L \Leftrightarrow vw\in L$ nicht gilt
- dann wissen wir dass unser Entwurf noch einen Fehler enthält und wir dafür sorgen müssen, 
+ \item Angenommen, es gibt ein Wort $w\in\Sigma^*$, sodass die Äquivalenz $uw\in L \Leftrightarrow vw\in L$ nicht gilt.
+ Dann wissen wir, dass unser Entwurf noch einen Fehler enthält und wir dafür sorgen müssen, 
  dass der \ac{DEA} nicht sowohl von $u$
  als auch von $v$ in $q_{42}$ überführt wird.
- \item Angenomen es gilt für alle Wörter $w\in\Sigma^*$ dass $uw\in L\Leftrightarrow vw\in L$, 
- dann wissen wir dass es eine gute Idee war den Automaten mit $u$ und $v$ in den gleichen Zustand zu führen.
+ \item Angenommen, es gilt für alle Wörter $w\in\Sigma^*$, dass $uw\in L\Leftrightarrow vw\in L$.
+ Dann wissen wir, dass es eine gute Idee war, den Automaten mit $u$ und $v$ in den gleichen Zustand zu führen.
 \end{itemize}
-Angenomen wir finden nicht nur für zwei Wörter $u,v$ ein Wort $w$ sodass die Äquivalenz $uw\in L \Leftrightarrow vw\in L$ nicht gilt
-sondern wir finden soch ein $w$ für jedes Paar aus einer unendlich großen Menge von Wörtern $U$.
+Angenommen, wir finden nicht nur für zwei Wörter $u,v$ ein Wort $w$, sodass die Äquivalenz $uw\in L \Leftrightarrow vw\in L$ nicht gilt,
+sondern wir finden solch ein $w$ für jedes Paar aus einer unendlich großen Menge von Wörtern $U$.
 \begin{center}
 (Formal: $\forall u,v\in U: u\neq v \Rightarrow \exists w^{uv}\in\Sigma^*: \neg(uw^{uv}\in L \Leftrightarrow vw^{uv}\in L)$) 
 \end{center}
-Dann wissen wir dass all unsere Reparaturversuche hoffnungslos sind, 
-denn der \ac{DEA} $\A$ bräuchte für jedes $u\in U$ einen eigenen Zustand
-doch ein \ac{DEA} darf nur endlich viele Zustände haben.
+Dann wissen wir, dass all unsere Reparaturversuche hoffnungslos sind,
+denn der \ac{DEA} $\A$ bräuchte für jedes $u\in U$ einen eigenen Zustand.
+Doch ein \ac{DEA} darf nur endlich viele Zustände haben.
 Die Sprache $L$ kann also nicht regulär sein.
 
 Im weiteren Verlauf des Unterkapitels werden wir genau diese Überlegungen formal ausarbeiten.
@@ -862,9 +862,12 @@ Bemerkung: Die Äquivalenzklasse $[11]$ enthält alle Wörter, die kein Präfix 
 
 {\color{violet}
 \begin{Bsp*}
- Die Sprache $L=\{w \in \{a,b\}^* \mid \#_a(w) > \#_b(w)\}$ hat bezüglich der Nerode-Relation die folgende Menge von Äquivalenzklassen:
+ Die Sprache $L=\{w \in \{a,b\}^* \mid \#_a(w) > \#_b(w)\}$ hat bezüglich der Nerode-Relation die folgende Menge von Äquivalenzklassen:%
  \footnote{Dieses Beispiel wurde aufgrund der Fragestunde vom 22.12.2017 nachträglich eingefügt.}
- $$\{ [w] \mid  \#_a(w) - \#_b(w)=k, k\in\mathbb{Z} \}$$
+ \[
+ \{ [w] \mid  \#_a(w) - \#_b(w)=k, k\in\mathbb{Z} \}
+ \qedhere
+ \]
 \end{Bsp*}
 }
 
@@ -2260,7 +2263,7 @@ Wir kennen bisher kein systematisches Verfahren zum Lösen solcher Gleichungen u
  Aus dem Beweis für 1.\ wissen wir außerdem, dass jede Lösung eine Obermenge von $A^*B$ sein muss.
  Wir führen einen Widerspruchsbeweis, dass keine Lösung ein Wort $x\in\Sigma^*$ mit $x\notin A^*B$ enthalten kann.
  
- Angenommen es gäbe Wörter $x$ mit dieser Eigenschaft. 
+ Angenommen, es gäbe Wörter $x$ mit dieser Eigenschaft.
  Dann gibt es auch Wörter minimaler Länge mit dieser Eigenschaft.
  Sei $w$ solch ein Wort minimaler Länge.
  Da alle Lösungen von der Form $\underbrace{A^nX}_{\ni w} \cup \underbrace{A^{n-1}B \cup \dots \cup AB \cup B}_{\not\ni w}$ sind, hat $w$ die Form
