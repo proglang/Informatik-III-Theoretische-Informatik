@@ -6,10 +6,10 @@
 
 Die im letzten Kapitel vorstellten kontextfreien Sprachen können wir bisher nur mit Hilfe von kontextfreien Grammatiken darstellen.
 Für die regulären Sprachen aus Kapitel~\ref{sec:reglang} haben wir dagegen mit DEAs, NEAs, $\Eps$-NEAs, regulären Ausdrücken und regulären Grammatiken verschiedene Darstellungsformen kennengelernt.
-Die Automaten hatten dabei für uns einen besonderen Reiz da diese Darstellungsform ähnlichkeiten mit Computern hat.
+Die Automaten hatten dabei für uns einen besonderen Reiz, da diese Darstellungsform Ähnlichkeiten mit Computern hat.
 In diesem Kapitel werden wir nun den Kellerautomaten, ein Automatenmodell für die kontextfreien Sprachen, kennenlernen.
 
-Ein Kellerautomat ist im wesentlichen ein $\Eps$-NEA der um einen Stapelspeicher mit unbeschränkter Kapazität erweitert wurde.
+Ein Kellerautomat ist im wesentlichen ein $\Eps$-NEA, der um einen Stapelspeicher mit unbeschränkter Kapazität erweitert wurde.
 
 Bei jedem Zustandsübergang darf der Kellerautomat das oberste Element des Stapelspeichers inspizieren und durch eine (potentiell leere) Sequenz von Elementen ersetzen.
 Der Automat darf dabei die Entscheidung über den Folgezustand vom inspizierten Element abhängig machen.
@@ -17,15 +17,15 @@ Zu Beginn liegt genau ein Element, das \emph{Kellerbodensymbol}, auf dem Stapels
 
 Der Kellerautomat unterscheidet sich noch in einem weiteren Detail vom $\Eps$-NEA:
 Es gibt keine akzeptierende Zustände. 
-Der Kellerautomat akzeptiert statt dessen wenn am Ende eines Zustandsüberganges das Eingabewort komplett gelesen 
+Der Kellerautomat akzeptiert stattdessen, wenn am Ende eines Zustandsübergangs das Eingabewort komplett gelesen wurde
 und der Stapelspeicher leer ist.
 
-Analog zu Endlichen Automaten können wir auch Kellerautomaten mit Hilfe eines Zustandsdiagramms beschreiben.
+Analog zu endlichen Automaten können wir auch Kellerautomaten mit Hilfe eines Zustandsdiagramms beschreiben.
 Ein Beispiel ist in \autoref{pdaEvenPalindrome} dargestellt.
-Alle transitionen sind mit einem Tripel beschriftet. 
-Die erste Komponete des Tripels ist dabei das gelesene Zeichen der Eingabe,
+Alle Transitionen sind mit einem Tripel beschriftet. 
+Die erste Komponente des Tripels ist dabei das gelesene Zeichen der Eingabe,
 die zweite Komponente ist das vom Stapelspeicher genommene Element und
-die dritte Komponente ist die Sequenz die auf den Stapelspeicher gelegt wird.
+die dritte Komponente ist die Sequenz, die auf den Stapelspeicher gelegt wird.
 
 \begin{figure}[H]\centering
 \begin{tikzpicture}[line width=0.3mm,
@@ -67,13 +67,13 @@ Der in \autoref{pdaEvenPalindrome} dargestellte Kellerautomat akzeptiert die Spr
 und verwendet das Zeichen $\#$ als Kellerbodensymbol.
 In Zustand $q_0$ wird für jedes Eingabezeichen das entsprechende Symbol auf den Stapelspeicher gelegt.
 Zu jedem Zeitpunkt kann der Automat nichtdeterministisch (mit Hilfe einer $\Eps$-Transition) in den Zustand $q_1$ wechseln.
-Diese Transition sollte genau bei der Hälfte des Eingabewortes genommen werden.
-In Zustand $q_1$ vergleicht der Automat sukzesive die verbleibenden Eingabesymbole mit dem Inhalt des Stapelspeicher.
+Diese Transition sollte genau bei der Hälfte des Eingabeworts genommen werden.
+In Zustand $q_1$ vergleicht der Automat sukzessive die verbleibenden Eingabesymbole mit dem Inhalt des Stapelspeichers.
 Nur bei Übereinstimmung wird der Stapelspeicher bis zum Kellerbodensymbol geleert.
-Falls nur noch das Kellerbodensymbol auf dem Stapelspeicher liegt kann der Automat dieses mit der $\Eps;\#;\Eps$ Transition entfernen und die Eingabe akzeptieren.
+Falls nur noch das Kellerbodensymbol auf dem Stapelspeicher liegt, kann der Automat dieses mit der Transition "`$\Eps;\#;\Eps$"' entfernen und die Eingabe akzeptieren.
 
-Auf Englisch heißen Kellerautomaten \emph{pushdown automata} und wir werden die Abkürzung PDA für Kellerautomaten verwenden. 
-In diesem Kapitel befassen wir uns zunächst nur mit nichtdeterministischen Kellerautomaton und definieren diese formal wie folgt.
+Auf Englisch heißen Kellerautomaten \emph{pushdown automata} und wir werden die Abkürzung \ac{PDA} für Kellerautomaten verwenden. 
+In diesem Kapitel befassen wir uns zunächst nur mit nichtdeterministischen Kellerautomaten und definieren diese formal wie folgt.
 
 
 \begin{Def}[name={[NPDA]}]
