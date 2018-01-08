@@ -670,9 +670,9 @@ Der Äquivalenzklassenautomat $\A_\equiv$ zum \ac{DEA} aus \autoref{bsp:2.schnit
    \captionsetup{type=figure}
         \begin{tikzpicture}
                 \node (start) at (-1.5,1.7) {};
-                \node (q0) [circle] at (-3,1) {\hspace*{-1mm}$[q_{10}]$};
+                \node (q0) [circle] at (-3,1) {\hspace*{-1mm}$[q_{01}]$};
                 \node (q1) [circle,double] at (-0.5,1) {\hspace*{-1mm}$[q_{00}]$};
-                \node (q2) [circle] at (2,1) {\hspace*{-1mm}$[q_{00}]$};
+                \node (q2) [circle] at (2,1) {\hspace*{-1mm}$[q_{20}]$};
                 \draw [->] (start) edge (q1);
                 \draw [->] (q0) edge[loop above] node {0} (q0);
                 \draw [->] (q1) edge[loop above] node {0} (q1);
