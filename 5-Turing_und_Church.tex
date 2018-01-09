@@ -1,5 +1,6 @@
 \datenote{20.12.17}
 \section{Turingmaschinen}
+\newcommand{\M}{\mathcal{M}}
 
 \hide{
 %\section{\acf{TM}}
@@ -298,7 +299,7 @@ Sie finden zwei weitere Beispiele für Turingmaschinen in den Folien die auf der
 \begin{Def}[name={[\acs*{TM}]}] % 2.1
 	Eine \ac{TM} ist ein 7-Tupel
 	\begin{equation*}
-		\mathcal{M}=\left(\Sigma,Q,\Gamma,\delta,\qinit,\blank,F\right)\\
+		\M=\left(\Sigma,Q,\Gamma,\delta,\qinit,\blank,F\right)\\
 	\end{equation*}
 Dabei ist
 	\begin{itemize}
@@ -310,12 +311,12 @@ Dabei ist
 		\item $\blank\in\Gamma\setminus\Sigma$ ein Zeichen dass wir \emph{Blank} nennen und
 		\item $F\subseteq Q$ eine Teilmenge der Zustände, deren Elemente wir \emph{akzeptierende} Zustände nennen.
 	\end{itemize}
-        Die TM $\mathcal{M}$ heisst \emph{deterministisch}
+        Die TM $\M$ heisst \emph{deterministisch}
         (DTM), falls $\forall q\in Q, \forall a\in\Gamma, |\delta
         (q,a)| \le 1$.\\
-        Ansonsten ist $\mathcal{M}$ \emph{nichtdeterministisch} (NTM).
+        Ansonsten ist $\M$ \emph{nichtdeterministisch} (NTM).
 \end{Def}
-Im Folgenden sei $\mathcal{M}=(\Sigma, Q, \Gamma, \delta, \qinit, \blank, F)$ eine \ac{TM}.
+Im Folgenden sei $\M=(\Sigma, Q, \Gamma, \delta, \qinit, \blank, F)$ eine \ac{TM}.
 
 
 Die Konfiguration einer Turingmaschine wird durch drei Dinge beschrieben:
@@ -354,7 +355,7 @@ Dabei beschreibt
 \end{figure}
 
 \begin{Def}[name={[Konfiguration einer \acs*{TM}]}] % 2.2
-	Die Menge der Konfiguration einer \ac{TM} ist $\Konf(\mathcal{M})=\Gamma^*\times Q\times\Gamma^+$
+	Die Menge der Konfiguration einer \ac{TM} ist $\Konf(\M)=\Gamma^*\times Q\times\Gamma^+$
 	Die \emph{Startkonfiguration} bei Eingabe $w$ ist: $(\Eps,\qinit,w)$.
 	Eine \emph{Haltekonfiguration} ist eine Konfiguration $(v,q,aw)$ bei der $\delta(q,a)=\emptyset$ gilt.
 \end{Def}
@@ -365,7 +366,7 @@ Notation: Wenn aus dem Kontext klar wird welcher Buchstabe zu welche Komponente 
 
 \begin{Def}[name={[Rechenschrittrelation]}] % 2.3
 	Die \emph{Rechenschrittrelation}
-	\[ {\vdash} \subseteq \Konf(\mathcal{M})\x\Konf(\mathcal{M}) \]
+	\[ {\vdash} \subseteq \Konf(\M)\x\Konf(\M) \]
 	ist definiert durch
 	\footnote{Die beiden Spezialfälle dass $q$ ``ganz rechts'' oder ``ganz links'' steht wurde in der Vorlesung am 20.12.2017 vergessen. Die Definition wird am 10.1.2018 nochmal kurz besprochen werden.}
 	\begin{alignat*}{3}
@@ -378,19 +379,19 @@ Notation: Wenn aus dem Kontext klar wird welcher Buchstabe zu welche Komponente 
 \end{Def}
 Analog zu den vorigen Kapiteln schreiben wir
 % $\vdash$ Einzelschritt, gesuchte Relation für endlich viele Schritte \smallskip\\
-	${\vdash^*} \subseteq \Konf(\mathcal{M}) \x \Konf(\mathcal{M})$ 
+	${\vdash^*} \subseteq \Konf(\M) \x \Konf(\M)$ 
 	für die reflexive transitive Hülle von $\vdash$.
 \begin{itemize}
- \item Das Symbol $\vdash$ steht also für eine Relation auf $\Konf(\mathcal{M})$ die einzelne Berechnungsschritte beschreibt und
- \item der Ausdruck $\vdash^*$ steht für eine Relation auf $\Konf(\mathcal{M})$ die eine endliche Sequenz von  Berechnungsschritten beschreibt.
+ \item Das Symbol $\vdash$ steht also für eine Relation auf $\Konf(\M)$ die einzelne Berechnungsschritte beschreibt und
+ \item der Ausdruck $\vdash^*$ steht für eine Relation auf $\Konf(\M)$ die eine endliche Sequenz von  Berechnungsschritten beschreibt.
 \end{itemize}
 
  
 %
 %
-\begin{Def}[Die von \acs*{TM} $\mathcal{M}$ akzeptierte Sprache] % 2.5
+\begin{Def}[Die von \acs*{TM} $\M$ akzeptierte Sprache] % 2.5
 	\begin{align*}
-		L(\mathcal{M})=\{ w\in\Sigma^* \mid{}
+		L(\M)=\{ w\in\Sigma^* \mid{}
 		& \qinit w \vdash^*uqv\\
 		&uqv \text{ Haltekonfiguration}\\
 		&q\in F\}
@@ -399,31 +400,31 @@ Analog zu den vorigen Kapiteln schreiben wir
 
 
 \begin{Def}[name={[Terminierung]}]
- Eine \ac{DTM} $\mathcal{M}$ \emph{terminiert} auf Eingabe $w$ 
+ Eine \ac{DTM} $\M$ \emph{terminiert} auf Eingabe $w$ 
  falls es eine Haltekonfiguration $uq'v$ gibt sodass $\qinit w\vdash^*uq'v$ gilt.
 \end{Def}
 
-Falls eine \ac{DTM} $\mathcal{M}$ ein Wort $w$ nicht akzeptiert kann dies zwei Ursachen haben:
+Falls eine \ac{DTM} $\M$ ein Wort $w$ nicht akzeptiert kann dies zwei Ursachen haben:
 \begin{enumerate}
- \item $\mathcal{M}$ terminiert nicht auf $w$.
- \item Der Zustand der Haltekonfiguration von $\mathcal{M}$ auf $w$ ist nicht akzeptierend.
+ \item $\M$ terminiert nicht auf $w$.
+ \item Der Zustand der Haltekonfiguration von $\M$ auf $w$ ist nicht akzeptierend.
 \end{enumerate}
 
 % \emph{Beachte:}
-% $w\notin L(\mathcal{M})\begin{casesarrows}
-% \mathcal{M}\text{ kann anhalten}          \\
-% \mathcal{M}\text{ kann nicht terminieren}
+% $w\notin L(\M)\begin{casesarrows}
+% \M\text{ kann anhalten}          \\
+% \M\text{ kann nicht terminieren}
 % \end{casesarrows}$
 
-\begin{Def}[Die von einer \ac{DTM} $\mathcal{M}$ berechnete Funktion] % 2.6
-Sei $\mathcal{M}$ eine \ac{DTM} dann ist die von $\mathcal{M}$ \emph{berechnete partielle
+\begin{Def}[Die von einer \ac{DTM} $\M$ berechnete Funktion] % 2.6
+Sei $\M$ eine \ac{DTM} dann ist die von $\M$ \emph{berechnete partielle
 \footnote{Im Gegensatz zu einer Funktion muss eine partielle Funktion nicht für alle Elemente des Urbildes definiert sein.
 Ist $f$ keine Funktion, sondern nur eine partielle Funktion von $X$ nach $Y$ so schreiben wir $f: X\nrightarrow Y$ statt $f: X\rightarrow Y$. }
-Funktion} $f_\mathcal{M}:\Sigma^*\nrightarrow\Sigma^*$ wie folgt definiert.
+Funktion} $f_\M:\Sigma^*\nrightarrow\Sigma^*$ wie folgt definiert.
 $$
-f_\mathcal{M}(w)= 
+f_\M(w)= 
 \begin{cases}
- v &\text{falls } \exists (u,q,v')\in \Konf(\mathcal{M}) \text{ sodass }
+ v &\text{falls } \exists (u,q,v')\in \Konf(\M) \text{ sodass }
  \begin{array}{ll}
   & \qinit w \vdash^*uqv'\\
   \text{und} & uqv'\text{ ist Haltekonfiguration}\\
@@ -440,14 +441,14 @@ Wie definieren $\out:\Gamma^* \-> \Sigma^*$ formal wie folgt.
 		&\out(au) &&= a\cdot\out(u) &\quad& a\in\Sigma\\
 		&\out(bu) &&= \out(u) && b\in\Gamma\setminus\Sigma
 	\end{alignat*}
-\emph{Beobachtung:} Die Funktion $f_\mathcal{M}(w)$ ist genau für die Wörter definiert, 
-für die $\mathcal{M}$ angesetzt auf $w$ terminiert.
+\emph{Beobachtung:} Die Funktion $f_\M(w)$ ist genau für die Wörter definiert, 
+für die $\M$ angesetzt auf $w$ terminiert.
 \end{Def}
 
 % 
 % 	\begin{alignat*}{3}
-% 		&&&f_\mathcal{M}:\Sigma^*\nrightarrow\Sigma^*\\
-% 		&&&f_\mathcal{M}(w)=v\\
+% 		&&&f_\M:\Sigma^*\nrightarrow\Sigma^*\\
+% 		&&&f_\M(w)=v\\
 % 		&\text{ falls } &&\qinit w \vdash^*uqv'&\quad&\text{Haltekonf.}\\
 % 		&\text{ und } &&v=\out( v')\\[.5em]
 % 		&\out:\Gamma^* &&\-> \Sigma^*\\
@@ -456,10 +457,24 @@ für die $\mathcal{M}$ angesetzt auf $w$ terminiert.
 % 		&\out(bu) &&= \out(u) && b\in\Gamma\setminus\Sigma
 % 	\end{alignat*}
 % \end{Def}
-% \emph{Beachte:} Falls $\qinit w$ nicht terminiert, dann ist $f_\mathcal{M}(w)$ nicht definiert.
+% \emph{Beachte:} Falls $\qinit w$ nicht terminiert, dann ist $f_\M(w)$ nicht definiert.
 % 
-% Eine \ac{TM} $\mathcal{M}$ terminiert nicht bei Eingabe $w$, falls für alle $uq'v$, so dass $\qinit w\vdash^*uq'v$\\
+% Eine \ac{TM} $\M$ terminiert nicht bei Eingabe $w$, falls für alle $uq'v$, so dass $\qinit w\vdash^*uq'v$\\
 % $uq'v$ ist keine Haltekonfiguration.
+
+Ein Flußdiagram ist ein 7-Tupel $G=(\Sigma, \Gamma, \blank,V,E,v_0,L_V,L_E)$, dabei ist
+\begin{itemize}
+ \item $\Sigma$ ein Alphabet das wir \emph{Eingabealphabet} nennen,
+ \item $\Gamma\supsetneq \Sigma$ ein Alphabet das wir \emph{gemeinsames Bandalphabet} nennen,
+ \item $\blank\in \Gamma$ ein Zeichen, das wir \emph{gemeinsames Blanksymbol} nennen,
+ \item $(V,E)$ ein gerichteter Graph,
+ \item $v_0\in V$ ein Knoten den wir \emph{Startknoten} nennen,
+ \item $L_V$ eine Abbildung, die jedem Knoten eine Turingmaschine zuordnet und
+ \item $L_E$ eine Abbildung, die jeder Kante $(v,v')\in E$ eine Teilmenge des Alphabets zuordnet.
+\end{itemize}
+
+Notation: Wir schreiben 
+$\M=\left(\Sigma,Q_v,\Gamma_v,\delta,\qinit,\blank,F\right)$
 
 \subsection{Techniken zur \ac{TM} Programmierung}
 \draftnote{10.01.2018}
