@@ -1,6 +1,7 @@
 \datenote{20.12.17}
 \section{Turingmaschinen}
 \newcommand{\M}{\mathcal{M}}
+\newcommand{\godel}[1]{\ulcorner #1 \urcorner}
 
 \hide{
 %\section{\acf{TM}}
@@ -102,7 +103,7 @@ Turingmaschine ist eine Erweiterung endlicher Automaten mit den folgenden Zusät
 	& 	Die Bedeutung eines Tabelleneintrages ist dabei: Wenn \ac{TM} in Zustand $q$ und Kopf liest
         gerade Symbol $a\in\Gamma$ dann wechsle in Zustand $q'$,
         schreibe $a'$ (über altes $a$) und bewege den Kopf gemäß
-        $r\in\{L,R,N\}$ 
+        $d\in\{L,R,N\}$ 
 \end{tabu}\
 
 Eine Turingmaschine arbeitet schrittweise und in jedem Rechnschritt wir eine Zeile der Turingtabelle angewendet.
@@ -462,22 +463,110 @@ für die $\M$ angesetzt auf $w$ terminiert.
 % Eine \ac{TM} $\M$ terminiert nicht bei Eingabe $w$, falls für alle $uq'v$, so dass $\qinit w\vdash^*uq'v$\\
 % $uq'v$ ist keine Haltekonfiguration.
 
-Ein Flußdiagram ist ein 7-Tupel $G=(\Sigma, \Gamma, \blank,V,E,v_0,L_V,L_E)$, dabei ist
+\subsection{\ac{TM} Programmierung mit Hilfe von Flußdiagrammen}
+\draftnote{10.01.2018}
+
+Auch für einfache Turingmaschinen können die Turingtafeln sehr groß werden.
+Wir führen deshalb einen Formalismus ein, der uns erlaubt mehrere kleine Turingmaschinen zu einer Großen zusammenzubauen.
+
+Idee: Wir nehmen einen gerichteten Graphen und beschriften dessen Knoten mit Turingmaschinen und dessen Kanten mit einer Teilmenge des Bandalphabets.
+Eine Kante $\M_1\stackrel{\{a,b,c\}}{\longrightarrow}\M_2$ bedeutet dann:
+Wenn die TM $\M_1$ hält und $a$, $b$ oder $c$ unter dem Kopf steht, dann kann TM $\M_2$ beginnend mit ihren Startzustand auf dem aktuellen Bandinhalb weitermachen.
+Voraussetzung ist dass alle TMs das gleiche Bandalphabet und das gleiche Blanksymbol verwenden.
+
+\begin{Bsp} Wir definieren uns zunächst für beliebiges $\Sigma$ und $\Gamma$ drei sehr einfache Turingmaschinen. 
+ \begin{itemize}
+  \item 1-Schritt Rechtsmaschine $\M_r$
+  
+  Geht für beliebigen Bandinhalt einen Schritt nach rechts und hält dann.
+  
+  $\M_r=\left(\Sigma,\{q_0,q_1\},\Gamma,\delta,q_0,\blank,\{\}\right)$ mit
+  $\delta(q,x)=\begin{cases}\{(q_1, x, R)\} & \text{ falls } q = q_0\\ \{\} & \text{ falls } q = q_1\end{cases}$
+  
+  \item 1-Schritt Linksmaschine $\M_l$
+  
+  Geht für beliebigen Bandinhalt einen Schritt nach links und hält dann.
+
+  $\M_l=\left(\Sigma,\{q_0,q_1\},\Gamma,\delta,q_0,\blank,\{\}\right)$ mit
+  $\delta(q,x)=\begin{cases}\{(q_1, x, L)\} & \text{ falls } q = q_0\\ \{\} & \text{ falls } q = q_1\end{cases}$
+  
+  \item Für jedes Zeichen $y\in\Gamma$ die Druckmaschine $\mathcal{D}_y$.
+  
+  Schreibt das Zeichen $y$ auf die Zelle über der sich der Kopf befindet und hält dann.
+
+  $\mathcal{D}_y=\left(\Sigma,\{q_0,q_1\},\Gamma,\delta,q_0,\blank,\{\}\right)$ mit
+  $\delta(q,x)=\begin{cases}\{(q_1, y, N)\} & \text{ falls } q = q_0\\ \{\} & \text{ falls } q = q_1\end{cases}$
+
+ \end{itemize}
+\end{Bsp}
+
+\begin{Bsp}
+ Mit Hilfe von Flußdiagrammen definieren wir uns nun zwei weitere Turingmaschinen
+  \begin{itemize}
+  \item Rechtsmaschine $\M_R$
+  
+  Geht für beliebigen Bandinhalt nach rechts bis ein Blanksymbol erreicht ist und hält dann.
+  
+  \begin{tikzpicture}
+   \node (0) at (0,0) {$\M_r$};
+   \node (init) at (-1.1,.2) {};
+   \draw[->] (init) to (0);
+   \draw[->,loop right] (0) to node {$\Gamma\backslash\{\blank\}$} (0);
+  \end{tikzpicture}
+
+  
+  \item Linksmaschine $\M_L$
+  
+  Geht für beliebigen Bandinhalt nach links bis ein Blanksymbol erreicht ist und hält dann.
+
+  \begin{tikzpicture}
+   \node (0) at (0,0) {$\M_l$};
+   \node (init) at (-1.1,.2) {};
+   \draw[->] (init) to (0);
+   \draw[->,loop right] (0) to node {$\Gamma\backslash\{\blank\}$} (0);
+  \end{tikzpicture}
+ \end{itemize}
+\end{Bsp}
+
+Wir definieren das Flußdiagram und nun formal wie folgt.
+
+
+\begin{Def}%[Flußdiagram]
+Ein \emph{Flußdiagram} ist ein 7-Tupel $G=(\Sigma, \Gamma, \blank,V,E,v_0,L_V,L_E)$, dabei ist
 \begin{itemize}
  \item $\Sigma$ ein Alphabet das wir \emph{Eingabealphabet} nennen,
  \item $\Gamma\supsetneq \Sigma$ ein Alphabet das wir \emph{gemeinsames Bandalphabet} nennen,
  \item $\blank\in \Gamma$ ein Zeichen, das wir \emph{gemeinsames Blanksymbol} nennen,
  \item $(V,E)$ ein gerichteter Graph,
- \item $v_0\in V$ ein Knoten den wir \emph{Startknoten} nennen,
+ \item $v^\mathsf{init}\in V$ ein Knoten den wir \emph{Startknoten} nennen,
  \item $L_V$ eine Abbildung, die jedem Knoten eine Turingmaschine zuordnet und
  \item $L_E$ eine Abbildung, die jeder Kante $(v,v')\in E$ eine Teilmenge des Alphabets zuordnet.
 \end{itemize}
+\end{Def}
 
-Notation: Wir schreiben 
-$\M=\left(\Sigma,Q_v,\Gamma_v,\delta,\qinit,\blank,F\right)$
 
-\subsection{Techniken zur \ac{TM} Programmierung}
-\draftnote{10.01.2018}
+Notation: Bis zum Ende des Kapitels schreiben wir
+$\M_v=\left(\Sigma,Q_v,\Gamma_v,\delta,\qinit,\blank,F_v\right)$
+für die Turingmaschine $L_V(v)$, also die Turingmaschine die dem Knoten $v$ zugeordnet ist.
+
+\begin{Def}%[Flußdiagram]
+Die von einem Flußdiagram $G=(\Sigma, \Gamma, \blank,V,E,v^\mathsf{init},L_V,L_E)$ definierte Turingmaschine ist 
+$\M=\left(\Sigma,Q,\Gamma,\delta,\qinit,\blank,F\right)$ wobei
+\begin{itemize}
+ \item $Q=\overset{.}{\bigcup\limits_{v\in V}} Q_v$
+ \item $\qinit = \qinit_{v^\mathsf{init}}$
+ \item $\delta(q,x) = 
+ \begin{cases}
+ (q',x',d) & \text{ falls } q\in Q_v \text{ und } (q',x',d)\in\delta_v(q,x)\\
+ (q'',x,N) & \text{ falls } q\in Q_v \text{ und } \delta_v(q,x)=\{\} ...\\
+ \{\} & \text{ sonst }
+ \end{cases}$
+ \item $F=\overset{.}{\bigcup\limits_{v\in V}} F_v$
+\end{itemize}
+\end{Def}
+
+\subsection{Varianten von \ac{TM}s}
+
 \begin{itemize}
 	\item Endlicher Speicher\\
 	Zum Abspeichern eines Elements aus endl. Menge $A$ verwende
@@ -611,6 +700,135 @@ $\M=\left(\Sigma,Q_v,\Gamma_v,\delta,\qinit,\blank,F\right)$
 		\item weitere Versuche Berechenbarkeit zu formulieren, äquivalent zu \ac{TM}en erwiesen.
 	\end{itemize}
 \end{Satz}
+
+
+
+\subsection{Universelle Turingmaschine}
+Die bisher betrachteten Turingmaschinen waren (ebenso wie endliche Automaten oder Kellerautomaten) 
+auf einen Einsatzzweck beschränkt und konnten nur eine bestimmte Sprache akzeptieren oder eine bestimmte Funktion berechnen.
+Dies entspricht nicht unserer Vorstellung eines Computers, denn soch einer kann ja normalerweile beliebige Programme ausführen.
+
+In diesem Kapitel konstruieren wir nun eine \ac{TM} $\M_U$ die als Eingabe sowohl
+eine Codierung $\godel{\M}$ einer beliebigen \ac{TM} $\M$ als auch deren Eingabe $w$ nimmt, sodass die folgenden drei Eigenschaften gelten.
+\begin{align}
+	\label{Mu-eq-lang} w\in L(\M) &\Leftrightarrow \godel{\M}\#w) \in L(\M_U)\\ 
+	\label{Mu-eq-term} \text{$\M$ terminiert bei Eingabe $w$} &\Leftrightarrow \text{$\M_U$ terminiert bei Eingabe $\godel{\M}\#w$}\\
+	\label{Mu-eq-func} \text{$f_\M(w)$} &= \text{$f_{\M_U}(\godel{\M}\#w)$}
+\end{align}
+
+Wir nennen $\M_U$ die \emph{universelle Turingmaschine}.
+
+\subsubsection{Codierung von Turingmaschinen}
+
+Zunächst wollen wir uns eine Codierung $\godel{\M}$ für $\mathcal{\M}=(\Sigma, Q, \Gamma, \delta, \qinit, \blank, F)$ überlegen.
+Die Effizienz unserer Codierung ist uns dabei nicht wichtig und wir versuchen der Einfachheit wegen mit Unärcodierungen zu arbeiten.
+
+Einige Vorüberlegungen
+\begin{itemize}
+ \item Da $Q$ und $\Gamma$ endlich sind können wir jedem ihrer Elemente eine natürliche Zahl zuordnen.
+ \item Wir müssen $\qinit$ und $\blank$ nicht explizit codieren, wir verwenden die Konvention, 
+ dass $\qinit$ der Zustand mit der Nummer $1$ und $\blank$ das Zeichen mit der Nummer $1$ ist.
+ \item Wir müssen $\Sigma$, $Q$ und $\Gamma$ nicht explizit in die Codierung mit aufnehmen.
+ Für das Ausführen einer \ac{TM} sind nur die Elemente aus $\Sigma$, $Q$ und $\Gamma$ relevant die auch in der Transitionsfunktion $\delta$ vorkommen.
+\end{itemize}
+
+Idee: Codiere Elemente aus $Q$ und $\Gamma$ unär mit Hilfe von $0$ Zeichen.
+Verwende $1$ Zeichen um unärcodierte Zahlen zu trennen.
+
+\begin{itemize}
+ \item Zustände
+ 
+    Seien $q_1,\dots, q_{n}$ die Elemente von $Q$ sodass $q_1=\qinit$ 
+    
+    Definiere $\godel{q_i}:=0^i$
+    
+  \item Menge der akzeptierenden Zustände
+  
+    Seien $q_{k_1},\dots, q_{k_n}$ die Elemente von $F$
+    
+    Definiere $\godel{F}:=\godel{q_{k_1}} 1 \ldots 1 \godel{q_{k_n}}$
+    
+  \item Bandalphabet
+  
+    Seien $a_1,\dots, a_{n}$ die Elemente von $\Gamma$ sodass $a_1=\blank$
+    
+    Definiere $\godel{a_j}:=0^j$
+    
+  \item Richtung (in die der Schreib-Lesekopf bewegt wird)
+  
+    Definiere $\godel{L}:=0$, $\godel{N}:=00$ und $\godel{R}:=000$.
+    
+  \item Transitionsfunktion
+  
+   Seien $(q_{d_1}, a_{d_1}, q_{d_1}', a_{d_1}', r_{d_1}),\dots (q_{d_n}, a_{d_n}, q_{d_n}', a_{d_n}', r_{d_n})$ die Elemente von $\delta$.
+  
+   Definiere 
+   
+   $\godel{\delta}:= 11\godel{q_{d_1}}1\godel{a_{d_1}}1\godel{q_{d_1}'}1\godel{a_{d_1}'}1\godel{r_{d_1}}11\dots 11 \godel{q_{d_n}}1\godel{a_{d_n}}1\godel{q_{d_n}'}1 \godel{a_{d_n}'}1\godel{r_{d_n}}11$
+   
+   \item Turingmaschine
+   
+   $\godel{\M}:=111\godel{\delta}111\godel{F}111$
+\end{itemize}
+
+
+\subsubsection{Arbeitsweise der universellen Turingmaschine}
+Da die universelle Turingmaschine $\M_U$ recht komplex ist wollen wir diese hier nicht formal definieren sondern geben nur eine informelle Beschreibung der Arbeitsweise.
+
+
+Wie definiere $\M_U$ als 3-Band Maschine wobei die Bänder $B_1$, $B_2$ und $B_3$ wie folgt genutzt werden.
+\begin{itemize}
+\item[$B_1:$] Zu Beginn steht hier die Eingabe für $\M_U$.
+Nach der Initialisierung von $\M_U$ verwenden wir $B_1$ um das Band der Eingabeturingmaschine $\M$ nachzuahmen.
+\item[$B_2:$] Speichere die Codierung der Eingabeturingmaschine $\ulcorner \M \urcorner$
+\item[$B_3:$] Speichere den aktuellen Zustand von $\M$ ($0^k$ für Zustand $q_k$)
+\end{itemize}
+
+Die universelle Turingmaschine $\M_U$ beginnt zunächst mit einer Initialisierung die aus den folgenden drei Schritten besteht.
+
+\begin{enumerate}
+ \item Prüfe ob der erste Teil der Eingabe $\ulcorner \M \urcorner$ eine gültige Turingmaschine codiert.
+ 
+ Die Menge der gültigen Codierungen kann mit Hilfe einer kontextfreien Grammatik beschrieben werden (siehe Übungen).
+ 
+ \item Verschiebe $\ulcorner \M \urcorner$ auf $B_2$. Schreibe dabei Blanksymbole auf die Bandzellen von $B_1$.
+ Überschreibe anschließend das Symbol $\#$ das Eingabeturingmaschine und Eingabewort trennt durch ein Blanksymbole.
+ 
+ \item Schreibe $0$ (also die Codierung des Startzustandes von $\M$) auf $B_3$.
+\end{enumerate}
+
+Nach der Initialisierung ist $\M_U$ also in der folgenden Konfiguration.
+\begin{itemize}
+\item[$B_1:$] $w$
+\item[$B_2:$] $\ulcorner M_0 \urcorner$
+\item[$B_3:$] $0' \sim Z,q$
+\end{itemize}
+
+Nach der Initialisierung wird $\M_U$ das Verhalten von $\M$ nachahmen.
+Für jeden Schritt von $\M$ macht $\M_U$ dabei die folgenden Schritte.
+
+ Suche ein Element $(q, a, q', a', r)$ der Transitionsfunktion $\delta$ von $\M$ das zum aktuellen Zustand $q$ und zum aktuellen Eingabesymbol $a$ passt.
+ 
+ Wir laufen hierfür einmal über das komplette Band $B_2$. 
+ Zustände werden Zeichenweise mit dem Inhalt von $B_3$ verglichen.
+ Die Zuordnung von Alphabetsymbolen zu codierung ist fest in $\M_U$ eingebaut.
+ 
+ \begin{itemize}
+ 
+ \item Falls es solch ein Element der Transitionsfunktion existiert,
+    schreibe auf $B_1$ das Zeichen $a'$ und Bewege den Kopf wie durch $r$ definiert.
+    Ersetze außerdem die Codierung $\godel{q}$ auf $B_3$ durch $\godel{q'}$.
+    Fahre anschließend mit dem Nachahmen des nächsten Schrittes von $\M$ fort.
+    
+ \item Falls kein solches Element der Transitionsfunktion existiert hat $\M$ eine Haltekonfiguration erreicht.
+ Wir vergleichen nun den aktuellen Zustand (auf $B_3$) mit den auf $B_2$ gespeicherten akzeptierenden Zuständen und akzeptieren oder verwerfen die Eingabe entsprechend.
+
+\end{itemize}
+
+\begin{Satz}
+	Die universelle \ac{TM} $\M_U$ erfüllt die Eigenschaften (\ref{Mu-eq-lang}), (\ref{Mu-eq-term}) und (\ref{Mu-eq-func}).
+\end{Satz}
+
 
 %%% Local Variables:
 %%% mode: latex
