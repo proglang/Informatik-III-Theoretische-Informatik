@@ -640,6 +640,25 @@ Es gibt sehr viele Varianten von Turingmaschinen.
 Diese sind äquivalent zu \autoref{def:4.tm} im Sinne dass sie nicht mehr Sprachen akzeptieren oder mehr Funktionen berechnen können.
 Je nach Anwendung können diese Varianten aber bequemer sein. Wir stellen in diesem Unterabschnitt zwei weitere Varianten vor.
 
+
+\subsubsection{Mehrspurmachinen}
+
+Eine $k$-Spur \ac{TM} arbeitet wie eine Turingmaschine, das Band hat hier aber $k$ Spuren.
+Der Kopf liest und schreibt also immer einen $k$-Vektor von Zeichen.
+Die Transitionsfunktion hat den Typ $\delta: Q\times\Gamma^k\--> \Powerset(Q\times\Gamma^k\times\{R,L,N\})$.
+
+Die Eingabe steht zu Beginn auf der ersten Spur.
+Zum Ermitteln der Ausgabe betrachten wir auch nur die erste Spur.
+
+\begin{Bemerkung}
+Eine $k$-Spur \ac{TM} kann von einer (gewöhnlichen) \ac{TM} simuliert werden.
+
+\medskip
+
+Idee: Verwende Bandalphabet $\Gamma' = \Sigma \overset{.}{\cup} \Gamma^k\text{ mit } \blank'=\blank^k$
+\end{Bemerkung}
+
+
 \begin{itemize}
 % 	\item Endlicher Speicher\\
 % 	Zum Abspeichern eines Elements aus endl. Menge $A$ verwende
