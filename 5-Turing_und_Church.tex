@@ -646,7 +646,7 @@ benötigen keine weiteren Zeichen für unsere Berechnung und verwenden daher das
    \draw[->] (1) to node[auto] {$\{\#\}$} (9);
   \end{tikzpicture}
   
-  Die obere Schleife beschreibt das simultane Enfernen von Strichen in $x$ und $y$.
+  Die obere Schleife beschreibt das simultane Entfernen von Strichen in $x$ und $y$.
   Die erste Abzweigung nach unten wird genommen, wenn der Fall $y=0$ eintritt.
   Die untere Schleife wird ausgeführt, wenn $y$ größer als $x$ war; sie dient dazu, die verbleibenden Zeichen auf dem Band zu löschen, 
   um die unärcodierte $0$ (also das leere Wort) zu erzeugen.
@@ -658,7 +658,7 @@ Diese sind äquivalent zu \autoref{def:4.tm} im Sinne dass sie nicht mehr Sprach
 Je nach Anwendung können diese Varianten aber bequemer sein. Wir stellen in diesem Unterabschnitt zwei weitere Varianten vor.
 
 
-\subsubsection{Mehrspurmachinen}
+\subsubsection{Mehrspurmaschinen}
 
 Eine $k$-Spur \ac{TM} arbeitet wie eine Turingmaschine, das Band hat hier aber $k$ Spuren.
 Der Kopf liest und schreibt also immer einen $k$-Vektor von Zeichen.
@@ -676,7 +676,7 @@ Zum Ermitteln der Ausgabe betrachten wir auch nur die erste Spur.
 			&\\\hline
 			&
 		\end{tabu}}
-		\caption{Mehrspurmachine}
+		\caption{Mehrspurmaschine}
 	\end{figure}
 
 	\begin{Bsp*}
@@ -693,7 +693,7 @@ Idee: Verwende Bandalphabet $\Gamma_\mathsf{sim} = \Sigma \overset{.}{\cup} (\Ga
 \begin{enumerate}
  \item Konvertieren der Eingabe
  
- Laufe ein mal über die Eingabe und erstze $a\in\Sigma$ durch $\left(\begin{array}{c}a\\ \mblank\\ \vdots\\ \mblank\end{array}\right)\in\Gamma_\mathsf{sim}$. 
+ Laufe ein mal über die Eingabe und ersetze $a\in\Sigma$ durch $\left(\begin{array}{c}a\\ \mblank\\ \vdots\\ \mblank\end{array}\right)\in\Gamma_\mathsf{sim}$. 
  Bewege den Kopf zurück in die Ausgangsposition (also eine Zelle rechts des ersten Blank auf der linken Seite).
  
  \item Eins zu eins Simulation
@@ -703,7 +703,7 @@ Idee: Verwende Bandalphabet $\Gamma_\mathsf{sim} = \Sigma \overset{.}{\cup} (\Ga
  
  \item Konvertieren der Ausgabe
  
- Idee: Ersezte jedes $\left(\begin{array}{c}a_1\\ \vdots\\ a_k\\ x\end{array}\right)\in\Gamma_\mathsf{sim}$ durch $a_1$ falls $a_1\in\Sigma$ und durch 
+ Idee: Ersetze jedes $\left(\begin{array}{c}a_1\\ \vdots\\ a_k\\ x\end{array}\right)\in\Gamma_\mathsf{sim}$ durch $a_1$ falls $a_1\in\Sigma$ und durch 
  $\left(\begin{array}{c}\mblank \\ \mblank\\ \vdots\\ A\end{array}\right)$ sonst.
  (Zur Ausgabe gehören schließlich nur die Elemente aus $\Sigma$.)
  
@@ -723,7 +723,7 @@ Idee: Verwende Bandalphabet $\Gamma_\mathsf{sim} = \Sigma \overset{.}{\cup} (\Ga
 \end{Bemerkung}
 
 
-\subsubsection{Mehrbandmachinenen}
+\subsubsection{Mehrbandmaschinen}
 
 Eine $k$-Band \ac{TM} hat $k$ Bänder die jeweils einen eigenen Kopf haben.
 In jedem Schritt wird jeder Kopf lesen, schreiben und sich Bewegen.
@@ -782,17 +782,17 @@ Das Bandalphabet der $k$-Spur Maschine sei dabei $\Gamma_\mathsf{sim}=\Gamma\ove
 	 \end{itemize}
 	 
     \item Simuliere die einzelnen Rechenschritte von $\M$ wie folgt.\\
-	Der Kopf der Mehrbandmachine startet jeweils beim linker Begrenzung, d.h. am weitestens links stehendes $B$ auf Spur $2k+1$
+	Der Kopf der Mehrbandmaschine startet jeweils beim linker Begrenzung, d.h. am weitesten links stehendes $B$ auf Spur $2k+1$
 	\begin{itemize}
-		\item Durchlauf bis rechter Rand, sammle dabei Symbole unter den Köpfen, speichern in endl. Zustand $\overrightarrow{\gamma} \in \Gamma^k$
+		\item Durchlauf bis rechter Rand, sammle dabei Symbole unter den Köpfen, speichern in endl.\ Zustand $\overrightarrow{\gamma} \in \Gamma^k$
 		\item Berechne $\delta(q,\overrightarrow{\gamma})=(q',\overrightarrow{\gamma'},\overrightarrow{d})$\\
 		neuer Zustand, für jeden Kopf ein neues Symbol $\overrightarrow{\gamma'}$ und Richtung $\overrightarrow{d}$.
-		\item Rücklauf nach links, dabei Schreiben um $\overrightarrow{\gamma}'$ und Versetzen der Köpfe gem"a"s $\overrightarrow{d}$.
+		\item Rücklauf nach links, dabei Schreiben um $\overrightarrow{\gamma}'$ und Versetzen der Köpfe gemäß $\overrightarrow{d}$.
 	\end{itemize}
 	Falls eine Kopfbewegung den Rand auf Spur $2k+1$ überschreitet, dann schreibe ein weiteres $B$.
 	
 	Beim Rücklauf: Test auf Haltekonfiguration der $k$-Band \ac{TM}.\\
-	Falls ja, dann Sprung in Haltekonf. von $k$-Spur \ac{TM}.
+	Falls ja, dann Sprung in Haltekonfiguration von $k$-Spur \ac{TM}.
 % 	
 % 	Weiter im Zustand Sim$(q')$.
 % 
@@ -828,7 +828,7 @@ Das Bandalphabet der $k$-Spur Maschine sei dabei $\Gamma_\mathsf{sim}=\Gamma\ove
 \subsection{Universelle Turingmaschine}
 Die bisher betrachteten Turingmaschinen waren (ebenso wie endliche Automaten oder Kellerautomaten) 
 auf einen Einsatzzweck beschränkt und konnten nur eine bestimmte Sprache akzeptieren oder eine bestimmte Funktion berechnen.
-Dies entspricht nicht unserer Vorstellung eines Computers, denn soch einer kann ja normalerweile beliebige Programme ausführen.
+Dies entspricht nicht unserer Vorstellung eines Computers, denn dieser kann normalerweise beliebige Programme ausführen.
 
 In diesem Kapitel konstruieren wir nun eine \ac{TM} $\M_U$ die als Eingabe sowohl
 eine Codierung $\godel{\M}$ einer beliebigen \ac{TM} $\M$ als auch deren Eingabe $w$ nimmt, sodass die folgenden drei Eigenschaften gelten.
