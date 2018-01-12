@@ -650,20 +650,6 @@ Die Transitionsfunktion hat den Typ $\delta: Q\times\Gamma^k\--> \Powerset(Q\tim
 Die Eingabe steht zu Beginn auf der ersten Spur.
 Zum Ermitteln der Ausgabe betrachten wir auch nur die erste Spur.
 
-\begin{Bemerkung}
-Eine $k$-Spur \ac{TM} kann von einer (gewöhnlichen) \ac{TM} simuliert werden.
-
-\medskip
-
-Idee: Verwende Bandalphabet $\Gamma' = \Sigma \overset{.}{\cup} \Gamma^k\text{ mit } \blank'=\blank^k$
-\end{Bemerkung}
-
-
-\begin{itemize}
-% 	\item Endlicher Speicher\\
-% 	Zum Abspeichern eines Elements aus endl. Menge $A$ verwende
-% 	\[ Q'=Q\x A \]
-	\item Mehrspurmachinen
 	\begin{figure}[H]\centering
 		{\renewcommand{\arraystretch}{0.8}
 		\begin{tabu} to .5\textwidth {X[.35]|X[.65]}
@@ -675,60 +661,99 @@ Idee: Verwende Bandalphabet $\Gamma' = \Sigma \overset{.}{\cup} \Gamma^k\text{ m
 		\end{tabu}}
 		\caption{Mehrspurmachine}
 	\end{figure}
-	
-	Eine $k$-Spur \ac{TM} kann gleichzeitig $k\geq 1$ Symbole $\<- \Gamma$ unter dem Kopf lesen.\\
-	Kann durch Standard \ac{TM} simuliert werden:
-	\[ \Gamma' = \Sigma \overset{.}{\cup} \Gamma^k\text{ mit } \blank'=\blank^k \]
-	\dots vereinfacht die Programmierung\\
+
 	\begin{Bsp*}
 		Schulalg. für binäre Addition, Multiplikation
 	\end{Bsp*}
-	\item \emph{Mehrbandmachinenen}\\
-	Eine $k$-Band \ac{TM} besitzt $k\geq1$ Bänder und $k$ Köpfe, die bei jedem Schritt lesen, schreiben und sich unabhängig voneinander bewegen.
-	\[ \delta_K:Q\x\Gamma^k \-> Q\x\Gamma^k\x \{R,L,N\}^k \]
-	\item keine herkömmliche \ac{TM} (für $k>1$)
-	\item kann durch $2k+1$ Spur \ac{TM} simuliert werden:\\
+
+\begin{Bemerkung}
+Eine $k$-Spur \ac{TM} kann von einer (gewöhnlichen) \ac{TM} simuliert werden.
+
+\medskip
+
+Idee: Verwende Bandalphabet $\Gamma_\mathsf{sim} = \Sigma \overset{.}{\cup} (\Gamma^k\times\{\blank, B, A\})\text{ mit } \blank_\mathsf{sim}=\blank^{k+1}$
+
+\begin{enumerate}
+ \item Konvertieren der Eingabe
+ 
+ Laufe ein mal über die Eingabe und erstze $a\in\Sigma$ durch $\left(\begin{array}{c}a\\ \mblank\\ \vdots\\ \mblank\end{array}\right)\in\Gamma_\mathsf{sim}$. 
+ Bewege den Kopf zurück in die Ausgangsposition (also eine Zelle rechts des ersten Blank auf der linken Seite).
+ 
+ \item Eins zu eins Simulation
+ 
+ Exaktes Nachahmen jedes Rechenschrittes der $k$-Spur Maschine bis diese anhält.
+ Schreibe dabei als $k+1$'te Komponente des Tupels immer ein $B$.
+ 
+ \item Konvertieren der Ausgabe
+ 
+ Idee: Ersezte jedes $\left(\begin{array}{c}a_1\\ \vdots\\ a_k\\ x\end{array}\right)\in\Gamma_\mathsf{sim}$ durch $a_1$ falls $a_1\in\Sigma$ und durch 
+ $\left(\begin{array}{c}\mblank \\ \mblank\\ \vdots\\ A\end{array}\right)$ sonst.
+ (Zur Ausgabe gehören schließlich nur die Elemente aus $\Sigma$.)
+ 
+ \begin{itemize}
+  \item Problem 1: Woher wissen wir wie weit wir nach rechts laufen müssen?
+  
+  Lösung: Wir achten auf die letzte Komponente des Tupels. 
+  Wir laufen so lange nach rechts wie dort ein B steht, denn alle diese Zellen haben wir mindestens ein mal besucht.
+  
+  \item Problem 2: Alles was links des Kopfes steht gehört nicht zur Ausgabe. 
+  Wie bekommen wir den Kopf wieder an die stelle wo er vor der Ausgabe war?
+  
+  Lösung: Wir laufen so lange nach links bis das erste Zeichen kommt das nicht aus $\Sigma$ ist und dessen letzte Komponente kein $A$ ist. 
+ \end{itemize}
+\end{enumerate}
+
+\end{Bemerkung}
+
+
+\subsubsection{Mehrbandmachinenen}
+
+Eine $k$-Band \ac{TM} hat $k$ Bänder die jeweils einen eigenen Kopf haben.
+In jedem Schritt wird jeder Kopf lesen, schreiben und sich Bewegen.
+Dabei darf sich jeder Kopf in eine andere Richtung bewegen.
+
+Die Transitionsfunktion hat den Typ $\delta: Q\times\Gamma^k\--> \Powerset(Q\times\Gamma^k\times\{R,L,N\}^k)$.
+
+
+\begin{Bemerkung}
+Eine $k$-Band \ac{TM} $\M$ kann von einer $2k+1$ Spur \ac{TM} $\M_\mathsf{sim}$ simuliert werden.
+
+\medskip
+
+Idee: Codiere die Konfiguration einer $k$-Band Maschine mit Hilfe von $2k$ Spuren.
+Simuliere einen Schritt der $k$-Band Maschine in vielen Schritten.
+Verwende dabei eine zusätzliche Spur um das bisher bearbeitete Band zu kennzeichnen.
+Zustand von $\M$ wird mit den Zustand von $\M_\mathsf{sim}$ eincodiert.
+
+Das Bandalphabet der $k$-Spur Maschine sei dabei $\Gamma_\mathsf{sim}=\Gamma\overset{.}{\cup}\{\#,B\}$.
+
+		\begin{itemize}
+			\item Spur $2i-1$ simuliert Band $i$.
+			\item Spur $2i$ ist leer bis auf eine Marke \#, die Position des Kopfes auf Band $i$ markiert.
+			\item Spur $2k+1$ enthält das Zeichen $B$ an jeder Position die bereits bearbeitet wurde.\\
+		\end{itemize}
+		
 	\begin{tabular}{lll}
 		Spur\\
 		1 & \ruleplaceholder[ Band 1 ]{.5\linewidth}\\
 		2 & \hspace{.23\linewidth}\# Kopf für Band 1\\
 		3 & \ruleplaceholder[ Band 2 ]{.5\linewidth}\\
-		4 & \multicolumn1r{\# Kopf\qquad\ }\\
+		4 & \multicolumn1r{\# Kopf 2\qquad\ }\\
 		& \vdots\\
+		$2k-1$ & \ruleplaceholder[ Band k ]{.5\linewidth}\\
 		$2k$ & \hspace{.09\linewidth}\dots\hspace{.09\linewidth} \# Kopf $k$\\
-		$2k+1$ & \# &\#\#\\
-		& linker Rand & rechter Rand
+		$2k+1$ & \ldots\ \blank\  \blank\  B\ B\ B\ B\ \ \ \ \ldots \ \ \ B\ B\ B\ B\ \blank\  \blank \ \ldots  \\
+		& \hspace{11mm} $\uparrow$ linker Rand \hspace{18mm} $\uparrow$ rechter Rand
 	\end{tabular}
-\end{itemize}
-\vspace{1em}
-
-\begin{Satz}[name={[Simulation von $k$-Band \acs*{TM} durch 1-Band \acs*{TM}]}]
-	Eine $k$-Band \ac{TM} kann durch eine 1-Band \ac{TM} simuliert werden.\quad $M=(Q\dots)$
-\end{Satz}
-\begin{proof}
-	Zeige: ein Schritt der $k$-Band \ac{TM} wird durch endlich viele Schritte auf einer 1-Band \ac{TM} simuliert.
+	
 	\begin{enumerate}
-		\item Schritt: Kodierung der Konfiguration der $k$-Band \ac{TM}\\
-		Definiere $M'$ als \ac{TM} mit $2k+1$ Spuren und $\Gamma'=\Gamma\cup\{\#\}$
-		\begin{itemize}
-			\item Die Spuren $1,3,\dots,2k-1$ enthalten das entspr. Band von $M$: Band $i\<->$ Spur $2i-1$
-			\item Die Spuren $2,4,\dots,2k$ sind leer bis auf eine Marke \#, die auf Spur $2i$ die Position des Kopfes auf Band $i$ markiert
-			\item Spur $2k+1$ enthält\\
-			\#\phantom{\#} Marke für linken Rand\\
-			\#\# Marke für rechten Rand\\
-			Zwischen den beiden Marken befindet sich der bearbeitete Bereich des Bands. D.h. die \ac{TM} arbeitet zwischen der linken und rechten Marke und schiebt die Marken bei Bedarf weiter.
-		\end{itemize}
-		
-		\item Schritt: Herstellen der Start-Konfiguration.\\
-		Annahme: Eingabe für $M$ auf Band 1\\
-		Jetzt Eingabe (für $M'$) $w = a_1\dots a_n$
-		\begin{enumerate}
-			\item Kopiere $w$ auf Spur 1
-			\item Kopf setzen auf Spur $2,\dots,2k$ an die Position des ersten Symbols von $w$
-			\item auf Spur $2k+1$: \verb*!# ##!
-	\end{enumerate}
-	\begin{tabular}{*2{M{l}}}
-		2k+1 & \#\blank\#\#\\
+	 \item Herstellen der Start-Konfiguration.
+	 
+	 \begin{itemize}
+	  \item Schreibe Kopfmarkierung (Zeichen \#) auf allen geraden Spuren und $B$ auf Spur $2k+1$.
+	  
+	  	\begin{tabular}{*2{M{l}}}
+		2k+1 & \blank B \blank\\
 		2k & \#\\
 		2k-1 & \blank\\
 		\vdots\\
@@ -737,44 +762,32 @@ Idee: Verwende Bandalphabet $\Gamma' = \Sigma \overset{.}{\cup} \Gamma^k\text{ m
 		2 & \#\\
 		\text{Spur }1 & a_1a_2\dots a_2
 	\end{tabular} 
-	
-	Springe nach Sim($\qinit$), der Zustand in $M'$, an dem die Simulation des Zustands $q$ aus $M$ beginnt.
-	
-	\item Simulation eines Rechnerschritts im Zustand Sim($q$):\\
-	Kopf auf linker Begrenzung, d.h. linker \# auf Spur $2k+1$
+	 \end{itemize}
+	 
+    \item Simuliere die einzelnen Rechenschritte von $\M$ wie folgt.\\
+	Der Kopf der Mehrbandmachine startet jeweils beim linker Begrenzung, d.h. am weitestens links stehendes $B$ auf Spur $2k+1$
 	\begin{itemize}
 		\item Durchlauf bis rechter Rand, sammle dabei Symbole unter den Köpfen, speichern in endl. Zustand $\overrightarrow{\gamma} \in \Gamma^k$
 		\item Berechne $\delta(q,\overrightarrow{\gamma})=(q',\overrightarrow{\gamma'},\overrightarrow{d})$\\
 		neuer Zustand, für jeden Kopf ein neues Symbol $\overrightarrow{\gamma'}$ und Richtung $\overrightarrow{d}$.
 		\item Rücklauf nach links, dabei Schreiben um $\overrightarrow{\gamma}'$ und Versetzen der Köpfe gem"a"s $\overrightarrow{d}$.
 	\end{itemize}
-	Falls eine Kopfbewegung den Rand auf Spur $2k+1$ überschreitet, dann verschiebe Randmarke entsprechend.
+	Falls eine Kopfbewegung den Rand auf Spur $2k+1$ überschreitet, dann schreibe ein weiteres $B$.
 	
 	Beim Rücklauf: Test auf Haltekonfiguration der $k$-Band \ac{TM}.\\
-	Falls ja, dann Sprung in Haltekonf. von $M'$
-	
-	Weiter im Zustand Sim$(q')$.
+	Falls ja, dann Sprung in Haltekonf. von $k$-Spur TM.
+% 	
+% 	Weiter im Zustand Sim$(q')$.
+% 
 	\end{enumerate}
-\end{proof}
 
-\begin{Korollar*}
-	Beim Erkunden eines Worts der Länge $n$ benötige die $k$-Band Maschine $M\ T(n)$ Schritte und $S(n)$ Zellen auf den Bändern.
-	\begin{itemize}
-		\item $M'$ benötigt $O(S(n))$ Zellen
-		\item $M'$ benötigt $O(S(n\cdot T(n)))$ Schritte $=O(T(n)^2)$
-	\end{itemize}
-	Weitere \ac{TM}-Booster
-	\begin{itemize}
-		\item Unbeschränkt großer Speicher
-		\begin{itemize}[label=\->]
-			\item für jede "`Variable"' ein neues Band
-	\end{itemize}
-	\item Datenstrukturen
-	\begin{itemize}[label={\rotatebox[origin=c]{180}{$\Lsh$}}]
-		\item ensprechend kodieren.
-	\end{itemize}
-	\end{itemize}
-\end{Korollar*}
+\end{Bemerkung}
+
+
+\begin{Bemerkung}
+	Angenommen für ein Wort der Länge $n$ benötige die $k$-Band Maschine $\M\ T(n)$ Schritte und $S(n)$ Zellen auf den Bändern.
+	Dann benötigt $\M_\mathsf{sim}$ höchstens $O(S(n))$ Zellen und $O(S(n\cdot T(n)))=O(T(n)^2)$ Schritte.
+\end{Bemerkung}
 
 \subsection{Das Gesetz von Church-Turing (Churchsche These)} % 2.6
 \begin{Satz}[name={[Intuitiv berechenbare Funktionen sind mit \acs*{TM} berechenbar]}]
