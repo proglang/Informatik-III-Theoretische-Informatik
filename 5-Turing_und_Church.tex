@@ -1,5 +1,5 @@
-\datenote{20.12.17}
 \section{Turingmaschinen}
+\datenote{20.12.17}
 \newcommand{\M}{\mathcal{M}}
 \newcommand{\godel}[1]{\ulcorner #1 \urcorner}
 \newcommand{\D}{\mathcal{D}}
@@ -310,7 +310,7 @@ Sie finden zwei weitere Beispiele für Turingmaschinen in den Folien, die auf de
 	\end{equation*}
 	mit den folgenden Komponenten:
 	\begin{itemize}
-		\item $\Sigma$ ist ein \emph{Alphabet},
+		\item $\Sigma$ ist ein Alphabet, das wir \emph{Eingabealphabet} nennen,
 		\item $Q$ ist eine endliche Menge, deren Elemente wir \emph{Zustände} nennen,
 		\item $\Gamma\supsetneq\Sigma$ ist eine Menge, die wir \emph{Bandalphabet} nennen,
 		\item $\delta: Q\times\Gamma\--> \Powerset(Q\times\Gamma\times\{R,L,N\})$ ist eine Funktion, die wir \emph{Transitionsfunktion} nennen,
@@ -318,7 +318,7 @@ Sie finden zwei weitere Beispiele für Turingmaschinen in den Folien, die auf de
 		\item $\blank\in\Gamma\setminus\Sigma$ ist ein Zeichen, das wir \emph{Blank} nennen und
 		\item $F\subseteq Q$ ist eine Teilmenge der Zustände, deren Elemente wir \emph{akzeptierende} Zustände nennen.
 	\end{itemize}
-        Die TM $\M$ heißt \emph{deterministisch}
+        Die \ac{TM} $\M$ heißt \emph{deterministisch}
         (\acsu{DTM}), falls $\forall q\in Q, \forall a\in\Gamma, |\delta
         (q,a)| \le 1$.
         Ansonsten ist $\M$ \emph{nichtdeterministisch} (\acsu{NTM}).
@@ -475,36 +475,36 @@ für die $\M$ angesetzt auf $w$ terminiert.
 % Eine \ac{TM} $\M$ terminiert nicht bei Eingabe $w$, falls für alle $uq'v$, so dass $\qinit w\vdash^*uq'v$\\
 % $uq'v$ ist keine Haltekonfiguration.
 
-\subsection{\ac{TM} Programmierung mit Hilfe von Flußdiagrammen}
+\subsection{\ac{TM}-Programmierung mit Hilfe von Flussdiagrammen}
 \datenote{10.01.2018}
 % 
 Auch für einfache Turingmaschinen können die Turingtabellen sehr groß werden.
-Wir führen deshalb einen Formalismus ein, der uns erlaubt mehrere kleine Turingmaschinen zu einer Großen zusammenzubauen.
+Wir führen deshalb einen Formalismus ein, der es uns erlaubt, mehrere kleine Turingmaschinen zu einer großen zusammenzubauen.
 
 Idee: Wir nehmen einen gerichteten Graphen und beschriften dessen Knoten mit Turingmaschinen und dessen Kanten mit einer Teilmenge des Bandalphabets.
 Eine Kante $\M_1\stackrel{\{a,b,c\}}{\longrightarrow}\M_2$ bedeutet dann:
-Wenn die TM $\M_1$ hält und $a$, $b$ oder $c$ unter dem Kopf steht, dann kann TM $\M_2$ beginnend mit ihren Startzustand auf dem aktuellen Bandinhalb weitermachen.
-Voraussetzung ist dass alle TMs das gleiche Bandalphabet und das gleiche Blanksymbol verwenden.
+Wenn die \ac{TM} $\M_1$ hält und $a$, $b$ oder $c$ unter dem Kopf steht, dann kann \ac{TM} $\M_2$ beginnend mit ihren Startzustand auf dem aktuellen Bandinhalt weitermachen.
+Voraussetzung ist, dass alle \ac{TM}s das gleiche Bandalphabet und das gleiche Blanksymbol verwenden.
 
 \begin{Bsp} Wir definieren uns zunächst für beliebiges $\Sigma$ und $\Gamma$ drei sehr einfache Turingmaschinen. 
  \begin{itemize}
-  \item 1-Schritt Rechtsmaschine $\M_r$
+  \item 1-Schritt-Rechtsmaschine $\M_r$:
   
   Geht für beliebigen Bandinhalt einen Schritt nach rechts und hält dann.
   
   $\M_r=\left(\Sigma,\{q_0,q_1\},\Gamma,\delta,q_0,\blank,\{\}\right)$ mit
   $\delta(q,x)=\begin{cases}\{(q_1, x, R)\} & \text{ falls } q = q_0\\ \{\} & \text{ falls } q = q_1\end{cases}$
   
-  \item 1-Schritt Linksmaschine $\M_l$
+  \item 1-Schritt-Linksmaschine $\M_l$:
   
   Geht für beliebigen Bandinhalt einen Schritt nach links und hält dann.
 
   $\M_l=\left(\Sigma,\{q_0,q_1\},\Gamma,\delta,q_0,\blank,\{\}\right)$ mit
   $\delta(q,x)=\begin{cases}\{(q_1, x, L)\} & \text{ falls } q = q_0\\ \{\} & \text{ falls } q = q_1\end{cases}$
   
-  \item Für jedes Zeichen $y\in\Gamma$ die Druckmaschine $\mathcal{D}_y$.
+  \item Für jedes Zeichen $y\in\Gamma$ die Druckmaschine $\mathcal{D}_y$:
   
-  Schreibt das Zeichen $y$ auf die Zelle über der sich der Kopf befindet und hält dann.
+  Schreibt das Zeichen $y$ in die Zelle, über der sich der Kopf befindet, und hält dann.
 
   $\mathcal{D}_y=\left(\Sigma,\{q_0,q_1\},\Gamma,\delta,q_0,\blank,\{\}\right)$ mit
   $\delta(q,x)=\begin{cases}\{(q_1, y, N)\} & \text{ falls } q = q_0\\ \{\} & \text{ falls } q = q_1\end{cases}$
@@ -513,11 +513,12 @@ Voraussetzung ist dass alle TMs das gleiche Bandalphabet und das gleiche Blanksy
 \end{Bsp}
 
 \begin{Bsp}
- Mit Hilfe von Flußdiagrammen definieren wir uns nun zwei weitere Turingmaschinen
+ Mit Hilfe von Flussdiagrammen definieren wir uns nun zwei weitere Turingmaschinen.
   \begin{itemize}
-  \item Rechtsmaschine $\M_R$
+  \item Rechtsmaschine $\M_R$:
   
-  Geht für beliebigen Bandinhalt nach rechts bis ein Blanksymbol erreicht ist und hält dann.
+  Geht für beliebigen Bandinhalt nach rechts, bis ein Blanksymbol erreicht ist, und hält dann.
+  Es wird mindestens ein Schritt gemacht.
   
   \begin{tikzpicture}
    \node (0) at (0,0) {$\M_r$};
@@ -527,9 +528,10 @@ Voraussetzung ist dass alle TMs das gleiche Bandalphabet und das gleiche Blanksy
   \end{tikzpicture}
 
   
-  \item Linksmaschine $\M_L$
+  \item Linksmaschine $\M_L$:
   
-  Geht für beliebigen Bandinhalt nach links bis ein Blanksymbol erreicht ist und hält dann.
+  Geht für beliebigen Bandinhalt nach links, bis ein Blanksymbol erreicht ist, und hält dann.
+  Es wird mindestens ein Schritt gemacht.
 
   \begin{tikzpicture}
    \node (0) at (0,0) {$\M_l$};
@@ -537,59 +539,63 @@ Voraussetzung ist dass alle TMs das gleiche Bandalphabet und das gleiche Blanksy
    \draw[->] (init) to (0);
    \draw[->,loop right] (0) to node {$\Gamma\backslash\{\blank\}$} (0);
   \end{tikzpicture}
+  \qedhere
  \end{itemize}
 \end{Bsp}
 
-Wir definieren das Flußdiagram und nun formal wie folgt.
+Wir definieren das Flussdiagramm nun formal wie folgt.
 
 
-\begin{Def}%[Flußdiagram]
+\begin{Def}%[Flussdiagram]
 \draftnote{12.01.2018}
-Ein \emph{Flußdiagram} ist ein 7-Tupel $G=(\Sigma, \Gamma, \blank,V,E,v_0,L_V,L_E)$, dabei ist
+Ein \emph{Flussdiagramm} ist ein 7-Tupel $G=(\Sigma, \Gamma, \blank,V,E,v^\mathsf{init},L_V,L_E)$.
+Dabei ist
 \begin{itemize}
- \item $\Sigma$ ein Alphabet das wir \emph{Eingabealphabet} nennen,
- \item $\Gamma\supsetneq \Sigma$ ein Alphabet das wir \emph{gemeinsames Bandalphabet} nennen,
- \item $\blank\in \Gamma$ ein Zeichen, das wir \emph{gemeinsames Blanksymbol} nennen,
+ \item $\Sigma$ ein Alphabet, das wir \emph{Eingabealphabet} nennen,
+ \item $\Gamma\supsetneq \Sigma$ ein Alphabet, das wir \emph{gemeinsames Bandalphabet} nennen,
+ \item $\blank\in \Gamma\setminus\Sigma$ ein Zeichen, das wir \emph{gemeinsames Blanksymbol} nennen,
  \item $(V,E)$ ein gerichteter Graph,
- \item $v^\mathsf{init}\in V$ ein Knoten den wir \emph{Startknoten} nennen,
- \item $L_V$ eine Abbildung, die jedem Knoten eine Turingmaschine zuordnet und
- \item $L_E$ eine Abbildung, die jeder Kante $(v,v')\in E$ eine Teilmenge des Alphabets zuordnet.
+ \item $v^\mathsf{init}\in V$ ein Knoten, den wir \emph{Startknoten} nennen,
+ \item $L_V$ eine Abbildung, die jedem Knoten $v \in V$ eine Turingmaschine zuordnet und
+ \item $L_E: E \to \Powerset(\Gamma)$ eine Abbildung, die jeder Kante $(v,v')\in E$ eine Teilmenge des Bandalphabets zuordnet.
+ \qedhere
 \end{itemize}
 \end{Def}
 
 
 Notation: Bis zum Ende des Kapitels schreiben wir
-$\M_v=\left(\Sigma,Q_v,\Gamma_v,\delta,\qinit,\blank,F_v\right)$
-für die Turingmaschine $L_V(v)$, also die Turingmaschine die dem Knoten $v$ zugeordnet ist.
+$\M_v=\left(\Sigma,Q_v,\Gamma,\delta_v,\qinit_v,\blank,F_v\right)$
+für die Turingmaschine $L_V(v)$, also die Turingmaschine, die dem Knoten $v$ zugeordnet ist.
 
-\begin{Def}%[Flußdiagram]
-Die von einem Flußdiagram $G=(\Sigma, \Gamma, \blank,V,E,v^\mathsf{init},L_V,L_E)$ definierte Turingmaschine ist 
-$\M=\left(\Sigma,Q,\Gamma,\delta,\qinit,\blank,F\right)$ wobei
+\begin{Def}%[Flussdiagram]
+Die von einem Flussdiagramm $G=(\Sigma, \Gamma, \blank,V,E,v^\mathsf{init},L_V,L_E)$ definierte Turingmaschine ist 
+$\M=\left(\Sigma,Q,\Gamma,\delta,\qinit,\blank,F\right)$, wobei
 \begin{itemize}
- \item $Q=\overset{.}{\bigcup\limits_{v\in V}} Q_v$ \footnote{Um eine disjunkte Vereinigung zu erreichen müssen wir also ggf. Zustände umbenennen.}
+ \item $Q=\overset{.}{\bigcup\limits_{v\in V}} Q_v$~~\footnote{Um eine disjunkte Vereinigung zu erreichen, müssen wir ggf.\ Zustände umbenennen.}
  \item $\qinit = \qinit_{v^\mathsf{init}}$
  \item $\delta(q,x) = 
  \begin{cases}
- (q',x',d) & \text{ falls } q\in Q_v \text{ und } (q',x',d)\in\delta_v(q,x)\\
- (q'',x,N) & \text{ falls } q\in Q_v \text{ und } 
+ \{(q',x',d)\} & \text{ falls } q\in Q_v \text{ und } (q',x',d)\in\delta_v(q,x)\\[4mm]
+ \{(q'',x,N)\} & \text{ falls } q\in Q_v \text{ und } 
       \begin{array}{l}
-       \delta_v(q,x)=\{\}\\
-       (v,v')\in E\\
-       x\in L_E((v,v'))\\
-       q''=\qinit_{{v'}^\mathsf{init}}\\
+       \delta_v(q,x)=\{\},\\
+       (v,v')\in E,\\
+       x\in L_E((v,v')),\\
+       q''=\qinit_{{v'}}
       \end{array}\\
  \{\} & \text{ sonst }\\
  \end{cases}$
- \item $F=\overset{.}{\bigcup\limits_{v\in V}} F_v$ \qedhere
+ \item $F=\overset{.}{\bigcup\limits_{v\in V}} F_v$.
+ \qedhere
 \end{itemize}
 \end{Def}
 
-Konvention: Analog zu Startzuständen von endlichen Automaten verwenden wir eingehende Pfeile um den Startknoten eines Flußdiagrams zu Kennzeichnen.
+Konvention: Analog zu Startzuständen von endlichen Automaten verwenden wir einen eingehenden Pfeil, um den Startknoten eines Flussdiagramms zu kennzeichnen.
 
 \begin{Bsp}
-Wir wollen nun eine TM konstruieren, die die wie folgt definierte Subtraktion von natürlichen Zahlen implementiert.
+Wir wollen eine \ac{TM} konstruieren, welche die wie folgt definierte Subtraktion von natürlichen Zahlen implementiert.
 % 
-% mit Hilfe eines Flußdiagrams eine .
+% mit Hilfe eines Flussdiagramms eine .
 % 
 $$
 f: \N\times\N\rightarrow \N
@@ -601,13 +607,14 @@ f(x,y)=
 \end{cases}
 $$
 
-Wir nehmen dabei eine auf Strichsymbolen basierende Unärcodierung für die Operanden
-und nehmen an dass das Zeichen $\#$ verwendet wird um die Operanden $x$ und $y$ in der Eingabe zu trennen.
+Wir verwenden dabei eine auf Strichsymbolen basierende Unärcodierung für die Operanden
+und nehmen an, dass das Zeichen $\#$ verwendet wird, um die Operanden $x$ und $y$ in der Eingabe zu trennen.
 Wir haben also $\Sigma=\{I,\#\}$ und für Minuend $x$ und Subtrahend $y$ hat die Eingabe hat die folgende Form. 
-$$\underbrace{I\ldots I}_{x\text{-mal}}\#\underbrace{I\ldots I}_{y\text{-mal}}$$
+$$\underbrace{I\ldots I}_{x\text{ Mal}}\#\underbrace{I\ldots I}_{y\text{ Mal}}$$
 
 
-Idee: Lösche für jeden $y$ Strich einen $x$ Strich. Lösche falls nötig (Fall $y>x$) verbleibendene $y$-Striche. Lösche anschließend das $\#$ Zeichen.
+Idee: Lösche für jeden $y$-Strich einen $x$-Strich.
+Lösche falls nötig (Fall $y>x$) verbleibende $y$-Striche. Lösche anschließend das Trennzeichen~$\#$.
 Wir verwenden die übliche Notation für das Blanksymbol, 
 benötigen keine weiteren Zeichen für unsere Berechnung und verwenden daher das Bandalphabet $\Gamma:=\Sigma\cup\{\mblank\}$.
 
@@ -640,8 +647,8 @@ benötigen keine weiteren Zeichen für unsere Berechnung und verwenden daher das
   \end{tikzpicture}
   
   Die obere Schleife beschreibt das simultane Enfernen von Strichen in $x$ und $y$.
-  Die erste Abzweigung nach unten wird genommen wenn der Fall $y=0$ eintritt.
-  Die untere Schleife wird ausgeführt wenn $y$ größer als $x$ war und dient dazu die verbleibenden Zeichen auf dem Band zu löschen 
+  Die erste Abzweigung nach unten wird genommen, wenn der Fall $y=0$ eintritt.
+  Die untere Schleife wird ausgeführt, wenn $y$ größer als $x$ war; sie dient dazu, die verbleibenden Zeichen auf dem Band zu löschen, 
   um die unärcodierte $0$ (also das leere Wort) zu erzeugen.
 \end{Bsp}
   
@@ -785,7 +792,7 @@ Das Bandalphabet der $k$-Spur Maschine sei dabei $\Gamma_\mathsf{sim}=\Gamma\ove
 	Falls eine Kopfbewegung den Rand auf Spur $2k+1$ überschreitet, dann schreibe ein weiteres $B$.
 	
 	Beim Rücklauf: Test auf Haltekonfiguration der $k$-Band \ac{TM}.\\
-	Falls ja, dann Sprung in Haltekonf. von $k$-Spur TM.
+	Falls ja, dann Sprung in Haltekonf. von $k$-Spur \ac{TM}.
 % 	
 % 	Weiter im Zustand Sim$(q')$.
 % 
