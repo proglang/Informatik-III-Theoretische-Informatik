@@ -33,16 +33,16 @@ TODO ganz kurze Einführung
 \begin{itemize}
  \item Weiteres Maschinenmodell
  \item Maximale Eskalation alles was berechnet werden kann
- \item zahlen dafür hohen Preis: Nichttriviale Endlosschleifen
+ \item zahlen dafür hohen Preis: Nicht-triviale Endlosschleifen
  \item werden sehen: Entspricht Typ-0 Grammatiken
 \end{itemize}
 }
 
 \subsection{Turingmaschine \normalfont(informell)}
 
-Turingmaschine ist eine Erweiterung endlicher Automaten mit den folgenden Zusätzen.
+Die \acf{TM} ist eine Erweiterung des endlichen Automaten mit den folgenden Zusätzen.
 \begin{itemize}
- \item Die Eingabe steht auf einem Band das rechts und links der Eingabe unendlich viele Zellen hat.
+ \item Die Eingabe steht auf einem Band, das rechts und links der Eingabe unendlich viele Zellen hat.
  
  \begin{figure}[H]\centering
 	\begin{tikzpicture}[every node/.style={block}]
@@ -78,55 +78,58 @@ Turingmaschine ist eine Erweiterung endlicher Automaten mit den folgenden Zusät
 \end{figure}
  
  \item Der Kopf der Maschine kann nicht nur Zeichen lesen, sondern auch Zeichen schreiben.
- Der Kopf steht wie bei endlichen Automaten immer genau auf einer Zelle und liest in jedem Rechenschritt das Zeichen welches auf dieser Zelle geschrieben steht.
- Im Gegensatz zu endlichen Automaten kann der Kopf aber auch Zeichen schreiben und er tut dies in jedem Rechenschritt. 
+ Der Kopf steht wie bei endlichen Automaten immer auf genau einer Zelle und liest in jedem Rechenschritt das Zeichen, welches auf dieser Zelle geschrieben steht.
+ Im Gegensatz zu endlichen Automaten kann der Kopf aber auch Zeichen schreiben; er tut dies in jedem Rechenschritt.
  Dabei wird das aktuelle Zeichen der Zelle durch ein neues Zeichen ersetzt.
  Neues und altes Zeichen dürfen aber auch identisch sein.
  \item Wir haben nicht nur ein Eingabealphabet $\Sigma$, sondern auch ein Bandalphabet $\Gamma$.
- Jedes Zelle des Bandes ist mit einem Zeichen des Bandalphabets beschriftet.
- Wir haben in unserem Bandalphabet ein spezielles Zeichen $\blank\in\Gamma$ das wir Blank nennen und welches ein Feld als ,,leer'' markiert.
- Zu beginn sind alle Zellen auf denen keine Eingabe steht mit den Blank Zeichen beschriftet.
+ Jede Zelle des Bands ist mit einem Zeichen des Bandalphabets beschriftet.
+ Wir haben in unserem Bandalphabet ein spezielles Zeichen $\blank\in\Gamma$, das wir \emph{Blank} nennen und welches ein Feld als ,,leer'' markiert.
+ Zu Beginn sind alle Zellen, auf denen keine Eingabe steht, mit einem Blank-Zeichen beschriftet.
  \item Der Kopf der Maschine kann nicht nur nach rechts bewegt werden, er darf auch nach links bewegt werden oder seine Position beibehalten.
 \end{itemize}
 
- Wie bei endlichen Automaten steht der Kopf zu Beginn auf dem ersten (am weitesten Links stehenden) Zeichen der Eingabe.
+ Wie bei endlichen Automaten steht der Kopf zu Beginn auf dem ersten (am weitesten links stehenden) Zeichen der Eingabe.
  
  \smallskip
  
- Wir geben die Transitionsfunktion einer Turingmaschine mit Hilfe einer Tabelle, der sogenannten Turingtabelle an.
+ Wir geben die Transitionsfunktion einer Turingmaschine mit Hilfe einer Tabelle, der sogenannten \emph{Turingtabelle} an.
  
  \begin{tabu}{>{\bfseries}X[.27]X[.62]}
 % 	Turingtabelle\newline\normalfont
-	\begin{tabular}{|*5{c|}}
-		q & a & q' & a' & r \\\hline
+	\begin{tabular}[t]{|*5{c|}}
+		$q$ & $a$ & $q'$ & $a'$ & $d$ \\\hline
 		&&&&\\
 		&&&&
 	\end{tabular}
-	& 	Die Bedeutung eines Tabelleneintrages ist dabei: Wenn \ac{TM} in Zustand $q$ und Kopf liest
-        gerade Symbol $a\in\Gamma$ dann wechsle in Zustand $q'$,
+	& 	Die Bedeutung eines Tabelleneintrags ist dabei: Wenn die \ac{TM} in Zustand $q$ ist und der Kopf liest
+        gerade das Symbol $a\in\Gamma$, dann wechsle in den Zustand $q'$,
         schreibe $a'$ (über altes $a$) und bewege den Kopf gemäß
-        $d\in\{L,R,N\}$ 
+        $d\in\{L,R,N\}$ .
 \end{tabu}\
 
-Eine Turingmaschine arbeitet schrittweise und in jedem Rechnschritt wir eine Zeile der Turingtabelle angewendet.
-Bei nichtdeterministischen Turingmaschinen kann es Situationen geben bei denen mehrere Einträge der Turingtabelle angewendet werden können,
+Eine Turingmaschine arbeitet schrittweise.
+In jedem Rechenschritt wird eine Zeile der Turingtabelle angewendet.
+Bei nichtdeterministischen Turingmaschinen kann es Situationen geben, bei denen mehrere Zeilen der Turingtabelle angewendet werden können,
 bei deterministischen Turingmaschinen kann immer höchstes ein Tabelleneintrag angewendet werden.
-In beiden Fällen (deterministisch/nichtdeterministisch) darf es auch den Fall geben dass ein Eintrag angewendet werden kann,
-in solch einem Fall hält die Turingmaschine an.
-Nachdem die Turingmaschine angehalten hat, prüfen wir ob der aktuelle Zustand ein akzeptierender Zustand ist. Falls ja wird die Eingabe akzeptiert, falls nein wird die Eingabe verworfen.
+In beiden Fällen (deterministisch/nichtdeterministisch) darf es auch den Fall geben, dass \emph{keine} Zeile angewendet werden kann.
+In solch einem Fall hält die Turingmaschine an.
+Nachdem die Turingmaschine angehalten hat, prüfen wir, ob der aktuelle Zustand ein akzeptierender Zustand ist.
+Falls ja, wird die Eingabe akzeptiert, falls nein, wird die Eingabe verworfen.
 
-Wurde eine Eingabe nicht akzeptiert kann dies also zwei Ursachen haben
+Wurde eine Eingabe nicht akzeptiert, kann dies also zwei Ursachen haben:
 \begin{enumerate}
- \item die Turingmaschine war nach dem Anhalten nicht in einem akzeptierenden Zustand
- \item die Turingmaschine hat niemals angehalten.
+ \item Die Turingmaschine war nach dem Anhalten nicht in einem akzeptierenden Zustand.
+ \item Die Turingmaschine hat niemals angehalten.
 \end{enumerate}
 
-Wir werden deterministische Turingmaschinen nur verwenden um Sprachen zu definieren, sondern auch um (partielle) Funktionen vom Typ $\Sigma^*\rightarrow\Sigma^*$ zu definieren.
-Das Funktionsargument ist dabei das was zu Beginn auf dem Band steht, das Resultat das was am Ende auf dem Band steht (ohne den Teil links des Kopfes).
-Um Sicherzustellen dass die Resultate Element von $\Sigma^*$ sind projezieren wir den Bandinhalt nach dem Halten auf $\Sigma$.
+Wir werden deterministische Turingmaschinen nicht nur verwenden, um \emph{Sprachen} zu definieren (Akzeptanz), sondern auch um (\emph{partielle}) \emph{Funktionen} vom Typ $\Sigma^*\rightarrow\Sigma^*$ zu definieren.
+Das Funktionsargument ist dabei das Wort, welches zu Beginn auf dem Band steht.
+Das Resultat ist das Wort, welches am Ende auf dem Band steht (ohne den Teil links des Kopfs);
+um sicherzustellen, dass das Resultat ein Element von $\Sigma^*$ ist, projizieren wir den Inhalt jeder Zelle nach dem Halten auf $\Sigma$.
 
-Da die Maschine in endlich vielen Schritten nur endlich viele Zeichen schreiben kann ist klar dass das Resultat nach dem Halten ein endliches Wort ist.
-Hält die Maschine nicht ist der Funktionswert für die entsprechende Eingabe undefiniert.
+Da die Maschine in endlich vielen Schritten nur endlich viele Zeichen schreiben kann, ist klar, dass das Resultat nach dem Halten ein endliches Wort ist.
+Hält die Maschine nicht, ist der Funktionswert für die entsprechende Eingabe undefiniert (daher beschreiben Turingmaschinen im Allgemeinen nur \emph{partielle} Funktionen).
 
 
 
@@ -168,10 +171,13 @@ Hält die Maschine nicht ist der Funktionswert für die entsprechende Eingabe un
 \goodbreak
 
 \begin{samepage}
-	\begin{Bsp*}\ 
-		\vspace{-2em}
-		\begin{figure}[H]
-                   \begin{center}
+	\begin{Bsp*}%\
+% 		\vspace{-2em}
+% 		\begin{figure}[H]
+	Aufgabe: Verschiebe das erste Zeichen ans Ende der Eingabe. \\
+	%
+	Dafür benutzen wir für jedes Symbol $x$ im Eingabealphabet einen eigenen Zustand $q_x$.
+  \begin{center}
 			\begin{tikzpicture}[every node/.style={block}]
 				\node (1) {\blank};
 				\node (2) [right=of 1] {\blank};
@@ -206,9 +212,7 @@ Hält die Maschine nicht ist der Funktionswert für die entsprechende Eingabe un
                           \end{array}
                         \end{displaymath}
                         \end{center}
-			\caption{Bsp.: Turingmaschine---Füge das erste
-                        Zeichen am Ende der Eingabe an}
-		\end{figure}
+% 		\end{figure}
 	\end{Bsp*}
 \end{samepage}
 %
@@ -293,7 +297,7 @@ Hält die Maschine nicht ist der Funktionswert für die entsprechende Eingabe un
 
 {
 \color{red}
-Sie finden zwei weitere Beispiele für Turingmaschinen in den Folien die auf der Vorlesungswebsite verlinkt sind.
+Sie finden zwei weitere Beispiele für Turingmaschinen in den Folien, die auf der Vorlesungswebseite verlinkt sind.
 
 \url{https://swt.informatik.uni-freiburg.de/teaching/WS2017-18/info3}
 }
@@ -330,7 +334,7 @@ Die Konfiguration einer Turingmaschine wird durch drei Dinge beschrieben:
 \end{enumerate}
 Die scheinbar ``natürlichste'' Beschreibung der Konfiguration wäre also ein Tripel aus
 $Q\times(\mathbb{Z}\rightarrow\Gamma)\times\mathbb{Z}$.
-Dies würde aber erfordern dass wir jeder Zelle des Bandes mit einer ganzen Zahl identifizieren
+Dies würde aber erfordern dass wir jeder Zelle des Bands mit einer ganzen Zahl identifizieren
 und wir müssten uns eine endliche Repräsentation für die Abbildung $\mathbb{Z}\rightarrow\Gamma$ überlegen.
 Wir verwenden statt dessen den folgenden ``Trick'' und beschreiben eine Konfiguration durch ein Tripel $(v,q,w)$.
 Dabei beschreibt
@@ -468,7 +472,7 @@ für die $\M$ angesetzt auf $w$ terminiert.
 \subsection{\ac{TM} Programmierung mit Hilfe von Flußdiagrammen}
 \datenote{10.01.2018}
 % 
-Auch für einfache Turingmaschinen können die Turingtafeln sehr groß werden.
+Auch für einfache Turingmaschinen können die Turingtabellen sehr groß werden.
 Wir führen deshalb einen Formalismus ein, der uns erlaubt mehrere kleine Turingmaschinen zu einer Großen zusammenzubauen.
 
 Idee: Wir nehmen einen gerichteten Graphen und beschriften dessen Knoten mit Turingmaschinen und dessen Kanten mit einer Teilmenge des Bandalphabets.
