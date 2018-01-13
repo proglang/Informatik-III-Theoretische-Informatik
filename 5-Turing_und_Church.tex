@@ -575,12 +575,11 @@ $\M=\left(\Sigma,Q,\Gamma,\delta,\qinit,\blank,F\right)$, wobei
  \item $\qinit = \qinit_{v^\mathsf{init}}$
  \item $\delta(q,x) = 
  \begin{cases}
- \{(q',x',d)\mid q\in Q_v,  (q',x',d)\in\delta_v(q,x)\} & \text{ falls } \delta_v(q,x)\neq\emptyset \\[4mm]
- \Big\{(q'',x,N)\mid \begin{array}{l}
+ \delta_v(q,x) & \text{falls } q\in Q_v \text{ und }  \delta_v(q,x)\neq\emptyset \\[4mm]
+ \left\{(q'',x,N) \,\middle|\, \begin{array}{@{}l@{\,}}
        q\in Q_v, (v,v')\in E,\\
        x\in L_E((v,v')), q''=\qinit_{{v'}}
-      \end{array}\Big\} & \text{ sonst }\\
-      \\
+      \end{array}\right\} & \text{sonst }
  \end{cases}$
  \item $F=\overset{.}{\bigcup\limits_{v\in V}} F_v$.
  \qedhere
