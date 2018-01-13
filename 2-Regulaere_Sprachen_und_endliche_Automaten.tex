@@ -2201,8 +2201,8 @@ Wir leiten nun ein Gleichungssystem zwischen den Sprachen $L_{q_i}$ her.
         & =  \{ \Eps \mid q_i \in F \} \cup \bigcup_{j = 0}^{n} \underbrace{\{a \in \Sigma \mid \delta(q_i, a) = q_j\}}_{A_{ij} \not \ni \Eps} L_{q_j}
     \end{align*}
     Diese Gleichungen lassen sich analog als Gleichungen von regulären Ausdrücken $r_i$ formulieren:
-    \begin{align*}
-      r_i &= N(q_i) + \sum_{j = 0}^n R_{ij} r_j
+    \begin{align*}\label{eq:constraintsForRegex}
+      r_i &= N(q_i) + \sum_{j = 0}^n R_{ij} r_j \tag{RegExGlSys}
     \end{align*}
     wobei $\llbracket r_i \rrbracket = L_{q_i}$ und $R_{ij } = \sum \{a \in \Sigma \mid \delta(q_i, a) = q_j\}$ mit $\Eps \not \in \llbracket R_{ij} \rrbracket$ und
     \begin{displaymath}
@@ -2300,7 +2300,7 @@ Wir haben nun alle Hilfsmittel, um den Beweis für die fehlende Richtung zu füh
 \begin{proof}[Kleene, \=>]
   Sei $\A=(\Sigma,{Q},\delta,\qinit,F)$ der oben diskutierte \acs*{DEA} mit $Q = \{q_0,q_1,\dots,q_n\}$ und $\qinit=q_0$, für dessen Sprache wir einen regulären Ausdruck konstruieren möchten.
   
-  Mit Hilfe von Ardens Lemma (und weiteren Rechenregeln für Sprachen) können wir nun das Gleichungssystem (TODO refer to) iterativ lösen.
+  Mit Hilfe von Ardens Lemma (und weiteren Rechenregeln für Sprachen) können wir nun das Gleichungssystem (\ref{eq:constraintsForRegex}) iterativ lösen.
     Wir beginnen mit Gleichung $r_n$:
     \begin{align*}
       r_n &= N(q_n) + \sum_{j = 0}^n R_{nj} r_j \\
