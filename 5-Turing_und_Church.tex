@@ -77,7 +77,7 @@ Die \acf{TM} ist eine Erweiterung des endlichen Automaten mit den folgenden Zus�
 % 	\framebox{q} = Zustand
 \end{figure}
  
- \item Der Kopf der Maschine kann nicht nur Zeichen lesen, sondern auch Zeichen schreiben.
+ \item Der Kopf der \ac{TM} kann nicht nur Zeichen lesen, sondern auch Zeichen schreiben.
  Der Kopf steht wie bei endlichen Automaten immer auf genau einer Zelle und liest in jedem Rechenschritt das Zeichen, welches auf dieser Zelle geschrieben steht.
  Im Gegensatz zu endlichen Automaten kann der Kopf aber auch Zeichen schreiben; er tut dies in jedem Rechenschritt.
  Dabei wird das aktuelle Zeichen der Zelle durch ein neues Zeichen ersetzt.
@@ -86,7 +86,7 @@ Die \acf{TM} ist eine Erweiterung des endlichen Automaten mit den folgenden Zus�
  Jede Zelle des Bands ist mit einem Zeichen des Bandalphabets beschriftet.
  Wir haben in unserem Bandalphabet ein spezielles Zeichen $\blank\in\Gamma$, das wir \emph{Blank} nennen und welches ein Feld als "`leer"' markiert.
  Zu Beginn sind alle Zellen, auf denen keine Eingabe steht, mit einem Blank-Zeichen beschriftet.
- \item Der Kopf der Maschine kann nicht nur nach rechts bewegt werden, er darf auch nach links bewegt werden oder seine Position beibehalten.
+ \item Der Kopf der \ac{TM} kann nicht nur nach rechts bewegt werden, er darf auch nach links bewegt werden oder seine Position beibehalten.
 \end{itemize}
 
  Wie bei endlichen Automaten steht der Kopf zu Beginn auf dem ersten (am weitesten links stehenden) Zeichen der Eingabe.
@@ -128,8 +128,8 @@ Das Funktionsargument ist dabei das Wort, welches zu Beginn auf dem Band steht.
 Das Resultat ist das Wort, welches am Ende auf dem Band steht (ohne den Teil links des Kopfs);
 um sicherzustellen, dass das Resultat ein Element von $\Sigma^*$ ist, projizieren wir den Inhalt jeder Zelle nach dem Halten auf $\Sigma$.
 
-Da die Maschine in endlich vielen Schritten nur endlich viele Zeichen schreiben kann, ist klar, dass das Resultat nach dem Halten ein endliches Wort ist.
-Hält die Maschine nicht, ist der Funktionswert für die entsprechende Eingabe undefiniert (daher beschreiben Turingmaschinen im Allgemeinen nur \emph{partielle} Funktionen).
+Da die \ac{TM} in endlich vielen Schritten nur endlich viele Zeichen schreiben kann, ist klar, dass das Resultat nach dem Halten ein endliches Wort ist.
+Hält die \ac{TM} nicht, ist der Funktionswert für die entsprechende Eingabe undefiniert (daher beschreiben Turingmaschinen im Allgemeinen nur \emph{partielle} Funktionen).
 
 
 
@@ -547,7 +547,7 @@ Wir definieren das Flussdiagramm nun formal wie folgt.
 
 
 \begin{Def}%[Flussdiagram]
-\draftnote{12.01.2018}
+\datenote{12.01.2018}
 Ein \emph{Flussdiagramm} ist ein 7-Tupel $G=(\Sigma, \Gamma, \blank,V,E,v^\mathsf{init},L_V,L_E)$.
 Dabei ist
 \begin{itemize}
@@ -618,6 +618,7 @@ Lösche falls nötig (Fall $y>x$) verbleibende $y$-Striche. Lösche anschließen
 Wir verwenden die übliche Notation für das Blanksymbol, 
 benötigen keine weiteren Zeichen für unsere Berechnung und verwenden daher das Bandalphabet $\Gamma:=\Sigma\cup\{\mblank\}$.
 
+  \begin{center}
   \begin{tikzpicture}
    \node (0) at (0,0) {$\M_R$};
    \node (init) at (-1.1,.2) {};
@@ -630,7 +631,7 @@ benötigen keine weiteren Zeichen für unsere Berechnung und verwenden daher das
    \node[below= of 4] (6) {$\D_\mblank$};
    \node[right= of 6] (7) {$\M_r$};
    \node[below= of 1] (9) {$\D_\mblank$};
-   \node[below= of 9] (10) {$\M_L$};
+   \node[right= of 9] (10) {$\M_L$};
    
    \draw[->] (init) to (0);
    \draw[->] (0) to node[auto] {$\Gamma$} (1);
@@ -638,13 +639,14 @@ benötigen keine weiteren Zeichen für unsere Berechnung und verwenden daher das
    \draw[->] (2) to node[auto] {$\Gamma$} (3);
    \draw[->] (3) to node[auto] {$\Gamma$} (4);
    \draw[->] (4) to node[auto] {$\{I\}$} (5);
-   \draw[->, in=90, out=90] (5) to node[auto] {$\Gamma$} (0);
+   \draw[->, in=90, out=90, looseness=0.4] (5) to node[auto] {$\Gamma$} (0);
    \draw[->] (4) to node[auto] {$\{\#\}$} (6);
    \draw[->] (6) to node[auto] {$\Gamma$} (7);
-   \draw[->, in=-90, out=-90] (7) to node[auto] {$\{I\}$} (6);
+   \draw[->, in=-90, out=-90, looseness=0.6] (7) to node[auto] {$\{I\}$} (6);
    \draw[->] (1) to node[auto] {$\{\#\}$} (9);
    \draw[->] (9) to node[auto] {$\Gamma$} (10);
   \end{tikzpicture}
+  \end{center}
   
   Die obere Schleife beschreibt das simultane Entfernen von Strichen in $x$ und $y$.
   Die erste Abzweigung nach unten wird genommen, wenn alle Striche von $y$ entfernt wurden -- also ursprünglich $y$ kleiner ($\leq$) als $x$ war.
@@ -654,13 +656,13 @@ benötigen keine weiteren Zeichen für unsere Berechnung und verwenden daher das
   
 \subsection{Varianten von \ac{TM}s}
 Es gibt sehr viele Varianten von Turingmaschinen.
-Diese sind äquivalent zu \autoref{def:4.tm} im Sinne dass sie nicht mehr Sprachen akzeptieren oder mehr Funktionen berechnen können.
-Je nach Anwendung können diese Varianten aber bequemer sein. Wir stellen in diesem Unterabschnitt zwei weitere Varianten vor.
+Diese sind äquivalent zu \autoref{def:4.tm} im Sinne, dass sie nicht mehr Sprachen akzeptieren oder mehr Funktionen berechnen können.
+Je nach Anwendung können diese Varianten aber bequemer sein. Wir stellen in diesem Abschnitt zwei solche Varianten vor.
 
 
 \subsubsection{Mehrspurmaschinen}
 
-Eine $k$-Spur \ac{TM} arbeitet wie eine Turingmaschine, das Band hat hier aber $k$ Spuren.
+Eine $k$-Spur-Turingmaschine arbeitet wie eine (gewöhnliche) \ac{TM}, aber das Band hat hier $k$ Spuren.
 Der Kopf liest und schreibt also immer einen $k$-Vektor von Zeichen.
 Die Transitionsfunktion hat den Typ $\delta: Q\times\Gamma^k\--> \Powerset(Q\times\Gamma^k\times\{R,L,N\})$.
 
@@ -680,74 +682,76 @@ Zum Ermitteln der Ausgabe betrachten wir auch nur die erste Spur.
 	\end{figure}
 
 	\begin{Bsp*}
-		Schulalg. für binäre Addition, Multiplikation
+		binäre Addition und Multiplikation nach der Schulmethode
 	\end{Bsp*}
 
 \begin{Bemerkung}
-Eine $k$-Spur \ac{TM} kann von einer (gewöhnlichen) \ac{TM} simuliert werden.
+Eine $k$-Spur-\ac{TM} kann von einer (gewöhnlichen) \ac{TM} simuliert werden.
 
 \medskip
 
-Idee: Verwende Bandalphabet $\Gamma_\mathsf{sim} = \Sigma \overset{.}{\cup} (\Gamma^k\times\{\blank, B, A\})\text{ mit } \blank_\mathsf{sim}=\blank^{k+1}$
+Idee: Verwende Bandalphabet $\Gamma_\mathsf{sim} = \Sigma \overset{.}{\cup} (\Gamma^k\times\{\blank, B, A\})\text{ und Blanksymbol } \blank_\mathsf{sim}=\blank^{k+1}$.
+Hierbei steht $B$ für "`besucht"' und $A$ für "`Ausgabe"'.
 
 \begin{enumerate}
- \item Konvertieren der Eingabe
+ \item Konvertieren der Eingabe:
  
- Laufe ein mal über die Eingabe und ersetze $a\in\Sigma$ durch $\left(\begin{array}{c}a\\ \mblank\\ \vdots\\ \mblank\end{array}\right)\in\Gamma_\mathsf{sim}$. 
- Bewege den Kopf zurück in die Ausgangsposition (also eine Zelle rechts des ersten Blank auf der linken Seite).
+ Laufe einmal über die Eingabe und ersetze $a\in\Sigma$ durch $\left(\begin{array}{c}a\\ \mblank\\ \vdots\\ \mblank\end{array}\right)\in\Gamma_\mathsf{sim}$.
+ Bewege den Kopf zurück in die Ausgangsposition (also die am weitesten links liegende Zelle, die verschieden von $\blank_\mathsf{sim}$ ist).
  
- \item Eins zu eins Simulation
+ \item Simulation:
  
- Exaktes Nachahmen jedes Rechenschrittes der $k$-Spur Maschine bis diese anhält.
- Schreibe dabei als $k+1$'te Komponente des Tupels immer ein $B$.
+ Exaktes Nachahmen jedes Rechenschritts der $k$-Spur-\ac{TM}, bis diese anhält.
+ Schreibe dabei als $k+1$-te Komponente des Tupels immer ein $B$.
  
- \item Konvertieren der Ausgabe
+ \item Konvertieren der Ausgabe:
  
- Idee: Ersetze jedes $\left(\begin{array}{c}a_1\\ \vdots\\ a_k\\ x\end{array}\right)\in\Gamma_\mathsf{sim}$ durch $a_1$ falls $a_1\in\Sigma$ und durch 
- $\left(\begin{array}{c}\mblank \\ \mblank\\ \vdots\\ A\end{array}\right)$ sonst.
+ Idee: Ersetze jedes $\left(\begin{array}{c}a_1\\ \vdots\\ a_k\\ x\end{array}\right)\in\Gamma_\mathsf{sim}$ durch $a_1$, falls $a_1\in\Sigma$, und sonst durch
+ $\left(\begin{array}{c}\mblank \\ \mblank\\ \vdots\\ A\end{array}\right)$.
  (Zur Ausgabe gehören schließlich nur die Elemente aus $\Sigma$.)
  
  \begin{itemize}
-  \item Problem 1: Woher wissen wir wie weit wir nach rechts laufen müssen?
+  \item Problem 1: Woher wissen wir, wie weit wir nach rechts laufen müssen?
   
   Lösung: Wir achten auf die letzte Komponente des Tupels. 
-  Wir laufen so lange nach rechts wie dort ein B steht, denn alle diese Zellen haben wir mindestens ein mal besucht.
+  Wir laufen so lange nach rechts, wie dort ein B steht, denn alle diese Zellen haben wir mindestens einmal besucht.
   
-  \item Problem 2: Alles was links des Kopfs steht gehört nicht zur Ausgabe. 
-  Wie bekommen wir den Kopf wieder an die stelle wo er vor der Ausgabe war?
+  \item Problem 2: Alles was links des Kopfs steht, gehört nicht zur Ausgabe.
+  Wie bekommen wir den Kopf wieder an die Stelle, wo er vor dem Konvertieren der Ausgabe war?
   
-  Lösung: Wir laufen so lange nach links bis das erste Zeichen kommt das nicht aus $\Sigma$ ist und dessen letzte Komponente kein $A$ ist. 
+  Lösung: Wir laufen so lange nach links, bis das erste Zeichen kommt, das nicht aus $\Sigma$ ist und dessen letzte Komponente kein $A$ ist.
+ \qedhere
  \end{itemize}
 \end{enumerate}
-
 \end{Bemerkung}
+
 
 
 \subsubsection{Mehrbandmaschinen}
 
-Eine $k$-Band \ac{TM} hat $k$ Bänder die jeweils einen eigenen Kopf haben.
-In jedem Schritt wird jeder Kopf lesen, schreiben und sich Bewegen.
+Eine $k$-Band-\ac{TM} hat $k$ Bänder, die jeweils einen eigenen Kopf haben.
+In jedem Schritt wird jeder Kopf lesen, schreiben und sich bewegen.
 Dabei darf sich jeder Kopf in eine andere Richtung bewegen.
 
 Die Transitionsfunktion hat den Typ $\delta: Q\times\Gamma^k\--> \Powerset(Q\times\Gamma^k\times\{R,L,N\}^k)$.
 
 
 \begin{Bemerkung}
-Eine $k$-Band \ac{TM} $\M$ kann von einer $2k+1$ Spur \ac{TM} $\M_\mathsf{sim}$ simuliert werden.
+Eine $k$-Band-\ac{TM} $\M$ kann von einer $2k+1$-Spur-\ac{TM} $\M_\mathsf{sim}$ simuliert werden.
 
 \medskip
 
-Idee: Codiere die Konfiguration einer $k$-Band Maschine mit Hilfe von $2k$ Spuren.
-Simuliere einen Schritt der $k$-Band Maschine in vielen Schritten.
-Verwende dabei eine zusätzliche Spur um das bisher bearbeitete Band zu kennzeichnen.
-Zustand von $\M$ wird mit den Zustand von $\M_\mathsf{sim}$ eincodiert.
+Idee: Codiere die Konfiguration einer $k$-Band-\ac{TM} mit Hilfe von $2k$ Spuren.
+Simuliere einen Schritt der $k$-Band-\ac{TM} in mehreren Schritten.
+Verwende dabei eine zusätzliche Spur, um das bisher bearbeitete Band zu kennzeichnen.
+Der Zustand von $\M$ wird im Zustand von $\M_\mathsf{sim}$ codiert.
 
-Das Bandalphabet der $k$-Spur Maschine sei dabei $\Gamma_\mathsf{sim}=\Gamma\overset{.}{\cup}\{\#,B\}$.
+Das Bandalphabet der $k$-Spur-\ac{TM} sei dabei $\Gamma_\mathsf{sim}=\Gamma\overset{.}{\cup}\{\#,B\}$.
 
 		\begin{itemize}
 			\item Spur $2i-1$ simuliert Band $i$.
-			\item Spur $2i$ ist leer bis auf eine Marke \#, die Position des Kopfs auf Band $i$ markiert.
-			\item Spur $2k+1$ enthält das Zeichen $B$ an jeder Position die bereits bearbeitet wurde.\\
+			\item Spur $2i$ ist leer bis auf einen Marker \#, welcher die Position des Kopfs auf Band $i$ markiert.
+			\item Spur $2k+1$ enthält das Zeichen $B$ an jeder Position, die bereits bearbeitet wurde.
 		\end{itemize}
 		
 	\begin{tabular}{lll}
@@ -756,61 +760,63 @@ Das Bandalphabet der $k$-Spur Maschine sei dabei $\Gamma_\mathsf{sim}=\Gamma\ove
 		2 & \hspace{.23\linewidth}\# Kopf für Band 1\\
 		3 & \ruleplaceholder[ Band 2 ]{.5\linewidth}\\
 		4 & \multicolumn1r{\# Kopf 2\qquad\ }\\
-		& \vdots\\
+		& \hspace*{35mm} \vdots\\
 		$2k-1$ & \ruleplaceholder[ Band k ]{.5\linewidth}\\
-		$2k$ & \hspace{.09\linewidth}\dots\hspace{.09\linewidth} \# Kopf $k$\\
+		$2k$ & \hspace*{1cm} \# Kopf $k$\\
 		$2k+1$ & \ldots\ \blank\  \blank\  B\ B\ B\ B\ \ \ \ \ldots \ \ \ B\ B\ B\ B\ \blank\  \blank \ \ldots  \\
 		& \hspace{11mm} $\uparrow$ linker Rand \hspace{18mm} $\uparrow$ rechter Rand
 	\end{tabular}
 	
 	\begin{enumerate}
-	 \item Herstellen der Start-Konfiguration.
+	 \item Herstellen der Start-Konfiguration:
 	 
 	 \begin{itemize}
 	  \item Schreibe Kopfmarkierung (Zeichen \#) auf allen geraden Spuren und $B$ auf Spur $2k+1$.
 	  
 	  	\begin{tabular}{*2{M{l}}}
-		2k+1 & \blank B \blank\\
-		2k & \#\\
-		2k-1 & \blank\\
-		\vdots\\
-		4 & \#\\
-		3 & \blank\\
+		\text{Spur }1 & a_1a_2\dots a_n~~(= \text{Eingabe})\\
 		2 & \#\\
-		\text{Spur }1 & a_1a_2\dots a_2
+		3 & \blank\\
+		4 & \#\\
+		\vdots\\
+		2k-1 & \blank\\
+		2k & \#\\
+		2k+1 & \blank B \blank
 	\end{tabular} 
 	 \end{itemize}
 	 
-    \item Simuliere die einzelnen Rechenschritte von $\M$ wie folgt.\\
-	Der Kopf der Mehrbandmaschine startet jeweils beim linker Begrenzung, d.h. am weitesten links stehendes $B$ auf Spur $2k+1$
+    \item Simulation:
+
+	Der Kopf der Mehrspurmaschine startet jeweils bei der linken Begrenzung, also beim am weitesten links stehenden $B$ auf Spur $2k+1$.
 	\begin{itemize}
-		\item Durchlauf bis rechter Rand, sammle dabei Symbole unter den Köpfen, speichern in endl.\ Zustand $\overrightarrow{\gamma} \in \Gamma^k$
+		\item Laufe bis zum rechten Rand.
+		Sammle dabei die Symbole unter den Köpfen (markiert mit \#) und merke dir diese im Zustand (Vektorcodierung $\overrightarrow{\gamma} \in \Gamma^k$).
 		\item Berechne $\delta(q,\overrightarrow{\gamma})=(q',\overrightarrow{\gamma'},\overrightarrow{d})$\\
 		neuer Zustand, für jeden Kopf ein neues Symbol $\overrightarrow{\gamma'}$ und Richtung $\overrightarrow{d}$.
-		\item Rücklauf nach links, dabei Schreiben um $\overrightarrow{\gamma}'$ und Versetzen der Köpfe gemäß $\overrightarrow{d}$.
+		\item Laufe zurück nach links.
+		Schreibe dabei das jeweilige Zeichen $\overrightarrow{\gamma}'$ am entsprechenden Kopf und versetze diesen gemäß $\overrightarrow{d}$.
 	\end{itemize}
 	Falls eine Kopfbewegung den Rand auf Spur $2k+1$ überschreitet, dann schreibe ein weiteres $B$.
 	
-	Beim Rücklauf: Test auf Haltekonfiguration der $k$-Band \ac{TM}.\\
-	Falls ja, dann Sprung in Haltekonfiguration von $k$-Spur \ac{TM}.
+	Beim Rücklauf: Teste auf Haltekonfiguration der $k$-Band-\ac{TM}.
+	Falls ja, so springe in eine Haltekonfiguration der $k$-Spur-\ac{TM}.
 % 	
 % 	Weiter im Zustand Sim$(q')$.
-% 
+	\qedhere
 	\end{enumerate}
-
 \end{Bemerkung}
 
 
 \begin{Bemerkung}
-	Angenommen für ein Wort der Länge $n$ benötige die $k$-Band Maschine $\M\ T(n)$ Schritte und $S(n)$ Zellen auf den Bändern.
+	Angenommen, für ein Wort der Länge $n$ benötige die $k$-Band-\ac{TM} $\M\ T(n)$ Schritte und $S(n)$ Zellen auf den Bändern.
 	Dann benötigt $\M_\mathsf{sim}$ höchstens $O(S(n))$ Zellen und $O(S(n\cdot T(n)))=O(T(n)^2)$ Schritte.
 \end{Bemerkung}
 
 \subsection{Das Gesetz von Church-Turing (Churchsche These)} % 2.6
 \begin{Satz}[name={[Intuitiv berechenbare Funktionen sind mit \acs*{TM} berechenbar]}]
-	Jede intuitiv berechenbare Funktion ist mit \ac{TM} (in formalem Sinn) berechenbar.
+	Jede intuitiv berechenbare Funktion ist mit einer \ac{TM} (in formalem Sinn) berechenbar.
 	
-	"`Intuitiv berechenbar"' $\equiv$ man kann Algorithmus hinschreiben
+	"`Intuitiv berechenbar"' $\equiv$ man kann einen Algorithmus hinschreiben
 	\begin{itemize}
 		\item endliche Beschreibung
 		\item jeder Schritt effektiv durchführbar
@@ -819,7 +825,8 @@ Das Bandalphabet der $k$-Spur Maschine sei dabei $\Gamma_\mathsf{sim}=\Gamma\ove
 	Status wie Naturgesetz -- nicht beweisbar
 	\begin{itemize}[label=\->]
 		\item allgemein anerkannt
-		\item weitere Versuche Berechenbarkeit zu formulieren, äquivalent zu \ac{TM}en erwiesen.
+		\item Weitere Versuche um Berechenbarkeit zu formulieren haben sich als äquivalent zu einer \ac{TM} erwiesen.
+	\qedhere
 	\end{itemize}
 \end{Satz}
 
@@ -898,7 +905,7 @@ Verwende das Zeichen~$1$ um unärcodierte Zahlen zu trennen.
 Da die universelle Turingmaschine $\M_U$ recht komplex ist wollen wir diese hier nicht formal definieren sondern geben nur eine informelle Beschreibung der Arbeitsweise.
 
 
-Wie definiere $\M_U$ als 3-Band Maschine wobei die Bänder $B_1$, $B_2$ und $B_3$ wie folgt genutzt werden.
+Wie definiere $\M_U$ als 3-Band-\ac{TM} wobei die Bänder $B_1$, $B_2$ und $B_3$ wie folgt genutzt werden.
 \begin{itemize}
 \item[$B_1:$] Zu Beginn steht hier die Eingabe für $\M_U$.
 Nach der Initialisierung von $\M_U$ verwenden wir $B_1$ um das Band der Eingabeturingmaschine $\M$ nachzuahmen.
