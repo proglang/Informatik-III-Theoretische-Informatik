@@ -641,14 +641,14 @@ benötigen keine weiteren Zeichen für unsere Berechnung und verwenden daher das
    \draw[->, in=90, out=90] (5) to node[auto] {$\Gamma$} (0);
    \draw[->] (4) to node[auto] {$\{\#\}$} (6);
    \draw[->] (6) to node[auto] {$\Gamma$} (7);
-   \draw[->, in=-90, out=-90] (7) to node[auto] {$\Gamma$} (6);
+   \draw[->, in=-90, out=-90] (7) to node[auto] {$\{I\}$} (6);
    \draw[->] (1) to node[auto] {$\{\#\}$} (9);
    \draw[->] (9) to node[auto] {$\Gamma$} (10);
   \end{tikzpicture}
   
   Die obere Schleife beschreibt das simultane Entfernen von Strichen in $x$ und $y$.
-  Die erste Abzweigung nach unten wird genommen, wenn der Fall $y=0$ eintritt.
-  Die untere Schleife wird ausgeführt, wenn $y$ größer als $x$ war; sie dient dazu, die verbleibenden Zeichen auf dem Band zu löschen, 
+  Die erste Abzweigung nach unten wird genommen, wenn alle Striche von $y$ entfernt wurden -- also ursprünglich $y$ kleiner ($\leq$) als $x$ war.
+  Die untere Schleife wird ausgeführt, wenn $y$ echt größer als $x$ war; sie dient dazu, die verbleibenden Zeichen auf dem Band zu löschen,
   um die unärcodierte $0$ (also das leere Wort) zu erzeugen.
 \end{Bsp}
   
