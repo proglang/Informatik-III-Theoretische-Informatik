@@ -575,15 +575,12 @@ $\M=\left(\Sigma,Q,\Gamma,\delta,\qinit,\blank,F\right)$, wobei
  \item $\qinit = \qinit_{v^\mathsf{init}}$
  \item $\delta(q,x) = 
  \begin{cases}
- \{(q',x',d)\} & \text{ falls } q\in Q_v \text{ und } (q',x',d)\in\delta_v(q,x)\\[4mm]
- \{(q'',x,N)\} & \text{ falls } q\in Q_v \text{ und } 
-      \begin{array}{l}
-       \delta_v(q,x)=\{\},\\
-       (v,v')\in E,\\
-       x\in L_E((v,v')),\\
-       q''=\qinit_{{v'}}
-      \end{array}\\
- \{\} & \text{ sonst }\\
+ \{(q',x',d)\mid q\in Q_v,  (q',x',d)\in\delta_v(q,x)\} & \text{ falls } \delta_v(q,x)\neq\emptyset \\[4mm]
+ \Big\{(q'',x,N)\mid \begin{array}{l}
+       q\in Q_v, (v,v')\in E,\\
+       x\in L_E((v,v')), q''=\qinit_{{v'}}
+      \end{array}\Big\} & \text{ sonst }\\
+      \\
  \end{cases}$
  \item $F=\overset{.}{\bigcup\limits_{v\in V}} F_v$.
  \qedhere
@@ -766,7 +763,7 @@ Das Bandalphabet der $k$-Spur-\ac{TM} sei dabei $\Gamma_\mathsf{sim}=\Gamma\over
 		$2k+1$ & \ldots\ \blank\  \blank\  B\ B\ B\ B\ \ \ \ \ldots \ \ \ B\ B\ B\ B\ \blank\  \blank \ \ldots  \\
 		& \hspace{11mm} $\uparrow$ linker Rand \hspace{18mm} $\uparrow$ rechter Rand
 	\end{tabular}
-	
+\draftnote{17.01.2018}
 	\begin{enumerate}
 	 \item Herstellen der Start-Konfiguration:
 	 
