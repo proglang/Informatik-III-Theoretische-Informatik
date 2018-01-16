@@ -817,10 +817,10 @@ Die bisher betrachteten Turingmaschinen waren (ebenso wie endliche Automaten ode
 auf einen Einsatzzweck beschränkt und konnten nur eine bestimmte Sprache akzeptieren oder eine bestimmte Funktion berechnen.
 Dies entspricht nicht unserer Vorstellung eines Computers, denn dieser kann normalerweise beliebige Programme ausführen.
 
-In diesem Kapitel konstruieren wir nun eine \ac{TM} $\M_U$ die als Eingabe sowohl
+In diesem Kapitel konstruieren wir nun eine \ac{TM} $\M_U$, die als Eingabe sowohl
 eine Codierung $\godel{\M}$ einer beliebigen \ac{TM} $\M$ als auch deren Eingabe $w$ nimmt, sodass die folgenden drei Eigenschaften gelten.
 \begin{align}
-	\label{Mu-eq-lang} w\in L(\M) &\Leftrightarrow \godel{\M}\#w) \in L(\M_U)\\ 
+	\label{Mu-eq-lang} w\in L(\M) &\Leftrightarrow \godel{\M}\#w \in L(\M_U)\\
 	\label{Mu-eq-term} \text{$\M$ terminiert bei Eingabe $w$} &\Leftrightarrow \text{$\M_U$ terminiert bei Eingabe $\godel{\M}\#w$}\\
 	\label{Mu-eq-func} \text{$f_\M(w)$} &= \text{$f_{\M_U}(\godel{\M}\#w)$}
 \end{align}
@@ -834,76 +834,76 @@ Die Effizienz unserer Codierung ist uns dabei nicht wichtig und wir versuchen de
 
 Einige Vorüberlegungen
 \begin{itemize}
- \item Da $Q$ und $\Gamma$ endlich sind können wir jedem ihrer Elemente eine natürliche Zahl zuordnen.
- \item Wir müssen $\qinit$ und $\blank$ nicht explizit codieren, wir verwenden die Konvention, 
+ \item Da $Q$ und $\Gamma$ endlich sind, können wir jedem ihrer Elemente eine natürliche Zahl zuordnen.
+ \item Wir müssen $\qinit$ und $\blank$ nicht explizit codieren; wir verwenden die Konvention,
  dass $\qinit$ der Zustand mit der Nummer $1$ und $\blank$ das Zeichen mit der Nummer $1$ ist.
  \item Wir müssen $\Sigma$, $Q$ und $\Gamma$ nicht explizit in die Codierung mit aufnehmen.
- Für das Ausführen einer \ac{TM} sind nur die Elemente aus $\Sigma$, $Q$ und $\Gamma$ relevant die auch in der Transitionsfunktion $\delta$ vorkommen.
+ Für das Ausführen einer \ac{TM} sind nur die Elemente aus $\Sigma$, $Q$ und $\Gamma$ relevant, die auch in der Transitionsfunktion $\delta$ vorkommen.
 \end{itemize}
 
-Idee: Codiere Elemente aus $Q$ und $\Gamma$ unär mit Hilfe des Zeichen~$0$.
-Verwende das Zeichen~$1$ um unärcodierte Zahlen zu trennen.
+Idee: Codiere Elemente aus $Q$ und $\Gamma$ unär mit dem Zeichen~$0$.
+Verwende das Zeichen~$1$, um unärcodierte Zahlen zu trennen.
 
 \begin{itemize}
- \item Zustände
+ \item Zustände:
  
-    Seien $q_1,\dots, q_{n}$ die Elemente von $Q$ sodass $q_1=\qinit$ 
+    Seien $q_1,\dots, q_{n}$ die Elemente von $Q$, sodass $q_1=\qinit$.
     
-    Definiere $\godel{q_i}:=0^i$
+    Definiere $\godel{q_i}:=0^i$.
     
-  \item Menge der akzeptierenden Zustände
+  \item Menge der akzeptierenden Zustände:
   
-    Seien $q_{k_1},\dots, q_{k_n}$ die Elemente von $F$
+    Seien $q_{k_1},\dots, q_{k_n}$ die Elemente von $F$.
     
-    Definiere $\godel{F}:=\godel{q_{k_1}} 1 \ldots 1 \godel{q_{k_n}}$
+    Definiere $\godel{F}:=\godel{q_{k_1}} 1 \godel{q_{k_2}} 1 \ldots 1 \godel{q_{k_n}}$.
     
-  \item Bandalphabet
+  \item Bandalphabet:
   
-    Seien $a_1,\dots, a_{n}$ die Elemente von $\Gamma$ sodass $a_1=\blank$
+    Seien $a_1,\dots, a_{n}$ die Elemente von $\Gamma$, sodass $a_1=\blank$.
     
-    Definiere $\godel{a_j}:=0^j$
+    Definiere $\godel{a_j}:=0^j$.
     
-  \item Richtung (in die der Schreib-Lesekopf bewegt wird)
+  \item Richtung (in die der Schreib-Lesekopf bewegt wird):
   
     Definiere $\godel{L}:=0$, $\godel{N}:=00$ und $\godel{R}:=000$.
     
-  \item Transitionsfunktion
+  \item Transitionsfunktion:
   
-   Seien $(q_{t_1}, a_{t_1}, q_{t_1}', a_{t_1}', d_{t_1}),\dots (q_{t_n}, a_{t_n}, q_{t_n}', a_{t_n}', d_{t_n})$ die Elemente von $\delta$.
+   Seien $(q_{t_1}, a_{t_1}, q_{t_1}', a_{t_1}', d_{t_1}),\dots, (q_{t_n}, a_{t_n}, q_{t_n}', a_{t_n}', d_{t_n})$ die Elemente von $\delta$.
   
    Definiere 
    
-   $\godel{\delta}:= 11\godel{q_{t_1}}1\godel{a_{t_1}}1\godel{q_{t_1}'}1\godel{a_{t_1}'}1\godel{d_{t_1}}11\dots 11 \godel{q_{t_n}}1\godel{a_{t_n}}1\godel{q_{t_n}'}1 \godel{a_{t_n}'}1\godel{d_{t_n}}11$
+   $\godel{\delta}:= 11\godel{q_{t_1}}1\godel{a_{t_1}}1\godel{q_{t_1}'}1\godel{a_{t_1}'}1\godel{d_{t_1}}11\dots 11 \godel{q_{t_n}}1\godel{a_{t_n}}1\godel{q_{t_n}'}1 \godel{a_{t_n}'}1\godel{d_{t_n}}11$.
    
-   \item Turingmaschine
+   \item Turingmaschine:
    
    $\godel{\M}:=111\godel{\delta}111\godel{F}111$
 \end{itemize}
 
 
 \subsubsection{Arbeitsweise der universellen Turingmaschine}
-Da die universelle Turingmaschine $\M_U$ recht komplex ist wollen wir diese hier nicht formal definieren sondern geben nur eine informelle Beschreibung der Arbeitsweise.
+Da die universelle Turingmaschine $\M_U$ recht komplex ist, wollen wir diese hier nicht formal definieren, sondern geben nur eine informelle Beschreibung der Arbeitsweise an.
 
 
-Wie definiere $\M_U$ als 3-Band-\ac{TM} wobei die Bänder $B_1$, $B_2$ und $B_3$ wie folgt genutzt werden.
+Wie definiere $\M_U$ als 3-Band-\ac{TM}, wobei die Bänder $B_1$, $B_2$ und $B_3$ wie folgt genutzt werden.
 \begin{itemize}
 \item[$B_1:$] Zu Beginn steht hier die Eingabe für $\M_U$.
-Nach der Initialisierung von $\M_U$ verwenden wir $B_1$ um das Band der Eingabeturingmaschine $\M$ nachzuahmen.
-\item[$B_2:$] Speichere die Codierung der Eingabeturingmaschine $\ulcorner \M \urcorner$
-\item[$B_3:$] Speichere den aktuellen Zustand von $\M$ ($0^k$ für Zustand $q_k$)
+Nach der Initialisierung von $\M_U$ verwenden wir $B_1$, um das Band der Eingabeturingmaschine $\M$ nachzuahmen.
+\item[$B_2:$] Speichere die Codierung der Eingabeturingmaschine $\ulcorner \M \urcorner$.
+\item[$B_3:$] Speichere den aktuellen Zustand von $\M$ ($0^k$ für Zustand $q_k$).
 \end{itemize}
 
-Die universelle Turingmaschine $\M_U$ beginnt zunächst mit einer Initialisierung die aus den folgenden drei Schritten besteht.
+Die universelle Turingmaschine $\M_U$ beginnt zunächst mit einer Initialisierung, die aus den folgenden drei Schritten besteht.
 
 \begin{enumerate}
- \item Prüfe ob der erste Teil der Eingabe $\ulcorner \M \urcorner$ eine gültige Turingmaschine codiert.
+ \item Prüfe, ob der erste Teil der Eingabe $\ulcorner \M \urcorner$ eine gültige Turingmaschine codiert.
  
  Die Menge der gültigen Codierungen kann mit Hilfe einer kontextfreien Grammatik beschrieben werden (siehe Übungen).
  
  \item Verschiebe $\ulcorner \M \urcorner$ auf $B_2$. Schreibe dabei Blanksymbole auf die Bandzellen von $B_1$.
- Überschreibe anschließend das Symbol $\#$ das Eingabeturingmaschine und Eingabewort trennt durch ein Blanksymbole.
+ Überschreibe anschließend das Symbol $\#$, das die Eingabeturingmaschine und das Eingabewort trennt, durch ein Blanksymbol.
  
- \item Schreibe $0$ (also die Codierung des Startzustandes von $\M$) auf $B_3$.
+ \item Schreibe $0$ (also die Codierung des Startzustands von $\M$) auf $B_3$.
 \end{enumerate}
 
 Nach der Initialisierung ist $\M_U$ also in der folgenden Konfiguration.
@@ -916,20 +916,20 @@ Nach der Initialisierung ist $\M_U$ also in der folgenden Konfiguration.
 Nach der Initialisierung wird $\M_U$ das Verhalten von $\M$ nachahmen.
 Für jeden Schritt von $\M$ macht $\M_U$ dabei die folgenden Schritte.
 
- Suche ein Element $(q, a, q', a', d)$ der Transitionsfunktion $\delta$ von $\M$ das zum aktuellen Zustand $q$ und zum aktuellen Bandsymbol $a$ passt.
+ Suche ein Element $(q, a, q', a', d)$ der Transitionsfunktion $\delta$ von $\M$, das zum aktuellen Zustand $q$ und zum aktuellen Bandsymbol $a$ passt.
  
  Wir laufen hierfür einmal über das komplette Band $B_2$. 
- Zustände werden Zeichenweise mit dem Inhalt von $B_3$ verglichen.
+ Zustände werden zeichenweise mit dem Inhalt von $B_3$ verglichen.
  Die Zuordnung von Alphabetsymbolen $a$ zur Codierung $\godel{a}$ ist fest in $\M_U$ eingebaut.
  
  \begin{itemize}
  
  \item Falls solch ein Element der Transitionsfunktion existiert,
-    schreibe auf $B_1$ das Zeichen $a'$ und Bewege den Kopf wie durch $d$ definiert.
+    schreibe auf $B_1$ das Zeichen $a'$ und bewege den Kopf wie durch $d$ definiert.
     Ersetze außerdem die Codierung $\godel{q}$ auf $B_3$ durch $\godel{q'}$.
     Fahre anschließend mit dem Nachahmen des nächsten Schrittes von $\M$ fort.
     
- \item Falls kein solches Element der Transitionsfunktion existiert hat $\M$ eine Haltekonfiguration erreicht.
+ \item Falls kein solches Element der Transitionsfunktion existiert, hat $\M$ eine Haltekonfiguration erreicht.
  Wir vergleichen nun den aktuellen Zustand (auf $B_3$) mit den auf $B_2$ gespeicherten akzeptierenden Zuständen und akzeptieren oder verwerfen die Eingabe entsprechend.
 
 \end{itemize}
