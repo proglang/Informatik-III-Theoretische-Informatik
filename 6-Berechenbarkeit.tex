@@ -182,6 +182,30 @@ Angenommen bei $(k, k)$ steht ein Y, dann ist die Definition von Zeile $k$ verle
 
 \subsection{Sprachakzeptanz und Berechenbarkeit}
 
+\begin{Def}[name={[Akzeptanz, Entscheidbarkeit, Semi-Entscheidbarkeit]}]
+	Sei $M$ \ac{TM}.
+	\begin{itemize}
+	\item $M$  \emph{akzeptiert} $w\in\Sigma^*$, falls $q_0w
+          \vdash^* uq'v$ Haltekonfiguration und $q'\in F$
+	\item $M$ \emph{akzeptiert} $L\subseteq\Sigma^*$, falls $M$ akzeptiert $w \<-> w\in L$
+	\item $M$ \emph{entscheidet} $L\subseteq\Sigma^*$, falls $M$ akzeptiert $L$ und $M$ hält für jede Eingabe an.
+	\item $L\subseteq\Sigma^*$ ist \emph{semi-entscheidbar} (rekursiv aufzählbar), falls $\exists M$, die $L$ akzeptiert.
+	\item $L\subseteq\Sigma^*$ ist \emph{entscheidbar} (rekursiv), falls $\exists M$, die $L$ entscheidet.
+	\end{itemize}
+\end{Def}
+
+
+\begin{Satz}
+    Eine Sprache $L\subseteq\Sigma^*$ ist entscheidbar genau dann wenn die Funktion
+    $f:\Sigma\rightarrow\{0,1\}$ mit 
+    $$f(w)=\begin{cases}
+       1 & \text{falls } w\in L\\
+       0 & \text{sonst}
+      \end{cases}$$
+    berechenbar ist.
+\end{Satz}
+
+
 \begin{lemma}
 Die Menge der Wörter
 \end{lemma}
@@ -213,6 +237,7 @@ ist bijektiv.
  Nach ... wäre dann aber auch die Abbildung $functopower\circ f \circ\nattotm:\N\rightarrow\calP(\N)$ surjektiv.
  Dies steht im Wiederspruch zu ...
 \end{proof}
+
 
 
 \hide{
