@@ -76,15 +76,15 @@ Wir verwenden im folgenden \tmach für die Menge aller Turingmaschinen.
 
 \begin{lemma}\label{satz:nattotm}
  Die Abbildung $\nattotm: \N\rightarrow \tmach$ 
- $$ \stdnum(n)=\begin{cases}
+ $$ \nattotm(n)=\begin{cases}
 \M & \text{falls } \begin{array}{l}\stdnum^{-1}(n) \text{ Code einer TM ist}\\ \text{und } \stdnum^{-1}(n)=\godel{\M}\end{array}\\
-2^{n-1}+\bintonat(a_1\dots a_n) & \text{sonst}
+? & \text{sonst}
 \end{cases}$$
 ist surjektiv.
 \end{lemma}
 
 \begin{lemma}\label{satz:functopower}
-Die Abbildung $\functopower:\calP(\Sigma^*\rightarrow\Sigma^*)\rightarrow \calP(\N)$
+Die Abbildung $\functopower:(\Sigma^*\rightarrow\Sigma^*)\rightarrow \calP(\N)$
 $$\functopower(f)=\{\stdnum(w)\mid f(w)=1\}$$
 ist bijektiv.
 \end{lemma}
@@ -101,8 +101,8 @@ Den Beweis dieses Satzes werden wir später diskutieren.
 \end{Satz}
 \begin{proof}
  Angenommen jede Funktion $f:\Sigma^*\rightarrow\Sigma^*$ sei berechenbar.
- Dann gibt es für jede Funktion $f$ eine TM $\M_L$ mit $f_\M=f$ und somit eine surjektive Abbildung $f:\tmach\rightarrow\calP(\Sigma^*)$.
- Nach \autoref{satz:nattotm} und \autoref{satz:functopower} wäre dann aber auch die Abbildung $\functopower\circ f \circ\nattotm:\N\rightarrow\calP(\N)$ surjektiv.
+ Dann gibt es für jede Funktion $f$ eine TM $\M_L$ mit $f_\M=f$ und somit eine surjektive Abbildung $g:\tmach\rightarrow(\Sigma^*\rightarrow\Sigma^*)$.
+ Nach \autoref{satz:nattotm} und \autoref{satz:functopower} wäre dann aber auch die Abbildung $\functopower\circ g \circ\nattotm:\N\rightarrow\calP(\N)$ surjektiv.
  Dies steht im Wiederspruch zu \autoref{satz:Cantor}.
 \end{proof}
 
@@ -114,7 +114,7 @@ Zunächst geben wir einen kurzen formalen Beweis.
 Sei $X$ beliebige Menge. 
 Angenommen es gibt surjektive Abbildung $f:X\rightarrow\calP(X)$.
 Betrachte die Menge $Z=\{x\in X\mid x\notin f(x)\}\in\calP(X)$.
-Da $f$ surjektiv gibt es $z\in X$ sodass $f(Z)=Z$.
+Da $f$ surjektiv gibt es $z\in X$ sodass $f(z)=Z$.
 Nach Definition der Menge $Z$ gilt nun aber $z\in f(z)\Leftrightarrow z\notin f(z)$. Widerspruch!
 \end{proof}
 
