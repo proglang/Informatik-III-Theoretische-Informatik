@@ -881,6 +881,32 @@ Verwende das Zeichen~$1$, um unärcodierte Zahlen zu trennen.
 \end{itemize}
 
 
+\begin{Bsp*}
+	Wir codieren die Druckmaschine $\D_{\blank}$, d.h., wir bestimmen $\godel{\D_{\blank}}$.
+	Zur Erinnerung: \\
+	$\mathcal{D}_y=\left(\Sigma,\{q_0,q_1\},\Gamma,\delta,q_0,\blank,\{\}\right)$ mit
+  $\delta(q,x)=\begin{cases}\{(q_1, y, N)\} & \text{ falls } q = q_0\\ \{\} & \text{ falls } q = q_1.\end{cases}$
+	Wir legen uns hier auf die Alphabete $\Sigma = \{0, 1\}$ und $\Gamma = \{0, 1, \blank\}$ fest.
+	Dabei benutzen wir die Nummerierungsreihenfolge $(\blank, 0, 1)$, d.h., das Symbol 1 hat die Nummer 3.
+	
+	\begin{itemize}
+		\item Zustände: $\godel{q_0} = 0, \godel{q_1} = 00$
+		
+		\item Menge der akzeptierenden Zustände: $\godel{F} = \Eps$ (da $F = \{\}$)
+		
+		\item Bandalphabet: $\godel{\blank} = 0$, $\godel{0} = 00$, $\godel{1} = 000$
+		
+		\item Zur Bestimmung von $\godel{\delta}$ schreiben wir nochmal explizit alle Transitionen als 5-Tupel auf:
+		$(q_0, \blank, q_1, \blank, N), (q_0, 0, q_1, \blank, N), (q_0, 1, q_1, \blank, N)$. \\
+		$\godel{\delta} = 11 \underbrace{0\,1\,0\,1\,00\,1\,0\,1\,11}_\text{erste Transition} 11 \underbrace{0\,1\,00\,1\,00\,1\,0\,1\,11}_\text{zweite Transition} 11 \underbrace{0\,1\,000\,1\,00\,1\,0\,1\,11}_\text{dritte Transition} 11$
+		
+		\item Turingmaschine: $\godel{\D_{\blank}}$ = \\ $111\underbrace{11\,0\,1\,0\,1\,00\,1\,0\,1\,11\,11\,0\,1\,00\,1\,00\,1\,0\,1\,11\,11\,0\,1\,000\,1\,00\,1\,0\,1\,11\,11}_{\godel{\delta}}111\underbrace{\,}_{\godel{F}}111$
+		\qedhere
+	\end{itemize}
+\end{Bsp*}
+
+
+
 \subsubsection{Arbeitsweise der universellen Turingmaschine}
 Da die universelle Turingmaschine $\M_U$ recht komplex ist, wollen wir diese hier nicht formal definieren, sondern geben nur eine informelle Beschreibung der Arbeitsweise an.
 
