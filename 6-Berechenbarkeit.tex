@@ -59,12 +59,12 @@ Wir werden daher über die Existenz von bijektiven Abbildungen argumentieren.
 Zur Vereinfachung werden wir uns in diesem Unterkapitel auf das Alphabet $\Sigma=\{0,1\}$ beschränken.
 
 \newcommand{\tmach}{\textit{TMACH}}
-\newcommand{\bintonat}{\textit{bin}}
-\newcommand{\stdnum}{\textit{stdnum}}
-\newcommand{\nattotm}{\textit{nat2tm}}
-\newcommand{\bintotm}{\textit{bin2tm}}
-\newcommand{\langtopower}{\textit{lang2power}}
-\newcommand{\functopower}{\textit{func2power}}
+\newcommand{\bintonat}{\operatorname{bin}}
+\newcommand{\stdnum}{\operatorname{stdnum}}
+\newcommand{\nattotm}{\operatorname{nat2tm}}
+\newcommand{\bintotm}{\operatorname{bin2tm}}
+\newcommand{\langtopower}{\operatorname{lang2power}}
+\newcommand{\functopower}{\operatorname{func2power}}
 
 \textbf{Erinnerung: } Die Funktion $\bintonat:\Sigma^*\rightarrow\N$ 
 ist die in \autoref{sec:regpl} eingeführte Decodierung von Binärstrings (Wörtern über $\{0,1\}$) in natürliche Zahlen.
@@ -142,13 +142,13 @@ ist surjektiv.
 
  \begin{figure}[H]\centering
     \begin{tabular}{ccc}
-    $f$ & $\{w\mid f(w)=1\}$ & $\functopower(w)$\\ \hline
+    $f$ & $\{w\mid f(w)=1\}$ & $\functopower(f)$\\ \hline
     Inkrement von Binärzahlen & $\{\varepsilon, 0\}$ & $\{0,1\}$\\
     Identitätsfunktion & $\{1\}$ & $\{2\}$\\
     "`alles auf eins"' & $\Sigma^*$ & $\N$
     \end{tabular}
 
-	\caption{$functopower$ für einige Beispielwerte}
+	\caption{$\functopower$ für einige Beispielwerte}
 \end{figure}
 
 
@@ -199,7 +199,8 @@ Dann müsste nach Definition von Zeile $k$ dort ein Y stehen.
 Angenommen, bei $(k, k)$ steht ein Y.
 Dann ist die Definition von Zeile $k$ verletzt, denn es darf nur dort ein Y stehen, wo auch im Diagonaleintrag ein N steht.
 
-\begin{center}
+ \begin{figure}[H]\centering
+
 \begin{tikzpicture}[scale=0.7]
 
 \draw[fill=lightgray!20, draw=lightgray!20] (-1.5,-3.5) rectangle (7.7,-4.5);
@@ -226,22 +227,48 @@ Dann ist die Definition von Zeile $k$ verletzt, denn es darf nur dort ein Y steh
 \draw (-0.5, 1.5) to (-0.5,-7.5);
 
 \node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (00) at (0,0) {N};
-\node[gray] at (1,0) {$\ldots$};
-\node[gray] at (2,0) {Y};
-\node (k0) at (0,-4) {Y};
-\draw[->] (00) to (k0);
+\node[lightgray] at (1,0) {$\ldots$};
+\node[lightgray] at (2,0) {Y};
+\node[lightgray] at (3,0) {$\ldots$};
+\node[lightgray] at (4,0) {Y};
+\node[lightgray] at (5,0) {$\ldots$};
+\node[lightgray] at (6,0) {N};
+\node[lightgray] at (7,0) {$\ldots$};
 
+\node[lightgray] at (0,-2) {N};
+\node[lightgray] at (1,-2) {$\ldots$};
 \node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (ii) at (2,-2) {Y};
-\node (ki) at (2,-4) {N};
-\draw[->] (ii) to (ki);
+\node[lightgray] at (3,-2) {$\ldots$};
+\node[lightgray] at (4,-2) {Y};
+\node[lightgray] at (5,-2) {$\ldots$};
+\node[lightgray] at (6,-2) {Y};
+\node[lightgray] at (7,-2) {$\ldots$};
 
-\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (jj) at (6,-6) {N};
+\node (k0) at (0,-4) {Y};
+\node[lightgray] at (1,-4) {$\ldots$};
+\node (ki) at (2,-4) {N};
+\node[lightgray] at (3,-4) {$\ldots$};
+\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=1] (kk) at (4,-4) {\textbf{?}};
+\node[lightgray] at (5,-4) {$\ldots$};
 \node (kj) at (6,-4) {Y};
+\node[lightgray] at (7,-4) {$\ldots$};
+
+\node[lightgray] at (0,-6) {Y};
+\node[lightgray] at (1,-6) {$\ldots$};
+\node[lightgray] at (2,-6) {Y};
+\node[lightgray] at (3,-6) {$\ldots$};
+\node[lightgray] at (4,-6) {N};
+\node[lightgray] at (5,-6) {$\ldots$};
+\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (jj) at (6,-6) {N};
+\node[lightgray] at (7,-6) {$\ldots$};
+
+\draw[->] (00) to (k0);
+\draw[->] (ii) to (ki);
 \draw[->] (jj) to (kj);
 
-\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=1] (kk) at (4,-4) {\textbf{?}};
 \end{tikzpicture}
-\end{center}
+	\caption{Illustration des Diagonalargumentens beim Beweis des Satzes von Cantor}
+\end{figure}
 
 
 
