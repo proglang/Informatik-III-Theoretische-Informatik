@@ -987,12 +987,12 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
 \label{sec:regpl}
 Welche interessanten Eigenschaften haben reguläre Sprachen?
 
-\textbf{Notation:} Sei $\operatorname{bin}:\{0,1\}^*\rightarrow \N$ die Decodierung von Bitstrings in natürliche Zahlen;
-z.B.\ $\operatorname{bin}(101) = 5$, $\operatorname{bin}(\Eps) = 0$.
+\textbf{Notation:} Sei $\textit{bin}:\{0,1\}^*\rightarrow \N$ die Decodierung von Bitstrings in natürliche Zahlen;
+z.B.\ $\textit{bin}(101) = 5$, $\textit{bin}(\Eps) = 0$.
 
 \begin{Bsp}\label{bsp:2.mod3}
 Betrachte den folgenden \ac{DEA}, der die Sprache der Binärcodierung von durch drei teilbaren Zahlen akzeptiert:
-                $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$
+                $L = \{ w\in \{0,1\}^* \mid \textit{bin}(w)\equiv_3 0\}$
     \begin{center}
                 \begin{tikzpicture}
                         \node (start) at (-4,1.5) {};
@@ -2217,7 +2217,7 @@ Wir leiten nun ein Gleichungssystem zwischen den Sprachen $L_{q_i}$ her.
 \begin{Bsp}\label{bsp:2.mod3gleichungen}
 Wir wollen diese Gleichungen zunächst an einem Beispiel betrachten und verwenden dafür den
 aus \autoref{bsp:2.mod3} bekannten \acs*{DEA}, der die Sprache der Binärcodierung von durch drei teilbaren Zahlen akzeptiert:
-                $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$.
+                $L = \{ w\in \{0,1\}^* \mid \textit{bin}(w)\equiv_3 0\}$.
 	\begin{figure}[H]\centering
 		\begin{tikzpicture}[>=stealth, shorten >=1pt, on grid, node distance=2cm, initial text=]
 			\node[state, initial, accepting] (q0) {$q_0$};
