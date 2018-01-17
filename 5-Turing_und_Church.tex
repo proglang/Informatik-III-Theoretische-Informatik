@@ -787,8 +787,8 @@ Das Bandalphabet der $k$-Spur-\ac{TM} sei dabei $\Gamma_\mathsf{sim}=\Gamma\over
 	\begin{itemize}
 		\item Laufe bis zum rechten Rand.
 		Sammle dabei die Symbole unter den Köpfen (markiert mit \#) und merke dir diese im Zustand (Vektorcodierung $\overrightarrow{\gamma} \in \Gamma^k$).
-		\item Berechne $\delta(q,\overrightarrow{\gamma})=(q',\overrightarrow{\gamma'},\overrightarrow{d})$\\
-		neuer Zustand, für jeden Kopf ein neues Symbol $\overrightarrow{\gamma'}$ und Richtung $\overrightarrow{d}$.
+		\item Bestimme Resultat von Transitionsfunktion $\delta(q,\overrightarrow{\gamma})=(q',\overrightarrow{\gamma'},\overrightarrow{d})$\\
+		neuer Zustand $q'$, für jeden Kopf ein neues Symbol $\overrightarrow{\gamma'}$ und Richtung $\overrightarrow{d}$.
 		\item Laufe zurück nach links.
 		Schreibe dabei das jeweilige Zeichen $\overrightarrow{\gamma}'$ am entsprechenden Kopf und versetze diesen gemäß $\overrightarrow{d}$.
 	\end{itemize}
@@ -820,9 +820,9 @@ Dies entspricht nicht unserer Vorstellung eines Computers, denn dieser kann norm
 In diesem Kapitel konstruieren wir nun eine \ac{TM} $\M_U$, die als Eingabe sowohl
 eine Codierung $\godel{\M}$ einer beliebigen \ac{TM} $\M$ als auch deren Eingabe $w$ nimmt, sodass die folgenden drei Eigenschaften gelten.
 \begin{align}
-	\label{Mu-eq-lang} w\in L(\M) &\Leftrightarrow \godel{\M}\#w \in L(\M_U)\\
-	\label{Mu-eq-term} \text{$\M$ terminiert bei Eingabe $w$} &\Leftrightarrow \text{$\M_U$ terminiert bei Eingabe $\godel{\M}\#w$}\\
-	\label{Mu-eq-func} \text{$f_\M(w)$} &= \text{$f_{\M_U}(\godel{\M}\#w)$}
+	\label{Mu-eq-lang} w\in L(\M) &\Leftrightarrow \godel{\M}\#w \in L(\M_U)\tag{UTM-Lang}\\
+	\label{Mu-eq-term} \text{$\M$ hält bei Eingabe $w$} &\Leftrightarrow \text{$\M_U$ hält bei Eingabe $\godel{\M}\#w$}\tag{UTM-Term}\\
+	\label{Mu-eq-func} \text{$f_\M(w)$} &= \text{$f_{\M_U}(\godel{\M}\#w)$}\tag{UTM-Func}
 \end{align}
 
 Wir nennen $\M_U$ die \emph{universelle Turingmaschine}.
@@ -869,7 +869,8 @@ Verwende das Zeichen~$1$, um unärcodierte Zahlen zu trennen.
     
   \item Transitionsfunktion:
   
-   Seien $(q_{t_1}, a_{t_1}, q_{t_1}', a_{t_1}', d_{t_1}),\dots, (q_{t_n}, a_{t_n}, q_{t_n}', a_{t_n}', d_{t_n})$ die Elemente von $\delta$.
+   Seien $(q_{t_1}, a_{t_1}, q_{t_1}', a_{t_1}', d_{t_1}),\dots, (q_{t_n}, a_{t_n}, q_{t_n}', a_{t_n}', d_{t_n})$ 
+   die Elemente von $\delta$, die nicht auf $\{\}$ abgebildet werden.
   
    Definiere 
    
