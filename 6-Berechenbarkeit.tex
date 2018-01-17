@@ -3,8 +3,8 @@
 
 
 In diesem Kapitel wollen wir zeigen, 
-dass es Sprachen gibt die von keiner TM akzeptiert werden können und
-dass es Funktionen gibt die von keiner TM berechnet werden können.
+dass es Sprachen gibt, die von keiner \ac{TM} akzeptiert werden können, und
+dass es Funktionen gibt, die von keiner \ac{TM} berechnet werden können.
 
 
 \subsection{Das Gesetz von Church-Turing (Churchsche These)} % 2.6
@@ -28,12 +28,12 @@ dass es Funktionen gibt die von keiner TM berechnet werden können.
 \end{These*}
 
 \begin{Def}\label{def:berechenbar}
- Eine Funktion $f:\Sigma^*\rightarrow\Sigma^*$ heißt \emph{berechenbar} wenn es eine Turingmaschine $\M$ gibt,
+ Eine Funktion $f:\Sigma^*\rightarrow\Sigma^*$ heißt \emph{berechenbar}, wenn es eine Turingmaschine $\M$ gibt,
  sodass $f$ die von $\M$ berechnete Funktion ist.
 \end{Def}
 \begin{Bemerkung}
- In der Literatur wird in \autoref{def:berechenbar} oft auch nicht der Begriff \emph{berechenbar} sondern der Begriff \emph{Turing-berechenbar} oder der Begriff \emph{rekursiv} verwendet.
- Ziel dabei ist den Begriff \emph{berechenbar} für ``intuitiv berechenbar'' aufzusparen.
+ In der Literatur wird in \autoref{def:berechenbar} oft auch nicht der Begriff \emph{berechenbar}, sondern die Begriffe \emph{Turing-berechenbar} oder \emph{rekursiv} verwendet.
+ Die Intention dahinter ist, den Begriff \emph{berechenbar} für "`intuitiv berechenbar"' aufzusparen.
  Wir wollen uns hier aber ganz auf die Churchsche These verlassen und zur Vereinfachung den Begriff auch formal besetzen.
 \end{Bemerkung}
 
@@ -104,13 +104,13 @@ ist eine bijektive Abbildung.
 
 
 \begin{Def}
- Sei $w\in\{0,1\}$. Die \emph{durch $w$ codierte TM} $\M_w$ ist wie folgt definiert.
+ Sei $w\in\{0,1\}$. Die \emph{durch $w$ codierte \ac{TM}} $\M_w$ ist wie folgt definiert.
  $$\M_w=\begin{cases}
-\M & \text{falls } w \text{ Code einer TM ist und } \godel{\M}=w\\
+\M & \text{falls } w \text{ Code einer \ac{TM} ist und } \godel{\M}=w\\
 \D_\mblank & \text{sonst}
 \end{cases}$$
 Dabei ist $\D_\mblank$ die in \autoref{bsp:simpletms} definierte Druckmaschine.
-\footnote{Für den weiteren Verlauf ist es nicht wichtig, dass wir hier die Druckmaschine gewählt haben. Jede andere TM wäre ebenso gut geeignet gewesen.}
+\footnote{Für den weiteren Verlauf ist es nicht wichtig, dass wir hier die Druckmaschine gewählt haben. Jede andere \ac{TM} wäre ebenso gut geeignet gewesen.}
 \end{Def}
 
 \textbf{Notation:}
@@ -118,7 +118,7 @@ Wir verwenden im folgenden \tmach für die Menge aller Turingmaschinen, bei dene
 und jedes Zeichen aus $\Gamma\backslash(\Sigma\cup\{\mblank\})$ von der Transitionsfunktion mindestens einmal auf eine nichtleere Menge abgebildet wird.
 
 \begin{Bemerkung}
- Im folgenden genügt es wenn wir uns auf TMs aus $\tmach$ einschränken. Gibt es eine TM die eine Funktion $f$ berechnet, so gibt es auch eine TM aus $\tmach$ ie diese Funktion berechnet.
+ Im folgenden genügt es wenn wir uns auf \ac{TM}s aus $\tmach$ einschränken. Gibt es eine \ac{TM} die eine Funktion $f$ berechnet, so gibt es auch eine \ac{TM} aus $\tmach$ ie diese Funktion berechnet.
 \end{Bemerkung}
 
 
@@ -139,7 +139,7 @@ ist surjektiv.
     $f$ & $\{w\mid f(w)=1\}$ & $\functopower(w)$\\ \hline
     Inkrement von Binärzahlen & $\{\varepsilon, 0\}$ & $\{0,1\}$\\
     Identitätsfunktion & $\{1\}$ & $\{2\}$\\
-    ``alles auf eins'' & $\Sigma^*$ & $\N$
+    "`alles auf eins"' & $\Sigma^*$ & $\N$
     \end{tabular}
 
 	\caption{$functopower$ für einige Beispielwerte}
@@ -157,7 +157,7 @@ Den Beweis dieses Satzes werden wir später diskutieren.
 \end{Satz}
 \begin{proof}
  Angenommen jede Funktion $f:\Sigma^*\rightarrow\Sigma^*$ sei berechenbar.
- Dann gibt es für jede Funktion $f$ eine TM $\M_L$ mit $f_\M=f$ und somit eine surjektive Abbildung $g:\tmach\rightarrow(\Sigma^*\rightarrow\Sigma^*)$.
+ Dann gibt es für jede Funktion $f$ eine \ac{TM} $\M_L$ mit $f_\M=f$ und somit eine surjektive Abbildung $g:\tmach\rightarrow(\Sigma^*\rightarrow\Sigma^*)$.
  Nach \autoref{satz:bintotm} und \autoref{satz:functopower} wäre dann aber auch die Abbildung $\functopower\circ g \circ\nattotm:\N\rightarrow\calP(\N)$ surjektiv.
  Dies steht im Wiederspruch zu \autoref{satz:Cantor}.
 \end{proof}
@@ -289,7 +289,7 @@ ist bijektiv.
 \end{Satz}
 \begin{proof}
  Angenommen jede Sprache $L\subseteq\Sigma^*$ sei entscheidbar.
- Dann gibt es für alle $L\subseteq\Sigma^*$ eine TM $\M$ mit $f_\M=f$ und somit eine surjektive Abbildung $f:?\rightarrow\calP(\Sigma^*)$.
+ Dann gibt es für alle $L\subseteq\Sigma^*$ eine \ac{TM} $\M$ mit $f_\M=f$ und somit eine surjektive Abbildung $f:?\rightarrow\calP(\Sigma^*)$.
  Nach ... wäre dann aber auch die Abbildung $functopower\circ f \circ\nattotm:\N\rightarrow\calP(\N)$ surjektiv.
  Dies steht im Wiederspruch zu ...
 \end{proof}
@@ -333,8 +333,8 @@ ist bijektiv.
 \textbf{Zeitbeschränkt mit $t(n)$}: $\forall w\in\Sigma^*: |w|\leq n \=> T_M(w)\leq t(n)$,\\
 platzbeschränkt analog.
 \end{Def}
-\begin{Satz}[name={[Zu jeder NTM gibt es \acs*{DTM}]}]\label{satz:6.1}
-	Zu jeder NTM gibt es eine \ac{DTM} $M'$, so dass
+\begin{Satz}[name={[Zu jeder \acs*{NTM} gibt es \acs*{DTM}]}]\label{satz:6.1}
+	Zu jeder \ac{NTM} gibt es eine \ac{DTM} $M'$, so dass
 	\begin{itemize}
 	\item $M'$ akzeptiert $L(M)$
 	\item $M'$ terminiert gdw. $M$ terminiert
@@ -550,8 +550,8 @@ Die Rückrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1 Sp
 
 
 Schreibe ab jetzt $M_w$ für die Maschine mit Gödelnummer $w$. Falls
-$w$ kein gültiger Code für eine TM, dann sei $M_w$ eine beliebige fest
-TM $M$ mit $L(M) = \varnothing$. 
+$w$ kein gültiger Code für eine \ac{TM}, dann sei $M_w$ eine beliebige fest
+\ac{TM} $M$ mit $L(M) = \varnothing$.
 \begin{Def}[name={[Spezielles Halteproblem]}]
   Das spezielle Halteproblem besteht aus allen Codes von Maschinen, die
   anhalten, falls sie auf den eigenen Code angesetzt werden.
@@ -564,7 +564,7 @@ TM $M$ mit $L(M) = \varnothing$.
   Das spezielle Halteproblem ist unentscheidbar.
 \end{Satz}
 \begin{proof}
-  Angenommen $M$ ist eine TM, die $K$ entscheidet.
+  Angenommen $M$ ist eine \ac{TM}, die $K$ entscheidet.
 
   Konstruiere Maschine $M'$, die zunächst $M$ auf ihre Eingabe
   anwendet. Falls $M$ akzeptiert, dann geht $M'$ in eine
@@ -594,8 +594,8 @@ TM $M$ mit $L(M) = \varnothing$.
 	$K$ ist semi-entscheidbar.
 \end{lemma}
 \begin{proof}
-  Die Maschine $M$ kopiert die Eingabe $w$ und f''uhrt die universelle
-  TM f''ur $M_w$ aus. Falls diese Simulation stoppt, geht $M$ in einen
+  Die Maschine $M$ kopiert die Eingabe $w$ und führt die universelle
+  \ac{TM} für $M_w$ aus. Falls diese Simulation stoppt, geht $M$ in einen
   akzeptierenden Zustand und terminiert.
 \end{proof}
 % \begin{Def}[name={[length-lexicographic order]}]
@@ -713,7 +713,7 @@ $\overline{K}$ \quad nicht-semientscheidbar (keine Typ-0)
   \item führe $M$ auf dem Ergebnis $f(x)$ aus
   \end{itemize}
   $\curvearrowright$ $M'$ ist (Semi-)Entscheidungsverfahren für
-  $U$. (Weil $f$ total ist, terminiert der Code  f''ur $f$ immer und daher "andert das Terminationsverhalten nicht.)
+  $U$. (Weil $f$ total ist, terminiert der Code  für $f$ immer und daher "andert das Terminationsverhalten nicht.)
 \end{proof}
 \emph{Anwendung:} $U \preceq V$ und $U$
 unentscheidbar $\curvearrowright$ $V$ unentscheidbar.
@@ -760,7 +760,7 @@ unentscheidbar $\curvearrowright$ $V$ unentscheidbar.
 \end{Satz}
 \begin{proof}
   Konstruiere eine Reduktion $H \preceq H_\varepsilon$ mit Hilfe der
-  Funktion $f(w\#x) = w'$, wobei $w'$ der Code einer TM ist, die
+  Funktion $f(w\#x) = w'$, wobei $w'$ der Code einer \ac{TM} ist, die
   \begin{itemize}
   \item zuerst $x$ aufs leere Band schreibt und dann
   \item $M_w$ auf diese Eingabe anwendet.
@@ -966,7 +966,7 @@ Es reicht nun zu zeigen, dass \ac{MPCP} unentscheidbar ist!
 	\[ \#k_0\#k_1\# \dots \#h_t\#k_t^1\#k_t^2\# \dots \#q'\#\# \]
 	wobei $k_t^0 = k_t$ und $k_t^j$ durch Streichen eines Bandsymbols rechts oder links von $q'$ bzw $q'b$ aus ihrem Vorgänger $k_t^{j-1}$entsteht.
 
-  Intuition: ``Die Konkatenation der $x_i$s hinkt immer um eine Konfiguration der Konkatenation der $y_i$s hinterher''.
+  Intuition: "`Die Konkatenation der $x_i$s hinkt immer um eine Konfiguration der Konkatenation der $y_i$s hinterher"'.
 \end{proof}
 \begin{Satz}[name={[\ac{PCP} ist unentscheidbar.]}]
 	\ac{PCP} ist unentscheidbar.
