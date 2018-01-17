@@ -832,7 +832,7 @@ Wir nennen $\M_U$ die \emph{universelle Turingmaschine}.
 Zunächst wollen wir uns eine Codierung $\godel{\M}$ für $\mathcal{\M}=(\Sigma, Q, \Gamma, \delta, \qinit, \blank, F)$ überlegen.
 Die Effizienz unserer Codierung ist uns dabei nicht wichtig und wir versuchen der Einfachheit wegen mit Unärcodierungen zu arbeiten.
 
-Einige Vorüberlegungen
+Einige Vorüberlegungen:
 \begin{itemize}
  \item Da $Q$ und $\Gamma$ endlich sind, können wir jedem ihrer Elemente eine natürliche Zahl zuordnen.
  \item Wir müssen $\qinit$ und $\blank$ nicht explizit codieren; wir verwenden die Konvention,
@@ -883,12 +883,10 @@ Verwende das Zeichen~$1$, um unärcodierte Zahlen zu trennen.
 
 
 \begin{Bsp*}
-	Wir codieren die Druckmaschine $\D_{\blank}$, d.h., wir bestimmen $\godel{\D_{\blank}}$.
-	Zur Erinnerung: \\
-	$\mathcal{D}_y=\left(\Sigma,\{q_0,q_1\},\Gamma,\delta,q_0,\blank,\{\}\right)$ mit
-  $\delta(q,x)=\begin{cases}\{(q_1, y, N)\} & \text{ falls } q = q_0\\ \{\} & \text{ falls } q = q_1.\end{cases}$
+	Wir bestimmen die Codierung $\godel{\M_r}$ der 1-Schritt-Rechtsmaschine $\M_r$ aus \autoref{bsp:simpletms}.
 	Wir legen uns hier auf die Alphabete $\Sigma = \{0, 1\}$ und $\Gamma = \{0, 1, \blank\}$ fest.
-	Dabei benutzen wir die Nummerierungsreihenfolge $(\blank, 0, 1)$, d.h., das Symbol 1 hat die Nummer 3.
+	Dabei benutzen wir die Nummerierungsreihenfolge $\blank$, 0, 1, d.h., das Symbol 1 hat die Nummer~3.
+	Die Reihenfolge der Zustände ist hier klar, da der Startzustand (hier $q_0$) immer die Nummer 1 hat (daher hat $q_1$ hier die Nummer~2).
 	
 	\begin{itemize}
 		\item Zustände: $\godel{q_0} = 0, \godel{q_1} = 00$
@@ -898,10 +896,9 @@ Verwende das Zeichen~$1$, um unärcodierte Zahlen zu trennen.
 		\item Bandalphabet: $\godel{\blank} = 0$, $\godel{0} = 00$, $\godel{1} = 000$
 		
 		\item Zur Bestimmung von $\godel{\delta}$ schreiben wir nochmal explizit alle Transitionen als 5-Tupel auf:
-		$(q_0, \blank, q_1, \blank, N), (q_0, 0, q_1, \blank, N), (q_0, 1, q_1, \blank, N)$. \\
-		$\godel{\delta} = 11 \underbrace{0\,1\,0\,1\,00\,1\,0\,1\,11}_\text{erste Transition} 11 \underbrace{0\,1\,00\,1\,00\,1\,0\,1\,11}_\text{zweite Transition} 11 \underbrace{0\,1\,000\,1\,00\,1\,0\,1\,11}_\text{dritte Transition} 11$
+		$(q_0, \blank, q_1, \blank, R), (q_0, 0, q_1, 0, R), (q_0, 1, q_1, 1, R)$.
 		
-		\item Turingmaschine: $\godel{\D_{\blank}}$ = \\ $111\underbrace{11\,0\,1\,0\,1\,00\,1\,0\,1\,11\,11\,0\,1\,00\,1\,00\,1\,0\,1\,11\,11\,0\,1\,000\,1\,00\,1\,0\,1\,11\,11}_{\godel{\delta}}111\underbrace{\,}_{\godel{F}}111$
+		\item Turingmaschine: $\godel{\M_r}$ = \\ $111 \underbrace{11\overbrace{0\,1\,0\,1\,00\,1\,0\,1\,000}^\text{erste Transition} 11 \overbrace{0\,1\,00\,1\,00\,1\,00\,1\,000}^\text{zweite Transition} 11 \overbrace{0\,1\,000\,1\,00\,1\,000\,1\,000}^\text{dritte Transition} 11}_{\godel{\delta}}111\underbrace{\,}_{\godel{F}}111$
 		\qedhere
 	\end{itemize}
 \end{Bsp*}
