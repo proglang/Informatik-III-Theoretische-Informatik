@@ -57,37 +57,93 @@ nicht anwendbar und wir werden über die Existenz von bijektiven Abbildungen arg
 Zur Vereinfachung werden wir uns in diesem Unterkapitel auf das Alphabet $\Sigma=\{0,1\}$ beschränken.
 
 \newcommand{\tmach}{\textit{TMACH}}
-\newcommand{\bintonat}{\textit{bin2nat}}
+\newcommand{\bintonat}{\textit{bin}}
 \newcommand{\stdnum}{\textit{stdnum}}
 \newcommand{\nattotm}{\textit{nat2tm}}
+\newcommand{\bintotm}{\textit{bin2tm}}
 \newcommand{\langtopower}{\textit{lang2power}}
 \newcommand{\functopower}{\textit{func2power}}
+
+\textbf{Erinnerung: } Die Funktion $\bintonat:\Sigma^*\rightarrow\N$ 
+ist die in \autoref{sec:regpl} eingeführte Decodierung von Binärstrings (Wörtern über $\{0,1\}$) in natürliche Zahlen.
+
+Wir möchten zunächst eine bijektive Abbildung zwischen Binärstrings und natürlichen Zahlen definieren.
+Die Funktion $\bintonat$ ist hierfür ungeeignet da führende Nullen ignoriert werden und z.b. sowohl $1$ als auch $01$ auf die $1$ abgebildet werden.
+
+Wir verweden deshalb die Standardnummerierung, eine Funktion die auf den folgenden Ideen basiert.
+\begin{itemize}
+ \item Nummeriere all Binärstrings der Länge nach, bei gleicher Länge gibt die Funktion $\bintonat$ die Reihenfolge vor.
+ \item Es gibt $2^n$ Binärstrings der Länge $n$.
+ \item Für einen Binärstrings der Länge $n$ gibt es also $\sum\limits_i^{n-1} 2^i = 2^n-1$ Binärstrings mit kürzerer Länge.
+\end{itemize}
+
+
 \begin{lemma}\label{satz:stdnum}
- Die Standardnummerierung $\stdnum: \Sigma^*\rightarrow\N$ 
+Die Standardnummerierung $\stdnum: \Sigma^*\rightarrow\N$ 
  $$ \stdnum(a_1\dots a_n)=\begin{cases}
 0 & \text{falls } a_1\dots a_n=\Eps\\
-2^{n-1}+\bintonat(a_1\dots a_n) & \text{sonst}
+2^{n}-1+\bintonat(a_1\dots a_n) & \text{sonst}
 \end{cases}$$
 ist eine bijektive Abbildung.
 \end{lemma}
 
-\textbf{Notation:}
-Wir verwenden im folgenden \tmach für die Menge aller Turingmaschinen.
 
-\begin{lemma}\label{satz:nattotm}
- Die Abbildung $\nattotm: \N\rightarrow \tmach$ 
- $$ \nattotm(n)=\begin{cases}
-\M & \text{falls } \begin{array}{l}\stdnum^{-1}(n) \text{ Code einer TM ist}\\ \text{und } \stdnum^{-1}(n)=\godel{\M}\end{array}\\
-? & \text{sonst}
+ \begin{figure}[H]\centering
+    \begin{tabular}{rr@{\qquad}l}
+    $w\in\{0,1\}^*$ & $\stdnum(w)$\\ \hline
+    $\Eps$ & 0 \\
+    0 & 1 & $2^0 + 0$\\
+    1 & 2 & $2^0 + 1$\\
+    00 & 3 & $2^0 + 2^1 + 0$\\
+    01 & 4 & $2^0 + 2^1 + 1$\\
+    110 & 13 & $2^0 + 2^1 + 2^1 + 6$\\
+    \end{tabular}
+
+	\caption{Standardnummerierung für einige Beispielwerte}
+\end{figure}
+
+
+\begin{Def}
+ Sei $w\in\{0,1\}$. Die \emph{durch $w$ codierte TM} $\M_w$ ist wie folgt definiert.
+ $$\M_w=\begin{cases}
+\M & \text{falls } w \text{ Code einer TM ist und } \godel{\M}=w\\
+\D_\mblank & \text{sonst}
 \end{cases}$$
+Dabei ist $\D_\mblank$ die in \autoref{bsp:simpletms} definierte Druckmaschine.
+\footnote{Für den weiteren Verlauf ist es nicht wichtig, dass wir hier die Druckmaschine gewählt haben. Jede andere TM wäre ebenso gut geeignet gewesen.}
+\end{Def}
+
+\textbf{Notation:}
+Wir verwenden im folgenden \tmach für die Menge aller Turingmaschinen, bei denen jeder Zustand $Q$ von der Transitionsfunktion mindestens einmal auf eine nichtleere Menge abgebildet wird
+und jedes Zeichen aus $\Gamma\backslash(\Sigma\cup\{\mblank\})$ von der Transitionsfunktion mindestens einmal auf eine nichtleere Menge abgebildet wird.
+
+\begin{Bemerkung}
+ Im folgenden genügt es wenn wir uns auf TMs aus $\tmach$ einschränken. Gibt es eine TM die eine Funktion $f$ berechnet, so gibt es auch eine TM aus $\tmach$ ie diese Funktion berechnet.
+\end{Bemerkung}
+
+
+\begin{lemma}\label{satz:bintotm}
+ Die Abbildung $\nattotm: \Sigma^*\rightarrow \tmach$ 
+ $$ \bintotm(w)=\M_w$$
 ist surjektiv.
 \end{lemma}
 
 \begin{lemma}\label{satz:functopower}
 Die Abbildung $\functopower:(\Sigma^*\rightarrow\Sigma^*)\rightarrow \calP(\N)$
 $$\functopower(f)=\{\stdnum(w)\mid f(w)=1\}$$
-ist bijektiv.
+ist surjektiv.
 \end{lemma}
+
+ \begin{figure}[H]\centering
+    \begin{tabular}{ccc}
+    $f$ & $\{w\mid f(w)=1\}$ & $\functopower(w)$\\ \hline
+    Inkrement von Binärzahlen & $\{\varepsilon, 0\}$ & $\{0,1\}$\\
+    Identitätsfunktion & $\{1\}$ & $\{2\}$\\
+    ``alles auf eins'' & $\Sigma^*$ & $\N$
+    \end{tabular}
+
+	\caption{$functopower$ für einige Beispielwerte}
+\end{figure}
 
 
 \begin{Satz}[Cantor]\label{satz:Cantor}
@@ -102,7 +158,7 @@ Den Beweis dieses Satzes werden wir später diskutieren.
 \begin{proof}
  Angenommen jede Funktion $f:\Sigma^*\rightarrow\Sigma^*$ sei berechenbar.
  Dann gibt es für jede Funktion $f$ eine TM $\M_L$ mit $f_\M=f$ und somit eine surjektive Abbildung $g:\tmach\rightarrow(\Sigma^*\rightarrow\Sigma^*)$.
- Nach \autoref{satz:nattotm} und \autoref{satz:functopower} wäre dann aber auch die Abbildung $\functopower\circ g \circ\nattotm:\N\rightarrow\calP(\N)$ surjektiv.
+ Nach \autoref{satz:bintotm} und \autoref{satz:functopower} wäre dann aber auch die Abbildung $\functopower\circ g \circ\nattotm:\N\rightarrow\calP(\N)$ surjektiv.
  Dies steht im Wiederspruch zu \autoref{satz:Cantor}.
 \end{proof}
 
