@@ -156,31 +156,31 @@ Es gibt keine surjektive Abbildung einer Menge in ihre Potenzmenge.
 Den Beweis dieses Satzes werden wir später diskutieren.
 
 \begin{Satz}
- Es gibt Funktionen die nicht berechenbar sind.
+ Es gibt Funktionen, die nicht berechenbar sind.
 \end{Satz}
 \begin{proof}
- Angenommen jede Funktion $f:\Sigma^*\rightarrow\Sigma^*$ sei berechenbar.
- Dann gibt es für jede Funktion $f$ eine \ac{TM} $\M_L$ mit $f_\M=f$ und somit eine surjektive Abbildung $g:\tmach\rightarrow(\Sigma^*\rightarrow\Sigma^*)$.
+ Angenommen, jede Funktion $f:\Sigma^*\rightarrow\Sigma^*$ sei berechenbar.
+ Dann gibt es für jede Funktion $f$ eine \ac{TM} $\M$ mit $f_\M=f$ und somit eine surjektive Abbildung $g:\tmach\rightarrow(\Sigma^*\rightarrow\Sigma^*)$.
  Nach \autoref{satz:bintotm} und \autoref{satz:functopower} wäre dann aber auch die Abbildung $\functopower\circ g \circ\nattotm:\N\rightarrow\calP(\N)$ surjektiv.
- Dies steht im Wiederspruch zu \autoref{satz:Cantor}.
+ Dies steht im Widerspruch zu \autoref{satz:Cantor}.
 \end{proof}
 
-Ein zentraler und nicht offensichtlicher Teile dieses Beweises war \autoref{satz:Cantor}.
-Wir wollen das restliche Unterkapitel nutzen um diesen zu diskutieren.
-Zunächst geben wir einen kurzen formalen Beweis.
+Ein zentraler und nicht offensichtlicher Teil dieses Beweises war \autoref{satz:Cantor}.
+Wir wollen diesen im restlichen Unterkapitel diskutieren.
+Zunächst geben wir einen formalen Beweis.
 
 \begin{proof}[Von \autoref{satz:Cantor}]
-Sei $X$ beliebige Menge. 
-Angenommen es gibt surjektive Abbildung $f:X\rightarrow\calP(X)$.
+Sei $X$ eine beliebige Menge.
+Angenommen, es gäbe eine surjektive Abbildung $f:X\rightarrow\calP(X)$.
 Betrachte die Menge $Z=\{x\in X\mid x\notin f(x)\}\in\calP(X)$.
-Da $f$ surjektiv gibt es $z\in X$ sodass $f(z)=Z$.
+Da $f$ surjektiv ist, gibt es ein $z\in X$, sodass $f(z)=Z$.
 Nach Definition der Menge $Z$ gilt nun aber $z\in f(z)\Leftrightarrow z\notin f(z)$. Widerspruch!
 \end{proof}
 
 Ein Beweis dieser Form wird auch \emph{Diagonalargument} genannt und ist nicht einfach zu verstehen.
 Wir werden den Beweis für den Spezialfall dass $X$ eine abzählbare Menge ist mit der folgenden Matrix illustrieren.
 
-Da $X$ abzählbar ist können wir dessen Elemente als undendliche Sequenz $x_0,x_1,\ldots$ schreiben.
+Da $X$ abzählbar ist können wir dessen Elemente als unendliche Sequenz $x_0,x_1,\ldots$ schreiben.
 Wir nehmen nun an es gäbe eine surjektive Abbildung $f:X\rightarrow\calP(X)$.
 Dann können wir $f$ mit Hilfe der folgenden Matrix darstellen.
 Zeile $i$ beschreibt dabei das Bild $f(x_i)$. 
