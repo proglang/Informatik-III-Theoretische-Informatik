@@ -42,17 +42,18 @@ dass es Funktionen gibt, die von keiner \ac{TM} berechnet werden können.
 
 \subsection{Nicht berechenbare Funktionen}
 
-Wir werden nun zeigen dass es Funktionen gibt die nicht berechenbar sind.
+Wir werden nun zeigen, dass es Funktionen gibt, die nicht berechenbar sind.
 Unser Vorgehen wird dabei das folgende sein.
 \begin{itemize}
  \item Wir zeigen, dass es so viele Turingmaschinen wie natürliche Zahlen gibt.
  \item Wir zeigen, dass es mehr Funktionen als natürliche Zahlen gibt.
 \end{itemize}
 
-Da es unendlich viele natürliche Zahlen, Turingmaschinen, und Funktionen gibt 
-sind die aus der Schule bekannten formalismen zum Vergleichen von Mengen 
-(Größe einer Menge ist Anzahl der Elemente)
-nicht anwendbar und wir werden über die Existenz von bijektiven Abbildungen argumentieren.
+Da es unendlich viele natürliche Zahlen, Turingmaschinen und Funktionen gibt,
+sind die aus der Schule bekannten Formalismen zum Vergleichen von Mengen
+(die Größe einer Menge ist die Anzahl ihrer Elemente)
+nicht anwendbar.
+Wir werden daher über die Existenz von bijektiven Abbildungen argumentieren.
 
 Zur Vereinfachung werden wir uns in diesem Unterkapitel auf das Alphabet $\Sigma=\{0,1\}$ beschränken.
 
@@ -68,13 +69,13 @@ Zur Vereinfachung werden wir uns in diesem Unterkapitel auf das Alphabet $\Sigma
 ist die in \autoref{sec:regpl} eingeführte Decodierung von Binärstrings (Wörtern über $\{0,1\}$) in natürliche Zahlen.
 
 Wir möchten zunächst eine bijektive Abbildung zwischen Binärstrings und natürlichen Zahlen definieren.
-Die Funktion $\bintonat$ ist hierfür ungeeignet da führende Nullen ignoriert werden und z.b. sowohl $1$ als auch $01$ auf die $1$ abgebildet werden.
+Die Funktion $\bintonat$ ist hierfür ungeeignet, da führende Nullen ignoriert werden und z.B.\ sowohl $1$ als auch $01$ auf die $1$ abgebildet werden.
 
-Wir verweden deshalb die Standardnummerierung, eine Funktion die auf den folgenden Ideen basiert.
+Wir führen deshalb die \emph{Standardnummerierung} ein, die auf den folgenden Ideen basiert.
 \begin{itemize}
- \item Nummeriere all Binärstrings der Länge nach, bei gleicher Länge gibt die Funktion $\bintonat$ die Reihenfolge vor.
+ \item Nummeriere alle Binärstrings der Länge nach; bei gleicher Länge gibt die Funktion $\bintonat$ die Reihenfolge vor.
  \item Es gibt $2^n$ Binärstrings der Länge $n$.
- \item Für einen Binärstrings der Länge $n$ gibt es also $\sum\limits_i^{n-1} 2^i = 2^n-1$ Binärstrings mit kürzerer Länge.
+ \item Für einen Binärstring der Länge $n$ gibt es also $\sum\limits_{i=0}^{n-1} 2^i = 2^n-1$ Binärstrings mit kürzerer Länge.
 \end{itemize}
 
 
@@ -90,13 +91,13 @@ ist eine bijektive Abbildung.
 
  \begin{figure}[H]\centering
     \begin{tabular}{rr@{\qquad}l}
-    $w\in\{0,1\}^*$ & $\stdnum(w)$\\ \hline
+    $w\in\{0,1\}^*$ & $\stdnum(w)$ & Berechnung\\ \hline
     $\Eps$ & 0 \\
     0 & 1 & $2^0 + 0$\\
     1 & 2 & $2^0 + 1$\\
     00 & 3 & $2^0 + 2^1 + 0$\\
     01 & 4 & $2^0 + 2^1 + 1$\\
-    110 & 13 & $2^0 + 2^1 + 2^1 + 6$\\
+    110 & 13 & $2^0 + 2^1 + 2^2 + 6$\\
     \end{tabular}
 
 	\caption{Standardnummerierung für einige Beispielwerte}
@@ -104,21 +105,23 @@ ist eine bijektive Abbildung.
 
 
 \begin{Def}
- Sei $w\in\{0,1\}$. Die \emph{durch $w$ codierte \ac{TM}} $\M_w$ ist wie folgt definiert.
+ Sei $w\in\{0,1\}^*$.
+ Die \emph{durch $w$ codierte \ac{TM}} $\M_w$ ist wie folgt definiert.
  $$\M_w=\begin{cases}
 \M & \text{falls } w \text{ Code einer \ac{TM} ist und } \godel{\M}=w\\
 \D_\mblank & \text{sonst}
 \end{cases}$$
-Dabei ist $\D_\mblank$ die in \autoref{bsp:simpletms} definierte Druckmaschine.
+Dabei ist $\D_\mblank$ die in \autoref{bsp:simpletms} definierte Druckmaschine.%
 \footnote{Für den weiteren Verlauf ist es nicht wichtig, dass wir hier die Druckmaschine gewählt haben. Jede andere \ac{TM} wäre ebenso gut geeignet gewesen.}
 \end{Def}
 
 \textbf{Notation:}
-Wir verwenden im folgenden \tmach für die Menge aller Turingmaschinen, bei denen jeder Zustand $Q$ von der Transitionsfunktion mindestens einmal auf eine nichtleere Menge abgebildet wird
-und jedes Zeichen aus $\Gamma\backslash(\Sigma\cup\{\mblank\})$ von der Transitionsfunktion mindestens einmal auf eine nichtleere Menge abgebildet wird.
+Wir verwenden im Folgenden $\tmach$ für die Menge aller Turingmaschinen, bei denen jeder Zustand $Q$ von der Transitionsfunktion mindestens einmal auf eine nichtleere Menge abgebildet wird
+und jedes Zeichen aus $\Gamma\setminus(\Sigma\cup\{\mblank\})$ von der Transitionsfunktion mindestens einmal auf eine nichtleere Menge abgebildet wird.
 
 \begin{Bemerkung}
- Im folgenden genügt es wenn wir uns auf \ac{TM}s aus $\tmach$ einschränken. Gibt es eine \ac{TM} die eine Funktion $f$ berechnet, so gibt es auch eine \ac{TM} aus $\tmach$ ie diese Funktion berechnet.
+ Im Folgenden genügt es, wenn wir uns auf \ac{TM}s aus $\tmach$ einschränken.
+ Gibt es eine \ac{TM}, die eine Funktion $f$ berechnet, so gibt es auch eine \ac{TM} aus $\tmach$, die $f$ berechnet.
 \end{Bemerkung}
 
 
