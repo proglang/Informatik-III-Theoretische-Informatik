@@ -178,22 +178,25 @@ Nach Definition der Menge $Z$ gilt nun aber $z\in f(z)\Leftrightarrow z\notin f(
 \end{proof}
 
 Ein Beweis dieser Form wird auch \emph{Diagonalargument} genannt und ist nicht einfach zu verstehen.
-Wir werden den Beweis für den Spezialfall dass $X$ eine abzählbare Menge ist mit der folgenden Matrix illustrieren.
+Wir werden nun den Beweis für den Spezialfall, dass $X$ eine abzählbare Menge ist, illustrieren.
 
-Da $X$ abzählbar ist können wir dessen Elemente als unendliche Sequenz $x_0,x_1,\ldots$ schreiben.
-Wir nehmen nun an es gäbe eine surjektive Abbildung $f:X\rightarrow\calP(X)$.
+Da $X$ abzählbar ist, können wir dessen Elemente als unendliche Sequenz $x_0,x_1,\ldots$ aufschreiben.
+Wir nehmen nun an, es gäbe eine surjektive Abbildung $f:X\rightarrow\calP(X)$.
 Dann können wir $f$ mit Hilfe der folgenden Matrix darstellen.
 Zeile $i$ beschreibt dabei das Bild $f(x_i)$. 
 Wir haben eine Spalte für jedes $x_j\in X$.
 Gilt $x_j\in f(x_i)$ so steht in Eintrag $(i,j)$ ein Y. Ansonsten steht dort ein N.
 
-Da $f$ surjektiv ist muss es wie im formalen Beweis erwähnt auch eine Zeile für die Menge $Z=\{x\in X\mid x\notin f(x)\}\in\calP(X)$ geben.
-Diese Zeile, wir nehmen an es sei die Zeile für $f(x_k)$, enthält nun in genau den Spalten $j\in\N$ ein Y, in denen deren Diagonaleintrag $(j, j)$ kein Y enthält.
+Da $f$ surjektiv ist, muss es wie im formalen Beweis erwähnt auch eine Zeile für die Menge $Z=\{x\in X\mid x\notin f(x)\}\in\calP(X)$ geben.
+Diese Zeile -- wir nehmen an, es sei die Zeile für $f(x_k)$ -- enthält nun in genau den Spalten $j\in\N$ ein Y, in denen deren Diagonaleintrag $(j, j)$ kein Y enthält.
 
-Wir erkennen den Widerspruch wenn wir überlegen was im Diagonaleintrag $(k, k)$ steht.
-Angenommen bei $(k, k)$ steht ein N, dann müsste nach Definition von Zeile $k$ dort ein Y stehen.
-Angenommen bei $(k, k)$ steht ein Y, dann ist die Definition von Zeile $k$ verletzt denn es darf nur dort ein Y stehen wo auch im Diagonaleintrag ein N steht.
+Wir erkennen den Widerspruch, wenn wir überlegen, was im Diagonaleintrag $(k, k)$ stehen soll.
+Angenommen, bei $(k, k)$ steht ein N.
+Dann müsste nach Definition von Zeile $k$ dort ein Y stehen.
+Angenommen, bei $(k, k)$ steht ein Y.
+Dann ist die Definition von Zeile $k$ verletzt, denn es darf nur dort ein Y stehen, wo auch im Diagonaleintrag ein N steht.
 
+\begin{center}
 \begin{tikzpicture}[scale=0.7]
 
 \draw[fill=lightgray!20, draw=lightgray!20] (-1.5,-3.5) rectangle (7.7,-4.5);
@@ -235,7 +238,7 @@ Angenommen bei $(k, k)$ steht ein Y, dann ist die Definition von Zeile $k$ verle
 
 \node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=1] (kk) at (4,-4) {\textbf{?}};
 \end{tikzpicture}
-
+\end{center}
 
 
 
