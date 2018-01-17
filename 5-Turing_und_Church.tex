@@ -874,7 +874,7 @@ Verwende das Zeichen~$1$, um unärcodierte Zahlen zu trennen.
   
    Definiere
    
-   $\godel{\delta}:= 11\godel{q_{t_1}}1\godel{a_{t_1}}1\godel{q_{t_1}'}1\godel{a_{t_1}'}1\godel{d_{t_1}}11\dots 11 \godel{q_{t_n}}1\godel{a_{t_n}}1\godel{q_{t_n}'}1 \godel{a_{t_n}'}1\godel{d_{t_n}}11$.
+   $\godel{\delta}:= \godel{q_{t_1}}1\godel{a_{t_1}}1\godel{q_{t_1}'}1\godel{a_{t_1}'}1\godel{d_{t_1}}11\dots 11 \godel{q_{t_n}}1\godel{a_{t_n}}1\godel{q_{t_n}'}1 \godel{a_{t_n}'}1\godel{d_{t_n}}$.
    
    \item Turingmaschine:
    
@@ -898,7 +898,7 @@ Verwende das Zeichen~$1$, um unärcodierte Zahlen zu trennen.
 		\item Zur Bestimmung von $\godel{\delta}$ schreiben wir nochmal explizit alle Transitionen als 5-Tupel auf:
 		$(q_0, \blank, q_1, \blank, R), (q_0, 0, q_1, 0, R), (q_0, 1, q_1, 1, R)$.
 		
-		\item Turingmaschine: $\godel{\M_r}$ = \\ $111 \underbrace{11\overbrace{0\,1\,0\,1\,00\,1\,0\,1\,000}^\text{erste Transition} 11 \overbrace{0\,1\,00\,1\,00\,1\,00\,1\,000}^\text{zweite Transition} 11 \overbrace{0\,1\,000\,1\,00\,1\,000\,1\,000}^\text{dritte Transition} 11}_{\godel{\delta}}111\underbrace{\,}_{\godel{F}}111$
+		\item Turingmaschine: $\godel{\M_r}$ = \\ $111 \underbrace{\overbrace{0\,1\,0\,1\,00\,1\,0\,1\,000}^\text{erste Transition} 11 \overbrace{0\,1\,00\,1\,00\,1\,00\,1\,000}^\text{zweite Transition} 11 \overbrace{0\,1\,000\,1\,00\,1\,000\,1\,000}^\text{dritte Transition}}_{\godel{\delta}}111\underbrace{\,}_{\godel{F}}111$
 		\qedhere
 	\end{itemize}
 \end{Bsp*}
