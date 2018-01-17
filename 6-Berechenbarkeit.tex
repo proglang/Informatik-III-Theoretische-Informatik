@@ -126,7 +126,7 @@ und jedes Zeichen aus $\Gamma\setminus(\Sigma\cup\{\mblank\})$ von der Transitio
 
 
 \begin{lemma}\label{satz:bintotm}
- Die Abbildung $\nattotm: \Sigma^*\rightarrow \tmach$ 
+ Die Abbildung $\bintotm: \Sigma^*\rightarrow \tmach$ 
  $$ \bintotm(w)=\M_w$$
 ist surjektiv.
 \end{lemma}
@@ -161,7 +161,7 @@ Den Beweis dieses Satzes werden wir später diskutieren.
 \begin{proof}
  Angenommen, jede Funktion $f:\Sigma^*\rightarrow\Sigma^*$ sei berechenbar.
  Dann gibt es für jede Funktion $f$ eine \ac{TM} $\M$ mit $f_\M=f$ und somit eine surjektive Abbildung $g:\tmach\rightarrow(\Sigma^*\rightarrow\Sigma^*)$.
- Nach \autoref{satz:bintotm} und \autoref{satz:functopower} wäre dann aber auch die Abbildung $\functopower\circ g \circ\nattotm:\N\rightarrow\calP(\N)$ surjektiv.
+ Nach \autoref{satz:bintotm} und \autoref{satz:functopower} wäre dann aber auch die Abbildung $\functopower\circ g \circ\bintotm\circ \stdnum^{-1}:\N\rightarrow\calP(\N)$ surjektiv.
  Dies steht im Widerspruch zu \autoref{satz:Cantor}.
 \end{proof}
 
