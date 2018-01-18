@@ -617,6 +617,92 @@ $w$ kein gültiger Code für eine \ac{TM}, dann sei $M_w$ eine beliebige fest
 
   Ein Widerspruch. $\qquad\lightning$
 \end{proof}
+
+
+Dieser Beweis verwendete wieder ein Diagonalargument, wir werden den Beweis nun graphisch illustrieren.
+
+Die folgende Matrix enthält eine Spalte für jedes Wort $w\in\{0,1\}$.
+Wir wählen z.B. $w_i=\stdnum^{-1}$ und aus der Bijektivität von $\stdnum$ folgt dass jedes $w\in\{0,1\}$ einmal vorkommt.
+Wir haben außerdem unendlich viele Zeilen, in Zeile $i$ steht die durch $w_i$ codierte TM.
+Aus \autoref{satz:bintotm} folgt also dass jede TM in mindestens einer Zeile vorkommt.
+In Eintrag $(i,j)$ steht ein Y wenn $\M_{w_i}$ angesetzt auf $w_j$ hält und ein N falls $\M_{w_i}$ angesetzt auf $w_j$ nicht hält.
+(Wir können diese Tabelleneinträge zwar nicht berechnen doch dies ist hier nicht wichtig.)
+Angenommen es gäbe nun eine TM $\M_\$$ die entscheidet ob ...
+
+
+ \begin{figure}[H]\centering
+
+\begin{tikzpicture}[scale=0.7]
+
+\draw[fill=lightgray!20, draw=lightgray!20] (-1.5,-3.5) rectangle (7.7,-4.5);
+
+\node at (0,1) {$w_0$};
+\node at (1,1) {$\dots$};
+\node at (2,1) {$w_i$};
+\node at (3,1) {$\dots$};
+\node at (4,1) {$w_k$};
+\node at (5,1) {$\dots$};
+\node at (6,1) {$w_j$};
+\node at (7,1) {$\dots$};
+
+\node at (-1.2,0) {$\M_{w_0}$};
+\node at (-1.2,-1) {$\vdots$};
+\node at (-1.2,-2) {$\M_{w_i}$};
+\node at (-1.2,-3) {$\vdots$};
+\node at (-1.2,-4) {$\M_{w_k}$};
+\node at (-1.2,-5) {$\vdots$};
+\node at (-1.2,-6) {$\M_{w_j}$};
+\node at (-1.2,-7) {$\vdots$};
+
+\draw (-1.5, 0.5) to (7.5,0.5);
+\draw (-0.5, 1.5) to (-0.5,-7.5);
+
+\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (00) at (0,0) {N};
+\node[lightgray] at (1,0) {$\ldots$};
+\node[lightgray] at (2,0) {Y};
+\node[lightgray] at (3,0) {$\ldots$};
+\node[lightgray] at (4,0) {Y};
+\node[lightgray] at (5,0) {$\ldots$};
+\node[lightgray] at (6,0) {N};
+\node[lightgray] at (7,0) {$\ldots$};
+
+\node[lightgray] at (0,-2) {N};
+\node[lightgray] at (1,-2) {$\ldots$};
+\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (ii) at (2,-2) {Y};
+\node[lightgray] at (3,-2) {$\ldots$};
+\node[lightgray] at (4,-2) {Y};
+\node[lightgray] at (5,-2) {$\ldots$};
+\node[lightgray] at (6,-2) {Y};
+\node[lightgray] at (7,-2) {$\ldots$};
+
+\node (k0) at (0,-4) {Y};
+\node[lightgray] at (1,-4) {$\ldots$};
+\node (ki) at (2,-4) {N};
+\node[lightgray] at (3,-4) {$\ldots$};
+\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=1] (kk) at (4,-4) {\textbf{?}};
+\node[lightgray] at (5,-4) {$\ldots$};
+\node (kj) at (6,-4) {Y};
+\node[lightgray] at (7,-4) {$\ldots$};
+
+\node[lightgray] at (0,-6) {Y};
+\node[lightgray] at (1,-6) {$\ldots$};
+\node[lightgray] at (2,-6) {Y};
+\node[lightgray] at (3,-6) {$\ldots$};
+\node[lightgray] at (4,-6) {N};
+\node[lightgray] at (5,-6) {$\ldots$};
+\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (jj) at (6,-6) {N};
+\node[lightgray] at (7,-6) {$\ldots$};
+
+\draw[->] (00) to (k0);
+\draw[->] (ii) to (ki);
+\draw[->] (jj) to (kj);
+
+\end{tikzpicture}
+	\caption{Illustration des Diagonalargumentens beim Beweis des Satzes von Cantor}
+\end{figure}
+
+
+
 \begin{Korollar}\label{kor:6.11}
   $\overline{K} = \{w \in\{0,1\}^* \mid M_w\text{ h"alt nicht bei
     Eingabe }w \}$,   das Komplement von $K$, 
