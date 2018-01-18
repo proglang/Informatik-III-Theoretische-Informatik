@@ -162,7 +162,7 @@ Es gibt keine surjektive Abbildung einer Menge in ihre Potenzmenge.
 \end{Satz}
 Den Beweis dieses Satzes werden wir später diskutieren.
 
-\begin{Satz}
+\begin{Satz}\label{satz:nichtBerechenbar}
  Es gibt Funktionen, die nicht berechenbar sind.
 \end{Satz}
 \begin{proof}
@@ -277,18 +277,42 @@ Dann ist die Definition von Zeile $k$ verletzt, denn es darf nur dort ein Y steh
 
 
 \subsection{Sprachakzeptanz und Berechenbarkeit}
+Wir möchten nun die Idee von Berechenbarkeit auch auf die zweite Aufgabe von Turingmaschinen, das akzeptieren von Sprachen, übertragen.
+Wir definieren dafür die Menge der Sprachen für die eine Lösung für das Wortproblem (also $w\in L$?) berechnet werden kann wie folgt.
 
-\begin{Def}[name={[Akzeptanz, Entscheidbarkeit, Semi-Entscheidbarkeit]}]
-	Sei $M$ \ac{TM}.
-	\begin{itemize}
-	\item $M$  \emph{akzeptiert} $w\in\Sigma^*$, falls $q_0w
-          \vdash^* uq'v$ Haltekonfiguration und $q'\in F$
-	\item $M$ \emph{akzeptiert} $L\subseteq\Sigma^*$, falls $M$ akzeptiert $w \<-> w\in L$
-	\item $M$ \emph{entscheidet} $L\subseteq\Sigma^*$, falls $M$ akzeptiert $L$ und $M$ hält für jede Eingabe an.
-	\item $L\subseteq\Sigma^*$ ist \emph{semi-entscheidbar} (rekursiv aufzählbar), falls $\exists M$, die $L$ akzeptiert.
-	\item $L\subseteq\Sigma^*$ ist \emph{entscheidbar} (rekursiv), falls $\exists M$, die $L$ entscheidet.
-	\end{itemize}
+\begin{Def}[name={[Entscheidbarkeit, Semi-Entscheidbarkeit]}]
+	Sei $\M$ eine \ac{TM}.
+	Wir sagen $\M$ \emph{entscheidet} $L\subseteq\Sigma^*$, falls die folgenden beiden Eigenschaften gelten:
+	\begin{enumerate}
+	\item $\M$ akzeptiert $L$
+	\item $\M$ hält für jede Eingabe an.
+	\end{enumerate}
+	
+    Eine Sprache $L\subseteq\Sigma^*$ heißt \emph{entscheidbar}, falls es eine TM gibt, die $L$ entscheidet.\footnote{
+    Ein Alternativer in der Literatur auch oft verwendeter Begriff für ``entscheidbar'' ist ``rekursiv''.}
+    
+	Eine Sprache $L\subseteq\Sigma^*$ heißt \emph{semi-entscheidbar}, falls es eine TM gibt, die $L$ akzeptiert.\footnote{
+	Ein Alternativer in der Literatur auch oft verwendeter Begriff für ``semi-entscheidbar'' ist ``rekursiv aufzählbar''.}
 \end{Def}
+
+
+\begin{Satz}
+ Es gibt Sprachen die nicht entscheidbar sind.
+\end{Satz}
+\begin{proof}
+Wähle $\Sigma=\{0,1\}$ und definiere analog zu \autoref{satz:functopower} die Funktion $\langtopower:\Sigma^*\rightarrow \calP(\N)$
+$$\langtopower(L)=\{\stdnum(w) \mid w\in L\}$$
+und zeige dass diese surjektiv ist.
+Führe anschließend analog zum Beweis von \autoref{satz:nichtBerechenbar} einen Widerspruchsbeweis.
+Annahme: Jede Sprache $L\subseteq\Sigma^*$ sei entscheidbar. Also gibt es surjektive Abbildung $g:\tmach\rightarrow\Sigma^*$.
+Somit wäre auch 
+$$\langtopower\circ g \circ\bintotm\circ \stdnum^{-1}:\N\rightarrow\calP(\N)$$
+surjektiv.
+Dies steht im Widerspruch zu \autoref{satz:Cantor}.
+\end{proof}
+
+
+
 
 \begin{Def}[Charaktertistische Funktion]
 Sei $L\subseteq\Sigma^*$ eine Sprache. Die \emph{charakteristische Funktion} $\chi_L:\Sigma^*\rightarrow\{0,1\}$ ist wie folgt definiert:
@@ -300,46 +324,14 @@ $$
 $$
 \end{Def}
 
-
-
+Der folgende Satz zeigt uns nun einen direkten Zusammenhang zwischen den beiden Aufgaben einer Turingmaschine, 
+dem berechnen von Funktionen und dem akzeptieren von Wörtern.
 \begin{Satz}\label{satz:characFunc}
     Sei $\{0,1\}\subseteq\Sigma$.
     Eine Sprache $L\subseteq\Sigma^*$ ist entscheidbar genau dann wenn die charakteristische Funktion $\chi_l$
     berechenbar ist.
 \end{Satz}
 
-
-\begin{lemma}
-Die Menge der Wörter
-\end{lemma}
-
-\begin{lemma}
-Die Abbildung \textit{lang2power}
-\end{lemma}
-
-
-
-\begin{Satz}
-Es gibt Sprachen, die von keiner Turingmaschine akzeptiert werden.
-\end{Satz}
-
-
-\begin{lemma}
-Die Abbildung $\langtopower:\calP(\Sigma^*)\rightarrow \calP(\N)$
-$$\langtopower(L)=\{\stdnum(w)\mid w\in L\}$$
-ist bijektiv.
-\end{lemma}
-
-
-\begin{Satz}
- Es gibt Sprachen die nicht entscheidbar sind.
-\end{Satz}
-\begin{proof}
- Angenommen jede Sprache $L\subseteq\Sigma^*$ sei entscheidbar.
- Dann gibt es für alle $L\subseteq\Sigma^*$ eine \ac{TM} $\M$ mit $f_\M=f$ und somit eine surjektive Abbildung $f:?\rightarrow\calP(\Sigma^*)$.
- Nach ... wäre dann aber auch die Abbildung $functopower\circ f \circ\nattotm:\N\rightarrow\calP(\N)$ surjektiv.
- Dies steht im Wiederspruch zu ...
-\end{proof}
 
 
 
