@@ -119,8 +119,12 @@ Dabei ist $\D_\mblank$ die in \autoref{bsp:simpletms} definierte Druckmaschine.%
 \end{Def}
 
 \textbf{Notation:}
-Wir verwenden im Folgenden $\tmach$ für die Menge aller Turingmaschinen, bei denen jeder Zustand $Q$ von der Transitionsfunktion mindestens einmal auf eine nichtleere Menge abgebildet wird
-und jedes Zeichen aus $\Gamma\setminus(\Sigma\cup\{\mblank\})$ von der Transitionsfunktion mindestens einmal auf eine nichtleere Menge abgebildet wird.
+Wir verwenden im Folgenden $\tmach$ für die Menge aller Turingmaschinen, bei denen 
+\begin{itemize}
+ \item jeder Zustand $Q$ von der Transitionsfunktion mindestens einmal auf eine nichtleere Menge abgebildet wird und
+ \item jedes Zeichen aus $\Gamma\setminus(\Sigma\cup\{\mblank\})$ von der Transitionsfunktion mindestens einmal auf eine nichtleere Menge abgebildet wird.
+\end{itemize}
+
 
 \begin{Bemerkung}
  Im Folgenden genügt es, wenn wir uns auf \ac{TM}s aus $\tmach$ einschränken.
@@ -286,14 +290,21 @@ Dann ist die Definition von Zeile $k$ verletzt, denn es darf nur dort ein Y steh
 	\end{itemize}
 \end{Def}
 
+\begin{Def}[Charaktertistische Funktion]
+Sei $L\subseteq\Sigma^*$ eine Sprache. Die \emph{charakteristische Funktion} $\chi_L:\Sigma^*\rightarrow\{0,1\}$ ist wie folgt definiert:
+$$
+\chi_L(w)=\begin{cases}
+1 & \text{falls } w\in L\\
+0 & \text{falls } w\notin L           
+\end{cases} %\qedhere
+$$
+\end{Def}
 
-\begin{Satz}
-    Eine Sprache $L\subseteq\Sigma^*$ ist entscheidbar genau dann wenn die Funktion
-    $f:\Sigma\rightarrow\{0,1\}$ mit 
-    $$f(w)=\begin{cases}
-       1 & \text{falls } w\in L\\
-       0 & \text{sonst}
-      \end{cases}$$
+
+
+\begin{Satz}\label{satz:characFunc}
+    Sei $\{0,1\}\subseteq\Sigma$.
+    Eine Sprache $L\subseteq\Sigma^*$ ist entscheidbar genau dann wenn die charakteristische Funktion $\chi_l$
     berechenbar ist.
 \end{Satz}
 
@@ -629,7 +640,7 @@ und diskutieren dieses anschließend.
    \draw[->,loop right] (1) to node {$\Gamma$} (1);
   \end{tikzpicture}
   \caption{Definition der TM $\M_\textsf{evil}$ aus dem Beweis von \autoref{satz:6.10} mit Hilfe eines Flussdiagramms.
-  Die TM $\M_{\chi_K}$ verhält sich wie $\M_\text{€}$ aber statt zu akzeptieren (bzw. nicht zu akzeptieren) schreibt diese 1 (bzw. 0) auf das Band und hält.}
+  Die TM $\M_{\chi_K}$ verhält sich wie $\M_\text{€}$ aber statt zu akzeptieren (bzw. nicht zu akzeptieren) schreibt diese 1 (bzw. 0) auf das Band und hält (siehe \autoref{satz:characFunc}).}
   \label{fig:Mevil}
  \end{figure}
 

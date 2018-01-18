@@ -399,25 +399,27 @@ Analog zu den vorigen Kapiteln schreiben wir
  
 %
 %
-\begin{Def}[Die von einer \acs*{TM} $\M$ akzeptierte Sprache] % 2.5
-	\begin{align*}
-		L(\M)=\{ w\in\Sigma^* \mid{}
-		& \qinit w \vdash^*uqv\\
-		&uqv \text{ Haltekonfiguration}\\
-		&q\in F\}
-		\qedhere
-	\end{align*}
+\begin{Def}[Von \acs*{TM} akzeptierte Sprache] % 2.5
+    \label{def:tmAkzeptanz}
+    Wir sagen $\M$ \emph{akzeptiert} $w\in\Sigma^*$ wenn die folgenden drei Eigenschaften gelten.
+    \begin{enumerate}
+     \item $\qinit w \vdash^*uqv$
+     \item $uqv \text{ Haltekonfiguration}$
+     \item $q\in F$
+    \end{enumerate}
+    Die von $\M$ akzeptierte Sprache ist
+    $$L(\M)=\{ w\in\Sigma^* \mid \M \text{ akzeptiert } w\}. 		\qedhere$$
 \end{Def}
 
 
 \begin{Def}[name={[Terminierung]}]
- Eine \ac{DTM} $\M$ \emph{terminiert} auf einer Eingabe $w$,
+ Eine \ac{DTM} $\M$ \emph{hält} auf einer Eingabe $w$,
  falls es eine Haltekonfiguration $uqv$ gibt, sodass $\qinit w\vdash^*uqv$ gilt.
 \end{Def}
 
 Falls eine \ac{DTM} $\M$ ein Wort $w$ nicht akzeptiert, kann dies zwei Ursachen haben:
 \begin{enumerate}
- \item $\M$ terminiert nicht auf $w$.
+ \item $\M$ hält nicht auf $w$.
  \item Der Zustand der Haltekonfiguration von $\M$ auf $w$ ist nicht akzeptierend.
 \end{enumerate}
 
@@ -456,7 +458,7 @@ Wir definieren $\out:\Gamma^* \-> \Sigma^*$ formal wie folgt.
 	\end{alignat*}
 \end{Def}
 \emph{Beobachtung:} Die Funktion $f_\M(w)$ ist genau für die Wörter definiert, 
-für die $\M$ angesetzt auf $w$ terminiert.
+für die $\M$ angesetzt auf $w$ hält.
 
 % 
 % 	\begin{alignat*}{3}
@@ -820,9 +822,9 @@ Dies entspricht nicht unserer Vorstellung eines Computers, denn dieser kann norm
 In diesem Kapitel konstruieren wir nun eine \ac{TM} $\M_U$, die als Eingabe sowohl
 eine Codierung $\godel{\M}$ einer beliebigen \ac{TM} $\M$ als auch deren Eingabe $w$ nimmt, sodass die folgenden drei Eigenschaften gelten.
 \begin{align}
-	\label{Mu-eq-lang} w\in L(\M) &\Leftrightarrow \godel{\M}\#w \in L(\M_U)\tag{UTM-Lang}\\
-	\label{Mu-eq-term} \text{$\M$ hält bei Eingabe $w$} &\Leftrightarrow \text{$\M_U$ hält bei Eingabe $\godel{\M}\#w$}\tag{UTM-Term}\\
-	\label{Mu-eq-func} \text{$f_\M(w)$} &= \text{$f_{\M_U}(\godel{\M}\#w)$}\tag{UTM-Func}
+	\label{Mu-eq-lang} w\in L(\M) &\Leftrightarrow \godel{\M}\#w \in L(\M_U)\\
+	\label{Mu-eq-term} \text{$\M$ hält auf Eingabe $w$} &\Leftrightarrow \text{$\M_U$ hält auf Eingabe $\godel{\M}\#w$}\\
+	\label{Mu-eq-func} \text{$f_\M(w)$} &= \text{$f_{\M_U}(\godel{\M}\#w)$}
 \end{align}
 
 Wir nennen $\M_U$ die \emph{universelle Turingmaschine}.
