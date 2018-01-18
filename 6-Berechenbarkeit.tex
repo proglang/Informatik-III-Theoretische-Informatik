@@ -41,7 +41,7 @@ dass es Funktionen gibt, die von keiner \ac{TM} berechnet werden können.
 
 
 \subsection{Nicht berechenbare Funktionen}
-\draftnote{18.01.2018}
+\draftnote{19.01.2018}
 
 Wir werden nun zeigen, dass es Funktionen gibt, die nicht berechenbar sind.
 Unser Vorgehen wird dabei das folgende sein.
@@ -576,65 +576,85 @@ Die Rückrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1 Sp
 \end{Bem}
 }
 
-\subsection{Universelle \acs*{TM} und das Halteproblem}
 
+\subsection{Das Halteproblem}
+Aus den bisherigen Sätzen wissen wir nur, 
+dass es nicht berechenbare Funktionen und unentscheidbare Sprachen geben muss.
+Es besteht also noch Hoffnung das kein praxisrelevantes Problem betroffen ist.
+In diesem Kapitel werden nun aber für ein ganz konkretes praxisrelevantes Problem die Unentscheidbarkeit nachweisen.
 
-% \begin{Satz}
-% 	Es gibt eine universelle \ac{TM} $\M_U$ mit $L(\M_U) = \{ \ulcorner \M \urcorner w\mid w \in L(\M)\}$
-% \end{Satz}
+% Schreibe ab jetzt $M_w$ für die Maschine mit Gödelnummer $w$. Falls
+% $w$ kein gültiger Code für eine \ac{TM}, dann sei $M_w$ eine beliebige fest
+% \ac{TM} $M$ mit $L(M) = \varnothing$.
 
-
-
-Schreibe ab jetzt $M_w$ für die Maschine mit Gödelnummer $w$. Falls
-$w$ kein gültiger Code für eine \ac{TM}, dann sei $M_w$ eine beliebige fest
-\ac{TM} $M$ mit $L(M) = \varnothing$.
 \begin{Def}[name={[Spezielles Halteproblem]}]
   Das spezielle Halteproblem besteht aus allen Codes von Maschinen, die
   anhalten, falls sie auf den eigenen Code angesetzt werden.
   \begin{align*}
     K &= \{ w \in \{0,1\}^* \mid M_w \text{ angesetzt auf }w\text{
-        terminiert} \}
+        hält} \}\qedhere
   \end{align*}
 \end{Def}
 \begin{Satz}\label{satz:6.10}
   Das spezielle Halteproblem ist unentscheidbar.
 \end{Satz}
+
+Wir geben zunächst eine einen kurzen formalen Beweis mit Hilfe eines Diagonalargumentes
+und diskutieren dieses anschließend.
 \begin{proof}
-  Angenommen $M$ ist eine \ac{TM}, die $K$ entscheidet.
-
-  Konstruiere Maschine $M'$, die zunächst $M$ auf ihre Eingabe
-  anwendet. Falls $M$ akzeptiert, dann geht $M'$ in eine
-  Endlosschleife. Falls $M$ nicht akzeptiert, dann hält $M'$ an.
-
-  Sei $w' = \ulcorner M' \urcorner$ der Code von $M'$ und setze $M$
-  auf $w'$ an. Es gilt:
-
-  $M$ akzeptiert $w'$
-
-  gdw.(nach Def von $K$) $M'$ angesetzt auf $w'$ terminiert
-
-  gdw. $M$ akzeptiert $w'$ nicht.
-
+  Angenommen $\M_\text{€}$ sei eine \ac{TM}, die $K$ entscheidet.
+  Dann gibt es auch eine TM $\M_\textsf{evil}$, (siehe \autoref{fig:Mevil})
+  die zunächst $\M_\text{€}$ auf ihre Eingabe anwendet.\footnote{
+  Der Name $\M_\text{€}$ soll den hohen Wert dieser TM betonen.
+  Gäbe es einen Algorithmus zur Terminierungsanalyse könnten wir damit viele Probleme in der Sofwareentwicklung lösen.
+  Der Name $\M_\textsf{evil}$ soll suggerieren dass diese TM unsere entsprechenden Hoffnungen zunichte macht.
+  }
+  Falls $\M_\text{€}$ akzeptiert, dann geht $\M_\textsf{evil}$ in eine Endlosschleife. 
+  Falls $\M_\text{€}$ nicht akzeptiert, dann hält $\M_\textsf{evil}$ an. Nun gilt:
+  \begin{eqnarray*}
+  \M_\text{€} \text{ akzeptiert } \godel{\M_\textsf{evil}} 
+  &\stackrel{\text{Def. von } K}{gdw.} & \M_\textsf{evil} \text{ angesetzt auf } \godel{\M_\textsf{evil}} \text{ hält }\\
+  &\stackrel{\text{Def. von } \M_\textsf{evil}}{gdw.} & \M_\text{€} \text{ akzeptiert } \godel{\M_\textsf{evil}} \text{ nicht}
+  \end{eqnarray*}
   Ein Widerspruch. $\qquad\lightning$
 \end{proof}
 
+ \begin{figure}[H]\centering
+  \begin{tikzpicture}
+   \node (0) at (0,0) {$\M_{\chi_K}$};
+   \node (init) at (-1.1,.2) {};
+   \node (1) at (2,0) {$\D_\mblank$};
+   \draw[->] (init) to (0);
+   \draw[->] (0) to node[auto] {$1$} (1);
+   \draw[->,loop right] (1) to node {$\Gamma$} (1);
+  \end{tikzpicture}
+  \caption{Definition der TM $\M_\textsf{evil}$ aus dem Beweis von \autoref{satz:6.10} mit Hilfe eines Flussdiagramms.
+  Die TM $\M_{\chi_K}$ verhält sich wie $\M_\text{€}$ aber statt zu akzeptieren (bzw. nicht zu akzeptieren) schreibt diese 1 (bzw. 0) auf das Band und hält.}
+  \label{fig:Mevil}
+ \end{figure}
 
-Dieser Beweis verwendete wieder ein Diagonalargument, wir werden den Beweis nun graphisch illustrieren.
 
+
+% Dieser Beweis verwendete wieder ein Diagonalargument, wir werden den Beweis nun graphisch illustrieren.
+
+Wir wollen diesen Beweis nun wieder graphisch illustrieren.
 Die folgende Matrix enthält eine Spalte für jedes Wort $w\in\{0,1\}$.
-Wir wählen z.B. $w_i=\stdnum^{-1}$ und aus der Bijektivität von $\stdnum$ folgt dass jedes $w\in\{0,1\}$ einmal vorkommt.
+Wir wählen z.B. $w_i=\stdnum^{-1}$ und aus der Bijektivität von $\stdnum$ folgt dass jedes $w\in\{0,1\}^*$ einmal vorkommt.
 Wir haben außerdem unendlich viele Zeilen, in Zeile $i$ steht die durch $w_i$ codierte TM.
 Aus \autoref{satz:bintotm} folgt also dass jede TM in mindestens einer Zeile vorkommt.
 In Eintrag $(i,j)$ steht ein Y wenn $\M_{w_i}$ angesetzt auf $w_j$ hält und ein N falls $\M_{w_i}$ angesetzt auf $w_j$ nicht hält.
 (Wir können diese Tabelleneinträge zwar nicht berechnen doch dies ist hier nicht wichtig.)
-Angenommen es gäbe nun eine TM $\M_\$$ die entscheidet ob ...
-
+Die TM $\M_\text{€}$ deren Existenz wir im Beweis angenommen haben (die für alle $w\in\{0,1\}$ entscheidet ob $\M_w$ angesetzt auf $w$ hält) ist eine TM die alle Diagonaleinträge in unserer Matrix bestimmen kann.
+Die daraufhin konstruierte TM $\M_\textsf{evil}$ (siehe \autoref{fig:Mevil}) muss in irgendeiner Zeile vorkommen.
+Sei $w_k$ das Wort dass die TM $\M_\textsf{evil}$ codiert.
+Die Definition von $\M_\textsf{evil}$ sagt uns, dass die $\M_{w_k}$ Zeile in Spalte $i$ immer genau das Gegenteil (Y/N) des Diagonaleintrags $(i,i)$ enthält. Die Betrachtung des Diagonaleintrags $(k,k)$ zeigt uns den Widerspruch.
+Die Annahme der Existenz von $\M_\text{€}$ war also falsch. 
 
  \begin{figure}[H]\centering
 
 \begin{tikzpicture}[scale=0.7]
 
-\draw[fill=lightgray!20, draw=lightgray!20] (-1.5,-3.5) rectangle (7.7,-4.5);
+\draw[fill=lightgray!20, draw=lightgray!20] (-1.9,-3.5) rectangle (7.7,-4.5);
 
 \node at (0,1) {$w_0$};
 \node at (1,1) {$\dots$};
@@ -657,7 +677,7 @@ Angenommen es gäbe nun eine TM $\M_\$$ die entscheidet ob ...
 \draw (-1.5, 0.5) to (7.5,0.5);
 \draw (-0.5, 1.5) to (-0.5,-7.5);
 
-\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (00) at (0,0) {N};
+\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (00) at (0,0) {Y};
 \node[lightgray] at (1,0) {$\ldots$};
 \node[lightgray] at (2,0) {Y};
 \node[lightgray] at (3,0) {$\ldots$};
@@ -668,16 +688,16 @@ Angenommen es gäbe nun eine TM $\M_\$$ die entscheidet ob ...
 
 \node[lightgray] at (0,-2) {N};
 \node[lightgray] at (1,-2) {$\ldots$};
-\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (ii) at (2,-2) {Y};
+\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (ii) at (2,-2) {N};
 \node[lightgray] at (3,-2) {$\ldots$};
 \node[lightgray] at (4,-2) {Y};
 \node[lightgray] at (5,-2) {$\ldots$};
 \node[lightgray] at (6,-2) {Y};
 \node[lightgray] at (7,-2) {$\ldots$};
 
-\node (k0) at (0,-4) {Y};
+\node (k0) at (0,-4) {N};
 \node[lightgray] at (1,-4) {$\ldots$};
-\node (ki) at (2,-4) {N};
+\node (ki) at (2,-4) {Y};
 \node[lightgray] at (3,-4) {$\ldots$};
 \node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=1] (kk) at (4,-4) {\textbf{?}};
 \node[lightgray] at (5,-4) {$\ldots$};
@@ -698,7 +718,7 @@ Angenommen es gäbe nun eine TM $\M_\$$ die entscheidet ob ...
 \draw[->] (jj) to (kj);
 
 \end{tikzpicture}
-	\caption{Illustration des Diagonalargumentens beim Beweis des Satzes von Cantor}
+	\caption{Illustration des Diagonalargumentens beim Beweis der Unentscheidbarkeit des speziellen Halteproblems}
 \end{figure}
 
 
