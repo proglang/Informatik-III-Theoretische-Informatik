@@ -99,11 +99,11 @@ ist eine bijektive Abbildung.
     00 & 3 & $2^0 + 2^1 + 0$\\
     01 & 4 & $2^0 + 2^1 + 1$\\
     110 & 13 & $2^0 + 2^1 + 2^2 + 6$\\
-    $\godel{\M_r}$ & 72057594037927935 & $2^{55} - 1 + 32977455905055295$\\
+    $\godel{\M_r}$ & 72057594037927935 & $2^{55} - 1 + 32977455905055295$
     \end{tabular}
 
-	\caption{Standardnummerierung für einige Beispielwerte, dabei ist $\godel{\M_r}$ 
-	die in \autoref{bsp:CodeVonMr} bestimmte Codierung der 1-Schritt Rechtsmaschine.}
+	\caption{Standardnummerierung für einige Beispielwerte; dabei ist $\godel{\M_r}$
+	die in \autoref{bsp:CodeVonMr} bestimmte Codierung der 1-Schritt-Rechtsmaschine.}
 \end{figure}
 
 
@@ -192,7 +192,7 @@ Wir nehmen nun an, es gäbe eine surjektive Abbildung $f:X\rightarrow\calP(X)$.
 Dann können wir $f$ mit Hilfe der folgenden Matrix darstellen.
 Zeile $i$ beschreibt dabei das Bild $f(x_i)$. 
 Wir haben eine Spalte für jedes $x_j\in X$.
-Gilt $x_j\in f(x_i)$ so steht in Eintrag $(i,j)$ ein Y. Ansonsten steht dort ein N.
+Gilt $x_j\in f(x_i)$, so steht in Eintrag $(i,j)$ ein Y. Ansonsten steht dort ein N.
 
 Da $f$ surjektiv ist, muss es wie im formalen Beweis erwähnt auch eine Zeile für die Menge $Z=\{x\in X\mid x\notin f(x)\}\in\calP(X)$ geben.
 Diese Zeile -- wir nehmen an, es sei die Zeile für $f(x_k)$ -- enthält nun in genau den Spalten $j\in\N$ ein Y, in denen deren Diagonaleintrag $(j, j)$ kein Y enthält.
@@ -271,21 +271,22 @@ Dann ist die Definition von Zeile $k$ verletzt, denn es darf nur dort ein Y steh
 \draw[->] (jj) to (kj);
 
 \end{tikzpicture}
-	\caption{Illustration des Diagonalargumentes beim Beweis des Satzes von Cantor}
+	\caption{Illustration des Diagonalarguments beim Beweis des Satzes von Cantor}
 \end{figure}
 
 
-Zum Ende des Unterkapitels möchten wir Diagonalargumente nochmal aus einem anderen Blickwinkel, mit Hilfe eines Rätsels, betrachen.
+Zum Ende des Unterkapitels möchten wir Diagonalargumente nochmal aus einem anderen Blickwinkel, mit Hilfe eines Rätsels, betrachten.
 
 \textbf{Rätsel:}
 Der legendäre Barbier von Waldkirch rasierte genau die Männer die sich nicht selbst rasierten.
 Gab es den Barbier von Waldkirch wirklich?
 
-Wir betrachten zum Lösen dieses Rätsels die folgende quadratische Matrix die je eine Zeile und eine Spalte für jeden Mann aus Waldkirch hat.
-Eintrag $(i,j)$ enthält genau dann ein Y, wenn der i-te Mann den j-ten Mann rasiert.
-Gab es den Barbier von Waldkirch so muss er in einer Zeile zu finden sein, nehmen wir an es sei die $k$-te Zeile.
-In dieser Zeile enthält nun der i-te Spalte immer genau das Inverse des Diagonaleintrages $(i,i)$.
-Da der Diagonaleintrag $(k,k)$ nicht invers zu sich selbst sein kann kann es keine Zeile mit der Barbier Eigenschaft und somit auch keinen Barbier von Waldkirch geben.
+Wir betrachten zum Lösen dieses Rätsels die folgende quadratische Matrix, die je eine Zeile und eine Spalte für jeden Mann aus Waldkirch hat.
+Eintrag $(i,j)$ enthält genau dann ein Y, wenn der $i$-te Mann den $j$-ten Mann rasiert.
+Gab es den Barbier von Waldkirch, so muss er in einer Zeile zu finden sein.
+Nehmen wir an, das sei die $k$-te Zeile.
+In dieser Zeile enthält nun der Eintrag in der $i$-ten Spalte immer genau das Inverse des Diagonaleintrags $(i,i)$.
+Da der Diagonaleintrag $(k,k)$ nicht invers zu sich selbst sein kann, kann es keine Zeile für den Barbier von Waldkirch geben.
 
  \begin{figure}[H]\centering
 
@@ -355,7 +356,7 @@ Da der Diagonaleintrag $(k,k)$ nicht invers zu sich selbst sein kann kann es kei
 \draw[->] (jj) to (kj);
 
 \end{tikzpicture}
-	\caption{Illustration des Diagonalargumentes beim Rätsel des Barbier von Waldkirch}
+	\caption{Illustration des Diagonalarguments beim Rätsel des Barbier von Waldkirch}
 \end{figure}
 
 
