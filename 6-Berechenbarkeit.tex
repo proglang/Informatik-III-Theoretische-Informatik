@@ -50,17 +50,50 @@ Unser Vorgehen wird dabei das folgende sein.
  \item Wir zeigen, dass es mehr Funktionen als natürliche Zahlen gibt.
 \end{itemize}
 
-\begin{Bemerkung}
- Zum Verständnis dieses Kapitels ist es nötig sich mit den Begriffen Injektiv, Surjektiv und Bijektiv vertraut zu machen.
- Z.B. mit Hilfe von Aufgabe~4 von Übungsblatt~11.
-\end{Bemerkung}
-
-
 Da es unendlich viele natürliche Zahlen, Turingmaschinen und Funktionen gibt,
 sind die aus der Schule bekannten Formalismen zum Vergleichen von Mengen
 (die Größe einer Menge ist die Anzahl ihrer Elemente)
 nicht anwendbar.
 Wir werden daher über die Existenz von bijektiven Abbildungen argumentieren.
+
+\begin{Bemerkung}
+ Zum Verständnis dieses Kapitels ist es nötig sich mit den Begriffen \emph{Injektiv}, \emph{Surjektiv} und \emph{Bijektiv} vertraut zu machen.
+ Z.B. mit Hilfe von Aufgabe~4 von Übungsblatt~11.
+\end{Bemerkung}
+
+Wir führen zunächst die folgenden drei Begriffe ein.
+\begin{Def}[Abzählbar, Überabzählbar]
+Eine Menge $X$ heißt
+\begin{itemize}
+ \item \emph{abzählbar unendlich}, wenn es eine bijektive Abbildung zwischen $X$ und $\N$ gibt,
+ \item \emph{abzählbar}, wenn $X$ entweder endlich oder abzählbar unendlich ist und
+ \item \emph{überabzählbar}, wenn es keine bijektive Abbildung zwischen $X$ und $\N$ gibt.\qedhere
+\end{itemize}
+\end{Def}
+
+Ein klassisches Vorgehen um die Existenz nicht berechenbarer Funktionen zu zeigen besteht aus den folgenden Schritten.
+% In der Literatur wir die  manchmal in einem allgemeineren Kontext gezeigt.
+% Wir möchten dieses etwas aufwändigere Vorgehen hier noch kurz erwähnen um mit den entsprechenden (in dieser Vorlesung aber nicht relevanten) Begriffen vertraut zu werden.
+
+% Nach dem Einführen dieser Begriffe werden die folgenden drei Dinge gezeigt.
+\begin{enumerate}
+ \item Die Menge der Turingmaschinen ist abzählbar.
+ \item Die Menge aller Funktionen ist überabzählbar.
+ \item Es kann daher nicht zu jeder Funktion auch eine Turingmaschine geben.
+\end{enumerate}
+
+Wir wollen hier das folgende, leicht andere, Vorgehen wählen. Dieses ist weniger Allgemein haber aber etwas leichter nachzuvollziehende Beweise.
+
+\begin{enumerate}
+ \item Es gibt für jede Turingmaschine eine natürliche Zahl.
+ \item Es gibt für jedes Element der Potenzmenge der natürlichen Zahlen $\calP(\N)$ ein Funktion.
+ \item Die Potenzmenge $\calP(\N)$ hat ``sehr viel mehr'' Elemente als $\N$, 
+ es kann daher nicht zu jeder Funktion auch eine Turingmaschine geben.
+\end{enumerate}
+
+
+
+
 
 Zur Vereinfachung werden wir uns in diesem Unterkapitel auf das Alphabet $\Sigma=\{0,1\}$ beschränken.
 
@@ -366,23 +399,7 @@ Da der Diagonaleintrag $(k,k)$ nicht invers zu sich selbst sein kann, kann es ke
 \end{figure}
 
 
-\subsubsection{Abzählbarkeit, Überabzählbarkeit}
-In der Literatur wir die Existenz nicht berechenbarer Funktionen manchmal in einem allgemeineren Kontext gezeigt.
-Wir möchten dieses etwas aufwändigere Vorgehen hier noch kurz erwähnen um mit den entsprechenden (in dieser Vorlesung aber nicht relevanten) Begriffen vertraut zu werden.
-\begin{Def}
-Eine Menge $X$ heißt
-\begin{itemize}
- \item \emph{abzählbar unendlich}, wenn es eine bijektive Abbildung zwischen $X$ und $\N$ gibt,
- \item \emph{abzählbar}, wenn $X$ entweder endlich oder abzählbar unendlich ist und
- \item \emph{überabzählbar}, wenn es keine bijektive Abbildung zwischen $X$ und $\N$ gibt.
-\end{itemize}
-\end{Def}
-Nach dem Einführen dieser Begriffe werden die folgenden drei Dinge gezeigt.
-\begin{itemize}
- \item Die Menge der Turingmaschinen ist abzählbar.
- \item Die Menge aller Funktionen ist überabzählbar.
- \item Es gibt keine surjektive Abbildung von einer abzählbaren in eine überabzählbare Menge.
-\end{itemize}
+
 
 \subsection{Sprachakzeptanz und Berechenbarkeit}
 Wir möchten nun die Idee von Berechenbarkeit auch auf die zweite Aufgabe von Turingmaschinen, das akzeptieren von Sprachen, übertragen.
