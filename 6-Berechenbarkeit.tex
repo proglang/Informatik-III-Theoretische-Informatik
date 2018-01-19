@@ -275,6 +275,90 @@ Dann ist die Definition von Zeile $k$ verletzt, denn es darf nur dort ein Y steh
 \end{figure}
 
 
+Zum Ende des Unterkapitels möchten wir Diagonalargumente nochmal aus einem anderen Blickwinkel, mit Hilfe eines Rätsels, betrachen.
+
+\textbf{Rätsel:}
+Der legendäre Barbier von Waldkirch rasierte genau die Männer die sich nicht selbst rasierten.
+Gab es den Barbier von Waldkirch wirklich?
+
+Wir betrachten zum Lösen dieses Rätsels die folgende quadratische Matrix die je eine Zeile und eine Spalte für jeden Mann aus Waldkirch hat.
+Eintrag $(i,j)$ enthält genau dann ein Y, wenn der i-te Mann den j-ten Mann rasiert.
+Gab es den Barbier von Waldkirch so muss er in einer Zeile zu finden sein, nehmen wir an es sei die $k$-te Zeile.
+In dieser Zeile enthält nun der i-te Spalte immer genau das Inverse des Diagonaleintrages $(i,i)$.
+Da der Diagonaleintrag $(k,k)$ nicht invers zu sich selbst sein kann kann es keine Zeile mit der Barbier Eigenschaft und somit auch keinen Barbier von Waldkirch geben.
+
+ \begin{figure}[H]\centering
+
+\begin{tikzpicture}[scale=0.7]
+
+\draw[fill=lightgray!20, draw=lightgray!20] (-2,-3.5) rectangle (7.7,-4.5);
+
+\node at (0.2,1) {Hans};
+\node at (1.5,1) {$\dots$};
+\node at (2.8,1) {Horst};
+\node at (4.1,1) {$\dots$};
+\node at (5,1) {$M_k$};
+\node at (5.9,1) {$\dots$};
+\node at (7.3,1) {Hubert};
+\node at (9,1) {$\dots$};
+
+\node at (-1.4,0) {Hans};
+\node at (-1.4,-1) {$\vdots$};
+\node at (-1.4,-2) {Horst};
+\node at (-1.4,-3) {$\vdots$};
+\node at (-1.4,-4) {$M_k$};
+\node at (-1.4,-5) {$\vdots$};
+\node at (-1.4,-6) {Hubert};
+\node at (-1.4,-7) {$\vdots$};
+
+\draw (-2.3, 0.5) to (9.5,0.5);
+\draw (-0.5, 1.5) to (-0.5,-7.5);
+
+\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (00) at (0.2,0) {N};
+\node[lightgray] at (1,0) {$\ldots$};
+\node[lightgray] at (2.8,0) {Y};
+\node[lightgray] at (4.1,0) {$\ldots$};
+\node[lightgray] at (5,0) {Y};
+\node[lightgray] at (5.9,0) {$\ldots$};
+\node[lightgray] at (7.3,0) {N};
+\node[lightgray] at (9,0) {$\ldots$};
+
+\node[lightgray] at (0.2,-2) {N};
+\node[lightgray] at (1.5,-2) {$\ldots$};
+\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (ii) at (2.8,-2) {Y};
+\node[lightgray] at (4.1,-2) {$\ldots$};
+\node[lightgray] at (5,-2) {Y};
+\node[lightgray] at (5.9,-2) {$\ldots$};
+\node[lightgray] at (7.3,-2) {Y};
+\node[lightgray] at (9,-2) {$\ldots$};
+
+\node (k0) at (0.2,-4) {Y};
+\node[lightgray] at (1.5,-4) {$\ldots$};
+\node (ki) at (2.8,-4) {N};
+\node[lightgray] at (4.1,-4) {$\ldots$};
+\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=1] (kk) at (5,-4) {\textbf{?}};
+\node[lightgray] at (5.9,-4) {$\ldots$};
+\node (kj) at (7.3,-4) {Y};
+\node[lightgray] at (9,-4) {$\ldots$};
+
+\node[lightgray] at (0.2,-6) {Y};
+\node[lightgray] at (1.5,-6) {$\ldots$};
+\node[lightgray] at (2.8,-6) {Y};
+\node[lightgray] at (4.1,-6) {$\ldots$};
+\node[lightgray] at (5,-6) {N};
+\node[lightgray] at (5.9,-6) {$\ldots$};
+\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (jj) at (7.3,-6) {N};
+\node[lightgray] at (9,-6) {$\ldots$};
+
+\draw[->] (00) to (k0);
+\draw[->] (ii) to (ki);
+\draw[->] (jj) to (kj);
+
+\end{tikzpicture}
+	\caption{Illustration des Diagonalargumentes beim Rätsel des Barbier von Waldkirch}
+\end{figure}
+
+
 
 \subsection{Sprachakzeptanz und Berechenbarkeit}
 Wir möchten nun die Idee von Berechenbarkeit auch auf die zweite Aufgabe von Turingmaschinen, das akzeptieren von Sprachen, übertragen.
