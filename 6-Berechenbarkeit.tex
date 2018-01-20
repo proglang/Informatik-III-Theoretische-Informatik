@@ -11,7 +11,7 @@ dass es Funktionen gibt, die von keiner \ac{TM} berechnet werden können.
 \begin{These*}[name={[Intuitiv berechenbare Funktionen sind mit \acs*{TM} berechenbar]}]
 	Jede intuitiv berechenbare Funktion ist mit einer \ac{TM} (in formalem Sinn) berechenbar.
 	
-	{\color{red}
+	{\color{gray}
 	"`Intuitiv berechenbar"' $\equiv$ man kann einen Algorithmus hinschreiben
 	\begin{itemize}
 		\item endliche Beschreibung
@@ -41,7 +41,7 @@ dass es Funktionen gibt, die von keiner \ac{TM} berechnet werden können.
 
 
 \subsection{Nicht berechenbare Funktionen}
-\draftnote{19.01.2018}
+\datenote{19.01.2018}
 
 Wir werden nun zeigen, dass es Funktionen gibt, die nicht berechenbar sind.
 Unser Vorgehen wird dabei das folgende sein.
@@ -233,20 +233,16 @@ Zeile $i$ beschreibt dabei das Bild $f(x_i)$.
 Wir haben eine Spalte für jedes $x_j\in X$.
 Gilt $x_j\in f(x_i)$, so steht in Eintrag $(i,j)$ ein Y. Ansonsten steht dort ein N.
 
-Da $f$ surjektiv ist, muss es wie im formalen Beweis erwähnt auch eine Zeile für die Menge $Z=\{x\in X\mid x\notin f(x)\}\in\calP(X)$ geben.
-Diese Zeile -- wir nehmen an, es sei die Zeile für $f(x_k)$ -- enthält nun in genau den Spalten $j\in\N$ ein Y, in denen deren Diagonaleintrag $(j, j)$ kein Y enthält.
+Da $f$ surjektiv ist, muss es auch für die im formalen Beweis erwähnt Menge $Z=\{x\in X\mid x\notin f(x)\}\in\calP(X)$ eine Zeile geben.
+Diese Zeile -- wir nehmen an, es sei die Zeile für $f(x_k)$ -- enthält nun in Spalte $j$ immer genau das Inverse des Diagonaleintrages $(j, j)$.
+Da der Diagonaleintrag $(k,k)$ nicht invers zu sich selbst sein kann haben wir einen Widerspruch zu unserer Annahme.
 
-Wir erkennen den Widerspruch, wenn wir überlegen, was im Diagonaleintrag $(k, k)$ stehen soll.
-Angenommen, bei $(k, k)$ steht ein N.
-Dann müsste nach Definition von Zeile $k$ dort ein Y stehen.
-Angenommen, bei $(k, k)$ steht ein Y.
-Dann ist die Definition von Zeile $k$ verletzt, denn es darf nur dort ein Y stehen, wo auch im Diagonaleintrag ein N steht.
 
  \begin{figure}[H]\centering
 
 \begin{tikzpicture}[scale=0.7]
 
-\draw[fill=lightgray!20, draw=lightgray!20] (-1.5,-3.5) rectangle (7.7,-4.5);
+\draw[fill=lightgray!20, draw=lightgray!20] (-2,-3.5) rectangle (7.7,-4.5);
 
 \node at (0,1) {$x_0$};
 \node at (1,1) {$\dots$};
@@ -257,16 +253,16 @@ Dann ist die Definition von Zeile $k$ verletzt, denn es darf nur dort ein Y steh
 \node at (6,1) {$x_j$};
 \node at (7,1) {$\dots$};
 
-\node at (-1,0) {$x_0$};
-\node at (-1,-1) {$\vdots$};
-\node at (-1,-2) {$x_i$};
-\node at (-1,-3) {$\vdots$};
-\node at (-1,-4) {$x_k$};
-\node at (-1,-5) {$\vdots$};
-\node at (-1,-6) {$x_j$};
-\node at (-1,-7) {$\vdots$};
+\node at (-1.3,0) {$f(x_0)$};
+\node at (-1.3,-1) {$\vdots$};
+\node at (-1.3,-2) {$f(x_i)$};
+\node at (-1.3,-3) {$\vdots$};
+\node at (-1.3,-4) {$f(x_k)$};
+\node at (-1.3,-5) {$\vdots$};
+\node at (-1.3,-6) {$f(x_j)$};
+\node at (-1.3,-7) {$\vdots$};
 
-\draw (-1.5, 0.5) to (7.5,0.5);
+\draw (-2, 0.5) to (7.5,0.5);
 \draw (-0.5, 1.5) to (-0.5,-7.5);
 
 \node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (00) at (0,0) {N};
@@ -317,7 +313,7 @@ Dann ist die Definition von Zeile $k$ verletzt, denn es darf nur dort ein Y steh
 Zum Ende des Unterkapitels möchten wir Diagonalargumente nochmal aus einem anderen Blickwinkel, mit Hilfe eines Rätsels, betrachten.
 
 \textbf{Rätsel:}
-Der legendäre Barbier von Waldkirch rasierte genau die Männer die sich nicht selbst rasierten.
+Der legendäre \emph{Barbier von Waldkirch} rasierte genau die Männer die sich nicht selbst rasierten.
 Gab es den Barbier von Waldkirch wirklich?
 
 Wir betrachten zum Lösen dieses Rätsels die folgende quadratische Matrix, die je eine Zeile und eine Spalte für jeden Mann aus Waldkirch hat.
@@ -331,7 +327,7 @@ Da der Diagonaleintrag $(k,k)$ nicht invers zu sich selbst sein kann, kann es ke
 
 \begin{tikzpicture}[scale=0.7]
 
-\draw[fill=lightgray!20, draw=lightgray!20] (-2,-3.5) rectangle (7.7,-4.5);
+\draw[fill=lightgray!20, draw=lightgray!20] (-2,-3.5) rectangle (9.7,-4.5);
 
 \node at (0.2,1) {Hans};
 \node at (1.5,1) {$\dots$};
@@ -405,7 +401,7 @@ Da der Diagonaleintrag $(k,k)$ nicht invers zu sich selbst sein kann, kann es ke
 Wir möchten nun die Idee von Berechenbarkeit auch auf die zweite Aufgabe von Turingmaschinen, das akzeptieren von Sprachen, übertragen.
 Wir definieren dafür die Menge der Sprachen für die eine Lösung für das Wortproblem (also $w\in L$?) berechnet werden kann wie folgt.
 
-\begin{Def}[name={[Entscheidbarkeit, Semi-Entscheidbarkeit]}]
+\begin{Def}[name={[Entscheidbarkeit]}]
 	Sei $\M$ eine \ac{TM}.
 	Wir sagen $\M$ \emph{entscheidet} $L\subseteq\Sigma^*$, falls die folgenden beiden Eigenschaften gelten:
 	\begin{enumerate}
@@ -415,17 +411,17 @@ Wir definieren dafür die Menge der Sprachen für die eine Lösung für das Wort
 	
     Eine Sprache $L\subseteq\Sigma^*$ heißt \emph{entscheidbar}, falls es eine TM gibt, die $L$ entscheidet.\footnote{
     Ein Alternativer in der Literatur auch oft verwendeter Begriff für ``entscheidbar'' ist ``rekursiv''.}
-    
-	Eine Sprache $L\subseteq\Sigma^*$ heißt \emph{semi-entscheidbar}, falls es eine TM gibt, die $L$ akzeptiert.\footnote{
-	Ein Alternativer in der Literatur auch oft verwendeter Begriff für ``semi-entscheidbar'' ist ``rekursiv aufzählbar''.}
 \end{Def}
 
 
 \begin{Satz}
  Es gibt Sprachen die nicht entscheidbar sind.
 \end{Satz}
+
 \begin{proof}
-Wähle $\Sigma=\{0,1\}$ und definiere analog zu \autoref{satz:functopower} die Funktion $\langtopower:\Sigma^*\rightarrow \calP(\N)$
+Wähle $\Sigma=\{0,1\}$ 
+\draftnote{24.01.2018}
+und definiere analog zu \autoref{satz:functopower} die Funktion $\langtopower:\Sigma^*\rightarrow \calP(\N)$
 $$\langtopower(L)=\{\stdnum(w) \mid w\in L\}$$
 und zeige dass diese surjektiv ist.
 Führe anschließend analog zum Beweis von \autoref{satz:nichtBerechenbar} einen Widerspruchsbeweis.
@@ -723,7 +719,7 @@ In diesem Kapitel werden nun aber für ein ganz konkretes praxisrelevantes Probl
         hält} \}\qedhere
   \end{align*}
 \end{Def}
-\begin{Satz}\label{satz:6.10}
+\begin{Satz}\label{satz:speziellesHalteproblem}
   Das spezielle Halteproblem ist unentscheidbar.
 \end{Satz}
 
@@ -756,7 +752,7 @@ und diskutieren dieses anschließend.
    \draw[->] (0) to node[auto] {$1$} (1);
    \draw[->,loop right] (1) to node {$\Gamma$} (1);
   \end{tikzpicture}
-  \caption{Definition der TM $\M_\textsf{evil}$ aus dem Beweis von \autoref{satz:6.10} mit Hilfe eines Flussdiagramms.
+  \caption{Definition der TM $\M_\textsf{evil}$ aus dem Beweis von \autoref{satz:speziellesHalteproblem} mit Hilfe eines Flussdiagramms.
   Die TM $\M_{\chi_K}$ verhält sich wie $\M_\text{€}$ aber statt zu akzeptieren (bzw. nicht zu akzeptieren) schreibt diese 1 (bzw. 0) auf das Band und hält (siehe \autoref{satz:characFunc}).}
   \label{fig:Mevil}
  \end{figure}
@@ -849,24 +845,35 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 	\caption{Illustration des Diagonalargumentes beim Beweis der Unentscheidbarkeit des speziellen Halteproblems}
 \end{figure}
 
-
-
 \begin{Korollar}\label{kor:6.11}
-  $\overline{K} = \{w \in\{0,1\}^* \mid M_w\text{ h"alt nicht bei
-    Eingabe }w \}$,   das Komplement von $K$, 
+    Das Komplement von $K$
+  $$\overline{K} = \{w \in\{0,1\}^* \mid M_w\text{ h"alt nicht bei Eingabe }w \}$$
   ist nicht entscheidbar.
 \end{Korollar}
 \begin{proof}
-	Angenommen $\overline{K}$ sei entscheidbar durch $M$. Dann
-        entscheidet $M'$  $K$. $M'$ führt zuerst $M$ aus und negiert das Ergebnis. $\lightning$ \autoref{satz:6.10}
+	Angenommen $\overline{K}$ sei entscheidbar durch eine TM $\M$. 
+	Betrachte TM $\M'$ die zunächst $\M$ ausführt und dann das Ergebnis negiert.
+	$\M'$ entscheidet $K$. $\lightning$ 
+	Widerspruch zu \autoref{satz:speziellesHalteproblem}
 \end{proof}
-\begin{lemma}[name={[$K$ ist semi-entscheidbar]}]
+
+
+
+
+\begin{Def}[name={[Semi-Entscheidbarkeit]}]
+	Eine Sprache $L\subseteq\Sigma^*$ heißt \emph{semi-entscheidbar}, falls es eine TM gibt, die $L$ akzeptiert.\footnote{
+	Ein Alternativer in der Literatur auch oft verwendeter Begriff für ``semi-entscheidbar'' ist ``rekursiv aufzählbar''.}
+\end{Def}
+
+
+\begin{lemma}[name={[$K$ ist semi-entscheidbar]}]\label{lemma:Ksemi-entscheidbar}
 	$K$ ist semi-entscheidbar.
 \end{lemma}
 \begin{proof}
-  Die Maschine $M$ kopiert die Eingabe $w$ und führt die universelle
-  \ac{TM} für $M_w$ aus. Falls diese Simulation stoppt, geht $M$ in einen
-  akzeptierenden Zustand und terminiert.
+  Die wie folgt konstruierte TM $\M$ akzeptiert $K$.
+  Sei $w$ die Eingabe. 
+  Führe die universelle \ac{TM} für $M_w$ mit Eingabe $w$ aus.
+  Falls diese Simulation stoppt, geht $\M$ in einen akzeptierenden Zustand und hält.
 \end{proof}
 % \begin{Def}[name={[length-lexicographic order]}]
 % 	Die \emph{length-lexicographic order} auf $\{0, 1\}^*$ (mit $0<1$) ist definiert durch
@@ -889,7 +896,7 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 % 	\[D = \{w(i) \mid w(i) \notin L(M_i)\}\]
 % 	das heißt $M_i$ akzeptiert $w(i)$ nicht.
 % \end{Def}
-% \begin{Satz}[name={[$D$ ist nicht entscheidbar]}]\label{satz:6.10}
+% \begin{Satz}[name={[$D$ ist nicht entscheidbar]}]\label{satz:speziellesHalteproblem}
 % 	$D$ ist nicht entscheidbar.
 % \end{Satz}
 % \begin{proof}
@@ -906,7 +913,7 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 % \end{Korollar}
 % \begin{proof}
 % 	Angenommen $\overline{D}$ sei entscheidbar durch $M$. Dann entscheidet $M'\ D$. $M'$ führt 
-% 	zuerst $M$ aus und negiert das Ergebnis. $\lightning$ \autoref{satz:6.10}
+% 	zuerst $M$ aus und negiert das Ergebnis. $\lightning$ \autoref{satz:speziellesHalteproblem}
 % \end{proof}
 % \begin{lemma}[name={[$\overline{D}$ ist semi-entscheidbar]}]
 % 	$\overline{D}$ ist semi-entscheidbar.
@@ -921,76 +928,66 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 % 	Wende $U$ auf $ww$ an.\\
 % 	Insgesamt: \ac{TM}, die $\overline{D}$ akzeptiert.
 % \end{proof}
+
+
+
 \begin{Satz}[name={[{$L,\overline{L}$ semi-entscheidbar $\=> L$ entscheidbar}]},restate={[name=Wiederholung]repeatSatz613}]\label{satz:6.13}
-	Falls $L$ semi-entscheidbar und $\overline{L}$ semi-entscheidbar, dann ist $L$ entscheidbar.
+    Wenn eine Sprache $L$ und ihr Komplement $\overline{L}$ semi-entscheidbar sind dann ist $L$ entscheidbar.
 \end{Satz}
 \begin{proof}
-	Sei $M$ die \ac{TM} für $L$, $\overline{M}$ die \ac{TM} für $\overline{L}$.\\
-	Führe $M$ und $\overline{M}$ "`parallel"' mit der gleichen Eingabe aus.\\
-	Falls $M$ akzeptiert $\Rightarrow$ Ja\\
-	Falls $\overline{M}$ akzeptiert $\Rightarrow$ Nein.\\
-	Eine der Maschinen muss anhalten, wegen Voraussetzung.
+	Sei $\M$ \ac{TM} die $L$ akzeptiert, sei $\overline{\M}$ \ac{TM} die $\overline{L}$ akzeptiert.
+	Führe $\M$ und $\overline{\M}$ "`parallel"' mit der gleichen Eingabe aus. (Z.B. mit Hilfe von 2-Band \ac{TM})\\
+	Mindestens eine der \ac{TM} muss anhalten, da semi-entscheidbar.
+	Falls $\M$ akzeptiert -- halte und akzeptiere.\\
+	Falls $\overline{\M}$ akzeptiert -- halte aber akzeptiere nicht.\\
 \end{proof}
-$K$ \quad nicht entscheidbar\\
-$\overline{K}$ \quad nicht entscheidbar\\
-$K$ \quad semi-entscheidbar (Typ-0)\\
-$\overline{K}$ \quad nicht-semientscheidbar (keine Typ-0)
-\begin{Korollar}
-	$\mathcal{L}_0 \supsetneqq \mathcal{L}_1$
+
+\begin{Korollar}\label{kor:6.11}
+    Das Komplement des speziellen Halteproblems $\overline{K}$
+    ist nicht semi-entscheidbar.
 \end{Korollar}
 \begin{proof}
-	$K$ ist unentscheidbar (also $\notin \mathcal{L}_1$), aber semi-entscheidbar (also $\in \mathcal{L}_0$).
+Nach \autoref{lemma:Ksemi-entscheidbar} ist $K$ semi-entscheidbar. 
+Angenommen $\overline{K}$ sei auch semi-entscheidbar dann wäre nach \autoref{satz:6.13} $K$ entscheidbar.
+Widerspruch zu \autoref{satz:speziellesHalteproblem}.
 \end{proof}
-\emph{\textbf{Fragen:}}
-\begin{enumerate}
-	\item Ist $\mathcal{L}_1$ = Menge der entscheidbaren Sprachen?
-	\item[--] Nein:\\
-	\begin{minipage}[t]{.7\linewidth}
-	Konstruiere eine Kodierung von Typ-1 Grammatiken als Worte
-        $w\in\{0,1\}^*$. Die Grammatik zum Wort $w$ sei $G_w$; falls
-        $w$ kein sinnvoller Kode ist, setze $G_w = (\{S\}, \{0,1\},
-        \{\}, S)$ die leere Grammatik.
-        
-	Die \emph{Diagonalsprache} $D = \{w \in\{\0,1\}^* \mid w\notin
-        L(G_w)\}$ ist entscheidbar, weil das Wortproblem für Typ-1  
-	Sprachen entscheidbar, aber es $\nexists w$, sodass $L(G_w) =
-        D$. Beweis durch Widerspruch.
-	\end{minipage}\quad
-	\begin{tabular}[t]{M{c} | *4{M{c}@{ }}}
-		\ &w_1&w_2&w_3&\cdots\\\hline
-		G_1 &\\
-		G_2 &\\
-		G_3 &\\
-		\vdots&
-	\end{tabular}
-	\item Ist $\mathcal{L}_0$ = Menge aller Sprachen?
-	\item[--] Nein: $\overline{K} \notin \mathcal{L}_0$
-\end{enumerate}
+
+
 \begin{Def}[Reduktion]\ \\
-  Seien $U, V \subseteq \Sigma^*$ Sprachen.\\
-  \emph{$U$ ist auf $V$ reduzierbar ($U \preceq V$)}, falls eine totale berechenbare Funktion
-  $f:\Sigma^* \to \Sigma^*$ existiert, so dass $\forall x \in \Sigma^*:x \in U \iff f(x) \in V$.
+  Seien $U, V \subseteq \Sigma^*$ Sprachen.
+  \emph{$U$ ist auf $V$ reduzierbar (Notation: $U \preceq V$)}, falls eine totale berechenbare Funktion
+  $f:\Sigma^* \to \Sigma^*$ existiert, so dass 
+  \[
+    \forall x \in \Sigma^*:x \in U \iff f(x) \in V. \qedhere
+  \]
+
 \end{Def}
-\begin{lemma}
-  Falls $U \preceq V$ und $V$ \mbox{(semi-)entscheidbar}, dann ist auch $U$
+\begin{lemma}\label{lemma:reduktion}
+  Falls $U \preceq V$ gilt und Sprache $V$ \mbox{(semi-)entscheidbar}, dann ist auch Sprache $U$
   \mbox{(semi-)entscheidbar}.
-\end{lemma}\vspace{-1.5em}
+\end{lemma}
 \begin{proof}
-  Wenn $M$ ein (Semi-)Entscheidungsverfahren für $V$ ist, dann konstruiere $M'$ wie folgt
+  Sei $\M_V$ \ac{TM} die ein (Semi-)Entscheidungsverfahren für $V$ implementiert, 
+  sei $\M_f$ \ac{TM} die $f$ berechnet.
+  Konstruiere $\M_U$ wie folgt:
   \begin{itemize}
-  \item wende erst $f$ auf die Eingabe $x$ an ($f$ ist berechenbare
-    Funktion gemäß Reduktion und kann daher programmiert werden)
-  \item führe $M$ auf dem Ergebnis $f(x)$ aus
+  \item Wende erst $\M_f$ auf die Eingabe $w$ an.
+  \item Führe dann $\M_V$ auf dem Ergebnis $f(w)$ aus.
   \end{itemize}
-  $\curvearrowright$ $M'$ ist (Semi-)Entscheidungsverfahren für
-  $U$. (Weil $f$ total ist, terminiert der Code  für $f$ immer und daher "andert das Terminationsverhalten nicht.)
+  Da $f$ total, hält $\M_f$ immer und $\M_U$ hat das gleiche Terminationsverhalten wie $\M_V$.
 \end{proof}
-\emph{Anwendung:} $U \preceq V$ und $U$
-unentscheidbar $\curvearrowright$ $V$ unentscheidbar.
+
+\begin{Bemerkung} \autoref{lemma:reduktion} wird oft verwendet um zu zeigen dass eine Sprache nicht \mbox{(semi-)entscheidbar} ist.
+Dafür nutzen wir die Negation der Implikation.
+\begin{itemize}
+ \item $U \preceq V$ und $U$ unentscheidbar $\Rightarrow$ $V$ unentscheidbar.
+ \item $U \preceq V$ und $U$ nicht semi-entscheidbar $\Rightarrow$ $V$ nicht semi-entscheidbar.
+\end{itemize}
+\end{Bemerkung}
 
 \begin{Def}[name={[Halteproblem]}]
 	Das \emph{Halteproblem} ist definiert durch
-	\[H = \{\ulcorner M\urcorner\# w \mid M \text{ hält bei Eingabe } w \text{ an}\} \qedhere\]
+	\[H = \{\godel{M}\# w \mid M \text{ hält bei Eingabe } w \text{ an}\} \qedhere\]
 \end{Def}
 \begin{Satz}[name={[$H$ ist unentscheidbar]}]\label{satz:H ist unentscheidbar}
 	$H$ ist unentscheidbar.
@@ -998,8 +995,10 @@ unentscheidbar $\curvearrowright$ $V$ unentscheidbar.
 \begin{proof}
   Die Funktion $f (w) = w\#w$ ist total berechenbar und liefert eine
   Reduktion  $K \preceq H$.
-
-  Denn: $w \in K$ gdw. $M_w$ hält bei Eingabe $w$ an gdw. $w\#w \in H$.
+  \begin{align*}
+   w \in K & \quad\Longleftrightarrow\quad \text{ $M_w$ hält bei Eingabe $w$ an}\\
+   & \quad\Longleftrightarrow\quad w\#w \in H \qedhere
+  \end{align*}
 \end{proof}
 % \begin{proof}
 % 	Angenommen $M_0$ entscheidet $H$.\\
@@ -1019,23 +1018,27 @@ unentscheidbar $\curvearrowright$ $V$ unentscheidbar.
 	$H$ ist semi-entscheidbar.
 \end{Satz}
 \begin{proof}
-	Modifiziere $U$, sodass sie jede Eingabe akzeptiert, bei der sie anhält.
+  Die wie folgt konstruierte TM $\M$ akzeptiert $H$.
+  Führe die universelle \ac{TM} auf Eingabe $\godel{M}\#w$
+  Falls diese Simulation stoppt, geht $\M$ in einen akzeptierenden Zustand und hält.
 \end{proof}
+
+
 \begin{Def}[name={[Halteproblem auf leerem Band $H_\varepsilon$]}]
-  Das Halteproblem auf leerem Band $H_\varepsilon = \{\ulcorner M\urcorner \mid M 
-	\text{ terminiert auf leeren Band}\}$
+	Das \emph{Halteproblem auf leerem Band} ist definiert durch
+	\[H = \{\godel{M}\# w \mid M \text{ hält auf leerem Band }\} \qedhere\]
 \end{Def}
 \begin{Satz}[name={[$H_\varepsilon$ ist unentscheidbar]}]
 	$H_\varepsilon$ ist unentscheidbar.
 \end{Satz}
 \begin{proof}
   Konstruiere eine Reduktion $H \preceq H_\varepsilon$ mit Hilfe der
-  Funktion $f(w\#x) = w'$, wobei $w'$ der Code einer \ac{TM} ist, die
+  Funktion $f(w\#x) = \godel{\M}$, wobei $\M$ \ac{TM}, die
   \begin{itemize}
-  \item zuerst $x$ aufs leere Band schreibt und dann
-  \item $M_w$ auf diese Eingabe anwendet.
+  \item zuerst $x$ auf das leere Band schreibt und dann
+  \item die durch $w$ codierte \ac{TM} $M_w$ auf diese Eingabe anwendet.
   \end{itemize}
-  Offenbar gilt $w\#x\in H$ gdw. $f (w\#x) \in H_\varepsilon$.
+  Offenbar gilt $w\#x\in H$ gdw. $f(w\#x) \in H_\varepsilon$.
 \end{proof}
 % \begin{proof}
 % 	Angenommen $M_\varepsilon$ entscheidet $H_\varepsilon$.\\
@@ -1090,6 +1093,44 @@ Funktionen.
   Also entscheidet $M''$ $H_\varepsilon$.$\qquad\lightning$
 \end{proof}
 
+
+
+
+
+Bemerkung: Korollar zu 
+\begin{Korollar}
+	$\mathcal{L}_0 \supsetneqq \mathcal{L}_1$
+\end{Korollar}
+\begin{proof}
+	$K$ ist unentscheidbar (also $\notin \mathcal{L}_1$), aber semi-entscheidbar (also $\in \mathcal{L}_0$).
+\end{proof}
+\emph{\textbf{Fragen:}}
+\begin{enumerate}
+	\item Ist $\mathcal{L}_1$ = Menge der entscheidbaren Sprachen?
+	\item[--] Nein:\\
+	\begin{minipage}[t]{.7\linewidth}
+	Konstruiere eine Kodierung von Typ-1 Grammatiken als Worte
+        $w\in\{0,1\}^*$. Die Grammatik zum Wort $w$ sei $G_w$; falls
+        $w$ kein sinnvoller Kode ist, setze $G_w = (\{S\}, \{0,1\},
+        \{\}, S)$ die leere Grammatik.
+        
+	Die \emph{Diagonalsprache} $D = \{w \in\{\0,1\}^* \mid w\notin
+        L(G_w)\}$ ist entscheidbar, weil das Wortproblem für Typ-1  
+	Sprachen entscheidbar, aber es $\nexists w$, sodass $L(G_w) =
+        D$. Beweis durch Widerspruch.
+	\end{minipage}\quad
+	\begin{tabular}[t]{M{c} | *4{M{c}@{ }}}
+		\ &w_1&w_2&w_3&\cdots\\\hline
+		G_1 &\\
+		G_2 &\\
+		G_3 &\\
+		\vdots&
+	\end{tabular}
+	\item Ist $\mathcal{L}_0$ = Menge aller Sprachen?
+	\item[--] Nein: $\overline{K} \notin \mathcal{L}_0$
+\end{enumerate}
+
+
 \subsection{Eigenschaften von entscheidbaren und semi-entscheidbaren Sprachen}
 \begin{Satz}[name={[Eigenschaften von Entscheidbarkeit]}]
 \label{thm:eigensch-von-entsch}
@@ -1110,7 +1151,7 @@ Funktionen.
   unter Komplement abgeschlossen.
 \end{Satz}
 \begin{proof}
-  Laut \autoref{satz:6.10} und \autoref{kor:6.11} sind das spezielle Halteproblem $K$ und $\overline{K}$ nicht entscheidbar.
+  Laut \autoref{satz:speziellesHalteproblem} und \autoref{kor:6.11} sind das spezielle Halteproblem $K$ und $\overline{K}$ nicht entscheidbar.
   
   $K$ ist semi-entscheidbar, aber nicht $\overline{K}$.
 \end{proof}
