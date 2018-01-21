@@ -28,7 +28,7 @@ dass es Funktionen gibt, die von keiner \ac{TM} berechnet werden können.
 \end{These*}
 
 \begin{Def}\label{def:berechenbar}
- Eine Funktion $f:\Sigma^*\rightarrow\Sigma^*$ heißt \emph{berechenbar}, wenn es eine Turingmaschine $\M$ gibt,
+ Eine (partielle) Funktion $f:\Sigma^*\rightarrow\Sigma^*$ heißt \emph{berechenbar}, wenn es eine Turingmaschine $\M$ gibt,
  sodass $f$ die von $\M$ berechnete Funktion ist.
 \end{Def}
 \begin{Bemerkung}
@@ -938,8 +938,10 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 	Sei $\M$ \ac{TM} die $L$ akzeptiert, sei $\overline{\M}$ \ac{TM} die $\overline{L}$ akzeptiert.
 	Führe $\M$ und $\overline{\M}$ "`parallel"' mit der gleichen Eingabe aus. (Z.B. mit Hilfe von 2-Band \ac{TM})\\
 	Mindestens eine der \ac{TM} muss anhalten, da semi-entscheidbar.
-	Falls $\M$ akzeptiert -- halte und akzeptiere.\\
-	Falls $\overline{\M}$ akzeptiert -- halte aber akzeptiere nicht.\\
+	\begin{itemize}
+	\item Falls $\M$ akzeptiert -- halte und akzeptiere.
+	\item Falls $\overline{\M}$ akzeptiert -- halte aber akzeptiere nicht. \qedhere
+	\end{itemize}
 \end{proof}
 
 \begin{Korollar}\label{kor:6.11}
@@ -967,8 +969,8 @@ Widerspruch zu \autoref{satz:speziellesHalteproblem}.
   \mbox{(semi-)entscheidbar}.
 \end{lemma}
 \begin{proof}
-  Sei $\M_V$ \ac{TM} die ein (Semi-)Entscheidungsverfahren für $V$ implementiert, 
-  sei $\M_f$ \ac{TM} die $f$ berechnet.
+  Sei $\M_V$ eine \ac{TM} die ein (Semi-)Entscheidungsverfahren für $V$ implementiert, 
+  sei $\M_f$ eine \ac{TM} die $f$ berechnet.
   Konstruiere $\M_U$ wie folgt:
   \begin{itemize}
   \item Wende erst $\M_f$ auf die Eingabe $w$ an.
@@ -987,7 +989,7 @@ Dafür nutzen wir die Negation der Implikation.
 
 \begin{Def}[name={[Halteproblem]}]
 	Das \emph{Halteproblem} ist definiert durch
-	\[H = \{\godel{M}\# w \mid M \text{ hält bei Eingabe } w \text{ an}\} \qedhere\]
+	\[H = \{\godel{\M}\# w \mid M \text{ hält bei Eingabe } w \text{ an}\} \qedhere\]
 \end{Def}
 \begin{Satz}[name={[$H$ ist unentscheidbar]}]\label{satz:H ist unentscheidbar}
 	$H$ ist unentscheidbar.
@@ -996,7 +998,7 @@ Dafür nutzen wir die Negation der Implikation.
   Die Funktion $f (w) = w\#w$ ist total berechenbar und liefert eine
   Reduktion  $K \preceq H$.
   \begin{align*}
-   w \in K & \quad\Longleftrightarrow\quad \text{ $M_w$ hält bei Eingabe $w$ an}\\
+   w \in K & \quad\Longleftrightarrow\quad \text{ $\M_w$ hält bei Eingabe $w$ an}\\
    & \quad\Longleftrightarrow\quad w\#w \in H \qedhere
   \end{align*}
 \end{proof}
@@ -1026,17 +1028,18 @@ Dafür nutzen wir die Negation der Implikation.
 
 \begin{Def}[name={[Halteproblem auf leerem Band $H_\varepsilon$]}]
 	Das \emph{Halteproblem auf leerem Band} ist definiert durch
-	\[H = \{\godel{M}\# w \mid M \text{ hält auf leerem Band }\} \qedhere\]
+	\[H = \{\godel{\M}\# w \mid M \text{ hält auf leerem Band }\} \qedhere\]
 \end{Def}
 \begin{Satz}[name={[$H_\varepsilon$ ist unentscheidbar]}]
+\label{satz:HalteproblemLeeresBand}
 	$H_\varepsilon$ ist unentscheidbar.
 \end{Satz}
 \begin{proof}
   Konstruiere eine Reduktion $H \preceq H_\varepsilon$ mit Hilfe der
-  Funktion $f(w\#x) = \godel{\M}$, wobei $\M$ \ac{TM}, die
+  Funktion $f(w\#x) = \godel{\M}$, wobei $\M$ eine \ac{TM}, die
   \begin{itemize}
   \item zuerst $x$ auf das leere Band schreibt und dann
-  \item die durch $w$ codierte \ac{TM} $M_w$ auf diese Eingabe anwendet.
+  \item die durch $w$ codierte \ac{TM} $\M_w$ auf diese Eingabe anwendet.
   \end{itemize}
   Offenbar gilt $w\#x\in H$ gdw. $f(w\#x) \in H_\varepsilon$.
 \end{proof}
@@ -1054,48 +1057,56 @@ Dafür nutzen wir die Negation der Implikation.
 
  % Latex-Qelle von M. Geffken
 Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
-(partiellen) Funktionen. Sei $R$ die Menge der von \ac{TM}s berechneten
-Funktionen.
+(partiellen) Funktionen. 
 
 \begin{Satz}[Satz von Rice]\ \\
-  Sei $R$ die Menge aller partiellen \ac{TM}-berechenbaren Funktionen und
-  $\varnothing \neq S \subsetneq R$ eine nichttriviale (nicht-leere,
-  echte) Teilmenge davon.\\
-  Dann ist $L(S)=\{\ulcorner M \urcorner \mid M \text{ berechnet Funkt. aus
-  }S\}$ unentscheidbar.
+  Sei $R$ die Menge aller partiellen \ac{TM}-berechenbaren Funktionen und $S$
+  eine nicht-leere, echte Teilmenge davon. (also $\varnothing \neq S \subsetneq R$)\\
+  Dann ist die Sprache
+  $$C(S)=\{\godel{\M} \mid \M \text{ berechnet eine Funktion aus }S\}$$
+  unentscheidbar.
 \end{Satz}
 \begin{proof}
-  Angenommen $M_S$ entscheidet $L(S)$.\\
-  Sei $\Omega \in R$ die überall
-  undefinierte Funktion. Wir nehmen an, dass $\Omega \in S$ (anderenfalls betrachten wir $\overline{L(S)}$).
-  
-  Da $R \setminus S \neq \varnothing$ gibt es eine berechenbare Funktion $ f \in R \setminus
-  S$ und $f$ werde von \ac{TM} $M_f$ berechnet.
-  
-  Definiere $M'=M'_{(M, f)}$ wie folgt: $M'$ führt zunächst $M$ (beliebige \ac{TM}) auf leerer Eingabe aus. Falls $M$ anhält, wendet $M'$ dann $M_f$ auf die tatsächliche Eingabe an.\\
-  Die von $M'$ berechnete Funktion ist also
-  $f_{M'}=\begin{cases}
-    f & \text{falls } M \text{ auf leerem Band hält,}\\
-    \Omega & \text{sonst.}
-  \end{cases}$
-  
-  Definiere nun $M''$ wie folgt:
+  Angenommen es gibt eine \ac{TM} $\M_\text{€}$ die $C(S)$ entscheidet.
+  Sei $\Omega \in R$ die überall undefinierte Funktion. 
+  Wir betrachten zwei Fälle
   \begin{itemize}
-  \item Bei Eingabe $\ulcorner M \urcorner$ berechne die Gödelnummer von $M'$.
-  \item Wende nun $M_S$ auf $\ulcorner M' \urcorner$ an.
-    \begin{align*}
-      M_s\text{ akzeptiert }\ulcorner M' \urcorner
-      &\iff M' \text{ berechnet Funktion in }S\\
-      &\iff M' \text{ berechnet }\Omega \text{ ($f_{M'} \in \{\Omega, f\}, \Omega \in S, f \notin S$ )}\\
-      &\iff M \text{ hält \emph{nicht} auf leerem Band an}
+   \item Fall 1: $\Omega \in S$
+   
+     Da $S\subsetneq R$ gibt es eine berechenbare Funktion $ f \in R \setminus S$.
+     Sei $M_f$ eine \ac{TM} die $f$  berechnet.
+     Sei $w\in\{0,1\}^*$ beliebig.
+     Wir definieren zunächst die \ac{TM} $\M_{(w, f)}$ wie folgt: 
+     $\M_{(w, f)}$ führt zunächst die durch $w$ codierte \ac{TM} $\M_w$ auf leerer Eingabe aus. 
+     Falls $\M_w$ anhält, wendet $\M_{(w, f)}$ dann $\M_f$ auf die tatsächliche Eingabe an.\\
+     ($\M_{(w, f)}$ sollte also zunächst eine Kopie der Eingabe speichern.
+     Z.B. 2-Band Maschine sein und ein Band für Eingabe verwenden.)
+     
+     Die von $\M_{(w, f)}$ berechnete Funktion ist also:
+     $$f_{\M_{(w, f)}}=\begin{cases}
+                      f & \text{falls } \M_w \text{ auf leerem Band hält,}\\
+                      \Omega & \text{sonst.}
+                      \end{cases}$$
+     
+     Wir definieren nun die \ac{TM} $\M_\textsf{Evil}$ wie folgt:
+     $\M_\textsf{Evil}$ nimmt seine Eingabe $w$, konstruiert die \ac{TM} $\M_{(w, f)}$ und wendet $\M_\text{€}$ auf $\godel{\M_{(w, f)}}$ an.
+     Nun gilt:
+     \begin{align*}
+      M_\text{€} \text{ akzeptiert } \godel{\M_{(w, f)}}
+      &\iff \godel{\M_{(w, f)}} \text{ berechnet Funktion in }S\\
+      &\iff \godel{\M_{(w, f)}} \text{ berechnet }\Omega\\ % \text{ ($f_{\M_{(w, f)}} \in \{\Omega, f\}, \Omega \in S, f \notin S$ )}\\
+      &\iff \M_w \text{ hält \emph{nicht} auf leerem Band an}
     \end{align*}
+    Also entscheidet $\M_\textsf{Evil}$ die Sprache $H_\varepsilon$. Widerspruch zu \autoref{satz:HalteproblemLeeresBand}
+    \item Fall 2: $\Omega \notin S$
+    
+    Analog zu Fall 1. \qedhere
   \end{itemize}
-  Also entscheidet $M''$ $H_\varepsilon$.$\qquad\lightning$
 \end{proof}
 
 
 
-
+\hide{
 
 Bemerkung: Korollar zu 
 \begin{Korollar}
@@ -1349,7 +1360,7 @@ Es reicht nun zu zeigen, dass \ac{MPCP} unentscheidbar ist!
 	Typ 1 Sprachen sind unter $\cap$ abgeschlossen, also $\exists\, \mcG$ Typ 1 Gramatik mit $L(\mcG)=L(\mcG_1)\cap L(\mcG_2)$\\
 	Also "`$L(\mcG)=\varnothing$"' unentscheidbar.
 \end{proof}
-
+}
 
 %%% Local Variables:
 %%% mode: latex
