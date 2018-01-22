@@ -497,7 +497,7 @@ dem Berechnen von Funktionen und dem Akzeptieren von Wörtern.
 platzbeschränkt analog.
 \end{Def}
 \begin{Satz}[name={[Zu jeder \acs*{NTM} gibt es \acs*{DTM}]}]\label{satz:6.1}
-	Zu jeder \ac{NTM} gibt es eine \ac{DTM} $M'$, so dass
+	Zu jeder \ac{NTM} gibt es eine \ac{DTM} $M'$, sodass
 	\begin{itemize}
 	\item $M'$ akzeptiert $L(M)$
 	\item $M'$ terminiert gdw. $M$ terminiert
@@ -554,7 +554,7 @@ Nächstes Ziel: Charakterisierung von Typ-1 Sprachen.
 	\]
 	\item \ac{DTM} mit Platzschranke\,: $M$ entscheidet,\\
 	falls sie akzeptiert, dann in weniger als $N$ Schritten,\\
-	falls nach $N$ Schritten keine Termination erfolgt\\
+	falls nach $N$ Schritten keine Terminierung erfolgt\\
 	\quad$\curvearrowright$ Endlosschleife -- Abbruch
 	\item \ac{NTM}\,: nutze den \ac{ND} optimistisch aus\,:\\
 	falls eine akzeptierende Berechnung existiert, dann muss es eine Berechnung ohne wiederholte Konfiguration geben.
@@ -676,7 +676,7 @@ Die Rückrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1 Sp
 \end{Satz}
 \begin{proof}
 	\begin{itemize}
-	\item["'\=>"'] Kontruktion einer \ac{NTM} $M$ wie in \autoref{satz:6.3}, aber ohne Platzbeschränkung.
+	\item["'\=>"'] Konstruktion einer \ac{NTM} $M$ wie in \autoref{satz:6.3}, aber ohne Platzbeschränkung.
 	\item["'\<="'] Konstruktion analog zu \autoref{satz:6.3} + Startsymbol $S'$
 	\begin{align*}
 		S' &\-> \pmqty{\blank\\\Eps} S' \pmqty{\blank\\\Eps} &&\text{Schaffe Platz für Berechnung von }M\\
@@ -707,15 +707,15 @@ Die Rückrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1 Sp
 \subsection{Das Halteproblem}
 Aus den bisherigen Sätzen wissen wir nur, 
 dass es nicht berechenbare Funktionen und unentscheidbare Sprachen geben muss.
-Es besteht also noch Hoffnung das kein praxisrelevantes Problem betroffen ist.
-In diesem Kapitel werden nun aber für ein ganz konkretes praxisrelevantes Problem die Unentscheidbarkeit nachweisen.
+Es besteht also noch Hoffnung, dass kein praxisrelevantes Problem betroffen ist.
+In diesem Kapitel werden wir nun aber für ein ganz konkretes praxisrelevantes Problem die Unentscheidbarkeit nachweisen.
 
 % Schreibe ab jetzt $M_w$ für die Maschine mit Gödelnummer $w$. Falls
 % $w$ kein gültiger Code für eine \ac{TM}, dann sei $M_w$ eine beliebige fest
 % \ac{TM} $M$ mit $L(M) = \varnothing$.
 
 \begin{Def}[name={[Spezielles Halteproblem]}]
-  Das spezielle Halteproblem besteht aus allen Codes von Maschinen, die
+  Das spezielle Halteproblem besteht aus allen Codes von \ac{TM}s, die
   anhalten, falls sie auf den eigenen Code angesetzt werden.
   \begin{align*}
     K &= \{ w \in \{0,1\}^* \mid M_w \text{ angesetzt auf }w\text{
@@ -726,24 +726,24 @@ In diesem Kapitel werden nun aber für ein ganz konkretes praxisrelevantes Probl
   Das spezielle Halteproblem ist unentscheidbar.
 \end{Satz}
 
-Wir geben zunächst eine einen kurzen formalen Beweis mit Hilfe eines Diagonalargumentes
-und diskutieren dieses anschließend.
+Wir geben zunächst einen kurzen formalen Beweis mit Hilfe eines Diagonalarguments
+und diskutieren diesen anschließend.
 \begin{proof}
-  Angenommen $\M_\text{€}$ sei eine \ac{TM}, die $K$ entscheidet.
+  Angenommen, $\M_\text{€}$ wäre eine \ac{TM}, die $K$ entscheidet.
   Dann gibt es auch eine \ac{TM} $\M_\textsf{evil}$, (siehe \autoref{fig:Mevil})
   die zunächst $\M_\text{€}$ auf ihre Eingabe anwendet.\footnote{
   Der Name $\M_\text{€}$ soll den hohen Wert dieser \ac{TM} betonen.
-  Gäbe es einen Algorithmus zur Terminierungsanalyse könnten wir damit viele Probleme in der Sofwareentwicklung lösen.
-  Der Name $\M_\textsf{evil}$ soll suggerieren dass diese \ac{TM} unsere entsprechenden Hoffnungen zunichte macht.
+  Gäbe es einen Algorithmus zur Terminierungsanalyse, könnten wir damit viele Probleme in der Softwareentwicklung lösen.
+  Der Name $\M_\textsf{evil}$ soll suggerieren, dass diese \ac{TM} unsere entsprechenden Hoffnungen zunichte macht.
   }
   Falls $\M_\text{€}$ akzeptiert, dann geht $\M_\textsf{evil}$ in eine Endlosschleife. 
   Falls $\M_\text{€}$ nicht akzeptiert, dann hält $\M_\textsf{evil}$ an. Nun gilt:
   \begin{eqnarray*}
   \M_\text{€} \text{ akzeptiert } \godel{\M_\textsf{evil}} 
-  &\stackrel{\text{Def. von } K}{gdw.} & \M_\textsf{evil} \text{ angesetzt auf } \godel{\M_\textsf{evil}} \text{ hält }\\
-  &\stackrel{\text{Def. von } \M_\textsf{evil}}{gdw.} & \M_\text{€} \text{ akzeptiert } \godel{\M_\textsf{evil}} \text{ nicht}
+  &\stackrel{\text{Def.\ von } K}{\text{gdw.}} & \M_\textsf{evil} \text{ angesetzt auf } \godel{\M_\textsf{evil}} \text{ hält }\\
+  &\stackrel{\text{Def.\ von } \M_\textsf{evil}}{\text{gdw.}} & \M_\text{€} \text{ akzeptiert } \godel{\M_\textsf{evil}} \text{ nicht}
   \end{eqnarray*}
-  Ein Widerspruch. $\qquad\lightning$
+  Ein Widerspruch.
 \end{proof}
 
  \begin{figure}[H]\centering
@@ -756,7 +756,7 @@ und diskutieren dieses anschließend.
    \draw[->,loop right] (1) to node {$\Gamma$} (1);
   \end{tikzpicture}
   \caption{Definition der \ac{TM} $\M_\textsf{evil}$ aus dem Beweis von \autoref{satz:speziellesHalteproblem} mit Hilfe eines Flussdiagramms.
-  Die \ac{TM} $\M_{\chi_K}$ verhält sich wie $\M_\text{€}$ aber statt zu akzeptieren (bzw. nicht zu akzeptieren) schreibt diese 1 (bzw. 0) auf das Band und hält (siehe \autoref{satz:characFunc}).}
+  Die \ac{TM} $\M_{\chi_K}$ verhält sich wie $\M_\text{€}$, aber statt zu akzeptieren (bzw. nicht zu akzeptieren), schreibt diese 1 (bzw. 0) auf das Band und hält (siehe \autoref{satz:characFunc}).}
   \label{fig:Mevil}
  \end{figure}
 
@@ -765,16 +765,17 @@ und diskutieren dieses anschließend.
 % Dieser Beweis verwendete wieder ein Diagonalargument, wir werden den Beweis nun graphisch illustrieren.
 
 Wir wollen diesen Beweis nun wieder graphisch illustrieren.
-Die folgende Matrix enthält eine Spalte für jedes Wort $w\in\{0,1\}$.
-Wir wählen z.B. $w_i=\stdnum^{-1}$ und aus der Bijektivität von $\stdnum$ folgt dass jedes $w\in\{0,1\}^*$ einmal vorkommt.
-Wir haben außerdem unendlich viele Zeilen, in Zeile $i$ steht die durch $w_i$ codierte \ac{TM}.
-Aus \autoref{satz:bintotm} folgt also dass jede \ac{TM} in mindestens einer Zeile vorkommt.
-In Eintrag $(i,j)$ steht ein Y wenn $\M_{w_i}$ angesetzt auf $w_j$ hält und ein N falls $\M_{w_i}$ angesetzt auf $w_j$ nicht hält.
-(Wir können diese Tabelleneinträge zwar nicht berechnen doch dies ist hier nicht wichtig.)
-Die \ac{TM} $\M_\text{€}$ deren Existenz wir im Beweis angenommen haben (die für alle $w\in\{0,1\}$ entscheidet ob $\M_w$ angesetzt auf $w$ hält) ist eine \ac{TM} die alle Diagonaleinträge in unserer Matrix bestimmen kann.
+Die folgende Matrix enthält eine Spalte für jedes Wort $w\in\{0,1\}^*$.
+Wir wählen z.B. $w_i=\stdnum^{-1}$ und aus der Bijektivität von $\stdnum$ folgt, dass jedes $w\in\{0,1\}^*$ einmal vorkommt.
+Wir haben außerdem unendlich viele Zeilen.
+In Zeile $i$ steht die durch $w_i$ codierte \ac{TM}.
+Aus \autoref{satz:bintotm} folgt also, dass jede \ac{TM} in mindestens einer Zeile vorkommt.
+In Eintrag $(i,j)$ steht ein Y, wenn $\M_{w_i}$ angesetzt auf $w_j$ hält, und ansonsten ein N. %, wenn $\M_{w_i}$ angesetzt auf $w_j$ nicht hält
+(Wir können diese Tabelleneinträge zwar nicht berechnen, doch dies ist hier nicht wichtig.)
+Die \ac{TM} $\M_\text{€}$, deren Existenz wir im Beweis angenommen haben (die für alle $w\in\{0,1\}^*$ entscheidet, ob $\M_w$ angesetzt auf $w$ hält) ist eine \ac{TM}, die alle Diagonaleinträge in unserer Matrix bestimmen kann.
 Die daraufhin konstruierte \ac{TM} $\M_\textsf{evil}$ (siehe \autoref{fig:Mevil}) muss in irgendeiner Zeile vorkommen.
-Sei $w_k$ das Wort dass die \ac{TM} $\M_\textsf{evil}$ codiert.
-Die Definition von $\M_\textsf{evil}$ sagt uns, dass die $\M_{w_k}$ Zeile in Spalte $i$ immer genau das Gegenteil (Y/N) des Diagonaleintrags $(i,i)$ enthält. Die Betrachtung des Diagonaleintrags $(k,k)$ zeigt uns den Widerspruch.
+Sei $w_k$ das Wort, das die \ac{TM} $\M_\textsf{evil}$ codiert (also $\M_{w_k} = \M_\textsf{evil}$).
+Die Definition von $\M_\textsf{evil}$ sagt uns, dass die Zeile $\M_{w_k}$ in Spalte $i$ immer genau das Gegenteil (Y/N) des Diagonaleintrags $(i,i)$ enthält. Die Betrachtung des Diagonaleintrags $(k,k)$ zeigt uns den Widerspruch.
 Die Annahme der Existenz von $\M_\text{€}$ war also falsch. 
 
  \begin{figure}[H]\centering
@@ -845,19 +846,20 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 \draw[->] (jj) to (kj);
 
 \end{tikzpicture}
-	\caption{Illustration des Diagonalargumentes beim Beweis der Unentscheidbarkeit des speziellen Halteproblems}
+	\caption{Illustration des Diagonalarguments beim Beweis der Unentscheidbarkeit des speziellen Halteproblems}
 \end{figure}
 
 \begin{Korollar}\label{kor:6.11}
     Das Komplement von $K$
-  $$\overline{K} = \{w \in\{0,1\}^* \mid M_w\text{ h"alt nicht bei Eingabe }w \}$$
+  $$\overline{K} = \{w \in\{0,1\}^* \mid M_w\text{ angesetzt auf }w\text{
+        hält nicht} \}$$
   ist nicht entscheidbar.
 \end{Korollar}
 \begin{proof}
-	Angenommen $\overline{K}$ sei entscheidbar durch eine \ac{TM} $\M$.
-	Betrachte \ac{TM} $\M'$ die zunächst $\M$ ausführt und dann das Ergebnis negiert.
-	$\M'$ entscheidet $K$. $\lightning$ 
-	Widerspruch zu \autoref{satz:speziellesHalteproblem}
+	Angenommen, $\overline{K}$ sei entscheidbar durch eine \ac{TM} $\M$.
+	Betrachte \ac{TM} $\M'$, die zunächst $\M$ ausführt und dann das Ergebnis negiert.
+	$\M'$ entscheidet $K$.
+	Widerspruch zu \autoref{satz:speziellesHalteproblem}.
 \end{proof}
 
 
@@ -865,7 +867,7 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 
 \begin{Def}[name={[Semi-Entscheidbarkeit]}]
 	Eine Sprache $L\subseteq\Sigma^*$ heißt \emph{semi-entscheidbar}, falls es eine \ac{TM} gibt, die $L$ akzeptiert.\footnote{
-	Ein Alternativer in der Literatur auch oft verwendeter Begriff für "`semi-entscheidbar"' ist "`rekursiv aufzählbar"'.}
+	Ein alternativer in der Literatur auch oft verwendeter Begriff für "`semi-entscheidbar"' ist "`rekursiv aufzählbar"'.}
 \end{Def}
 
 
@@ -903,7 +905,7 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 % 	$D$ ist nicht entscheidbar.
 % \end{Satz}
 % \begin{proof}
-% 	Angenommen $\exists M$, die $D$ entscheidet.\\
+% 	Angenommen, $\exists M$, die $D$ entscheidet.\\
 % 	$M$ muss in Aufzählung vorkommen, das heißt $\exists j\in \N$, sodass $M = M_j$.
 % 	Wende $M_j$ auf $w(j)$ an:
 % 	\begin{itemize}
@@ -915,7 +917,7 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 % 	$\overline{D} = \{w(i) \mid M_i\text{ akzepztiert }w(i) \}$ ist nicht entscheidbar.
 % \end{Korollar}
 % \begin{proof}
-% 	Angenommen $\overline{D}$ sei entscheidbar durch $M$. Dann entscheidet $M'\ D$. $M'$ führt 
+% 	Angenommen, $\overline{D}$ sei entscheidbar durch $M$. Dann entscheidet $M'\ D$. $M'$ führt
 % 	zuerst $M$ aus und negiert das Ergebnis. $\lightning$ \autoref{satz:speziellesHalteproblem}
 % \end{proof}
 % \begin{lemma}[name={[$\overline{D}$ ist semi-entscheidbar]}]
@@ -935,12 +937,12 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 
 
 \begin{Satz}[name={[{$L,\overline{L}$ semi-entscheidbar $\=> L$ entscheidbar}]},restate={[name=Wiederholung]repeatSatz613}]\label{satz:6.13}
-    Wenn eine Sprache $L$ und ihr Komplement $\overline{L}$ semi-entscheidbar sind dann ist $L$ entscheidbar.
+    Wenn eine Sprache $L$ und ihr Komplement $\overline{L}$ semi-entscheidbar sind, dann ist $L$ entscheidbar.
 \end{Satz}
 \begin{proof}
-	Sei $\M$ \ac{TM} die $L$ akzeptiert, sei $\overline{\M}$ \ac{TM} die $\overline{L}$ akzeptiert.
-	Führe $\M$ und $\overline{\M}$ "`parallel"' mit der gleichen Eingabe aus. (Z.B. mit Hilfe von 2-Band \ac{TM})\\
-	Mindestens eine der \ac{TM} muss anhalten, da semi-entscheidbar.
+	Sei $\M$ eine \ac{TM}, die $L$ akzeptiert, und sei $\overline{\M}$ eine \ac{TM}, die $\overline{L}$ akzeptiert.
+	Führe $\M$ und $\overline{\M}$ "`parallel"' mit der gleichen Eingabe aus (z.B. mit einer 2-Band-\ac{TM}).\newline
+	Eine \ac{TM} muss anhalten, da für alle Eingaben $w$ entweder $w \in L$ oder $w \in \overline{L}$ gilt.
 	\begin{itemize}
 	\item Falls $\M$ akzeptiert -- halte und akzeptiere.
 	\item Falls $\overline{\M}$ akzeptiert -- halte aber akzeptiere nicht. \qedhere
@@ -949,64 +951,67 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 
 \begin{Korollar}\label{kor:6.11}
     Das Komplement des speziellen Halteproblems $\overline{K}$
-    ist nicht semi-entscheidbar.
+    ist nicht semi-{\linebreak}entscheidbar.
 \end{Korollar}
 \begin{proof}
 Nach \autoref{lemma:Ksemi-entscheidbar} ist $K$ semi-entscheidbar. 
-Angenommen $\overline{K}$ sei auch semi-entscheidbar dann wäre nach \autoref{satz:6.13} $K$ entscheidbar.
+Angenommen, $\overline{K}$ sei auch semi-entscheidbar.
+Dann wäre $K$ nach \autoref{satz:6.13} entscheidbar.
 Widerspruch zu \autoref{satz:speziellesHalteproblem}.
 \end{proof}
 
 
 \begin{Def}[Reduktion]\ \\
   Seien $U, V \subseteq \Sigma^*$ Sprachen.
-  \emph{$U$ ist auf $V$ reduzierbar (Notation: $U \preceq V$)}, falls eine totale berechenbare Funktion
-  $f:\Sigma^* \to \Sigma^*$ existiert, so dass 
+  \emph{$U$ ist auf $V$ reduzierbar (Notation: $U \preceq V$)}, falls eine totale, berechenbare Funktion
+  $f:\Sigma^* \to \Sigma^*$ existiert, sodass
   \[
-    \forall x \in \Sigma^*:x \in U \iff f(x) \in V. \qedhere
+    \forall w \in \Sigma^*:w \in U \iff f(w) \in V. \qedhere
   \]
 
 \end{Def}
 \begin{lemma}\label{lemma:reduktion}
-  Falls $U \preceq V$ gilt und Sprache $V$ \mbox{(semi-)entscheidbar}, dann ist auch Sprache $U$
+  Falls $U \preceq V$ gilt und die Sprache $V$ \mbox{(semi-)entscheidbar} ist, dann ist auch die Sprache $U$
   \mbox{(semi-)entscheidbar}.
 \end{lemma}
 \begin{proof}
-  Sei $\M_V$ eine \ac{TM} die ein (Semi-)Entscheidungsverfahren für $V$ implementiert, 
-  sei $\M_f$ eine \ac{TM} die $f$ berechnet.
+  Sei $\M_V$ eine \ac{TM}, die ein (Semi-)Entscheidungsverfahren für $V$ implementiert,
+  und sei $\M_f$ eine \ac{TM}, die $f$ berechnet.
   Konstruiere $\M_U$ wie folgt:
   \begin{itemize}
   \item Wende erst $\M_f$ auf die Eingabe $w$ an.
   \item Führe dann $\M_V$ auf dem Ergebnis $f(w)$ aus.
   \end{itemize}
-  Da $f$ total, hält $\M_f$ immer und $\M_U$ hat das gleiche Terminationsverhalten wie $\M_V$.
+  Da $f$ total ist, hält $\M_f$ immer.
+  $\M_U$ hält also genau dann, wenn $\M_V$ hält.
 \end{proof}
 
-\begin{Bemerkung} \autoref{lemma:reduktion} wird oft verwendet um zu zeigen dass eine Sprache nicht \mbox{(semi-)entscheidbar} ist.
+\begin{Bemerkung} \autoref{lemma:reduktion} wird oft verwendet, um zu zeigen, dass eine Sprache \emph{nicht} \mbox{(semi-)entscheidbar} ist.
 Dafür nutzen wir die Negation der Implikation.
 \begin{itemize}
  \item $U \preceq V$ und $U$ unentscheidbar $\Rightarrow$ $V$ unentscheidbar.
  \item $U \preceq V$ und $U$ nicht semi-entscheidbar $\Rightarrow$ $V$ nicht semi-entscheidbar.
+ \qedhere
 \end{itemize}
 \end{Bemerkung}
 
 \begin{Def}[name={[Halteproblem]}]
 	Das \emph{Halteproblem} ist definiert durch
-	\[H = \{\godel{\M}\# w \mid M \text{ hält bei Eingabe } w \text{ an}\} \qedhere\]
+	\[H = \{\godel{\M}\# w \mid M \text{ angesetzt auf } w \text{ hält}\}. \qedhere\]
 \end{Def}
 \begin{Satz}[name={[$H$ ist unentscheidbar]}]\label{satz:H ist unentscheidbar}
 	$H$ ist unentscheidbar.
 \end{Satz}
 \begin{proof}
-  Die Funktion $f (w) = w\#w$ ist total berechenbar und liefert eine
-  Reduktion  $K \preceq H$.
+  Wir zeigen die Reduktion  $K \preceq H$ mittels der Funktion $f(w) = w\#w$.
+  Die Funktion ist offensichtlich total und berechenbar.
   \begin{align*}
    w \in K & \quad\Longleftrightarrow\quad \text{ $\M_w$ hält bei Eingabe $w$ an}\\
-   & \quad\Longleftrightarrow\quad w\#w \in H \qedhere
+   & \quad\Longleftrightarrow\quad \underbrace{w\#w}_{f(w)} \in H \qedhere
   \end{align*}
 \end{proof}
 % \begin{proof}
-% 	Angenommen $M_0$ entscheidet $H$.\\
+% 	Angenommen, $M_0$ entscheidet $H$.\\
 % 	Konstruiere $M'$ wie folgt:\\
 % 	Bei Eingabe $w$ bestimme $i$, sodass $w = w(i)$\\
 % 	Verwende $M_0$ um festzustellen, ob $\ulcorner M_i\urcorner w$ anhält.\\
@@ -1047,7 +1052,7 @@ Dafür nutzen wir die Negation der Implikation.
   Offenbar gilt $w\#x\in H$ gdw. $f(w\#x) \in H_\varepsilon$.
 \end{proof}
 % \begin{proof}
-% 	Angenommen $M_\varepsilon$ entscheidet $H_\varepsilon$.\\
+% 	Angenommen, $M_\varepsilon$ entscheidet $H_\varepsilon$.\\
 % 	Konstruiere $M'$ (mit Hilfe von $M_\varepsilon$), sodass $M'$ entscheidet $H$.\\
 % 	\begin{tabular}{r@{ }l}
 % 	$M':$ & Bei Eingabe $\ulcorner M\urcorner w$.\\
@@ -1070,7 +1075,7 @@ Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
   unentscheidbar.
 \end{Satz}
 \begin{proof}
-  Angenommen es gibt eine \ac{TM} $\M_\text{€}$ die $C(S)$ entscheidet.
+  Angenommen, es gibt eine \ac{TM} $\M_\text{€}$ die $C(S)$ entscheidet.
   Sei $\Omega \in R$ die überall undefinierte Funktion. 
   Wir betrachten zwei Fälle
   \begin{itemize}
@@ -1178,7 +1183,7 @@ Bemerkung: Korollar zu
 Endliche Folge von Wortpaaren $K=((x_1, y_1), \dots, (x_k, y_k))$ mit $x_i, y_i \in \Sigma^+$
 
 \emph{Gesucht:}\\
-Indexfolge $i_1, \dots, i_n \in \{1, \dots, k\}\ (n \geq 1)$, so dass $x_{i_1} \cdots x_{i_n}=y_{i_1} \cdots y_{i_n}$
+Indexfolge $i_1, \dots, i_n \in \{1, \dots, k\}\ (n \geq 1)$, sodass $x_{i_1} \cdots x_{i_n}=y_{i_1} \cdots y_{i_n}$
 
 Die Folge $i_1, \dots, i_n$ (falls diese existiert) heißt \emph{Lösung} des Korrespondenzproblems $K$.
 \begin{Bsp*}
@@ -1238,7 +1243,7 @@ Es interessiert uns ab hier nur, ob das Problem eine Lösung hat oder nicht.
   Also gilt für $1 < j < n$: $i_j \in \{2, \dots, k+1\}$.\\
 	$\curvearrowright 1, i_{2}-1, \dots, i_{n-1}-1$ Lösung für $K$
 \item Sei $i_1, \dots, i_n$ Lösung für $f(K)$, in der das Paar $k+2$ mehrmals vorkommt.
-  Dann gibt es auch eine Lösung $i_m,\dots,i_{m+l}$ mit $1 \le m \le m+l \le n$ so dass $k+2$ nur einmal vorkommt (ohne Beweis).
+  Dann gibt es auch eine Lösung $i_m,\dots,i_{m+l}$ mit $1 \le m \le m+l \le n$ sodass $k+2$ nur einmal vorkommt (ohne Beweis).
   Weiter bei \ref{it:mpcp-pcp-only-if-1}.
   \end{enumerate}
 
@@ -1307,7 +1312,7 @@ Es reicht nun zu zeigen, dass \ac{MPCP} unentscheidbar ist!
 \end{Satz}
 \begin{proof} Durch Reduktion $\ac{PCP}\leq{}$Schnittproblem.\\
 	Sei $K=\{(x_i,y_i) \mid 1\leq i\leq k\}$ Instanz von \ac{PCP} über $\Sigma$.\\
-	Berechne aus $K$ zwei \ac{CFG} $\mathcal{G}_1$ und $\mathcal{G}_2$, so dass $K$ eine Lösung hat $\<==> L(\mathcal{G}_1)\cap L(\mathcal{G}_2)\neq \varnothing$
+	Berechne aus $K$ zwei \ac{CFG} $\mathcal{G}_1$ und $\mathcal{G}_2$, sodass $K$ eine Lösung hat $\<==> L(\mathcal{G}_1)\cap L(\mathcal{G}_2)\neq \varnothing$
 	\begin{align*}
 		\mathcal{G}_1: S_1\-> &1x_1 |\dots |kx_k &&\text{Alphabet}: \Sigma\cup\{1\dots k\}\\
 		& |1S_1x_1|\dots|kS_1x_k\\
@@ -1335,7 +1340,7 @@ Es reicht nun zu zeigen, dass \ac{MPCP} unentscheidbar ist!
 \end{Satz}
 \begin{proof}
 	Sei $A=\{\mcG_1,\mcG_2 \mid L(\mcG_1)=L(\mcG_2)\}$\\
-	Angenommen $\mcG_1,\mcG_2$ sind Typ 2 Grammatiken für \ac{DCFL}.\\
+	Angenommen, $\mcG_1,\mcG_2$ sind Typ 2 Grammatiken für \ac{DCFL}.\\
 	Dann ist $(\mcG_1,\mcG_2)\in{}$Schnittproblem.
 	\begin{align*}
 		\<==> L(\mcG_1) &\cap L(\mcG_2)=\varnothing\\
