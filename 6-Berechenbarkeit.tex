@@ -400,7 +400,7 @@ Da der Diagonaleintrag $(k,k)$ nicht invers zu sich selbst sein kann, kann es ke
 
 
 \subsection{Sprachakzeptanz und Berechenbarkeit}
-Wir möchten nun die Idee von Berechenbarkeit auch auf die zweite Aufgabe von Turingmaschinen, das akzeptieren von Sprachen, übertragen.
+Wir möchten nun die Idee von Berechenbarkeit auch auf die zweite Aufgabe von Turingmaschinen, das Akzeptieren von Sprachen, übertragen.
 Wir definieren dafür die Menge der Sprachen für die eine Lösung für das Wortproblem (also $w\in L$?) berechnet werden kann wie folgt.
 
 \begin{Def}[name={[Entscheidbarkeit]}]
@@ -411,7 +411,7 @@ Wir definieren dafür die Menge der Sprachen für die eine Lösung für das Wort
 	\item $\M$ hält für jede Eingabe an.
 	\end{enumerate}
 	
-    Eine Sprache $L\subseteq\Sigma^*$ heißt \emph{entscheidbar}, falls es eine TM gibt, die $L$ entscheidet.\footnote{
+    Eine Sprache $L\subseteq\Sigma^*$ heißt \emph{entscheidbar}, falls es eine \ac{TM} gibt, die $L$ entscheidet.\footnote{
     Ein Alternativer in der Literatur auch oft verwendeter Begriff für "`entscheidbar"' ist "`rekursiv"'.}
 \end{Def}
 
@@ -729,11 +729,11 @@ Wir geben zunächst eine einen kurzen formalen Beweis mit Hilfe eines Diagonalar
 und diskutieren dieses anschließend.
 \begin{proof}
   Angenommen $\M_\text{€}$ sei eine \ac{TM}, die $K$ entscheidet.
-  Dann gibt es auch eine TM $\M_\textsf{evil}$, (siehe \autoref{fig:Mevil})
+  Dann gibt es auch eine \ac{TM} $\M_\textsf{evil}$, (siehe \autoref{fig:Mevil})
   die zunächst $\M_\text{€}$ auf ihre Eingabe anwendet.\footnote{
-  Der Name $\M_\text{€}$ soll den hohen Wert dieser TM betonen.
+  Der Name $\M_\text{€}$ soll den hohen Wert dieser \ac{TM} betonen.
   Gäbe es einen Algorithmus zur Terminierungsanalyse könnten wir damit viele Probleme in der Sofwareentwicklung lösen.
-  Der Name $\M_\textsf{evil}$ soll suggerieren dass diese TM unsere entsprechenden Hoffnungen zunichte macht.
+  Der Name $\M_\textsf{evil}$ soll suggerieren dass diese \ac{TM} unsere entsprechenden Hoffnungen zunichte macht.
   }
   Falls $\M_\text{€}$ akzeptiert, dann geht $\M_\textsf{evil}$ in eine Endlosschleife. 
   Falls $\M_\text{€}$ nicht akzeptiert, dann hält $\M_\textsf{evil}$ an. Nun gilt:
@@ -754,8 +754,8 @@ und diskutieren dieses anschließend.
    \draw[->] (0) to node[auto] {$1$} (1);
    \draw[->,loop right] (1) to node {$\Gamma$} (1);
   \end{tikzpicture}
-  \caption{Definition der TM $\M_\textsf{evil}$ aus dem Beweis von \autoref{satz:speziellesHalteproblem} mit Hilfe eines Flussdiagramms.
-  Die TM $\M_{\chi_K}$ verhält sich wie $\M_\text{€}$ aber statt zu akzeptieren (bzw. nicht zu akzeptieren) schreibt diese 1 (bzw. 0) auf das Band und hält (siehe \autoref{satz:characFunc}).}
+  \caption{Definition der \ac{TM} $\M_\textsf{evil}$ aus dem Beweis von \autoref{satz:speziellesHalteproblem} mit Hilfe eines Flussdiagramms.
+  Die \ac{TM} $\M_{\chi_K}$ verhält sich wie $\M_\text{€}$ aber statt zu akzeptieren (bzw. nicht zu akzeptieren) schreibt diese 1 (bzw. 0) auf das Band und hält (siehe \autoref{satz:characFunc}).}
   \label{fig:Mevil}
  \end{figure}
 
@@ -766,13 +766,13 @@ und diskutieren dieses anschließend.
 Wir wollen diesen Beweis nun wieder graphisch illustrieren.
 Die folgende Matrix enthält eine Spalte für jedes Wort $w\in\{0,1\}$.
 Wir wählen z.B. $w_i=\stdnum^{-1}$ und aus der Bijektivität von $\stdnum$ folgt dass jedes $w\in\{0,1\}^*$ einmal vorkommt.
-Wir haben außerdem unendlich viele Zeilen, in Zeile $i$ steht die durch $w_i$ codierte TM.
-Aus \autoref{satz:bintotm} folgt also dass jede TM in mindestens einer Zeile vorkommt.
+Wir haben außerdem unendlich viele Zeilen, in Zeile $i$ steht die durch $w_i$ codierte \ac{TM}.
+Aus \autoref{satz:bintotm} folgt also dass jede \ac{TM} in mindestens einer Zeile vorkommt.
 In Eintrag $(i,j)$ steht ein Y wenn $\M_{w_i}$ angesetzt auf $w_j$ hält und ein N falls $\M_{w_i}$ angesetzt auf $w_j$ nicht hält.
 (Wir können diese Tabelleneinträge zwar nicht berechnen doch dies ist hier nicht wichtig.)
-Die TM $\M_\text{€}$ deren Existenz wir im Beweis angenommen haben (die für alle $w\in\{0,1\}$ entscheidet ob $\M_w$ angesetzt auf $w$ hält) ist eine TM die alle Diagonaleinträge in unserer Matrix bestimmen kann.
-Die daraufhin konstruierte TM $\M_\textsf{evil}$ (siehe \autoref{fig:Mevil}) muss in irgendeiner Zeile vorkommen.
-Sei $w_k$ das Wort dass die TM $\M_\textsf{evil}$ codiert.
+Die \ac{TM} $\M_\text{€}$ deren Existenz wir im Beweis angenommen haben (die für alle $w\in\{0,1\}$ entscheidet ob $\M_w$ angesetzt auf $w$ hält) ist eine \ac{TM} die alle Diagonaleinträge in unserer Matrix bestimmen kann.
+Die daraufhin konstruierte \ac{TM} $\M_\textsf{evil}$ (siehe \autoref{fig:Mevil}) muss in irgendeiner Zeile vorkommen.
+Sei $w_k$ das Wort dass die \ac{TM} $\M_\textsf{evil}$ codiert.
 Die Definition von $\M_\textsf{evil}$ sagt uns, dass die $\M_{w_k}$ Zeile in Spalte $i$ immer genau das Gegenteil (Y/N) des Diagonaleintrags $(i,i)$ enthält. Die Betrachtung des Diagonaleintrags $(k,k)$ zeigt uns den Widerspruch.
 Die Annahme der Existenz von $\M_\text{€}$ war also falsch. 
 
@@ -853,8 +853,8 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
   ist nicht entscheidbar.
 \end{Korollar}
 \begin{proof}
-	Angenommen $\overline{K}$ sei entscheidbar durch eine TM $\M$. 
-	Betrachte TM $\M'$ die zunächst $\M$ ausführt und dann das Ergebnis negiert.
+	Angenommen $\overline{K}$ sei entscheidbar durch eine \ac{TM} $\M$.
+	Betrachte \ac{TM} $\M'$ die zunächst $\M$ ausführt und dann das Ergebnis negiert.
 	$\M'$ entscheidet $K$. $\lightning$ 
 	Widerspruch zu \autoref{satz:speziellesHalteproblem}
 \end{proof}
@@ -863,7 +863,7 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 
 
 \begin{Def}[name={[Semi-Entscheidbarkeit]}]
-	Eine Sprache $L\subseteq\Sigma^*$ heißt \emph{semi-entscheidbar}, falls es eine TM gibt, die $L$ akzeptiert.\footnote{
+	Eine Sprache $L\subseteq\Sigma^*$ heißt \emph{semi-entscheidbar}, falls es eine \ac{TM} gibt, die $L$ akzeptiert.\footnote{
 	Ein Alternativer in der Literatur auch oft verwendeter Begriff für "`semi-entscheidbar"' ist "`rekursiv aufzählbar"'.}
 \end{Def}
 
@@ -872,7 +872,7 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 	$K$ ist semi-entscheidbar.
 \end{lemma}
 \begin{proof}
-  Die wie folgt konstruierte TM $\M$ akzeptiert $K$.
+  Die wie folgt konstruierte \ac{TM} $\M$ akzeptiert $K$.
   Sei $w$ die Eingabe. 
   Führe die universelle \ac{TM} für $M_w$ mit Eingabe $w$ aus.
   Falls diese Simulation stoppt, geht $\M$ in einen akzeptierenden Zustand und hält.
@@ -1022,7 +1022,7 @@ Dafür nutzen wir die Negation der Implikation.
 	$H$ ist semi-entscheidbar.
 \end{Satz}
 \begin{proof}
-  Die wie folgt konstruierte TM $\M$ akzeptiert $H$.
+  Die wie folgt konstruierte \ac{TM} $\M$ akzeptiert $H$.
   Führe die universelle \ac{TM} auf Eingabe $\godel{M}\#w$
   Falls diese Simulation stoppt, geht $\M$ in einen akzeptierenden Zustand und hält.
 \end{proof}
