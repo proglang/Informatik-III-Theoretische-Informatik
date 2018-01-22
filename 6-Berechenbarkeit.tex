@@ -401,33 +401,33 @@ Da der Diagonaleintrag $(k,k)$ nicht invers zu sich selbst sein kann, kann es ke
 
 \subsection{Sprachakzeptanz und Berechenbarkeit}
 Wir möchten nun die Idee von Berechenbarkeit auch auf die zweite Aufgabe von Turingmaschinen, das Akzeptieren von Sprachen, übertragen.
-Wir definieren dafür die Menge der Sprachen für die eine Lösung für das Wortproblem (also $w\in L$?) berechnet werden kann wie folgt.
+Wir definieren dafür die Menge der Sprachen, für die eine Lösung für das Wortproblem (also $w\in L$?) berechnet werden kann, wie folgt.
 
 \begin{Def}[name={[Entscheidbarkeit]}]
 	Sei $\M$ eine \ac{TM}.
 	Wir sagen $\M$ \emph{entscheidet} $L\subseteq\Sigma^*$, falls die folgenden beiden Eigenschaften gelten:
 	\begin{enumerate}
-	\item $\M$ akzeptiert $L$
+	\item $\M$ akzeptiert $L$.
 	\item $\M$ hält für jede Eingabe an.
 	\end{enumerate}
 	
     Eine Sprache $L\subseteq\Sigma^*$ heißt \emph{entscheidbar}, falls es eine \ac{TM} gibt, die $L$ entscheidet.\footnote{
-    Ein Alternativer in der Literatur auch oft verwendeter Begriff für "`entscheidbar"' ist "`rekursiv"'.}
+    Ein alternativer in der Literatur auch oft verwendeter Begriff für "`entscheidbar"' ist "`rekursiv"'.}
 \end{Def}
 
 
 \begin{Satz}
- Es gibt Sprachen die nicht entscheidbar sind.
+ Es gibt Sprachen, die nicht entscheidbar sind.
 \end{Satz}
 
+\draftnote{24.01.2018}
 \begin{proof}
 Wähle $\Sigma=\{0,1\}$ 
-\draftnote{24.01.2018}
-und definiere analog zu \autoref{satz:functopower} die Funktion $\langtopower:\Sigma^*\rightarrow \calP(\N)$
+und definiere die Funktion \mbox{$\langtopower:\Sigma^*\rightarrow \calP(\N)$}
 $$\langtopower(L)=\{\stdnum(w) \mid w\in L\}$$
-und zeige dass diese surjektiv ist.
+(analog zu \autoref{satz:functopower}) und zeige, dass diese surjektiv ist.
 Führe anschließend analog zum Beweis von \autoref{satz:nichtBerechenbar} einen Widerspruchsbeweis.
-Annahme: Jede Sprache $L\subseteq\Sigma^*$ sei entscheidbar. Also gibt es surjektive Abbildung $g:\tmach\rightarrow\Sigma^*$.
+Annahme: Jede Sprache $L\subseteq\Sigma^*$ sei entscheidbar. Also gibt es eine surjektive Abbildung $g:\tmach\rightarrow\Sigma^*$.
 Somit wäre auch 
 $$\langtopower\circ g \circ\bintotm\circ \stdnum^{-1}:\N\rightarrow\calP(\N)$$
 surjektiv.
@@ -437,21 +437,22 @@ Dies steht im Widerspruch zu \autoref{satz:Cantor}.
 
 
 
-\begin{Def}[Charaktertistische Funktion]
+\begin{Def}[Charakteristische Funktion]
 Sei $L\subseteq\Sigma^*$ eine Sprache. Die \emph{charakteristische Funktion} $\chi_L:\Sigma^*\rightarrow\{0,1\}$ ist wie folgt definiert:
-$$
+\begin{equation*}
 \chi_L(w)=\begin{cases}
 1 & \text{falls } w\in L\\
 0 & \text{falls } w\notin L           
-\end{cases} %\qedhere
-$$
+\end{cases}
+\qedhere
+\end{equation*}
 \end{Def}
 
 Der folgende Satz zeigt uns nun einen direkten Zusammenhang zwischen den beiden Aufgaben einer Turingmaschine, 
-dem berechnen von Funktionen und dem akzeptieren von Wörtern.
+dem Berechnen von Funktionen und dem Akzeptieren von Wörtern.
 \begin{Satz}\label{satz:characFunc}
     Sei $\{0,1\}\subseteq\Sigma$.
-    Eine Sprache $L\subseteq\Sigma^*$ ist entscheidbar genau dann wenn die charakteristische Funktion $\chi_l$
+    Eine Sprache $L\subseteq\Sigma^*$ ist genau dann entscheidbar, wenn die charakteristische Funktion $\chi_L$
     berechenbar ist.
 \end{Satz}
 
