@@ -57,8 +57,8 @@ nicht anwendbar.
 Wir werden daher über die Existenz von bijektiven Abbildungen argumentieren.
 
 \begin{Bemerkung}
- Zum Verständnis dieses Kapitels ist es nötig sich mit den Begriffen \emph{Injektiv}, \emph{Surjektiv} und \emph{Bijektiv} vertraut zu machen.
- Z.B. mit Hilfe von Aufgabe~4 von Übungsblatt~11.
+ Zum Verständnis dieses Kapitels ist es nötig, sich mit den Begriffen \emph{injektiv}, \emph{surjektiv} und \emph{bijektiv} vertraut zu machen,
+ z.B.\ mit Hilfe von Aufgabe~4 von Übungsblatt~11.
 \end{Bemerkung}
 
 Wir führen zunächst die folgenden drei Begriffe ein.
@@ -67,11 +67,12 @@ Eine Menge $X$ heißt
 \begin{itemize}
  \item \emph{abzählbar unendlich}, wenn es eine bijektive Abbildung zwischen $X$ und $\N$ gibt,
  \item \emph{abzählbar}, wenn $X$ entweder endlich oder abzählbar unendlich ist und
- \item \emph{überabzählbar}, wenn es keine bijektive Abbildung zwischen $X$ und $\N$ gibt.\qedhere
+ \item \emph{überabzählbar}, wenn $X$ unendlich ist und es keine bijektive Abbildung zwischen $X$ und $\N$ gibt.
+ \qedhere
 \end{itemize}
 \end{Def}
 
-Ein klassisches Vorgehen um die Existenz nicht berechenbarer Funktionen zu zeigen besteht aus den folgenden Schritten.
+Ein klassisches Vorgehen, um die Existenz nicht berechenbarer Funktionen zu zeigen, besteht aus den folgenden Schritten.
 % In der Literatur wir die  manchmal in einem allgemeineren Kontext gezeigt.
 % Wir möchten dieses etwas aufwändigere Vorgehen hier noch kurz erwähnen um mit den entsprechenden (in dieser Vorlesung aber nicht relevanten) Begriffen vertraut zu werden.
 
@@ -82,13 +83,14 @@ Ein klassisches Vorgehen um die Existenz nicht berechenbarer Funktionen zu zeige
  \item Es kann daher nicht zu jeder Funktion auch eine Turingmaschine geben.
 \end{enumerate}
 
-Wir wollen hier das folgende, leicht andere, Vorgehen wählen. Dieses ist weniger Allgemein haber aber etwas leichter nachzuvollziehende Beweise.
+Wir wollen hier das folgende, leicht andere, Vorgehen wählen.
+Dieses ist weniger allgemein, erlaubt aber etwas leichter nachzuvollziehende Beweise.
 
 \begin{enumerate}
  \item Es gibt für jede Turingmaschine eine natürliche Zahl.
- \item Es gibt für jedes Element der Potenzmenge der natürlichen Zahlen $\calP(\N)$ ein Funktion.
- \item Die Potenzmenge $\calP(\N)$ hat ``sehr viel mehr'' Elemente als $\N$, 
- es kann daher nicht zu jeder Funktion auch eine Turingmaschine geben.
+ \item Es gibt für jedes Element der Potenzmenge der natürlichen Zahlen $\calP(\N)$ eine Funktion.
+ \item Die Potenzmenge $\calP(\N)$ hat "`sehr viel mehr"' Elemente als $\N$.
+ Es kann daher nicht zu jeder Funktion auch eine Turingmaschine geben.
 \end{enumerate}
 
 
@@ -233,9 +235,9 @@ Zeile $i$ beschreibt dabei das Bild $f(x_i)$.
 Wir haben eine Spalte für jedes $x_j\in X$.
 Gilt $x_j\in f(x_i)$, so steht in Eintrag $(i,j)$ ein Y. Ansonsten steht dort ein N.
 
-Da $f$ surjektiv ist, muss es auch für die im formalen Beweis erwähnt Menge $Z=\{x\in X\mid x\notin f(x)\}\in\calP(X)$ eine Zeile geben.
-Diese Zeile -- wir nehmen an, es sei die Zeile für $f(x_k)$ -- enthält nun in Spalte $j$ immer genau das Inverse des Diagonaleintrages $(j, j)$.
-Da der Diagonaleintrag $(k,k)$ nicht invers zu sich selbst sein kann haben wir einen Widerspruch zu unserer Annahme.
+Da $f$ surjektiv ist, muss es auch für die im formalen Beweis oben erwähnte Menge $Z=\{x\in X\mid x\notin f(x)\}\in\calP(X)$ eine Zeile geben.
+Diese Zeile -- wir nehmen an, es sei die Zeile für $f(x_k)$ -- enthält nun in Spalte $j$ immer genau das Inverse des Diagonaleintrags $(j, j)$.
+Da der Diagonaleintrag $(k,k)$ nicht invers zu sich selbst sein kann, haben wir einen Widerspruch zu unserer Annahme.
 
 
  \begin{figure}[H]\centering
@@ -313,7 +315,7 @@ Da der Diagonaleintrag $(k,k)$ nicht invers zu sich selbst sein kann haben wir e
 Zum Ende des Unterkapitels möchten wir Diagonalargumente nochmal aus einem anderen Blickwinkel, mit Hilfe eines Rätsels, betrachten.
 
 \textbf{Rätsel:}
-Der legendäre \emph{Barbier von Waldkirch} rasierte genau die Männer die sich nicht selbst rasierten.
+Der legendäre \emph{Barbier von Waldkirch} rasierte genau die Männer, die sich nicht selbst rasierten.
 Gab es den Barbier von Waldkirch wirklich?
 
 Wir betrachten zum Lösen dieses Rätsels die folgende quadratische Matrix, die je eine Zeile und eine Spalte für jeden Mann aus Waldkirch hat.
@@ -391,7 +393,7 @@ Da der Diagonaleintrag $(k,k)$ nicht invers zu sich selbst sein kann, kann es ke
 \draw[->] (jj) to (kj);
 
 \end{tikzpicture}
-	\caption{Illustration des Diagonalarguments beim Rätsel des Barbier von Waldkirch}
+	\caption{Illustration des Diagonalarguments beim Rätsel des Barbiers von Waldkirch}
 \end{figure}
 
 
@@ -410,7 +412,7 @@ Wir definieren dafür die Menge der Sprachen für die eine Lösung für das Wort
 	\end{enumerate}
 	
     Eine Sprache $L\subseteq\Sigma^*$ heißt \emph{entscheidbar}, falls es eine TM gibt, die $L$ entscheidet.\footnote{
-    Ein Alternativer in der Literatur auch oft verwendeter Begriff für ``entscheidbar'' ist ``rekursiv''.}
+    Ein Alternativer in der Literatur auch oft verwendeter Begriff für "`entscheidbar"' ist "`rekursiv"'.}
 \end{Def}
 
 
@@ -862,7 +864,7 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 
 \begin{Def}[name={[Semi-Entscheidbarkeit]}]
 	Eine Sprache $L\subseteq\Sigma^*$ heißt \emph{semi-entscheidbar}, falls es eine TM gibt, die $L$ akzeptiert.\footnote{
-	Ein Alternativer in der Literatur auch oft verwendeter Begriff für ``semi-entscheidbar'' ist ``rekursiv aufzählbar''.}
+	Ein Alternativer in der Literatur auch oft verwendeter Begriff für "`semi-entscheidbar"' ist "`rekursiv aufzählbar"'.}
 \end{Def}
 
 
