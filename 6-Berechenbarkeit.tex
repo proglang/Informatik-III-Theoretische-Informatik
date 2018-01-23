@@ -1035,7 +1035,7 @@ Dafür nutzen wir die Negation der Implikation.
 
 
 \begin{Def}[name={[Halteproblem auf leerem Band $H_\Eps$]}]
-	Das \emph{Halteproblem auf leerem Band} ist definiert durch
+	Das \emph{Halteproblem auf dem leerem Band} ist definiert durch
 	\[H_\Eps = \{\godel{\M}\# w \mid M \text{ angesetzt auf das leere Band hält}\}. \qedhere\]
 \end{Def}
 \begin{Satz}[name={[$H_\Eps$ ist unentscheidbar]}]
@@ -1071,8 +1071,8 @@ Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
 (partiellen) Funktionen. 
 
 \begin{Satz}[Satz von Rice]\ \\
-  Sei $R$ die Menge aller partiellen \ac{TM}-berechenbaren Funktionen und $S$
-  eine nichtleere, echte Teilmenge davon. (also $\varnothing \subsetneq S \subsetneq R$).
+  Sei $R$ die Menge aller (partiellen) \ac{TM}-berechenbaren Funktionen und $S$
+  eine nichtleere, echte Teilmenge davon (also $\varnothing \subsetneq S \subsetneq R$).
   Dann ist die Sprache
   $$C_S=\{\godel{\M} \mid \M \text{ berechnet eine Funktion aus }S\}$$
   unentscheidbar.
@@ -1088,25 +1088,25 @@ Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
      Da $S\subsetneq R$ gilt, gibt es eine berechenbare Funktion $f \in R \setminus S$.
      Sei $M_f$ eine \ac{TM}, die $f$ berechnet.
      Sei $w\in\{0,1\}^*$ beliebig.
-     Wir definieren zunächst die \ac{TM} $\M_{(w, f)}$ wie folgt: 
-     $\M_{(w, f)}$ führt zunächst die durch $w$ codierte \ac{TM} $\M_w$ auf der leeren Eingabe aus.
-     Falls $\M_w$ anhält, wendet $\M_{(w, f)}$ dann $\M_f$ auf die tatsächliche Eingabe an.\\
-     ($\M_{(w, f)}$ sollte also zunächst eine Kopie der Eingabe speichern,
+     Wir definieren zunächst die \ac{TM} $\M_{w, f}$ wie folgt:
+     $\M_{w, f}$ führt zunächst die durch $w$ codierte \ac{TM} $\M_w$ auf der leeren Eingabe aus.
+     Falls $\M_w$ anhält, wendet $\M_{w, f}$ dann $\M_f$ auf die tatsächliche Eingabe an.\\
+     ($\M_{w, f}$ sollte also zunächst eine Kopie der Eingabe speichern,
      z.B.\ als 2-Band-\ac{TM}, die ein Band für die Eingabe verwendet.)
      
-     Die von $\M_{(w, f)}$ berechnete Funktion ist also:
-     $$f_{\M_{(w, f)}}=\begin{cases}
+     Die von $\M_{w, f}$ berechnete Funktion ist also:
+     $$f_{\M_{w, f}}=\begin{cases}
                       f & \text{falls } \M_w \text{ auf dem leerem Band hält,}\\
                       \Omega & \text{sonst.}
                       \end{cases}$$
      
      Wir definieren nun die \ac{TM} $\M_\textsf{Evil}$ wie folgt:
-     $\M_\textsf{Evil}$ nimmt die Eingabe $w$, konstruiert die \ac{TM} $\M_{(w, f)}$ und wendet $\M_\text{€}$ auf $\godel{\M_{(w, f)}}$ an.
+     $\M_\textsf{Evil}$ nimmt die Eingabe $w$, konstruiert die \ac{TM} $\M_{w, f}$ und wendet $\M_\text{€}$ auf $\godel{\M_{w, f}}$ an.
      Nun gilt:
      \begin{align*}
-      M_\text{€} \text{ akzeptiert } \godel{\M_{(w, f)}}
-      &\iff \godel{\M_{(w, f)}} \text{ berechnet eine Funktion in }S\\
-      &\iff \godel{\M_{(w, f)}} \text{ berechnet }\Omega\\ % \text{ ($f_{\M_{(w, f)}} \in \{\Omega, f\}, \Omega \in S, f \notin S$ )}\\
+      M_\text{€} \text{ akzeptiert } \godel{\M_{w, f}}
+      &\iff \godel{\M_{w, f}} \text{ berechnet eine Funktion in }S\\
+      &\iff \godel{\M_{w, f}} \text{ berechnet }\Omega\\ % \text{ ($f_{\M_{w, f}} \in \{\Omega, f\}, \Omega \in S, f \notin S$ )}\\
       &\iff \M_w \text{ hält \emph{nicht} auf dem leerem Band an}
     \end{align*}
     Also entscheidet $\M_\textsf{Evil}$ die Sprache $H_\Eps$. Widerspruch zu \autoref{satz:HalteproblemLeeresBand}.
