@@ -1003,7 +1003,7 @@ Dafür nutzen wir die Negation der Implikation.
 	$H$ ist unentscheidbar.
 \end{Satz}
 \begin{proof}
-  Wir zeigen die Reduktion  $K \preceq H$ mittels der Funktion $f(w) = w\#w$.
+  Wir zeigen die Reduktion $K \preceq H$ mittels der Funktion $f(w) = w\#w$.
   Die Funktion ist offensichtlich total und berechenbar.
   \begin{align*}
    w \in K & \quad\Longleftrightarrow\quad \text{ $\M_w$ hält bei Eingabe $w$ an}\\
@@ -1029,30 +1029,31 @@ Dafür nutzen wir die Negation der Implikation.
 \end{Satz}
 \begin{proof}
   Die wie folgt konstruierte \ac{TM} $\M$ akzeptiert $H$.
-  Führe die universelle \ac{TM} auf Eingabe $\godel{M}\#w$
+  Zunächst simuliert $\M$ die universelle \ac{TM} auf der Eingabe $\godel{M}\#w$.
   Falls diese Simulation stoppt, geht $\M$ in einen akzeptierenden Zustand und hält.
 \end{proof}
 
 
-\begin{Def}[name={[Halteproblem auf leerem Band $H_\varepsilon$]}]
+\begin{Def}[name={[Halteproblem auf leerem Band $H_\Eps$]}]
 	Das \emph{Halteproblem auf leerem Band} ist definiert durch
-	\[H = \{\godel{\M}\# w \mid M \text{ hält auf leerem Band }\} \qedhere\]
+	\[H_\Eps = \{\godel{\M}\# w \mid M \text{ angesetzt auf das leere Band hält}\}. \qedhere\]
 \end{Def}
-\begin{Satz}[name={[$H_\varepsilon$ ist unentscheidbar]}]
+\begin{Satz}[name={[$H_\Eps$ ist unentscheidbar]}]
 \label{satz:HalteproblemLeeresBand}
-	$H_\varepsilon$ ist unentscheidbar.
+	$H_\Eps$ ist unentscheidbar.
 \end{Satz}
 \begin{proof}
-  Konstruiere eine Reduktion $H \preceq H_\varepsilon$ mit Hilfe der
-  Funktion $f(w\#x) = \godel{\M}$, wobei $\M$ eine \ac{TM}, die
+  Wir zeigen die Reduktion $H \preceq H_\Eps$ mittels der
+  Funktion $f(w\#x) = \godel{\M_{w,x}}$.
+  Dabei ist $\M_{w,x}$ eine \ac{TM}, die folgendermaßen funktioniert.
   \begin{itemize}
-  \item zuerst $x$ auf das leere Band schreibt und dann
-  \item die durch $w$ codierte \ac{TM} $\M_w$ auf diese Eingabe anwendet.
+  \item Zuerst schreibt $\M_{w,x}$ das Wort $x$ auf das leere Band und läuft zum Anfang.
+  \item Dann wendet $\M_{w,x}$ die durch $w$ codierte \ac{TM} $\M_w$ auf $x$ an.
   \end{itemize}
-  Offenbar gilt $w\#x\in H$ gdw. $f(w\#x) \in H_\varepsilon$.
+  Offenbar gilt $w\#x\in H$ gdw.\ $f(w\#x) \in H_\Eps$.
 \end{proof}
 % \begin{proof}
-% 	Angenommen, $M_\varepsilon$ entscheidet $H_\varepsilon$.\\
+% 	Angenommen, $M_\varepsilon$ entscheidet $H_\Eps$.\\
 % 	Konstruiere $M'$ (mit Hilfe von $M_\varepsilon$), sodass $M'$ entscheidet $H$.\\
 % 	\begin{tabular}{r@{ }l}
 % 	$M':$ & Bei Eingabe $\ulcorner M\urcorner w$.\\
@@ -1069,43 +1070,44 @@ Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
 
 \begin{Satz}[Satz von Rice]\ \\
   Sei $R$ die Menge aller partiellen \ac{TM}-berechenbaren Funktionen und $S$
-  eine nicht-leere, echte Teilmenge davon. (also $\varnothing \neq S \subsetneq R$)\\
+  eine nichtleere, echte Teilmenge davon. (also $\varnothing \subsetneq S \subsetneq R$).
   Dann ist die Sprache
   $$C(S)=\{\godel{\M} \mid \M \text{ berechnet eine Funktion aus }S\}$$
   unentscheidbar.
 \end{Satz}
 \begin{proof}
-  Angenommen, es gibt eine \ac{TM} $\M_\text{€}$ die $C(S)$ entscheidet.
+  Sei $\varnothing \subsetneq S \subsetneq R$ beliebig.
+  Angenommen, es gibt eine \ac{TM} $\M_\text{€}$, die $C(S)$ entscheidet.
   Sei $\Omega \in R$ die überall undefinierte Funktion. 
-  Wir betrachten zwei Fälle
+  Wir betrachten zwei Fälle.
   \begin{itemize}
    \item Fall 1: $\Omega \in S$
    
-     Da $S\subsetneq R$ gibt es eine berechenbare Funktion $ f \in R \setminus S$.
-     Sei $M_f$ eine \ac{TM} die $f$  berechnet.
+     Da $S\subsetneq R$ gilt, gibt es eine berechenbare Funktion $f \in R \setminus S$.
+     Sei $M_f$ eine \ac{TM}, die $f$ berechnet.
      Sei $w\in\{0,1\}^*$ beliebig.
      Wir definieren zunächst die \ac{TM} $\M_{(w, f)}$ wie folgt: 
-     $\M_{(w, f)}$ führt zunächst die durch $w$ codierte \ac{TM} $\M_w$ auf leerer Eingabe aus. 
+     $\M_{(w, f)}$ führt zunächst die durch $w$ codierte \ac{TM} $\M_w$ auf der leeren Eingabe aus.
      Falls $\M_w$ anhält, wendet $\M_{(w, f)}$ dann $\M_f$ auf die tatsächliche Eingabe an.\\
-     ($\M_{(w, f)}$ sollte also zunächst eine Kopie der Eingabe speichern.
-     Z.B. 2-Band Maschine sein und ein Band für Eingabe verwenden.)
+     ($\M_{(w, f)}$ sollte also zunächst eine Kopie der Eingabe speichern,
+     z.B.\ als 2-Band-\ac{TM}, die ein Band für die Eingabe verwendet.)
      
      Die von $\M_{(w, f)}$ berechnete Funktion ist also:
      $$f_{\M_{(w, f)}}=\begin{cases}
-                      f & \text{falls } \M_w \text{ auf leerem Band hält,}\\
+                      f & \text{falls } \M_w \text{ auf dem leerem Band hält,}\\
                       \Omega & \text{sonst.}
                       \end{cases}$$
      
      Wir definieren nun die \ac{TM} $\M_\textsf{Evil}$ wie folgt:
-     $\M_\textsf{Evil}$ nimmt seine Eingabe $w$, konstruiert die \ac{TM} $\M_{(w, f)}$ und wendet $\M_\text{€}$ auf $\godel{\M_{(w, f)}}$ an.
+     $\M_\textsf{Evil}$ nimmt die Eingabe $w$, konstruiert die \ac{TM} $\M_{(w, f)}$ und wendet $\M_\text{€}$ auf $\godel{\M_{(w, f)}}$ an.
      Nun gilt:
      \begin{align*}
       M_\text{€} \text{ akzeptiert } \godel{\M_{(w, f)}}
-      &\iff \godel{\M_{(w, f)}} \text{ berechnet Funktion in }S\\
+      &\iff \godel{\M_{(w, f)}} \text{ berechnet eine Funktion in }S\\
       &\iff \godel{\M_{(w, f)}} \text{ berechnet }\Omega\\ % \text{ ($f_{\M_{(w, f)}} \in \{\Omega, f\}, \Omega \in S, f \notin S$ )}\\
-      &\iff \M_w \text{ hält \emph{nicht} auf leerem Band an}
+      &\iff \M_w \text{ hält \emph{nicht} auf dem leerem Band an}
     \end{align*}
-    Also entscheidet $\M_\textsf{Evil}$ die Sprache $H_\varepsilon$. Widerspruch zu \autoref{satz:HalteproblemLeeresBand}
+    Also entscheidet $\M_\textsf{Evil}$ die Sprache $H_\Eps$. Widerspruch zu \autoref{satz:HalteproblemLeeresBand}.
     \item Fall 2: $\Omega \notin S$
     
     Analog zu Fall 1. \qedhere
