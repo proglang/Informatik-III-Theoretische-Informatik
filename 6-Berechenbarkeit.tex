@@ -1044,13 +1044,15 @@ Dafür nutzen wir die Negation der Implikation.
 \end{Satz}
 \begin{proof}
   Wir zeigen die Reduktion $H \preceq H_\Eps$ mittels der
-  Funktion $f(w\#x) = \godel{\M_{w,x}}$.
+  Funktion $f$, die eine Eingabe $v$ der Form $v = w\#x$ auf eine \ac{TM} $\godel{\M_{w,x}}$ (siehe unten) und ansonsten auf $0$ abbildet.%
+  \footnote{Wir hätten hier auch jedes andere Wort statt 0 wählen können, das nicht in $H_\Eps$ liegt.}
+  \[ f(v) = \begin{cases} \godel{\M_{w,x}} & \text{falls } v = w\#x \\ 0 & \text{sonst}\end{cases} \]
   Dabei ist $\M_{w,x}$ eine \ac{TM}, die folgendermaßen funktioniert.
   \begin{itemize}
   \item Zuerst schreibt $\M_{w,x}$ das Wort $x$ auf das leere Band und läuft zum Anfang.
   \item Dann wendet $\M_{w,x}$ die durch $w$ codierte \ac{TM} $\M_w$ auf $x$ an.
   \end{itemize}
-  Offenbar gilt $w\#x\in H$ gdw.\ $f(w\#x) \in H_\Eps$.
+  Offensichtlich ist $f$ total und berechenbar und es gilt $v\in H$ gdw.\ $f(v) \in H_\Eps$.
 \end{proof}
 % \begin{proof}
 % 	Angenommen, $M_\varepsilon$ entscheidet $H_\Eps$.\\
