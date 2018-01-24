@@ -1086,22 +1086,22 @@ Dafür nutzen wir die Negation der Implikation.
 \end{Satz}
 \begin{proof}
   Wir zeigen die Reduktion $H \preceq H_\Eps$ mittels der Funktion $f$, 
-  die in der Eingabe das erste Vorkommen eine $\#$ Zeichens sucht und
-  für die Zerlegte Eingabe $v = w\#x$ die wie folgt definierte \ac{TM} $\godel{\M_{w,x}}$ konstruiert.
+  die in der Eingabe das erste Vorkommen von $\#$ sucht und
+  für die zerlegte Eingabe $v = w\#x$ die wie folgt definierte \ac{TM} $\godel{\M_{w,x}}$ konstruiert.
   \begin{itemize}
   \item Zuerst schreibt $\M_{w,x}$ das Wort $x$ auf das leere Band (und läuft zum Anfang).
   \item Dann wendet $\M_{w,x}$ die durch $w$ codierte \ac{TM} $\M_w$ auf $x$ an.
   \end{itemize}
   Enthält die Eingabe das Zeichen $\#$ nicht, 
   bildet $f$ auf den Code irgendeiner TM ab, 
-  deren Code nicht in $H_\Eps$ liegt\footnote{
+  deren Code nicht in $H_\Eps$ liegt.\footnote{
   Wie könnten z.B. die durch das folgende Flussdiagramm beschriebene TM nehmen, denn diese hält auf keiner Eingabe:
   \begin{tikzpicture}
    \node (0) at (0,0) {$\D_\mblank$};
    \node (init) at (-0.7,.1) {};
    \draw[->] (init) to (0);
    \draw[->,loop right] (0) to node {$\Gamma$} (0);
-  \end{tikzpicture}}.
+  \end{tikzpicture}}
   
 %   \[ f(v) = \begin{cases} \godel{\M_{w,x}} & \text{falls } v = w\#x \\ 0 & \text{sonst}\end{cases} \]
   Offensichtlich ist $f$ total und berechenbar und es gilt $v\in H$ gdw.\ $f(v) \in H_\Eps$.
