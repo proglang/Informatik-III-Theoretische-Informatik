@@ -1144,21 +1144,17 @@ Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
      
      Wir definieren nun die \ac{TM} $\M_\textsf{Evil}$ (abhängig von $w$) wie folgt:
      $\M_\textsf{Evil}$ nimmt die Eingabe $w$, konstruiert die \ac{TM} $\M_{w, f}$ und wendet $\M_\text{€}$ auf $\godel{\M_{w, f}}$ an.
-     Sei $f$ eine Funktion, die aus einem Wort $w$ die entsprechende \ac{TM} $\M_\textsf{Evil}$ konstruiert.
-     Die Funktion $f$ ist total und berechenbar.
-     Mit dieser Funktion können wir die Reduktion $\overline{H}_\Eps \preceq C_S$ zeigen:
+     Nun gilt:
      \begin{align*}
-      w \in \overline{H_\Eps} &\iff \M_w \text{ hält \emph{nicht} auf dem leeren Band} \\
-      &\iff \godel{\M_{w, f}} \text{ berechnet }\Omega\\ % \text{ ($f_{\M_{w, f}} \in \{\Omega, f\}, \Omega \in S, f \notin S$ )}\\
+      M_\text{€} \text{ akzeptiert } \godel{\M_{w, f}}
       &\iff \godel{\M_{w, f}} \text{ berechnet eine Funktion in }S\\
-      &\iff M_\text{€} \text{ akzeptiert } \godel{\M_{w, f}} \\
-      &\iff f(w) \in C_S
+      &\iff \godel{\M_{w, f}} \text{ berechnet }\Omega\\ % \text{ ($f_{\M_{w, f}} \in \{\Omega, f\}, \Omega \in S, f \notin S$ )}\\
+      &\iff \M_w \text{ hält \emph{nicht} auf dem leeren Band}
     \end{align*}
-    Also könnten wir $\M_\textsf{Evil}$ verwenden, um die Sprache $H_\Eps$ zu entscheiden.
-    Widerspruch zu \autoref{satz:HalteproblemLeeresBand}.
+    Also entscheidet $\M_\textsf{Evil}$ die Sprache $H_\Eps$. Widerspruch zu \autoref{satz:HalteproblemLeeresBand}.
     \item Fall 2: $\Omega \notin S$
     
-    Analog zu Fall 1 mit Reduktion $H_\Eps \preceq C_S$. \qedhere
+    Analog zu Fall 1. \qedhere
   \end{itemize}
 \end{proof}
 
