@@ -162,8 +162,11 @@ Dabei ist $\D_\mblank$ die in \autoref{bsp:simpletms} definierte Druckmaschine.%
 \textbf{Notation:}
 Wir verwenden im Folgenden $\tmach$ für die Menge aller Turingmaschinen, bei denen 
 \begin{itemize}
- \item jeder Zustand $Q$ von der Transitionsfunktion mindestens einmal auf eine nichtleere Menge abgebildet wird und
- \item jedes Zeichen aus $\Gamma\setminus(\Sigma\cup\{\mblank\})$ von der Transitionsfunktion mindestens einmal auf eine nichtleere Menge abgebildet wird.
+ \item jeder Zustand $Q$ mindestens ein mal in der Turingtabelle vorkommt
+ \footnote{Ein Zustand $q\in Q$ \emph{kommt in der Turingtablle vor} wenn das folgende gilt:
+ $\exists a\in\Gamma: \delta(q,a)\neq\emptyset\lor \exists p\in Q, \exists a'\in\Gamma, \exists d\in\{L,N,R\}: (q,a',d)\in\delta(q,a)$.}
+ oder akzeptierend ist und
+ \item jedes Zeichen aus $\Gamma\setminus(\Sigma\cup\{\mblank\})$ mindestens ein mal in der Turingtabelle vorkommt.
 \end{itemize}
 
 
