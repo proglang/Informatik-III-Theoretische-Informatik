@@ -1006,7 +1006,7 @@ Widerspruch zu \autoref{satz:speziellesHalteproblem}.
 \end{proof}
 
 
-\begin{Def}[Reduktion]\ \\
+\begin{Def}[Reduktion]\label{def:reduktion}\ \\
   Seien $U, V \subseteq \Sigma^*$ Sprachen.
   \emph{$U$ ist auf $V$ reduzierbar (Notation: $U \preceq V$)}, falls eine totale, berechenbare Funktion
   $f:\Sigma^* \to \Sigma^*$ existiert, sodass
@@ -1121,18 +1121,264 @@ Dafür nutzen wir die Negation der Implikation.
 % 	$\curvearrowright M'$ entscheidet $H \qquad \lightning$ \autoref{satz:H ist unentscheidbar}
 % \end{proof}
 
+
+%%%%%%%%%%%%%%%%%%%%
+
+
+\datenote{26.01.2018}
+
+% \def\note#1{{\color{green!50!black}\marginpar{$\ulcorner$}#1\marginpar{$\lrcorner$}}}
+\def\note#1{{}}
+
+\begin{Bemerkung}
+	Das Phänomen des Halteproblems (oder des Barbiers von Waldkirch) tritt immer dann auf, wenn man in einem Formalismus über den Formalismus selbst sprechen kann (Selbstreferenzialität).
+	Wir können z.B.\ universelle \ac{TM}s konstruieren, die andere \ac{TM}s (und damit auch sich selbst) simulieren.
+
+	\note{
+	Anwendungen in der Informatik:
+	%
+	\begin{itemize}
+		\item Compiler/Interpreter; schreibe Compiler in der gleichen Sprache
+		%
+		\item Generieren von Programmen
+	\end{itemize}
+	}
+
+	Selbstreferenzialität existiert z.B.\ auch in der natürlichen Sprache ("`Dieser Satz ist falsch."').
+	Weitere für die Mathematik/Informatik relevante Beispiele sind die Unentscheidbarkeit (des Gültigkeitsproblems) der Prädikatenlogik und die Unvollständigkeit der Peano-Arithmetik (erster Gödelscher Unvollständigkeitssatz).
+\end{Bemerkung}
+
+\note{
+Der Rest der Vorlesung beschäftigt sich hauptsächlich mit Reduktionen.
+Reduktionen werden auch ca.\ 25\% der Klausur beanspruchen.
+Daher wollen wir uns heute nochmal intensiv damit beschäftigen.
+Wie immer gilt: Übung macht den Meister.
+}
+
+\note{
+Wiederholung: $L$ ist \dots
+%
+\begin{enumerate}
+	\item \dots entscheidbar:
+	$\exists \M$: $\M$ akzeptiert $L$ und hält auf allen Eingaben
+	%
+	\item \dots semi-entscheidbar:
+	$\exists \M$: $\M$ akzeptiert $L$
+	%
+	\item \dots unentscheidbar:
+	$L$ ist nicht entscheidbar
+\end{enumerate}
+}
+
+\note{
+\begin{itemize}
+	\item $L$ unentscheidbar $\Rightarrow$ (Wortproblem für) $L$ nicht (in allen Fällen) lösbar
+	%
+	\item $L$ unentscheidbar $\not\Rightarrow$ $L$ in der Praxis unlösbar (zunächst keine Aussage darüber, welche realen Instanzen nicht lösbar sind; vielleicht interessieren uns nur "`einfache"' Instanzen)
+	%
+	\item $L$ entscheidbar $\not\Rightarrow$ $L$ in der Praxis lösbar (sowohl Schwierigkeit (s.\ später "`hält $\M_0$ auf $w_0$?"') als auch Komplexität (mehrfach exponentiell/nichtelementar))
+	%
+	\item Häufig meint man mit "`$L$ in der Praxis lösbar"' eigentlich "`$L$ polynomiell lösbar"' (s.\ letztes Kapitel).
+\end{itemize}
+}
+
+\note{
+Wiederholung: \autoref{def:reduktion}, \autoref{lemma:reduktion}
+}
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[mydot/.style={circle,fill,inner sep=0.5pt,minimum size=0mm},t/.style={->,draw,>=stealth,shorten >=-2pt,shorten <=-2pt,dashed}]
+		\node[rectangle,draw,minimum size=3cm] (lR) {};
+		\node[rectangle,draw,minimum size=3cm,right=3cm of lR] (rR) {};
+		%
+% 		\node[above=2mm of lR] {$\Sigma^*$};
+% 		\node[above=2mm of rR] {$\Sigma^*$};
+		%
+		\node at (-0.4,0) {$L_1$};
+		\node at (6.3,-0.1) {$L_2$};
+		\node at (-1.2,0.6) {$\overline{L}_1$};
+		\node at (7.1,0.2) {$\overline{L}_2$};
+		%
+		\draw[rounded corners=10pt] (-1,0) -- ++(0.5,1) -- ++(0.5,-1) -- ++(0.8,1.1) -- ++(0.3,-1.2) -- ++(-0.8,-0.7) -- ++(-0.7,-0) -- cycle;
+		\draw[rounded corners=10pt] (5,0) -- ++(0.3,1.2) -- ++(2.1,-2) -- ++(-1.3,-0.1) -- cycle;
+		%
+		\node (w1) at (0.7,0.7) {$\bullet$};
+		\node (w2) at (0.3,0.1) {$\bullet$};
+		\node (w3) at (0.2,-0.5) {$\bullet$};
+		%
+		\node (w4) at (0.4,1.1) {$\bullet$};
+		\node (w5) at (1.3,0.5) {$\bullet$};
+		\node (w6) at (-0.2,-1.3) {$\bullet$};
+		%
+		\node (f1) at (5.6,0.6) {$\bullet$};
+		\node (f2) at (6.2,-0.5) {$\bullet$};
+		\node (f3) at (5.5,0.1) {$\bullet$};
+		%
+		\node (f4) at (7.0,1.1) {$\bullet$};
+		\node (f5) at (4.8,-1.1) {$\bullet$};
+		\node (f6) at (6.1,-1.2) {$\bullet$};
+		%
+		\draw[t] (w1) to (f1);
+		\draw[t] (w2) to (f2);
+		\draw[t] (w3) to (f2);
+		%
+		\draw[t] (w4) to (f4);
+		\draw[t] (w5) to (f5);
+		\draw[t] (w6) to (f5);
+	\end{tikzpicture}
+	\caption{Schematische Reduktion $L_1 \preceq L_2$ von einer Sprache $L_1$ auf eine Sprache $L_2$}
+\end{figure}
+
+\begin{Satz}
+	Die Reduktionsrelation $\preceq$ ist reflexiv und transitiv.
+\end{Satz}
+
+\begin{proof}
+	Siehe Übungsblatt 13.
+\end{proof}
+
+\note{
+Motivation für Reduktionssymbol $\preceq$: "`links steht die einfachere Sprache"' \\
+Einfacher in welchem Sinn? \\
+Antwort: entscheidbar/semi-entscheidbar/unentscheidbar/nicht semi-entscheidbar
+}
+
+\begin{Bemerkung}
+	\autoref{lemma:reduktion} hilft uns, eine beliebige Sprache $L$ zu klassifizieren.
+	%
+	\begin{itemize}
+		\item "`$L$ ist entscheidbar"': \\
+		Reduktion $L \preceq L_E$ für entscheidbares $L_E$ (oder expliziter%
+		\footnote{Eine Reduktion repräsentiert implizit auch einen Algorithmus.}
+		Algorithmus)
+		%
+		\item "`$L$ semi-entscheidbar"': \\
+		Reduktion $L \preceq L_{SE}$ für semi-entscheidbares $L_{SE}$ (oder expliziter Algorithmus)
+		%
+		\item "`$L$ unentscheidbar"': \\
+		Reduktion $L_U \preceq L$ für unentscheidbares $L_U$
+		%
+		\item "`$L$ nicht semi-entscheidbar"': \\
+		Reduktion $L_{NSE} \preceq L$ für nicht semi-entscheidbares $L_{NSE}$
+		\qedhere
+	\end{itemize}
+\end{Bemerkung}
+
+\begin{Bemerkung}
+	Informelles Schema für Reduktionsbeweise:
+	%
+	\begin{enumerate}
+		\item Reduktionsrichtung bestimmen
+
+		\item passende Sprache für Reduktion finden
+
+		\item Reduktionsfunktion $f$ angeben
+
+		\item angeben, dass und warum $f$ total und berechenbar ist
+
+		\item Äquivalenz "`$w \in L_1$ gdw.\ $f(w) \in L_2$"' zeigen
+
+		\item verwendete Eigenschaft der gewählten Sprache ((un-/semi-)entscheidbar) angeben
+		und damit die zu zeigende Aussage folgern
+		\qedhere
+	\end{enumerate}
+\end{Bemerkung}
+
+\note{
+typische Fehler:
+%
+\begin{itemize}
+	\item falsche Reduktionsrichtung
+	%
+	\item $f$ nicht total: $f(w) = x$, falls $\M_w$ keine Transition hat
+	%
+	\item $f$ nicht berechenbar: $f(w) = \begin{cases} x & \text{falls $\M_w$ angesetzt auf $w$ hält} \\ y & \text{sonst} \end{cases}$
+	%
+	\item Äquivalenz stimmt nur in eine Richtung: $H \preceq \Sigma^*$ mit $f(v) = v$ -- es gilt $v \in H \implies f(v) \in \Sigma^*$, aber nicht andersrum
+\end{itemize}
+}
+
+\begin{figure}[H]
+	\centering
+	\renewcommand{\baselinestretch}{1.3}\normalsize
+	\begin{tabular}{l|c|c}
+		& $\M$ beliebig & $\M$ fest \\
+		\hline
+		$w$ beliebig & $H = \{\godel{\M}\# w \mid \M \text{ hält auf } w\}$ & $H_\M = \{w \mid \M \text{ hält auf } w\}$ \\
+		\hline
+		$w$ fest & $H_w = \{\godel{\M} \mid \M \text{ hält auf } w\}$ & $H_{\M, w} = \left\{\godel{\M}\# w \ \middle| \begin{tabular}{l}$\M$ hält auf $w$, \\ $\M$ und $w$ fest\end{tabular}\right\}$
+	\end{tabular}
+	\renewcommand{\baselinestretch}{1}\normalsize
+	\caption{Verschiedene Halteprobleme mit \ac{TM} $\M$ und Eingabe~$w$}
+\end{figure}
+
+\begin{lemma}
+	Für jedes feste $w \in \Sigma^*$ ist $H_w$ unentscheidbar.
+\end{lemma}
+
+\begin{proof}
+	Für $w = \Eps$ haben wir in \autoref{satz:HalteproblemLeeresBand} bereits gesehen, dass $H_\Eps$ unentscheidbar ist.
+	Der Beweis dazu funktioniert analog für beliebige Wörter $w$, wenn wir "`das leere Band"' durch "`die Eingabe $w$"' ersetzen.
+\end{proof}
+
+\begin{lemma}
+	Es gibt \ac{TM}s $\M$, für die $H_\M$ unentscheidbar ist.
+\end{lemma}
+
+\begin{proof}
+	Wir konstruieren zunächst eine \ac{TM} $\widehat{\M}_U$, die arbeitet wie die universelle \ac{TM} $\M_U$, aber in eine Endlosschleife geht, wenn die von ihr simulierte \ac{TM} anhält und nicht akzeptiert.
+	Nun gilt $H = H_{\widehat{\M}_U}$.
+\end{proof}
+
+\begin{Bemerkung}
+	Für manche \ac{TM}s ist $H_\M$ entscheidbar, z.B.\ für $H_{\M_r}$.
+\end{Bemerkung}
+
+\begin{lemma}
+	$H_{\M, w}$ ist entscheidbar.
+\end{lemma}
+
+\begin{proof}
+	Für eine feste Kombination $(\M, w)$ gilt entweder $H_{\M, w} = \emptyset$ oder  $H_{\M, w} = \{\godel{\M}\# w\}$.
+	Beide Sprachen sind entscheidbar.%
+	\footnote{Wichtig ist, dass unsere Definition von "`entscheidbar"' nur die \emph{Existenz} einer \ac{TM} voraussetzt.
+	Es gibt in diesem Fall keinen Algorithmus, eine entsprechende \ac{TM} zu \emph{berechnen}.}
+\end{proof}
+
+
+
  % Latex-Qelle von M. Geffken
 Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
 (partiellen) Funktionen.
-\draftnote{26.01.2018}
 
 \begin{Satz}[Satz von Rice]\ \\
-  Sei $R$ die Menge aller (partiellen) \ac{TM}-berechenbaren Funktionen und $S$
+  Sei $R$ die Menge aller (partiellen) berechenbaren Funktionen und $S$
   eine nichtleere, echte Teilmenge davon (also $\varnothing \subsetneq S \subsetneq R$).
   Dann ist die Sprache
   $$C_S=\{\godel{\M} \mid \M \text{ berechnet eine Funktion aus }S\}$$
   unentscheidbar.
 \end{Satz}
+
+\note{
+\begin{itemize}
+	\item Welche Bedeutung hat dieser Satz für die Praxis?
+	\begin{itemize}
+		\item Es ist unentscheidbar, ob ein Programm tut, was es soll (die Spezifikation $S$), egal wie einfach die Eigenschaft ist, z.B. die Identitätsfunktion zu berechnen.
+% 		%
+% 		\item Softwareverifikation
+% 		%
+% 		\item Eine Richtung ist semi-entscheidbar: Testen
+% 		%
+% 		\item "`Algorithmen"' anderer Art nötig (rechne mit Nichtterminierung und gib ggf.\ auf oder verfeinere die Analyse; alle Ansätze sind Heuristiken)
+% 		%
+% 		\item Lehrstuhl für Softwaretechnik
+	\end{itemize}
+	%
+	\item Was ist mit den beiden Fällen $S = \emptyset$ und $S = R$? $\to$ trivial entscheidbar
+\end{itemize}
+}
+
 \begin{proof}
   Sei $\varnothing \subsetneq S \subsetneq R$ beliebig.
   Angenommen, es gibt eine \ac{TM} $\M_\text{€}$, die $C_S$ entscheidet.
@@ -1172,6 +1418,146 @@ Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
   \end{itemize}
 \end{proof}
 
+\begin{Bemerkung}
+	Gibt es noch "`schwerere"' Sprachen als das Halteproblem?
+	In gewissem Sinne ja, denn es gibt Sprachen $L$, sodass sowohl $L$ als auch $\overline{L}$ nicht semi-entscheidbar sind.
+	Ein Beispiel ist das Halteproblem für \emph{alle} Eingaben:
+	\begin{align*}
+		H_{\forall w} = \{\godel{\M} \mid \text{$\M$ angesetzt auf jedes Wort $w \in \Sigma^*$ hält}\}
+		\qedhere
+	\end{align*}
+\end{Bemerkung}
+
+\begin{Satz}
+	Seien $L_1, L_2$ entscheidbare Sprachen.
+	Dann sind auch $L_1 \cup L_2$, $L_1 \cap L_2$ und $\overline{L_1}$ entscheidbar.
+\end{Satz}
+
+\begin{proof}
+	Seien $L_1$, $L_2$ beliebige entscheidbare Sprachen und $\M_1$, $\M_2$ \ac{TM}s, welche die Sprachen entscheiden.
+
+	"`$\cup$"': Simuliere für eine Eingabe $w$ zunächst $\M_1$ und dann $\M_2$.
+	Akzeptiere, falls eine der beiden \ac{TM}s akzeptiert.
+
+	"`$\cap$"': Analog zu "`$\cup$"'; siehe Übungsblatt 12 Aufgabe 5.
+
+	"`$\overline{L_1}$"': Simuliere $\M_1$ und akzeptiere genau dann, wenn $\M_1$ nicht akzeptiert.
+\end{proof}
+
+\begin{Satz}
+	Seien $L_1, L_2$ semi-entscheidbare Sprachen.
+	Dann sind auch $L_1 \cup L_2$ und $L_1 \cap L_2$ semi-entscheidbar.
+\end{Satz}
+
+\begin{proof}
+	Seien $L_1$, $L_2$ beliebige semi-entscheidbare Sprachen und $\M_1$, $\M_2$ \ac{TM}s, welche die Sprachen entscheiden.
+
+	"`$\cup$/$\cap$"': Simuliere für eine Eingabe $w$ zunächst $\M_1$ und $\M_2$ "`parallel"' (z.B.\ mit einer 2-Band-\ac{TM}).
+	Akzeptiere entsprechend zu $\cup$/$\cap$.
+\end{proof}
+
+\begin{Bemerkung}
+	Ist $L_1$ eine semi-entscheidbare Sprache, so ist $\overline{L}_1$ ist im Allgemeinen nicht semi-entscheidbar.
+	Beispiel: Laut \autoref{lemma:Ksemi-entscheidbar} und \autoref{kor:6.11} ist das spezielle Halteproblem $K$ semi-entscheidbar, $\overline{K}$ aber nicht.
+\end{Bemerkung}
+
+\subsection{Nichtdeterministische Turingmaschinen}
+
+\begin{Satz}
+	Sei $\M$ eine \ac{NTM}.
+	Dann existiert eine \ac{DTM} $\M'$, sodass gilt:
+	\begin{itemize}
+	\item $\M'$ akzeptiert $L(\M)$.
+	\item $\M'$ hält genau dann, wenn $\M$ hält.
+% 	\item Falls $M$ zeit- und platzbeschränkt ist mit $t(n)$
+%           bzw. $s(n)$ ($n=$ Länge der Eingabe), dann ist $M'$
+%           zeitbeschränkt mit $2^{O(t(n))}$ und platzbeschränkt mit
+%           $O(s(n)\cdot t(n))$.
+	\qedhere
+	\end{itemize}
+\end{Satz}
+
+\begin{proof}[Skizze]
+Idee: In jedem Schritt gibt es nur endlich viele Möglichkeiten, eine Transition zu wählen.
+Für eine feste Schrittzahl $n$ ist die Anzahl der möglichen Konfigurationsfolgen also endlich.
+Wir legen ein $n$ fest und probieren nacheinander alle möglichen Konfigurationsfolgen der Länge $n$ durch.
+(Anders formuliert: Wir laufen in Breitensuche durch den (endlichen) Suchbaum und zählen alle Möglichkeiten auf.
+Dann simulieren wir nacheinander alle Möglichkeiten systematisch.)
+Finden wir eine Haltekonfiguration, so kann $\M'$ auch halten.
+Ansonsten müssen wir $n$ erhöhen und eine neue Suche starten.
+
+Sei $r$ der höchste Grad an Nichtdeterminismus von $\M$.
+Wir konstruieren $\M'$ mit 3 Bändern, die auf Band~1 das Eingabewort $w$ unverändert speichert.
+Auf Band~2 werden nach und nach alle Wörter über $\{1, \dots, r\}$ der Länge nach und bei gleicher Länge in lexikografischer Reihenfolge erzeugt: $\Eps$, 1, 2, $\dots$, $r$, $11$, $12$, \dots, $1r$, $21$, \dots, $rr$, $111$, \dots\,.
+Auf Band~3 wird jeweils die Simulation der aktuellen Auswahl durchgeführt.
+
+Wenn es eine gültige Konfigurationenfolge gibt, an deren Ende $\M$ akzeptiert, so wird $\M'$ diese irgendwann aufzählen und ebenfalls akzeptieren.
+Wenn nicht, gibt es zwei Möglichkeiten:
+%
+\begin{itemize}
+ \item Der Suchbaum ist endlich, d.h., jede mögliche Konfigurationenfolge von $\M$ führt irgendwann in eine Haltekonfiguration.
+ Dann hält $\M'$ irgendwann.
+ %
+ \item Es gibt nicht-terminierende Konfigurationenfolgen von $\M$ .
+ Dann hält $\M'$ nie, sondern zählt immer längere Reihenfolgen auf.
+ \qedhere
+\end{itemize}
+\end{proof}
+
+\begin{Bsp*}
+	Betrachte die \ac{NTM} $\M = (\{0, 1\}, \{q_0, q_1\}, \{0, 1, \blank\}, \delta, q_0, \blank, \{q_0\})$ mit
+	\begin{align*}
+		\delta(q_0, 0) &= \{(q_0, 0, R), (q_0, 0, N)\} \\
+		\delta(q_0, \blank) &= \{(q_1, \blank, N)\}.
+	\end{align*}
+	%
+	Auf manchen Eingaben hält $\M$ immer (z.B.\ auf $w_1 = \Eps$), auf manchen gibt es aber auch nicht-terminierende Ausführungen (z.B.\ auf $w_2 = 0$).
+	Unten sind die Suchbäume für die Konfigurationsfolgen für $w_1$ und $w_2$ skizziert.
+
+	\hfill
+	\begin{minipage}[t]{0.3\textwidth}
+		\centering
+		\begin{tikzpicture}[t/.style={->,draw,>=stealth,shorten >=-2pt,shorten <=-2pt}]
+			\node (0) {$q_0 \blank$};
+			\node[below=of 0] (11) {$q_1 \blank$};
+			%
+			\draw[t] (0) to (11);
+		\end{tikzpicture}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\begin{tikzpicture}[t/.style={->,draw,>=stealth,shorten >=-2pt,shorten <=-2pt}]
+			\node (0) {$q_0 0$};
+			\node[below left=of 0] (11) {$0 q_0 \blank$};
+			\node[below right=of 0] (12) {$q_0 0$};
+			\node[below=of 11] (21) {$0 q_1 \blank$};
+			\node[below left=of 12] (22) {$0 q_0 \blank$};
+			\node[below right=of 12] (23) {$q_0 0$};
+			\node[below=0mm of 22] {\vdots};
+			\node[below=0mm of 23] {\vdots};
+			%
+			\draw[t] (0) to (11);
+			\draw[t] (0) to (12);
+			\draw[t] (11) to (21);
+			\draw[t] (12) to (22);
+			\draw[t] (12) to (23);
+			%
+			\draw[t,<->,dotted,out=0,in=70] (0) to node[right]{Wiederholung} (12);
+		\end{tikzpicture}
+	\end{minipage}
+	\hfill~
+\end{Bsp*}
+
+\begin{Bemerkung}
+	Es werden u.U.\ Reihenfolgen aufgezählt, die nicht durchführbar sind.
+	Das kann aber erkannt werden; in diesem Fall wird die Simulation einfach übersprungen.
+
+	Der Suchaufwand ist exponentiell (Suchbaum mit Verzweigungsgrad $r$).
+\end{Bemerkung}
+
+
+%%%%%%%%%%%%%%%%%%%%
 
 
 \hide{
