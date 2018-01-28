@@ -1069,7 +1069,7 @@ Dafür nutzen wir die Negation der Implikation.
 % 	Insgesamt: $M'$ entscheidet $\overline{D} \qquad \lightning$ \autoref{kor:6.11}\\
 % 	$\curvearrowright M_0$ existiert nicht.
 % \end{proof}
-\begin{Satz}[name={[$H$ ist semi-entscheidbar]}]
+\begin{Satz}[name={[$H$ ist semi-entscheidbar]}]\label{satz:H-semi-entscheidbar}
 	$H$ ist semi-entscheidbar.
 \end{Satz}
 \begin{proof}
@@ -1120,6 +1120,12 @@ Dafür nutzen wir die Negation der Implikation.
 % 	\end{tabular}\\
 % 	$\curvearrowright M'$ entscheidet $H \qquad \lightning$ \autoref{satz:H ist unentscheidbar}
 % \end{proof}
+
+\begin{Bemerkung}
+	Die Reduktion gilt auch in der umgekehrten Richtung "`$H_\Eps \preceq H$"' (ohne Beweis).
+	Mit \autoref{satz:H-semi-entscheidbar} und \autoref{lemma:reduktion} ist $H_\Eps$ damit auch semi-entscheidbar.
+\end{Bemerkung}
+
 
 
 %%%%%%%%%%%%%%%%%%%%
