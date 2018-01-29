@@ -922,7 +922,7 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 \begin{proof}
   Die wie folgt konstruierte \ac{TM} $\M$ akzeptiert $K$.
   Sei $w$ die Eingabe. 
-  Führe die universelle \ac{TM} für $M_w$ mit Eingabe $w$ aus.
+  Führe die universelle \ac{TM} für $\M_w$ mit Eingabe $w$ aus.
   Falls diese Simulation stoppt, geht $\M$ in einen akzeptierenden Zustand und hält.
 \end{proof}
 % \begin{Def}[name={[length-lexicographic order]}]
@@ -1074,14 +1074,14 @@ Dafür nutzen wir die Negation der Implikation.
 \end{Satz}
 \begin{proof}
   Die wie folgt konstruierte \ac{TM} $\M$ akzeptiert $H$.
-  Zunächst simuliert $\M$ die universelle \ac{TM} auf der Eingabe $\godel{M}\#w$.
+  Zunächst simuliert $\M$ die universelle \ac{TM} auf der Eingabe $\godel{\M}\#w$.
   Falls diese Simulation stoppt, geht $\M$ in einen akzeptierenden Zustand und hält.
 \end{proof}
 
 
 \begin{Def}[name={[Halteproblem auf leerem Band $H_\Eps$]}]
 	Das \emph{Halteproblem auf dem leerem Band} ist definiert durch
-	\[H_\Eps = \{\godel{\M} \mid M \text{ angesetzt auf das leere Band hält}\}. \qedhere\]
+	\[H_\Eps = \{\godel{\M} \mid \M \text{ angesetzt auf das leere Band hält}\}. \qedhere\]
 \end{Def}
 \begin{Satz}[name={[$H_\Eps$ ist unentscheidbar]}]
 \label{satz:HalteproblemLeeresBand}
