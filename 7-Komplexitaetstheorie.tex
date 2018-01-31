@@ -1,28 +1,89 @@
 \section[Komplexitätstheorie]{Komplexitätstheorie}
 \subsection{Komplexitätsklassen und P/NP}
 
-\begin{Def}[name={[$\NTIME$ Klasse]}]
-	Sei $f:\N\->\N$ eine Funktion.\\
-	Die Klasse $\NTIME(f(n))$ besteht aus allen Sprachen, die von einer (Mehrkanal-)\ac{TM} $M$ in $T_M(w)\leq f(|w|)$ akzeptiert werden.\\
-	Dabei $T_M(w) =
-	\begin{cases}
-		\mathrlap{\text{Anzahl der Schritte einer kürzesten akzeptierenden Berechnung von $M$ auf }w}\\
-		1 & \text{falls }\nexists
-	\end{cases}$\\
+{\color{red} TODO: Dieser Teil des Skriptes wir vermutlich erst am Wochenende in einen ``schönen'' Zustand gebracht.}
+
+Aus Info2 kennen Sie: Worst-case Laufzeit eines Algorithmus bestimmen.
+
+Hier: Betrachte Problemstellung und bestime was Wort-case Laufzeit von bestmöglichem Algorithmus ist.
+
+\begin{Def}
+Sei $f:\N\rightarrow\N$ Funktion und $\M$ eine nichtdet. \ac{TM} mit Eingabealphabet $\Sigma$.
+\begin{itemize}
+ \item $\M$ hat \emph{Zeitkomplexität} $f(n)$ wenn
+ \item $\M$ hat \emph{Platzkomplexität} $f(n)$ wenn
+\end{itemize}
 \end{Def}
+
+
+\begin{Def}[name={[$\NTIME$ Klasse]}]
+	Sei $f:\N\->\N$ eine Funktion.
+	\begin{itemize}
+	 \item $\DTIME(f(n)) = \{L\mid \exists \text{det. Mehrband TM $\M$ sodass $L(\M)=L$ und $\M$ hat Zeitkomplexität $f(n)$} \} $
+	 \item $\NTIME(f(n)) = \{L\mid \exists \text{nichtdet. Mehrband TM $\M$ sodass $L(\M)=L$ und $\M$ hat Zeitkomplexität $f(n)$} \} $
+	 \item $\DSPACE(f(n)) = \{L\mid \exists \text{det. Mehrband TM $\M$ sodass $L(\M)=L$ und $\M$ hat Platzkomplexität $f(n)$} \} $
+	 \item $\NSPACE(f(n)) = \{L\mid \exists \text{nichtdet. Mehrband TM $\M$ sodass $L(\M)=L$ und $\M$ hat Platzkomplexität $f(n)$} \} $
+	\end{itemize}
+
+% 	Die Klasse $\NTIME(f(n))$ besteht aus allen Sprachen, die von einer (Mehrkanal-)\ac{TM} $M$ in $T_M(w)\leq f(|w|)$ akzeptiert werden.\\
+% 	Dabei $T_M(w) =
+% 	\begin{cases}
+% 		\mathrlap{\text{Anzahl der Schritte einer kürzesten akzeptierenden Berechnung von $M$ auf }w}\\
+% 		1 & \text{falls }\nexists
+% 	\end{cases}$\\
+\end{Def}
+
+Diagramm
+
+\bigskip
+
+Probleme als Sprachen.
+
+Bsp: Erfüllbarkeitsproblem der Aussagenlogik.
+
+Exkurs Aussagenlogische Formel.
+
+Bekannt aus Logik. Beschreiben unsere Notation mit Hilfe folgender Grammatik.
+
+$\{F\in L(G_{AL})\mid F \text{erfüllbar}\}$
+
+Betrachen zunächst Teilmenge.
+
+DTM?
+
+Laufzeitkomplexität?
+
+Exkurs
+\begin{Def} Sei $g:\N\rightarrow\N$
+$$\mathcal{O}(g(n)) = \{f:\N\rightarrow\N \mid \exists n_0, k\in\N \forall n\geq n_0: f(n)\leq k\cdot g(n)\}$$
+\end{Def}
+
+Anschaulich: $f(n)\in \mathcal{O}(g(n))$ $f$ wächst garantiert nicht viel stärker als $g$.
+
+
+\bigskip
+
 \begin{Def}[name={[Polynom]}]
 	Ein Polynom ist eine Funktion $p:\N\->\N$ mit $\exists k\in \N\ a_0,\dots,a_k\in\N$ und \mbox{$p(n)=\sum_i^k a_in^k$}
 \end{Def}
-\begin{Def}[name={[$NP$ Klasse]}]
-	Die Klasse $NP$ besteht aus allen Sprachen, die von \ac{NTM} in polynomieller Zeit akzeptiert werden können.
-	\[ NP = \cup_{p\text{ Polynom}} \NTIME(p(n)) \]
+\begin{Def}
+ \[ P = \bigcup_{p\text{ Polynom}} DTIME(P(n)) \]
+ \[ NP = \bigcup_{p\text{ Polynom}} \NTIME(p(n)) \]
+ 
 \end{Def}
-Analog für deterministische TM:
-\begin{Def}[name={[$\DTIME$ Klasse]}]
-	Sei $f:\N\->\N$ Funktion\\
-	$\DTIME(f(n)) =$ Klasse der Sprachen, die von \ac{DTM} in $T_M(w)\leq f(|w|)$ Schritten akzeptiert wird.
-	\[ P = \cup_{p\text{ Polynom}} DTIME(P(n)) \qedhere \]
-\end{Def}
+
+
+
+% \begin{Def}[name={[$NP$ Klasse]}]
+% 	Die Klasse $NP$ besteht aus allen Sprachen, die von \ac{NTM} in polynomieller Zeit akzeptiert werden können.
+% 	\[ NP = \cup_{p\text{ Polynom}} \NTIME(p(n)) \]
+% \end{Def}
+% Analog für deterministische TM:
+% \begin{Def}[name={[$\DTIME$ Klasse]}]
+% 	Sei $f:\N\->\N$ Funktion\\
+% 	$\DTIME(f(n)) =$ Klasse der Sprachen, die von \ac{DTM} in $T_M(w)\leq f(|w|)$ Schritten akzeptiert wird.
+% 	\[ P = \cup_{p\text{ Polynom}} DTIME(P(n)) \qedhere \]
+% \end{Def}
 Offenbar $P\leq NP$. Seit 1970 weiß man nicht, ob $P=NP$ oder $P\neq NP$
 \begin{description}
 \item[Praktische Relevanz:] Es existieren wichtige Probleme, die offensichtlich in $NP$ liegen, aber die besten bekannten Algorithmen sind exponentiell.\\
@@ -33,6 +94,17 @@ Offenbar $P\leq NP$. Seit 1970 weiß man nicht, ob $P=NP$ oder $P\neq NP$
 \begin{Def}[name={[Polynominell reduzeduzierbare Sprache $A\preceq_p B$]}]
 	Seien $A,B\subseteq\Sigma^*$ Sprachen. $A$ ist polynominell reduzierbar auf $B$, $A\preceq_p B$, falls $\exists$ totale berechenbare Funktion $f:\Sigma^*\->\Sigma^*$, deren Konfigurationszeit durch ein Polynom beschränkt ist und $w\in A \<==> f(w)\in B\quad \forall w\in\Sigma^*$
 \end{Def}
+\begin{Def}[Polynomielle Reduktion]\label{def:PolyReduktion}\ \\
+  Seien $U, V \subseteq \Sigma^*$ Sprachen.
+  \emph{$U$ ist auf $V$ polynomiell reduzierbar (Notation: $U \preceq_p V$)}, falls eine totale, berechenbare Funktion
+  $f:\Sigma^* \to \Sigma^*$ existiert, sodass
+  \begin{itemize}
+   \item $\forall w \in \Sigma^*:w \in U \iff f(w) \in V$
+   \item $f$ wird von det. TM berechnet deren Laufzeitkomplexität ein polynom ist.
+  \end{itemize}
+\end{Def}
+
+
 \begin{lemma}\label{lem:A<B + BinP => AinP}
 	Falls $A\preceq_p B$ und $B\in P$ ($NP$) dann auch $A\in P$ ($NP$).
 \end{lemma}
