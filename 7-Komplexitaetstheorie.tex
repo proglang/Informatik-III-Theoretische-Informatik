@@ -10,7 +10,7 @@ Hier: Betrachte Problemstellung und bestime was Wort-case Laufzeit von bestmögl
 \begin{Def}
 Sei $f:\N\rightarrow\N$ Funktion und $\M$ eine nichtdet. \ac{TM} mit Eingabealphabet $\Sigma$.
 \begin{itemize}
- \item $\M$ hat \emph{Zeitkomplexität} $f(n)$ wenn
+ \item $\M$ hat \emph{Zeitkomplexität} $f(n)$, falls $\forall w\in\Sigma^*$ mit Länge $n$ gilt: $\M$ hält auf Eingabe $w$ für jede Berechnung in höchstens $f(n)$ Schritten.
  \item $\M$ hat \emph{Platzkomplexität} $f(n)$ wenn
 \end{itemize}
 \end{Def}
@@ -44,6 +44,22 @@ Bsp: Erfüllbarkeitsproblem der Aussagenlogik.
 Exkurs Aussagenlogische Formel.
 
 Bekannt aus Logik. Beschreiben unsere Notation mit Hilfe folgender Grammatik.
+
+\begin{Bsp}\label{bsp:3.sameNumber}
+  $\mathcal{G} = (\Sigma, N, P, S)$ mit
+	\begin{align*}
+		\Sigma &= \{ 0, 1 \}\\
+		N &= \{S\}\\
+		P &= \begin{aligned}[t]
+      \{ S & \to 1S0S \\
+        S & \to 0S1S \\
+        S & \to \Eps
+      \}
+        \end{aligned}
+      \qedhere
+	\end{align*}
+\end{Bsp}
+
 
 $\{F\in L(G_{AL})\mid F \text{erfüllbar}\}$
 
@@ -91,9 +107,8 @@ Offenbar $P\leq NP$. Seit 1970 weiß man nicht, ob $P=NP$ oder $P\neq NP$
 \item[Struktur:] Viele der $NP$-Probleme haben sich als gleichwertig erwiesen, in dem Sinn, dass eine $P$-Lösung für alle anderen liefert.\\
 	$\leadsto NP$-Vollständigkeit.
 \end{description}
-\begin{Def}[name={[Polynominell reduzeduzierbare Sprache $A\preceq_p B$]}]
-	Seien $A,B\subseteq\Sigma^*$ Sprachen. $A$ ist polynominell reduzierbar auf $B$, $A\preceq_p B$, falls $\exists$ totale berechenbare Funktion $f:\Sigma^*\->\Sigma^*$, deren Konfigurationszeit durch ein Polynom beschränkt ist und $w\in A \<==> f(w)\in B\quad \forall w\in\Sigma^*$
-\end{Def}
+
+
 \begin{Def}[Polynomielle Reduktion]\label{def:PolyReduktion}\ \\
   Seien $U, V \subseteq \Sigma^*$ Sprachen.
   \emph{$U$ ist auf $V$ polynomiell reduzierbar (Notation: $U \preceq_p V$)}, falls eine totale, berechenbare Funktion
@@ -104,6 +119,40 @@ Offenbar $P\leq NP$. Seit 1970 weiß man nicht, ob $P=NP$ oder $P\neq NP$
   \end{itemize}
 \end{Def}
 
+
+\begin{Def}[name={[$3SAT$]}]
+	$3SAT$ ist das Erfüllbarkeitsproblem der \ac{AL} für Formeln in \ac{CNF} mit höchstens drei Literalen pro Klausel
+\end{Def}
+\begin{Satz}[name={[$3SAT$ ist $NP$-vollständig]}]
+	$3SAT$ ist $NP$-vollständig.
+\end{Satz}
+\begin{proof}
+	$3SAT \in NP$ offensichtlich.\\
+	Reduktion $SAT \preceq_p 3SAT$. Sei $F$ eine Formel der \ac{AL}.\\
+	Definiere $\phi: $ Formel $\->\{0,1\}^*\->$ Formel, sodass $F' = \phi(F,\epsilon)$ erfüllbar ist, gdw. $F$ erfüllbar.
+	\begin{align*}
+		\phi(\text{true},\pi) &= [y_\pi] \qquad, y_\pi\text{ neue Variable, nicht aus }F\\
+		\phi(\text{false},\pi) &= [\overline{y_\pi}]\\
+		\phi(x_i,\pi) &= [y_\pi \<-> x_i]\\
+		\phi(F_0\land F_1,\pi) &= \phi(F_0,\pi_0)\land\phi(F_1,\pi_1)\land [y_\pi\<->y_{\pi_0}\land y_{\pi_1}]\\
+		\phi(F_0\lor F_1,\pi) &= \phi(F_0,\pi_0)\land\phi(F_1,\pi_1)\land [y_\pi\<->y_{\pi_0}\lor y_{\pi_1}]\\
+		\phi(F,\pi) &\text{ ist min. um einen linearen Faktor größer als }F\\
+		&\text{ ist Konj. von eingeklammerten Termen }[\dots]
+	\end{align*}
+	\begin{itemize}
+	\item $y_\pi \<-> x_i = (\overline{y_\pi}\lor x_i)\land(y_\pi\lor \overline{x_i})$
+	\item $y_\pi\<-> y_{\pi_0}\land y_{\pi_1}
+		= (\overline{y_\pi}\lor y_{\pi_0}y_{\pi_1})
+		\land (y_\pi\lor \overline{y_{\pi_0}y_{\pi_1}})
+		= (\overline{y_\pi}\lor y_{\pi_0})
+		\land (\overline{y_\pi}\lor y_{\pi_1})$
+	\item $y_\pi\<-> y_{\pi_0}\lor y_{\pi_1}
+		= (y_\pi\lor \overline{y_{\pi_0}})
+		\land (y_\pi\lor\overline{y_{\pi_1}})
+		\land (\overline{y_\pi}\lor y_{\pi_0}\lor y_{\pi_1})
+		\land (y_\pi \lor \overline{y_{\pi_0}} \lor \overline{y_{\pi_1}})$
+	\end{itemize}
+\end{proof}
 
 \begin{lemma}\label{lem:A<B + BinP => AinP}
 	Falls $A\preceq_p B$ und $B\in P$ ($NP$) dann auch $A\in P$ ($NP$).
@@ -226,39 +275,7 @@ Ein erstes $NP$-vollständiges Problem.
 \end{proof}
 
 \subsection{Weitere \textit{NP}-vollständige Probleme}
-\begin{Def}[name={[$3SAT$]}]
-	$3SAT$ ist das Erfüllbarkeitsproblem der \ac{AL} für Formeln in \ac{CNF} mit höchstens drei Literalen pro Klausel
-\end{Def}
-\begin{Satz}[name={[$3SAT$ ist $NP$-vollständig]}]
-	$3SAT$ ist $NP$-vollständig.
-\end{Satz}
-\begin{proof}
-	$3SAT \in NP$ offensichtlich.\\
-	Reduktion $SAT \preceq_p 3SAT$. Sei $F$ eine Formel der \ac{AL}.\\
-	Definiere $\phi: $ Formel $\->\{0,1\}^*\->$ Formel, sodass $F' = \phi(F,\epsilon)$ erfüllbar ist, gdw. $F$ erfüllbar.
-	\begin{align*}
-		\phi(\text{true},\pi) &= [y_\pi] \qquad, y_\pi\text{ neue Variable, nicht aus }F\\
-		\phi(\text{false},\pi) &= [\overline{y_\pi}]\\
-		\phi(x_i,\pi) &= [y_\pi \<-> x_i]\\
-		\phi(F_0\land F_1,\pi) &= \phi(F_0,\pi_0)\land\phi(F_1,\pi_1)\land [y_\pi\<->y_{\pi_0}\land y_{\pi_1}]\\
-		\phi(F_0\lor F_1,\pi) &= \phi(F_0,\pi_0)\land\phi(F_1,\pi_1)\land [y_\pi\<->y_{\pi_0}\lor y_{\pi_1}]\\
-		\phi(F,\pi) &\text{ ist min. um einen linearen Faktor größer als }F\\
-		&\text{ ist Konj. von eingeklammerten Termen }[\dots]
-	\end{align*}
-	\begin{itemize}
-	\item $y_\pi \<-> x_i = (\overline{y_\pi}\lor x_i)\land(y_\pi\lor \overline{x_i})$
-	\item $y_\pi\<-> y_{\pi_0}\land y_{\pi_1}
-		= (\overline{y_\pi}\lor y_{\pi_0}y_{\pi_1})
-		\land (y_\pi\lor \overline{y_{\pi_0}y_{\pi_1}})
-		= (\overline{y_\pi}\lor y_{\pi_0})
-		\land (\overline{y_\pi}\lor y_{\pi_1})$
-	\item $y_\pi\<-> y_{\pi_0}\lor y_{\pi_1}
-		= (y_\pi\lor \overline{y_{\pi_0}})
-		\land (y_\pi\lor\overline{y_{\pi_1}})
-		\land (\overline{y_\pi}\lor y_{\pi_0}\lor y_{\pi_1})
-		\land (y_\pi \lor \overline{y_{\pi_0}} \lor \overline{y_{\pi_1}})$
-	\end{itemize}
-\end{proof}
+
 \begin{Def}[$\CLIQUE$]
 	Sei $\mathcal{G}=(V,E)$ ein ungerichteter Graph und $k\in\N$.\\
 	$(\mathcal{G},k)\in\CLIQUE$, falls $\exists$ Clique der Größe $k$ in $\mathcal{G}$.\\
