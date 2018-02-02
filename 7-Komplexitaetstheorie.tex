@@ -128,42 +128,50 @@ Offenbar $P\leq NP$. Seit 1970 weiß man nicht, ob $P=NP$ oder $P\neq NP$
   \end{itemize}
 \end{Def}
 
-
+Eine aussagenlogische Formel $F$ ist in \emph{konjunktiver Normalform} (CNF) wenn $F$ eine Konjunktion von Disjunktionen von Literalen ist.
+Eine aussagenlogische Formel $F\in$ CNF ist in 3CNF wenn jeder Konjunkt aus höchstens drei Disjunkten besteht.
 
 
 \begin{Def}[name={[$3SAT$]}]
-	$3SAT$ ist das Erfüllbarkeitsproblem der \ac{AL} für Formeln in \ac{CNF} mit höchstens drei Literalen pro Klausel
-	
-	$\{F\in L(\mathcal{G}_\mathsf{AL})\mid F \text{ ist in CNF und hat höchstens 3 Literale pro Klausel}\}$
-\end{Def}
-
+Das Problem 3SAT ist wie folgt definiert.\footnote{
+Typischerweise nennt man Sprachen die im kontext der Komplexitätstheorie definiert wernden \emph{Probleme}.
+Es ist üblich von einem konkretes Alphabet $\Sigma$ und keine konkrete Codierung der Objekte (hier Formeln) zu abstrahieren und das Problem als (Gegeben,Frage)-Paar zu formulieren.
+Es bleibt dem Leser überlassen sich selbst ein geeignete Alphabete und Codierungen zu überlegen.
+Für den Fall von aussagenlogische Formeln haben wir dies in ... nocheinmal gemacht, werden aber in Zukunft darauf verzichten. }
 \begin{center}
 \framebox[\textwidth]{\parbox{.95\textwidth}{
 \smallskip
-\textit{Gegeben:} Eine Menge $M$ und eine Menge von Teilmengen $\mathcal{S}$ (d.h. $\mathcal{S}=\{S_1,\dots,S_n\}$, $S_i\subseteq M$ für $i=1,
-\dots, n$) sowie eine natürliche Zahl $k\leq n$.
+\textit{Gegeben:} Eine aussagenlogische Formel $F\in$ 3CNF
 
 \medskip
 
-\textit{Frage:} Gibt es eine Teilmenge $T\subseteq M$, sodass $|T|\leq k$ und $T\cap S_i\neq\varnothing$ für $i=1,\dots n$? (Mit anderen Worten: Gibt es eine höchstens $k$-elementige Teilmenge $T$, die mit jedem $S_i$ mindestens ein gemeinsames Element hat?)
+\textit{Frage:} Ist $F$ erfüllbar.
 }}
 \end{center}
+	
+\end{Def}
+Alternativ könnten wir die Definition von $3SAT$ auch wie folgt aufschreiben.
+$$3SAT = \{F\in L(\mathcal{G}_\mathsf{AL})\mid F \text{ ist in CNF und hat höchstens 3 Literale pro Klausel}\}$$
 
-a\footnote{Typischerweise werden diese Probleme so abstrakt formuliert. Es wird keine konkretes Alphabet $\Sigma$ und keine konkrete Codierung des Graphen angegeben. Es bleibt dem Leser überlassen sich selbst so eine zu überlegen.}
+Offensichtlich gilt $3SAT \preceq_p SAT$. Wir zeigen als nächstes auch die umgekehrte Richtung.
+
 \begin{lemma}
 	$SAT \preceq_p 3SAT$
 \end{lemma}
 
 
 \begin{proof}
-Unser Zeil ist nun eine Transformation zu Konstruieren die jede Aussagenlogische Formel $F$ in eine 3CNF Formel $G$ überführt, sodass $F\in SAT \<==> G\in 3SAT$
-Sei $F_{AL}$ eine beliebige Formel aus $L(\mathcal{G}_\mathsf{AL})$.
+Unser Zeil ist nun eine Transformation anzugeben die sich in polynomieller Zeit berechnen lässt, die jede Aussagenlogische Formel $F_\mathsf{AL}$ in eine 3CNF Formel $F_\mathsf{3CNF}$ überführt, sodass 
+$F_\mathsf{AL}\in SAT \<==> F_\mathsf{3CNF}\in 3SAT$
+gilt.
+
+Sei $F_\mathsf{AL}$ eine beliebige Formel aus $L(\mathcal{G}_\mathsf{AL})$.
 
 \begin{enumerate}
- \item Bringe $F_{AL}$ in Negationsnormalform\footnote{Eine Formel ist in Negationsnormalform wenn der Negationsoperator immer nur direkt vor einer Variablen vorkommt.}
- Wir können jede Formel in Negationsnormalform bringen indem wir mit Hilfe der Regeln von DeMorgan Negationen ``nach innen'' ziehen.
+ \item Erzeuge aus $F_\mathsf{AL}$ eine äquivalente Formel $F_\mathsf{NNF}$ in Negationsnormalform\footnote{Eine Formel ist in Negationsnormalform wenn der Negationsoperator immer nur direkt vor einer Variablen vorkommt.}.
+ Wir können jede Formel in Negationsnormalform bringen indem wir mit Hilfe der De Morganschen Regeln die Negationen ``nach innen'' ziehen.
  
- \item Erzeuge aus diesem Resultat Formel mit Biimplikationszeichen ``$\<->$'' mit Hilfe der folgenden induktiv definierten Abbildung $\alpha$
+ \item Erzeuge aus $F_\mathsf{NNF}$ eine Formel mit Biimplikationszeichen ``$\<->$'' mit Hilfe der folgenden induktiv definierten Abbildung $\alpha$
  $$\alpha(F)=
  \begin{cases}
    \alpha(F_1)\land\alpha(F_2)\land(y_{F}\<-> B_{F_1} \land B_{F_2}) & \text{ falls } F=F_1\land F_2\\
@@ -186,7 +194,10 @@ Sei $F_{AL}$ eine beliebige Formel aus $L(\mathcal{G}_\mathsf{AL})$.
 		\land (\overline{F_1}\lor F_2\lor F_3)
 		\land (F_1 \lor \overline{F_2} \lor \overline{F_3})$
 	\end{itemize}
-\item Ersetzte alle Aussagenlogischen Variablen der Form $B_F$ durch aussagenlogische Variablen der Form $A_i$
+\item Ersetzte alle Aussagenlogischen Variablen der Form $B_F$ durch aussagenlogische Variablen der Form $A_i$.\footnote{
+Dieser Schritt ist nur nötig damit das Resultat in dem von uns definierten Alphabet $\Sigma_{AL}$ dargestellt werden kann.
+Alternativ hätten wir auch zu Beginn ein Reichhaltigeres Alphabet wählen können.
+}
 \end{enumerate}
 
 Sei $f:\Sigma_{AL}\rightarrow\Sigma_{AL}$ eine Funktion die alle Formeln aus $L(\mathcal{G}_\mathsf{AL})$ ensprechend obiger Konstuktion abbildet und alle anderen Wörter unverändert lässt, dann gilt:
@@ -199,36 +210,7 @@ Sei $f:\Sigma_{AL}\rightarrow\Sigma_{AL}$ eine Funktion die alle Formeln aus $L(
 
 \end{proof}
 
-\begin{Satz}[name={[$3SAT$ ist $NP$-vollständig]}]
-	$3SAT$ ist $NP$-vollständig.
-\end{Satz}
-\begin{proof}
-	$3SAT \in NP$ offensichtlich.\\
-	Reduktion $SAT \preceq_p 3SAT$. Sei $F$ eine Formel der \ac{AL}.\\
-	Definiere $\phi: $ Formel $\->\{0,1\}^*\->$ Formel, sodass $F' = \phi(F,\epsilon)$ erfüllbar ist, gdw. $F$ erfüllbar.
-	\begin{align*}
-		\phi(\text{true},\pi) &= [y_\pi] \qquad, y_\pi\text{ neue Variable, nicht aus }F\\
-		\phi(\text{false},\pi) &= [\overline{y_\pi}]\\
-		\phi(x_i,\pi) &= [y_\pi \<-> x_i]\\
-		\phi(F_0\land F_1,\pi) &= \phi(F_0,\pi_0)\land\phi(F_1,\pi_1)\land [y_\pi\<->y_{\pi_0}\land y_{\pi_1}]\\
-		\phi(F_0\lor F_1,\pi) &= \phi(F_0,\pi_0)\land\phi(F_1,\pi_1)\land [y_\pi\<->y_{\pi_0}\lor y_{\pi_1}]\\
-		\phi(F,\pi) &\text{ ist min. um einen linearen Faktor größer als }F\\
-		&\text{ ist Konj. von eingeklammerten Termen }[\dots]
-	\end{align*}
-	\begin{itemize}
-	\item $y_\pi \<-> x_i = (\overline{y_\pi}\lor x_i)\land(y_\pi\lor \overline{x_i})$
-	\item $y_\pi\<-> y_{\pi_0}\land y_{\pi_1}
-		= (\overline{y_\pi}\lor y_{\pi_0}y_{\pi_1})
-		\land (y_\pi\lor \overline{y_{\pi_0}y_{\pi_1}})
-		= (\overline{y_\pi}\lor y_{\pi_0})
-		\land (\overline{y_\pi}\lor y_{\pi_1})$
-	\item $y_\pi\<-> y_{\pi_0}\lor y_{\pi_1}
-		= (y_\pi\lor \overline{y_{\pi_0}})
-		\land (y_\pi\lor\overline{y_{\pi_1}})
-		\land (\overline{y_\pi}\lor y_{\pi_0}\lor y_{\pi_1})
-		\land (y_\pi \lor \overline{y_{\pi_0}} \lor \overline{y_{\pi_1}})$
-	\end{itemize}
-\end{proof}
+
 
 \begin{lemma}\label{lem:A<B + BinP => AinP}
 	Falls $A\preceq_p B$ und $B\in P$ ($NP$) dann auch $A\in P$ ($NP$).
@@ -242,12 +224,7 @@ Sei $f:\Sigma_{AL}\rightarrow\Sigma_{AL}$ eine Funktion die alle Formeln aus $L(
 	$M(f(w))$ benötigt $\leq p(|f(w)|)\leq p(q(|w|))$ Schritte zum akzeptieren.\\
 	$\curvearrowright A\in \DTIME(q(w)+p(q(w))\subseteq P$
 \end{proof}
-\begin{lemma}[name={[$\preceq_p$ ist reflexiv und transitiv]}]
-	$\preceq_p$ ist reflexiv und transitiv.
-\end{lemma}
-\begin{proof}
-	Identität; ähnlich wie Beweis von \autoref{lem:A<B + BinP => AinP}.
-\end{proof}
+
 
 % \draftnote{8.2.17}
 
@@ -274,7 +251,16 @@ Ein erstes $NP$-vollständiges Problem.
 	$SAT$ ist $NP$-vollständig.
 \end{Satz}
 
+\begin{lemma}[name={[$\preceq_p$ ist reflexiv und transitiv]}]
+	$\preceq_p$ ist reflexiv und transitiv.
+\end{lemma}
+\begin{proof}
+	Identität; ähnlich wie Beweis von \autoref{lem:A<B + BinP => AinP}.
+\end{proof}
 
+\begin{Satz}[name={[$3SAT$ ist $NP$-vollständig]}]
+	$3SAT$ ist $NP$-vollständig.
+\end{Satz}
 
 \begin{Def}[$\CLIQUE$]
 	Sei $\mathcal{G}=(V,E)$ ein ungerichteter Graph und $k\in\N$.\\
