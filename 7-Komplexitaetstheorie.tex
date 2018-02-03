@@ -1,7 +1,7 @@
 \section[Komplexitätstheorie]{Komplexitätstheorie}
 \subsection{Komplexitätsklassen und P/NP}
 
-{\color{red} TODO: Dieser Teil des Skriptes wir vermutlich erst am Wochenende in einen ``schönen'' Zustand gebracht.}
+{\color{red} TODO: Dieser rote Teil des Skriptes wir erst im Lauf des Wochenendes in einen akzeptablen Zustand gebracht.
 
 Aus Info2 kennen Sie: Worst-case Laufzeit eines Algorithmus bestimmen.
 
@@ -116,7 +116,7 @@ Offenbar $P\leq NP$. Seit 1970 weiß man nicht, ob $P=NP$ oder $P\neq NP$
 \item[Struktur:] Viele der $NP$-Probleme haben sich als gleichwertig erwiesen, in dem Sinn, dass eine $P$-Lösung für alle anderen liefert.\\
 	$\leadsto NP$-Vollständigkeit.
 \end{description}
-
+}
 
 \begin{Def}[Polynomielle Reduktion]\label{def:PolyReduktion}\ \\
   Seien $U, V \subseteq \Sigma^*$ Sprachen.
@@ -128,8 +128,11 @@ Offenbar $P\leq NP$. Seit 1970 weiß man nicht, ob $P=NP$ oder $P\neq NP$
   \end{itemize}
 \end{Def}
 
+\datenote{02.02.2018}
 Eine aussagenlogische Formel $F$ ist in \emph{konjunktiver Normalform} (CNF) wenn $F$ eine Konjunktion von Disjunktionen von Literalen ist.
-Eine aussagenlogische Formel $F\in$ CNF ist in 3CNF wenn jeder Konjunkt aus höchstens drei Disjunkten besteht.
+Wir verwenden $CNF$ als Notation für die Menge aller AL Formeln in CNF.
+Analog schreiben wir $3CNF$ für die Menge aller Formeln in CNF bei denen jeder Konjukt aus höchstens drei Disjunkten besteht.
+
 
 
 \begin{Def}[name={[$3SAT$]}]
@@ -171,16 +174,47 @@ Sei $F_\mathsf{AL}$ eine beliebige Formel aus $L(\mathcal{G}_\mathsf{AL})$.
  \item Erzeuge aus $F_\mathsf{AL}$ eine äquivalente Formel $F_\mathsf{NNF}$ in Negationsnormalform\footnote{Eine Formel ist in Negationsnormalform wenn der Negationsoperator immer nur direkt vor einer Variablen vorkommt.}.
  Wir können jede Formel in Negationsnormalform bringen indem wir mit Hilfe der De Morganschen Regeln die Negationen ``nach innen'' ziehen.
  
- \item Erzeuge aus $F_\mathsf{NNF}$ eine Formel mit Biimplikationszeichen ``$\<->$'' mit Hilfe der folgenden induktiv definierten Abbildung $\alpha$
+ Beispiel: $\neg(\neg (A_1\lor \neg A_3)\land A_2) \quad\rightsquigarrow\quad ((A_1\lor \neg A_3)\land \neg A_2)$
+ 
+ Ideen zur Implementierung: Erstelle auf zusätzlichem Band eine Kopie der Formel. 
+ Lasse vor jedem nicht negierten Literal ein Feld Platz um später ggf. ein Negationssymbol zu plazieren.
+ Wende De Morgans Regel von Aussen nach Innen an.
+ Laufe für jede Anwendung ein mal über die Formel.
+ 
+ 
+ \item Erzeuge aus $F_\mathsf{NNF}$ eine Formel mit Biimplikationszeichen ``$\<->$'' mit Hilfe der folgenden induktiv definierten Abbildungen $\alpha$ und $\gamma$.
+ 
+ Idee: Die Abbildung $\gamma$ ordner jeder $\land$-Teilformel und jeder $\lor$-Teilformel eine Hilfsvariable zu.
+ Diese Hilfsvariable hat in der Resultierenden Formel den Wahrheitswert, den die entsprechende Teilformel in der Eingabeformel hätte.
+ Die Abbildung $\alpha$ konstuiert für jede Teilformel die entsprechenden Bedingungen für die Hilfsvariable und stelle einer Konjunktion all dieser Bedingungen zusammen.
+ 
+ $$\gamma(F)=
+ \begin{cases}
+   0 & \text{ falls } F=0\\
+   1 & \text{ falls } F=1\\
+   A & \text{ falls } F=A\\
+   \neg F_1 & \text{ falls } F=\neg F_1\\
+   B_F & \text{ falls } F=F_1\land F_2\\
+   B_F & \text{ falls } F=F_1\lor F_2
+  \end{cases}$$
+ 
+ 
+ 
  $$\alpha(F)=
  \begin{cases}
-   \alpha(F_1)\land\alpha(F_2)\land(y_{F}\<-> B_{F_1} \land B_{F_2}) & \text{ falls } F=F_1\land F_2\\
-   \alpha(F_1)\lor\alpha(F_2)\lor(y_{F}\<-> B_{F_1} \lor B_{F_2}) & \text{ falls } F=F_1\lor F_2\\
-   \neg\alpha(F_1) & \text{ falls } F=\neg F_1\\
-   \alpha(A) & \text{ falls } F=A\\
    0 & \text{ falls } F=0\\
-   1 & \text{ falls } F=1
+   1 & \text{ falls } F=1\\
+   \alpha(A) & \text{ falls } F=A\\
+   \neg\alpha(F_1) & \text{ falls } F=\neg F_1\\
+   \alpha(F_1)\land\alpha(F_2)\land\big(\gamma(F)\<-> \gamma(F_1) \land \gamma(F_2)\big) & \text{ falls } F=F_1\land F_2\\
+   \alpha(F_1)\lor\alpha(F_2)\lor\big(\gamma(F)\<-> \gamma(F_1) \lor \gamma(F_2)\big) & \text{ falls } F=F_1\lor F_2
   \end{cases}$$
+  
+  Beispiel:
+  
+  Ideen zur Implementierung:
+  Wähle Bandalphabet so dass $B$ enthalten, verwende außerde eine zusätzlich Art von Klammern (z.B. eckige Klammern) um den Subscriptanteil der B-Variablen von anderem Bandinhalt zu unterscheiden.
+  Laufe für 
 \item Ersetze die Formelteile mit Biimplikationszeichen wie folgt.
 	\begin{itemize}
 	\item $F_1\<-> F_2\land F_3
