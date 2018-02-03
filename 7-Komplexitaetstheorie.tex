@@ -212,6 +212,16 @@ Sei $F_\mathsf{AL}$ eine beliebige Formel aus $L(\mathcal{G}_\mathsf{AL})$.
   
   Beispiel:
   
+  $\alpha((A_1\lor \neg A_3)\land \neg A_2)) =
+  (B_{((A_1\lor \neg A_3)\land \neg A_2)} \leftrightarrow B_{(A_1\lor \neg A_3)} \land \neg A_2)$
+
+  \begin{align*}
+   \alpha((A_1\lor \neg A_3)\land \neg A_2)) = &
+  (B_{((A_1\lor \neg A_3)\land \neg A_2)} \leftrightarrow B_{(A_1\lor \neg A_3)} \land \neg A_2)\\
+  \land \alpha((A_1\lor \neg A_3))
+  \end{align*}
+
+  
   Ideen zur Implementierung:
   Wähle Bandalphabet so dass $B$ enthalten, verwende außerde eine zusätzlich Art von Klammern (z.B. eckige Klammern) um den Subscriptanteil der B-Variablen von anderem Bandinhalt zu unterscheiden.
   Laufe für 
