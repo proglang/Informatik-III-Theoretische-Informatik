@@ -294,15 +294,21 @@ Sei $f:\Sigma_{AL}\rightarrow\Sigma_{AL}$ eine Funktion die alle Formeln aus $L(
 
 % \draftnote{8.2.17}
 
-\begin{Def}[name={[$NP$-schwer und $NP$-vollständig]}]\
+\begin{Def}[name={[$NP$-schwierig und $NP$-vollständig]}]\
 	\begin{itemize}
-	\item Eine Sprache $U$ heißt \underline{$NP$-schwierig}, falls $\forall L\in NP : L\preceq_p U$.
-	\item Eine Sprache $U$ heißt \underline{$NP$-vollständig}, wenn $U$ $NP$-hart und $U\in NP$. \qedhere
+	\item Eine Sprache $U$ heißt \emph{$NP$-schwierig}, falls $\forall L\in NP : L\preceq_p U$.
+	\item Eine Sprache $U$ heißt \emph{$NP$-vollständig}, wenn $U$ $NP$-schwierig und $U\in NP$. \qedhere
 	\end{itemize}
 \end{Def}
-\begin{Bem}
-	Sobald eine $NP$-schwieriges Problem $U$ bekannt ist, reicht es $U\preceq_p V$ zu finden, um zu teigen, dass $V$ ebenfalls $NP$-hart ist.
-\end{Bem}
+
+{\color{red}
+TODO: Ausformulieren
+\begin{itemize}
+ \item $NP$-schwierig, sehr starke Forderung dass an alle(!) NP Probleme reduzieren kann
+ \item zunächst unklar ob es überhaupt ein $NP$-schwieriges Problem gibt
+ \item bedeutet wenn ich das $NP$-vollst. Problem gefunden habe dass ich effizient Lösen kann, kann ich alle NP Probleme effizient lösen (wie folgender Satz zeigt).
+\end{itemize}
+}
 \begin{Satz}
 	Sei $A\ NP$-vollständig.
 	\[ A\in P \<==> P=NP \]
@@ -311,6 +317,11 @@ Sei $f:\Sigma_{AL}\rightarrow\Sigma_{AL}$ eine Funktion die alle Formeln aus $L(
 	"`\<=="' trivial.\\
 	"`\==>"' $A\in P\subseteq NP\quad \forall L\in NP: L\preceq_p A$. Nach \autoref{lem:A<B + BinP => AinP} : $L\in P$
 \end{proof}
+
+
+\begin{Bem}
+	Sobald eine $NP$-schwieriges Problem $U$ bekannt ist, reicht es $U\preceq_p V$ zu finden, um zu teigen, dass $V$ ebenfalls $NP$-hart ist.
+\end{Bem}
 Ein erstes $NP$-vollständiges Problem.
 
 \begin{Satz}[Cook]
