@@ -392,6 +392,19 @@ Wir gehen davon aus, dass die Leser des Skiptes mit Graphen vertraut sind, mache
 \begin{Satz}[name={[$\CLIQUE$ ist $NP$-vollständig]}]
 	$\CLIQUE$ ist $NP$-vollständig.
 \end{Satz}
+\begin{Bemerkung}
+ Der folgende Beweis ist für ein Vorlesungsskript sehr knapp gehalten.
+ Der Beweis enthält aber genau die Informationen die wir in Übungsaufgaben und Klausur zum erreichen der maximalen Punktzahl erwarten würde.
+ 
+ Beweise der $NP$-Vollständigkeit folgen typischerweise dem hier verwendeten Schema.
+ Der schwierige (und sehr viel Kreativität erfordernde) Teil ist dabei eine geeignete Konstruktion für die Reduktionsfunktion zu finden.
+ Für den folgenden Beweis wird die Idee der Konstuktion in \autoref{fig:3sat-clique} mit Hilfe eines Beispieles illustriert.
+ 
+ In unserem Übungs- und Klausuraufgeben wird die Aufgabenstellung meist solch ein Beispiel enthalten.
+ Damit soll ein Hinweis auf eine geeignete Konstruktion gegeben werden.
+ Eine Besonderheit des folgenden Beweises ist dass die Konstuktion aus zwei Schritten besteht (Erweiterung Eingabeformel, Konstuktion Graph) Beide Schritte werden in \autoref{fig:3sat-clique} illustriert.
+\end{Bemerkung}
+
 \begin{proof}
     \begin{itemize}
      \item Zeige $\CLIQUE\in NP$.
@@ -403,40 +416,57 @@ Wir gehen davon aus, dass die Leser des Skiptes mit Graphen vertraut sind, mache
      
      \item Zeige das $\CLIQUE$ $NP$-schwierig mit Hilfe der Reduktion  $3SAT \preceq_p \CLIQUE$.
      
-    \end{itemize}
-
-	Durch Reduktion: $3SAT \preceq_p \CLIQUE$\\
-	Sei $F$ eine Formel in 3\acs{CNF}, erweitert, so dass jede Klausel 3 Literale
-	\begin{align*}
-		(x\lor y) &\leadsto (x\lor y\lor x)\\
-		x &\leadsto (x\lor x\lor x)
-	\end{align*}
-	Jetzt $F = \bigwedge\limits_{i=1}^m (z_{i,1}\lor z_{i,2}\lor z_{i,3})$ \qquad $z_{i,j}\in \{x_i,\dots,x_n\}\cup\{\overline{x}_1,\dots,\overline{x}_n\}$
-	
-	Definiere $\mathcal{G} = (V,E)$ und $k$ wie folgt:
+     Ziel: Konstruiere für gegebene 3CNF Formel $F$ einen Graphen $\mathcal{G}=(V,E)$ sodass $F\in 3SAT$ genau dann wenn $\mathcal{G}$ eine $k$-Clique hat.
+     
+     Unsere Konstruktion besteht aus zwei Schritten.
+     
+     \begin{itemize}
+      \item Schritt 1.
+      
+      Erweitere $F$ so dass jeder Konjunkt aus genau drei Disjunkten besteht.
+      Wähle hierfür eine Äquivalenzumformung die einfach nur existiende Disjunkte wiederholt werden.
+      Das resultierende $F$ hat also die folgende Form.
+      
+      $F = \bigwedge\limits_{i=1}^m (z_{i,1}\lor z_{i,2}\lor z_{i,3})$ \ wobei\ $z_{i,j}\in \{A_1,\dots,A_n\}\cup\{\neg A_1,\dots,\neg A_n\}$
+      \item Schritt 2.
+      	Definiere $\mathcal{G} = (V,E)$ und $k$ wie folgt:
 	\begin{align*}
 		V &= \{ (i,j) \mid 1\leq i\leq m, j\in\{1,2,3\} \}\\
-		E &= \{\{(i,j),(p,q)\} \mid i\neq p, z_{i,j}\neq\neg z_{p,q}\\
+		E &= \{\big((i,j),(p,q)\big) \mid i\neq p, z_{i,j}\neq\neg z_{p,q}\}\\
 		k &= m
 	\end{align*}
-	$F$ ist erfüllbar.\\
-	\<==> in jeder Klausel $i$ muss mindestens ein Literal $= 1$ sein, unter Bedingung $\beta$.\\
-	$\<==> \exists$ Folge $z_{1,j_2},\dots,z_{m,j_m}$ mit $z_{i,j_2}[\beta]=1$\\
-	$\<==>\exists$ Folge $z_{1,j_1},\dots,z_{m,j_m}$, sodass $\forall i\neq p: z_{i,j_i}\neq \neg z_{p,j_p}$\\
-	$\<==>\exists$ Menge von Knoten $\{(1,j_1),\dots,(m,j_m)\}$ die paarweise durch Kanten verbunden sind.\\
-	$\<==>\exists$ Clique der Größe $k=m$ in $\mathcal{G}$
-\end{proof}
-\begin{Bsp*}
-	\begin{align*}
-	F &= (\underbrace{x\lor y\lor \overline{y}}_1) \land (\underbrace{z\lor \overline{y} \lor \overline x}_2)\\
-	\mathcal{G} &: \tikz[baseline=(11.base),label distance=-.5em]\graph[math nodes, chain shift={(0,-1)}, group shift={(1,0)}]{
-		{x[label={[name=11](1,1)}], y[label={(1,2)}], "\overline y"[label={(1,3)}]}
-		--[complete bipartite] 
-		{z[label={below:(2,1)}], 22/\overline y[label={below:(2,2)}], "\overline x"[label={below:(2,3)}]}
-	};
-	\end{align*}\rlnote{Grafik überprüfen}
-\end{Bsp*}
+     \end{itemize}
 
+    Nun gilt:
+    
+    \begin{align*}
+    F \text{ ist erfüllbar } \<==> \;\; & \text{Es gibt Folge $z_{1,j_2},\dots,z_{m,j_m}$ sodass $F$ wahr unter einer}\\
+    & \text{Belegung die jedem Folgeglied $1$ zuordnet.}\\
+    \<==> \;\;   & \text{Es gibt Folge $z_{1,j_2},\dots,z_{m,j_m}$ sodass $\forall i\neq p: z_{i,j_i}\neq \neg z_{p,j_p}$}\\
+    \<==> \;\;   & \text{$\mathcal{G}$ hat Menge von Knoten $\{(1,j_1),\dots,(m,j_m)\}$}\\
+    & \text{die paarweise durch Kanten verbunden sind.}\\
+    \<==> \;\;   & \text{$\mathcal{G}$ hat $k$-Clique für $k=m$}\\
+    \end{align*}
+    
+    Es gibt eine Reduktionsfunktion die diese Konstruktion in polynomieller Zeit berechnet und somit gilt $3SAT \preceq_p \CLIQUE$.
+    \end{itemize}
+\end{proof}
+
+
+
+ \begin{figure}[H]
+ \framebox{
+ \begin{minipage}{0.96\textwidth}
+ Die Formel 
+ $$ (X\lor\neg Y)\land (Y\lor \neg X)\land (X\lor Y) $$
+ ist in 3CNF. Die folgende Formel ist äquivalent und jeder Konjunkt besteht aus drei Disjunkten.
+ $$ \underbrace{(X\lor\neg Y\lor \neg Y)}_{1}\land \underbrace{(Y\lor \neg X\lor\neg X)}_{2}\land \underbrace{(X\lor X\lor Y)}_{3} $$
+ Die Belegung $\beta$ definiert druch $\beta(X)=1, \beta(Y)=1$ ist eine erfüllende Velegung für diese Formel,
+ da z.B. der erste Disjunkt im ersten Konjunkt, der erste Disjunkt im zweiten Konjunkt und der dritte Disjunkt im zweiten Konjunkt auf 1 gesetzt sind.
+ 
+ Im folgenden Graphen bilden die Knoten $(1,1)$, $(2,1)$ und $(3,1)$ eine $3$-Clique.
+ 
+ \centering
 \begin{tikzpicture}[
 % node distance=1mm
 ]
@@ -486,10 +516,27 @@ Wir gehen davon aus, dass die Leser des Skiptes mit Graphen vertraut sind, mache
 \draw[-] (22) to (33);
 \draw[-] (23) to (33);
 \end{tikzpicture}
+\end{minipage}
+}
+	\caption{Beispiel zu $3SAT \preceq_p \CLIQUE$}
+	\label{fig:3sat-clique}
+\end{figure}
 
 
 
 
+
+
+\begin{Bsp*}
+	\begin{align*}
+	F &= (\underbrace{x\lor y\lor \overline{y}}_1) \land (\underbrace{z\lor \overline{y} \lor \overline x}_2)\\
+	\mathcal{G} &: \tikz[baseline=(11.base),label distance=-.5em]\graph[math nodes, chain shift={(0,-1)}, group shift={(1,0)}]{
+		{x[label={[name=11](1,1)}], y[label={(1,2)}], "\overline y"[label={(1,3)}]}
+		--[complete bipartite] 
+		{z[label={below:(2,1)}], 22/\overline y[label={below:(2,2)}], "\overline x"[label={below:(2,3)}]}
+	};
+	\end{align*}\rlnote{Grafik überprüfen}
+\end{Bsp*}
 
 \begin{proof}\
 	\begin{enumerate}
