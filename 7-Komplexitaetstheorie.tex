@@ -126,6 +126,7 @@ Offenbar $P\leq NP$. Seit 1970 weiß man nicht, ob $P=NP$ oder $P\neq NP$
    \item $\forall w \in \Sigma^*:w \in U \iff f(w) \in V$
    \item $f$ wird von det. TM berechnet deren Laufzeitkomplexität ein polynom ist.
   \end{itemize}
+  Wir nennen $f$ \emph{Reduktionsfunktion}.
 \end{Def}
 
 \datenote{02.02.2018}
@@ -163,7 +164,7 @@ $(A_1\lor A_2\lor A_3\lor A_4)\notin 3SAT$
 (weil nicht in 3CNF) aber $(A_1\lor A_2\lor A_3\lor A_4)\in SAT$.
 } Wir zeigen als nächstes auch die umgekehrte Richtung.
 
-\begin{lemma}
+\begin{lemma}\label{lem:sat3sat}
 	$SAT \preceq_p 3SAT$
 \end{lemma}
 
@@ -187,7 +188,8 @@ Sei $F_\mathsf{AL}$ eine beliebige Formel aus $L(\mathcal{G}_\mathsf{AL})$.
  Laufe für jede Anwendung ein mal über die Formel.
  
  
- \item Erzeuge aus $F_\mathsf{NNF}$ eine Formel $F_{\alpha\gamma}$ mit Biimplikationszeichen ``$\<->$'' mit Hilfe der folgenden induktiv definierten Abbildungen $\alpha$ und $\gamma$.
+ \item Erzeuge aus $F_\mathsf{NNF}$ eine Formel $F_{\alpha\gamma}$ mit Biimplikationszeichen ``$\<->$'' mit Hilfe der folgenden induktiv definierten Abbildungen $\alpha$ und $\gamma$.\footnote{
+ Die hier beschriebene Transformation ist auch als Tseytin-Transformation bekannt.}
  
  Idee: Die Abbildung $\gamma$ liefert für jede $\land$-Teilformel und jede $\lor$-Teilformel eine neue Hilfsvariable.
  Diese Hilfsvariable hat in der Resultierenden Formel den Wahrheitswert, den die entsprechende Teilformel in der Eingabeformel hätte.
@@ -310,7 +312,7 @@ TODO: Ausformulieren
 \end{itemize}
 }
 \begin{Satz}
-	Sei $A\ NP$-vollständig.
+	Wenn $A\ NP$-vollständig ist, dann gilt die folgende Äquivalenz.
 	\[ A\in P \<==> P=NP \]
 \end{Satz}
 \begin{proof}\ \\
@@ -318,36 +320,91 @@ TODO: Ausformulieren
 	"`\==>"' $A\in P\subseteq NP\quad \forall L\in NP: L\preceq_p A$. Nach \autoref{lem:A<B + BinP => AinP} : $L\in P$
 \end{proof}
 
-
-\begin{Bem}
-	Sobald eine $NP$-schwieriges Problem $U$ bekannt ist, reicht es $U\preceq_p V$ zu finden, um zu teigen, dass $V$ ebenfalls $NP$-hart ist.
-\end{Bem}
-Ein erstes $NP$-vollständiges Problem.
-
-\begin{Satz}[Cook]
-	$SAT$ ist $NP$-vollständig.
-\end{Satz}
-
 \begin{lemma}[name={[$\preceq_p$ ist reflexiv und transitiv]}]
 	$\preceq_p$ ist reflexiv und transitiv.
 \end{lemma}
 \begin{proof}
-	Identität; ähnlich wie Beweis von \autoref{lem:A<B + BinP => AinP}.
+Übungsblatt~14, Aufgabe~1.
+% 	Identität; ähnlich wie Beweis von \autoref{lem:A<B + BinP => AinP}.
 \end{proof}
+
+\begin{Bem}
+    Aus der Transitivität folgt:
+	Sobald eine $NP$-schwieriges Problem $U$ bekannt ist, reicht es $U\preceq_p V$ zu finden, um zu zeigen, dass $V$ ebenfalls $NP$-schwierig ist.
+\end{Bem}
+% Ein erstes $NP$-vollständiges Problem.
+
+\begin{Satz}[Cook]\label{satz:cook}
+	$SAT$ ist $NP$-vollständig.
+\end{Satz}
+Wir werden nur für $SAT$ die NP-Schwierigkeit direkt Beweisen und für alle anderen $NP$-vollständigen Probleme die $NP$-Schwierigkeit wie in obiger Bemerkung angedeutet mit Hilfe einer polynomiellen Reduktion zeigen.
+Da der Beweis von \autoref{satz:cook} sehr Umfangreich ist wollen wir diesen etwas aufschieben und zunächt die $NP$-Vollständigkeit weiterer Probleme zeigen.
+
 
 \begin{Satz}[name={[$3SAT$ ist $NP$-vollständig]}]
 	$3SAT$ ist $NP$-vollständig.
 \end{Satz}
+\begin{proof}
+ \begin{itemize}
+  \item $3SAT\in NP$
+  
+  Wir können dies auf zwei Arten zeigen. 
+  Entweder wir zeigen direkt, dass es eine nichtdeterministische \ac{TM} gibt die $3SAT$ entscheidet oder 
+  wir Zeigen dies indirekt mit Hilfe einer polynomiellen Reduktion auf ein Problem in $NP$.
+  Wir wählen letzteres Vorgehen da zum Beweis nur nochmal erwähnt werden muss dass $SAT\in NP$ und (offensichtlich) $3SAT\preceq_p SAT$ gilt.
+  
+  \item $3SAT$ ist NP-schwierig
+  
+  Folgt aus \autoref{lem:sat3sat}.\qedhere
+ \end{itemize}
+\end{proof}
+
+
+Wir gehen davon aus, dass die Leser des Skiptes mit Graphen vertraut sind, machen aber zum fixieren von Notation und Terminologie die folgende Definition.
+\begin{Def}
+ Ein \emph{gerichteter Graph} ist ein Paar $\mathcal{G}=(V,E)$ bei dem 
+ \begin{itemize}
+  \item $V$ eine Menge ist, deren Elemente wir \emph{Knoten} nennen und
+  \item $E\subseteq V\times V$ eine Menge von geordneten Paaren über $V$ ist. 
+  Wir nennen diese geordneten Paare \emph{Kanten}.
+ \end{itemize}
+ Ein \emph{ungerichteter Graph} ist ein gerichteter Graph bei dem $E$ symmetrisch ist.\footnote{Für die Zwecke dieser Vorlesung ist es komfortabel den ungerichteten Graphen als Speziallfall des gerichteten Graphen zu definieren. Eine häufig verwendete Alternative ist, die Knotenmenge als Menge von zweielementigen Mengen zu definieren.}
+\end{Def}
+
+
 
 \begin{Def}[$\CLIQUE$]
-	Sei $\mathcal{G}=(V,E)$ ein ungerichteter Graph und $k\in\N$.\\
-	$(\mathcal{G},k)\in\CLIQUE$, falls $\exists$ Clique der Größe $k$ in $\mathcal{G}$.\\
-	Eine Clique $C\subseteq V$, so dass $\forall u\neq v\in C: \{u,v\in E\}$
+    Das Problem $\CLIQUE$ ist wie folgt definiert.
+    \begin{center}
+    \framebox[\textwidth]{\parbox{.95\textwidth}{
+    \smallskip
+    \textit{Gegeben:} Ein ungerichteter Graph $\mathcal{G}=(V,E)$ und eine Zahl $k\in\N$.
+
+    \medskip
+
+    \textit{Frage:} Hat $\mathcal{G}$ eine $k$-Clique?
+    
+    Eine $k$-Clique ist eine $k$-elementige Menge von Knoten die paarweise durch Kanten verbunden sind.
+    D.h. eine Menge $C$ soass $|C|=k$ und $\forall u, v\in C: u\neq v\rightarrow (u,v)\in E$.
+    }}
+    \end{center}
 \end{Def}
 \begin{Satz}[name={[$\CLIQUE$ ist $NP$-vollständig]}]
 	$\CLIQUE$ ist $NP$-vollständig.
 \end{Satz}
 \begin{proof}
+    \begin{itemize}
+     \item Zeige $\CLIQUE\in NP$.
+     
+     Verfahren: 
+     Wähle nichtdeterministisch eine $k$-Elementige Knotenmenge $C$.
+     Prüfe ob $C$ Clique ist.
+     Dies ist in polynomieller Laufzeit möglich, da wir für jedes Knotenpaar höchstens einmal die Menge der Kanten durchlaufen müssen.
+     
+     \item Zeige das $\CLIQUE$ $NP$-schwierig mit Hilfe der Reduktion  $3SAT \preceq_p \CLIQUE$.
+     
+    \end{itemize}
+
 	Durch Reduktion: $3SAT \preceq_p \CLIQUE$\\
 	Sei $F$ eine Formel in 3\acs{CNF}, erweitert, so dass jede Klausel 3 Literale
 	\begin{align*}
