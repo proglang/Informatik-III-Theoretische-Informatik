@@ -7,23 +7,36 @@ Aus Info2 kennen Sie: Worst-case Laufzeit eines Algorithmus bestimmen.
 
 Hier: Betrachte Problemstellung und bestime was Wort-case Laufzeit von bestmöglichem Algorithmus ist.
 
+}
+
+
 \begin{Def}
 Sei $f:\N\rightarrow\N$ Funktion und $\M$ eine nichtdet. \ac{TM} mit Eingabealphabet $\Sigma$.
 \begin{itemize}
  \item $\M$ hat \emph{Zeitkomplexität} $f(n)$, falls $\forall w\in\Sigma^*$ mit Länge $n$ gilt: $\M$ hält auf Eingabe $w$ für jede Berechnung in höchstens $f(n)$ Schritten.
- \item $\M$ hat \emph{Platzkomplexität} $f(n)$ wenn
+ \item $\M$ hat \emph{Platzkomplexität} $f(n)$, falls $\forall w\in\Sigma^*$ mit Länge $n$ gilt: Wenn $\M$ auf $w$ angesetzt wird benutzt jede Berechnung höchstens $f(n)$ Bandzellen.
 \end{itemize}
 \end{Def}
 
 
 \begin{Def}[name={[$\NTIME$ Klasse]}]
 	Sei $f:\N\->\N$ eine Funktion.
-	\begin{itemize}
-	 \item $\DTIME(f(n)) = \{L\mid \exists \text{det. Mehrband TM $\M$ sodass $L(\M)=L$ und $\M$ hat Zeitkomplexität $f(n)$} \} $
-	 \item $\NTIME(f(n)) = \{L\mid \exists \text{nichtdet. Mehrband TM $\M$ sodass $L(\M)=L$ und $\M$ hat Zeitkomplexität $f(n)$} \} $
-	 \item $\DSPACE(f(n)) = \{L\mid \exists \text{det. Mehrband TM $\M$ sodass $L(\M)=L$ und $\M$ hat Platzkomplexität $f(n)$} \} $
-	 \item $\NSPACE(f(n)) = \{L\mid \exists \text{nichtdet. Mehrband TM $\M$ sodass $L(\M)=L$ und $\M$ hat Platzkomplexität $f(n)$} \} $
-	\end{itemize}
+	\begin{align*}
+	\DTIME(f(n)) = \{L \subseteq\Sigma^*\mid & \text{ Es gibt det. Mehrband TM $\M$ sodass $L(\M)=L$ und }\\
+	                & \text{$\M$ hat Zeitkomplexität $f(n)$} \}\\
+%     \end{align*}
+%     \begin{align*}
+    \NTIME(f(n)) = \{L \subseteq\Sigma^*\mid & \text{ Es gibt nichtdet. Mehrband TM $\M$ sodass $L(\M)=L$ und }\\
+                    & \text{$\M$ hat Zeitkomplexität $f(n)$} \}\\           
+%     \end{align*}
+% 	\begin{align*}
+	\DSPACE(f(n)) = \{L \subseteq\Sigma^*\mid & \text{ Es gibt det. Mehrband TM $\M$ sodass $L(\M)=L$ und }\\
+	                & \text{$\M$ hat Platzkomplexität $f(n)$} \}\\
+%     \end{align*}
+%     \begin{align*}
+    \NSPACE(f(n)) = \{L \subseteq\Sigma^*\mid & \text{ Es gibt nichtdet. Mehrband TM $\M$ sodass $L(\M)=L$ und }\\
+                    & \text{$\M$ hat Platzkomplexität $f(n)$} \}\qedhere
+    \end{align*}	
 
 % 	Die Klasse $\NTIME(f(n))$ besteht aus allen Sprachen, die von einer (Mehrkanal-)\ac{TM} $M$ in $T_M(w)\leq f(|w|)$ akzeptiert werden.\\
 % 	Dabei $T_M(w) =
@@ -33,26 +46,34 @@ Sei $f:\N\rightarrow\N$ Funktion und $\M$ eine nichtdet. \ac{TM} mit Eingabealph
 % 	\end{cases}$\\
 \end{Def}
 
-Diagramm
+{\color{red}
 
-\bigskip
+Diagramm: Raute mit Inklusionen
 
-Probleme als Sprachen.
+Erklärung dazu.
 
-Bsp: Erfüllbarkeitsproblem der Aussagenlogik.
-
-\begin{Def}[name={[\textit{SAT}: Erfüllbarkeitsproblem der \acs*{AL}]}]
-	\textit{SAT}, das Erfüllbarkeitsproblem der \acf{AL} ist  definiert durch
-	\begin{description}
-	\item[Eingaben:] Formal $F$ der \acl{AL}.
-	\item[Frage:] Ist $F$ erfüllbar, d.h. existiert eine Belegung $\beta$ der Variablen mit $\{0,1\}$, sodass $F[\beta]=1$ ist.
-	\end{description}
-	$\textit{SAT}=\{\code(F) \mid F\text{ist erfüllbare Formel der \acs{AL}}\}$
-\end{Def}
+% \bigskip
+% 
+% Probleme als Sprachen.
+% 
+% Bsp: Erfüllbarkeitsproblem der Aussagenlogik.
+% 
+% \begin{Def}[name={[\textit{SAT}: Erfüllbarkeitsproblem der \acs*{AL}]}]
+% 	\textit{SAT}, das Erfüllbarkeitsproblem der \acf{AL} ist  definiert durch
+% 	\begin{description}
+% 	\item[Eingaben:] Formal $F$ der \acl{AL}.
+% 	\item[Frage:] Ist $F$ erfüllbar, d.h. existiert eine Belegung $\beta$ der Variablen mit $\{0,1\}$, sodass $F[\beta]=1$ ist.
+% 	\end{description}
+% 	$\textit{SAT}=\{\code(F) \mid F\text{ist erfüllbare Formel der \acs{AL}}\}$
+% \end{Def}
 
 }
 
-\textbf{Exkurs: Aussagenlogik und Sprachen}
+Wir wollen im folgenden Probleme als Sprachen darstellen und beginnen zunächst mit dem Erfüllbarkeitsproblem der Aussagenlogik.
+
+\goodbreak
+
+\textbf{Aussagenlogische Formeln als Sprachen}
 
 Wir gehen davon aus, dass die Leser des Skripts mit Aussagenlogik\footnote{
 Eine Einführung in Aussagenlogik finden Sie im Skript zur Vorlesung \emph{Logik für Studierende der Informatik} aus dem WS 2017/18.
@@ -675,6 +696,242 @@ Wir benötigen dafür zunächst das folgende Lemma.
 	\end{enumerate}
 \end{proof}
 
-\subsection{Weitere \textit{NP}-vollständige Probleme}
+% \subsection{Weitere \textit{NP}-vollständige Probleme}
 
 
+
+
+
+
+
+
+
+
+\newpage
+
+\section{Einordnung von Sprachen in Chomsky-Hierarchie und Abschlusseigenschaften}
+
+
+
+\begin{Satz}\label{satz:6.3}
+	$\ch{1}=\NSPACE(n)$
+\end{Satz}
+\begin{proof}\
+\begin{itemize}
+	\item["`\=>"'\,:] Sei $G=(N,\Sigma,P,S)$ Typ-1 Grammatik für $L$.\\
+		Konstruiere \ac{NTM} $M$ mit $L=L(M),\ \Gamma = \Sigma\cup N\cup\{\blank\}$
+		\begin{enumerate}
+		\item $M$ rät nicht deterministisch eine Position auf
+                  dem Band und eine Produktion $\alpha\-> \beta$. Falls $\beta$ gefunden wird, ersetze durch $\alpha$, weiter bei 1.
+		\item Falls Bandinhalt $=S$ \quad stop, akzeptiert.
+		\end{enumerate}
+		Dieses Verfahren terminiert.
+	\item["`\<="'\,:] %
+	Gegeben: \ac{NTM} $\M$ 
+	Gesucht: Typ-1 Grammatik $\mathcal{G}$ mit $L(\mathcal{G})=L(M)$\\
+	Idee: 
+	\begin{align*}
+		a_1\cdots a_n &\-->
+			\pmqty{a_1\\a_1} \pmqty{a_2\\a_2} \pmqty{(q,a)\\a_3} \pmqty{a_4\\a_4} \pmqty{a_n\\a_n}
+			&&\begin{matrix}\text{Spur 1}\\\text{Spur 2}\end{matrix}\\
+	\shortintertext{ad\footnotemark\ Spur 1: Alphabet $\Gamma\cup(Q\x\Gamma) = \triangle$}
+		P' &\begin{cases}
+			(q,a) &\-> (q',a')   \quad q\in Q,a\in\Gamma\\
+			(q,a)b &\-> a'(q',b) \quad b\in\Gamma\\
+			b(q,a) &\-> (q',b)a'
+		\end{cases}
+		& &\begin{aligned}
+			\delta(q,a) &\ni (q',a',N)\\
+			\delta(q,a) &\ni (q',a',R)\\
+			\delta(q,a) &\ni (q',a',L)
+		\end{aligned}
+	\end{align*}\footnotetext{ad $\approx$ zur}%
+	Def. $\widetilde{uqav} = u(q,a)v\ ,\ u,v\in\Gamma^*,a\in\Gamma$\\
+	Es gilt: $uqav\vdash^* k' \curvearrowleftright \widetilde{uqav} \overset{*}{\=>} \widetilde{k'}$ mit Produktion $P'$.
+	
+	Def. $\mathcal{G}$ durch $N = \{S\}\dotcup\triangle\x\Sigma$
+	\begin{align*}
+		\text{mit } P &= \\
+		S &\-> \pmqty{(q_0,a)\\a} &&\forall a\in\Sigma\\
+		S &\-> S\pmqty{a\\a} &&\forall a\in\Sigma\\
+		\pmqty{\alpha\\a}
+			&\-> \pmqty{\beta\\a}
+			&&\begin{aligned}
+				\forall \alpha\->\beta &\in P'\\
+				\alpha,\beta &\in\triangle
+			\end{aligned}\\
+		\pmqty{\alpha_1\\a_1}\pmqty{\alpha_2\\a_2}
+			&\-> \pmqty{\beta_1\\a_1}\pmqty{\beta_2\\a_2}
+			&&\begin{aligned}
+				\forall \alpha_1\alpha_2\->\beta_1\beta_2 &\in P'\\
+				\alpha_i,\beta_i &\in\triangle
+			\end{aligned}\\
+		\pmqty{x\\a} &\-> a
+			&&\begin{aligned}
+				x&\in\Gamma\\
+				a&\in\Sigma
+			\end{aligned}\\
+		\pmqty{(q',x)\\a} &\-> a
+			&&\begin{aligned}
+				x&\in\Gamma, q'\in F, \delta (q',x)=\emptyset\\
+				a&\in\Sigma
+			\end{aligned}
+	\end{align*}
+	\begin{align*}
+		S &\xRightarrow{*} \pmqty{(q_0,a_1)\\a_1}\pmqty{a_2\\a_2}\dots\pmqty{a_n\\a_n}\\
+		&\phantom{{}\xRightarrow{*}{}}\ \acs*{TM}\ \,\dots\\
+		&\xRightarrow{*} \pmqty{x_1\\a_1}\dots\pmqty{(q',x_i)\\a_i}\dots\pmqty{x_n\\a_n}\\
+		&\xRightarrow{*} a_1\dots a_i\dots a_n
+	\end{align*}
+	Damit gesehen $L(\mathcal{G})\subseteq L(M)$\\
+	Rückrichtung: selbst \qedhere
+	\end{itemize}
+\end{proof}
+
+
+\begin{Satz}
+$L\in\ch{1} \==> L$ entscheidbar.
+\end{Satz}
+
+
+
+
+\emph{\textbf{Fragen:}}
+\begin{enumerate}
+	\item Ist $\mathcal{L}_1$ = Menge der entscheidbaren Sprachen?
+	\item[--] Nein:\\
+	\begin{minipage}[t]{.7\linewidth}
+	Konstruiere eine Kodierung von Typ-1 Grammatiken als Worte
+        $w\in\{0,1\}^*$. Die Grammatik zum Wort $w$ sei $G_w$; falls
+        $w$ kein sinnvoller Kode ist, setze $G_w = (\{S\}, \{0,1\},
+        \{\}, S)$ die leere Grammatik.
+        
+	Die \emph{Diagonalsprache} $D = \{w \in\{\0,1\}^* \mid w\notin
+        L(G_w)\}$ ist entscheidbar, weil das Wortproblem für Typ-1  
+	Sprachen entscheidbar, aber es $\nexists w$, sodass $L(G_w) =
+        D$. Beweis durch Widerspruch.
+	\end{minipage}\quad
+	\begin{tabular}[t]{M{c} | *4{M{c}@{ }}}
+		\ &w_1&w_2&w_3&\cdots\\\hline
+		G_1 &\\
+		G_2 &\\
+		G_3 &\\
+		\vdots&
+	\end{tabular}
+	\item Ist $\mathcal{L}_0$ = Menge aller Sprachen?
+	\item[--] Nein: $\overline{K} \notin \mathcal{L}_0$
+\end{enumerate}
+
+
+
+
+
+
+\begin{Bemerkung}\
+	\newcommand{\underarrowset}[2]{%
+		\underset{%
+			\mathclap{%
+				\overset{\displaystyle\uparrow}{\mathclap{#1}}%
+			}%
+		}{#2}%
+	}
+	\begin{enumerate}
+	\item Für "`$s(n)\leq n$"' betrachte 2-Band \ac{TM}, bei denen die Eingabe read-only ist und nur das zweite Arbeitsband der Platzschranke unterliegt (so ist $s(n)$ sublinear möglich).
+	\item Jede Platzbeschränkung impliziert Laufzeitschranke.\\
+	Angenommen Platzschranke $s(n)$\\
+	$\curvearrowright$ \ac{TM} hat nur endlich viele Konfigurationen
+	\[ N := \underarrowset{%
+			\parbox{\widthof{\scriptsize Eingabeband}}{\raggedright\scriptsize Kopfpos. im Eingabeband}\hspace{1cm}
+		}{n\vphantom{|}}
+		|Q| \quad\cdot\quad
+		\underarrowset{\parbox{2.2cm}{\scriptsize\centering mögliche Inhalte des Arbeitsbands}}{|\Gamma|}^{s(n)}
+		\ \cdot\
+		\underarrowset{\hspace{1.7cm}\parbox{2cm}{\scriptsize Kopfpos. auf\\ Arbeitsband}}{s(n)}
+		\in 2^{O(\log n + s(n))}
+	\]
+	\item \ac{DTM} mit Platzschranke\,: $M$ entscheidet,\\
+	falls sie akzeptiert, dann in weniger als $N$ Schritten,\\
+	falls nach $N$ Schritten keine Terminierung erfolgt\\
+	\quad$\curvearrowright$ Endlosschleife -- Abbruch
+	\item \ac{NTM}\,: nutze den \ac{ND} optimistisch aus\,:\\
+	falls eine akzeptierende Berechnung existiert, dann muss es eine Berechnung ohne wiederholte Konfiguration geben.
+	\end{enumerate}
+\end{Bemerkung}
+\begin{Satz}[name={[$L\in\DTAPE(n),\ L\in\NTAPE(n)$]}]\label{satz:6.2}\
+	\begin{itemize}
+	\item $L\in\DTAPE(n) \curvearrowright\ \exists$ \ac{DTM}, die $L$ in Zeit $2^{O(n)}$ entscheidet.
+	\item $L\in\NTAPE(n)$ analog.
+	\end{itemize}
+\end{Satz}\vspace{-2em}
+\begin{proof}
+	siehe oben.
+\end{proof}
+\begin{Bemerkung}
+	Die Klasse $\NTAPE (n)$ heißt auch \ac{LBA}.
+\end{Bemerkung}
+%
+
+
+\begin{Satz}
+	Die Typ-1 Sprachen sind abgeschlossen unter {\thinmuskip=6mu$\cup,\cap,\cdot,{}^*$} und Komplement.
+\end{Satz}
+\begin{proof}
+	Zu $\cup$ und $\cap$ betrachte \ac{NTM}.\\
+	Für $\cdot$ und $^*$ konstruiere Grammatik.\\
+	ad Komplement "`2. \acsu{LBA}-Problem\footnote{\acs*{LBA} = \acl*{LBA} -- 1964 Kuroda}"' bis 1987, dann gelöst durch Immerman und Szelepcsényi.
+\end{proof}
+\begin{Bemerkung}
+  1. \ac{LBA}-Problem (1964): Ist $\mathrm{NTAPE}(n) = \mathrm{DTAPE}(n)$? Bisher ungelöst.
+\end{Bemerkung}
+\begin{Satz}
+	Das Wortproblem für Typ-1 Sprachen ist entscheidbar.
+\end{Satz}
+\begin{proof}
+	\begin{align*}
+		L\in\mathcal{L}_1 &\curvearrowleftright L\in\mathrm{NTAPE}(n)\\
+		&\curvearrowright \text{nach \autoref{satz:6.2}: $L$ entscheidbar}
+	\end{align*}
+	Nach \autoref{satz:6.1} sogar mit \ac{DTM}.
+\end{proof}
+Die Rückrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1 Sprache"' gilt nicht!
+
+\subsection{Typ-0 Sprachen}
+
+\begin{Satz}\label{satz:6.6}
+	$\mathcal{L}_0 = \ac{NTM}$
+\end{Satz}
+\begin{proof}
+	\begin{itemize}
+	\item["'\=>"'] Konstruktion einer \ac{NTM} $M$ wie in \autoref{satz:6.3}, aber ohne Platzbeschränkung.
+	\item["'\<="'] Konstruktion analog zu \autoref{satz:6.3} + Startsymbol $S'$
+	\begin{align*}
+		S' &\-> \pmqty{\blank\\\Eps} S' \pmqty{\blank\\\Eps} &&\text{Schaffe Platz für Berechnung von }M\\
+		S' &\-> S\\
+	\shortintertext{Erweitere $N$}
+		&= \{S',S\}\cup\triangle\x(\Sigma\cup\{\Eps\})\\
+	\shortintertext{Neue Löschregeln:}
+		\pmqty{x\\ \Eps } &\-> \Eps &&\forall x\in\Gamma\\
+		\rotatebox{90}{$\Rsh$}\ &\mathrlap{\text{die einzigen
+                                          Regeln, die Typ-1 Bedingung verletzen.}} \tag*{\qedhere}
+	\end{align*}
+	\end{itemize}
+\end{proof}
+
+\begin{Satz}[name={[Abgeschlossenheit von Typ-0 Sprachen]}]\label{satz:Typ-0-abgeschl}
+	Die Typ-0 Sprachen sind unter $\thinmuskip=6mu\cup,\cap,\cdot,{}^*$ abgeschlossen.
+\end{Satz}
+\begin{proof}
+	Konstruiere \ac{NTM} für $\thinmuskip=6mu\cup,\cap$ ; Typ-0-Grammatiken für $\cdot$ und $^*$.
+\end{proof}
+
+\begin{Bem}
+	Typ-0 Sprachen sind \emph{nicht} unter Komplement abgeschlossen!
+\end{Bem}
+
+
+\begin{Korollar}
+	$\mathcal{L}_0 \supsetneqq \mathcal{L}_1$
+\end{Korollar}
+\begin{proof}
+	$K$ ist unentscheidbar (also $\notin \mathcal{L}_1$), aber semi-entscheidbar (also $\in \mathcal{L}_0$).
+\end{proof}
