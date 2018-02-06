@@ -56,41 +56,68 @@ Bsp: Erfüllbarkeitsproblem der Aussagenlogik.
 
 Wir gehen davon aus, dass die Leser des Skripts mit Aussagenlogik\footnote{
 Eine Einführung in Aussagenlogik finden Sie im Skript zur Vorlesung \emph{Logik für Studierende der Informatik} aus dem WS 2017/18.
-Wir werden in dieser Vorlesung die gleiche Notation verwenden.
+Wir werden in dieser Vorlesung eine sehr ähnliche Notation verwenden.
 \url{http://home.mathematik.uni-freiburg.de/junker/ws17/logik-info.html}
 } (\ac{AL})
-vertraut sind.
+vertraut sind, stellen die von uns verwendete Syntax vor und bitten den Leser sich die entsprechende Semantik zu erschließen.
 
-Im Folgenden möchten wir Mengen von \ac{AL}-Formeln als Sprachen beschreiben.
+Im folgenden möchten wir Mengen von \ac{AL} Formeln als Sprachen beschreiben.
+Dafür müssen wir zunächst ein geeignetes Alphabet wählen.
+Dabei nehmen wir ``0'' und ``1'' für die Konstanten,
+``$\neg$'', ``$\land$'' und ``$\lor$ für die Junktoren
+und runde Klammern ''$($`` und ''$)$``.
+Bei der Darstellung der Aussagenvariablen stehen wir nun vor der folgenden Herausforderung:
+Es gibt unendliche viele Aussagenvariablen $A_0,A_1,A_2,A_3,\ldots$ aber unser Alphabet kann nur endlich viele Zeichen haben.
+Unsere Lösung dafür ist sehr ähnlich wie die, die wir auch auf Papier verwenden.
+Wir stellen eine Aussagenvariable durch ein ''$A$`` dar, dass von einer Ziffernfolge gefolgt wird.
+Die Aussagenvariable $A_{1337}$ wir so durch das Wort $A1337$ der Länge 5 repräsentiert.
+Wir müssen unser Alphabet also noch um ''$A$``, ''$2$``, $\ldots$ ''$9$`` ergänzen und erhalten
+$$\Sigma_\mathsf{AL}=\{0,1,2,3,4,5,6,7,8,9,A,\neg,\land,\lor,(,)\}.$$
 
+\begin{Def}\label{def:gal}
+Die Menge der der \ac{AL} Formeln ist die Sprache der kontextfreien Grammatik
+  $\mathcal{G}_\mathsf{AL} = (\Sigma_\mathsf{AL}, N, P, S)$ mit
+	\begin{align*}
+		N &= \{S,Z\}\\
+		P &= \begin{aligned}[t]
+      \{ S & \to 0\mid 1\mid AZ\mid \neg S\mid (S\land S)\mid (S\lor S)\\
+        Z & \to \Eps\mid 0Z\mid 1Z\mid 2Z\mid 3Z\mid 4Z\mid 5Z\mid 6Z\mid 7Z\mid 8Z\mid 9Z\}
+        \end{aligned}.
+      \qedhere
+	\end{align*}
+\end{Def}
+
+Wir nehmen nun unsere Definition von Formeln mit Hilfe einer Sprache um ein bekanntes Problem zu beschreiben.
+\begin{Def}
+Wir nennen die Menge der erfüllbaren \ac{AL} Formeln $SAT$.
+$$SAT=\{F\mid F\in L(\mathcal{G}_\mathsf{AL}) \text{ und $F$ erfüllbar}\}\qedhere $$
+\end{Def}
+
+
+Wir haben nun also die Frage ob die Formel $F$ erfüllbar ist als Wortproblem ''$F\in SAT?$`` dargestellt.
+Wir wollen im folgenden eine TM konstruieren die $SAT$ entscheidet betrachten aber als Vorstufe hierfür zunächst eine einfachere Sprache.
+
+
+Wir definieren uns $\mathcal{G}_\mathsf{AL0}$ als die obige Grammatik in der die Regel $S\to AZ$ fehlt.
+Offensichtlich enthält $L(\mathcal{G}_\mathsf{AL0})$ genau die \ac{AL} Formeln die keine Aussagenvariablen enthalten.
+
+Weiter definieren wir 
+$$SAT_0=\{F\mid F\in L(\mathcal{G}_\mathsf{AL0}) \text{ und $F$ erfüllbar}\}$$
+und konstruieren eine DTM die $SAT_0$ entscheidet.
+
+{\color{red}
+TODO: 
+
+\begin{itemize}
+ \item beschreibe Konstuktion
+ \item Frage: Welche Laufzeitkomplexität hat diese DTM
+ \item Antwort: Wir können es nicht genau sagen, die informelle Beschreibung ist zu unpräzise um eine genaue Funktion zu nennen.
+\end{itemize}
+
+}
 
 {\color{red}
 
-Bekannt aus Logik. Beschreiben unsere Notation mit Hilfe folgender Grammatik.
-
-\begin{Bsp}\label{bsp:3.sameNumber}
-  $\mathcal{G} = (\Sigma, N, P, S)$ mit
-	\begin{align*}
-		\Sigma &= \{ 0, 1 \}\\
-		N &= \{S\}\\
-		P &= \begin{aligned}[t]
-      \{ S & \to 1S0S \\
-        S & \to 0S1S \\
-        S & \to \Eps
-      \}
-        \end{aligned}
-      \qedhere
-	\end{align*}
-\end{Bsp}
-
-
-$\{F\in L(G_{AL})\mid F \text{erfüllbar}\}$
-
-Betrachen zunächst Teilmenge.
-
-DTM?
-
-Laufzeitkomplexität?
 
 Exkurs
 \begin{Def} Sei $g:\N\rightarrow\N$
@@ -98,6 +125,15 @@ $$\mathcal{O}(g(n)) = \{f:\N\rightarrow\N \mid \exists n_0, k\in\N \forall n\geq
 \end{Def}
 
 Anschaulich: $f(n)\in \mathcal{O}(g(n))$ $f$ wächst garantiert nicht viel stärker als $g$.
+
+
+TODO: 
+
+\begin{itemize}
+ \item beschreibe Konstuktion von NTM für SAT
+ \item Frage: Welche Laufzeitkomplexität hat diese NTM?
+ \item DTMs?
+\end{itemize}
 
 
 \bigskip
@@ -384,7 +420,9 @@ Wir gehen davon aus, dass die Leser des Skripts mit Graphen vertraut sind, mache
   \item $E\subseteq V\times V$ eine Menge von geordneten Paaren über $V$ ist. 
   Wir nennen diese geordneten Paare \emph{Kanten}.
  \end{itemize}
- Ein \emph{ungerichteter Graph} ist ein gerichteter Graph, bei dem $E$ symmetrisch ist.\footnote{Für die Zwecke dieser Vorlesung ist es komfortabel, den ungerichteten Graphen als Spezialfall des gerichteten Graphen zu definieren. Eine häufig verwendete Alternative ist, die Knotenmenge als Menge von zweielementigen Mengen zu definieren.}
+ Ein \emph{ungerichteter Graph} ist ein gerichteter Graph bei dem $E$ symmetrisch ist.\footnote{
+ Für die Zwecke dieser Vorlesung ist es komfortabel den ungerichteten Graphen als Speziallfall des gerichteten Graphen zu definieren. 
+ Eine häufig verwendete Alternative ist, die Knotenmenge als Menge von zweielementigen Mengen zu definieren.}
 \end{Def}
 
 
