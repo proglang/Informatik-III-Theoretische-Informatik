@@ -1,7 +1,7 @@
 \section[Komplexitätstheorie]{Komplexitätstheorie}
 \subsection{Komplexitätsklassen und P/NP}
 
-{\color{red} TODO: Dieser rote Teil des Skriptes wir erst im Lauf des Wochenendes in einen akzeptablen Zustand gebracht.
+{\color{red} TODO: Dieser rote Teil des Skripts wir erst im Lauf des Wochenendes in einen akzeptablen Zustand gebracht.
 
 Aus Info2 kennen Sie: Worst-case Laufzeit eines Algorithmus bestimmen.
 
@@ -41,27 +41,27 @@ Probleme als Sprachen.
 
 Bsp: Erfüllbarkeitsproblem der Aussagenlogik.
 
-\begin{Def}[name={[$SAT$: Erfüllbarkeitsproblem der \acs*{AL}]}]
-	$SAT$, das Erfüllbarkeitsproblem der \acf{AL} ist  definiert durch
+\begin{Def}[name={[\textit{SAT}: Erfüllbarkeitsproblem der \acs*{AL}]}]
+	\textit{SAT}, das Erfüllbarkeitsproblem der \acf{AL} ist  definiert durch
 	\begin{description}
 	\item[Eingaben:] Formal $F$ der \acl{AL}.
-	\item[Frage:] Ist $F$ erfüllbar, d.h. existiert eine Belegung $\beta$ der Variablen mit $\{0,1\}$, so dass $F[\beta]=1$ ist.
+	\item[Frage:] Ist $F$ erfüllbar, d.h. existiert eine Belegung $\beta$ der Variablen mit $\{0,1\}$, sodass $F[\beta]=1$ ist.
 	\end{description}
-	$SAT=\{\code(F) \mid F\text{ist erfüllbare Formel der \acs{AL}}\}$
+	$\textit{SAT}=\{\code(F) \mid F\text{ist erfüllbare Formel der \acs{AL}}\}$
 \end{Def}
 
 }
 
 \textbf{Exkurs: Aussagenlogik und Sprachen}
 
-Wir gehen davon aus dass die Leser des Skriptes mit Aussagenlogik\footnote{
+Wir gehen davon aus, dass die Leser des Skripts mit Aussagenlogik\footnote{
 Eine Einführung in Aussagenlogik finden Sie im Skript zur Vorlesung \emph{Logik für Studierende der Informatik} aus dem WS 2017/18.
 Wir werden in dieser Vorlesung die gleiche Notation verwenden.
 \url{http://home.mathematik.uni-freiburg.de/junker/ws17/logik-info.html}
 } (\ac{AL})
 vertraut sind.
 
-Im folgenden möchten wir Mengen von \ac{AL} Formeln als Sprachen beschreiben.
+Im Folgenden möchten wir Mengen von \ac{AL}-Formeln als Sprachen beschreiben.
 
 
 {\color{red}
@@ -114,7 +114,7 @@ Anschaulich: $f(n)\in \mathcal{O}(g(n))$ $f$ wächst garantiert nicht viel stär
 
 
 % \begin{Def}[name={[$NP$ Klasse]}]
-% 	Die Klasse $NP$ besteht aus allen Sprachen, die von \ac{NTM} in polynomieller Zeit akzeptiert werden können.
+% 	Die Klasse \textit{NP} besteht aus allen Sprachen, die von \ac{NTM} in polynomieller Zeit akzeptiert werden können.
 % 	\[ NP = \cup_{p\text{ Polynom}} \NTIME(p(n)) \]
 % \end{Def}
 % Analog für deterministische TM:
@@ -123,12 +123,12 @@ Anschaulich: $f(n)\in \mathcal{O}(g(n))$ $f$ wächst garantiert nicht viel stär
 % 	$\DTIME(f(n)) =$ Klasse der Sprachen, die von \ac{DTM} in $T_M(w)\leq f(|w|)$ Schritten akzeptiert wird.
 % 	\[ P = \cup_{p\text{ Polynom}} DTIME(P(n)) \qedhere \]
 % \end{Def}
-Offenbar $P\leq NP$. Seit 1970 weiß man nicht, ob $P=NP$ oder $P\neq NP$
+Offenbar gilt $P\subseteq \textit{NP}$. Seit 1970 weiß man nicht, ob $P=\textit{NP}$ oder $P\neq \textit{NP}$ gilt.
 \begin{description}
-\item[Praktische Relevanz:] Es existieren wichtige Probleme, die offensichtlich in $NP$ liegen, aber die besten bekannten Algorithmen sind exponentiell.\\
+\item[Praktische Relevanz:] Es existieren wichtige Probleme, die offensichtlich in \textit{NP} liegen, aber die besten bekannten Algorithmen sind exponentiell.\\
 	Beispiel: Traveling Salesman ($O(2^n)$), Erfüllbarkeit der Aussagenlogik.
-\item[Struktur:] Viele der $NP$-Probleme haben sich als gleichwertig erwiesen, in dem Sinn, dass eine $P$-Lösung für alle anderen liefert.\\
-	$\leadsto NP$-Vollständigkeit.
+\item[Struktur:] Viele der \textit{NP}-Probleme haben sich als gleichwertig erwiesen, in dem Sinn, dass eine $P$-Lösung für alle anderen liefert.\\
+	$\leadsto$ \textit{NP}-Vollständigkeit.
 \end{description}
 }
 
@@ -138,24 +138,24 @@ Offenbar $P\leq NP$. Seit 1970 weiß man nicht, ob $P=NP$ oder $P\neq NP$
   $f:\Sigma^* \to \Sigma^*$ existiert, sodass
   \begin{itemize}
    \item $\forall w \in \Sigma^*:w \in U \iff f(w) \in V$
-   \item $f$ wird von det. TM berechnet deren Laufzeitkomplexität ein polynom ist.
+   \item $f$ wird von einer \ac{DTM} berechnet, deren Laufzeitkomplexität ein Polynom ist.
   \end{itemize}
   Wir nennen $f$ \emph{Reduktionsfunktion}.
 \end{Def}
 
 \datenote{02.02.2018}
-Eine aussagenlogische Formel $F$ ist in \emph{konjunktiver Normalform} (CNF) wenn $F$ eine Konjunktion von Disjunktionen von Literalen ist.
-Wir verwenden $CNF$ als Notation für die Menge aller AL Formeln in CNF.
-Analog schreiben wir $3CNF$ für die Menge aller Formeln in CNF bei denen jeder Konjukt aus höchstens drei Disjunkten besteht.
+Eine aussagenlogische Formel $F$ ist in \emph{konjunktiver Normalform} (CNF), wenn $F$ eine Konjunktion von Disjunktionen von Literalen ist.
+Wir verwenden \emph{CNF} als Notation für die Menge aller AL-Formeln in CNF.
+Analog schreiben wir \emph{3CNF} für die Menge aller Formeln in CNF, bei denen jeder Konjunkt aus höchstens drei Disjunkten besteht.
 
 
 
-\begin{Def}[name={[$3SAT$]}]
+\begin{Def}[name={[\textit{3SAT}]}]
 Das Problem 3SAT ist wie folgt definiert.\footnote{
-Typischerweise nennt man Sprachen die im kontext der Komplexitätstheorie definiert wernden \emph{Probleme}.
-Es ist üblich von einem konkretes Alphabet $\Sigma$ und keine konkrete Codierung der Objekte (hier Formeln) zu abstrahieren und das Problem als (Gegeben,Frage)-Paar zu formulieren.
-Es bleibt dem Leser überlassen sich selbst ein geeignete Alphabete und Codierungen zu überlegen.
-Für den Fall von aussagenlogische Formeln haben wir dies in ... nocheinmal gemacht, werden aber in Zukunft darauf verzichten. }
+Typischerweise nennt man Sprachen, die im Kontext der Komplexitätstheorie definiert werden, \emph{Probleme}.
+Es ist üblich, von einem konkreten Alphabet $\Sigma$ und einer konkreten Codierung der Objekte (hier: Formeln) zu abstrahieren und das Problem als (Gegeben, Frage)-Paar zu formulieren.
+Es bleibt dem Leser überlassen, sich selbst geeignete Alphabete und Codierungen zu überlegen.
+Für den Fall von aussagenlogische Formeln haben wir dies in TODO noch einmal gemacht, werden aber in Zukunft darauf verzichten.}
 \begin{center}
 \framebox[\textwidth]{\parbox{.95\textwidth}{
 \smallskip
@@ -163,52 +163,52 @@ Für den Fall von aussagenlogische Formeln haben wir dies in ... nocheinmal gema
 
 \medskip
 
-\textit{Frage:} Ist $F$ erfüllbar.
+\textit{Frage:} Ist $F$ erfüllbar?
 }}
 \end{center}
 	
 \end{Def}
-Alternativ könnten wir die Definition von $3SAT$ auch wie folgt aufschreiben.
-$$3SAT = \{F\in L(\mathcal{G}_\mathsf{AL})\mid F \text{ ist in CNF und hat höchstens 3 Literale pro Klausel}\}$$
+Alternativ könnten wir die Definition von \textit{3SAT} auch wie folgt aufschreiben.
+$$\textit{3SAT} = \{F\in L(\mathcal{G}_\mathsf{AL})\mid F \text{ ist in 3CNF}\}$$
 
-Offensichtlich gilt $3SAT \preceq_p SAT$.\footnote{
+Offensichtlich gilt $\textit{3SAT} \preceq_p \textit{SAT}$.\footnote{
 In der Vorlesung vom 02.02. wurde (fälschlicherweise) gesagt, die Identität sei eine geeignete Reduktionsfunktion.
 Dies ist nicht korrekt, da z.B. 
-$(A_1\lor A_2\lor A_3\lor A_4)\notin 3SAT$
-(weil nicht in 3CNF) aber $(A_1\lor A_2\lor A_3\lor A_4)\in SAT$.
-} Wir zeigen als nächstes auch die umgekehrte Richtung.
+$(A_1\lor A_2\lor A_3\lor A_4)\notin \textit{3SAT}$
+(weil nicht in 3CNF), aber $(A_1\lor A_2\lor A_3\lor A_4)\in \textit{SAT}$.
+} Wir zeigen als Nächstes auch die umgekehrte Richtung.
 
 \begin{lemma}\label{lem:sat3sat}
-	$SAT \preceq_p 3SAT$
+	$\textit{SAT} \preceq_p \textit{3SAT}$
 \end{lemma}
 
 
 \begin{proof}
-Unser Zeil ist nun eine Transformation anzugeben die sich in polynomieller Zeit berechnen lässt, die jede Aussagenlogische Formel $F_\mathsf{AL}$ in eine 3CNF Formel $F_\mathsf{3CNF}$ überführt, sodass 
-$F_\mathsf{AL}\in SAT \<==> F_\mathsf{3CNF}\in 3SAT$
+Unser Ziel ist es nun, eine Transformation anzugeben, die sich in polynomieller Zeit berechnen lässt und jede aussagenlogische Formel $F_\mathsf{AL}$ in eine 3CNF-Formel $F_\mathsf{3CNF}$ überführt, sodass
+$F_\mathsf{AL}\in SAT \<==> F_\mathsf{3CNF}\in \textit{3SAT}$
 gilt.
 
 Sei $F_\mathsf{AL}$ eine beliebige Formel aus $L(\mathcal{G}_\mathsf{AL})$.
 
 \begin{enumerate}
- \item Erzeuge aus $F_\mathsf{AL}$ eine äquivalente Formel $F_\mathsf{NNF}$ in Negationsnormalform\footnote{Eine Formel ist in Negationsnormalform wenn der Negationsoperator immer nur direkt vor einer Variablen vorkommt.}.
- Wir können jede Formel in Negationsnormalform bringen indem wir mit Hilfe der De Morganschen Regeln die Negationen ``nach innen'' ziehen.
+ \item Erzeuge aus $F_\mathsf{AL}$ eine äquivalente Formel $F_\mathsf{NNF}$ in Negationsnormalform\footnote{Eine Formel ist in Negationsnormalform, wenn der Negationsoperator immer nur direkt vor einer Variable vorkommt.}.
+ Wir können jede Formel in Negationsnormalform bringen, indem wir mit Hilfe der De Morganschen Regeln die Negationen "`nach innen"' ziehen.
  
- Beispiel: $\neg(\neg (A_1\lor \neg A_3)\land A_2) \quad\rightsquigarrow\quad ((A_1\lor \neg A_3)\land \neg A_2)$
+ Beispiel: $\neg(\neg (A_1\lor \neg A_3)\lor A_2) \quad\rightsquigarrow\quad ((A_1\lor \neg A_3)\land \neg A_2)$
  
- Ideen zur Implementierung: Erstelle auf zusätzlichem Band eine Kopie der Formel. 
- Lasse vor jedem nicht negierten Literal ein Feld Platz um später ggf. ein Negationssymbol zu plazieren.
- Wende De Morgans Regel von Aussen nach Innen an.
- Laufe für jede Anwendung ein mal über die Formel.
+ Ideen zur Implementierung: Erstelle auf einem zusätzlichen Band eine Kopie der Formel.
+ Lasse vor jedem nicht negierten Literal ein Feld Platz, um später ggf.\ ein Negationssymbol zu platzieren.
+ Wende De Morgans Regel von außen nach innen an.
+ Laufe für jede Anwendung einmal über die Formel.
  
  
- \item Erzeuge aus $F_\mathsf{NNF}$ eine Formel $F_{\alpha\gamma}$ mit Biimplikationszeichen ``$\<->$'' mit Hilfe der folgenden induktiv definierten Abbildungen $\alpha$ und $\gamma$.\footnote{
+ \item Erzeuge aus $F_\mathsf{NNF}$ eine Formel $F_{\alpha\gamma}$ mit Biimplikationszeichen "`$\<->$"' mit Hilfe der folgenden induktiv definierten Abbildungen $\alpha$ und $\gamma$.\footnote{%
  Die hier beschriebene Transformation ist auch als Tseytin-Transformation bekannt.}
  
  Idee: Die Abbildung $\gamma$ liefert für jede $\land$-Teilformel und jede $\lor$-Teilformel eine neue Hilfsvariable.
- Diese Hilfsvariable hat in der Resultierenden Formel den Wahrheitswert, den die entsprechende Teilformel in der Eingabeformel hätte.
- Die Abbildung $\alpha$ konstuiert für jede Teilformel die entsprechenden Bedingungen für die Hilfsvariable.
- Erzeugt $\gamma$ keine Hilfsvariable, erzeugt $\alpha$ die (nicht einschränkende) Bedingung $1$.
+ Diese Hilfsvariable hat in der resultierenden Formel den Wahrheitswert, den die entsprechende Teilformel in der Eingabeformel hätte.
+ Die Abbildung $\alpha$ konstruiert für jede Teilformel die entsprechenden Bedingungen für die Hilfsvariable.
+ Erzeugt $\gamma$ keine Hilfsvariable, so erzeugt $\alpha$ die (nicht einschränkende) Bedingung~$1$.
  
  $$\gamma(F)=
  \begin{cases}
@@ -232,7 +232,7 @@ Sei $F_\mathsf{AL}$ eine beliebige Formel aus $L(\mathcal{G}_\mathsf{AL})$.
    \big(\gamma(F)\<-> \gamma(F_1) \lor \gamma(F_2)\big)\land\alpha(F_1)\land\alpha(F_2) & \text{ falls } F=F_1\lor F_2
   \end{cases}$$
   
-  Wir definieren das Resultat $F_{\alpha\gamma}:=\gamma(F_\mathsf{NNF})\land \alpha(F_\mathsf{NNF})$
+  Wir definieren das Resultat $F_{\alpha\gamma}:=\gamma(F_\mathsf{NNF})\land \alpha(F_\mathsf{NNF})$.
   
   Beispiel:
   \begin{align*}
@@ -245,12 +245,13 @@ Sei $F_\mathsf{AL}$ eine beliebige Formel aus $L(\mathcal{G}_\mathsf{AL})$.
   
   Ideen zur Implementierung:
   
-  Wähle Bandalphabet so dass $B$ enthalten, verwende außerde eine zusätzlich Art von Klammern (z.B. eckige Klammern) um den Subscriptanteil der B-Variablen von anderem Bandinhalt zu unterscheiden.
+  Wähle ein Bandalphabet, sodass das Zeichen $B$ enthalten ist.
+  Verwende außerdem eine zusätzliche Art von Klammern (z.B. eckige Klammern), um den Subskriptanteil der B-Variablen vom restlichen Bandinhalt zu unterscheiden.
   Laufe für jede $\{\land,\lor\}$-Teilformel einmal über die Eingabe.
-  Zusätzliches Band zum Schreiben von Resultat.
-  Zusätzliches Band für aktuell bearbeitete $\{\land,\lor\}$-Teilformel da diese immer zwei mal benötigt wird (Variablenname und $\alpha$)
+  Verwende ein zusätzliches Band zum Schreiben des Resultats.
+  Verwende noch ein zusätzliches Band für die aktuell bearbeitete $\{\land,\lor\}$-Teilformel, da diese immer zweimal benötigt wird (Variablenname und $\alpha$).
   Bearbeite äußere Teilformeln vor inneren.
-  Lösche Teile die nicht mehr benötigt werden.
+  Lösche Teile, die nicht mehr benötigt werden.
 \item Ersetze die Formelteile mit Biimplikationszeichen in $F_{\alpha\gamma}$ wie folgt durch logisch äquivalente Formeln in 3CNF.
 	\begin{itemize}
 	\item $F_1\<-> (F_2\land F_3)
@@ -266,72 +267,72 @@ $
 	
 	Ideen zur Implementierung:
 	
-	Zusätzliches Band zum Schreiben von Resultat.
-    Zusätzliches Band für Operanden der Biimplikation da diese immer mehrfach benötigt werden.
+	Verwende ein zusätzliches Band zum Schreiben des Resultats.
+	Verwende noch ein zusätzliches Band für die Operanden der Biimplikation, da diese immer mehrfach benötigt werden.
   
-\item Ersetzte alle Aussagenlogischen Variablen der Form $B_F$ durch aussagenlogische Variablen der Form $A_i$.\footnote{
-Dieser Schritt ist nur nötig damit das Resultat in dem von uns definierten Alphabet $\Sigma_{AL}$ dargestellt werden kann.
-Alternativ hätten wir auch zu Beginn ein Reichhaltigeres Alphabet wählen können.
+\item Ersetze alle aussagenlogischen Variablen der Form $B_F$ durch aussagenlogische Variablen der Form $A_i$.\footnote{
+Dieser Schritt ist nur nötig, damit das Resultat in dem von uns definierten Alphabet $\Sigma_{AL}$ dargestellt werden kann.
+Alternativ hätten wir auch zu Beginn ein reichhaltigeres Alphabet wählen können.
 }
 
 	Ideen zur Implementierung:
 	
-    Finde zunächst höchsten Index $i_{max}$ von $A_i$ Variablen (speichere akutelles Maximum auf zusätzlichem Band).
+    Finde zunächst den höchsten Index $i_{max}$ von $A_i$-Variablen (speichere aktuelles Maximum auf zusätzlichem Band).
     Verwende anschließend $i_{max}+1, i_{max}+2, \ldots$ für neue Variablen.
-    Schreibe zunächst eine Übersetzungsvorschrift (z.B. $A_4:=B_{((A_1\lor \neg A_3)\land \neg A_2)}, A_4:=B_{(A_1\lor \neg A_3)}$) auf ein zusätzliches Band und ersetze erst dann.
+    Schreibe zunächst eine Übersetzungsvorschrift (z.B.\ $A_4:=B_{((A_1\lor \neg A_3)\land \neg A_2)}, A_5:=B_{(A_1\lor \neg A_3)}$) auf ein zusätzliches Band und ersetze erst dann.
 
 \end{enumerate}
 
-Sei $f:\Sigma_{AL}\rightarrow\Sigma_{AL}$ eine Funktion die alle Formeln aus $L(\mathcal{G}_\mathsf{AL})$ ensprechend obiger Konstuktion abbildet und alle anderen Wörter unverändert lässt, dann gilt:
+Sei $f:\Sigma_{AL}\rightarrow\Sigma_{AL}$ eine Funktion, die alle Formeln aus $L(\mathcal{G}_\mathsf{AL})$ entsprechend obiger Konstruktion abbildet und alle anderen Wörter unverändert lässt. Dann gilt:
 \begin{itemize}
- \item $F_{AL}\in SAT \<==> f(F_{AL})\in 3SAT$ (hier ohne Beweis)
+ \item $F_{AL}\in SAT \<==> f(F_{AL})\in \textit{3SAT}$ (hier ohne Beweis)
  \item $f$ ist total und lässt sich in polynomieller Zeit berechnen (hier ohne Beweis)
+ \qedhere
 \end{itemize}
-
-
-
 \end{proof}
 
 
 
 \begin{lemma}\label{lem:A<B + BinP => AinP}
-	Falls $A\preceq_p B$ und $B\in P$ (bzw. $NP$) dann auch $A\in P$ (bzw. $NP$).
+	Falls $A\preceq_p B$ und $B\in P$ (bzw.\ $B\in \textit{NP}$), dann gilt auch $A\in P$ (bzw.\ $A\in \textit{NP}$).
 \end{lemma}
 \begin{proof}
-	$B\in P: \exists M$, die $B$ in $p(n)$ Schritten akzeptiert.\\
-	$\exists M_f$, die die Reduktion $A\preceq_p B$ implementiert. Die Laufzeit von $M_f$ sei durch $q$ Polynom beschränkt.\\
-	Betrachte $M'=$"'erst $M_f$, dann $M$ auf dem Ergebnis"'
-	$M'$ akzeptiert $A$.\\
-	$w\in A\ M_f(w)$ liefert $f(w)$ in $\subseteq q(|w|)$ Schritten ohne $|f(m)|\subseteq q(|w|)$\\
-	$M(f(w))$ benötigt $\leq p(|f(w)|)\leq p(q(|w|))$ Schritte zum akzeptieren.\\
-	$\curvearrowright A\in \DTIME(q(w)+p(q(w))\subseteq P$
+	$B\in P$: Es gibt eine \ac{TM} $\M$, die $B$ in $p(n)$ Schritten akzeptiert.\\
+	Es gibt eine \ac{TM} $\M_f$, welche die Reduktion $A\preceq_p B$ implementiert.
+	Die Laufzeit von $\M_f$ sei durch das Polynom $q$ beschränkt.\\
+	Betrachte $\M'$= "`erst $\M_f$, dann $\M$ auf dem Ergebnis"'.
+	$\M'$ akzeptiert $A$.\\
+	Sei $w\in A$.
+	$\M_f(w)$ liefert $f(w)$ in höchstens $q(|w|)$ Schritten mit $|f(m)|\leq q(|w|) + |w|$.\\
+	$\M$ angesetzt auf $f(w)$ benötigt höchstens $p(|f(w)|)\leq p(q(|w|) + |w|)$ Schritte zum Akzeptieren.\\
+	Insgesamt gilt also $A\in \DTIME(q(|w|) + |w|+p(q(|w|) + |w|)\subseteq P$.
 \end{proof}
 
 
 % \draftnote{8.2.17}
 
-\begin{Def}[name={[$NP$-schwierig und $NP$-vollständig]}]\
+\begin{Def}[name={[\textit{NP}-schwierig und \textit{NP}-vollständig]}]\
 	\begin{itemize}
-	\item Eine Sprache $U$ heißt \emph{$NP$-schwierig}, falls $\forall L\in NP : L\preceq_p U$.
-	\item Eine Sprache $U$ heißt \emph{$NP$-vollständig}, wenn $U$ $NP$-schwierig und $U\in NP$. \qedhere
+	\item Eine Sprache $U$ heißt \emph{\textit{NP}-schwierig}, falls $\forall L\in \textit{NP}$ gilt: $L\preceq_p U$.
+	\item Eine Sprache $U$ heißt \emph{\textit{NP}-vollständig}, falls $U$ \textit{NP}-schwierig ist und $U\in \textit{NP}$ gilt. \qedhere
 	\end{itemize}
 \end{Def}
 
 {\color{red}
 TODO: Ausformulieren
 \begin{itemize}
- \item $NP$-schwierig, sehr starke Forderung dass an alle(!) NP Probleme reduzieren kann
- \item zunächst unklar ob es überhaupt ein $NP$-schwieriges Problem gibt
- \item bedeutet: wenn ich das $NP$-vollst. Problem gefunden habe dass ich effizient Lösen kann, kann ich alle NP Probleme effizient lösen (wie folgender Satz zeigt).
+ \item \textit{NP}-schwierig, sehr starke Forderung dass an alle(!) \textit{NP}-Probleme reduzieren kann
+ \item zunächst unklar ob es überhaupt ein \textit{NP}-schwieriges Problem gibt
+ \item bedeutet: wenn ich das \textit{NP}-vollst. Problem gefunden habe dass ich effizient Lösen kann, kann ich alle \textit{NP}-Probleme effizient lösen (wie folgender Satz zeigt).
 \end{itemize}
 }
 \begin{Satz}
-	Wenn $A\ NP$-vollständig ist, dann gilt die folgende Äquivalenz.
-	\[ A\in P \<==> P=NP \]
+	Wenn $A$ \textit{NP}-vollständig ist, dann gilt die folgende Äquivalenz.
+	\[ A\in P \<==> P=\textit{NP} \qedhere \]
 \end{Satz}
 \begin{proof}\ \\
 	"`\<=="' trivial.\\
-	"`\==>"' $A\in P\subseteq NP\quad \forall L\in NP: L\preceq_p A$. Nach \autoref{lem:A<B + BinP => AinP} : $L\in P$
+	"`\==>"' Es gilt $A\in P\subseteq NP$. Da $A$ \textit{NP}-vollständig ist, gilt $\forall L\in NP: L\preceq_p A$. Dann folgt mit \autoref{lem:A<B + BinP => AinP} auch $L\in P$.
 \end{proof}
 
 \begin{lemma}[name={[$\preceq_p$ ist reflexiv und transitiv]}]
@@ -344,45 +345,46 @@ TODO: Ausformulieren
 
 \begin{Bem}
     Aus der Transitivität folgt:
-	Sobald eine $NP$-schwieriges Problem $U$ bekannt ist, reicht es $U\preceq_p V$ zu finden, um zu zeigen, dass $V$ ebenfalls $NP$-schwierig ist.
+	Sobald ein \textit{NP}-schwieriges Problem $U$ bekannt ist, reicht es $U\preceq_p V$ zu zeigen, um zu beweisen, dass $V$ ebenfalls \textit{NP}-schwierig ist.
 \end{Bem}
-% Ein erstes $NP$-vollständiges Problem.
+% Ein erstes \textit{NP}-vollständiges Problem.
 
 \begin{Satz}[Cook]\label{satz:cook}
-	$SAT$ ist $NP$-vollständig.
+	\textit{SAT} ist \textit{NP}-vollständig.
 \end{Satz}
-Wir werden nur für $SAT$ die NP-Schwierigkeit direkt Beweisen und für alle anderen $NP$-vollständigen Probleme die $NP$-Schwierigkeit wie in obiger Bemerkung angedeutet mit Hilfe einer polynomiellen Reduktion zeigen.
-Da der Beweis von \autoref{satz:cook} sehr Umfangreich ist wollen wir diesen etwas aufschieben und zunächt die $NP$-Vollständigkeit weiterer Probleme zeigen.
+Wir werden nur für \textit{SAT} die NP-Schwierigkeit direkt beweisen und für alle anderen \textit{NP}-vollständigen Probleme die \textit{NP}-Schwierigkeit wie in obiger Bemerkung angedeutet mit Hilfe einer polynomiellen Reduktion zeigen.
+Da der Beweis von \autoref{satz:cook} sehr umfangreich ist, wollen wir diesen etwas aufschieben und zunächst die \textit{NP}-Vollständigkeit weiterer Probleme zeigen.
 
 
-\begin{Satz}[name={[$3SAT$ ist $NP$-vollständig]}]
-	$3SAT$ ist $NP$-vollständig.
+\begin{Satz}[name={[\textit{3SAT} ist \textit{NP}-vollständig]}]
+	\textit{3SAT} ist \textit{NP}-vollständig.
 \end{Satz}
 \begin{proof}
+ \
  \begin{itemize}
-  \item $3SAT\in NP$
+  \item $\textit{3SAT}\in \textit{NP}$
   
   Wir können dies auf zwei Arten zeigen. 
-  Entweder wir zeigen direkt, dass es eine nichtdeterministische \ac{TM} gibt die $3SAT$ entscheidet oder 
-  wir Zeigen dies indirekt mit Hilfe einer polynomiellen Reduktion auf ein Problem in $NP$.
-  Wir wählen letzteres Vorgehen da zum Beweis nur nochmal erwähnt werden muss dass $SAT\in NP$ und (offensichtlich) $3SAT\preceq_p SAT$ gilt.
+  Entweder wir zeigen direkt, dass es eine \ac{NTM} gibt, die \textit{3SAT} entscheidet, oder 
+  wir zeigen dies indirekt mit Hilfe einer polynomiellen Reduktion auf ein Problem in \textit{NP}.
+  Wir wählen letzteres Vorgehen, da zum Beweis nur nochmal erwähnt werden muss, dass $\textit{SAT}\in \textit{NP}$ und (offensichtlich) $\textit{3SAT}\preceq_p \textit{SAT}$ gilt.
   
-  \item $3SAT$ ist NP-schwierig
+  \item \textit{3SAT} ist NP-schwierig
   
   Folgt aus \autoref{lem:sat3sat}.\qedhere
  \end{itemize}
 \end{proof}
 
 
-Wir gehen davon aus, dass die Leser des Skiptes mit Graphen vertraut sind, machen aber zum fixieren von Notation und Terminologie die folgende Definition.
+Wir gehen davon aus, dass die Leser des Skripts mit Graphen vertraut sind, machen aber zum Fixieren von Notation und Terminologie die folgende Definition.
 \begin{Def}
- Ein \emph{gerichteter Graph} ist ein Paar $\mathcal{G}=(V,E)$ bei dem 
+ Ein \emph{gerichteter Graph} ist ein Paar $\mathcal{G}=(V,E)$, bei dem
  \begin{itemize}
   \item $V$ eine Menge ist, deren Elemente wir \emph{Knoten} nennen und
   \item $E\subseteq V\times V$ eine Menge von geordneten Paaren über $V$ ist. 
   Wir nennen diese geordneten Paare \emph{Kanten}.
  \end{itemize}
- Ein \emph{ungerichteter Graph} ist ein gerichteter Graph bei dem $E$ symmetrisch ist.\footnote{Für die Zwecke dieser Vorlesung ist es komfortabel den ungerichteten Graphen als Speziallfall des gerichteten Graphen zu definieren. Eine häufig verwendete Alternative ist, die Knotenmenge als Menge von zweielementigen Mengen zu definieren.}
+ Ein \emph{ungerichteter Graph} ist ein gerichteter Graph, bei dem $E$ symmetrisch ist.\footnote{Für die Zwecke dieser Vorlesung ist es komfortabel, den ungerichteten Graphen als Spezialfall des gerichteten Graphen zu definieren. Eine häufig verwendete Alternative ist, die Knotenmenge als Menge von zweielementigen Mengen zu definieren.}
 \end{Def}
 
 
@@ -398,52 +400,54 @@ Wir gehen davon aus, dass die Leser des Skiptes mit Graphen vertraut sind, mache
 
     \textit{Frage:} Hat $\mathcal{G}$ eine $k$-Clique?
     
-    Eine $k$-Clique ist eine $k$-elementige Menge von Knoten die paarweise durch Kanten verbunden sind.
-    D.h. eine Menge $C$ soass $|C|=k$ und $\forall u, v\in C: u\neq v\rightarrow (u,v)\in E$.
+    Eine $k$-Clique ist eine $k$-elementige Menge von Knoten, die paarweise durch Kanten verbunden sind,
+    d.h., eine Menge $C \subseteq V$, sodass $|C|=k$ und $\forall u, v\in C: u\neq v\rightarrow (u,v)\in E$.
     }}
     \end{center}
 \end{Def}
-\begin{Satz}[name={[$\CLIQUE$ ist $NP$-vollständig]}]
-	$\CLIQUE$ ist $NP$-vollständig.
+\begin{Satz}[name={[$\CLIQUE$ ist \textit{NP}-vollständig]}]
+	$\CLIQUE$ ist \textit{NP}-vollständig.
 \end{Satz}
 \begin{Bemerkung}
  Der folgende Beweis ist für ein Vorlesungsskript sehr knapp gehalten.
- Der Beweis enthält aber genau die Informationen die wir in Übungsaufgaben und Klausur zum erreichen der maximalen Punktzahl erwarten würde.
+ Der Beweis enthält aber genau die Informationen, die wir in Übungsaufgaben und Klausur zum Erreichen der maximalen Punktzahl erwarten würde.
  
- Beweise der $NP$-Vollständigkeit folgen typischerweise dem hier verwendeten Schema.
- Der schwierige (und sehr viel Kreativität erfordernde) Teil ist dabei eine geeignete Konstruktion für die Reduktionsfunktion zu finden.
- Für den folgenden Beweis wird die Idee der Konstuktion in \autoref{fig:3sat-clique} mit Hilfe eines Beispieles illustriert.
+ Beweise der \textit{NP}-Vollständigkeit folgen typischerweise dem hier verwendeten Schema.
+ Der schwierige (da Kreativität erfordernde) Teil ist dabei, eine geeignete Konstruktion für die Reduktionsfunktion zu finden.
+ Für den folgenden Beweis wird die Idee der Konstruktion in \autoref{fig:3sat-clique} mit Hilfe eines Beispiels illustriert.
  
- In unserem Übungs- und Klausuraufgeben wird die Aufgabenstellung meist solch ein Beispiel enthalten.
+ In unserem Übungs- und Klausuraufgaben wird die Aufgabenstellung manchmal solch ein Beispiel enthalten.
  Damit soll ein Hinweis auf eine geeignete Konstruktion gegeben werden.
- Eine Besonderheit des folgenden Beweises ist dass die Konstuktion aus zwei Schritten besteht (Erweiterung Eingabeformel, Konstuktion Graph) Beide Schritte werden in \autoref{fig:3sat-clique} illustriert.
+ Eine Besonderheit des folgenden Beweises ist, dass die Konstruktion aus zwei Schritten besteht (Erweiterung der Eingabeformel, Konstruktion des Graphen). Beide Schritte werden in \autoref{fig:3sat-clique} illustriert.
 \end{Bemerkung}
 
 \begin{proof}
+    \
     \begin{itemize}
-     \item Zeige $\CLIQUE\in NP$.
+     \item Zeige $\CLIQUE\in \textit{NP}$.
      
      Verfahren: 
-     Wähle nichtdeterministisch eine $k$-Elementige Knotenmenge $C$.
-     Prüfe ob $C$ Clique ist.
+     Wähle nichtdeterministisch eine $k$-elementige Knotenmenge $C$.
+     Prüfe, ob $C$ eine Clique ist.
      Dies ist in polynomieller Laufzeit möglich, da wir für jedes Knotenpaar höchstens einmal die Menge der Kanten durchlaufen müssen.
      
-     \item Zeige das $\CLIQUE$ $NP$-schwierig mit Hilfe der Reduktion  $3SAT \preceq_p \CLIQUE$.
+     \item Zeige, dass $\CLIQUE$ \textit{NP}-schwierig ist (mit Hilfe der Reduktion  $\textit{3SAT} \preceq_p \CLIQUE$).
      
-     Ziel: Konstruiere für gegebene 3CNF Formel $F$ einen Graphen $\mathcal{G}=(V,E)$ sodass $F\in 3SAT$ genau dann wenn $\mathcal{G}$ eine $k$-Clique hat.
+     Ziel: Konstruiere für eine gegebene 3CNF-Formel $F$ einen Graphen $\mathcal{G}=(V,E)$, sodass $F$ genau dann erfüllbar ist, wenn $\mathcal{G}$ eine $k$-Clique hat.
      
      Unsere Konstruktion besteht aus zwei Schritten.
+     Gegeben sei eine 3CNF-Formel $F$ mit $m$ Konjunkten.
      
      \begin{itemize}
       \item Schritt 1.
       
-      Erweitere $F$ so dass jeder Konjunkt aus genau drei Disjunkten besteht.
-      Wähle hierfür eine Äquivalenzumformung die einfach nur existiende Disjunkte wiederholt werden.
-      Das resultierende $F$ hat also die folgende Form.
+      Erweitere $F$, sodass jeder Konjunkt aus genau drei Disjunkten besteht.
+      Wähle hierfür eine Äquivalenzumformung, die einfach nur existierende Disjunkte wiederholt.
+      Die resultierende Formel $F'$ hat also die folgende Form.
       
-      $F = \bigwedge\limits_{i=1}^m (z_{i,1}\lor z_{i,2}\lor z_{i,3})$ \ wobei\ $z_{i,j}\in \{A_1,\dots,A_n\}\cup\{\neg A_1,\dots,\neg A_n\}$
+      $F' = \bigwedge\limits_{i=1}^m (z_{i,1}\lor z_{i,2}\lor z_{i,3})$ \ wobei\ $z_{i,j}\in \{A_1,\dots,A_n\}\cup\{\neg A_1,\dots,\neg A_n\}$
       \item Schritt 2.
-      	Definiere $\mathcal{G} = (V,E)$ und $k$ wie folgt:
+       Definiere zu einer Formel $F$ mit $m$ Konjunkten den Graphen $\mathcal{G} = (V,E)$ und $k$ wie folgt:
 	\begin{align*}
 		V &= \{ (i,j) \mid 1\leq i\leq m, j\in\{1,2,3\} \}\\
 		E &= \{\big((i,j),(p,q)\big) \mid i\neq p, z_{i,j}\neq\neg z_{p,q}\}\\
@@ -451,18 +455,21 @@ Wir gehen davon aus, dass die Leser des Skiptes mit Graphen vertraut sind, mache
 	\end{align*}
      \end{itemize}
 
+    Es gibt eine totale Reduktionsfunktion, welche diese Konstruktion in polynomieller Zeit berechnet.
     Nun gilt:
-    
+    %
     \begin{align*}
-    F \text{ ist erfüllbar } \<==> \;\; & \text{Es gibt Folge $z_{1,j_2},\dots,z_{m,j_m}$ sodass $F$ wahr unter einer}\\
-    & \text{Belegung die jedem Folgeglied $1$ zuordnet.}\\
-    \<==> \;\;   & \text{Es gibt Folge $z_{1,j_2},\dots,z_{m,j_m}$ sodass $\forall i\neq p: z_{i,j_i}\neq \neg z_{p,j_p}$}\\
-    \<==> \;\;   & \text{$\mathcal{G}$ hat Menge von Knoten $\{(1,j_1),\dots,(m,j_m)\}$}\\
+    F \text{ ist erfüllbar } \<==> \;\; & \text{Es gibt eine Folge $z_{1,j_1},\dots,z_{m,j_m}$, sodass $F$ unter der}\\
+    & \text{Belegung, die jedem Folgenglied $1$ zuordnet, erfüllt ist.}\\
+    \<==> \;\;   & \text{Es gibt eine Folge $z_{1,j_1},\dots,z_{m,j_m}$, sodass in jedem Konjunkt}\\
+    & \text{ein $z_{i,j_i}$ vorkommt und $\forall i\neq p: z_{i,j_i}\neq \neg z_{p,j_p}$ gilt.}\\
+    \<==> \;\;   & \text{$\mathcal{G}$ hat eine Menge von Knoten $\{(1,j_1),\dots,(m,j_m)\}$,}\\
     & \text{die paarweise durch Kanten verbunden sind.}\\
-    \<==> \;\;   & \text{$\mathcal{G}$ hat $k$-Clique für $k=m$}\\
+    \<==> \;\;   & \text{$\mathcal{G}$ hat eine $k$-Clique für $k=m$.}
     \end{align*}
-    
-    Es gibt eine Reduktionsfunktion die diese Konstruktion in polynomieller Zeit berechnet und somit gilt $3SAT \preceq_p \CLIQUE$.
+    %
+    Insgesamt gilt $\textit{3SAT} \preceq_p \CLIQUE$.
+    \qedhere
     \end{itemize}
 \end{proof}
 
@@ -475,10 +482,10 @@ Wir gehen davon aus, dass die Leser des Skiptes mit Graphen vertraut sind, mache
  $$ (X\lor\neg Y)\land (Y\lor \neg X)\land (X\lor Y) $$
  ist in 3CNF. Die folgende Formel ist äquivalent und jeder Konjunkt besteht aus drei Disjunkten.
  $$ \underbrace{(X\lor\neg Y\lor \neg Y)}_{1}\land \underbrace{(Y\lor \neg X\lor\neg X)}_{2}\land \underbrace{(X\lor X\lor Y)}_{3} $$
- Die Belegung $\beta$ definiert druch $\beta(X)=1, \beta(Y)=1$ ist eine erfüllende Velegung für diese Formel,
- da z.B. der erste Disjunkt im ersten Konjunkt, der erste Disjunkt im zweiten Konjunkt und der dritte Disjunkt im zweiten Konjunkt auf 1 gesetzt sind.
+ Die Belegung $\beta$ definiert durch $\beta(X)=1, \beta(Y)=1$ ist eine erfüllende Belegung für diese Formel,
+ da z.B. der erste Disjunkt im ersten Konjunkt, der erste Disjunkt im zweiten Konjunkt und der dritte Disjunkt im dritten Konjunkt auf 1 gesetzt sind.
  
- Im folgenden Graphen bilden die Knoten $(1,1)$, $(2,1)$ und $(3,1)$ eine $3$-Clique.
+ Im folgenden Graphen bilden die Knoten $(1,1)$, $(2,1)$ und $(3,3)$ eine $3$-Clique.
  
  \centering
 \begin{tikzpicture}[
@@ -532,7 +539,7 @@ Wir gehen davon aus, dass die Leser des Skiptes mit Graphen vertraut sind, mache
 \end{tikzpicture}
 \end{minipage}
 }
-	\caption{Beispiel zu $3SAT \preceq_p \CLIQUE$}
+	\caption{Beispiel zu $\textit{3SAT} \preceq_p \CLIQUE$}
 	\label{fig:3sat-clique}
 \end{figure}
 
@@ -565,16 +572,16 @@ Wir benötigen dafür zunächst das folgende Lemma.
 
 \begin{proof}\
 	\begin{enumerate}
-	\item $SAT\in NP$\\
+	\item $\textit{SAT}\in \textit{NP}$\\
 		Rate nicht deterministisch eine Belegung $\beta$\\
 		Werte $F[\beta]$ aus\\
 		$\curvearrowright$ in $\NTIME(n)$, polynomiell
-	\item $SAT$ ist $NP$-hart.\\
-		Zeige: $\forall L\in NP : L \preceq_p SAT$\\
-		$L\in NP : \exists p$ Polynom, \ac{NTM} $M$ mit $L=L(M)$ mit Zeitschranke $T_M(w)\leq p(|w|)$.
+	\item \textit{SAT} ist \textit{NP}-hart.\\
+		Zeige: $\forall L\in \textit{NP}: L \preceq_p \textit{SAT}$\\
+		$L\in \textit{NP}: \exists p$ Polynom, \ac{NTM} $M$ mit $L=L(M)$ mit Zeitschranke $T_M(w)\leq p(|w|)$.
 		
 		Sei $w = x_1\dots x_n\in\Sigma^*$ Eingabe für $M$.\\
-		Definiere $F$, so dass $F$ erfüllbar $\<==> M$ akzeptiert $w$
+		Definiere $F$, sodass $F$ erfüllbar $\<==> M$ akzeptiert $w$
 		
 		Sei $Q=Q(M)$ mit $\{q_1,\dots,q_k\}=Q$\\
 		Sei $\Gamma = \Gamma(M)$ mit $\{a_i,\dots,a_l\} = \Gamma$\\
@@ -593,7 +600,7 @@ Wir benötigen dafür zunächst das folgende Lemma.
 \end{proof}
 
 \begin{proof}
-	Ziel: Konstruiere aus $M,w$ eine Formel $F$, so dass
+	Ziel: Konstruiere aus $M,w$ eine Formel $F$, sodass
 	\begin{align*}
 		F\text{ erfüllbar} &\<-> M\text{ akzeptiert }w\\
 		\state(t,q) &\phantom{\<->} t\in 0,\dots,p(n), q\in Q\\
@@ -626,7 +633,7 @@ Wir benötigen dafür zunächst das folgende Lemma.
 	\item Endkonfiguration
 		\[ E = \bigvee_{q\in F} \state(p(n),q) \]
 		$|F|$ ist polznomiell beschränkt in $|M,w|$, also $L\preceq_p \mathrm{SAT}$\\
-		$\curvearrowright\ \mathrm{SAT}$ ist $NP$-vollständig.
+		$\curvearrowright\ \mathrm{SAT}$ ist \textit{NP}-vollständig.
 	\end{enumerate}
 \end{proof}
 
