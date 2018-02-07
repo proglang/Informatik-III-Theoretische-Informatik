@@ -627,52 +627,39 @@ An dieser Stelle wollen wir nun den Beweis von \autoref{satz:cook} nachholen.
 \draftnote{07.02.2018}
 Wir benötigen dafür zunächst das folgende Lemma.
 \begin{lemma}
-	Für jedes $k\in\N$ existiert eine Formel $G$, sodass $G(x_i,\dots,x_k)=1$ gdw. $\exists j: x_j = 1$ und $\forall i \neq j: x_i = 0$. Es gilt $|G| \in O(k^2)$.
+	Für jedes $k\in\N$ existiert eine Formel $G$, sodass $G(x_1,\dots,x_k)=1$ gdw. $\exists j: x_j = 1$ und $\forall i \neq j: x_i = 0$. Es gilt $|G| \in O(k^2)$.
 \end{lemma}
 \begin{proof}
-	\[ G(x_i,\dots,x_k) = \bigvee_{i=1}^k x_i\land \bigwedge_{i\neg j}\neg (x_i\land x_j) \]
-	$M=(Q,\Sigma,\Gamma,\delta,q_0,\blank,F)$ erkennt $L$ in $\NTIME(p),\ p$ Polynom.
+	\[ G(x_1,\dots,x_k) = \bigvee_{i=1}^k x_i\land \bigwedge_{j\neq i}\neg (x_i\land x_j) \]
+	$\M=(Q,\Sigma,\Gamma,\delta,q_0,\blank,F)$ akzeptiert $L$ in $\NTIME(p),\ p$ Polynom.
 \end{proof}
 
-\begin{proof}\
+\begin{proof}[von \autoref{satz:cook}]\
 	\begin{enumerate}
 	\item $\ac{SAT} \in \ac{NP}$\\
-		Rate nicht deterministisch eine Belegung $\beta$\\
-		Werte $F[\beta]$ aus\\
-		$\curvearrowright$ in $\NTIME(n)$, polynomiell
-	\item \ac{SAT} ist \ac{NP}-hart.\\
+		Rate nichtdeterministisch eine Belegung $\beta$.\\
+		Werte anschließend $F[\beta]$ in polynomieller Zeit aus
+% 		$\curvearrowright$ in $\NTIME(n)$, polynomiell
+	\item \ac{SAT} ist \ac{NP}-schwierig.\\
 		Zeige: $\forall L\in \ac{NP}: L \preceq_p \ac{SAT}$\\
-		$L\in \ac{NP}: \exists p$ Polynom, \ac{NTM} $M$ mit $L=L(M)$ mit Zeitschranke $T_M(w)\leq p(|w|)$.
+		Sei $L\in \ac{NP}$, d.h., es gibt ein Polynom $p$ und eine \ac{NTM} $\M$ mit $L=L(\M)$ mit Zeitkomplexität $p(n)$ für $n = |w|$.
 		
-		Sei $w = x_1\dots x_n\in\Sigma^*$ Eingabe für $M$.\\
-		Definiere $F$, sodass $F$ erfüllbar $\<==> M$ akzeptiert $w$
+		Sei $w = x_1\dots x_n\in\Sigma^*$ eine beliebige Eingabe für $\M$ der Länge~$n$.\\
+		Ziel: Definiere $F$, sodass $F$ erfüllbar $\<==> \M$ akzeptiert $w$.
 		
-		Sei $Q=Q(M)$ mit $\{q_1,\dots,q_k\}=Q$\\
-		Sei $\Gamma = \Gamma(M)$ mit $\{a_i,\dots,a_l\} = \Gamma$\\
-		Definiere folgende Variablen zur Ver. in $F$
+		Seien $Q$ die Zustandsmenge von $\M$ mit $\{q_1,\dots,q_k\}=Q$ und $\Gamma$ das Bandalphabet von $\M$ mit $\{a_1,\dots,a_l\} = \Gamma$.\\
+		Seien $t\in\{0,1,\dots,p(n)\}$, $i\in\{-p(n),\dots,-1,0,1,\dots,p(n)\}$, $q \in Q$ und $a\in\Gamma$. \\
+		Definiere damit folgende aussagenlogische Variablen zur Verwendung in $F$.
 		\begin{itemize}
-		\item $\mathrm{state}(t,q) = 1$, genau dann wenn $M$ nach $T$ Schritten im Zustand $q$
-		\item $\mathrm{pos}(t,i) = 1$, gdw. der Kopf von $M$ steht nach $t$ Schritten auf Position $i$.\\
-		$t\in\{0,\dots p(n)\}$\\
-		$i\in \{-p(n),\dots,0,1,\dots,p(n)\}$
-		\item $\mathrm{tape}(t,i,a) = 1$, gdw. nach $t$ Schritten befindet sich $a$ an Position $i$ auf dem Band.\\
-		$t\in\{0,\dots,p(n)\}$\\
-		$i\in\{-p(n),\dots,p(n)\}$\\
-		$a\in\Gamma$ \qedhere
+		\item $\mathrm{state}(t,q) = 1$ gdw.\ $\M$ nach $t$ Schritten im Zustand $q$ ist
+		\item $\mathrm{pos}(t,i) = 1$ gdw.\ der Kopf von $\M$ nach $t$ Schritten auf Position $i$ steht.
+		\item $\mathrm{tape}(t,i,a) = 1$ gdw.\ nach $t$ Schritten an Position $i$ ein $a$ steht.
 		\end{itemize}
 	\end{enumerate}
-\end{proof}
 
-\begin{proof}
-	Ziel: Konstruiere aus $M,w$ eine Formel $F$, sodass
-	\begin{align*}
-		F\text{ erfüllbar} &\<-> M\text{ akzeptiert }w\\
-		\state(t,q) &\phantom{\<->} t\in 0,\dots,p(n), q\in Q\\
-		&\<=>\text{ nach $t$ Schritten ist $M$ in Zeile }q\\
-		\pos(t,i) &\<=>\text{ nach $t$ Schritten ist Kopf amn Pos } i\quad,\quad -p(n)\leq i\leq p(n)\\
-		\tape(t,i,a) &\<=>\text{ nach $t$ Schritten enthält Band}[i] = q\in\Gamma\\
-		F &= R \land A\land T_1
-	\end{align*}
+	\medskip
+
+	Wir setzen $F = R \land A\land T_1$, wobei die Teilformeln folgendermaßen definiert sind.
 	\begin{enumerate}
 	\item Randbedingungen
 		\begin{align*}
@@ -696,7 +683,7 @@ Wir benötigen dafür zunächst das folgende Lemma.
 	\end{align*}
 	\item Endkonfiguration
 		\[ E = \bigvee_{q\in F} \state(p(n),q) \]
-		$|F|$ ist polznomiell beschränkt in $|M,w|$, also $L\preceq_p \ac{SAT}$\\
+		$|F|$ ist polynomiell beschränkt in $|\M,w|$, also $L\preceq_p \ac{SAT}$\\
 		$\curvearrowright\ \ac{SAT}$ ist \ac{NP}-vollständig.
 	\end{enumerate}
 \end{proof}
