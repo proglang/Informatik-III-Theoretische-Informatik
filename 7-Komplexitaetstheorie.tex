@@ -706,6 +706,42 @@ Wir benötigen dafür zunächst das folgende Lemma.
 
 \section{Einordnung von Sprachen in Chomsky-Hierarchie und Abschlusseigenschaften}
 
+Wir haben bereits gesehen, dass jede Laufzeitschranke auch eine Beschränkung der Platzkomplexität,
+wir werden nun sehen dass zumindest für haltende DTMs auch die umgekehrte Richtung gilt.
+\begin{lemma}
+ Seit $\M$ eine \ac{TM} mit Platzkomplexität $s(n)$. 
+ Dann enthält jede Berechnung der Länge > $s(n)\cdot |Q| \cdot |\Gamma|^{s(n)}$
+ mindestens eine Konfiguration doppelt.
+\end{lemma}
+\begin{Bemerkung}
+ Für jede DTM mit Platzkomplexität $s(n)$ gilt also dass jede Berechnung entweder gar nicht oder nach höchstens $s(n)\cdot |Q| \cdot |\Gamma|^{s(n)}$ Schritten hält.
+\end{Bemerkung}
+
+
+\begin{Satz}
+ Jede Sprache $L\in\NSPACE(n)$ ist entscheidbar.
+\end{Satz}
+\begin{proof}
+ Simuliere jede Berechnung bis zu $s(n)\cdot |Q| \cdot |\Gamma|^{s(n)}$ Schritten.
+\end{proof}
+
+
+\begin{Satz}
+ Jede Sprache $L\in\ch{1}$ ist entscheidbar.
+\end{Satz}
+
+\begin{proof}
+ Sei $w\in\Sigma^*$ und $n$ die Länge von $w$. 
+ Betrachte alle Ableitungen 
+ $$S\vdash\alpha_1\vdash \ldots \vdash\alpha_n,$$
+ bei denen alle $\alpha_i$ paarweise verschieden sind und Länge $\leq n$ haben.
+\end{proof}
+
+
+
+
+
+
 
 
 \begin{Satz}\label{satz:6.3}
