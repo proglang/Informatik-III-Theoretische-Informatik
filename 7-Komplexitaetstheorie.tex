@@ -1,5 +1,5 @@
 \section[Komplexitätstheorie]{Komplexitätstheorie}
-\subsection{Komplexitätsklassen und P/NP}
+\subsection{Komplexitätsklassen und \ac{P}/\ac{NP}}
 
 {\color{red} TODO: Dieser rote Teil des Skripts wir erst im Lauf des Wochenendes in einen akzeptablen Zustand gebracht.
 
@@ -11,10 +11,11 @@ Hier: Betrachte Problemstellung und bestime was Wort-case Laufzeit von bestmögl
 
 
 \begin{Def}
-Sei $f:\N\rightarrow\N$ Funktion und $\M$ eine nichtdet. \ac{TM} mit Eingabealphabet $\Sigma$.
+Sei $f:\N\rightarrow\N$ eine Funktion und $\M$ eine \ac{NTM} mit Eingabealphabet $\Sigma$.
 \begin{itemize}
  \item $\M$ hat \emph{Zeitkomplexität} $f(n)$, falls $\forall w\in\Sigma^*$ mit Länge $n$ gilt: $\M$ hält auf Eingabe $w$ für jede Berechnung in höchstens $f(n)$ Schritten.
- \item $\M$ hat \emph{Platzkomplexität} $f(n)$, falls $\forall w\in\Sigma^*$ mit Länge $n$ gilt: Wenn $\M$ auf $w$ angesetzt wird benutzt jede Berechnung höchstens $f(n)$ Bandzellen.
+ \item $\M$ hat \emph{Platzkomplexität} $f(n)$, falls $\forall w\in\Sigma^*$ mit Länge $n$ gilt: Wenn $\M$ auf $w$ angesetzt wird, benutzt jede Berechnung höchstens $f(n)$ Bandzellen.
+ \qedhere
 \end{itemize}
 \end{Def}
 
@@ -22,19 +23,19 @@ Sei $f:\N\rightarrow\N$ Funktion und $\M$ eine nichtdet. \ac{TM} mit Eingabealph
 \begin{Def}[name={[$\NTIME$ Klasse]}]
 	Sei $f:\N\->\N$ eine Funktion.
 	\begin{align*}
-	\DTIME(f(n)) = \{L \subseteq\Sigma^*\mid & \text{ Es gibt det. Mehrband TM $\M$ sodass $L(\M)=L$ und }\\
+	\DTIME(f(n)) = \{L \subseteq\Sigma^*\mid & \text{ Es gibt det. Mehrband-\ac{TM} $\M$, sodass $L(\M)=L$ und }\\
 	                & \text{$\M$ hat Zeitkomplexität $f(n)$} \}\\
 %     \end{align*}
 %     \begin{align*}
-    \NTIME(f(n)) = \{L \subseteq\Sigma^*\mid & \text{ Es gibt nichtdet. Mehrband TM $\M$ sodass $L(\M)=L$ und }\\
+    \NTIME(f(n)) = \{L \subseteq\Sigma^*\mid & \text{ Es gibt nichtdet. Mehrband-\ac{TM} $\M$, sodass $L(\M)=L$ und }\\
                     & \text{$\M$ hat Zeitkomplexität $f(n)$} \}\\           
 %     \end{align*}
 % 	\begin{align*}
-	\DSPACE(f(n)) = \{L \subseteq\Sigma^*\mid & \text{ Es gibt det. Mehrband TM $\M$ sodass $L(\M)=L$ und }\\
+	\DSPACE(f(n)) = \{L \subseteq\Sigma^*\mid & \text{ Es gibt det. Mehrband-\ac{TM} $\M$, sodass $L(\M)=L$ und }\\
 	                & \text{$\M$ hat Platzkomplexität $f(n)$} \}\\
 %     \end{align*}
 %     \begin{align*}
-    \NSPACE(f(n)) = \{L \subseteq\Sigma^*\mid & \text{ Es gibt nichtdet. Mehrband TM $\M$ sodass $L(\M)=L$ und }\\
+    \NSPACE(f(n)) = \{L \subseteq\Sigma^*\mid & \text{ Es gibt nichtdet. Mehrband-\ac{TM} $\M$, sodass $L(\M)=L$ und }\\
                     & \text{$\M$ hat Platzkomplexität $f(n)$} \}\qedhere
     \end{align*}	
 
@@ -58,80 +59,81 @@ Erklärung dazu.
 % 
 % Bsp: Erfüllbarkeitsproblem der Aussagenlogik.
 % 
-% \begin{Def}[name={[\textit{SAT}: Erfüllbarkeitsproblem der \acs*{AL}]}]
-% 	\textit{SAT}, das Erfüllbarkeitsproblem der \acf{AL} ist  definiert durch
+% \begin{Def}[name={[\ac{SAT}: Erfüllbarkeitsproblem der \acs*{AL}]}]
+% 	\ac{SAT}, das Erfüllbarkeitsproblem der \acf{AL} ist  definiert durch
 % 	\begin{description}
 % 	\item[Eingaben:] Formal $F$ der \acl{AL}.
 % 	\item[Frage:] Ist $F$ erfüllbar, d.h. existiert eine Belegung $\beta$ der Variablen mit $\{0,1\}$, sodass $F[\beta]=1$ ist.
 % 	\end{description}
-% 	$\textit{SAT}=\{\code(F) \mid F\text{ist erfüllbare Formel der \acs{AL}}\}$
+% 	$\ac{SAT}=\{\code(F) \mid F\text{ist erfüllbare Formel der \acs{AL}}\}$
 % \end{Def}
 
 }
 
-Wir wollen im folgenden Probleme als Sprachen darstellen und beginnen zunächst mit dem Erfüllbarkeitsproblem der Aussagenlogik.
+Wir wollen im Folgenden Probleme als Sprachen darstellen und beginnen zunächst mit dem Erfüllbarkeitsproblem der Aussagenlogik.
 
 \goodbreak
 
 \textbf{Aussagenlogische Formeln als Sprachen}
 
-Wir gehen davon aus, dass die Leser des Skripts mit Aussagenlogik\footnote{
+Wir gehen davon aus, dass die Leser des Skripts mit \ac{AL}\footnote{%
 Eine Einführung in Aussagenlogik finden Sie im Skript zur Vorlesung \emph{Logik für Studierende der Informatik} aus dem WS 2017/18.
 Wir werden in dieser Vorlesung eine sehr ähnliche Notation verwenden.
 \url{http://home.mathematik.uni-freiburg.de/junker/ws17/logik-info.html}
-} (\ac{AL})
-vertraut sind, stellen die von uns verwendete Syntax vor und bitten den Leser sich die entsprechende Semantik zu erschließen.
+}
+vertraut sind, stellen die von uns verwendete Syntax vor und bitten den Leser, sich die entsprechende Semantik zu erschließen.
 
-Im folgenden möchten wir Mengen von \ac{AL} Formeln als Sprachen beschreiben.
+Im Folgenden möchten wir Mengen von \ac{AL}-Formeln als Sprachen beschreiben.
 Dafür müssen wir zunächst ein geeignetes Alphabet wählen.
 Dabei nehmen wir ``0'' und ``1'' für die Konstanten,
 ``$\neg$'', ``$\land$'' und ``$\lor$ für die Junktoren
 und runde Klammern ''$($`` und ''$)$``.
 Bei der Darstellung der Aussagenvariablen stehen wir nun vor der folgenden Herausforderung:
-Es gibt unendliche viele Aussagenvariablen $A_0,A_1,A_2,A_3,\ldots$ aber unser Alphabet kann nur endlich viele Zeichen haben.
+Es gibt unendliche viele Aussagenvariablen $A_0,A_1,A_2,A_3,\ldots$, aber unser Alphabet kann nur endlich viele Zeichen haben.
 Unsere Lösung dafür ist sehr ähnlich wie die, die wir auch auf Papier verwenden.
-Wir stellen eine Aussagenvariable durch ein ''$A$`` dar, dass von einer Ziffernfolge gefolgt wird.
+Wir stellen eine Aussagenvariable durch ein ''$A$`` dar, das von einer Ziffernfolge gefolgt wird.
 Die Aussagenvariable $A_{1337}$ wir so durch das Wort $A1337$ der Länge 5 repräsentiert.
 Wir müssen unser Alphabet also noch um ''$A$``, ''$2$``, $\ldots$ ''$9$`` ergänzen und erhalten
 $$\Sigma_\mathsf{AL}=\{0,1,2,3,4,5,6,7,8,9,A,\neg,\land,\lor,(,)\}.$$
 
 \begin{Def}\label{def:gal}
-Die Menge der der \ac{AL} Formeln ist die Sprache der kontextfreien Grammatik
+Die Menge der \ac{AL}-Formeln ist die Sprache der kontextfreien Grammatik
   $\mathcal{G}_\mathsf{AL} = (\Sigma_\mathsf{AL}, N, P, S)$ mit
 	\begin{align*}
 		N &= \{S,Z\}\\
 		P &= \begin{aligned}[t]
-      \{ S & \to 0\mid 1\mid AZ\mid \neg S\mid (S\land S)\mid (S\lor S)\\
-        Z & \to \Eps\mid 0Z\mid 1Z\mid 2Z\mid 3Z\mid 4Z\mid 5Z\mid 6Z\mid 7Z\mid 8Z\mid 9Z\}
-        \end{aligned}.
-      \qedhere
+      \{ S \to\ & 0\mid 1\mid AZ\mid \neg S\mid (S\land S)\mid (S\lor S)\\
+        Z \to\ & 0Z\mid 1Z\mid 2Z\mid 3Z\mid 4Z\mid 5Z\mid 6Z\mid 7Z\mid 8Z\mid 9Z \mid \\
+        &0 \mid 1 \mid 2 \mid 3 \mid 4 \mid 5 \mid 6 \mid 7 \mid 8 \mid 9\}.
+        \end{aligned}
+      \qedherefixaligned
 	\end{align*}
 \end{Def}
 
-Wir nehmen nun unsere Definition von Formeln mit Hilfe einer Sprache um ein bekanntes Problem zu beschreiben.
+Wir nehmen nun unsere Definition von Formeln, um ein bekanntes Problem mit Hilfe einer Sprache zu beschreiben.
 \begin{Def}
-Wir nennen die Menge der erfüllbaren \ac{AL} Formeln $SAT$.
-$$SAT=\{F\mid F\in L(\mathcal{G}_\mathsf{AL}) \text{ und $F$ erfüllbar}\}\qedhere $$
+Wir nennen die Menge der erfüllbaren \ac{AL}-Formeln \acsu{SAT}.
+\[ \ac{SAT}=\{F\mid F\in L(\mathcal{G}_\mathsf{AL}) \text{ und $F$ erfüllbar}\}\qedhere \]
 \end{Def}
 
 
-Wir haben nun also die Frage ob die Formel $F$ erfüllbar ist als Wortproblem ''$F\in SAT?$`` dargestellt.
-Wir wollen im folgenden eine TM konstruieren die $SAT$ entscheidet betrachten aber als Vorstufe hierfür zunächst eine einfachere Sprache.
+Wir haben nun also die Frage, ob die Formel $F$ erfüllbar ist, als Wortproblem ''$F\in \ac{SAT}?$`` dargestellt.
+Wir wollen im Folgenden eine \ac{TM} konstruieren, die \ac{SAT} entscheidet, betrachten aber als Vorstufe hierfür zunächst eine einfachere Sprache.
 
 
-Wir definieren uns $\mathcal{G}_\mathsf{AL0}$ als die obige Grammatik in der die Regel $S\to AZ$ fehlt.
-Offensichtlich enthält $L(\mathcal{G}_\mathsf{AL0})$ genau die \ac{AL} Formeln die keine Aussagenvariablen enthalten.
+Wir definieren uns $\mathcal{G}_\mathsf{AL0}$ als die obige Grammatik, in der die Regel $S\to AZ$ fehlt.
+Offensichtlich enthält $L(\mathcal{G}_\mathsf{AL0})$ genau die \ac{AL}-Formeln, die keine Aussagenvariablen enthalten.
 
 Weiter definieren wir 
-$$SAT_0=\{F\mid F\in L(\mathcal{G}_\mathsf{AL0}) \text{ und $F$ erfüllbar}\}$$
-und konstruieren eine DTM die $SAT_0$ entscheidet.
+$$\text{SAT}_0=\{F\mid F\in L(\mathcal{G}_\mathsf{AL0}) \text{ und $F$ erfüllbar}\}$$
+und konstruieren eine \ac{DTM}, die $\text{SAT}_0$ entscheidet.
 
 {\color{red}
 TODO: 
 
 \begin{itemize}
- \item beschreibe Konstuktion
- \item Frage: Welche Laufzeitkomplexität hat diese DTM
+ \item beschreibe Konstruktion
+ \item Frage: Welche Laufzeitkomplexität hat diese \ac{DTM}?
  \item Antwort: Wir können es nicht genau sagen, die informelle Beschreibung ist zu unpräzise um eine genaue Funktion zu nennen.
 \end{itemize}
 
@@ -142,7 +144,7 @@ TODO:
 
 Exkurs
 \begin{Def} Sei $g:\N\rightarrow\N$
-$$\mathcal{O}(g(n)) = \{f:\N\rightarrow\N \mid \exists n_0, k\in\N \forall n\geq n_0: f(n)\leq k\cdot g(n)\}$$
+\[ \mathcal{O}(g(n)) = \{f:\N\rightarrow\N \mid \exists n_0, k\in\N \forall n\geq n_0: f(n)\leq k\cdot g(n)\} \qedhere \]
 \end{Def}
 
 Anschaulich: $f(n)\in \mathcal{O}(g(n))$ $f$ wächst garantiert nicht viel stärker als $g$.
@@ -151,41 +153,41 @@ Anschaulich: $f(n)\in \mathcal{O}(g(n))$ $f$ wächst garantiert nicht viel stär
 TODO: 
 
 \begin{itemize}
- \item beschreibe Konstuktion von NTM für SAT
- \item Frage: Welche Laufzeitkomplexität hat diese NTM?
- \item DTMs?
+ \item beschreibe Konstruktion von \ac{NTM} für \ac{SAT}
+ \item Frage: Welche Laufzeitkomplexität hat diese \ac{NTM}?
+ \item \ac{DTM}s?
 \end{itemize}
 
-
-\bigskip
 
 \begin{Def}[name={[Polynom]}]
 	Ein Polynom ist eine Funktion $p:\N\->\N$ mit $\exists k\in \N\ a_0,\dots,a_k\in\N$ und \mbox{$p(n)=\sum_i^k a_in^k$}
 \end{Def}
 \begin{Def}
- \[ P = \bigcup_{p\text{ Polynom}} DTIME(P(n)) \]
- \[ NP = \bigcup_{p\text{ Polynom}} \NTIME(p(n)) \]
- 
+ \begin{align*}
+  \ac{P} &= \bigcup_{p\text{ Polynom}} \DTIME(p(n)) \\
+  \ac{NP} &= \bigcup_{p\text{ Polynom}} \NTIME(p(n))
+  \qedhere
+ \end{align*}
 \end{Def}
 
 
 
-% \begin{Def}[name={[$NP$ Klasse]}]
-% 	Die Klasse \textit{NP} besteht aus allen Sprachen, die von \ac{NTM} in polynomieller Zeit akzeptiert werden können.
-% 	\[ NP = \cup_{p\text{ Polynom}} \NTIME(p(n)) \]
+% \begin{Def}[name={[NP-Klasse]}]
+% 	Die Klasse \ac{NP} besteht aus allen Sprachen, die von \ac{NTM} in polynomieller Zeit akzeptiert werden können.
+% 	\[ \ac{NP} = \cup_{p\text{ Polynom}} \NTIME(p(n)) \]
 % \end{Def}
 % Analog für deterministische TM:
 % \begin{Def}[name={[$\DTIME$ Klasse]}]
 % 	Sei $f:\N\->\N$ Funktion\\
 % 	$\DTIME(f(n)) =$ Klasse der Sprachen, die von \ac{DTM} in $T_M(w)\leq f(|w|)$ Schritten akzeptiert wird.
-% 	\[ P = \cup_{p\text{ Polynom}} DTIME(P(n)) \qedhere \]
+% 	\[ \ac{P} = \cup_{p\text{ Polynom}} DTIME(P(n)) \qedhere \]
 % \end{Def}
-Offenbar gilt $P\subseteq \textit{NP}$. Seit 1970 weiß man nicht, ob $P=\textit{NP}$ oder $P\neq \textit{NP}$ gilt.
+Offenbar gilt $P\subseteq \ac{NP}$. Seit 1970 weiß man nicht, ob $P=\ac{NP}$ oder $P\neq \ac{NP}$ gilt.
 \begin{description}
-\item[Praktische Relevanz:] Es existieren wichtige Probleme, die offensichtlich in \textit{NP} liegen, aber die besten bekannten Algorithmen sind exponentiell.\\
+\item[Praktische Relevanz:] Es existieren wichtige Probleme, die offensichtlich in \ac{NP} liegen, aber die besten bekannten Algorithmen sind exponentiell.\\
 	Beispiel: Traveling Salesman ($O(2^n)$), Erfüllbarkeit der Aussagenlogik.
-\item[Struktur:] Viele der \textit{NP}-Probleme haben sich als gleichwertig erwiesen, in dem Sinn, dass eine $P$-Lösung für alle anderen liefert.\\
-	$\leadsto$ \textit{NP}-Vollständigkeit.
+\item[Struktur:] Viele der \ac{NP}-Probleme haben sich als gleichwertig erwiesen, in dem Sinn, dass eine \ac{P}-Lösung für alle anderen liefert.\\
+	$\leadsto$ \ac{NP}-Vollständigkeit.
 \end{description}
 }
 
@@ -201,22 +203,25 @@ Offenbar gilt $P\subseteq \textit{NP}$. Seit 1970 weiß man nicht, ob $P=\textit
 \end{Def}
 
 \datenote{02.02.2018}
-Eine aussagenlogische Formel $F$ ist in \emph{konjunktiver Normalform} (CNF), wenn $F$ eine Konjunktion von Disjunktionen von Literalen ist.
+Eine aussagenlogische Formel $F$ ist in \emph{konjunktiver Normalform} (CNF)\footnote{%
+Verwechslungsgefahr: \ac{CNF} stand bisher immer für \acl{CNF}.
+In diesem Kapitel werden wir diese aber nicht benötigen.
+}, wenn $F$ eine Konjunktion von Disjunktionen von Literalen ist.
 Wir verwenden \emph{CNF} als Notation für die Menge aller AL-Formeln in CNF.
 Analog schreiben wir \emph{3CNF} für die Menge aller Formeln in CNF, bei denen jeder Konjunkt aus höchstens drei Disjunkten besteht.
 
 
 
-\begin{Def}[name={[\textit{3SAT}]}]
-Das Problem 3SAT ist wie folgt definiert.\footnote{
+\begin{Def}[name={[3SAT]}]
+Das Problem \acsu{3SAT} ist wie folgt definiert.\footnote{
 Typischerweise nennt man Sprachen, die im Kontext der Komplexitätstheorie definiert werden, \emph{Probleme}.
 Es ist üblich, von einem konkreten Alphabet $\Sigma$ und einer konkreten Codierung der Objekte (hier: Formeln) zu abstrahieren und das Problem als (Gegeben, Frage)-Paar zu formulieren.
 Es bleibt dem Leser überlassen, sich selbst geeignete Alphabete und Codierungen zu überlegen.
-Für den Fall von aussagenlogische Formeln haben wir dies in TODO noch einmal gemacht, werden aber in Zukunft darauf verzichten.}
+Für den Fall von aussagenlogische Formeln haben wir dies in {\color{red} TODO} noch einmal gemacht, werden aber in Zukunft darauf verzichten.}
 \begin{center}
 \framebox[\textwidth]{\parbox{.95\textwidth}{
 \smallskip
-\textit{Gegeben:} Eine aussagenlogische Formel $F\in$ 3CNF
+\textit{Gegeben:} Eine aussagenlogische Formel $F\in$ \emph{3CNF}
 
 \medskip
 
@@ -225,24 +230,24 @@ Für den Fall von aussagenlogische Formeln haben wir dies in TODO noch einmal ge
 \end{center}
 	
 \end{Def}
-Alternativ könnten wir die Definition von \textit{3SAT} auch wie folgt aufschreiben.
-$$\textit{3SAT} = \{F\in L(\mathcal{G}_\mathsf{AL})\mid F \text{ ist in 3CNF}\}$$
+Alternativ könnten wir die Definition von \ac{3SAT} auch wie folgt aufschreiben.
+$$\ac{3SAT} = \{F\in L(\mathcal{G}_\mathsf{AL})\mid F \text{ ist in 3CNF}\}$$
 
-Offensichtlich gilt $\textit{3SAT} \preceq_p \textit{SAT}$.\footnote{
+Offensichtlich gilt $\ac{3SAT} \preceq_p \ac{SAT}$.\footnote{
 In der Vorlesung vom 02.02. wurde (fälschlicherweise) gesagt, die Identität sei eine geeignete Reduktionsfunktion.
 Dies ist nicht korrekt, da z.B. 
-$(A_1\lor A_2\lor A_3\lor A_4)\notin \textit{3SAT}$
-(weil nicht in 3CNF), aber $(A_1\lor A_2\lor A_3\lor A_4)\in \textit{SAT}$.
+$(A_1\lor A_2\lor A_3\lor A_4)\notin \ac{3SAT}$
+(weil nicht in 3CNF), aber $(A_1\lor A_2\lor A_3\lor A_4)\in \ac{SAT}$.
 } Wir zeigen als Nächstes auch die umgekehrte Richtung.
 
 \begin{lemma}\label{lem:sat3sat}
-	$\textit{SAT} \preceq_p \textit{3SAT}$
+	$\ac{SAT} \preceq_p \ac{3SAT}$
 \end{lemma}
 
 
 \begin{proof}
 Unser Ziel ist es nun, eine Transformation anzugeben, die sich in polynomieller Zeit berechnen lässt und jede aussagenlogische Formel $F_\mathsf{AL}$ in eine 3CNF-Formel $F_\mathsf{3CNF}$ überführt, sodass
-$F_\mathsf{AL}\in SAT \<==> F_\mathsf{3CNF}\in \textit{3SAT}$
+$F_\mathsf{AL}\in \ac{SAT} \<==> F_\mathsf{3CNF}\in \ac{3SAT}$
 gilt.
 
 Sei $F_\mathsf{AL}$ eine beliebige Formel aus $L(\mathcal{G}_\mathsf{AL})$.
@@ -327,7 +332,7 @@ $
 	Verwende ein zusätzliches Band zum Schreiben des Resultats.
 	Verwende noch ein zusätzliches Band für die Operanden der Biimplikation, da diese immer mehrfach benötigt werden.
   
-\item Ersetze alle aussagenlogischen Variablen der Form $B_F$ durch aussagenlogische Variablen der Form $A_i$.\footnote{
+\item Ersetze alle aussagenlogischen Variablen der Form $B_F$ durch aussagenlogische Variablen der Form $A_i$.\footnote{%
 Dieser Schritt ist nur nötig, damit das Resultat in dem von uns definierten Alphabet $\Sigma_{AL}$ dargestellt werden kann.
 Alternativ hätten wir auch zu Beginn ein reichhaltigeres Alphabet wählen können.
 }
@@ -342,8 +347,8 @@ Alternativ hätten wir auch zu Beginn ein reichhaltigeres Alphabet wählen könn
 
 Sei $f:\Sigma_{AL}\rightarrow\Sigma_{AL}$ eine Funktion, die alle Formeln aus $L(\mathcal{G}_\mathsf{AL})$ entsprechend obiger Konstruktion abbildet und alle anderen Wörter unverändert lässt. Dann gilt:
 \begin{itemize}
- \item $F_{AL}\in SAT \<==> f(F_{AL})\in \textit{3SAT}$ (hier ohne Beweis)
- \item $f$ ist total und lässt sich in polynomieller Zeit berechnen (hier ohne Beweis)
+ \item $F_{AL}\in \ac{SAT} \<==> f(F_{AL})\in \ac{3SAT}$ (hier ohne Beweis)
+ \item $f$ ist total und lässt sich in polynomieller Zeit berechnen (hier ohne Beweis).
  \qedhere
 \end{itemize}
 \end{proof}
@@ -351,45 +356,45 @@ Sei $f:\Sigma_{AL}\rightarrow\Sigma_{AL}$ eine Funktion, die alle Formeln aus $L
 
 
 \begin{lemma}\label{lem:A<B + BinP => AinP}
-	Falls $A\preceq_p B$ und $B\in P$ (bzw.\ $B\in \textit{NP}$), dann gilt auch $A\in P$ (bzw.\ $A\in \textit{NP}$).
+	Falls $A\preceq_p B$ und $B\in \ac{P}$ (bzw.\ $B\in \ac{NP}$), dann gilt auch $A\in \ac{P}$ (bzw.\ $A\in \ac{NP}$).
 \end{lemma}
 \begin{proof}
-	$B\in P$: Es gibt eine \ac{TM} $\M$, die $B$ in $p(n)$ Schritten akzeptiert.\\
-	Es gibt eine \ac{TM} $\M_f$, welche die Reduktion $A\preceq_p B$ implementiert.
+	$B\in \ac{P}$: Nach Annahme gibt es eine \ac{TM} $\M$, die $B$ in $p(n)$ Schritten akzeptiert.\\
+	Es gibt außerdem eine \ac{TM} $\M_f$, welche die Reduktion $A\preceq_p B$ implementiert.
 	Die Laufzeit von $\M_f$ sei durch das Polynom $q$ beschränkt.\\
-	Betrachte $\M'$= "`erst $\M_f$, dann $\M$ auf dem Ergebnis"'.
+	Betrachte $\M'$ = "`erst $\M_f$, dann $\M$ auf dem Ergebnis"'.
 	$\M'$ akzeptiert $A$.\\
 	Sei $w\in A$.
-	$\M_f(w)$ liefert $f(w)$ in höchstens $q(|w|)$ Schritten mit $|f(m)|\leq q(|w|) + |w|$.\\
+	$\M_f(w)$ liefert $f(w)$ in höchstens $q(|w|)$ Schritten mit $|f(w)|\leq q(|w|) + |w|$.\\
 	$\M$ angesetzt auf $f(w)$ benötigt höchstens $p(|f(w)|)\leq p(q(|w|) + |w|)$ Schritte zum Akzeptieren.\\
-	Insgesamt gilt also $A\in \DTIME(q(|w|) + |w|+p(q(|w|) + |w|)\subseteq P$.
+	Insgesamt gilt also $A\in \DTIME(q(|w|) + |w|+p(q(|w|) + |w|)\subseteq \ac{P}$.
 \end{proof}
 
 
 % \draftnote{8.2.17}
 
-\begin{Def}[name={[\textit{NP}-schwierig und \textit{NP}-vollständig]}]\
+\begin{Def}[name={[\ac{NP}-schwierig und \ac{NP}-vollständig]}]\
 	\begin{itemize}
-	\item Eine Sprache $U$ heißt \emph{\textit{NP}-schwierig}, falls $\forall L\in \textit{NP}$ gilt: $L\preceq_p U$.
-	\item Eine Sprache $U$ heißt \emph{\textit{NP}-vollständig}, falls $U$ \textit{NP}-schwierig ist und $U\in \textit{NP}$ gilt. \qedhere
+	\item Eine Sprache $U$ heißt \emph{\ac{NP}-schwierig}, falls $\forall L\in \ac{NP}$ gilt: $L\preceq_p U$.
+	\item Eine Sprache $U$ heißt \emph{\ac{NP}-vollständig}, falls $U$ \ac{NP}-schwierig ist und $U\in \ac{NP}$ gilt. \qedhere
 	\end{itemize}
 \end{Def}
 
 {\color{red}
 TODO: Ausformulieren
 \begin{itemize}
- \item \textit{NP}-schwierig, sehr starke Forderung dass an alle(!) \textit{NP}-Probleme reduzieren kann
- \item zunächst unklar ob es überhaupt ein \textit{NP}-schwieriges Problem gibt
- \item bedeutet: wenn ich das \textit{NP}-vollst. Problem gefunden habe dass ich effizient Lösen kann, kann ich alle \textit{NP}-Probleme effizient lösen (wie folgender Satz zeigt).
+ \item \ac{NP}-schwierig, sehr starke Forderung dass an alle(!) \ac{NP}-Probleme reduzieren kann
+ \item zunächst unklar ob es überhaupt ein \ac{NP}-schwieriges Problem gibt
+ \item bedeutet: wenn ich das \ac{NP}-vollst. Problem gefunden habe dass ich effizient Lösen kann, kann ich alle \ac{NP}-Probleme effizient lösen (wie folgender Satz zeigt).
 \end{itemize}
 }
 \begin{Satz}
-	Wenn $A$ \textit{NP}-vollständig ist, dann gilt die folgende Äquivalenz.
-	\[ A\in P \<==> P=\textit{NP} \qedhere \]
+	Wenn eine Sprache $A$ \ac{NP}-vollständig ist, dann gilt die folgende Äquivalenz.
+	\[ A\in \ac{P} \<==> \ac{P} =\ac{NP} \qedhere \]
 \end{Satz}
 \begin{proof}\ \\
 	"`\<=="' trivial.\\
-	"`\==>"' Es gilt $A\in P\subseteq NP$. Da $A$ \textit{NP}-vollständig ist, gilt $\forall L\in NP: L\preceq_p A$. Dann folgt mit \autoref{lem:A<B + BinP => AinP} auch $L\in P$.
+	"`\==>"' Es gilt $A\in \ac{P} \subseteq \ac{NP}$. Da $A$ \ac{NP}-vollständig ist, gilt $\forall L\in \ac{NP}: L\preceq_p A$. Dann folgt mit \autoref{lem:A<B + BinP => AinP} auch $L\in \ac{P}$.
 \end{proof}
 
 \begin{lemma}[name={[$\preceq_p$ ist reflexiv und transitiv]}]
@@ -402,31 +407,31 @@ TODO: Ausformulieren
 
 \begin{Bem}
     Aus der Transitivität folgt:
-	Sobald ein \textit{NP}-schwieriges Problem $U$ bekannt ist, reicht es $U\preceq_p V$ zu zeigen, um zu beweisen, dass $V$ ebenfalls \textit{NP}-schwierig ist.
+	Sobald ein \ac{NP}-schwieriges Problem $U$ bekannt ist, reicht es $U\preceq_p V$ zu zeigen, um zu beweisen, dass $V$ ebenfalls \ac{NP}-schwierig ist.
 \end{Bem}
-% Ein erstes \textit{NP}-vollständiges Problem.
+% Ein erstes \ac{NP}-vollständiges Problem.
 
 \begin{Satz}[Cook]\label{satz:cook}
-	\textit{SAT} ist \textit{NP}-vollständig.
+	\ac{SAT} ist \ac{NP}-vollständig.
 \end{Satz}
-Wir werden nur für \textit{SAT} die NP-Schwierigkeit direkt beweisen und für alle anderen \textit{NP}-vollständigen Probleme die \textit{NP}-Schwierigkeit wie in obiger Bemerkung angedeutet mit Hilfe einer polynomiellen Reduktion zeigen.
-Da der Beweis von \autoref{satz:cook} sehr umfangreich ist, wollen wir diesen etwas aufschieben und zunächst die \textit{NP}-Vollständigkeit weiterer Probleme zeigen.
+Wir werden nur für \ac{SAT} die \ac{NP}-Schwierigkeit direkt beweisen und für alle anderen \ac{NP}-vollständigen Probleme die \ac{NP}-Schwierigkeit wie in obiger Bemerkung angedeutet mit Hilfe einer polynomiellen Reduktion zeigen.
+Da der Beweis von \autoref{satz:cook} sehr umfangreich ist, wollen wir diesen etwas aufschieben und zunächst die \ac{NP}-Vollständigkeit weiterer Probleme zeigen.
 
 
-\begin{Satz}[name={[\textit{3SAT} ist \textit{NP}-vollständig]}]
-	\textit{3SAT} ist \textit{NP}-vollständig.
+\begin{Satz}[name={[3SAT ist \ac{NP}-vollständig]}]
+	\ac{3SAT} ist \ac{NP}-vollständig.
 \end{Satz}
 \begin{proof}
  \
  \begin{itemize}
-  \item $\textit{3SAT}\in \textit{NP}$
+  \item $\ac{3SAT} \in \ac{NP}$
   
   Wir können dies auf zwei Arten zeigen. 
-  Entweder wir zeigen direkt, dass es eine \ac{NTM} gibt, die \textit{3SAT} entscheidet, oder 
-  wir zeigen dies indirekt mit Hilfe einer polynomiellen Reduktion auf ein Problem in \textit{NP}.
-  Wir wählen letzteres Vorgehen, da zum Beweis nur nochmal erwähnt werden muss, dass $\textit{SAT}\in \textit{NP}$ und (offensichtlich) $\textit{3SAT}\preceq_p \textit{SAT}$ gilt.
+  Entweder wir zeigen direkt, dass es eine \ac{NTM} gibt, die \ac{3SAT} in polynomieller Zeit entscheidet, oder
+  wir zeigen dies indirekt mit Hilfe einer polynomiellen Reduktion auf ein Problem in \ac{NP}.
+  Wir wählen letzteres Vorgehen, da zum Beweis nur nochmal erwähnt werden muss, dass $\ac{SAT} \in \ac{NP}$ und (offensichtlich) $\ac{3SAT} \preceq_p \ac{SAT}$ gilt.
   
-  \item \textit{3SAT} ist NP-schwierig
+  \item \ac{3SAT} ist \ac{NP}-schwierig
   
   Folgt aus \autoref{lem:sat3sat}.\qedhere
  \end{itemize}
@@ -441,8 +446,8 @@ Wir gehen davon aus, dass die Leser des Skripts mit Graphen vertraut sind, mache
   \item $E\subseteq V\times V$ eine Menge von geordneten Paaren über $V$ ist. 
   Wir nennen diese geordneten Paare \emph{Kanten}.
  \end{itemize}
- Ein \emph{ungerichteter Graph} ist ein gerichteter Graph bei dem $E$ symmetrisch ist.\footnote{
- Für die Zwecke dieser Vorlesung ist es komfortabel den ungerichteten Graphen als Speziallfall des gerichteten Graphen zu definieren. 
+ Ein \emph{ungerichteter Graph} ist ein gerichteter Graph, bei dem $E$ symmetrisch ist.\footnote{%
+ Für die Zwecke dieser Vorlesung ist es komfortabel, den ungerichteten Graphen als Spezialfall des gerichteten Graphen zu definieren.
  Eine häufig verwendete Alternative ist, die Knotenmenge als Menge von zweielementigen Mengen zu definieren.}
 \end{Def}
 
@@ -464,18 +469,18 @@ Wir gehen davon aus, dass die Leser des Skripts mit Graphen vertraut sind, mache
     }}
     \end{center}
 \end{Def}
-\begin{Satz}[name={[$\CLIQUE$ ist \textit{NP}-vollständig]}]
-	$\CLIQUE$ ist \textit{NP}-vollständig.
+\begin{Satz}[name={[$\CLIQUE$ ist \ac{NP}-vollständig]}]
+	$\CLIQUE$ ist \ac{NP}-vollständig.
 \end{Satz}
 \begin{Bemerkung}
  Der folgende Beweis ist für ein Vorlesungsskript sehr knapp gehalten.
  Der Beweis enthält aber genau die Informationen, die wir in Übungsaufgaben und Klausur zum Erreichen der maximalen Punktzahl erwarten würde.
  
- Beweise der \textit{NP}-Vollständigkeit folgen typischerweise dem hier verwendeten Schema.
+ Beweise der \ac{NP}-Vollständigkeit folgen typischerweise dem hier verwendeten Schema.
  Der schwierige (da Kreativität erfordernde) Teil ist dabei, eine geeignete Konstruktion für die Reduktionsfunktion zu finden.
  Für den folgenden Beweis wird die Idee der Konstruktion in \autoref{fig:3sat-clique} mit Hilfe eines Beispiels illustriert.
  
- In unserem Übungs- und Klausuraufgaben wird die Aufgabenstellung manchmal solch ein Beispiel enthalten.
+ In unseren Übungs- und Klausuraufgaben wird die Aufgabenstellung manchmal solch ein Beispiel enthalten.
  Damit soll ein Hinweis auf eine geeignete Konstruktion gegeben werden.
  Eine Besonderheit des folgenden Beweises ist, dass die Konstruktion aus zwei Schritten besteht (Erweiterung der Eingabeformel, Konstruktion des Graphen). Beide Schritte werden in \autoref{fig:3sat-clique} illustriert.
 \end{Bemerkung}
@@ -483,14 +488,14 @@ Wir gehen davon aus, dass die Leser des Skripts mit Graphen vertraut sind, mache
 \begin{proof}
     \
     \begin{itemize}
-     \item Zeige $\CLIQUE\in \textit{NP}$.
+     \item Zeige $\CLIQUE\in \ac{NP}$.
      
      Verfahren: 
      Wähle nichtdeterministisch eine $k$-elementige Knotenmenge $C$.
      Prüfe, ob $C$ eine Clique ist.
      Dies ist in polynomieller Laufzeit möglich, da wir für jedes Knotenpaar höchstens einmal die Menge der Kanten durchlaufen müssen.
      
-     \item Zeige, dass $\CLIQUE$ \textit{NP}-schwierig ist (mit Hilfe der Reduktion  $\textit{3SAT} \preceq_p \CLIQUE$).
+     \item Zeige, dass $\CLIQUE$ \ac{NP}-schwierig ist (mit Hilfe der Reduktion  $\ac{3SAT} \preceq_p \CLIQUE$).
      
      Ziel: Konstruiere für eine gegebene 3CNF-Formel $F$ einen Graphen $\mathcal{G}=(V,E)$, sodass $F$ genau dann erfüllbar ist, wenn $\mathcal{G}$ eine $k$-Clique hat.
      
@@ -504,7 +509,7 @@ Wir gehen davon aus, dass die Leser des Skripts mit Graphen vertraut sind, mache
       Wähle hierfür eine Äquivalenzumformung, die einfach nur existierende Disjunkte wiederholt.
       Die resultierende Formel $F'$ hat also die folgende Form.
       
-      $F' = \bigwedge\limits_{i=1}^m (z_{i,1}\lor z_{i,2}\lor z_{i,3})$ \ wobei\ $z_{i,j}\in \{A_1,\dots,A_n\}\cup\{\neg A_1,\dots,\neg A_n\}$
+      $F' = \bigwedge\limits_{i=1}^m (z_{i,1}\lor z_{i,2}\lor z_{i,3})$, wobei\ $z_{i,j}\in \{A_1,\dots,A_n\}\cup\{\neg A_1,\dots,\neg A_n\}$
       \item Schritt 2.
        Definiere zu einer Formel $F$ mit $m$ Konjunkten den Graphen $\mathcal{G} = (V,E)$ und $k$ wie folgt:
 	\begin{align*}
@@ -514,7 +519,7 @@ Wir gehen davon aus, dass die Leser des Skripts mit Graphen vertraut sind, mache
 	\end{align*}
      \end{itemize}
 
-    Es gibt eine totale Reduktionsfunktion, welche diese Konstruktion in polynomieller Zeit berechnet.
+    Es gibt offensichtlich eine totale Reduktionsfunktion, welche diese Konstruktion in polynomieller Zeit berechnet.
     Nun gilt:
     %
     \begin{align*}
@@ -527,7 +532,7 @@ Wir gehen davon aus, dass die Leser des Skripts mit Graphen vertraut sind, mache
     \<==> \;\;   & \text{$\mathcal{G}$ hat eine $k$-Clique für $k=m$.}
     \end{align*}
     %
-    Damit haben wir $\textit{3SAT} \preceq_p \CLIQUE$ gezeigt.
+    Damit haben wir $\ac{3SAT} \preceq_p \CLIQUE$ gezeigt.
     \qedhere
     \end{itemize}
 \end{proof}
@@ -574,10 +579,10 @@ Wir gehen davon aus, dass die Leser des Skripts mit Graphen vertraut sind, mache
 \node (32v) [node distance=1mm, above right =of 32] {$X$};
 \node (33v) [node distance=1mm, above right =of 33] {$Y$};
 
-\draw[-] (11) to (21);
+\draw[-,very thick] (11) to (21);
 \draw[-] (11) to (31);
 \draw[-] (11) to (32);
-\draw[-] (11) to (33);
+\draw[-,very thick] (11) to (33);
 
 \draw[-] (12) to (22);
 \draw[-] (12) to (23);
@@ -591,14 +596,14 @@ Wir gehen davon aus, dass die Leser des Skripts mit Graphen vertraut sind, mache
 
 \draw[-] (21) to (31);
 \draw[-] (21) to (32);
-\draw[-] (21) to (33);
+\draw[-,very thick] (21) to (33);
 
 \draw[-] (22) to (33);
 \draw[-] (23) to (33);
 \end{tikzpicture}
 \end{minipage}
 }
-	\caption{Beispiel zu $\textit{3SAT} \preceq_p \CLIQUE$}
+	\caption{Beispiel zu $\ac{3SAT} \preceq_p \CLIQUE$}
 	\label{fig:3sat-clique}
 \end{figure}
 
@@ -631,13 +636,13 @@ Wir benötigen dafür zunächst das folgende Lemma.
 
 \begin{proof}\
 	\begin{enumerate}
-	\item $\textit{SAT}\in \textit{NP}$\\
+	\item $\ac{SAT} \in \ac{NP}$\\
 		Rate nicht deterministisch eine Belegung $\beta$\\
 		Werte $F[\beta]$ aus\\
 		$\curvearrowright$ in $\NTIME(n)$, polynomiell
-	\item \textit{SAT} ist \textit{NP}-hart.\\
-		Zeige: $\forall L\in \textit{NP}: L \preceq_p \textit{SAT}$\\
-		$L\in \textit{NP}: \exists p$ Polynom, \ac{NTM} $M$ mit $L=L(M)$ mit Zeitschranke $T_M(w)\leq p(|w|)$.
+	\item \ac{SAT} ist \ac{NP}-hart.\\
+		Zeige: $\forall L\in \ac{NP}: L \preceq_p \ac{SAT}$\\
+		$L\in \ac{NP}: \exists p$ Polynom, \ac{NTM} $M$ mit $L=L(M)$ mit Zeitschranke $T_M(w)\leq p(|w|)$.
 		
 		Sei $w = x_1\dots x_n\in\Sigma^*$ Eingabe für $M$.\\
 		Definiere $F$, sodass $F$ erfüllbar $\<==> M$ akzeptiert $w$
@@ -648,7 +653,7 @@ Wir benötigen dafür zunächst das folgende Lemma.
 		\begin{itemize}
 		\item $\mathrm{state}(t,q) = 1$, genau dann wenn $M$ nach $T$ Schritten im Zustand $q$
 		\item $\mathrm{pos}(t,i) = 1$, gdw. der Kopf von $M$ steht nach $t$ Schritten auf Position $i$.\\
-		$t\in\{0,\dots P(n)\}$\\
+		$t\in\{0,\dots p(n)\}$\\
 		$i\in \{-p(n),\dots,0,1,\dots,p(n)\}$
 		\item $\mathrm{tape}(t,i,a) = 1$, gdw. nach $t$ Schritten befindet sich $a$ an Position $i$ auf dem Band.\\
 		$t\in\{0,\dots,p(n)\}$\\
@@ -691,12 +696,12 @@ Wir benötigen dafür zunächst das folgende Lemma.
 	\end{align*}
 	\item Endkonfiguration
 		\[ E = \bigvee_{q\in F} \state(p(n),q) \]
-		$|F|$ ist polznomiell beschränkt in $|M,w|$, also $L\preceq_p \mathrm{SAT}$\\
-		$\curvearrowright\ \mathrm{SAT}$ ist \textit{NP}-vollständig.
+		$|F|$ ist polznomiell beschränkt in $|M,w|$, also $L\preceq_p \ac{SAT}$\\
+		$\curvearrowright\ \ac{SAT}$ ist \ac{NP}-vollständig.
 	\end{enumerate}
 \end{proof}
 
-% \subsection{Weitere \textit{NP}-vollständige Probleme}
+% \subsection{Weitere \ac{NP}-vollständige Probleme}
 
 
 
@@ -732,7 +737,7 @@ Wir benötigen dafür zunächst das folgende Lemma.
 	Wir wollen den Beweis hier nicht formal ausformulieren und beschreiben nur die zugrundliegenden Ideen.
 	\begin{itemize}
 	\item Idee 1:
-	Ahme Berechnungsschritte der TM mit Ableitungsschritten der Grammatik nach.
+	Ahme Berechnungsschritte der \ac{TM} mit Ableitungsschritten der Grammatik nach.
 	Die Manipulierten Satzformen repräsentieren dabei Konfigurationen der TM.
 	Wir wählen als (vorläufige) Variablenmenge $V'=\Gamma\cup(Q\x\Gamma)$.
 	Eine Konfiguration $uqav$ mit $u,v\in\Gamma^*,a\in\Gamma$ wird durch die Satzform $u(q,a)v$ repräsentiert.
@@ -742,13 +747,13 @@ Wir benötigen dafür zunächst das folgende Lemma.
 	 \cup &\; \{ (q,a)b \-> a'(q',b) \mid b\in\Gamma, (q',a',R)\in \delta(q,a) \}\\
 	 \cup &\; \{ (q,a) \-> (q',a') \mid (q',a',L)\in \delta(q,a)\}
 	\end{align*}
-    Somit gilt, dass die TM eine Konfiguration in eine andere überführen kann $uqav \vdash^{*} u'q'a'v'$
+    Somit gilt, dass die \ac{TM} eine Konfiguration in eine andere überführen kann $uqav \vdash^{*} u'q'a'v'$
     genau dann wenn wir mit Regeln aus $P'$ die Ableitung $u(q,a)v \vdash^{*} u'(q',a')v'$ machen können.
 
 	
 	\item Idee 2:
 	Die erste Idee hat noch das folgende Problem und muss deshalb ergänzt werden:
-	Während eine TM mit der Eingabe startet und diese in eine ''akzeptiert``/''akzeptiert nicht`` Antwort transformiert,
+	Während eine \ac{TM} mit der Eingabe startet und diese in eine ''akzeptiert``/''akzeptiert nicht`` Antwort transformiert,
 	arbeitet eine Grammatik umgekehrt. 
 	Sie startet mit dem Startsymbol und am Ende erhalten wir das resultierende Wort.
 	
@@ -766,11 +771,11 @@ Wir benötigen dafür zunächst das folgende Lemma.
 	Eine Ableitung besteht dann aus drei Phasen.
 	\begin{itemize}
 	\item Phase 1: 
-	Wir wählen nichtdeterministisch das Wort, dass wir erzeugen wollen (untere Spur) und bringen das Band der TM (obere Spur) in die entsprechende Startkonfiguration.
+	Wir wählen nichtdeterministisch das Wort, dass wir erzeugen wollen (untere Spur) und bringen das Band der \ac{TM} (obere Spur) in die entsprechende Startkonfiguration.
 	\item Phase 2:
-	Wir simulieren auf der oberen Spur die Berechnungen der TM bis eine Haltekonfiguration erreicht ist.
+	Wir simulieren auf der oberen Spur die Berechnungen der \ac{TM} bis eine Haltekonfiguration erreicht ist.
 	\item Phase 3:
-	Wenn die TM in einem akzeptierenden Zustand ist ersetzen wir alle ''Zweispurzeichen`` durch das ensprechende Zeichen der unteren Spur und erhalten das Eingabewort.
+	Wenn die \ac{TM} in einem akzeptierenden Zustand ist ersetzen wir alle ''Zweispurzeichen`` durch das ensprechende Zeichen der unteren Spur und erhalten das Eingabewort.
 	\end{itemize}
 	
 	
