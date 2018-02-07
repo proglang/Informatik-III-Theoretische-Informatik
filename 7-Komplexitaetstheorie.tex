@@ -638,7 +638,7 @@ Wir benötigen dafür zunächst das folgende Lemma.
 	\begin{enumerate}
 	\item $\ac{SAT} \in \ac{NP}$\\
 		Rate nichtdeterministisch eine Belegung $\beta$.\\
-		Werte anschließend $F[\beta]$ in polynomieller Zeit aus
+		Werte anschließend $F[\beta]$ in polynomieller Zeit aus.
 % 		$\curvearrowright$ in $\NTIME(n)$, polynomiell
 	\item \ac{SAT} ist \ac{NP}-schwierig.\\
 		Zeige: $\forall L\in \ac{NP}: L \preceq_p \ac{SAT}$\\
@@ -659,13 +659,13 @@ Wir benötigen dafür zunächst das folgende Lemma.
 
 	\medskip
 
-	Wir setzen $F = R \land A\land T_1 \land T_2$, wobei die Teilformeln folgendermaßen definiert sind.
+	Wir setzen $F = R \land A\land T_1 \land T_2 \land E$, wobei die Teilformeln folgendermaßen definiert sind.
 	\begin{enumerate}
 	\item Randbedingungen
 		\begin{align*}
 			R\ =&\phantom{\land}\, \bigwedge_t G(\state(t,q_1),\dots,\state(t,q_k))\\
 			& \land \bigwedge_t G(\pos(t,-p(n)),\dots,\pos(t,0),\dots,\pos(t,p(n)))\\
-			& \land \bigwedge_{t,i} G(\tape(t,i,a_1),\dots,\tape(t,i,a_l)
+			& \land \bigwedge_{t,i} G(\tape(t,i,a_1),\dots,\tape(t,i,a_l))
 		\end{align*}
 	\item Anfangskonfiguration
 		\begin{align*}
@@ -676,15 +676,18 @@ Wir benötigen dafür zunächst das folgende Lemma.
 	\item Transitionsschritte
 	\begin{align*}
 		T_1\ =& \bigwedge_{\substack{t < p(n),\\i,q}} \state(t,q)\land \pos(t,i) \land \tape(t,i,a)\\
-		&\-> \state(t+1,q')\land \pos(t+1,i+d) \land \tape(t+1,i,a')\\
-		&\text{für jede Transition } \delta(q,a)\ni(q',a',d) \text{ mit } d\in\{-1,0,1\}\\
+		&\qquad \-> \bigvee_{1 \leq m \leq |\delta(q,a)|} \state(t+1,q_m')\land \pos(t+1,i+d_m) \land \tape(t+1,i,a_m')\\
+		&\qquad \text{für jede Transition } (q_m',a_m',d_m) \in \delta(q,a) \text{ mit } d_m\in\{-1,0,1\}\\
 		T_2\ =& \bigwedge_{\substack{t < p(n),\\i,q}} \neg \pos(t,i)\land \tape(t,i,a) \-> \tape(t+1,i,a)
 	\end{align*}
-	\item Endkonfiguration
+	\item Endkonfiguration%
+	\footnote{Wir gehen hier davon aus, dass $\M$ erst im allerletzten Schritt $p(n)$ anhält.}
 		\[ E = \bigvee_{q\in F} \state(p(n),q) \]
-		$|F|$ ist polynomiell beschränkt in $|\M|+|w|$, also gilt $L\preceq_p \ac{SAT}$.\\
+		$|F|$ ist polynomiell beschränkt in $|\M|+|w|$, also gilt $L\preceq_p \ac{SAT}$.%
+		\footnote{$|\M|$ dürfen wir als zu $L$ gehörende Konstante betrachten.}\\
 		Es ist klar, dass gilt: $F$ erfüllbar $\<==> \M$ akzeptiert $w$.\\
 		Damit haben wir "`$\ac{SAT}$ ist \ac{NP}-vollständig"' gezeigt.
+		\qedhere
 	\end{enumerate}
 \end{proof}
 
