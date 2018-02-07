@@ -630,7 +630,7 @@ Wir benötigen dafür zunächst das folgende Lemma.
 	Für jedes $k\in\N$ existiert eine Formel $G$, sodass $G(x_1,\dots,x_k)=1$ gdw. $\exists j: x_j = 1$ und $\forall i \neq j: x_i = 0$. Es gilt $|G| \in O(k^2)$.
 \end{lemma}
 \begin{proof}
-	\[ G(x_1,\dots,x_k) = \bigvee_{i=1}^k x_i\land \bigwedge_{j\neq i}\neg (x_i\land x_j) \]
+	\[ G(x_1,\dots,x_k) = \bigvee_{i=1}^k x_i\land \bigwedge_{i\neq j}\neg (x_i\land x_j) \]
 	$\M=(Q,\Sigma,\Gamma,\delta,q_0,\blank,F)$ akzeptiert $L$ in $\NTIME(p),\ p$ Polynom.
 \end{proof}
 
@@ -659,32 +659,32 @@ Wir benötigen dafür zunächst das folgende Lemma.
 
 	\medskip
 
-	Wir setzen $F = R \land A\land T_1$, wobei die Teilformeln folgendermaßen definiert sind.
+	Wir setzen $F = R \land A\land T_1 \land T_2$, wobei die Teilformeln folgendermaßen definiert sind.
 	\begin{enumerate}
 	\item Randbedingungen
 		\begin{align*}
-			R =&\phantom{\land}\, \bigwedge_t G(\state(t,q1),\dots,\state(t,q_k))\\
-			& \land \bigwedge_t G(\pos(t,-p(n)),\dots,\pos(t,D),\dots,\pos(t,p(n)))\\
+			R\ =&\phantom{\land}\, \bigwedge_t G(\state(t,q_1),\dots,\state(t,q_k))\\
+			& \land \bigwedge_t G(\pos(t,-p(n)),\dots,\pos(t,0),\dots,\pos(t,p(n)))\\
 			& \land \bigwedge_{t,i} G(\tape(t,i,a_1),\dots,\tape(t,i,a_l)
 		\end{align*}
 	\item Anfangskonfiguration
 		\begin{align*}
-			A =&\phantom{\land}\; \state(0,q_1)\land \pos(0,1)\\
+			A\ =&\phantom{\land}\; \state(0,q_1)\land \pos(0,1)\\
 			&\land\tape(0,1,x_1)\land\dots\land\tape(0,n,x_n)\\
-			&\land\bigwedge_{-p(n)\leq i\leq p(n)} \tape(0,i,\blank)
+			&\land\bigwedge_{i< 1 \lor i > n} \tape(0,i,\blank)
 		\end{align*}
 	\item Transitionsschritte
 	\begin{align*}
-		T_1 =& \bigwedge_{\substack{t\in 0,\dots,p(n)-1,\\i,n}} \state(t,q)\land \pos(t,i) \land \tape(t,i,a)\\
-		&\-> \state(z+1,q')\land \pos(t+1,i+d) \land \tape(t+1,i,a')\\
-		&\delta(q,a)\ni(q',a',d)\\
-		&d\in\{-1,a,1\}\\
-		T_2 =& \bigwedge_{\substack{t,i,q\\t<p(n)}} \neg \pos(t,i)\land \tape(t,i,a) \-> \tape(t+1,i,a)
+		T_1\ =& \bigwedge_{\substack{t < p(n),\\i,q}} \state(t,q)\land \pos(t,i) \land \tape(t,i,a)\\
+		&\-> \state(t+1,q')\land \pos(t+1,i+d) \land \tape(t+1,i,a')\\
+		&\text{für jede Transition } \delta(q,a)\ni(q',a',d) \text{ mit } d\in\{-1,0,1\}\\
+		T_2\ =& \bigwedge_{\substack{t < p(n),\\i,q}} \neg \pos(t,i)\land \tape(t,i,a) \-> \tape(t+1,i,a)
 	\end{align*}
 	\item Endkonfiguration
 		\[ E = \bigvee_{q\in F} \state(p(n),q) \]
-		$|F|$ ist polynomiell beschränkt in $|\M,w|$, also $L\preceq_p \ac{SAT}$\\
-		$\curvearrowright\ \ac{SAT}$ ist \ac{NP}-vollständig.
+		$|F|$ ist polynomiell beschränkt in $|\M|+|w|$, also gilt $L\preceq_p \ac{SAT}$.\\
+		Es ist klar, dass gilt: $F$ erfüllbar $\<==> \M$ akzeptiert $w$.\\
+		Damit haben wir "`$\ac{SAT}$ ist \ac{NP}-vollständig"' gezeigt.
 	\end{enumerate}
 \end{proof}
 
