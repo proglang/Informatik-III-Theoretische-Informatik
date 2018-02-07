@@ -624,7 +624,7 @@ Wir gehen davon aus, dass die Leser des Skripts mit Graphen vertraut sind, mache
 % \end{Bsp*}
 
 An dieser Stelle wollen wir nun den Beweis von \autoref{satz:cook} nachholen.
-\draftnote{07.02.2018}
+\datenote{07.02.2018}
 Wir benötigen dafür zunächst das folgende Lemma.
 \begin{lemma}
 	Für jedes $k\in\N$ existiert eine Formel $G$, sodass $G(x_1,\dots,x_k)=1$ gdw. $\exists j: x_j = 1$ und $\forall i \neq j: x_i = 0$. Es gilt $|G| \in O(k^2)$.
@@ -706,15 +706,29 @@ Wir benötigen dafür zunächst das folgende Lemma.
 
 \section{Einordnung von Sprachen in Chomsky-Hierarchie und Abschlusseigenschaften}
 
-Wir haben bereits gesehen, dass jede Laufzeitschranke auch eine Beschränkung der Platzkomplexität,
+Wir haben bereits gesehen, dass jede Laufzeitschranke auch eine Beschränkung der Platzkomplexität impliziert,
 wir werden nun sehen dass zumindest für haltende DTMs auch die umgekehrte Richtung gilt.
-\begin{lemma}
- Seit $\M$ eine \ac{TM} mit Platzkomplexität $s(n)$. 
- Dann enthält jede Berechnung der Länge > $s(n)\cdot |Q| \cdot |\Gamma|^{s(n)}$
- mindestens eine Konfiguration doppelt.
+\begin{lemma}\label{lem:endlichKonfigurationen}
+ Seit $\M$ eine \ac{TM} mit Platzkomplexität $s(n)$.
+ Dann durchläuft jede Berechnung höchstens $s(n)\cdot |Q| \cdot |\Gamma|^{s(n)}$
+ verschiedene Konfigurationen.
 \end{lemma}
+\begin{proof}
+ Es gibt 
+ \begin{itemize}
+  \item höchstens $s(n)$ mögliche Positionen an denen sich der Kopf befinden kann,
+  \item höchstens $|Q|$ mögliche Zustände und
+  \item jede Zelle des besuchten Bandes (davon gibt es höchstens $s(n)$ Stück) kann mit höchstens $|\Gamma|$ verschiedenen Zeichen beschriftet sein. \qedhere
+ \end{itemize}
+\end{proof}
+
 \begin{Bemerkung}
- Für jede DTM mit Platzkomplexität $s(n)$ gilt also dass jede Berechnung entweder gar nicht oder nach höchstens $s(n)\cdot |Q| \cdot |\Gamma|^{s(n)}$ Schritten hält.
+ Für jede DTM mit Platzkomplexität $s(n)$ hält also jede Berechnung entweder
+ \begin{itemize}
+  \item nie oder
+  \item nach höchstens $s(n)\cdot |Q| \cdot |\Gamma|^{s(n)}$ Schritten.
+ \end{itemize}
+Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zweiten mal erreicht wurde ist die DTM in einer ''Endlosschleife``.
 \end{Bemerkung}
 
 
@@ -722,7 +736,9 @@ wir werden nun sehen dass zumindest für haltende DTMs auch die umgekehrte Richt
  Jede Sprache $L\in\NSPACE(n)$ ist entscheidbar.
 \end{Satz}
 \begin{proof}
- Simuliere jede Berechnung bis zu $s(n)\cdot |Q| \cdot |\Gamma|^{s(n)}$ Schritten.
+ Wegen \autoref{lem:endlichKonfigurationen} genügt es jede Berechnung bis zu 
+ $s(n)\cdot |Q| \cdot |\Gamma|^{s(n)}$
+ Schritten zu simulieren um herauszufinden ob ein Wort der Länge $n$ akzeptiert wird.
 \end{proof}
 
 
@@ -731,10 +747,12 @@ wir werden nun sehen dass zumindest für haltende DTMs auch die umgekehrte Richt
 \end{Satz}
 
 \begin{proof}
- Sei $w\in\Sigma^*$ und $n$ die Länge von $w$. 
- Betrachte alle Ableitungen 
- $$S\vdash\alpha_1\vdash \ldots \vdash\alpha_n,$$
- bei denen alle $\alpha_i$ paarweise verschieden sind und Länge $\leq n$ haben.
+ Sei $G=(\Sigma,N,P,S)$ Typ-1 Grammatik (kontxtsensitive Grammatik) für $L$, $w\in\Sigma^*$ und $n$ die Länge von $w$.
+ Da alle Regeln expansiv (d.h., $\alpha\->\beta\in P \==> |\alpha|\leq |\beta|$) sind, 
+ müssen wir nicht alle (unendlich viele!) Ableitungen betrachten.
+ Es genügt wenn wir Ableitungen
+ $$S\vdash\alpha_1\vdash \ldots \vdash\alpha_m,$$
+ betrachten bei denen alle Satzformen $\alpha_j$ Länge $\leq n$ haben und paarweise verschieden sind.
 \end{proof}
 
 
@@ -749,7 +767,7 @@ wir werden nun sehen dass zumindest für haltende DTMs auch die umgekehrte Richt
 \end{Satz}
 \begin{proof}\
 \begin{itemize}
-	\item["`\=>"'\,:] Sei $G=(N,\Sigma,P,S)$ Typ-1 Grammatik für $L$.\\
+	\item["`\=>"'\,:] Sei $G=(\Sigma,N,P,S)$ Typ-1 Grammatik für $L$.\\
 		Konstruiere \ac{NTM} $M$ mit $L=L(M),\ \Gamma = \Sigma\cup N\cup\{\blank\}$
 		\begin{enumerate}
 		\item $M$ rät nicht deterministisch eine Position auf
@@ -845,34 +863,97 @@ wir werden nun sehen dass zumindest für haltende DTMs auch die umgekehrte Richt
 	\end{itemize}
 \end{proof}
 
-
+\draftnote{09.02.2018}
 \begin{Satz}
-$L\in\ch{1} \==> L$ entscheidbar.
-\end{Satz}
-
-\begin{Satz}
- \ch{1} ist nicht die Menge der entscheidbaren Sprachen.
+ Die Menge der entscheidbaren Sprachen ist verschieden von \ch{1}
 \end{Satz}
 \begin{proof}
- 	\begin{minipage}[t]{.7\linewidth}
-	Konstruiere eine Kodierung von Typ-1 Grammatiken als Worte
-        $w\in\{0,1\}^*$. Die Grammatik zum Wort $w$ sei $G_w$; falls
-        $w$ kein sinnvoller Kode ist, setze $G_w = (\{S\}, \{0,1\},
-        \{\}, S)$ die leere Grammatik.
-        
-	Die \emph{Diagonalsprache} $D = \{w \in\{\0,1\}^* \mid w\notin
-        L(G_w)\}$ ist entscheidbar, weil das Wortproblem für Typ-1  
-	Sprachen entscheidbar, aber es $\nexists w$, sodass $L(G_w) =
-        D$. Beweis durch Widerspruch.
-	\end{minipage}\quad
-	\begin{tabular}[t]{M{c} | *4{M{c}@{ }}}
-		\ &w_1&w_2&w_3&\cdots\\\hline
-		G_1 &\\
-		G_2 &\\
-		G_3 &\\
-		\vdots&
-	\end{tabular}
+ Wir konstruieren zunächst analog zu Abschnitt~\ref{subsec:codeTuring} eine Codierung von Grammatiken durch Wörter $w\in\{0,1\}^*$.
+ Anschließend definieren wir $\mathcal{G}_w$ als die Grammatik die durch Wort $w$ codiert wird und wählen die leere Grammatik
+ $(\{S\}, \{0,1\}, \{\}, S)$
+ für den Fall, dass $w$ nicht Code einer Grammatik ist.
+ 
+ Wir betrachten nun eine Matrix in deren Spalten alle Wörter $w_1,w_2,\ldots$
+ aufgelistet und in deren Zeilen alle Grammatiken $\mathcal{G}_{w_1},\mathcal{G}_{w_2},\ldots$ aufgelistet sind.
+ Ein Matrixeintrag $(\mathcal{G}_{w_i}, w_j)$ enthält ein Y wenn falls $w_j\in L(\mathcal{G}_{w_i})$ und ein N sonst.
+ 
+ Da das Wortproblem für \ch{1} Sprachen entscheidbar ist, ist insbesondere der Test ''$w_k\in L(\mathcal{G}_{w_i})$``
+ für alle Diagonaleinträge berechenbar und somit auch die Sprache $L_\mathsf{evil}= \{w \in\{0,1\}^* \mid w\notin L(\mathcal{G}_w)\}$ entscheidbar.
+ 
+ Angenommen jede Entscheidbare Sprache sei \ch{1}, dann gibt es auch ein $w_k$ sodass $L(\mathcal{G}_{w_k})=L_\mathsf{evil}$.
+ Nun gilt aber $w_k\in L_\mathsf{evil} \<==> w_k\notin L_\mathsf{evil}$. Widerspruch!
 \end{proof}
+
+ \begin{figure}[H]\centering
+
+\begin{tikzpicture}[scale=0.7]
+
+\draw[fill=lightgray!20, draw=lightgray!20] (-1.9,-3.5) rectangle (7.7,-4.5);
+
+\node at (0,1) {$w_0$};
+\node at (1,1) {$\dots$};
+\node at (2,1) {$w_i$};
+\node at (3,1) {$\dots$};
+\node at (4,1) {$w_k$};
+\node at (5,1) {$\dots$};
+\node at (6,1) {$w_j$};
+\node at (7,1) {$\dots$};
+
+\node at (-1.2,0) {$\mathcal{G}_{w_0}$};
+\node at (-1.2,-1) {$\vdots$};
+\node at (-1.2,-2) {$\mathcal{G}_{w_i}$};
+\node at (-1.2,-3) {$\vdots$};
+\node at (-1.2,-4) {$\mathcal{G}_{w_k}$};
+\node at (-1.2,-5) {$\vdots$};
+\node at (-1.2,-6) {$\mathcal{G}_{w_j}$};
+\node at (-1.2,-7) {$\vdots$};
+
+\draw (-1.5, 0.5) to (7.5,0.5);
+\draw (-0.5, 1.5) to (-0.5,-7.5);
+
+\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (00) at (0,0) {Y};
+\node[lightgray] at (1,0) {$\ldots$};
+\node[lightgray] at (2,0) {Y};
+\node[lightgray] at (3,0) {$\ldots$};
+\node[lightgray] at (4,0) {Y};
+\node[lightgray] at (5,0) {$\ldots$};
+\node[lightgray] at (6,0) {N};
+\node[lightgray] at (7,0) {$\ldots$};
+
+\node[lightgray] at (0,-2) {N};
+\node[lightgray] at (1,-2) {$\ldots$};
+\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (ii) at (2,-2) {N};
+\node[lightgray] at (3,-2) {$\ldots$};
+\node[lightgray] at (4,-2) {Y};
+\node[lightgray] at (5,-2) {$\ldots$};
+\node[lightgray] at (6,-2) {Y};
+\node[lightgray] at (7,-2) {$\ldots$};
+
+\node (k0) at (0,-4) {N};
+\node[lightgray] at (1,-4) {$\ldots$};
+\node (ki) at (2,-4) {Y};
+\node[lightgray] at (3,-4) {$\ldots$};
+\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=1] (kk) at (4,-4) {\textbf{?}};
+\node[lightgray] at (5,-4) {$\ldots$};
+\node (kj) at (6,-4) {Y};
+\node[lightgray] at (7,-4) {$\ldots$};
+
+\node[lightgray] at (0,-6) {Y};
+\node[lightgray] at (1,-6) {$\ldots$};
+\node[lightgray] at (2,-6) {Y};
+\node[lightgray] at (3,-6) {$\ldots$};
+\node[lightgray] at (4,-6) {N};
+\node[lightgray] at (5,-6) {$\ldots$};
+\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (jj) at (6,-6) {N};
+\node[lightgray] at (7,-6) {$\ldots$};
+
+\draw[->] (00) to (k0);
+\draw[->] (ii) to (ki);
+\draw[->] (jj) to (kj);
+
+\end{tikzpicture}
+	\caption{Illustration des Diagonalarguments beim Beweis dass nicht jede entscheidbare Sprache \ch{1} ist}
+\end{figure}
 
 
 
