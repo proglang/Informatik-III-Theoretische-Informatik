@@ -729,27 +729,53 @@ Wir benötigen dafür zunächst das folgende Lemma.
 	\item["`\<="'\,:] %
 	Gegeben: \ac{NTM} $\M$ 
 	Gesucht: Typ-1 Grammatik $\mathcal{G}$ mit $L(\mathcal{G})=L(M)$\\
-	Idee: 
+	Wir wollen den Beweis hier nicht formal ausformulieren und beschreiben nur die zugrundliegenden Ideen.
+	\begin{itemize}
+	\item Idee 1:
+	Ahme Berechnungsschritte der TM mit Ableitungsschritten der Grammatik nach.
+	Die Manipulierten Satzformen repräsentieren dabei Konfigurationen der TM.
+	Wir wählen als (vorläufige) Variablenmenge $V'=\Gamma\cup(Q\x\Gamma)$.
+	Eine Konfiguration $uqav$ mit $u,v\in\Gamma^*,a\in\Gamma$ wird durch die Satzform $u(q,a)v$ repräsentiert.
+	Die Regeln sind wie folgt definiert.
 	\begin{align*}
+	 P' = \quad &\; \{ (q,a) \-> (q',a') \mid (q',a',N)\in \delta(q,a)\}\\
+	 \cup &\; \{ (q,a)b \-> a'(q',b) \mid b\in\Gamma, (q',a',R)\in \delta(q,a) \}\\
+	 \cup &\; \{ (q,a) \-> (q',a') \mid (q',a',L)\in \delta(q,a)\}
+	\end{align*}
+    Somit gilt, dass die TM eine Konfiguration in eine andere überführen kann $uqav \vdash^{*} u'q'a'v'$
+    genau dann wenn wir mit Regeln aus $P'$ die Ableitung $u(q,a)v \vdash^{*} u'(q',a')v'$ machen können.
+
+	
+	\item Idee 2:
+	Die erste Idee hat noch das folgende Problem und muss deshalb ergänzt werden:
+	Während eine TM mit der Eingabe startet und diese in eine ''akzeptiert``/''akzeptiert nicht`` Antwort transformiert,
+	arbeitet eine Grammatik umgekehrt. 
+	Sie startet mit dem Startsymbol und am Ende erhalten wir das resultierende Wort.
+	
+	Wir Unterteilen die Satzformen der Grammatik in zwei Spuren, eine obere Spur und eine untere Spur.
+	Die untere Spur enthält das Eingabewort, die untere Spur simuliert das Band der Turingmaschine.
+	Formal erreichen wir dies in dem wir als Variablenmenge das Karthesische Produkt aus vorläufiger Variablenmenge und Alphabet nehmen:
+	$N = \{S\}\dotcup N' \x\Sigma$
+	
+		\begin{align*}
 		a_1\cdots a_n &\-->
 			\pmqty{a_1\\a_1} \pmqty{a_2\\a_2} \pmqty{(q,a)\\a_3} \pmqty{a_4\\a_4} \pmqty{a_n\\a_n}
 			&&\begin{matrix}\text{Spur 1}\\\text{Spur 2}\end{matrix}\\
-	\shortintertext{ad\footnotemark\ Spur 1: Alphabet $\Gamma\cup(Q\x\Gamma) = \triangle$}
-		P' &\begin{cases}
-			(q,a) &\-> (q',a')   \quad q\in Q,a\in\Gamma\\
-			(q,a)b &\-> a'(q',b) \quad b\in\Gamma\\
-			b(q,a) &\-> (q',b)a'
-		\end{cases}
-		& &\begin{aligned}
-			\delta(q,a) &\ni (q',a',N)\\
-			\delta(q,a) &\ni (q',a',R)\\
-			\delta(q,a) &\ni (q',a',L)
-		\end{aligned}
-	\end{align*}\footnotetext{ad $\approx$ zur}%
-	Def. $\widetilde{uqav} = u(q,a)v\ ,\ u,v\in\Gamma^*,a\in\Gamma$\\
-	Es gilt: $uqav\vdash^* k' \curvearrowleftright \widetilde{uqav} \overset{*}{\=>} \widetilde{k'}$ mit Produktion $P'$.
+	\end{align*}
 	
-	Def. $\mathcal{G}$ durch $N = \{S\}\dotcup\triangle\x\Sigma$
+	Eine Ableitung besteht dann aus drei Phasen.
+	\begin{itemize}
+	\item Phase 1: 
+	Wir wählen nichtdeterministisch das Wort, dass wir erzeugen wollen (untere Spur) und bringen das Band der TM (obere Spur) in die entsprechende Startkonfiguration.
+	\item Phase 2:
+	Wir simulieren auf der oberen Spur die Berechnungen der TM bis eine Haltekonfiguration erreicht ist.
+	\item Phase 3:
+	Wenn die TM in einem akzeptierenden Zustand ist ersetzen wir alle ''Zweispurzeichen`` durch das ensprechende Zeichen der unteren Spur und erhalten das Eingabewort.
+	\end{itemize}
+	
+	
+	
+	\end{itemize}
 	\begin{align*}
 		\text{mit } P &= \\
 		S &\-> \pmqty{(q_0,a)\\a} &&\forall a\in\Sigma\\
@@ -793,14 +819,11 @@ Wir benötigen dafür zunächst das folgende Lemma.
 $L\in\ch{1} \==> L$ entscheidbar.
 \end{Satz}
 
-
-
-
-\emph{\textbf{Fragen:}}
-\begin{enumerate}
-	\item Ist $\mathcal{L}_1$ = Menge der entscheidbaren Sprachen?
-	\item[--] Nein:\\
-	\begin{minipage}[t]{.7\linewidth}
+\begin{Satz}
+ \ch{1} ist nicht die Menge der entscheidbaren Sprachen.
+\end{Satz}
+\begin{proof}
+ 	\begin{minipage}[t]{.7\linewidth}
 	Konstruiere eine Kodierung von Typ-1 Grammatiken als Worte
         $w\in\{0,1\}^*$. Die Grammatik zum Wort $w$ sei $G_w$; falls
         $w$ kein sinnvoller Kode ist, setze $G_w = (\{S\}, \{0,1\},
@@ -818,9 +841,7 @@ $L\in\ch{1} \==> L$ entscheidbar.
 		G_3 &\\
 		\vdots&
 	\end{tabular}
-	\item Ist $\mathcal{L}_0$ = Menge aller Sprachen?
-	\item[--] Nein: $\overline{K} \notin \mathcal{L}_0$
-\end{enumerate}
+\end{proof}
 
 
 
