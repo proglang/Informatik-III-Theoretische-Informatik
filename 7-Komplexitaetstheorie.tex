@@ -136,7 +136,15 @@ Wir nennen diese DTM $\M_{SAT_0}$ und beschreiben ihr verhalten informell:
  \item Lösung: Erweitere Alphabet um ein Zeichen $\blacksquare$ um enstandene Leerstellen zu markieren (z.B. $1\land 0\rightsquigarrow 0\blacksquare\blacksquare$). Alternative: Verschiebe Bandinhalt ensprechend.
 \end{itemize}
 
-Frage: Was ich die bestmögliche Laufzeitkomplexität, die wir für 
+Frage: Was ich die bestmögliche Laufzeitkomplexität, die wir für $\M_{SAT_0}$ geben können?
+
+Antwort: Wir müssen im schlimmsten Fall für jede Operator ein mal über die Eingabe laufen. 
+Die Laufzeitkomplexität ist also im schlimmsten Fall ''irgendwie quadratisch``.
+Wir könen es aber nicht genauer sagen, da die Beschreibung von $\M_{SAT_0}$ zu unpräzise ist.
+(Läuft der Kopf gelegentlich links und rechts über die Eingabe hinaus um das Wortende zu bestimmen?
+Läuft der Kopf beim Ersetzen zurück?)
+
+
 
 
 {\color{red}
