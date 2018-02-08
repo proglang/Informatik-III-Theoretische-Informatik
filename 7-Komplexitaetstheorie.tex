@@ -128,46 +128,63 @@ Weiter definieren wir
 $$\text{SAT}_0=\{F\mid F\in L(\mathcal{G}_\mathsf{AL0}) \text{ und $F$ erfüllbar}\}$$
 und konstruieren eine \ac{DTM}, die $\text{SAT}_0$ entscheidet.
 
-Wir nennen diese DTM $\M_{SAT_0}$ und beschreiben ihr verhalten informell:
+\begin{Bsp}\label{bsp:DtmSat0}
+Sei $\M_{SAT_0}$ eine DTM deren Verhalten wir wie folgt informell beschreiben.
 \begin{itemize}
  \item Grundlegende Idee: Laufe von links nach rechts über die Eingabe und ersetze alle Operationen auf Konstantensymbolen direkt durch das Ergebnis (z.B. $1\land 0\rightsquigarrow 0$).
  Wiederhole bis $0$ oder $1$ auf dem Band steht.
  \item Problem: Resultat hat weniger Zeichen als Operation.
- \item Lösung: Erweitere Alphabet um ein Zeichen $\blacksquare$ um enstandene Leerstellen zu markieren (z.B. $1\land 0\rightsquigarrow 0\blacksquare\blacksquare$). Alternative: Verschiebe Bandinhalt ensprechend.
+ \item Lösung: Erweitere Bandalphabet um ein Zeichen $\blacksquare$ um enstandene Leerstellen zu markieren (z.B. $1\land 0\rightsquigarrow 0\blacksquare\blacksquare$). Alternative: Verschiebe Bandinhalt ensprechend.
 \end{itemize}
+\end{Bsp}
 
-Frage: Was ich die bestmögliche Laufzeitkomplexität, die wir für $\M_{SAT_0}$ geben können?
+Frage: Was ist die bestmögliche Laufzeitkomplexität, die wir für $\M_{SAT_0}$ geben können?
 
 Antwort: Wir müssen im schlimmsten Fall für jede Operator ein mal über die Eingabe laufen. 
-Die Laufzeitkomplexität ist also im schlimmsten Fall ''irgendwie quadratisch``.
-Wir könen es aber nicht genauer sagen, da die Beschreibung von $\M_{SAT_0}$ zu unpräzise ist.
+Die Laufzeitkomplexität ist also ''garantiert nicht viel schlimmer als $n^2$`` wobei $n$ die Größe der Eingabe ist.
+Wir könen die Laufzeitkomplexität aber nicht exakt angeben, da die Beschreibung von $\M_{SAT_0}$ zu unpräzise ist.
 (Läuft der Kopf gelegentlich links und rechts über die Eingabe hinaus um das Wortende zu bestimmen?
 Läuft der Kopf beim Ersetzen zurück?)
 
+Ein Formalismus um Aussagen wie ''garantiert nicht viel schlimmer als...``
+zu beschreiben ist das (groß) $\mathcal{O}$ Symbol der Bachmann–Landau Notation.
+Wir vermuten dass die Leser des Skriptes mit diesem Formalismus vertraut sind, wollen die Definition von (groß) $\mathcal{O}$ hier nochmal wiederholen.
 
-
-
-{\color{red}
-TODO: 
-
-\begin{itemize}
- \item beschreibe Konstruktion
- \item Frage: Welche Laufzeitkomplexität hat diese \ac{DTM}?
- \item Antwort: Wir können es nicht genau sagen, die informelle Beschreibung ist zu unpräzise um eine genaue Funktion zu nennen.
-\end{itemize}
-
-}
-
-{\color{red}
-
-
-Exkurs
 \begin{Def} Sei $g:\N\rightarrow\N$
-\[ \mathcal{O}(g(n)) = \{f:\N\rightarrow\N \mid \exists n_0, k\in\N \forall n\geq n_0: f(n)\leq k\cdot g(n)\} \qedhere \]
+\[ \mathcal{O}(g(n)) = \{f:\N\rightarrow\N \mid \exists n_0, k\in\N:\, \forall n\geq n_0: f(n)\leq k\cdot g(n)\} \qedhere \]
 \end{Def}
+Die Klasse $\mathcal{O}(g(n))$ enthält also genau die Funktionen die für große Argumente durch ein vielfaches von $g(n)$ beschränkt sind.
 
-Anschaulich: $f(n)\in \mathcal{O}(g(n))$ $f$ wächst garantiert nicht viel stärker als $g$.
+Über die Schwierigkeit von $SAT_0$ können wir nun also sagen:
+Es gibt ein $f(n)\in\mathcal{O}(n^2)$ sodass $SAT_0\in\DTIME(f(n))$.
 
+\begin{Bsp}\label{bsp:NtmSat}
+Sei $\M_{SAT}$ eine NTM deren Verhalten wir wie folgt informell beschreiben.
+\begin{itemize}
+ \item Phase 1: Laufe über die Eingabe, sammle alle Aussagenvariablen $A_{k_1},\ldots,A_{k_n}$, rate (wähle nichtderministisch) für jede davon eine Belegung $b_{k_i}$ und schreibe 
+ $$A_{k_1}=b_{k_1},\quad\ldots,\quad A_{k_n}=b_{k_n}$$
+ auf ein zweites Band.
+ Dabei soll jede Variable höchstens ein mal geschrieben werden, auch wenn sie mehrfach in der Eingabe vorkommt.
+  
+ Zeitkomplexität: 
+ Ein Vergleich zweier Aussagenvariablen ist in $\mathcal{O}(n)$ möglich,
+ pro Variablen müssen höchstens $\mathcal{O}(n)$ Vergleiche gemacht werden und
+ in der Eingabe sind höchtens $\mathcal{O}(n)$ Variablen enthalten.
+ Die Zeitkomplexität von Phase 1 kann also durch durch $\mathcal{O}(n)^3$ beschränkt werden.
+ 
+ \item Phase 2: Laufe über die Eingabe und ersetze alle Aussagenvariablen durch die geratene Belegung.
+ 
+ Zeitkomplexität: Durch $\mathcal{O}(n)^3$ beschränkt, nahezu gleiche Argumentation wie oben.
+ 
+ \item Phase 3: Wende die in \autoref{bsp:NtmSat} beschriebene DTM $\M_{SAT_0}$ auf den Bandinhalt an.
+ 
+ Zeitkomplexität: Durch $\mathcal{O}(n)^2$ beschränkt.
+\end{itemize}
+Die Zeitkomplexität von $\M_{SAT}$ ist also durch $\mathcal{O}(n)^3$ beschränkt.
+\end{Bsp}
+
+Über die Schwierigkeit von $SAT$ können wir somit sagen:
+Es gibt ein $f(n)\in\mathcal{O}(n^3)$ sodass $SAT\in\NTIME(f(n))$.
 
 TODO: 
 
@@ -208,7 +225,6 @@ Offenbar gilt $P\subseteq \ac{NP}$. Seit 1970 weiß man nicht, ob $P=\ac{NP}$ od
 \item[Struktur:] Viele der \ac{NP}-Probleme haben sich als gleichwertig erwiesen, in dem Sinn, dass eine \ac{P}-Lösung für alle anderen liefert.\\
 	$\leadsto$ \ac{NP}-Vollständigkeit.
 \end{description}
-}
 
 \begin{Def}[Polynomielle Reduktion]\label{def:PolyReduktion}\ \\
   Seien $U, V \subseteq \Sigma^*$ Sprachen.
