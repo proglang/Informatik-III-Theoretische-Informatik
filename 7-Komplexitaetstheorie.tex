@@ -128,6 +128,17 @@ Weiter definieren wir
 $$\text{SAT}_0=\{F\mid F\in L(\mathcal{G}_\mathsf{AL0}) \text{ und $F$ erfüllbar}\}$$
 und konstruieren eine \ac{DTM}, die $\text{SAT}_0$ entscheidet.
 
+Wir nennen diese DTM $\M_{SAT_0}$ und beschreiben ihr verhalten informell:
+\begin{itemize}
+ \item Grundlegende Idee: Laufe von links nach rechts über die Eingabe und ersetze alle Operationen auf Konstantensymbolen direkt durch das Ergebnis (z.B. $1\land 0\rightsquigarrow 0$).
+ Wiederhole bis $0$ oder $1$ auf dem Band steht.
+ \item Problem: Resultat hat weniger Zeichen als Operation.
+ \item Lösung: Erweitere Alphabet um ein Zeichen $\blacksquare$ um enstandene Leerstellen zu markieren (z.B. $1\land 0\rightsquigarrow 0\blacksquare\blacksquare$). Alternative: Verschiebe Bandinhalt ensprechend.
+\end{itemize}
+
+Frage: Was ich die bestmögliche Laufzeitkomplexität, die wir für 
+
+
 {\color{red}
 TODO: 
 
