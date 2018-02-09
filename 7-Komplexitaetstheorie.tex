@@ -186,18 +186,34 @@ Die Zeitkomplexität von $\M_{SAT}$ ist also durch $\mathcal{O}(n)^3$ beschränk
 Über die Schwierigkeit von $SAT$ können wir somit sagen:
 Es gibt ein $f(n)\in\mathcal{O}(n^3)$ sodass $SAT\in\NTIME(f(n))$.
 
-TODO: 
 
-\begin{itemize}
- \item beschreibe Konstruktion von \ac{NTM} für \ac{SAT}
- \item Frage: Welche Laufzeitkomplexität hat diese \ac{NTM}?
- \item \ac{DTM}s?
-\end{itemize}
 
+\begin{description}
+ \item[Frage:] Angenommen wir möchten ein schnelles Entscheidungsverfahren für SAT implementieren. 
+Hilft uns dann die Konstruktionsidee von $\M_{SAT}$?
+ \item[Antwort:] Eher nein. 
+Die Konstruktion basiert darauf das dass wir nichtdeterministisch eine Belegung ''raten``.
+Es ist unklar wie wir diesen nichtdeterminismus auf einem (deterministischen) Computer effizient implementieren können.
+Eine Möglichkeit wäre analog zum Beweis von \autoref{satz:Ntm2Dtm} alle nichtdeterministischen Wahlmöglichkeiten zu Simulieren.
+Da wir $\M_{SAT}$ aber pro Aussagenvariable nichtdeterministisch zwischen $0$ und $1$ wählen kann wäre das verfolgen aller Wahlmöglichkeiten nur mit expotentiellem Aufwand möglich.
+\end{description}
+
+\begin{description}
+ \item[Frage:] Gibt es denn einen ''schnelles`` Entscheidungsverfahren für SAT oder ist das Problem so schwierig dass es keines geben kann?
+ \item[Antwort:] Die Informatik kann bisher (Stand Februar 2018) auf beide Frageteile keine Antwort liefern. 
+ Wir stellen aber im folgenden einen Formalismus vor mit sich diese Frage präziser formulieren lässt und wir für verwandte Fragen Antworten liefern können.
+\end{description}
+
+
+Um Missverständnisse in Terminologie und Notation zu vermeiden wiederholen wir hier nochmal die aus der Schule bekannte Definition eines Polynoms.
 
 \begin{Def}[name={[Polynom]}]
 	Ein Polynom ist eine Funktion $p:\N\->\N$ mit $\exists k\in \N\ a_0,\dots,a_k\in\N$ und \mbox{$p(n)=\sum_i^k a_in^k$}
 \end{Def}
+\begin{Bemerkung}
+ Die Funktion $f(n)=2^n$ ist also kein Polynom, da $n$ hier als Exponent vorkommt.
+\end{Bemerkung}
+
 \begin{Def}
  \begin{align*}
   \ac{P} &= \bigcup_{p\text{ Polynom}} \DTIME(p(n)) \\
@@ -206,6 +222,9 @@ TODO:
  \end{align*}
 \end{Def}
 
+\begin{Bemerkung}
+ Die Laufzeitanalysen der \ac{TM}s aus \autoref{bsp:DtmSat0} und \autoref{bsp:NtmSat} zeigen, dass $SAT_0\in P$ und $SAT\in NP$.
+\end{Bemerkung}
 
 
 % \begin{Def}[name={[NP-Klasse]}]
@@ -218,13 +237,29 @@ TODO:
 % 	$\DTIME(f(n)) =$ Klasse der Sprachen, die von \ac{DTM} in $T_M(w)\leq f(|w|)$ Schritten akzeptiert wird.
 % 	\[ \ac{P} = \cup_{p\text{ Polynom}} DTIME(P(n)) \qedhere \]
 % \end{Def}
-Offenbar gilt $P\subseteq \ac{NP}$. Seit 1970 weiß man nicht, ob $P=\ac{NP}$ oder $P\neq \ac{NP}$ gilt.
-\begin{description}
-\item[Praktische Relevanz:] Es existieren wichtige Probleme, die offensichtlich in \ac{NP} liegen, aber die besten bekannten Algorithmen sind exponentiell.\\
-	Beispiel: Traveling Salesman ($O(2^n)$), Erfüllbarkeit der Aussagenlogik.
-\item[Struktur:] Viele der \ac{NP}-Probleme haben sich als gleichwertig erwiesen, in dem Sinn, dass eine \ac{P}-Lösung für alle anderen liefert.\\
-	$\leadsto$ \ac{NP}-Vollständigkeit.
-\end{description}
+Offenbar gilt $P\subseteq \ac{NP}$.
+Die Frage ob $P=\ac{NP}$ oder $P\neq \ac{NP}$ gilt wurde bereits 1971 von Stephen Cook aufgeworfen, ist das vermutlich bekannteste ungelöste Problem der Informatik.
+
+Das ''P vs. NP`` Problem ist auch deshalb interessant weil es eine vielzahl praxisrelavanter Problemstellungen gibt (Traveling Salesman ($O(2^n)$), Erfüllbarkeit der Aussagenlogik, ...)
+die in NP liegen aber für die bisher nur Algorithmen mit mindestens expotentieller Laufzeit gefunden wurden.
+
+Angenommen wir wollen in unseren Unternehmen ein neues Problem lösen 
+(z.B. automatisches verteilen von miteinander kommunizierenden Benutzern auf verschiedene Server sodass die Netzwerklast am geringsten ist).
+Wir wissen bereits 
+\begin{itemize}
+ \item dass wir das Problem auf einer NTM in polynomieller Zeit lösen könnten,
+ \item dass für unsere Eingabegrößen ein polynomielle Laufzeit noch akzeptabel aber eine expotentielle Laufzeit nicht mehr akzeptabel wäre und
+ \item dass es einen approximativen Algorithmus gibt der polynomielle Laufzeit hat aber nicht immer optimale Resultate liefert.
+\end{itemize}
+Wie gehen wir nun weiter vor? Suchen wir nach einem (exakten) Algorithmus mit polynomieller Laufzeit oder geben wir auf und implementieren den approximativen Algorithmus?
+
+Wir stellen im folgenden einen Formalismus vor,
+mit dem wir 
+% unter bestimmten umständen 
+Aussagen der folgenden Form machen können:
+''Ich weiß zwar nicht ob meine neues Problem in P liegt oder nicht,
+ich weiß aber dass mein Problem so schwierig ist dass das finden eines polynomiellen Algorithmus $P=NP$ implizieren würde.``
+
 
 \begin{Def}[Polynomielle Reduktion]\label{def:PolyReduktion}\ \\
   Seien $U, V \subseteq \Sigma^*$ Sprachen.
@@ -239,8 +274,8 @@ Offenbar gilt $P\subseteq \ac{NP}$. Seit 1970 weiß man nicht, ob $P=\ac{NP}$ od
 
 \datenote{02.02.2018}
 Eine aussagenlogische Formel $F$ ist in \emph{konjunktiver Normalform} (CNF)\footnote{%
-Verwechslungsgefahr: \ac{CNF} stand bisher immer für \acl{CNF}.
-In diesem Kapitel werden wir diese aber nicht benötigen.
+Die Abkürzung \ac{CNF} wurde in \autoref{sec:cnf} für die Chomsky Normalform von kontextfreien Grammatiken benutzt,
+steht hier aber für die konjunktive Normalform von Aussagenlogischen Formeln.
 }, wenn $F$ eine Konjunktion von Disjunktionen von Literalen ist.
 Wir verwenden \emph{CNF} als Notation für die Menge aller AL-Formeln in CNF.
 Analog schreiben wir \emph{3CNF} für die Menge aller Formeln in CNF, bei denen jeder Konjunkt aus höchstens drei Disjunkten besteht.
