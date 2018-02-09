@@ -406,7 +406,7 @@ Da der Diagonaleintrag $(k,k)$ nicht invers zu sich selbst sein kann, kann es ke
 Wir möchten nun die Idee von Berechenbarkeit auch auf die zweite Aufgabe von Turingmaschinen, das Akzeptieren von Sprachen, übertragen.
 Wir definieren dafür die Menge der Sprachen, für die eine Lösung für das Wortproblem (also $w\in L$?) berechnet werden kann, wie folgt.
 
-\begin{Def}[name={[Entscheidbarkeit]}]
+\begin{Def}[name={[Entscheidbarkeit]}]\label{def:entscheidbarkeit}
 	Sei $\M$ eine \ac{TM}.
 	Wir sagen $\M$ \emph{entscheidet} $L\subseteq\Sigma^*$, falls die folgenden beiden Eigenschaften gelten:
 	\begin{enumerate}
@@ -910,7 +910,7 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 
 
 
-\begin{Def}[name={[Semi-Entscheidbarkeit]}]
+\begin{Def}[name={[Semi-Entscheidbarkeit]}]\label{def:semiEntscheidbar}
 	Eine Sprache $L\subseteq\Sigma^*$ heißt \emph{semi-entscheidbar}, falls es eine \ac{TM} gibt, die $L$ akzeptiert.\footnote{
 	Ein alternativer in der Literatur auch oft verwendeter Begriff für "`semi-entscheidbar"' ist "`rekursiv aufzählbar"'.}
 \end{Def}
@@ -1454,7 +1454,7 @@ Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
 	"`$\overline{L_1}$"': Simuliere $\M_1$ und akzeptiere genau dann, wenn $\M_1$ nicht akzeptiert.
 \end{proof}
 
-\begin{Satz}
+\begin{Satz}\label{satz:SemidetCupCap}
 	Seien $L_1, L_2$ semi-entscheidbare Sprachen.
 	Dann sind auch $L_1 \cup L_2$ und $L_1 \cap L_2$ semi-entscheidbar.
 \end{Satz}

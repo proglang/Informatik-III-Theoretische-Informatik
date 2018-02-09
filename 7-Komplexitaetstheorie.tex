@@ -707,8 +707,9 @@ Wir benötigen dafür zunächst das folgende Lemma.
 \begin{proof}[von \autoref{satz:cook}]\
 	\begin{enumerate}
 	\item $\ac{SAT} \in \ac{NP}$\\
-		Rate nichtdeterministisch eine Belegung $\beta$.\\
+		Rate nichtdeterministisch eine Belegung $\beta$. 
 		Werte anschließend $F[\beta]$ in polynomieller Zeit aus.
+		(Siehe \autoref{bsp:NtmSat})
 % 		$\curvearrowright$ in $\NTIME(n)$, polynomiell
 	\item \ac{SAT} ist \ac{NP}-schwierig.\\
 		Zeige: $\forall L\in \ac{NP}: L \preceq_p \ac{SAT}$\\
@@ -933,9 +934,10 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 	\end{itemize}
 \end{proof}
 
-\draftnote{09.02.2018}
+
 \begin{Satz}
- Die Menge der entscheidbaren Sprachen ist verschieden von \ch{1}
+ Die Menge der entscheidbaren Sprachen ist verschieden von \ch{1}.
+ \datenote{09.02.2018}
 \end{Satz}
 \begin{proof}
  Wir konstruieren zunächst analog zu Abschnitt~\ref{subsec:codeTuring} eine Codierung von Grammatiken durch Wörter $w\in\{0,1\}^*$.
@@ -1030,78 +1032,96 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 
 
 
-\begin{Bemerkung}\
-	\newcommand{\underarrowset}[2]{%
-		\underset{%
-			\mathclap{%
-				\overset{\displaystyle\uparrow}{\mathclap{#1}}%
-			}%
-		}{#2}%
-	}
-	\begin{enumerate}
-	\item Für "`$s(n)\leq n$"' betrachte 2-Band \ac{TM}, bei denen die Eingabe read-only ist und nur das zweite Arbeitsband der Platzschranke unterliegt (so ist $s(n)$ sublinear möglich).
-	\item Jede Platzbeschränkung impliziert Laufzeitschranke.\\
-	Angenommen Platzschranke $s(n)$\\
-	$\curvearrowright$ \ac{TM} hat nur endlich viele Konfigurationen
-	\[ N := \underarrowset{%
-			\parbox{\widthof{\scriptsize Eingabeband}}{\raggedright\scriptsize Kopfpos. im Eingabeband}\hspace{1cm}
-		}{n\vphantom{|}}
-		|Q| \quad\cdot\quad
-		\underarrowset{\parbox{2.2cm}{\scriptsize\centering mögliche Inhalte des Arbeitsbands}}{|\Gamma|}^{s(n)}
-		\ \cdot\
-		\underarrowset{\hspace{1.7cm}\parbox{2cm}{\scriptsize Kopfpos. auf\\ Arbeitsband}}{s(n)}
-		\in 2^{O(\log n + s(n))}
-	\]
-	\item \ac{DTM} mit Platzschranke\,: $M$ entscheidet,\\
-	falls sie akzeptiert, dann in weniger als $N$ Schritten,\\
-	falls nach $N$ Schritten keine Terminierung erfolgt\\
-	\quad$\curvearrowright$ Endlosschleife -- Abbruch
-	\item \ac{NTM}\,: nutze den \ac{ND} optimistisch aus\,:\\
-	falls eine akzeptierende Berechnung existiert, dann muss es eine Berechnung ohne wiederholte Konfiguration geben.
-	\end{enumerate}
-\end{Bemerkung}
-\begin{Satz}[name={[$L\in\DTAPE(n),\ L\in\NTAPE(n)$]}]\label{satz:6.2}\
-	\begin{itemize}
-	\item $L\in\DTAPE(n) \curvearrowright\ \exists$ \ac{DTM}, die $L$ in Zeit $2^{O(n)}$ entscheidet.
-	\item $L\in\NTAPE(n)$ analog.
-	\end{itemize}
-\end{Satz}\vspace{-2em}
-\begin{proof}
-	siehe oben.
-\end{proof}
-\begin{Bemerkung}
-	Die Klasse $\NTAPE (n)$ heißt auch \ac{LBA}.
-\end{Bemerkung}
+% \begin{Bemerkung}\
+% 	\newcommand{\underarrowset}[2]{%
+% 		\underset{%
+% 			\mathclap{%
+% 				\overset{\displaystyle\uparrow}{\mathclap{#1}}%
+% 			}%
+% 		}{#2}%
+% 	}
+% 	\begin{enumerate}
+% 	\item Für "`$s(n)\leq n$"' betrachte 2-Band \ac{TM}, bei denen die Eingabe read-only ist und nur das zweite Arbeitsband der Platzschranke unterliegt (so ist $s(n)$ sublinear möglich).
+% 	\item Jede Platzbeschränkung impliziert Laufzeitschranke.\\
+% 	Angenommen Platzschranke $s(n)$\\
+% 	$\curvearrowright$ \ac{TM} hat nur endlich viele Konfigurationen
+% 	\[ N := \underarrowset{%
+% 			\parbox{\widthof{\scriptsize Eingabeband}}{\raggedright\scriptsize Kopfpos. im Eingabeband}\hspace{1cm}
+% 		}{n\vphantom{|}}
+% 		|Q| \quad\cdot\quad
+% 		\underarrowset{\parbox{2.2cm}{\scriptsize\centering mögliche Inhalte des Arbeitsbands}}{|\Gamma|}^{s(n)}
+% 		\ \cdot\
+% 		\underarrowset{\hspace{1.7cm}\parbox{2cm}{\scriptsize Kopfpos. auf\\ Arbeitsband}}{s(n)}
+% 		\in 2^{O(\log n + s(n))}
+% 	\]
+% 	\item \ac{DTM} mit Platzschranke\,: $M$ entscheidet,\\
+% 	falls sie akzeptiert, dann in weniger als $N$ Schritten,\\
+% 	falls nach $N$ Schritten keine Terminierung erfolgt\\
+% 	\quad$\curvearrowright$ Endlosschleife -- Abbruch
+% 	\item \ac{NTM}\,: nutze den \ac{ND} optimistisch aus\,:\\
+% 	falls eine akzeptierende Berechnung existiert, dann muss es eine Berechnung ohne wiederholte Konfiguration geben.
+% 	\end{enumerate}
+% \end{Bemerkung}
+% \begin{Satz}[name={[$L\in\DTAPE(n),\ L\in\NTAPE(n)$]}]\label{satz:6.2}\
+% 	\begin{itemize}
+% 	\item $L\in\DTAPE(n) \curvearrowright\ \exists$ \ac{DTM}, die $L$ in Zeit $2^{O(n)}$ entscheidet.
+% 	\item $L\in\NTAPE(n)$ analog.
+% 	\end{itemize}
+% \end{Satz}\vspace{-2em}
+% \begin{proof}
+% 	siehe oben.
+% \end{proof}
+% \begin{Bemerkung}
+% 	Die Klasse $\NTAPE (n)$ heißt auch \ac{LBA}.
+% \end{Bemerkung}
 %
 
 
 \begin{Satz}
 	Die Typ-1 Sprachen sind abgeschlossen unter {\thinmuskip=6mu$\cup,\cap,\cdot,{}^*$} und Komplement.
 \end{Satz}
-\begin{proof}
-	Zu $\cup$ und $\cap$ betrachte \ac{NTM}.\\
-	Für $\cdot$ und $^*$ konstruiere Grammatik.\\
-	ad Komplement "`2. \acsu{LBA}-Problem\footnote{\acs*{LBA} = \acl*{LBA} -- 1964 Kuroda}"' bis 1987, dann gelöst durch Immerman und Szelepcsényi.
+\begin{proof}~
+    \begin{itemize}
+     \item ''$\cup$`` und ''$\cap$``:
+     Betrachte \ac{NTM}.
+     Seien $L_1$ und $L_2$ Operanden und $\M_1$ und $\M_2$ zugehörige \ac{NTM}s
+     \begin{itemize}
+     
+     \item Verwende als Bandalphabet 2-Tupel um eine 2-Spurmaschine zu simulieren.
+     \item Verwende die untere Spur für ''Sicherungskopie`` der Eingabe.
+     \item Simuliere auf oberer Spur $\M_1$, speichere Ergebnis mit Hilfe von Zustand.
+     \item Simuliere auf unterer Spur $\M_2$, werte Gesamtergebnis aus.
+     \end{itemize}
+     \item  ''$\cdot$`` und ''$^*$``:
+     
+     Konstruiere Grammatik analog zu \autoref{thm:cfl-closed-reg-intersect}.
+     
+     \item Komplement:
+     
+     "`2. \acsu{LBA}-Problem\footnote{\acs*{LBA} = \acl*{LBA} -- 1964 Kuroda}"' bis 1987, dann gelöst durch Immerman und Szelepcsényi.
+    \end{itemize}
 \end{proof}
 \begin{Bemerkung}
-  1. \ac{LBA}-Problem (1964): Ist $\mathrm{NTAPE}(n) = \mathrm{DTAPE}(n)$? Bisher ungelöst.
+  ''1. \ac{LBA}-Problem (1964)``: Ist $\mathrm{NTAPE}(n) = \mathrm{DTAPE}(n)$? Bisher ungelöst.
 \end{Bemerkung}
-\begin{Satz}
-	Das Wortproblem für Typ-1 Sprachen ist entscheidbar.
-\end{Satz}
-\begin{proof}
-	\begin{align*}
-		L\in\mathcal{L}_1 &\curvearrowleftright L\in\mathrm{NTAPE}(n)\\
-		&\curvearrowright \text{nach \autoref{satz:6.2}: $L$ entscheidbar}
-	\end{align*}
-	Nach \autoref{satz:6.1} sogar mit \ac{DTM}.
-\end{proof}
-Die Rückrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1 Sprache"' gilt nicht!
 
-\subsection{Typ-0 Sprachen}
+% \begin{Satz}
+% 	Das Wortproblem für Typ-1 Sprachen ist entscheidbar.
+% \end{Satz}
+% \begin{proof}
+% 	\begin{align*}
+% 		L\in\mathcal{L}_1 &\curvearrowleftright L\in\mathrm{NTAPE}(n)\\
+% 		&\curvearrowright \text{nach \autoref{satz:6.2}: $L$ entscheidbar}
+% 	\end{align*}
+% 	Nach \autoref{satz:6.1} sogar mit \ac{DTM}.
+% \end{proof}
+% Die Rückrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1 Sprache"' gilt nicht!
+
+% \subsection{Typ-0 Sprachen}
 
 \begin{Satz}\label{satz:6.6}
-	$\mathcal{L}_0 = \ac{NTM}$
+\ch{0} ist die Menge der semi-entscheidbaren Sprachen
+% 	$\mathcal{L}_0 = \ac{NTM}$
 \end{Satz}
 \begin{proof}
 	\begin{itemize}
@@ -1120,21 +1140,61 @@ Die Rückrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1 Sp
 	\end{itemize}
 \end{proof}
 
-\begin{Satz}[name={[Abgeschlossenheit von Typ-0 Sprachen]}]\label{satz:Typ-0-abgeschl}
-	Die Typ-0 Sprachen sind unter $\thinmuskip=6mu\cup,\cap,\cdot,{}^*$ abgeschlossen.
+\begin{Satz}
+ Die entscheidbaren Sprachen sind eine echte Teilmenge von $\ch{0}$.
+\end{Satz}
+\begin{proof}~
+ \begin{itemize}
+  \item ''$\subseteq$``:
+  Folgt trivialerweise aus \autoref{def:semiEntscheidbar}, \autoref{def:tmAkzeptanz} und \autoref{def:entscheidbarkeit}.
+  
+  \item ''$\neq$``:
+  Das spezielle Halteproblem ist nicht entscheidbar (\autoref{satz:speziellesHalteproblem})
+  aber semi-entscheidbar (\autoref{lemma:Ksemi-entscheidbar}).
+ \end{itemize}
+
+\end{proof}
+
+
+
+
+\begin{Satz}
+ $\ch{0}\neq \calP(\Sigma^*)$
 \end{Satz}
 \begin{proof}
-	Konstruiere \ac{NTM} für $\thinmuskip=6mu\cup,\cap$ ; Typ-0-Grammatiken für $\cdot$ und $^*$.
+ Nach \autoref{kor:6.11} ist $\overline{K}$ nicht semi-entscheidbar.
 \end{proof}
 
-\begin{Bem}
-	Typ-0 Sprachen sind \emph{nicht} unter Komplement abgeschlossen!
-\end{Bem}
 
 
-\begin{Korollar}
-	$\mathcal{L}_0 \supsetneqq \mathcal{L}_1$
-\end{Korollar}
-\begin{proof}
-	$K$ ist unentscheidbar (also $\notin \mathcal{L}_1$), aber semi-entscheidbar (also $\in \mathcal{L}_0$).
+\begin{Satz}[name={[Abgeschlossenheit von Typ-0 Sprachen]}]\label{satz:Typ-0-abgeschl}
+	Die Typ-0 Sprachen sind unter $\thinmuskip=6mu\cup,\cap,\cdot,{}^*$ abgeschlossen aber nicht unter Komplementbildung abgeschlossen.
+\end{Satz}
+\begin{proof}~
+    \begin{itemize}
+     \item ''$\cup$`` und ''$\cap$``: 
+     
+     Siehe \autoref{satz:SemidetCupCap}.
+
+     \item  ''$\cdot$`` und ''$^*$``:
+     
+     Konstruiere Grammatik analog zu \autoref{thm:cfl-closed-reg-intersect}.
+     
+     \item Komplement:
+     
+     Das spezielle Halteproblem $K$ ist semi-entscheidbar (\autoref{lemma:Ksemi-entscheidbar})
+     aber sein komplement $\overline{K}$ ist nicht semi-entscheidbar (\autoref{kor:6.11}).
+     \end{itemize}
 \end{proof}
+
+% \begin{Bem}
+% 	Typ-0 Sprachen sind \emph{nicht} unter Komplement abgeschlossen!
+% \end{Bem}
+% 
+% 
+% \begin{Korollar}
+% 	$\mathcal{L}_0 \supsetneqq \mathcal{L}_1$
+% \end{Korollar}
+% \begin{proof}
+% 	$K$ ist unentscheidbar (also $\notin \mathcal{L}_1$), aber semi-entscheidbar (also $\in \mathcal{L}_0$).
+% \end{proof}
