@@ -1,5 +1,5 @@
 \section[Komplexitätstheorie]{Komplexitätstheorie}
-\subsection{Komplexitätsklassen und \ac{P}/\ac{NP}}
+% \subsection{Komplexitätsklassen und \ac{P}/\ac{NP}}
 
 {\color{red} TODO: Dieser rote Teil des Skripts wir erst im Lauf des Wochenendes in einen akzeptablen Zustand gebracht.
 
@@ -85,15 +85,15 @@ vertraut sind, stellen die von uns verwendete Syntax vor und bitten den Leser, s
 
 Im Folgenden möchten wir Mengen von \ac{AL}-Formeln als Sprachen beschreiben.
 Dafür müssen wir zunächst ein geeignetes Alphabet wählen.
-Dabei nehmen wir ``0'' und ``1'' für die Konstanten,
-``$\neg$'', ``$\land$'' und ``$\lor$ für die Junktoren
-und runde Klammern ''$($`` und ''$)$``.
+Dabei nehmen wir "`0"' und "`1"' für die Konstanten,
+"`$\neg$"', "`$\land$"' und "`$\lor$"' für die Junktoren
+und runde Klammern "`$($"' und "`$)$"'.
 Bei der Darstellung der Aussagenvariablen stehen wir nun vor der folgenden Herausforderung:
 Es gibt unendliche viele Aussagenvariablen $A_0,A_1,A_2,A_3,\ldots$, aber unser Alphabet kann nur endlich viele Zeichen haben.
 Unsere Lösung dafür ist sehr ähnlich wie die, die wir auch auf Papier verwenden.
-Wir stellen eine Aussagenvariable durch ein ''$A$`` dar, das von einer Ziffernfolge gefolgt wird.
+Wir stellen eine Aussagenvariable durch ein "`$A$"' dar, das von einer Ziffernfolge gefolgt wird.
 Die Aussagenvariable $A_{1337}$ wir so durch das Wort $A1337$ der Länge 5 repräsentiert.
-Wir müssen unser Alphabet also noch um ''$A$``, ''$2$``, $\ldots$ ''$9$`` ergänzen und erhalten
+Wir müssen unser Alphabet also noch um "`$A$"', "`$2$"', $\ldots$ "`$9$"' ergänzen und erhalten
 $$\Sigma_\mathsf{AL}=\{0,1,2,3,4,5,6,7,8,9,A,\neg,\land,\lor,(,)\}.$$
 
 \begin{Def}\label{def:gal}
@@ -117,7 +117,7 @@ Wir nennen die Menge der erfüllbaren \ac{AL}-Formeln \acsu{SAT}.
 \end{Def}
 
 
-Wir haben nun also die Frage, ob die Formel $F$ erfüllbar ist, als Wortproblem ''$F\in \ac{SAT}?$`` dargestellt.
+Wir haben nun also die Frage, ob die Formel $F$ erfüllbar ist, als Wortproblem "`$F\in \ac{SAT}?$"' dargestellt.
 Wir wollen im Folgenden eine \ac{TM} konstruieren, die \ac{SAT} entscheidet, betrachten aber als Vorstufe hierfür zunächst eine einfachere Sprache.
 
 
@@ -129,101 +129,104 @@ $$\text{SAT}_0=\{F\mid F\in L(\mathcal{G}_\mathsf{AL0}) \text{ und $F$ erfüllba
 und konstruieren eine \ac{DTM}, die $\text{SAT}_0$ entscheidet.
 
 \begin{Bsp}\label{bsp:DtmSat0}
-Sei $\M_{SAT_0}$ eine DTM deren Verhalten wir wie folgt informell beschreiben.
+Sei $\M_{\text{SAT}_0}$ eine \ac{DTM}, deren Verhalten wir wie folgt informell beschreiben.
 \begin{itemize}
  \item Grundlegende Idee: Laufe von links nach rechts über die Eingabe und ersetze alle Operationen auf Konstantensymbolen direkt durch das Ergebnis (z.B. $1\land 0\rightsquigarrow 0$).
- Wiederhole bis $0$ oder $1$ auf dem Band steht.
- \item Problem: Resultat hat weniger Zeichen als Operation.
- \item Lösung: Erweitere Bandalphabet um ein Zeichen $\blacksquare$ um enstandene Leerstellen zu markieren (z.B. $1\land 0\rightsquigarrow 0\blacksquare\blacksquare$). Alternative: Verschiebe Bandinhalt ensprechend.
+ Wiederhole dies, bis $0$ oder $1$ auf dem Band steht.
+ \item Problem: Das Resultat dieser Operationen hat weniger Zeichen als die Eingabe.
+ \item Lösung: Erweitere das Bandalphabet um ein Zeichen $\blacksquare$, um entstandene Leerstellen zu markieren (z.B. $1\land 0\rightsquigarrow 0\blacksquare\blacksquare$). Alternative: Verschiebe den Bandinhalt entsprechend.
+ \qedhere
 \end{itemize}
 \end{Bsp}
 
-Frage: Was ist die bestmögliche Laufzeitkomplexität, die wir für $\M_{SAT_0}$ geben können?
+\begin{description}
+\item[Frage:] Was ist die bestmögliche Laufzeitkomplexität, die wir für $\M_{\text{SAT}_0}$ geben können?
 
-Antwort: Wir müssen im schlimmsten Fall für jede Operator ein mal über die Eingabe laufen. 
-Die Laufzeitkomplexität ist also ''garantiert nicht viel schlimmer als $n^2$`` wobei $n$ die Größe der Eingabe ist.
-Wir könen die Laufzeitkomplexität aber nicht exakt angeben, da die Beschreibung von $\M_{SAT_0}$ zu unpräzise ist.
+\item[Antwort:] Wir müssen im schlimmsten Fall für jeden Operator einmal über die Eingabe laufen.
+Die Laufzeitkomplexität ist also "`garantiert nicht viel schlimmer als $n^2$"', wobei $n$ die Größe der Eingabe ist.
+Wir können die Laufzeitkomplexität aber nicht exakt angeben, da die Beschreibung von $\M_{\text{SAT}_0}$ zu unpräzise ist.
 (Läuft der Kopf gelegentlich links und rechts über die Eingabe hinaus um das Wortende zu bestimmen?
 Läuft der Kopf beim Ersetzen zurück?)
+\end{description}
 
-Ein Formalismus um Aussagen wie ''garantiert nicht viel schlimmer als...``
-zu beschreiben ist das (groß) $\mathcal{O}$ Symbol der Bachmann–Landau Notation.
-Wir vermuten dass die Leser des Skriptes mit diesem Formalismus vertraut sind, wollen die Definition von (groß) $\mathcal{O}$ hier nochmal wiederholen.
+Ein Formalismus zum Beschreiben von Aussagen wie "`garantiert nicht viel schlimmer als \dots"'
+ist das (große) $\mathcal{O}$-Symbol der Bachmann–Landau-Notation.
+Wir gehen davon aus, dass die Leser des Skripts mit diesem Formalismus vertraut sind, wollen die Definition von (groß) $\mathcal{O}$ hier aber nochmal wiederholen.
 
-\begin{Def} Sei $g:\N\rightarrow\N$
+\begin{Def} Sei $g:\N\rightarrow\N$.
 \[ \mathcal{O}(g(n)) = \{f:\N\rightarrow\N \mid \exists n_0, k\in\N:\, \forall n\geq n_0: f(n)\leq k\cdot g(n)\} \qedhere \]
 \end{Def}
-Die Klasse $\mathcal{O}(g(n))$ enthält also genau die Funktionen die für große Argumente durch ein vielfaches von $g(n)$ beschränkt sind.
+Die Klasse $\mathcal{O}(g(n))$ enthält also genau die Funktionen, die für große Argumente durch ein Vielfaches von $g(n)$ beschränkt sind.
 
-Über die Schwierigkeit von $SAT_0$ können wir nun also sagen:
-Es gibt ein $f(n)\in\mathcal{O}(n^2)$ sodass $SAT_0\in\DTIME(f(n))$.
+Über die Schwierigkeit von $\text{SAT}_0$ können wir nun also sagen:
+Es gibt ein $f(n)\in\mathcal{O}(n^2)$, sodass $\text{SAT}_0\in\DTIME(f(n))$.
 
 \begin{Bsp}\label{bsp:NtmSat}
-Sei $\M_{SAT}$ eine NTM deren Verhalten wir wie folgt informell beschreiben.
+Sei $\M_\text{SAT}$ eine \ac{NTM}, deren Verhalten wir wie folgt informell beschreiben.
 \begin{itemize}
- \item Phase 1: Laufe über die Eingabe, sammle alle Aussagenvariablen $A_{k_1},\ldots,A_{k_n}$, rate (wähle nichtderministisch) für jede davon eine Belegung $b_{k_i}$ und schreibe 
+ \item Phase 1: Laufe über die Eingabe, sammle alle Aussagenvariablen $A_{k_1},\ldots,A_{k_n}$, rate (wähle nichtdeterministisch) für jede davon eine Belegung $b_{k_i}$ und schreibe
  $$A_{k_1}=b_{k_1},\quad\ldots,\quad A_{k_n}=b_{k_n}$$
  auf ein zweites Band.
- Dabei soll jede Variable höchstens ein mal geschrieben werden, auch wenn sie mehrfach in der Eingabe vorkommt.
+ Dabei soll jede Variable höchstens einmal geschrieben werden, auch wenn sie mehrfach in der Eingabe vorkommt.
   
  Zeitkomplexität: 
  Ein Vergleich zweier Aussagenvariablen ist in $\mathcal{O}(n)$ möglich,
  pro Variablen müssen höchstens $\mathcal{O}(n)$ Vergleiche gemacht werden und
- in der Eingabe sind höchtens $\mathcal{O}(n)$ Variablen enthalten.
- Die Zeitkomplexität von Phase 1 kann also durch durch $\mathcal{O}(n)^3$ beschränkt werden.
+ in der Eingabe sind höchstens $\mathcal{O}(n)$ Variablen enthalten.
+ Die Zeitkomplexität von Phase 1 kann also durch $\mathcal{O}(n^3)$ beschränkt werden.
  
  \item Phase 2: Laufe über die Eingabe und ersetze alle Aussagenvariablen durch die geratene Belegung.
  
- Zeitkomplexität: Durch $\mathcal{O}(n)^3$ beschränkt, nahezu gleiche Argumentation wie oben.
+ Zeitkomplexität: Durch $\mathcal{O}(n^3)$ beschränkt, nahezu gleiche Argumentation wie oben.
  
- \item Phase 3: Wende die in \autoref{bsp:NtmSat} beschriebene DTM $\M_{SAT_0}$ auf den Bandinhalt an.
+ \item Phase 3: Wende die in \autoref{bsp:NtmSat} beschriebene \ac{DTM} $\M_{\text{SAT}_0}$ auf den Bandinhalt an.
  
  Zeitkomplexität: Durch $\mathcal{O}(n)^2$ beschränkt.
 \end{itemize}
-Die Zeitkomplexität von $\M_{SAT}$ ist also durch $\mathcal{O}(n)^3$ beschränkt.
+Die Zeitkomplexität von $\M_\text{SAT}$ ist also durch $\mathcal{O}(n^3)$ beschränkt.
 \end{Bsp}
 
-Über die Schwierigkeit von $SAT$ können wir somit sagen:
-Es gibt ein $f(n)\in\mathcal{O}(n^3)$ sodass $SAT\in\NTIME(f(n))$.
+Über die Schwierigkeit von \ac{SAT} können wir somit sagen:
+Es gibt ein $f(n)\in\mathcal{O}(n^3)$, sodass $\ac{SAT}\in\NTIME(f(n))$.
 
 
 
 \begin{description}
- \item[Frage:] Angenommen wir möchten ein schnelles Entscheidungsverfahren für SAT implementieren. 
-Hilft uns dann die Konstruktionsidee von $\M_{SAT}$?
+ \item[Frage:] Angenommen, wir möchten ein schnelles Entscheidungsverfahren für \ac{SAT} implementieren.
+Hilft uns dann die Konstruktionsidee von $\M_\text{SAT}$?
  \item[Antwort:] Eher nein. 
-Die Konstruktion basiert darauf das dass wir nichtdeterministisch eine Belegung ''raten``.
-Es ist unklar wie wir diesen nichtdeterminismus auf einem (deterministischen) Computer effizient implementieren können.
-Eine Möglichkeit wäre analog zum Beweis von \autoref{satz:Ntm2Dtm} alle nichtdeterministischen Wahlmöglichkeiten zu Simulieren.
-Da wir $\M_{SAT}$ aber pro Aussagenvariable nichtdeterministisch zwischen $0$ und $1$ wählen kann wäre das verfolgen aller Wahlmöglichkeiten nur mit expotentiellem Aufwand möglich.
+Die Konstruktion basiert darauf, dass wir nichtdeterministisch eine Belegung "`raten"'.
+Es ist unklar, wie wir diesen Nichtdeterminismus auf einem (deterministischen) Computer effizient implementieren können.
+Eine Möglichkeit wäre analog zum Beweis von \autoref{satz:Ntm2Dtm} alle nichtdeterministischen Wahlmöglichkeiten zu simulieren.
+Da wir $\M_\text{SAT}$ aber pro Aussagenvariable nichtdeterministisch zwischen $0$ und $1$ wählen können, wäre das Verfolgen aller Wahlmöglichkeiten nur mit exponentiellem Aufwand möglich.
 \end{description}
 
 \begin{description}
- \item[Frage:] Gibt es denn einen ''schnelles`` Entscheidungsverfahren für SAT oder ist das Problem so schwierig dass es keines geben kann?
+ \item[Frage:] Gibt es ein "`schnelles"' Entscheidungsverfahren für \ac{SAT} oder ist das Problem so schwierig, dass es kein solches Verfahren geben kann?
  \item[Antwort:] Die Informatik kann bisher (Stand Februar 2018) auf beide Frageteile keine Antwort liefern. 
- Wir stellen aber im folgenden einen Formalismus vor mit sich diese Frage präziser formulieren lässt und wir für verwandte Fragen Antworten liefern können.
+ Wir stellen aber im Folgenden einen Formalismus vor, mit dem sich diese Frage präziser formulieren lässt und wir für verwandte Fragen hilfreichere Antworten liefern können.
 \end{description}
 
 
-Um Missverständnisse in Terminologie und Notation zu vermeiden wiederholen wir hier nochmal die aus der Schule bekannte Definition eines Polynoms.
+Um Missverständnisse in Terminologie und Notation zu vermeiden, wiederholen wir hier nochmal die aus der Schule bekannte Definition eines Polynoms.
 
 \begin{Def}[name={[Polynom]}]
 	Ein Polynom ist eine Funktion $p:\N\->\N$ mit $\exists k\in \N\ a_0,\dots,a_k\in\N$ und \mbox{$p(n)=\sum_i^k a_in^k$}
 \end{Def}
 \begin{Bemerkung}
- Die Funktion $f(n)=2^n$ ist also kein Polynom, da $n$ hier als Exponent vorkommt.
+ Die Funktion $f(n)=2^n$ ist kein Polynom, da $n$ hier ein Exponent ist.
 \end{Bemerkung}
 
 \begin{Def}
  \begin{align*}
-  \ac{P} &= \bigcup_{p\text{ Polynom}} \DTIME(p(n)) \\
-  \ac{NP} &= \bigcup_{p\text{ Polynom}} \NTIME(p(n))
+  \acsu{P} &= \bigcup_{p\text{ Polynom}} \DTIME(p(n)) \\
+  \acsu{NP} &= \bigcup_{p\text{ Polynom}} \NTIME(p(n))
   \qedhere
  \end{align*}
 \end{Def}
 
 \begin{Bemerkung}
- Die Laufzeitanalysen der \ac{TM}s aus \autoref{bsp:DtmSat0} und \autoref{bsp:NtmSat} zeigen, dass $SAT_0\in P$ und $SAT\in NP$.
+ Die Laufzeitanalysen der \ac{TM}s aus \autoref{bsp:DtmSat0} und \autoref{bsp:NtmSat} zeigen, dass $\text{SAT}_0\in P$ und $\ac{SAT}\in \ac{NP}$.
 \end{Bemerkung}
 
 
@@ -238,27 +241,26 @@ Um Missverständnisse in Terminologie und Notation zu vermeiden wiederholen wir 
 % 	\[ \ac{P} = \cup_{p\text{ Polynom}} DTIME(P(n)) \qedhere \]
 % \end{Def}
 Offenbar gilt $P\subseteq \ac{NP}$.
-Die Frage ob $P=\ac{NP}$ oder $P\neq \ac{NP}$ gilt wurde bereits 1971 von Stephen Cook aufgeworfen, ist das vermutlich bekannteste ungelöste Problem der Informatik.
+Die Frage, ob $P=\ac{NP}$ oder $P\neq \ac{NP}$ gilt, wurde bereits 1971 von Stephen Cook gestellt und ist das vermutlich bekannteste ungelöste Problem der Informatik.
 
-Das ''P vs. NP`` Problem ist auch deshalb interessant weil es eine vielzahl praxisrelavanter Problemstellungen gibt (Traveling Salesman ($O(2^n)$), Erfüllbarkeit der Aussagenlogik, ...)
-die in NP liegen aber für die bisher nur Algorithmen mit mindestens expotentieller Laufzeit gefunden wurden.
+Das "`\ac{P} vs. \ac{NP}"'-Problem ist auch deshalb interessant, weil es eine Vielzahl praxisrelevanter Problemstellungen gibt (Travelling Salesman, Erfüllbarkeit der Aussagenlogik, \dots),
+die in \ac{NP} liegen, aber für die bisher nur (deterministische) Algorithmen mit mindestens exponentieller Laufzeit gefunden wurden.
 
-Angenommen wir wollen in unseren Unternehmen ein neues Problem lösen 
-(z.B. automatisches verteilen von miteinander kommunizierenden Benutzern auf verschiedene Server sodass die Netzwerklast am geringsten ist).
-Wir wissen bereits 
+Angenommen, wir wollen in unserem Unternehmen ein neues Problem lösen
+(z.B. automatisches Verteilen von miteinander kommunizierenden Benutzern auf verschiedene Server, sodass die Netzwerklast am geringsten ist).
+Angenommen, wir wissen bereits,
 \begin{itemize}
- \item dass wir das Problem auf einer NTM in polynomieller Zeit lösen könnten,
- \item dass für unsere Eingabegrößen ein polynomielle Laufzeit noch akzeptabel aber eine expotentielle Laufzeit nicht mehr akzeptabel wäre und
- \item dass es einen approximativen Algorithmus gibt der polynomielle Laufzeit hat aber nicht immer optimale Resultate liefert.
+ \item dass wir das Problem mit einer \ac{NTM} in polynomieller Zeit lösen könnten,
+ \item dass für unsere Eingabegrößen eine polynomielle Laufzeit noch akzeptabel, aber eine exponentielle Laufzeit nicht mehr akzeptabel wäre und
+ \item dass es einen approximativen Algorithmus gibt, der polynomielle Laufzeit hat, aber nicht immer optimale Resultate liefert.
 \end{itemize}
 Wie gehen wir nun weiter vor? Suchen wir nach einem (exakten) Algorithmus mit polynomieller Laufzeit oder geben wir auf und implementieren den approximativen Algorithmus?
 
-Wir stellen im folgenden einen Formalismus vor,
-mit dem wir 
+Wir stellen im Folgenden einen Formalismus vor, mit dem wir
 % unter bestimmten umständen 
 Aussagen der folgenden Form machen können:
-''Ich weiß zwar nicht ob meine neues Problem in P liegt oder nicht,
-ich weiß aber dass mein Problem so schwierig ist dass das finden eines polynomiellen Algorithmus $P=NP$ implizieren würde.``
+"`Ich weiß zwar nicht, ob meine neues Problem in \ac{P} liegt oder nicht.
+Ich weiß aber, dass mein Problem so schwierig ist, dass das Finden eines polynomiellen Algorithmus \ac{P} = \ac{NP} implizieren würde."'
 
 
 \begin{Def}[Polynomielle Reduktion]\label{def:PolyReduktion}\ \\
@@ -274,8 +276,8 @@ ich weiß aber dass mein Problem so schwierig ist dass das finden eines polynomi
 
 \datenote{02.02.2018}
 Eine aussagenlogische Formel $F$ ist in \emph{konjunktiver Normalform} (CNF)\footnote{%
-Die Abkürzung \ac{CNF} wurde in \autoref{sec:cnf} für die Chomsky Normalform von kontextfreien Grammatiken benutzt,
-steht hier aber für die konjunktive Normalform von Aussagenlogischen Formeln.
+Die Abkürzung \ac{CNF} wurde in \autoref{sec:cnf} für die \acl{CNF} von kontextfreien Grammatiken benutzt,
+steht hier aber für die konjunktive Normalform von aussagenlogischen Formeln.
 }, wenn $F$ eine Konjunktion von Disjunktionen von Literalen ist.
 Wir verwenden \emph{CNF} als Notation für die Menge aller AL-Formeln in CNF.
 Analog schreiben wir \emph{3CNF} für die Menge aller Formeln in CNF, bei denen jeder Konjunkt aus höchstens drei Disjunkten besteht.
@@ -453,9 +455,9 @@ Sei $f:\Sigma_{AL}\rightarrow\Sigma_{AL}$ eine Funktion, die alle Formeln aus $L
 {\color{red}
 TODO: Ausformulieren
 \begin{itemize}
- \item \ac{NP}-schwierig, sehr starke Forderung dass an alle(!) \ac{NP}-Probleme reduzieren kann
- \item zunächst unklar ob es überhaupt ein \ac{NP}-schwieriges Problem gibt
- \item bedeutet: wenn ich das \ac{NP}-vollst. Problem gefunden habe dass ich effizient Lösen kann, kann ich alle \ac{NP}-Probleme effizient lösen (wie folgender Satz zeigt).
+ \item \ac{NP}-schwierig: sehr starke Forderung, dass man alle(!) \ac{NP}-Probleme darauf reduzieren kann
+ \item zunächst unklar, ob es überhaupt ein \ac{NP}-schwieriges Problem gibt
+ \item bedeutet: wenn ich ein \ac{NP}-vollst. Problem gefunden habe, das ich effizient Lösen kann, kann ich alle \ac{NP}-Probleme effizient lösen (wie folgender Satz zeigt).
 \end{itemize}
 }
 \begin{Satz}
@@ -799,7 +801,7 @@ wir werden nun sehen dass zumindest für haltende DTMs auch die umgekehrte Richt
   \item nie oder
   \item nach höchstens $s(n)\cdot |Q| \cdot |\Gamma|^{s(n)}$ Schritten.
  \end{itemize}
-Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zweiten mal erreicht wurde ist die DTM in einer ''Endlosschleife``.
+Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zweiten mal erreicht wurde ist die DTM in einer "`Endlosschleife"'.
 \end{Bemerkung}
 
 
@@ -868,7 +870,7 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 	
 	\item Idee 2:
 	Die erste Idee hat noch das folgende Problem und muss deshalb ergänzt werden:
-	Während eine \ac{TM} mit der Eingabe startet und diese in eine ''akzeptiert``/''akzeptiert nicht`` Antwort transformiert,
+	Während eine \ac{TM} mit der Eingabe startet und diese in eine "`akzeptiert"'/"`akzeptiert nicht"' Antwort transformiert,
 	arbeitet eine Grammatik umgekehrt. 
 	Sie startet mit dem Startsymbol und am Ende erhalten wir das resultierende Wort.
 	
@@ -890,7 +892,7 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 	\item Phase 2:
 	Wir simulieren auf der oberen Spur die Berechnungen der \ac{TM} bis eine Haltekonfiguration erreicht ist.
 	\item Phase 3:
-	Wenn die \ac{TM} in einem akzeptierenden Zustand ist ersetzen wir alle ''Zweispurzeichen`` durch das ensprechende Zeichen der unteren Spur und erhalten das Eingabewort.
+	Wenn die \ac{TM} in einem akzeptierenden Zustand ist ersetzen wir alle "`Zweispurzeichen"' durch das ensprechende Zeichen der unteren Spur und erhalten das Eingabewort.
 	\end{itemize}
 	
 	
@@ -949,7 +951,7 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
  aufgelistet und in deren Zeilen alle Grammatiken $\mathcal{G}_{w_1},\mathcal{G}_{w_2},\ldots$ aufgelistet sind.
  Ein Matrixeintrag $(\mathcal{G}_{w_i}, w_j)$ enthält ein Y wenn falls $w_j\in L(\mathcal{G}_{w_i})$ und ein N sonst.
  
- Da das Wortproblem für \ch{1} Sprachen entscheidbar ist, ist insbesondere der Test ''$w_k\in L(\mathcal{G}_{w_i})$``
+ Da das Wortproblem für \ch{1} Sprachen entscheidbar ist, ist insbesondere der Test "`$w_k\in L(\mathcal{G}_{w_i})$"'
  für alle Diagonaleinträge berechenbar und somit auch die Sprache $L_\mathsf{evil}= \{w \in\{0,1\}^* \mid w\notin L(\mathcal{G}_w)\}$ entscheidbar.
  
  Angenommen jede Entscheidbare Sprache sei \ch{1}, dann gibt es auch ein $w_k$ sodass $L(\mathcal{G}_{w_k})=L_\mathsf{evil}$.
@@ -1082,17 +1084,17 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 \end{Satz}
 \begin{proof}~
     \begin{itemize}
-     \item ''$\cup$`` und ''$\cap$``:
+     \item "`$\cup$"' und "`$\cap$"':
      Betrachte \ac{NTM}.
      Seien $L_1$ und $L_2$ Operanden und $\M_1$ und $\M_2$ zugehörige \ac{NTM}s
      \begin{itemize}
      
      \item Verwende als Bandalphabet 2-Tupel um eine 2-Spurmaschine zu simulieren.
-     \item Verwende die untere Spur für ''Sicherungskopie`` der Eingabe.
+     \item Verwende die untere Spur für "`Sicherungskopie"' der Eingabe.
      \item Simuliere auf oberer Spur $\M_1$, speichere Ergebnis mit Hilfe von Zustand.
      \item Simuliere auf unterer Spur $\M_2$, werte Gesamtergebnis aus.
      \end{itemize}
-     \item  ''$\cdot$`` und ''$^*$``:
+     \item  "`$\cdot$"' und "`$^*$"':
      
      Konstruiere Grammatik analog zu \autoref{thm:cfl-closed-reg-intersect}.
      
@@ -1102,7 +1104,7 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
     \end{itemize}
 \end{proof}
 \begin{Bemerkung}
-  ''1. \ac{LBA}-Problem (1964)``: Ist $\mathrm{NTAPE}(n) = \mathrm{DTAPE}(n)$? Bisher ungelöst.
+  "`1. \ac{LBA}-Problem (1964)"': Ist $\mathrm{NTAPE}(n) = \mathrm{DTAPE}(n)$? Bisher ungelöst.
 \end{Bemerkung}
 
 % \begin{Satz}
@@ -1145,10 +1147,10 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 \end{Satz}
 \begin{proof}~
  \begin{itemize}
-  \item ''$\subseteq$``:
+  \item "`$\subseteq$"':
   Folgt trivialerweise aus \autoref{def:semiEntscheidbar}, \autoref{def:tmAkzeptanz} und \autoref{def:entscheidbarkeit}.
   
-  \item ''$\neq$``:
+  \item "`$\neq$"':
   Das spezielle Halteproblem ist nicht entscheidbar (\autoref{satz:speziellesHalteproblem})
   aber semi-entscheidbar (\autoref{lemma:Ksemi-entscheidbar}).
  \end{itemize}
@@ -1172,11 +1174,11 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 \end{Satz}
 \begin{proof}~
     \begin{itemize}
-     \item ''$\cup$`` und ''$\cap$``: 
+     \item "`$\cup$"' und "`$\cap$"':
      
      Siehe \autoref{satz:SemidetCupCap}.
 
-     \item  ''$\cdot$`` und ''$^*$``:
+     \item  "`$\cdot$"' und "`$^*$"':
      
      Konstruiere Grammatik analog zu \autoref{thm:cfl-closed-reg-intersect}.
      
