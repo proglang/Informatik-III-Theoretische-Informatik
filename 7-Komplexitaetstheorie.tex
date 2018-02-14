@@ -779,29 +779,29 @@ Wir benötigen dafür zunächst das folgende Lemma.
 
 \section{Einordnung von Sprachen in Chomsky-Hierarchie und Abschlusseigenschaften}
 
-Wir haben bereits gesehen, dass jede Laufzeitschranke auch eine Beschränkung der Platzkomplexität impliziert,
-wir werden nun sehen dass zumindest für haltende DTMs auch die umgekehrte Richtung gilt.
+Wir haben bereits gesehen, dass jede Laufzeitschranke auch eine Beschränkung der Platzkomplexität impliziert.
+Wir werden nun sehen, dass zumindest für haltende \ac{DTM}s auch die umgekehrte Richtung gilt.
 \begin{lemma}\label{lem:endlichKonfigurationen}
- Seit $\M$ eine \ac{TM} mit Platzkomplexität $s(n)$.
+ Sei $\M$ eine \ac{TM} mit Platzkomplexität $s(n)$.
  Dann durchläuft jede Berechnung höchstens $s(n)\cdot |Q| \cdot |\Gamma|^{s(n)}$
  verschiedene Konfigurationen.
 \end{lemma}
 \begin{proof}
  Es gibt 
  \begin{itemize}
-  \item höchstens $s(n)$ mögliche Positionen an denen sich der Kopf befinden kann,
+  \item höchstens $s(n)$ mögliche Positionen, an denen sich der Kopf befinden kann,
   \item höchstens $|Q|$ mögliche Zustände und
-  \item jede Zelle des besuchten Bandes (davon gibt es höchstens $s(n)$ Stück) kann mit höchstens $|\Gamma|$ verschiedenen Zeichen beschriftet sein. \qedhere
+  \item jede Zelle des besuchten Bands (davon gibt es höchstens $s(n)$ Stück) kann mit höchstens $|\Gamma|$ verschiedenen Zeichen beschriftet sein. \qedhere
  \end{itemize}
 \end{proof}
 
 \begin{Bemerkung}
- Für jede DTM mit Platzkomplexität $s(n)$ hält also jede Berechnung entweder
+ Für jede \ac{DTM} mit Platzkomplexität $s(n)$ hält also jede Berechnung entweder
  \begin{itemize}
   \item nie oder
   \item nach höchstens $s(n)\cdot |Q| \cdot |\Gamma|^{s(n)}$ Schritten.
  \end{itemize}
-Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zweiten mal erreicht wurde ist die DTM in einer "`Endlosschleife"'.
+Grund: Der zweite Fall folgt aus \autoref{lem:endlichKonfigurationen}. Ansonsten wird eine Konfiguration zweimal erreicht und die \ac{DTM} ist in einer "`Endlosschleife"'.
 \end{Bemerkung}
 
 
@@ -809,9 +809,9 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
  Jede Sprache $L\in\NSPACE(n)$ ist entscheidbar.
 \end{Satz}
 \begin{proof}
- Wegen \autoref{lem:endlichKonfigurationen} genügt es jede Berechnung bis zu 
+ Wegen \autoref{lem:endlichKonfigurationen} genügt es, jede Berechnung bis zu
  $s(n)\cdot |Q| \cdot |\Gamma|^{s(n)}$
- Schritten zu simulieren um herauszufinden ob ein Wort der Länge $n$ akzeptiert wird.
+ Schritten zu simulieren, um herauszufinden, ob ein Wort der Länge $n$ akzeptiert wird.
 \end{proof}
 
 
@@ -820,12 +820,12 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 \end{Satz}
 
 \begin{proof}
- Sei $G=(\Sigma,N,P,S)$ Typ-1 Grammatik (kontxtsensitive Grammatik) für $L$, $w\in\Sigma^*$ und $n$ die Länge von $w$.
+ Seien $\mathcal{G}=(\Sigma,N,P,S)$ eine Typ-1-Grammatik (kontextsensitive Grammatik) für $L$, $w\in\Sigma^*$ und $n$ die Länge von $w$.
  Da alle Regeln expansiv (d.h., $\alpha\->\beta\in P \==> |\alpha|\leq |\beta|$) sind, 
  müssen wir nicht alle (unendlich viele!) Ableitungen betrachten.
- Es genügt wenn wir Ableitungen
+ Es genügt, wenn wir Ableitungen
  $$S\vdash\alpha_1\vdash \ldots \vdash\alpha_m,$$
- betrachten bei denen alle Satzformen $\alpha_j$ Länge $\leq n$ haben und paarweise verschieden sind.
+ betrachten, bei denen alle Satzformen $\alpha_j$ höchstens Länge $n$ haben (also $|\alpha_j| \leq n$) und paarweise verschieden sind.
 \end{proof}
 
 
@@ -840,23 +840,25 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 \end{Satz}
 \begin{proof}\
 \begin{itemize}
-	\item["`\=>"'\,:] Sei $G=(\Sigma,N,P,S)$ Typ-1 Grammatik für $L$.\\
-		Konstruiere \ac{NTM} $M$ mit $L=L(M),\ \Gamma = \Sigma\cup N\cup\{\blank\}$
+	\item["`\=>"'\,:]
+		Gegeben: Typ-1-Grammatik $\mathcal{G}=(\Sigma,N,P,S)$ \\
+		Gesucht: \ac{NTM} $\M$ mit $L(\M) = L(\mathcal{G})$ \\
+		Wähle das Bandalphabet $\Gamma = \Sigma\cup N\cup\{\blank\}$ und folgendes Verhalten:
 		\begin{enumerate}
-		\item $M$ rät nicht deterministisch eine Position auf
+		\item $\M$ rät nichtdeterministisch eine Position auf
                   dem Band und eine Produktion $\alpha\-> \beta$. Falls $\beta$ gefunden wird, ersetze durch $\alpha$, weiter bei 1.
-		\item Falls Bandinhalt $=S$ \quad stop, akzeptiert.
+		\item Falls der Bandinhalt nur noch $S$ ist, so hält $\M$ und akzeptiert.
 		\end{enumerate}
 		Dieses Verfahren terminiert.
 	\item["`\<="'\,:] %
-	Gegeben: \ac{NTM} $\M$ 
-	Gesucht: Typ-1 Grammatik $\mathcal{G}$ mit $L(\mathcal{G})=L(M)$\\
-	Wir wollen den Beweis hier nicht formal ausformulieren und beschreiben nur die zugrundliegenden Ideen.
+	Gegeben: \ac{NTM} $\M$ \\
+	Gesucht: Typ-1-Grammatik $\mathcal{G}$ mit $L(\mathcal{G})=L(\M)$\\
+	Wir wollen den Beweis hier nicht formal ausformulieren und beschreiben nur die zugrundeliegenden Ideen.
 	\begin{itemize}
 	\item Idee 1:
-	Ahme Berechnungsschritte der \ac{TM} mit Ableitungsschritten der Grammatik nach.
-	Die Manipulierten Satzformen repräsentieren dabei Konfigurationen der TM.
-	Wir wählen als (vorläufige) Variablenmenge $V'=\Gamma\cup(Q\x\Gamma)$.
+	Ahme die Berechnungsschritte von $\M$ mit Ableitungsschritten der Grammatik nach.
+	Die manipulierten Satzformen repräsentieren dabei die Konfigurationen von $\M$.
+	Wir wählen als (vorläufige) Variablenmenge $N'=\Gamma\cup(Q\x\Gamma)$.
 	Eine Konfiguration $uqav$ mit $u,v\in\Gamma^*,a\in\Gamma$ wird durch die Satzform $u(q,a)v$ repräsentiert.
 	Die Regeln sind wie folgt definiert.
 	\begin{align*}
@@ -864,19 +866,19 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 	 \cup &\; \{ (q,a)b \-> a'(q',b) \mid b\in\Gamma, (q',a',R)\in \delta(q,a) \}\\
 	 \cup &\; \{ (q,a) \-> (q',a') \mid (q',a',L)\in \delta(q,a)\}
 	\end{align*}
-    Somit gilt, dass die \ac{TM} eine Konfiguration in eine andere überführen kann $uqav \vdash^{*} u'q'a'v'$
-    genau dann wenn wir mit Regeln aus $P'$ die Ableitung $u(q,a)v \vdash^{*} u'(q',a')v'$ machen können.
+    Somit gilt $uqav \vdash^{*} u'q'a'v'$, also dass $\M$ eine Konfiguration in eine andere überführen kann, genau dann,
+    wenn wir mit Regeln aus $P'$ die Ableitung $u(q,a)v \vdash_\mathcal{G}^{*} u'(q',a')v'$ machen können.
 
 	
 	\item Idee 2:
 	Die erste Idee hat noch das folgende Problem und muss deshalb ergänzt werden:
-	Während eine \ac{TM} mit der Eingabe startet und diese in eine "`akzeptiert"'/"`akzeptiert nicht"' Antwort transformiert,
+	Während eine \ac{TM} mit der Eingabe startet und diese in eine Antwort der Form "`akzeptiert"'/"`akzeptiert nicht"' transformiert,
 	arbeitet eine Grammatik umgekehrt. 
 	Sie startet mit dem Startsymbol und am Ende erhalten wir das resultierende Wort.
 	
-	Wir Unterteilen die Satzformen der Grammatik in zwei Spuren, eine obere Spur und eine untere Spur.
-	Die untere Spur enthält das Eingabewort, die untere Spur simuliert das Band der Turingmaschine.
-	Formal erreichen wir dies in dem wir als Variablenmenge das Karthesische Produkt aus vorläufiger Variablenmenge und Alphabet nehmen:
+	Wir unterteilen die Satzformen der Grammatik in zwei Spuren, eine obere Spur und eine untere Spur.
+	Die untere Spur enthält das Eingabewort, die obere Spur simuliert das Band der \ac{TM}.
+	Formal erreichen wir dies, indem wir als Variablenmenge das kartesische Produkt aus vorläufiger Variablenmenge und Alphabet nehmen:
 	$N = \{S\}\dotcup N' \x\Sigma$
 	
 		\begin{align*}
@@ -888,18 +890,18 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 	Eine Ableitung besteht dann aus drei Phasen.
 	\begin{itemize}
 	\item Phase 1: 
-	Wir wählen nichtdeterministisch das Wort, dass wir erzeugen wollen (untere Spur) und bringen das Band der \ac{TM} (obere Spur) in die entsprechende Startkonfiguration.
+	Wir wählen nichtdeterministisch das Wort, das wir erzeugen wollen (untere Spur), und bringen das Band der \ac{TM} (obere Spur) in die entsprechende Startkonfiguration.
 	\item Phase 2:
-	Wir simulieren auf der oberen Spur die Berechnungen der \ac{TM} bis eine Haltekonfiguration erreicht ist.
+	Wir simulieren auf der oberen Spur die Berechnungen der \ac{TM}, bis eine Haltekonfiguration erreicht ist.
 	\item Phase 3:
-	Wenn die \ac{TM} in einem akzeptierenden Zustand ist ersetzen wir alle "`Zweispurzeichen"' durch das ensprechende Zeichen der unteren Spur und erhalten das Eingabewort.
+	Wenn die \ac{TM} in einem akzeptierenden Zustand ist, ersetzen wir alle "`Zweispurzeichen"' durch das entsprechende Zeichen der unteren Spur und erhalten das Eingabewort.
 	\end{itemize}
 	
 	
 	
 	\end{itemize}
 	\begin{align*}
-		\text{mit } P &= \\
+		P &= \\
 		S &\-> \pmqty{(q_0,a)\\a} &&\forall a\in\Sigma\\
 		S &\-> S\pmqty{a\\a} &&\forall a\in\Sigma\\
 		\pmqty{\alpha\\a}
@@ -926,12 +928,12 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 			\end{aligned}
 	\end{align*}
 	\begin{align*}
-		S &\xRightarrow{*} \pmqty{(q_0,a_1)\\a_1}\pmqty{a_2\\a_2}\dots\pmqty{a_n\\a_n}\\
-		&\phantom{{}\xRightarrow{*}{}}\ \acs*{TM}\ \,\dots\\
-		&\xRightarrow{*} \pmqty{x_1\\a_1}\dots\pmqty{(q',x_i)\\a_i}\dots\pmqty{x_n\\a_n}\\
-		&\xRightarrow{*} a_1\dots a_i\dots a_n
+		S &\vdash^* \pmqty{(q_0,a_1)\\a_1}\pmqty{a_2\\a_2}\dots\pmqty{a_n\\a_n}\\
+		&\phantom{{}\vdash^*{}}\ \acs*{TM}\ \,\dots\\
+		&\vdash^* \pmqty{x_1\\a_1}\dots\pmqty{(q',x_i)\\a_i}\dots\pmqty{x_n\\a_n}\\
+		&\vdash^* a_1\dots a_i\dots a_n
 	\end{align*}
-	Damit gesehen $L(\mathcal{G})\subseteq L(M)$\\
+	Damit gesehen: $L(\mathcal{G})\subseteq L(M)$\\
 	Rückrichtung: selbst \qedhere
 	\end{itemize}
 \end{proof}
@@ -943,18 +945,20 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 \end{Satz}
 \begin{proof}
  Wir konstruieren zunächst analog zu Abschnitt~\ref{subsec:codeTuring} eine Codierung von Grammatiken durch Wörter $w\in\{0,1\}^*$.
- Anschließend definieren wir $\mathcal{G}_w$ als die Grammatik die durch Wort $w$ codiert wird und wählen die leere Grammatik
- $(\{S\}, \{0,1\}, \{\}, S)$
- für den Fall, dass $w$ nicht Code einer Grammatik ist.
+ Anschließend definieren wir $\mathcal{G}_w$ als die Grammatik, die durch Wort $w$ codiert wird.
+ Dabei wählen wir die Grammatik $(\{S\}, \{0,1\}, \{\}, S)$
+ für den Fall, dass $w$ nicht Code einer Grammatik ist.%
+ \footnote{Diese Wahl ist wie bei der Definition von $\M_w$ willkürlich.}
  
- Wir betrachten nun eine Matrix in deren Spalten alle Wörter $w_1,w_2,\ldots$
- aufgelistet und in deren Zeilen alle Grammatiken $\mathcal{G}_{w_1},\mathcal{G}_{w_2},\ldots$ aufgelistet sind.
- Ein Matrixeintrag $(\mathcal{G}_{w_i}, w_j)$ enthält ein Y wenn falls $w_j\in L(\mathcal{G}_{w_i})$ und ein N sonst.
+ Wir betrachten nun eine Matrix, in deren Spalten alle Wörter $w_1,w_2,\ldots$
+ und in deren Zeilen alle Grammatiken $\mathcal{G}_{w_1},\mathcal{G}_{w_2},\ldots$ aufgelistet sind.
+ Ein Matrixeintrag $(\mathcal{G}_{w_i}, w_j)$ enthält ein Y, falls $w_j\in L(\mathcal{G}_{w_i})$, und sonst ein N.
  
- Da das Wortproblem für \ch{1} Sprachen entscheidbar ist, ist insbesondere der Test "`$w_k\in L(\mathcal{G}_{w_i})$"'
+ Da das Wortproblem für \ch{1}-Sprachen entscheidbar ist, ist insbesondere der Test "`$w_i\in L(\mathcal{G}_{w_i})$"'
  für alle Diagonaleinträge berechenbar und somit auch die Sprache $L_\mathsf{evil}= \{w \in\{0,1\}^* \mid w\notin L(\mathcal{G}_w)\}$ entscheidbar.
  
- Angenommen jede Entscheidbare Sprache sei \ch{1}, dann gibt es auch ein $w_k$ sodass $L(\mathcal{G}_{w_k})=L_\mathsf{evil}$.
+ Angenommen, jede entscheidbare Sprache sei \ch{1}.
+ Dann gibt es auch ein $w_k$, sodass $L(\mathcal{G}_{w_k})=L_\mathsf{evil}$.
  Nun gilt aber $w_k\in L_\mathsf{evil} \<==> w_k\notin L_\mathsf{evil}$. Widerspruch!
 \end{proof}
 
@@ -1026,7 +1030,7 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 \draw[->] (jj) to (kj);
 
 \end{tikzpicture}
-	\caption{Illustration des Diagonalarguments beim Beweis dass nicht jede entscheidbare Sprache \ch{1} ist}
+	\caption{Illustration des Diagonalarguments beim Beweis, dass nicht jede entscheidbare Sprache \ch{1} ist}
 \end{figure}
 
 
@@ -1080,27 +1084,28 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 
 
 \begin{Satz}
-	Die Typ-1 Sprachen sind abgeschlossen unter {\thinmuskip=6mu$\cup,\cap,\cdot,{}^*$} und Komplement.
+	Die Typ-1-Sprachen sind abgeschlossen unter {\thinmuskip=6mu$\cup,\cap,\cdot,{}^*$} und Komplement.
 \end{Satz}
 \begin{proof}~
     \begin{itemize}
      \item "`$\cup$"' und "`$\cap$"':
-     Betrachte \ac{NTM}.
-     Seien $L_1$ und $L_2$ Operanden und $\M_1$ und $\M_2$ zugehörige \ac{NTM}s
+     Betrachte eine \ac{NTM}.
+     Seien $L_1$ und $L_2$ zwei Typ-1-Sprachen und $\M_1$ und $\M_2$ zwei zugehörige \ac{NTM}s.
      \begin{itemize}
      
-     \item Verwende als Bandalphabet 2-Tupel um eine 2-Spurmaschine zu simulieren.
-     \item Verwende die untere Spur für "`Sicherungskopie"' der Eingabe.
-     \item Simuliere auf oberer Spur $\M_1$, speichere Ergebnis mit Hilfe von Zustand.
-     \item Simuliere auf unterer Spur $\M_2$, werte Gesamtergebnis aus.
+     \item Verwende als Bandalphabet 2-Tupel, um eine 2-Spur-\ac{TM} zu simulieren.
+     \item Verwende die untere Spur für eine "`Sicherungskopie"' der Eingabe.
+     \item Simuliere auf der oberen Spur $\M_1$ und speichere das Ergebnis im Zustand.
+     \item Simuliere auf der unteren Spur $\M_2$ und werte das Gesamtergebnis aus.
      \end{itemize}
      \item  "`$\cdot$"' und "`$^*$"':
      
-     Konstruiere Grammatik analog zu \autoref{thm:cfl-closed-reg-intersect}.
+     Konstruiere eine Typ-1-Grammatik analog zu \autoref{thm:cfl-closed-reg-intersect}.
      
      \item Komplement:
      
      "`2. \acsu{LBA}-Problem\footnote{\acs*{LBA} = \acl*{LBA} -- 1964 Kuroda}"' bis 1987, dann gelöst durch Immerman und Szelepcsényi.
+     \qedhere
     \end{itemize}
 \end{proof}
 \begin{Bemerkung}
@@ -1108,7 +1113,7 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 \end{Bemerkung}
 
 % \begin{Satz}
-% 	Das Wortproblem für Typ-1 Sprachen ist entscheidbar.
+% 	Das Wortproblem für Typ-1-Sprachen ist entscheidbar.
 % \end{Satz}
 % \begin{proof}
 % 	\begin{align*}
@@ -1117,27 +1122,27 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 % 	\end{align*}
 % 	Nach \autoref{satz:6.1} sogar mit \ac{DTM}.
 % \end{proof}
-% Die Rückrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1 Sprache"' gilt nicht!
+% Die Rückrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1-Sprache"' gilt nicht!
 
 % \subsection{Typ-0 Sprachen}
 
 \begin{Satz}\label{satz:6.6}
-\ch{0} ist die Menge der semi-entscheidbaren Sprachen
+\ch{0} ist die Menge der semi-entscheidbaren Sprachen.
 % 	$\mathcal{L}_0 = \ac{NTM}$
 \end{Satz}
 \begin{proof}
 	\begin{itemize}
-	\item["'\=>"'] Konstruktion einer \ac{NTM} $M$ wie in \autoref{satz:6.3}, aber ohne Platzbeschränkung.
+	\item["'\=>"'] Verwende die Konstruktion einer \ac{NTM} $\M$ wie in \autoref{satz:6.3}, aber ohne Platzbeschränkung.
 	\item["'\<="'] Konstruktion analog zu \autoref{satz:6.3} + Startsymbol $S'$
 	\begin{align*}
-		S' &\-> \pmqty{\blank\\\Eps} S' \pmqty{\blank\\\Eps} &&\text{Schaffe Platz für Berechnung von }M\\
+		S' &\-> \pmqty{\blank\\\Eps} S' \pmqty{\blank\\\Eps} &&\text{Schaffe Platz für Berechnung von }\M\\
 		S' &\-> S\\
 	\shortintertext{Erweitere $N$}
 		&= \{S',S\}\cup\triangle\x(\Sigma\cup\{\Eps\})\\
 	\shortintertext{Neue Löschregeln:}
 		\pmqty{x\\ \Eps } &\-> \Eps &&\forall x\in\Gamma\\
 		\rotatebox{90}{$\Rsh$}\ &\mathrlap{\text{die einzigen
-                                          Regeln, die Typ-1 Bedingung verletzen.}} \tag*{\qedhere}
+                                          Regeln, die Typ-1-Bedingung verletzen.}} \tag*{\qedhere}
 	\end{align*}
 	\end{itemize}
 \end{proof}
@@ -1151,10 +1156,10 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
   Folgt trivialerweise aus \autoref{def:semiEntscheidbar}, \autoref{def:tmAkzeptanz} und \autoref{def:entscheidbarkeit}.
   
   \item "`$\neq$"':
-  Das spezielle Halteproblem ist nicht entscheidbar (\autoref{satz:speziellesHalteproblem})
+  Das spezielle Halteproblem ist nicht entscheidbar (\autoref{satz:speziellesHalteproblem}),
   aber semi-entscheidbar (\autoref{lemma:Ksemi-entscheidbar}).
+  \qedhere
  \end{itemize}
-
 \end{proof}
 
 
@@ -1170,7 +1175,7 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
 
 
 \begin{Satz}[name={[Abgeschlossenheit von Typ-0 Sprachen]}]\label{satz:Typ-0-abgeschl}
-	Die Typ-0 Sprachen sind unter $\thinmuskip=6mu\cup,\cap,\cdot,{}^*$ abgeschlossen aber nicht unter Komplementbildung abgeschlossen.
+	Die Typ-0 Sprachen sind unter $\thinmuskip=6mu\cup,\cap,\cdot,{}^*$ abgeschlossen, sind aber nicht unter Komplementbildung abgeschlossen.
 \end{Satz}
 \begin{proof}~
     \begin{itemize}
@@ -1184,8 +1189,9 @@ Grund: \autoref{lem:endlichKonfigurationen} und sobald eine Konfiguration zum zw
      
      \item Komplement:
      
-     Das spezielle Halteproblem $K$ ist semi-entscheidbar (\autoref{lemma:Ksemi-entscheidbar})
-     aber sein komplement $\overline{K}$ ist nicht semi-entscheidbar (\autoref{kor:6.11}).
+     Das spezielle Halteproblem $K$ ist semi-entscheidbar (\autoref{lemma:Ksemi-entscheidbar}),
+     aber sein Komplement $\overline{K}$ ist nicht semi-entscheidbar (\autoref{kor:6.11}).
+     \qedhere
      \end{itemize}
 \end{proof}
 
