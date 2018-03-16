@@ -1041,7 +1041,7 @@ Widerspruch zu \autoref{satz:speziellesHalteproblem}.
 
 \begin{Def}[name={[Halteproblem]}]
 	Das \emph{Halteproblem} ist definiert durch
-	\[H = \{\godel{\M}\# w \mid M \text{ angesetzt auf } w \text{ hält}\}. \qedhere\]
+	\[H = \{\godel{\M}\# w \mid \M \text{ angesetzt auf } w \text{ hält}\}. \qedhere\]
 \end{Def}
 \begin{Satz}[name={[$H$ ist unentscheidbar]}]\label{satz:H ist unentscheidbar}
 	$H$ ist unentscheidbar.
@@ -1336,8 +1336,7 @@ typische Fehler:
 \end{lemma}
 
 \begin{proof}
-	Wir konstruieren zunächst eine \ac{TM} $\widehat{\M}_U$, die arbeitet wie die universelle \ac{TM} $\M_U$, aber in eine Endlosschleife geht, wenn die von ihr simulierte \ac{TM} anhält und nicht akzeptiert.
-	Nun gilt $H = H_{\widehat{\M}_U}$.
+	Es gilt $H = H_{\M_U}$.
 \end{proof}
 
 \begin{Bemerkung}
