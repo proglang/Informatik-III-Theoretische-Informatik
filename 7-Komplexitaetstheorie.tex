@@ -891,19 +891,18 @@ Grund: Der zweite Fall folgt aus \autoref{lem:endlichKonfigurationen}. Ansonsten
 	\begin{itemize}
 	\item Phase 1: 
 	Wir wählen nichtdeterministisch das Wort, das wir erzeugen wollen (untere Spur), und bringen das Band der \ac{TM} (obere Spur) in die entsprechende Startkonfiguration.
+	
+	Entsprechende Regeln:
+		\begin{align*}
+		S &\-> \pmqty{(q_0,a)\\a} &&\forall a\in\Sigma\\
+		S &\-> S\pmqty{a\\a} &&\forall a\in\Sigma
+        \end{align*}
+	
 	\item Phase 2:
 	Wir simulieren auf der oberen Spur die Berechnungen der \ac{TM}, bis eine Haltekonfiguration erreicht ist.
-	\item Phase 3:
-	Wenn die \ac{TM} in einem akzeptierenden Zustand ist, ersetzen wir alle "`Zweispurzeichen"' durch das entsprechende Zeichen der unteren Spur und erhalten das Eingabewort.
-	\end{itemize}
 	
-	
-	
-	\end{itemize}
+	Entsprechende Regeln:
 	\begin{align*}
-		P &= \\
-		S &\-> \pmqty{(q_0,a)\\a} &&\forall a\in\Sigma\\
-		S &\-> S\pmqty{a\\a} &&\forall a\in\Sigma\\
 		\pmqty{\alpha\\a}
 			&\-> \pmqty{\beta\\a}
 			&&\begin{aligned}
@@ -916,6 +915,15 @@ Grund: Der zweite Fall folgt aus \autoref{lem:endlichKonfigurationen}. Ansonsten
 				\forall \alpha_1\alpha_2\->\beta_1\beta_2 &\in P'\\
 				\alpha_i,\beta_i &\in\triangle
 			\end{aligned}\\
+	\end{align*}
+	
+	
+	\item Phase 3:
+	Wenn die \ac{TM} in einem akzeptierenden Zustand ist, ersetzen wir alle "`Zweispurzeichen"' durch das entsprechende Zeichen der unteren Spur und erhalten das Eingabewort.
+	
+	
+		Entsprechende Regeln:
+	\begin{align*}
 		\pmqty{x\\a} &\-> a
 			&&\begin{aligned}
 				x&\in\Gamma\\
@@ -927,14 +935,8 @@ Grund: Der zweite Fall folgt aus \autoref{lem:endlichKonfigurationen}. Ansonsten
 				a&\in\Sigma
 			\end{aligned}
 	\end{align*}
-	\begin{align*}
-		S &\vdash^* \pmqty{(q_0,a_1)\\a_1}\pmqty{a_2\\a_2}\dots\pmqty{a_n\\a_n}\\
-		&\phantom{{}\vdash^*{}}\ \acs*{TM}\ \,\dots\\
-		&\vdash^* \pmqty{x_1\\a_1}\dots\pmqty{(q',x_i)\\a_i}\dots\pmqty{x_n\\a_n}\\
-		&\vdash^* a_1\dots a_i\dots a_n
-	\end{align*}
-	Damit gesehen: $L(\mathcal{G})\subseteq L(M)$\\
-	Rückrichtung: selbst \qedhere
+	\end{itemize}
+	\end{itemize}
 	\end{itemize}
 \end{proof}
 
