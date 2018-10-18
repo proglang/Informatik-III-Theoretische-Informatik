@@ -350,7 +350,7 @@ Schließlich zeigen wir $L(A_\cap)=L(A_1)\cap L(A_2)$ mit Hilfe der folgenden Um
 \end{eqnarray*}
 \end{proof}
 
-\datenote{25.10.17}
+
 Im folgenden Beispiel sei $A_1$ der \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$, dessen graphische Repräsentation nahezu mit $A_{\mathtt{Macaron}}$ identisch ist.
 
 \begin{center}
@@ -409,7 +409,7 @@ Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende
 \end{Bsp}
 
 
-
+\draftnote{24.10.18}
 
 \subsection{Minimierung endlicher Automaten}
 %  \datenote{26.10.16}
@@ -720,13 +720,15 @@ In den Übungen werden wir ein Verfahren mit Laufzeit $O(|Q|^4\cdot |\Sigma|)$ z
 Wir werden später (\-> Satz von Myhill-Nerode) sehen, dass $\A_\equiv$ der kleinste \acs*{DEA} ist, der $L(\A)$ akzeptiert.
 
 \begin{Def}[name={[Rechtskongruente Äquivalenzrelation]}]
-        \datenote{27.10.17}
+        \draftnote{26.10.18}
         Eine Äquivalenzrelation $R\subseteq\Sigma^*\x\Sigma^*$ heißt \emph{rechtskongruent}, falls
         \[
         (u,v)\in R \quad\=>\quad \forall w\in\Sigma^*: (u\cdot w,v\cdot w) \in R.
         \qedhere
         \]
 \end{Def}
+
+\hide{
 
 {\color{violet}
 \textbf{Motivation:}\footnote{Dieser lilafarbene Abschnitt wurde aufgrund der Fragestunde vom 22.12.2017 nachträglich eingefügt.}
@@ -2479,6 +2481,7 @@ Programm erfüllt Sicherheitspolitik nicht, denn
 \[
         \underset{\underset{\displaystyle N^*RW}{\rotatebox[origin=c]{-90}{$\supseteq$}}}{N^*\cdot R(N+W)} \not\subseteq \overline{\Sigma^*R\Sigma^*W\Sigma^*}
 \]
+}
 }
 
 %%% Local Variables:
