@@ -308,8 +308,9 @@ aus der Einleitung dieses Kapitels hat die folgende graphische Repräsentation.
 %         \end{proof}
 % \end{Bsp}
 
-
+\draftnote{24.10.18}
 Frage: Gegeben seien zwei reguläre Sprachen $L_1$, $L_2$ über einem gemeinsamen Alphabet $\Sigma$; ist dann auch der Schnitt $L_1\cap L_2$ eine reguläre Sprache? Wir beantworten diese Frage mit dem folgenden Satz.
+
 
 \begin{Satz}\label{satz:2.ClosedIntersection}
   Reguläre Sprachen sind abgeschlossen unter der Schnittoperation. (D.h.\ für zwei gegebene reguläre Sprachen $L_1$, $L_2$ über $\Sigma$ ist auch der Schnitt $L_1\cap L_2$ eine reguläre Sprache.)
@@ -409,7 +410,6 @@ Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende
 \end{Bsp}
 
 
-\draftnote{24.10.18}
 
 \subsection{Minimierung endlicher Automaten}
 %  \datenote{26.10.16}
@@ -728,7 +728,7 @@ Wir werden später (\-> Satz von Myhill-Nerode) sehen, dass $\A_\equiv$ der klei
         \]
 \end{Def}
 
-\hide{
+
 
 {\color{violet}
 \textbf{Motivation:}\footnote{Dieser lilafarbene Abschnitt wurde aufgrund der Fragestunde vom 22.12.2017 nachträglich eingefügt.}
@@ -968,7 +968,7 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
 \end{proof}
 %
 \setcounter{Korollar}{4}
-\begin{Korollar}\label{kor:2.minAutomat}\datenote{3.11.16}
+\begin{Korollar}\label{kor:2.minAutomat}\draftnote{31.10.18}
         Der im Beweisschritt (3) \=> (1) konstruierte Automat $\A$ ist ein minimaler Automat (bzgl.\ der Zustandsanzahl) für eine reguläre Sprache $L$.
 \end{Korollar}
 \begin{proof}
@@ -983,7 +983,7 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
         Für einen beliebigen \acs*{DEA} $A'$ ist $|Q|$ also nie größer als $|Q'|$.
 \end{proof}
 
-
+\hide{
 \subsection{\acf{PL} für reguläre Sprachen} %\rlnote{subsection \# (3.3)?}
 % \datenote{26.10.16 (Eingeschoben)}
 \label{sec:regpl}
