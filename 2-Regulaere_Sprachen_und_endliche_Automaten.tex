@@ -720,7 +720,6 @@ In den Übungen werden wir ein Verfahren mit Laufzeit $O(|Q|^4\cdot |\Sigma|)$ z
 Wir werden später (\-> Satz von Myhill-Nerode) sehen, dass $\A_\equiv$ der kleinste \acs*{DEA} ist, der $L(\A)$ akzeptiert.
 
 \begin{Def}[name={[Rechtskongruente Äquivalenzrelation]}]
-        \draftnote{26.10.18}
         Eine Äquivalenzrelation $R\subseteq\Sigma^*\x\Sigma^*$ heißt \emph{rechtskongruent}, falls
         \[
         (u,v)\in R \quad\=>\quad \forall w\in\Sigma^*: (u\cdot w,v\cdot w) \in R.
@@ -803,7 +802,7 @@ Im weiteren Verlauf des Unterkapitels werden wir genau diese Überlegungen forma
         \qedhere
         \end{align*}
 \end{Bsp}
-\begin{Def}
+\begin{Def}\draftnote{31.10.18}
         Für eine Sprache $L\subseteq \Sigma^*$ ist die \emph{Nerode-Relation} wie folgt definiert.
         \[
         R_L = \{(u,v) \mid \forall w\in\Sigma^*: uw\in L \<=> vw\in L \}
@@ -983,7 +982,7 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
         Für einen beliebigen \acs*{DEA} $A'$ ist $|Q|$ also nie größer als $|Q'|$.
 \end{proof}
 
-\hide{
+
 \subsection{\acf{PL} für reguläre Sprachen} %\rlnote{subsection \# (3.3)?}
 % \datenote{26.10.16 (Eingeschoben)}
 \label{sec:regpl}
@@ -1465,7 +1464,7 @@ Bemerkung: \ac{NEA}s sind eine exponentiell kompaktere Repräsentation von regul
  \item Zu jedem \ac{NEA} mit $n$ Zuständen gibt es einen \ac{DEA} mit $2^n$ Zuständen, der die gleiche Sprache akzeptiert. (\autoref{satz:2.rabinscott}).
  \item Zu jedem \ac{DEA} mit $n$ Zuständen gibt es einen \ac{NEA} mit $n$ Zuständen, der die gleiche Sprache akzeptiert.
 \end{enumerate}
-
+\hide{
 \subsubsection{\texorpdfstring{$\Eps$}{epsilon}-Übergänge}\label{sec:2.EpsNea}
 In diesem Unterkapitel führen wir mit dem $\Eps$-NEA ein weiteres Automatenmodell ein. 
 Wir wollen $\Eps$-NEAs zunächst durch die folgende Fragestellung und anschließende Diskussion motivieren.
