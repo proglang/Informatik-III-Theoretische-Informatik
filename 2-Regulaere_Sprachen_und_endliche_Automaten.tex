@@ -308,49 +308,31 @@ aus der Einleitung dieses Kapitels hat die folgende graphische Repräsentation.
 %         \end{proof}
 % \end{Bsp}
 
-\draftnote{24.10.18}
-Frage: Gegeben seien zwei reguläre Sprachen $L_1$, $L_2$ über einem gemeinsamen Alphabet $\Sigma$; ist dann auch der Schnitt $L_1\cap L_2$ eine reguläre Sprache? Wir beantworten diese Frage mit dem folgenden Satz.
+\datenote{24.10.18}
+Frage: Angenommen wir haben zwei \ac{DEA}s $A_1$ und $A_2$, können wir dann immer einen \ac{DEA} konstruieren der den Schnitt $L(A_1)\cap L(A_2)$ akzeptiert?
 
+Idee: Lasse beide \ac{DEA}s parallel laufen, akzeptiere nur wenn beide \ac{DEA}s akzeptieren.
 
-\begin{Satz}\label{satz:2.ClosedIntersection}
-  Reguläre Sprachen sind abgeschlossen unter der Schnittoperation. (D.h.\ für zwei gegebene reguläre Sprachen $L_1$, $L_2$ über $\Sigma$ ist auch der Schnitt $L_1\cap L_2$ eine reguläre Sprache.)
-\end{Satz}
+Frage: Lassen sich zwei \emph{parallel laufende} \ac{DEA}s in einem einzigen \ac{DEA} implementieren?
 
-% Der folgende Beweis ist ein typi
+Die nächste Konstruktion und der drauf folgende Satz liefern eine positive Antwort auf diese Frage.
 
-\begin{proof}\footnote{Dieser erste Beweis ist außergewöhnlich detailliert. In den folgenden Beweisen werden wir einfache Umformungen zusammenfassen.}
-Da $L_1$ und $L_2$ regulär sind, gibt es zwei \ac{DEA}s $A_1=(\Sigma, Q_1,\delta_1,\qinit_1,F_1)$ und $A_2=(\Sigma, Q_2,\delta_2,\qinit_2,F_2)$ mit $L_1=L(A_1)$ und $L_2=L(A_2)$.
-Wir konstruieren nun zunächst den \emph{Produktautomaten für Schnitt} $A_\cap=(\Sigma, Q_\cap,\delta_\cap,\qinit_\cap,F_\cap)$ wie folgt.
+\begin{Def}[Produktautomat für Schnitt]\label{def:2.Produktautomat}
+Seien $A_1=(\Sigma, Q_1,\delta_1,\qinit_1,F_1)$ und $A_2=(\Sigma, Q_2,\delta_2,\qinit_2,F_2)$ \ac{DEA}s.
+Wir definieren den \emph{Produktautomaten für Schnitt} als den \ac{DEA} $A_\cap=(\Sigma, Q_\cap,\delta_\cap,\qinit_\cap,F_\cap)$ mit den folgenden Komponenten.
 		\begin{align*}
 			Q_\cap &= Q_1\x Q_2\\
 			\delta_\cap((q_1,q_2),a) &= (\delta_1(q_1,a),\delta_2(q_2,a))\;, \quad \text{für alle } a\in\Sigma\\
 			\qinit_\cap &= (\qinit_1,\qinit_2)\\
-			F_\cap &= F_1\x F_2\\
+			F_\cap &= F_1\x F_2\qedhere
 		\end{align*}
-Anschließend zeigen wir, dass $L(A_\cap)=L(A_1)\cap L(A_2)$ gilt. 
-Hierfür zeigen wir zunächst via Induktion über die Länge von $w$, dass für alle $w\in\Sigma^*$, für alle $q_1\in Q_1$ und für alle $q_2\in Q_2$ die folgende Gleichung gilt.
-$$\tilde{\delta}_\cap((q_1,q_2),w) = (\tilde{\delta}_1(q_1,w), \tilde{\delta}_2(q_2,w))$$
-Der Induktionsanfang für $n=0$ folgt dabei direkt aus \autoref{def:2.deltaschlange}, da $\Eps$ das einzige Wort der Länge $0$ ist.
-$$\tilde{\delta}_\cap((q_1,q_2),\Eps) = (q_1,q_2)$$
-Den Induktionsschritt $n\rightsquigarrow n+1$ zeigen wir mit Hilfe der folgenden Umformungen, wobei $a\in\Sigma$ ein beliebiges Zeichen und $w\in\Sigma^n$ ein beliebiges Wort der Länge $n$ ist.
-\begin{eqnarray*}
-  \tilde{\delta}_\cap((q_1,q_2),aw) 
-    & \stackrel{\text{\autoref{def:2.deltaschlange}}}{=} & \tilde{\delta}_\cap(\delta_\cap((q_1,q_2),a),w)\\
-    & \stackrel{\text{Def.\ }\delta_\cap}{=} & \tilde{\delta}_\cap (\big(\delta_1(q_1,a),\delta_2(q_2,a)\big),w)\\
-    & \stackrel{\text{I.V.}}{=} & \big(\tilde{\delta}_1 (\delta_1(q_1,a),w), \tilde{\delta}_2(\delta_2(q_2,a),w)\big)\\
-    & \stackrel{\text{\autoref{def:2.deltaschlange}}}{=} & \big(\tilde{\delta}_1(q_1,aw), \tilde{\delta}_2(q_2,aw)\big)
-\end{eqnarray*}
-Schließlich zeigen wir $L(A_\cap)=L(A_1)\cap L(A_2)$ mit Hilfe der folgenden Umformungen für ein beliebiges $w\in\Sigma^*$.
-\begin{eqnarray*}
-  w\in L(A_\cap)
-  & \stackrel{\text{\autoref{def:2.sprache}}}{\mathsf{gdw}} & \tilde{\delta}_\cap(\qinit_\cap,w)\in F_\cap\\
-  & \stackrel{\text{Def.\ }\qinit_\cap}{\mathsf{gdw}} & \tilde{\delta}_\cap((\qinit_1,\qinit_2),w)\in F_\cap\\
-  & \stackrel{}{\mathsf{gdw}} & (\tilde{\delta}_1(\qinit_1,w),\tilde{\delta}_2(\qinit_2,w))\in F_\cap\\
-  & \stackrel{\text{Def.\ }F_\cap}{\mathsf{gdw}} & \tilde{\delta}_1(\qinit_1,w)\in F_1 \text{ und } \tilde{\delta}_2(\qinit_2,w)\in F_2\\
-  & \stackrel{\text{\autoref{def:2.sprache}}}{\mathsf{gdw}} & w\in L(A_1) \text{ und } w\in L(A_2)
-\end{eqnarray*}
-\end{proof}
+\end{Def}
 
+{\color{green!60!black}
+\begin{Bemerkung}
+In der Vorlesung vom 24.10.2018 wurde zunächst das Beispiel und dann erst die Konstruktion präsentiert.
+\end{Bemerkung}
+}
 
 Im folgenden Beispiel sei $A_1$ der \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$, dessen graphische Repräsentation nahezu mit $A_{\mathtt{Macaron}}$ identisch ist.
 
@@ -373,7 +355,6 @@ Im folgenden Beispiel sei $A_1$ der \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$
 \end{tikzpicture}
 \end{center}
 
-\goodbreak
 
 \begin{Bsp}\label{bsp:2.schnitt}
 Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende graphische Repräsentation, wobei wir um Platz zu sparen "`$q_{ij}$"' statt "`$(q_i, q_j)$"' schreiben.
@@ -406,8 +387,61 @@ Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende
   \draw[->, loop below] (21) to node[below]{$0$} (21);
 \end{tikzpicture}
 \end{center}
-
 \end{Bsp}
+{\color{green!60!black}
+\begin{Bemerkung}
+In der Vorlesung vom 24.10.2018 wurde das gleiche Beispiel mit vertauschten Operanden präsentiert. 
+(Die resultierende Graphstruktur war also identisch aber die Beschriftung der Knoten war eine andere.)
+\end{Bemerkung}
+}
+
+
+
+\begin{Satz}\label{satz:2.Produktautomat}
+  Für beliebige \ac{DEA}s $A_1$ und $A_2$ akzeptiert der entsprechende Produktautomat für Schnitt die Sprache $L(A_1)\cap L(A_1)$.
+%   Reguläre Sprachen sind abgeschlossen unter der Schnittoperation. (D.h.\ für zwei gegebene reguläre Sprachen $L_1$, $L_2$ über $\Sigma$ ist auch der Schnitt $L_1\cap L_2$ eine reguläre Sprache.)
+\end{Satz}
+
+
+
+% \begin{Satz}\label{satz:2.ClosedIntersection}
+%   Reguläre Sprachen sind abgeschlossen unter der Schnittoperation. (D.h.\ für zwei gegebene reguläre Sprachen $L_1$, $L_2$ über $\Sigma$ ist auch der Schnitt $L_1\cap L_2$ eine reguläre Sprache.)
+% \end{Satz}
+
+% Der folgende Beweis ist ein typi
+
+\begin{proof}\footnote{Dieser erste Beweis ist außergewöhnlich detailliert. In den folgenden Beweisen werden wir einfache Umformungen zusammenfassen.}
+Seien $A_1=(\Sigma, Q_1,\delta_1,\qinit_1,F_1)$ und $A_2=(\Sigma, Q_2,\delta_2,\qinit_2,F_2)$ \ac{DEA}s und
+$A_\cap=(\Sigma, Q_\cap,\delta_\cap,\qinit_\cap,F_\cap)$ der zugehörige Produktautomat für Schnitt.
+Wir zeigen zunächst via Induktion über die Länge von $w$, dass für alle $w\in\Sigma^*$, für alle $q_1\in Q_1$ und für alle $q_2\in Q_2$ die folgende Gleichung gilt.
+$$\tilde{\delta}_\cap((q_1,q_2),w) = (\tilde{\delta}_1(q_1,w), \tilde{\delta}_2(q_2,w))$$
+Der Induktionsanfang für $n=0$ folgt dabei direkt aus \autoref{def:2.deltaschlange}, da $\Eps$ das einzige Wort der Länge $0$ ist.
+$$\tilde{\delta}_\cap((q_1,q_2),\Eps) = (q_1,q_2)$$
+Den Induktionsschritt $n\rightsquigarrow n+1$ zeigen wir mit Hilfe der folgenden Umformungen, wobei $a\in\Sigma$ ein beliebiges Zeichen und $w\in\Sigma^n$ ein beliebiges Wort der Länge $n$ ist.
+\begin{eqnarray*}
+  \tilde{\delta}_\cap((q_1,q_2),aw) 
+    & \stackrel{\text{\autoref{def:2.deltaschlange}}}{=} & \tilde{\delta}_\cap(\delta_\cap((q_1,q_2),a),w)\\
+    & \stackrel{\text{Def.\ }\delta_\cap}{=} & \tilde{\delta}_\cap (\big(\delta_1(q_1,a),\delta_2(q_2,a)\big),w)\\
+    & \stackrel{\text{I.V.}}{=} & \big(\tilde{\delta}_1 (\delta_1(q_1,a),w), \tilde{\delta}_2(\delta_2(q_2,a),w)\big)\\
+    & \stackrel{\text{\autoref{def:2.deltaschlange}}}{=} & \big(\tilde{\delta}_1(q_1,aw), \tilde{\delta}_2(q_2,aw)\big)
+\end{eqnarray*}
+Schließlich zeigen wir $L(A_\cap)=L(A_1)\cap L(A_2)$ mit Hilfe der folgenden Umformungen für ein beliebiges $w\in\Sigma^*$.
+\begin{eqnarray*}
+  w\in L(A_\cap)
+  & \stackrel{\text{\autoref{def:2.sprache}}}{\mathsf{gdw}} & \tilde{\delta}_\cap(\qinit_\cap,w)\in F_\cap\\
+  & \stackrel{\text{Def.\ }\qinit_\cap}{\mathsf{gdw}} & \tilde{\delta}_\cap((\qinit_1,\qinit_2),w)\in F_\cap\\
+  & \stackrel{}{\mathsf{gdw}} & (\tilde{\delta}_1(\qinit_1,w),\tilde{\delta}_2(\qinit_2,w))\in F_\cap\\
+  & \stackrel{\text{Def.\ }F_\cap}{\mathsf{gdw}} & \tilde{\delta}_1(\qinit_1,w)\in F_1 \text{ und } \tilde{\delta}_2(\qinit_2,w)\in F_2\\
+  & \stackrel{\text{\autoref{def:2.sprache}}}{\mathsf{gdw}} & w\in L(A_1) \text{ und } w\in L(A_2)
+\end{eqnarray*}
+\end{proof}
+
+
+
+
+\goodbreak
+
+
 
 
 
@@ -528,6 +562,12 @@ Geschrieben als Menge von Paaren sieht die Relation $\equiv\;\subseteq Q\times Q
 \]
 \end{Bsp}
 
+{\color{green!60!black}
+\begin{Bemerkung}
+Der folgende Exkurs war Thema von Vorbereitungsblatt 01 und wurde in der der Vorlesung vom 24.10.2018 wurde nur kurz besprochen.
+\end{Bemerkung}
+}
+
 
 \subsubsection{Exkurs: Äquivalenzrelationen}
 Sie haben Äquivalenzrelationen bereits in "`Mathematik II für Studierende der Informatik"'\footnote{\url{http://home.mathematik.uni-freiburg.de/junker/ss17/matheII.html}} kennengelernt.
@@ -582,7 +622,7 @@ Zwei Fakten über eine beliebige Äquivalenzrelation $R$ (ohne Beweis).
 
 Hiermit endet der Exkurs zu Äquivalenzrelationen; wir wollen mit diesem Wissen die oben definierte Relation $\equiv\; \subseteq Q\times Q$ genauer analysieren.
 
-\begin{lemma}[name={[$\equiv$ ist Äquivalenzrelation]}] %\rlnote{Satz = Lemma-Nummer: 3.2 statt 3.1?}
+\begin{lemma}[name={[$\equiv$ ist Äquivalenzrelation]}]\datenote{26.10.18} %\rlnote{Satz = Lemma-Nummer: 3.2 statt 3.1?}
         Die Relation "`$\equiv$"' ist eine \emph{Äquivalenzrelation}.
 \end{lemma}
 \begin{proof}
@@ -729,10 +769,13 @@ Wir werden später (\-> Satz von Myhill-Nerode) sehen, dass $\A_\equiv$ der klei
 
 
 
-{\color{violet}
-\textbf{Motivation:}\footnote{Dieser lilafarbene Abschnitt wurde aufgrund der Fragestunde vom 22.12.2017 nachträglich eingefügt.}
-In weiteren Verlauf dieses Unterkapitels wollen wir reguläre Sprachen charakterisieren.
-Informell ist die Idee dieser Charakterisierung die folgende:
+
+\textbf{Motivation:}
+Ist eigentlich jede Sprache regulär? 
+Falls nein, wie können wir nicht-reguläre Sprachen finden?
+Wie können wir beweisen dass eine Sprache nicht regulär ist?
+In weiteren Verlauf dieses Unterkapitels wollen wir charakteristische Merkmale von reguläre Sprachen finden.
+Die Idee dazu basiert auf den folgenden Überlegungen:
 
 Angenommen, wir möchten für eine gegebene Sprache $L$ einen \ac{DEA} $\A$ konstruieren.
 Angenommen, wir haben bereits einen ersten Entwurf gemacht und in diesem führen sowohl das Wort $u\in\Sigma^*$
@@ -773,10 +816,10 @@ Doch ein \ac{DEA} darf nur endlich viele Zustände haben.
 Die Sprache $L$ kann also nicht regulär sein.
 
 Im weiteren Verlauf des Unterkapitels werden wir genau diese Überlegungen formal ausarbeiten.
-}
+
 
 %\setcounter{Bsp}{5}
-\begin{Bsp} %\rlnote{Bsp.-Num. überprüfen (3.6)}
+\begin{Def} %\rlnote{Bsp.-Num. überprüfen (3.6)}
   \label{Bsp:R_m}
         Für einen \ac{DEA} $\A$ definiere
         \[ R_\A = \{(u,v) \mid \tilde\delta(\qinit,u)=\tilde\delta(\qinit,v)\}. \]
@@ -801,7 +844,7 @@ Im weiteren Verlauf des Unterkapitels werden wir genau diese Überlegungen forma
         [111] &= \{w\mid \text{Anzahl von Einsen in $w$ ist ungerade und $\geq 2$}\}
         \qedhere
         \end{align*}
-\end{Bsp}
+\end{Def}
 \begin{Def}\draftnote{31.10.18}
         Für eine Sprache $L\subseteq \Sigma^*$ ist die \emph{Nerode-Relation} wie folgt definiert.
         \[
@@ -967,7 +1010,7 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
 \end{proof}
 %
 \setcounter{Korollar}{4}
-\begin{Korollar}\label{kor:2.minAutomat}\draftnote{31.10.18}
+\begin{Korollar}\label{kor:2.minAutomat}
         Der im Beweisschritt (3) \=> (1) konstruierte Automat $\A$ ist ein minimaler Automat (bzgl.\ der Zustandsanzahl) für eine reguläre Sprache $L$.
 \end{Korollar}
 \begin{proof}
@@ -983,140 +1026,7 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
 \end{proof}
 
 
-\subsection{\acf{PL} für reguläre Sprachen} %\rlnote{subsection \# (3.3)?}
-% \datenote{26.10.16 (Eingeschoben)}
-\label{sec:regpl}
-Welche interessanten Eigenschaften haben reguläre Sprachen?
 
-\textbf{Notation:} Sei $\operatorname{bin}:\{0,1\}^*\rightarrow \N$ die Decodierung von Bitstrings in natürliche Zahlen;
-z.B.\ $\operatorname{bin}(101) = 5$, $\operatorname{bin}(\Eps) = 0$.
-
-\begin{Bsp}\label{bsp:2.mod3}
-Betrachte den folgenden \ac{DEA}, der die Sprache der Binärcodierung von durch drei teilbaren Zahlen akzeptiert:
-                $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$
-    \begin{center}
-                \begin{tikzpicture}
-                        \node (start) at (-4,1.5) {};
-                        \node (q0) [circle, double] at (-3,1) {$q_0$};
-                        \node (q1) [circle] at (-0.5,1) {$q_1$};
-                        \node (q2) [circle] at (2,1) {$q_2$};
-                        \draw [->] (start) edge (q0);
-                        \draw [->] (q0) edge [loop above] node {0} (q0);
-                        \draw [->] (q0) edge node [auto] {1} (q1);
-                        \draw [->] (q1) edge [bend left] node [auto] {1} (q0);
-                        \draw [->] (q1) edge node [auto] {0} (q2);
-                        \draw [->] (q2) edge [bend left] node [auto] {0} (q1);
-                        \draw [->] (q2) edge [loop above] node {1} (q2);
-                \end{tikzpicture}
-  \end{center}
-  Beobachtungen:
-  \begin{itemize}
-  \item Es gilt offensichtlich, dass $11 \in L$.
-  \item Es gilt auch, dass $1 \underline{0 0} 1 \in L$.
-  \item Der Automat hat eine Schleife bei $\tilde\delta({q_1,00}) = q_1$, die mehrfach "`abgelaufen"' werden kann, ohne die Akzeptanz zu beeinflussen.
-  \item Also gilt auch $100001 \in L$.
-  \item Im Allgemeinen gilt $\forall i\in\N: 1(00)^i1 \in L$.
-  \qedhere
-  \end{itemize}
-\end{Bsp}
-Verdacht: Alle "`langen"' Wörter lassen sich in der Mitte "`aufpumpen"'.
-Wir formalisieren diesen Verdacht im folgenden Lemma.
-
-\begin{lemma}[Pumping Lemma]\label{lem:pumping}
-        Sei $L$ eine reguläre Sprache. Dann gilt:
-        \begin{alignat*}{2}
-                &\exists n\in\N,\ n>0:\quad \forall z\in L,\ |z|\geq n:\\
-                &\exists u,v,w\in\Sigma^* :\\
-                &z = uvw,\ |uv| \leq n,\ |v| \geq 1\\
-                \text{und }& \forall i\in\N: uv^iw\in L
-        \end{alignat*}
-\end{lemma}
-\vspace{-2em}
-\begin{proof}
-	Sei $\A=(\Sigma, Q,\delta,\qinit,F)$ ein beliebiger \ac{DEA} für $L$.
-	Wähle $n=|Q|$ und $z\in L$ beliebig mit $|z|\geq n$.
-	
-	\vspace{-1em}
-	
-	Beim Lesen von $z$ durchläuft $\A$ genau $\overbrace{|z|+1}^{\geq\; n+1}$ Zustände.
-	Somit gibt es mindestens einen Zustand $q\in Q$, der mehrmals besucht wird (Schubfachprinzip).
-	
-	Wähle den Zustand $q$, der als Erster zweimal besucht wird.
-	\begin{alignat*}{3}
-		\text{Nun gilt: }\quad
-		\exists u:\; && \tilde\delta(\qinit,u)&=q &\qquad& u\text{ Präfix von }z\\
-		\exists v:\; && \tilde\delta(q,v)&=q && uv\text{ Präfix von }z\\
-		\exists w:\; && \tilde\delta(q,w)&\in F && uvw=z\\
-		&& |v| &\geq 1\\
-		&& |uv| &\leq n && \text{da $q$ als Erster zweimal besucht wird}
-	\end{alignat*}
-	\begin{alignat*}{2}
-		\text{Es folgt für beliebiges $i\in\N$ :}\quad \tilde\delta(\qinit,uv^iw) &= \tilde\delta(q,v^iw)\\
-		&= \tilde\delta(q,w) &\qquad& \text{denn }\forall i: \tilde\delta(q,v^i)=q\\
-		&\in F
-		\qedherefixalignat
-	\end{alignat*}
-\end{proof}
-
-
-\begin{Bsp}\label{bsp:2.centeredPL}
-        Die Sprache $L_\text{centered}=\{0^n10^n \mid n\in\N\}$ ist nicht regulär.
-        
-        Wir geben hierfür einen Widerspruchsbeweis mit Hilfe des Pumping Lemmas \ac{PL}.
-        
-        Sei $n$ die Konstante aus dem \ac{PL}. Wähle $z=0^n10^n$. 
-        (Gültige Wahl, da $|z|=2n+1\geq n$)\\
-        Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N: uv^iw \in L$. 
-        Nach Wahl von $z$ gilt nun
-  \begin{itemize}
-  \item $uv = 0^m$ mit $m\leq n$
-  \item $v = 0^k$ mit $k\geq 1$
-  \item $w = 0^{n-m}10^n$ 
-  \end{itemize}
-  Betrachte $uv^2w = 0^{m-k}0^{2k}0^{n-m}10^n = 0^{n+k}10^n \notin L$. Widerspruch!
-  Somit ist $L$ nicht regulär.
-  
-  Zur Illustration:
-  \begin{gather*}
-    \underbrace{0\ \dots\dots\ 0}_{n} 1 \underbrace{0\ \dots\dots\ 0}_{n}\\
-    |\!\ruleplaceholder[u]{\widthof{0\ \dots }} \!|\! \ruleplaceholder[v]{\widthof{\dots 0}}\!|% 
-    \ruleplaceholder[w]{\widthof{\ \ \ $1\ \dots\dots\ 1$}}\!|
-    \qedhere
-  \end{gather*}
-\end{Bsp}
-
-% \begin{Bsp*}
-%         $L=\{0^{x^2} \mid x\in\N\}$ ist nicht regulär.\\
-%         Sei $n$ die Konstante aus dem \ac{PL}.
-%         
-%         Wähle $z=0^{n^2}$. Also $|z|=n^2\geq n$\\
-%         Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N: uv^iw \in L$. Nach Wahl von $z$ gilt nun
-%   \begin{itemize}
-%   \item $uv = 0^m$ mit $m\leq n$
-%   \item $v = 0^k$ mit $k\geq 1$
-%   \item $w = 0^{n^2 - m}$ mit $k\geq 1$
-%   \end{itemize}
-%   Betrachte $uv^2w = uvvw = 0^{m}0^k0^{n^2-m} = 0^{n^2+k}$.
-%   Da $n^2+k$ keine Quadratzahl sein kann ist $uv^2w \not \in L$, und somit ist $L$ nicht regulär.
-%   Begründung: betrachte $(n+1)^2 - n^2 = n^2 + 2n + 1 - n^2 = 2n + 1$.
-%   Aber $k \le m \le n \le 2n + 1$.
-% \end{Bsp*}
-% 
-% \begin{Bsp*}
-% $L_2 = \{0^p \mid p\text{ ist Primzahl}\}$ ist nicht regulär.
-% 
-% Sei $n$ Konst. aus dem \ac{PL}, $p$ Primzahl mit $p \geq n$.\\
-% Wähle $z=0^p \in L_2$
-% \begin{align*}
-%         \ac{PL}:\ &z=uvw \text{ mit } |uv|\leq n &&,|v| \geq 1\\
-%         &\curvearrowright |z|= p=a+b &&, a = |uw| \quad, b= |v|\\
-%         &\curvearrowright |uv^iw| = a + ib &&, \text{wähle }i=p+1\\
-%         &\curvearrowright |uv^{p+1}w| = a + (p+1)b & =& a + pb + b = p+pb \text{ keine Primzahl} \\
-%         \text{Also } &uv^{p+1}w \notin L_2\\
-%         &\curvearrowright L_2\text{ nicht regulär.}
-%   \qedhere
-% \end{align*}
-% \end{Bsp*}
 
 
 \subsection[\acf{NEA}]{Nichtdeterministischer endlicher Automat (NEA)}
@@ -1372,7 +1282,7 @@ Bemerkung: Zu jedem \ac{DEA} $\A= (\Sigma, Q,\delta,\qinit,F)$ gibt es einen \ac
 Beispiel: der \ac{NEA} $\calN= (\Sigma, Q,\delta_\mathsf{NEA},\qinit,F)$ mit $\delta_\mathsf{NEA}(q,a)=\{\delta(q,a)\}$, der sich von $\A$ nur in der Transitionsfunktion unterscheidet.
 
 
-\begin{Satz}[Rabin und Scott]\label{satz:2.rabinscott}
+\begin{Satz}[Rabin und Scott]\label{satz:2.rabinscott}\draftnote{02.11.18}
 	Zu jedem \ac{NEA} $\calN$ mit $n$ Zuständen gibt es einen \ac{DEA} $\A_\calP$ mit $2^n$ Zuständen, sodass $L(\A_\calP)=L(\calN)$ gilt.
 \end{Satz}
   Zur Vorbereitung des Beweises machen wir zunächst die folgende Definition.
@@ -1464,7 +1374,7 @@ Bemerkung: \ac{NEA}s sind eine exponentiell kompaktere Repräsentation von regul
  \item Zu jedem \ac{NEA} mit $n$ Zuständen gibt es einen \ac{DEA} mit $2^n$ Zuständen, der die gleiche Sprache akzeptiert. (\autoref{satz:2.rabinscott}).
  \item Zu jedem \ac{DEA} mit $n$ Zuständen gibt es einen \ac{NEA} mit $n$ Zuständen, der die gleiche Sprache akzeptiert.
 \end{enumerate}
-\hide{
+
 \subsubsection{\texorpdfstring{$\Eps$}{epsilon}-Übergänge}\label{sec:2.EpsNea}
 In diesem Unterkapitel führen wir mit dem $\Eps$-NEA ein weiteres Automatenmodell ein. 
 Wir wollen $\Eps$-NEAs zunächst durch die folgende Fragestellung und anschließende Diskussion motivieren.
@@ -1572,7 +1482,7 @@ wobei $\Sigma$, $Q$, $\qinit$, $F$ wie bei \acs*{NEA}s (bzw.\ \acs*{DEA}s) defin
 \end{Def}
 
 \begin{Bsp}\label{bsp2.EpsNeaEx} 
-   \datenote{10.11.17}
+   \draftnote{6.11.18}
    Zustandsdiagramm eines $\Eps$-NEA über dem Alphabet $\Sigma=\{a,b\}$.
    \begin{center}
                 \begin{tikzpicture}[circle/.style={
@@ -1807,12 +1717,145 @@ Die vom $\Eps$-NEA für Konkatenation akzeptierte Sprache ist $L(\B_1)\cdot L(\B
  \]
 \end{proof}
 
+\hide{
+\subsection{\acf{PL} für reguläre Sprachen} %\rlnote{subsection \# (3.3)?}
+% \datenote{26.10.16 (Eingeschoben)}
+\label{sec:regpl}
+Welche interessanten Eigenschaften haben reguläre Sprachen?
+
+\textbf{Notation:} Sei $\operatorname{bin}:\{0,1\}^*\rightarrow \N$ die Decodierung von Bitstrings in natürliche Zahlen;
+z.B.\ $\operatorname{bin}(101) = 5$, $\operatorname{bin}(\Eps) = 0$.
+
+\begin{Bsp}\label{bsp:2.mod3}
+Betrachte den folgenden \ac{DEA}, der die Sprache der Binärcodierung von durch drei teilbaren Zahlen akzeptiert:
+                $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$
+    \begin{center}
+                \begin{tikzpicture}
+                        \node (start) at (-4,1.5) {};
+                        \node (q0) [circle, double] at (-3,1) {$q_0$};
+                        \node (q1) [circle] at (-0.5,1) {$q_1$};
+                        \node (q2) [circle] at (2,1) {$q_2$};
+                        \draw [->] (start) edge (q0);
+                        \draw [->] (q0) edge [loop above] node {0} (q0);
+                        \draw [->] (q0) edge node [auto] {1} (q1);
+                        \draw [->] (q1) edge [bend left] node [auto] {1} (q0);
+                        \draw [->] (q1) edge node [auto] {0} (q2);
+                        \draw [->] (q2) edge [bend left] node [auto] {0} (q1);
+                        \draw [->] (q2) edge [loop above] node {1} (q2);
+                \end{tikzpicture}
+  \end{center}
+  Beobachtungen:
+  \begin{itemize}
+  \item Es gilt offensichtlich, dass $11 \in L$.
+  \item Es gilt auch, dass $1 \underline{0 0} 1 \in L$.
+  \item Der Automat hat eine Schleife bei $\tilde\delta({q_1,00}) = q_1$, die mehrfach "`abgelaufen"' werden kann, ohne die Akzeptanz zu beeinflussen.
+  \item Also gilt auch $100001 \in L$.
+  \item Im Allgemeinen gilt $\forall i\in\N: 1(00)^i1 \in L$.
+  \qedhere
+  \end{itemize}
+\end{Bsp}
+Verdacht: Alle "`langen"' Wörter lassen sich in der Mitte "`aufpumpen"'.
+Wir formalisieren diesen Verdacht im folgenden Lemma.
+
+\begin{lemma}[Pumping Lemma]\label{lem:pumping}
+        Sei $L$ eine reguläre Sprache. Dann gilt:
+        \begin{alignat*}{2}
+                &\exists n\in\N,\ n>0:\quad \forall z\in L,\ |z|\geq n:\\
+                &\exists u,v,w\in\Sigma^* :\\
+                &z = uvw,\ |uv| \leq n,\ |v| \geq 1\\
+                \text{und }& \forall i\in\N: uv^iw\in L
+        \end{alignat*}
+\end{lemma}
+\vspace{-2em}
+\begin{proof}
+	Sei $\A=(\Sigma, Q,\delta,\qinit,F)$ ein beliebiger \ac{DEA} für $L$.
+	Wähle $n=|Q|$ und $z\in L$ beliebig mit $|z|\geq n$.
+	
+	\vspace{-1em}
+	
+	Beim Lesen von $z$ durchläuft $\A$ genau $\overbrace{|z|+1}^{\geq\; n+1}$ Zustände.
+	Somit gibt es mindestens einen Zustand $q\in Q$, der mehrmals besucht wird (Schubfachprinzip).
+	
+	Wähle den Zustand $q$, der als Erster zweimal besucht wird.
+	\begin{alignat*}{3}
+		\text{Nun gilt: }\quad
+		\exists u:\; && \tilde\delta(\qinit,u)&=q &\qquad& u\text{ Präfix von }z\\
+		\exists v:\; && \tilde\delta(q,v)&=q && uv\text{ Präfix von }z\\
+		\exists w:\; && \tilde\delta(q,w)&\in F && uvw=z\\
+		&& |v| &\geq 1\\
+		&& |uv| &\leq n && \text{da $q$ als Erster zweimal besucht wird}
+	\end{alignat*}
+	\begin{alignat*}{2}
+		\text{Es folgt für beliebiges $i\in\N$ :}\quad \tilde\delta(\qinit,uv^iw) &= \tilde\delta(q,v^iw)\\
+		&= \tilde\delta(q,w) &\qquad& \text{denn }\forall i: \tilde\delta(q,v^i)=q\\
+		&\in F
+		\qedherefixalignat
+	\end{alignat*}
+\end{proof}
 
 
+\begin{Bsp}\label{bsp:2.centeredPL}
+        Die Sprache $L_\text{centered}=\{0^n10^n \mid n\in\N\}$ ist nicht regulär.
+        
+        Wir geben hierfür einen Widerspruchsbeweis mit Hilfe des Pumping Lemmas \ac{PL}.
+        
+        Sei $n$ die Konstante aus dem \ac{PL}. Wähle $z=0^n10^n$. 
+        (Gültige Wahl, da $|z|=2n+1\geq n$)\\
+        Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N: uv^iw \in L$. 
+        Nach Wahl von $z$ gilt nun
+  \begin{itemize}
+  \item $uv = 0^m$ mit $m\leq n$
+  \item $v = 0^k$ mit $k\geq 1$
+  \item $w = 0^{n-m}10^n$ 
+  \end{itemize}
+  Betrachte $uv^2w = 0^{m-k}0^{2k}0^{n-m}10^n = 0^{n+k}10^n \notin L$. Widerspruch!
+  Somit ist $L$ nicht regulär.
+  
+  Zur Illustration:
+  \begin{gather*}
+    \underbrace{0\ \dots\dots\ 0}_{n} 1 \underbrace{0\ \dots\dots\ 0}_{n}\\
+    |\!\ruleplaceholder[u]{\widthof{0\ \dots }} \!|\! \ruleplaceholder[v]{\widthof{\dots 0}}\!|% 
+    \ruleplaceholder[w]{\widthof{\ \ \ $1\ \dots\dots\ 1$}}\!|
+    \qedhere
+  \end{gather*}
+\end{Bsp}
+
+% \begin{Bsp*}
+%         $L=\{0^{x^2} \mid x\in\N\}$ ist nicht regulär.\\
+%         Sei $n$ die Konstante aus dem \ac{PL}.
+%         
+%         Wähle $z=0^{n^2}$. Also $|z|=n^2\geq n$\\
+%         Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N: uv^iw \in L$. Nach Wahl von $z$ gilt nun
+%   \begin{itemize}
+%   \item $uv = 0^m$ mit $m\leq n$
+%   \item $v = 0^k$ mit $k\geq 1$
+%   \item $w = 0^{n^2 - m}$ mit $k\geq 1$
+%   \end{itemize}
+%   Betrachte $uv^2w = uvvw = 0^{m}0^k0^{n^2-m} = 0^{n^2+k}$.
+%   Da $n^2+k$ keine Quadratzahl sein kann ist $uv^2w \not \in L$, und somit ist $L$ nicht regulär.
+%   Begründung: betrachte $(n+1)^2 - n^2 = n^2 + 2n + 1 - n^2 = 2n + 1$.
+%   Aber $k \le m \le n \le 2n + 1$.
+% \end{Bsp*}
+% 
+% \begin{Bsp*}
+% $L_2 = \{0^p \mid p\text{ ist Primzahl}\}$ ist nicht regulär.
+% 
+% Sei $n$ Konst. aus dem \ac{PL}, $p$ Primzahl mit $p \geq n$.\\
+% Wähle $z=0^p \in L_2$
+% \begin{align*}
+%         \ac{PL}:\ &z=uvw \text{ mit } |uv|\leq n &&,|v| \geq 1\\
+%         &\curvearrowright |z|= p=a+b &&, a = |uw| \quad, b= |v|\\
+%         &\curvearrowright |uv^iw| = a + ib &&, \text{wähle }i=p+1\\
+%         &\curvearrowright |uv^{p+1}w| = a + (p+1)b & =& a + pb + b = p+pb \text{ keine Primzahl} \\
+%         \text{Also } &uv^{p+1}w \notin L_2\\
+%         &\curvearrowright L_2\text{ nicht regulär.}
+%   \qedhere
+% \end{align*}
+% \end{Bsp*}
 
 
 \subsection{Abschlusseigenschaften}
-\datenote{15.11.17}
+\datenote{08.11.18}
 % \begin{Def}[name={[Abgeschlossenheit von $\mathcal{L}$]}]
 %         Eine Menge $\mathcal{L}\subseteq \mathcal{P}(\Sigma^*)$ von Sprachen heißt \emph{abgeschlossen} unter Operation \\
 %         $f:\mathcal{P}(\Sigma^*)^n \-> \mathcal{P}(\Sigma^*)$ falls $\forall L_1,\dots, L_n\in \mathcal{L} : f(L_1,\dots, L_n)\in \mathcal{L}$.
