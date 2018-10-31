@@ -845,7 +845,7 @@ Im weiteren Verlauf des Unterkapitels werden wir genau diese Überlegungen forma
         \qedhere
         \end{align*}
 \end{Def}
-\begin{Def}\draftnote{31.10.18}
+\begin{Def}\datenote{31.10.18}
         Für eine Sprache $L\subseteq \Sigma^*$ ist die \emph{Nerode-Relation} wie folgt definiert.
         \[
         R_L = \{(u,v) \mid \forall w\in\Sigma^*: uw\in L \<=> vw\in L \}
@@ -862,7 +862,7 @@ Im weiteren Verlauf des Unterkapitels werden wir genau diese Überlegungen forma
                 Wir führen diesen Beweis via Induktion über die Länge von $w$.\\
                 I.A. ($n=0$) Für $w=\Eps$ ist $ (u\Eps,v\Eps)=(u,v)\in R_L$.\\
 %                 I.S. Sei Aussage gezeigt für alle Wörter $w'$ mit $|w'| \le k$.\\
-                I.S. ($n\rightsquigarrow n+1$) Betrachte mit $w=w'a$ ein beliebiges Wort der Länge $n$.
+                I.S. ($n\rightsquigarrow n+1$) Betrachte mit $w=w'a$ ein beliebiges Wort der Länge $n+1$.
                 Nach Induktionsvoraussetzung ist dann auch $(uw', vw') \in R_L $.
                 \begin{eqnarray*}
 		(uw',vw')\in R_L 
@@ -898,16 +898,18 @@ Sei $\Sigma=\{0,1\}$. Die Sprache $L=\{w\in\Sigma^*\mid \text{vorletztes Zeichen
 \begin{Bsp}\label{bsp:2.centeredMyhillNerode}
 Sei $\Sigma=\{0,1\}$. Die Sprache $L_\text{centered}=\{0^n10^n \mid n\in\N\}$ hat bezüglich der Nerode-Relation die folgende Menge von Äquivalenzklassen:
 $$\{ [w'] \mid w' \text{ ist Präfix eines Worts } w\in L_\text{centered}\} \cup \{ [11] \}$$
-Dabei gilt, dass für je zwei verschiedene $k\in\N$
-auch die Äquivalenzklassen $[0^k1]$ verschieden sind. Somit gibt es unendlich viele Äquivalenzklassen.
 
-Bemerkung: Die Äquivalenzklasse $[11]$ enthält alle Wörter, die kein Präfix eines Worts aus $L_\text{centered}$ sind.
+Bemerkung 1: Die Äquivalenzklasse $[11]$ enthält alle Wörter, die kein Präfix eines Worts aus $L_\text{centered}$ sind.
+
+Bemerkung 2: Nicht für alle Präfixe von Wörtern in $L_\text{centered}$ sind die zugehörigen Äquivalenzklassen paarweise verschieden. Es gilt z.B. $[01]=[0010]$.
+
+Bemerkung 3: Für je zwei verschiedene $k\in\N$ sind die Äquivalenzklassen $[0^k1]$ verschieden. Es gibt also unendlich viele Äquivalenzklassen.
 \end{Bsp}
 
 {\color{violet}
-\begin{Bsp*}
+\begin{Bsp*}\footnote{Dieses Beispiel wurde in der Vorlesung übersprungen.}
  Die Sprache $L=\{w \in \{a,b\}^* \mid \#_a(w) > \#_b(w)\}$ hat bezüglich der Nerode-Relation die folgende Menge von Äquivalenzklassen:%
- \footnote{Dieses Beispiel wurde aufgrund der Fragestunde vom 22.12.2017 nachträglich eingefügt.}
+
  \[
  \{ [w] \mid  \#_a(w) - \#_b(w)=k, k\in\mathbb{Z} \}
  \qedhere
@@ -931,7 +933,7 @@ Bemerkung: Die Äquivalenzklasse $[11]$ enthält alle Wörter, die kein Präfix 
         Die folgenden Aussagen sind äquivalent:
         \begin{enumerate}
                 \item\label{itm:Nerode1} $L\subseteq \Sigma^*$ wird von einem \ac{DEA} akzeptiert.
-                \item\label{itm:Nerode2} $L$ ist Vereinigung die von Äquivalenzklassen einer rechtskongruenten Äquivalenzrelation mit \emph{endlichem} Index.
+                \item\label{itm:Nerode2} $L$ ist Vereinigung von Äquivalenzklassen einer rechtskongruenten Äquivalenzrelation mit \emph{endlichem} Index.
                 \item\label{itm:Nerode3} Die Nerode-Relation $R_L$ hat \emph{endlichen} Index.
                 \qedhere
         \end{enumerate}
@@ -975,7 +977,7 @@ Das aber ist die Definition der Nerode-Relation, d.h.\ $(u, v) \in R_L$. Da wir 
 Es gilt also $R \subseteq R_L$ und somit $\operatorname{Index}(R_L) \leq \operatorname{Index}(R)<\infty$.
 
 
-\paragraph{(3) \=> (1)} Gegeben $R_L$, konstruiere $\A=(Q,\Sigma,\delta,\qinit,F)$
+\paragraph{(3) \=> (1)}\draftnote{02.11.18} Gegeben $R_L$, konstruiere $\A=(Q,\Sigma,\delta,\qinit,F)$
     \begin{itemize}
     \item $Q = \{ [w]_{R_L} \mid w\in \Sigma^* \}$ \quad endlich, da $\operatorname{Index}$($R_L$) endlich
     \item $\delta([w],a) = [wa]$ \quad wohldefiniert, da $R_L$ rechtskongruent
@@ -1235,7 +1237,6 @@ Im Folgenden sei $\calN$ immer ein \acs*{NEA}.
 	Wir nennen einen Lauf \emph{initial}, falls $q_0=\qinit$.
 	Wir nennen einen Lauf \emph{akzeptierend}, falls $q_n\in F$.
 \end{Def}
-\datenote{8.11.17}
 \begin{Def}[name={[NEA zu DEA]}]
 	Ein Wort $w\in\Sigma^*$ wird von $\calN$ \emph{akzeptiert}, falls $\calN$ einen initialen und akzeptierenden Lauf über $w$ hat.
 	Die von $\calN$ akzeptierte Sprache ist die Menge der von $\calN$ akzeptierten Wörter, d.h.\
@@ -1282,7 +1283,7 @@ Bemerkung: Zu jedem \ac{DEA} $\A= (\Sigma, Q,\delta,\qinit,F)$ gibt es einen \ac
 Beispiel: der \ac{NEA} $\calN= (\Sigma, Q,\delta_\mathsf{NEA},\qinit,F)$ mit $\delta_\mathsf{NEA}(q,a)=\{\delta(q,a)\}$, der sich von $\A$ nur in der Transitionsfunktion unterscheidet.
 
 
-\begin{Satz}[Rabin und Scott]\label{satz:2.rabinscott}\draftnote{02.11.18}
+\begin{Satz}[Rabin und Scott]\label{satz:2.rabinscott}
 	Zu jedem \ac{NEA} $\calN$ mit $n$ Zuständen gibt es einen \ac{DEA} $\A_\calP$ mit $2^n$ Zuständen, sodass $L(\A_\calP)=L(\calN)$ gilt.
 \end{Satz}
   Zur Vorbereitung des Beweises machen wir zunächst die folgende Definition.
