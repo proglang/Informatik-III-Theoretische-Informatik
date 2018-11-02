@@ -218,7 +218,7 @@ Die folgenden beiden Definitionen erlauben uns mit Hilfe eines \acs*{DEA} eine S
 
 \begin{Bsp} 
 \label{bsp:3.1} Ein möglicher \acs*{DEA} für die Sprache 
-$$L_\mathsf{even}=\{w\in\{0,1\}^*\mid \text{ die Anzahl der Einsen in $w$ ist gerade. }\}$$ 
+$$L_\mathsf{even}=\{w\in\{0,1\}^*\mid \text{ Die Anzahl der Einsen in $w$ ist gerade. }\}$$ 
 aus der Einleitung dieses Kapitels hat die folgende graphische Repräsentation.
 %         $L=\{w\in\{0,1\}^* \mid w \text{ enthält gerade Anzahl von 0 und gerade Anzahl von 1}\}$
   \begin{center}
@@ -930,9 +930,9 @@ Bemerkung 3: Für je zwei verschiedene $k\in\N$ sind die Äquivalenzklassen $[0^
 % \[ L_a / R_{L_a} = \{ [\Eps], [w] \} \]
 
 \begin{Satz}[Myhill und Nerode] % 3.4
-        Die folgenden Aussagen sind äquivalent:
+        Für alle Sprachen $L\subseteq \Sigma^*$ sind die folgenden Aussagen äquivalent:
         \begin{enumerate}
-                \item\label{itm:Nerode1} $L\subseteq \Sigma^*$ wird von einem \ac{DEA} akzeptiert.
+                \item\label{itm:Nerode1} $L$ wird von einem \ac{DEA} akzeptiert.
                 \item\label{itm:Nerode2} $L$ ist Vereinigung von Äquivalenzklassen einer rechtskongruenten Äquivalenzrelation mit \emph{endlichem} Index.
                 \item\label{itm:Nerode3} Die Nerode-Relation $R_L$ hat \emph{endlichen} Index.
                 \qedhere
@@ -977,7 +977,7 @@ Das aber ist die Definition der Nerode-Relation, d.h.\ $(u, v) \in R_L$. Da wir 
 Es gilt also $R \subseteq R_L$ und somit $\operatorname{Index}(R_L) \leq \operatorname{Index}(R)<\infty$.
 
 
-\paragraph{(3) \=> (1)}\draftnote{02.11.18} Gegeben $R_L$, konstruiere $\A=(Q,\Sigma,\delta,\qinit,F)$
+\paragraph{(3) \=> (1)}\datenote{02.11.18} Gegeben $R_L$, konstruiere $\A=(Q,\Sigma,\delta,\qinit,F)$
     \begin{itemize}
     \item $Q = \{ [w]_{R_L} \mid w\in \Sigma^* \}$ \quad endlich, da $\operatorname{Index}$($R_L$) endlich
     \item $\delta([w],a) = [wa]$ \quad wohldefiniert, da $R_L$ rechtskongruent
@@ -1335,7 +1335,7 @@ Die vier Zustände auf der rechten Seite sind nicht erreichbar.
 \end{Bsp}
 
 
-% \draftnote{4.11.16}
+\draftnote{6.11.18}
 \begin{proof}[von \autoref{satz:2.rabinscott}]
         Zeige $L(\A_\calP)=L(\calN)$. 
         Dafür beweisen wir zunächst via Induktion über die Länge von $w$ die folgende Eigenschaft:
@@ -1375,6 +1375,149 @@ Bemerkung: \ac{NEA}s sind eine exponentiell kompaktere Repräsentation von regul
  \item Zu jedem \ac{NEA} mit $n$ Zuständen gibt es einen \ac{DEA} mit $2^n$ Zuständen, der die gleiche Sprache akzeptiert. (\autoref{satz:2.rabinscott}).
  \item Zu jedem \ac{DEA} mit $n$ Zuständen gibt es einen \ac{NEA} mit $n$ Zuständen, der die gleiche Sprache akzeptiert.
 \end{enumerate}
+
+
+
+\subsection{\acf{PL} für reguläre Sprachen} %\rlnote{subsection \# (3.3)?}
+% \datenote{26.10.16 (Eingeschoben)}
+\label{sec:regpl}
+% Welche interessanten Eigenschaften haben reguläre Sprachen?
+
+\textbf{Notation:} Sei $\operatorname{bin}:\{0,1\}^*\rightarrow \N$ die Decodierung von Bitstrings in natürliche Zahlen;
+z.B.\ $\operatorname{bin}(101) = 5$, $\operatorname{bin}(\Eps) = 0$.
+
+\begin{Bsp}\label{bsp:2.mod3}
+Betrachte den folgenden \ac{DEA}, der die Sprache der Binärcodierung von durch drei teilbaren Zahlen akzeptiert:
+                $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$
+    \begin{center}
+                \begin{tikzpicture}
+                        \node (start) at (-4,1.5) {};
+                        \node (q0) [circle, double] at (-3,1) {$q_0$};
+                        \node (q1) [circle] at (-0.5,1) {$q_1$};
+                        \node (q2) [circle] at (2,1) {$q_2$};
+                        \draw [->] (start) edge (q0);
+                        \draw [->] (q0) edge [loop above] node {0} (q0);
+                        \draw [->] (q0) edge node [auto] {1} (q1);
+                        \draw [->] (q1) edge [bend left] node [auto] {1} (q0);
+                        \draw [->] (q1) edge node [auto] {0} (q2);
+                        \draw [->] (q2) edge [bend left] node [auto] {0} (q1);
+                        \draw [->] (q2) edge [loop above] node {1} (q2);
+                \end{tikzpicture}
+  \end{center}
+  Beobachtungen:
+  \begin{itemize}
+  \item Es gilt offensichtlich, dass $11 \in L$.
+  \item Es gilt auch, dass $1 \underline{0 0} 1 \in L$.
+  \item Der Automat hat eine Schleife bei $\tilde\delta({q_1,00}) = q_1$, die mehrfach "`abgelaufen"' werden kann, ohne die Akzeptanz zu beeinflussen.
+  \item Also gilt auch $100001 \in L$.
+  \item Im Allgemeinen gilt $\forall i\in\N: 1(00)^i1 \in L$.
+  \qedhere
+  \end{itemize}
+\end{Bsp}
+Verdacht: Alle "`langen"' Wörter lassen sich in der Mitte "`aufpumpen"'.
+Wir formalisieren diesen Verdacht im folgenden Lemma.
+
+\begin{lemma}[Pumping Lemma]\label{lem:pumping}
+        Sei $L$ eine reguläre Sprache. Dann gilt:
+        \begin{alignat*}{2}
+                &\exists n\in\N,\ n>0:\quad \forall z\in L,\ |z|\geq n:\\
+                &\exists u,v,w\in\Sigma^* :\\
+                &z = uvw,\ |uv| \leq n,\ |v| \geq 1\\
+                \text{und }& \forall i\in\N: uv^iw\in L
+        \end{alignat*}
+\end{lemma}
+\vspace{-2em}
+\begin{proof}
+	Sei $\A=(\Sigma, Q,\delta,\qinit,F)$ ein beliebiger \ac{DEA} für $L$.
+	Wähle $n=|Q|$ und $z\in L$ beliebig mit $|z|\geq n$.
+	
+	\vspace{-1em}
+	
+	Beim Lesen von $z$ durchläuft $\A$ genau $\overbrace{|z|+1}^{\geq\; n+1}$ Zustände.
+	Somit gibt es mindestens einen Zustand $q\in Q$, der mehrmals besucht wird (Schubfachprinzip).
+	
+	Wähle den Zustand $q$, der als Erster zweimal besucht wird.
+	\begin{alignat*}{3}
+		\text{Nun gilt: }\quad
+		\exists u:\; && \tilde\delta(\qinit,u)&=q &\qquad& u\text{ Präfix von }z\\
+		\exists v:\; && \tilde\delta(q,v)&=q && uv\text{ Präfix von }z\\
+		\exists w:\; && \tilde\delta(q,w)&\in F && uvw=z\\
+		&& |v| &\geq 1\\
+		&& |uv| &\leq n && \text{da $q$ als Erster zweimal besucht wird}
+	\end{alignat*}
+	\begin{alignat*}{2}
+		\text{Es folgt für beliebiges $i\in\N$ :}\quad \tilde\delta(\qinit,uv^iw) &= \tilde\delta(q,v^iw)\\
+		&= \tilde\delta(q,w) &\qquad& \text{denn }\forall i: \tilde\delta(q,v^i)=q\\
+		&\in F
+		\qedherefixalignat
+	\end{alignat*}
+\end{proof}
+
+
+\begin{Bsp}\label{bsp:2.centeredPL}
+        Die Sprache $L_\text{centered}=\{0^n10^n \mid n\in\N\}$ ist nicht regulär.
+        
+        Wir geben hierfür einen Widerspruchsbeweis mit Hilfe des Pumping Lemmas \ac{PL}.
+        
+        Sei $n$ die Konstante aus dem \ac{PL}. Wähle $z=0^n10^n$. 
+        (Gültige Wahl, da $|z|=2n+1\geq n$)\\
+        Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N: uv^iw \in L$. 
+        Nach Wahl von $z$ gilt nun
+  \begin{itemize}
+  \item $uv = 0^m$ mit $m\leq n$
+  \item $v = 0^k$ mit $k\geq 1$
+  \item $w = 0^{n-m}10^n$ 
+  \end{itemize}
+  Betrachte $uv^2w = 0^{m-k}0^{2k}0^{n-m}10^n = 0^{n+k}10^n \notin L$. Widerspruch!
+  Somit ist $L$ nicht regulär.
+  
+  Zur Illustration:
+  \begin{gather*}
+    \underbrace{0\ \dots\dots\ 0}_{n} 1 \underbrace{0\ \dots\dots\ 0}_{n}\\
+    |\!\ruleplaceholder[u]{\widthof{0\ \dots }} \!|\! \ruleplaceholder[v]{\widthof{\dots 0}}\!|% 
+    \ruleplaceholder[w]{\widthof{\ \ \ $1\ \dots\dots\ 1$}}\!|
+    \qedhere
+  \end{gather*}
+\end{Bsp}
+
+% \begin{Bsp*}
+%         $L=\{0^{x^2} \mid x\in\N\}$ ist nicht regulär.\\
+%         Sei $n$ die Konstante aus dem \ac{PL}.
+%         
+%         Wähle $z=0^{n^2}$. Also $|z|=n^2\geq n$\\
+%         Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N: uv^iw \in L$. Nach Wahl von $z$ gilt nun
+%   \begin{itemize}
+%   \item $uv = 0^m$ mit $m\leq n$
+%   \item $v = 0^k$ mit $k\geq 1$
+%   \item $w = 0^{n^2 - m}$ mit $k\geq 1$
+%   \end{itemize}
+%   Betrachte $uv^2w = uvvw = 0^{m}0^k0^{n^2-m} = 0^{n^2+k}$.
+%   Da $n^2+k$ keine Quadratzahl sein kann ist $uv^2w \not \in L$, und somit ist $L$ nicht regulär.
+%   Begründung: betrachte $(n+1)^2 - n^2 = n^2 + 2n + 1 - n^2 = 2n + 1$.
+%   Aber $k \le m \le n \le 2n + 1$.
+% \end{Bsp*}
+% 
+% \begin{Bsp*}
+% $L_2 = \{0^p \mid p\text{ ist Primzahl}\}$ ist nicht regulär.
+% 
+% Sei $n$ Konst. aus dem \ac{PL}, $p$ Primzahl mit $p \geq n$.\\
+% Wähle $z=0^p \in L_2$
+% \begin{align*}
+%         \ac{PL}:\ &z=uvw \text{ mit } |uv|\leq n &&,|v| \geq 1\\
+%         &\curvearrowright |z|= p=a+b &&, a = |uw| \quad, b= |v|\\
+%         &\curvearrowright |uv^iw| = a + ib &&, \text{wähle }i=p+1\\
+%         &\curvearrowright |uv^{p+1}w| = a + (p+1)b & =& a + pb + b = p+pb \text{ keine Primzahl} \\
+%         \text{Also } &uv^{p+1}w \notin L_2\\
+%         &\curvearrowright L_2\text{ nicht regulär.}
+%   \qedhere
+% \end{align*}
+% \end{Bsp*}
+
+
+
+
+
+
 
 \subsubsection{\texorpdfstring{$\Eps$}{epsilon}-Übergänge}\label{sec:2.EpsNea}
 In diesem Unterkapitel führen wir mit dem $\Eps$-NEA ein weiteres Automatenmodell ein. 
@@ -1483,7 +1626,6 @@ wobei $\Sigma$, $Q$, $\qinit$, $F$ wie bei \acs*{NEA}s (bzw.\ \acs*{DEA}s) defin
 \end{Def}
 
 \begin{Bsp}\label{bsp2.EpsNeaEx} 
-   \draftnote{6.11.18}
    Zustandsdiagramm eines $\Eps$-NEA über dem Alphabet $\Sigma=\{a,b\}$.
    \begin{center}
                 \begin{tikzpicture}[circle/.style={
@@ -1719,140 +1861,7 @@ Die vom $\Eps$-NEA für Konkatenation akzeptierte Sprache ist $L(\B_1)\cdot L(\B
 \end{proof}
 
 \hide{
-\subsection{\acf{PL} für reguläre Sprachen} %\rlnote{subsection \# (3.3)?}
-% \datenote{26.10.16 (Eingeschoben)}
-\label{sec:regpl}
-Welche interessanten Eigenschaften haben reguläre Sprachen?
 
-\textbf{Notation:} Sei $\operatorname{bin}:\{0,1\}^*\rightarrow \N$ die Decodierung von Bitstrings in natürliche Zahlen;
-z.B.\ $\operatorname{bin}(101) = 5$, $\operatorname{bin}(\Eps) = 0$.
-
-\begin{Bsp}\label{bsp:2.mod3}
-Betrachte den folgenden \ac{DEA}, der die Sprache der Binärcodierung von durch drei teilbaren Zahlen akzeptiert:
-                $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$
-    \begin{center}
-                \begin{tikzpicture}
-                        \node (start) at (-4,1.5) {};
-                        \node (q0) [circle, double] at (-3,1) {$q_0$};
-                        \node (q1) [circle] at (-0.5,1) {$q_1$};
-                        \node (q2) [circle] at (2,1) {$q_2$};
-                        \draw [->] (start) edge (q0);
-                        \draw [->] (q0) edge [loop above] node {0} (q0);
-                        \draw [->] (q0) edge node [auto] {1} (q1);
-                        \draw [->] (q1) edge [bend left] node [auto] {1} (q0);
-                        \draw [->] (q1) edge node [auto] {0} (q2);
-                        \draw [->] (q2) edge [bend left] node [auto] {0} (q1);
-                        \draw [->] (q2) edge [loop above] node {1} (q2);
-                \end{tikzpicture}
-  \end{center}
-  Beobachtungen:
-  \begin{itemize}
-  \item Es gilt offensichtlich, dass $11 \in L$.
-  \item Es gilt auch, dass $1 \underline{0 0} 1 \in L$.
-  \item Der Automat hat eine Schleife bei $\tilde\delta({q_1,00}) = q_1$, die mehrfach "`abgelaufen"' werden kann, ohne die Akzeptanz zu beeinflussen.
-  \item Also gilt auch $100001 \in L$.
-  \item Im Allgemeinen gilt $\forall i\in\N: 1(00)^i1 \in L$.
-  \qedhere
-  \end{itemize}
-\end{Bsp}
-Verdacht: Alle "`langen"' Wörter lassen sich in der Mitte "`aufpumpen"'.
-Wir formalisieren diesen Verdacht im folgenden Lemma.
-
-\begin{lemma}[Pumping Lemma]\label{lem:pumping}
-        Sei $L$ eine reguläre Sprache. Dann gilt:
-        \begin{alignat*}{2}
-                &\exists n\in\N,\ n>0:\quad \forall z\in L,\ |z|\geq n:\\
-                &\exists u,v,w\in\Sigma^* :\\
-                &z = uvw,\ |uv| \leq n,\ |v| \geq 1\\
-                \text{und }& \forall i\in\N: uv^iw\in L
-        \end{alignat*}
-\end{lemma}
-\vspace{-2em}
-\begin{proof}
-	Sei $\A=(\Sigma, Q,\delta,\qinit,F)$ ein beliebiger \ac{DEA} für $L$.
-	Wähle $n=|Q|$ und $z\in L$ beliebig mit $|z|\geq n$.
-	
-	\vspace{-1em}
-	
-	Beim Lesen von $z$ durchläuft $\A$ genau $\overbrace{|z|+1}^{\geq\; n+1}$ Zustände.
-	Somit gibt es mindestens einen Zustand $q\in Q$, der mehrmals besucht wird (Schubfachprinzip).
-	
-	Wähle den Zustand $q$, der als Erster zweimal besucht wird.
-	\begin{alignat*}{3}
-		\text{Nun gilt: }\quad
-		\exists u:\; && \tilde\delta(\qinit,u)&=q &\qquad& u\text{ Präfix von }z\\
-		\exists v:\; && \tilde\delta(q,v)&=q && uv\text{ Präfix von }z\\
-		\exists w:\; && \tilde\delta(q,w)&\in F && uvw=z\\
-		&& |v| &\geq 1\\
-		&& |uv| &\leq n && \text{da $q$ als Erster zweimal besucht wird}
-	\end{alignat*}
-	\begin{alignat*}{2}
-		\text{Es folgt für beliebiges $i\in\N$ :}\quad \tilde\delta(\qinit,uv^iw) &= \tilde\delta(q,v^iw)\\
-		&= \tilde\delta(q,w) &\qquad& \text{denn }\forall i: \tilde\delta(q,v^i)=q\\
-		&\in F
-		\qedherefixalignat
-	\end{alignat*}
-\end{proof}
-
-
-\begin{Bsp}\label{bsp:2.centeredPL}
-        Die Sprache $L_\text{centered}=\{0^n10^n \mid n\in\N\}$ ist nicht regulär.
-        
-        Wir geben hierfür einen Widerspruchsbeweis mit Hilfe des Pumping Lemmas \ac{PL}.
-        
-        Sei $n$ die Konstante aus dem \ac{PL}. Wähle $z=0^n10^n$. 
-        (Gültige Wahl, da $|z|=2n+1\geq n$)\\
-        Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N: uv^iw \in L$. 
-        Nach Wahl von $z$ gilt nun
-  \begin{itemize}
-  \item $uv = 0^m$ mit $m\leq n$
-  \item $v = 0^k$ mit $k\geq 1$
-  \item $w = 0^{n-m}10^n$ 
-  \end{itemize}
-  Betrachte $uv^2w = 0^{m-k}0^{2k}0^{n-m}10^n = 0^{n+k}10^n \notin L$. Widerspruch!
-  Somit ist $L$ nicht regulär.
-  
-  Zur Illustration:
-  \begin{gather*}
-    \underbrace{0\ \dots\dots\ 0}_{n} 1 \underbrace{0\ \dots\dots\ 0}_{n}\\
-    |\!\ruleplaceholder[u]{\widthof{0\ \dots }} \!|\! \ruleplaceholder[v]{\widthof{\dots 0}}\!|% 
-    \ruleplaceholder[w]{\widthof{\ \ \ $1\ \dots\dots\ 1$}}\!|
-    \qedhere
-  \end{gather*}
-\end{Bsp}
-
-% \begin{Bsp*}
-%         $L=\{0^{x^2} \mid x\in\N\}$ ist nicht regulär.\\
-%         Sei $n$ die Konstante aus dem \ac{PL}.
-%         
-%         Wähle $z=0^{n^2}$. Also $|z|=n^2\geq n$\\
-%         Laut PL existieren $u$, $v$, $w$, sodass $z=uvw$ mit $|v|\geq 1, |uv|\leq n$ und $\forall i \in \N: uv^iw \in L$. Nach Wahl von $z$ gilt nun
-%   \begin{itemize}
-%   \item $uv = 0^m$ mit $m\leq n$
-%   \item $v = 0^k$ mit $k\geq 1$
-%   \item $w = 0^{n^2 - m}$ mit $k\geq 1$
-%   \end{itemize}
-%   Betrachte $uv^2w = uvvw = 0^{m}0^k0^{n^2-m} = 0^{n^2+k}$.
-%   Da $n^2+k$ keine Quadratzahl sein kann ist $uv^2w \not \in L$, und somit ist $L$ nicht regulär.
-%   Begründung: betrachte $(n+1)^2 - n^2 = n^2 + 2n + 1 - n^2 = 2n + 1$.
-%   Aber $k \le m \le n \le 2n + 1$.
-% \end{Bsp*}
-% 
-% \begin{Bsp*}
-% $L_2 = \{0^p \mid p\text{ ist Primzahl}\}$ ist nicht regulär.
-% 
-% Sei $n$ Konst. aus dem \ac{PL}, $p$ Primzahl mit $p \geq n$.\\
-% Wähle $z=0^p \in L_2$
-% \begin{align*}
-%         \ac{PL}:\ &z=uvw \text{ mit } |uv|\leq n &&,|v| \geq 1\\
-%         &\curvearrowright |z|= p=a+b &&, a = |uw| \quad, b= |v|\\
-%         &\curvearrowright |uv^iw| = a + ib &&, \text{wähle }i=p+1\\
-%         &\curvearrowright |uv^{p+1}w| = a + (p+1)b & =& a + pb + b = p+pb \text{ keine Primzahl} \\
-%         \text{Also } &uv^{p+1}w \notin L_2\\
-%         &\curvearrowright L_2\text{ nicht regulär.}
-%   \qedhere
-% \end{align*}
-% \end{Bsp*}
 
 
 \subsection{Abschlusseigenschaften}
