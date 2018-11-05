@@ -139,17 +139,13 @@ Weitere Operationen auf Sprachen sind Konkatenation und Potenzierung, sowie der 
 \end{Bsp*}
 Wie bei der Konkatenation von Wörtern dürfen wir den Konkatenationsoperator auch weglassen.
 %
-\begin{Def}[Kleene-Abschluss, Kleene-Stern]
-	Sei $U\subseteq\Sigma^*$.
-  Der \emph{Kleene-Abschluss} ist definiert als
-  \begin{enumerate}
-  \item 
-    $U^* = \bigcup_{n\in\N} U^n \quad [\ni\Eps]$
-  \item
-		$U^+ = \bigcup_{n\ge1} U^n$
-  \qedhere
-  \end{enumerate}
+\begin{Def}[Kleene-Abschluss, Kleene-Stern, Kleene-Plus]
+  Gegeben eine Sprache $U\subseteq\Sigma^*$, definieren wir den \emph{Kleene-Abschluss} $U^*$ wie folgt.
+      $$U^* = \bigcup_{n\in\N} U^n$$
+  Wie nennen den Operator $\cdot^*: \mathcal{P}(\Sigma^*)\rightarrow\mathcal{P}(\Sigma^*)$ der für eine gegebene Sprache den Kleene-Abschluss liefert den \emph{Kleene-Stern}. Analog definieren wir den \emph{Kleene-Plus} Operator $\cdot^+: \mathcal{P}(\Sigma^*)\rightarrow\mathcal{P}(\Sigma^*)$ als 
+  $$U^+ = \bigcup_{n\ge1} U^n.$$
 \end{Def}
+Es gilt also $U^*=U^+\cup\{\Eps\}$.
 
 %%% Local Variables:
 %%% mode: latex
