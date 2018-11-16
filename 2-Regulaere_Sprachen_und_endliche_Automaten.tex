@@ -1716,7 +1716,7 @@ Für die Sprachgleichheit zeigen wir via Induktion über die Länge von $w$, das
 $$\exists \text{ Lauf } q_0,q_1,\ldots, q_n \text{ von $\calN$ über } w \quad\Leftrightarrow\quad (q_0,w,q_n)\in\reach_\B$$
 Der folgende Satz zeigt uns, dass auch die umgekehrte Richtung gilt.
 
-\begin{Satz}\label{satz:2.EpsElim}\draftnote{14.11.18}
+\begin{Satz}\label{satz:2.EpsElim}\datenote{14.11.18}
     Zu jedem $\Eps$-NEA $\B$ gibt es einen \ac{NEA} $\calN$, sodass $L(\calN)=L(\B)$ gilt.
 \end{Satz}
 Zur Vorbereitung des Beweises machen wir zunächst die folgende Definition.
@@ -2023,7 +2023,7 @@ Bemerkung: Die Menge der regulären Sprachen $REG$ ist unter den folgenden Opera
 \renewcommand{\llbracket}{[\![}
 \renewcommand{\rrbracket}{]\!]}
 
-\subsection{Reguläre Ausdrücke}
+\subsection{Reguläre Ausdrücke}\datenote{16.11.18}
 \subsubsection{Motivation}
 Problemstellung: Sie haben auf Ihrem Rechner irgendwo eine Textdatei mit Notizen zu dieser Vorlesung, können sich aber gerade nicht an den Pfad erinnern.
 Sie wissen aber noch, dass die Zeichenkette \texttt{info3} oder \texttt{infoIII} enthalten ist. 
@@ -2101,15 +2101,15 @@ Wir schreiben z.B. $110 + 0$ statt $((1\cdot (1\cdot 0)) + 0)$.
 
 \begin{Bsp}~
 \begin{enumerate}
- \item \texttt{(A+...+Z+a+...+z+0+...+9)}$^*$\texttt{(I+i)nfo(3+III)(A+...+Z+a+...+z+0+...+9)}$^*$ \linebreak
- ist ein regulärer Ausdruck\footnote{Wir verwenden hier \texttt{A+...+Z} als Abkürzung für die Disjunktion aus 26 Zeichen. 
- Der eigentliche reguläre Ausdruck besteht aus der Disjunktion; die drei Punkte kommen darin nicht vor.}
- über dem Alphabet $\Sigma=\{\texttt{A},\ldots,\texttt{Z},\texttt{a},\ldots,\texttt{z},\texttt{0},\ldots,\texttt{9}\}$.
  \item $(\0\1)^*+a$ ist ein regulärer Ausdruck über $\Sigma=\{a\}$.
  \item $\0\1\0\1$ ist ein regulärer Ausdruck über jedem Alphabet.
  \item $aaaabbbbbbb$ ist ein regulärer Ausdruck über $\Sigma=\{a,b\}$.
  \item $a^4b^7$ ist \textbf{kein} regulärer Ausdruck
  \item $(0+1\cdot (01^*0)^*\cdot 1)^*$ ist ein regulärer Ausdruck über $\Sigma=\{0,1\}$.
+ \item \texttt{(A+...+Z+a+...+z+0+...+9)}$^*$\texttt{(I+i)nfo(3+III)(A+...+Z+a+...+z+0+...+9)}$^*$ \linebreak
+ ist ein regulärer Ausdruck\footnote{Wir verwenden hier \texttt{A+...+Z} als Abkürzung für die Disjunktion aus 26 Zeichen. 
+ Der eigentliche reguläre Ausdruck besteht aus der Disjunktion; die drei Punkte kommen darin nicht vor.}
+ über dem Alphabet $\Sigma=\{\texttt{A},\ldots,\texttt{Z},\texttt{a},\ldots,\texttt{z},\texttt{0},\ldots,\texttt{9}\}$.
  \qedhere
 \end{enumerate}
 \end{Bsp}
@@ -2197,7 +2197,7 @@ wird durch den regulären Ausdruck $(0+1)^*1(0+1)$ beschrieben.
 %     \end{Bsp*}
     
     
-\begin{Satz}[Kleene]\label{sat:2.kleene}\draftnote{15.11.18}
+\begin{Satz}[Kleene]\label{sat:2.kleene}
 $L$ ist regulär \<=> $L$ ist Sprache eines regulären Ausdrucks.
 \end{Satz}
 
@@ -2268,7 +2268,7 @@ Wir leiten nun ein Gleichungssystem zwischen den Sprachen $L_{q_i}$ her.
     \end{displaymath}
     
 
-\begin{Bsp}\label{bsp:2.mod3gleichungen}
+\begin{Bsp}\label{bsp:2.mod3gleichungen}\draftnote{21.11.18}
 Wir wollen diese Gleichungen zunächst an einem Beispiel betrachten und verwenden dafür den
 aus \autoref{bsp:2.mod3} bekannten \acs*{DEA}, der die Sprache der Binärcodierung von durch drei teilbaren Zahlen akzeptiert:
                 $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$.
