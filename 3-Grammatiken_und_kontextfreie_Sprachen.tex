@@ -60,9 +60,8 @@
 
 
 
-% \draftnote{18.11.16}
 
-\begin{Bsp}Wir betrachten nochmal die Grammatik aus \autoref{bsp:3.sameNumber}.
+\begin{Bsp}Wir betrachten nochmal die Grammatik aus \autoref{bsp:3.sameNumber}.\datenote{28.11.18}
 Es gilt: $1001\in L(\mathcal{G})$.
 $$ S 
 \vdash_\mathcal{G} 1S0S
@@ -154,7 +153,7 @@ Außerdem gilt $L(\mathcal{G}) =  \{ a^nb^nc^n \mid n\geq 1 \}$. (Ohne Beweis)
 \end{Bsp}
 
 \bigskip
-\hide{
+
 Die Chomsky-Hierarchie teilt die Grammatiken in vier Typen unterschiedlicher Mächtigkeit ein.
 \begin{Def}[Chomsky-Hierarchie]\
 	\begin{itemize}
@@ -256,21 +255,25 @@ den sogenannten Ableitungsbaum, darzustellen.
 \newcommand{\T}{\mathcal{T}}
 
 \begin{Def}[name={[Ableitungsbaum]}] Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine kontextfreie Grammatik.
-  Wir definieren die Menge der \emph{in $A$ beginnenden Ableitungsbäume von $\mathcal{G}$}, $\operatorname{Abl}(A)$, für $A\in N$ als Menge von beschrifteten, geordneten Bäumen induktiv durch:
-  \begin{itemize}
-  \item[] Falls $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$ mit $A_i \in N$, $w_0, w_i \in \Sigma^*$, $1 \le i \le n$ und $\T_i \in \operatorname{Abl}(A_i)$, dann ist
+  Wir definieren die Menge der \emph{in $A$ beginnenden Ableitungsbäume von $\mathcal{G}$}, $\operatorname{Abl}(A)$, für $A\in N$ als Menge von beschrifteten, geordneten Bäumen induktiv wie folgt:
+  
+  Falls $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$ mit $A_i \in N$, $w_0, w_i \in \Sigma^*$, $1 \le i \le n$ und $\T_i \in \operatorname{Abl}(A_i)$, dann ist
     \begin{center}
 			\tikz[baseline=0cm]{\Tree [.$\pi$ $\T_1$ \edge[draw=none]; {$\dots$} $\T_n$ ]} $\in \operatorname{Abl}(A)$
     \end{center}
     Da es manchmal aufwendig ist, Bäume zu zeichnen, verwenden wir alternativ die folgende Notation: $\pi(\T_1, \ldots, \T_n)$
 
-  \end{itemize}
     Das \emph{abgeleitete Wort zu einem $\T \in \operatorname{Abl}(A)$}, $Y(\T)$\footnote{Wir verwenden $Y(\T)$, um an das englische Wort "`yield"' zu erinnern.}, ist definiert durch
     \begin{displaymath}
       Y\left(\tikz[baseline=-0.4cm]{\Tree [.$\pi$ $\T_1$ \edge[draw=none]; {$\dots$} $\T_n$ ]} \right) = w_0Y(\T_1)w_1\ldots Y(\T_n)w_n
     \end{displaymath}
     wobei $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$.
 \end{Def}
+
+\begin{Bemerkung}
+Nach dieser Definition gibt es also insbesonere für jede Regel $\pi$ bei der nur Terminalsymbole auf der rechten Seite vorkommen einen Ableitungsbaum der die einelementige Knotenmenge $\{\pi\}$ und einer leeren Menge von Kanten hat.
+\end{Bemerkung}
+
 
 
 \begin{Bsp}\label{bsp:Ableitungsbaum} 
@@ -365,7 +368,7 @@ Im Folgenden verwenden wir auch die Abkürzung \acsu{CFG} für "`kontextfreie Gr
 
 
 \subsection{Die Chomsky-Normalform für kontextfreie Sprachen}\label{sec:cnf}
-\datenote{24.11.2017}
+\draftnote{30.11.2018}
 % Notwendig für das Pumping Lemma kontextfreier Sprachen und für einen effizienten Algorithmus für das \nameref{satz:wortproblem}.
 Wir lernen in diesem Unterkapitel eine spezielle Form von kontextfreien Grammatiken (Chomsky-Normalform) kennen, für die gilt:
 \begin{itemize}
@@ -676,7 +679,7 @@ Die Transformation in \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^3)$. Die Größe 
 
 
 
-
+\hide{
 \subsection{Wortproblem und Leerheitsproblem für kontextfreie Sprachen}
 \begin{Satz}[name={[Wortproblem für \acs*{CFL} entscheidbar]}]
 	Es gibt einen Algorithmus, der für eine beliebige kontextfreie Sprache~$L$ das Wortproblem "`$w\in L$"' in $O(n^3)$ Schritten und mit $O(n^2)$ Speicherplatz entscheidet.
@@ -820,7 +823,7 @@ $\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$
 
 
 \subsection{Einschub: Typ-3-Sprachen}
-\datenote{1.12.2017}
+\draftnote{5.12.2018}
 \begin{Satz}[name={[Typ-3-Sprache ist regulär]}]
 	$L$ ist regulär \<=> $L$ ist Typ-3-Sprache.
 \end{Satz}
