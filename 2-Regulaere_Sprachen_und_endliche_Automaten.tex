@@ -2237,7 +2237,7 @@ Zeige via strukturelle Induktion über den Aufbau regulärer Ausdrücke, dass $ 
 Im verbleibenden Teil des Abschnitts zu regulären Ausdrücken werden wir zeigen, dass wir für jeden \acs*{DEA} einen regulären Ausdruck mit der gleichen Sprache konstruieren können. (Richtung "`\=>"' von \autoref{sat:2.kleene}).
 Um unsere Idee zu beschreiben, benötigen wir zunächst die folgende Definition.
 \begin{Def}
-  Sei $\A=({Q},\Sigma,\delta,\qinit,F)$ ein \ac{DEA}.
+  Sei $\A=(\Sigma,Q,\delta,\qinit,F)$ ein \ac{DEA}.
   Für einen Zustand $q\in Q$ ist die \emph{Sprache des Zustands} 
   $L_q=\{ w \in \Sigma^* \mid \tilde\delta(q,w)\in F \}$ 
   die Sprache der Wörter, die von Zustand $q$ aus in einen akzeptierenden Zustand führen.
@@ -2268,7 +2268,7 @@ Wir leiten nun ein Gleichungssystem zwischen den Sprachen $L_{q_i}$ her.
     \end{displaymath}
     
 
-\begin{Bsp}\label{bsp:2.mod3gleichungen}\draftnote{21.11.18}
+\begin{Bsp}\label{bsp:2.mod3gleichungen}\datenote{21.11.18}
 Wir wollen diese Gleichungen zunächst an einem Beispiel betrachten und verwenden dafür den
 aus \autoref{bsp:2.mod3} bekannten \acs*{DEA}, der die Sprache der Binärcodierung von durch drei teilbaren Zahlen akzeptiert:
                 $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$.
@@ -2345,6 +2345,7 @@ Wir können Ardens Lemma wie folgt auch für reguläre Ausdrücke formulieren:
   eine Lösung für $r_X$, welche die Gleichung erfüllt. Außerdem erzeugen alle anderen Lösungen die gleiche Sprache wie $r_A^*r_B$.
 \end{Korollar}
 
+\datenote{23.11.18}
 % \datenote{11.11.16}
 
 \medskip

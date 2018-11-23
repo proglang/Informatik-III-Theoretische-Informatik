@@ -71,7 +71,7 @@ $$ S
 \vdash_\mathcal{G} 100S1
 \vdash_\mathcal{G} 1001
 $$
-\datenote{22.11.17}
+% \datenote{22.11.17}
 Außerdem gilt: $L(\mathcal{G})$ ist die Sprache der Wörter über $\{0,1\}$, die gleich viele Nullen wie Einsen haben:
   \begin{displaymath}
     L = \{ w \in \Sigma^* \mid \#_0(w) = \#_1(w)\}
@@ -154,7 +154,7 @@ Außerdem gilt $L(\mathcal{G}) =  \{ a^nb^nc^n \mid n\geq 1 \}$. (Ohne Beweis)
 \end{Bsp}
 
 \bigskip
-
+\hide{
 Die Chomsky-Hierarchie teilt die Grammatiken in vier Typen unterschiedlicher Mächtigkeit ein.
 \begin{Def}[Chomsky-Hierarchie]\
 	\begin{itemize}
@@ -874,8 +874,6 @@ $\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$
 	\[ \mathcal{G} = (\{0,1\}, \{S\}, \{S\->1, S\->0S0 \}, S) \]
 	(ohne Beweis)
 \end{proof}
-
-\hide{
 
 }
 
