@@ -91,7 +91,7 @@ Außerdem gilt: $L(\mathcal{G})$ ist die Sprache der Wörter über $\{0,1\}$, di
   Per Induktion über $|w|$ mit $w \in \Sigma^*$ lässt sich leicht zeigen, dass $L = \{w \in \Sigma^* \mid d(w) = 0\}$ und $d(v \cdot w) = d(v) + d(w)$.
   
 Wir zeigen nun via Induktion über $n$ die folgende Eigenschaft:
-$$\forall n' < n: \forall w \in \Sigma^*: \text{ falls } |w| = n' \text{ und } w \in L, \text{ dann } w \in L(\mathcal{G})$$
+$$\forall n' \leq n: \forall w \in \Sigma^*: \text{ falls } |w| = n' \text{ und } w \in L, \text{ dann } w \in L(\mathcal{G})$$
 
 \begin{description}[font=\normalfont]
 \item[I.A.:] $n = 0$: $w = \Eps$. Es gilt $\Eps \in L$, da $\#_0(\Eps) = \#_1(\Eps) = 0$.
@@ -190,7 +190,7 @@ $\mathcal{M}_3 \subsetneq \mathcal{M}_2 \subsetneq\mathcal{M}_1 \subsetneq\mathc
 
 
 
-\subsection{Kontextfreie Sprachen}
+\subsection{Kontextfreie Sprachen}\datenote{30.11.2018}
 Die Sprache aus \autoref{bsp:3.sameNumber} ist kontextfrei. Weitere Beispiele sind:
 
 \begin{Bsp}\label{bsp:3.ArithExpr}
@@ -368,7 +368,6 @@ Im Folgenden verwenden wir auch die Abkürzung \acsu{CFG} für "`kontextfreie Gr
 
 
 \subsection{Die Chomsky-Normalform für kontextfreie Sprachen}\label{sec:cnf}
-\draftnote{30.11.2018}
 % Notwendig für das Pumping Lemma kontextfreier Sprachen und für einen effizienten Algorithmus für das \nameref{satz:wortproblem}.
 Wir lernen in diesem Unterkapitel eine spezielle Form von kontextfreien Grammatiken (Chomsky-Normalform) kennen, für die gilt:
 \begin{itemize}
