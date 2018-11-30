@@ -233,6 +233,20 @@ Terminalsymbole sind grau unterlegt.
 	\end{center}
 \end{Bsp}
 
+\begin{Bsp}\label{def:gal}
+Die Menge der Aussagenlogischen Formeln über dem Alphabet $\Sigma_\mathsf{AL}=\{0,1,2,3,4,5,6,7,8,9,A,\neg,\land,\lor,(,)\}$:
+  $\mathcal{G}_\mathsf{AL} = (\Sigma_\mathsf{AL}, N, P, S)$ mit
+	\begin{align*}
+		N &= \{S,Z\}\\
+		P &= \begin{aligned}[t]
+      \{ S \to\ & 0\mid 1\mid AZ\mid \neg S\mid (S\land S)\mid (S\lor S)\\
+        Z \to\ & 0Z\mid 1Z\mid 2Z\mid 3Z\mid 4Z\mid 5Z\mid 6Z\mid 7Z\mid 8Z\mid 9Z \mid \\
+        &0 \mid 1 \mid 2 \mid 3 \mid 4 \mid 5 \mid 6 \mid 7 \mid 8 \mid 9\}.
+        \end{aligned}
+      \qedherefixaligned
+	\end{align*}
+\end{Bsp}
+
 % \begin{Bsp}
 %  \item Palindrome über $\{a,b\}$
 % 	\[ S\-> aSa \mid bSb \mid a \mid b \mid \Eps \]
