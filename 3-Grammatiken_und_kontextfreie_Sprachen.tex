@@ -233,20 +233,6 @@ Terminalsymbole sind grau unterlegt.
 	\end{center}
 \end{Bsp}
 
-\begin{Bsp}\label{def:gal}
-Die Menge der Aussagenlogischen Formeln über dem Alphabet $\Sigma_\mathsf{AL}=\{0,1,2,3,4,5,6,7,8,9,A,\neg,\land,\lor,(,)\}$:
-  $\mathcal{G}_\mathsf{AL} = (\Sigma_\mathsf{AL}, N, P, S)$ mit
-	\begin{align*}
-		N &= \{S,Z\}\\
-		P &= \begin{aligned}[t]
-      \{ S \to\ & 0\mid 1\mid AZ\mid \neg S\mid (S\land S)\mid (S\lor S)\\
-        Z \to\ & 0Z\mid 1Z\mid 2Z\mid 3Z\mid 4Z\mid 5Z\mid 6Z\mid 7Z\mid 8Z\mid 9Z \mid \\
-        &0 \mid 1 \mid 2 \mid 3 \mid 4 \mid 5 \mid 6 \mid 7 \mid 8 \mid 9\}.
-        \end{aligned}
-      \qedherefixaligned
-	\end{align*}
-\end{Bsp}
-
 % \begin{Bsp}
 %  \item Palindrome über $\{a,b\}$
 % 	\[ S\-> aSa \mid bSb \mid a \mid b \mid \Eps \]
@@ -468,12 +454,12 @@ Wir definieren die Menge der Nichtterminalsymbole, aus denen das leere Wort abge
   Definiere die Menge $\operatorname{Nullable}(\mathcal{G}) \subseteq N$ als
   \begin{displaymath}
     \operatorname{Nullable}(\mathcal{G}) = \{ A \in N \mid A
-    \stackrel{*}{\vdash}\mathcal{G} \Eps \}
+    \stackrel{*}{\vdash}_\mathcal{G} \Eps \}
     \text{.} \qedhere
   \end{displaymath}
 \end{Def}
 
-\begin{Satz}\label{satz:3.nullable}
+\begin{Satz}\label{satz:3.nullable}\datenote{5.12.2018}
   Es gibt einen Algorithmus, der $\operatorname{Nullable}(\mathcal{G})$ in $O(|\mathcal{G}|^3)$ berechnet.
 \end{Satz}
 \begin{proof}
@@ -503,9 +489,10 @@ M = {}
 done = $false$
 while (not done):
     done = $true$
+    M$_{old}$ = M
     foreach $A \to a \in P$:
-         if ($ A \not \in M \wedge a \in M^*$):
-             $M = M \cup A$
+         if ($ A \not \in M \wedge a \in M_{old}^*$):
+             $M = M \cup {A}$
              done = $false$
 return M
 \end{lstlisting}
@@ -692,7 +679,7 @@ Die Transformation in \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^3)$. Die Größe 
 
 
 
-\hide{
+
 \subsection{Wortproblem und Leerheitsproblem für kontextfreie Sprachen}
 \begin{Satz}[name={[Wortproblem für \acs*{CFL} entscheidbar]}]
 	Es gibt einen Algorithmus, der für eine beliebige kontextfreie Sprache~$L$ das Wortproblem "`$w\in L$"' in $O(n^3)$ Schritten und mit $O(n^2)$ Speicherplatz entscheidet.
@@ -836,7 +823,6 @@ $\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$
 
 
 \subsection{Einschub: Typ-3-Sprachen}
-\draftnote{5.12.2018}
 \begin{Satz}[name={[Typ-3-Sprache ist regulär]}]
 	$L$ ist regulär \<=> $L$ ist Typ-3-Sprache.
 \end{Satz}
@@ -891,7 +877,6 @@ $\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$
 	(ohne Beweis)
 \end{proof}
 
-}
 
 
 
