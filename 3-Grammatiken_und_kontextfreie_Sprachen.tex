@@ -184,8 +184,8 @@ Die Chomsky-Hierarchie teilt die Grammatiken in vier Typen unterschiedlicher Mä
 \end{itemize}
 
 Im Lauf der Vorlesung werden wir die folgende Aussage zeigen:\\
-Sei $\mathcal{M}_i$ die Menge der Typ-$i$ Sprachen; dann gilt: 
-$\mathcal{M}_3 \subsetneq \mathcal{M}_2 \subsetneq\mathcal{M}_1 \subsetneq\mathcal{M}_0$.
+Sei $CHi$ die Menge der Typ-$i$ Sprachen; dann gilt: 
+$CH3 \subsetneq CH2 \subsetneq CH1 \subsetneq CH0$.
 
 
 
@@ -492,7 +492,7 @@ while (not done):
     M$_{old}$ = M
     foreach $A \to a \in P$:
          if ($ A \not \in M \wedge a \in M_{old}^*$):
-             $M = M \cup {A}$
+             $M = M \cup \{A\}$
              done = $false$
 return M
 \end{lstlisting}
