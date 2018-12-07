@@ -591,40 +591,22 @@ return M
   Eine \emph{Kettenregel} von $\mathcal{G}$ ist eine Regel in $P$ der Form $A \to B$, wobei $A,B \in N$.
 \end{Def}
 
-% \datenote{7.12.16}
+\datenote{7.12.2018}
 \begin{lemma}[\textsc{Unit}]
-  Zu jeder \ac{CFG} $\mathcal{G} = (\Sigma, N, P, S)$ gibt es eine äquivalente \ac{CFG} $\mathcal{G}' = (N, \Sigma, P', S)$ ohne Kettenregeln.
+Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G}|^3)$ eien äquivalente \ac{CFG} $\mathcal{G}'$ ohne Kettenregeln mit $|\mathcal{G}'|\in O(|\mathcal{G}|^2)$ berechnet.
+%   Zu jeder \ac{CFG} $\mathcal{G} = (\Sigma, N, P, S)$ gibt es eine äquivalente \ac{CFG} $\mathcal{G}' = (N, \Sigma, P', S)$ ohne Kettenregeln.
 \end{lemma}
-\begin{proof}
-  Setze zu Anfang $P' = P$ und eliminiere alle Kettenregeln mit folgendem Algorithmus:
-  \begin{enumerate}
-  \item Betrachte den gerichteten Graphen $G$ mit Knoten $N$ und Kanten für jede Kettenregel, d.h., $\{(A, B) \mid A \to B \in P' \}$. \label{alg:unit-step-dg}
-  \item Suche, z.B. mittels Tiefensuche, einen Zyklus in $G$.
-    Wenn kein Zyklus gefunden wurde, fahre mit Schritt \ref{alg:unit-step-dag} fort.
-  \item Wurde der Zyklus $A_1 \to A_2 \to \ldots \to A_k \to A_1$ gefunden, dann ersetze in $P'$ alle Vorkommen von $A_j$ mit $j > 1$ durch $A_1$ (auf linker \emph{und} rechter Regelseite).
-    Entferne dann alle Regeln der Form $A \to A$.
-    Fahre fort mit Schritt \ref{alg:unit-step-dg}.
-  \item \label{alg:unit-step-dag}
-    Der Graph $G$ ist ein \ac{DAG} (engl.\ \emph{directed acyclic graph}).
-    Sortiere die Knoten von $G$ topologisch als $A_1, \ldots, A_n$, sodass $A_n$ auf keiner linken Seite einer Kettenregel vorkommt.
-  \item $\mathbf{for}~j = n-1, \ldots, 1$ \label{alg:unit-step-chain}
-    \begin{itemize}
-    \item[] $\mathbf{for}~\mathbf{each}~A_j \to A_k \in P'$
-      \begin{itemize}
-      \item[] (wegen topologischer Sortierung gilt $k > j$)
-      \item[] entferne $A_j \to A_k$ aus $P'$
-      \item[] füge $A_j \to BC$ zu $P'$ hinzu, falls $A_k \to BC \in P'$,\quad $B,C \in N$.
-      \item[] füge $A_j \to a$ zu $P'$ hinzu, falls $A_k \to a \in P'$,\quad $a \in \Sigma$.
-      \end{itemize}
-    \end{itemize}
+\begin{proof} (Beweisskizze)
+Zur Korrektheit:
+
+    Aufgrund der topologischen Sortierung gilt immer $i<k$ in der zweiten for Schleife.
     Die äußere Schleife hat die Invariante, dass am Ende jedes Durchlaufs für $n \ge i \ge j$ keine Kettenregel $A_i \to \ldots$ in $P'$ existiert.
     Beim Verlassen der Schleife ist $j = 1$ und es existieren überhaupt keine Kettenregeln mehr.
-    \qedhere
-  \end{enumerate}
-\end{proof}
-\begin{Bemerkung}
-\textsc{Unit} kann in $O(|\mathcal{G}|^3)$ berechnet werden und die Größe der resultierenden Grammatik ist $O(|\mathcal{G}|^2)$.
+
+Zu Laufzeit und Größe des Resultates:
+
 \begin{itemize}
+	\item Vor Schritt~\ref{alg:unit-step-chain} wird die Grammatik nie vergrößert und die Kosten übersteigen $O(|\mathcal{G}|^3)$ nicht.
 	\item Die innere Schleife in Schritt~\ref{alg:unit-step-chain} wird nur einmal pro Regel ausgeführt.
 	
 	\item In Schritt~\ref{alg:unit-step-chain} kommen keine neuen Kettenregeln hinzu.
@@ -632,7 +614,50 @@ return M
 	\item Es gibt nur höchstens $|P'|$ neue Regeln in der inneren Schleife.
 	\qedhere
 \end{itemize}
-\end{Bemerkung}
+\end{proof}
+
+\begin{figure}
+\small
+\framebox[\textwidth]{
+\parbox{0.95\textwidth}{
+\begin{description}
+ \item[Eingabe:] \ac{CFG} $\mathcal{G} = (\Sigma, N, P, S)$
+ \item[Ausgabe:] \ac{CFG} $\mathcal{G'} = (\Sigma, N', P', S)$ die Äquivalent zu $\mathcal{G}$ ist aber keine Kettenregeln enthält
+\end{description}
+
+  \begin{enumerate}
+  \item Setze $N'=N$ und $P' = P$
+  \item Betrachte den gerichteten Graphen $G$ dessen Knotenmenge $N$ und Kantenmenge $\{(A, B) \mid A \to B \in P' \}$ ist.
+  (Es gibt also genau eine Kante pro Kettenregel.)
+  \label{alg:unit-step-dg}
+  \item Suche, z.B. mittels Tiefensuche, einen Zyklus in $G$.
+    Wenn kein Zyklus gefunden wurde, fahre mit Schritt \ref{alg:unit-step-dag} fort.
+  \item Wurde ein Zyklus $A_1 \to A_2 \to \ldots \to A_k \to A_1$ gefunden, dann sei o.B.d.A. $A_1=S$ falls $S$ im Zyklus enthalten. Ersetze nun in $P'$ alle Vorkommen von $A_j$ mit $j > 1$ durch $A_1$ (auf linker \emph{und} rechter Regelseite).
+    Entferne dann alle Regeln der Form $A \to A$.
+    Fahre fort mit Schritt \ref{alg:unit-step-dg}.
+  \item \label{alg:unit-step-dag}
+    
+    Sortiere die Knoten des nun azyklischen Graphen\footnotemark $G$ topologisch als $A_1, \ldots, A_n$, sodass $A_n$ auf keiner linken Seite einer Kettenregel vorkommt.
+  \item $\mathbf{for}~j = n-1, \ldots, 1$ \label{alg:unit-step-chain}
+    \begin{itemize}
+    \item[] $\mathbf{for}~\mathbf{each}~A_j \to A_k \in P'$
+      \begin{itemize}
+                \item[] entferne $A_j \to A_k$ aus $P'$
+                
+                $\mathbf{for}~\mathbf{each}~A_k \to \alpha \in P'$
+          \begin{itemize}
+          \item[] füge $A_j \to \alpha$ zu $P'$
+          \end{itemize}
+      \end{itemize}
+    \end{itemize}
+
+  \end{enumerate}
+  }
+}
+
+  \caption{Algorithmus \textsc{Unit}}
+  \end{figure}
+\footnotetext{\ac{DAG} (engl.\ \emph{directed acyclic graph}).}
 
 
 
@@ -715,12 +740,27 @@ Es gilt:
 
 \medskip
 
+
+
 Wir können die $M_{ij}$ mit dem folgenden Verfahren ermitteln:
+
+\end{proof}
+
+
+\begin{figure}
+\small
+% \framebox[\textwidth]{
+% \parbox{0.95\textwidth}{
+\begin{description}
+ \item[Eingaben:] \ac{CFG} $\mathcal{G} = (\Sigma, N, P, S)$ in CNF und Wort $a_1\ldots a_n\in\Sigma^*$
+ \item[Ausgabe:] ``Ja'' falls $a_1\ldots a_n\in L(\mathcal{G})$, ``Nein'' sonst.
+\end{description}
+
+Sei $M$  eine $n\x n\text{-Matrix mit (initial) } M_{ij}=\varnothing \text{ für alle } i, j$  // $O(n^2)$
+
   \begin{center}
-$\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$
   \begin{minipage}{12cm}
 \begin{lstlisting}[mathescape,morekeywords={for,do,return},morecomment={[l]{//}}]
-  $M=n\x n\text{-Matrix mit (initial) } M_{ij}=\varnothing \text{ für alle } i, j$  // $O(n^2)$
   for i=1 .. n do  // $O(|\mathcal{G}|)\cdot O(n)$
     $M_{ii}=\{A \mid A \-> a_i \}$
   for i=n-1 .. 1 do
@@ -732,7 +772,11 @@ $\acs{CYK}(\mathcal{G},a_1,\dots,a_n)$
 \qedherefixlstlisting
 \end{minipage}
    \end{center}
-\end{proof}
+%   }
+% }
+
+  \caption{CYK Algorithmus}
+  \end{figure}
 
 
 \begin{Bsp}
