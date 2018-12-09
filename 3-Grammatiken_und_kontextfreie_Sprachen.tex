@@ -597,23 +597,30 @@ Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G
 %   Zu jeder \ac{CFG} $\mathcal{G} = (\Sigma, N, P, S)$ gibt es eine äquivalente \ac{CFG} $\mathcal{G}' = (N, \Sigma, P', S)$ ohne Kettenregeln.
 \end{lemma}
 \begin{proof} (Beweisskizze)
-Zur Korrektheit:
-
-    Aufgrund der topologischen Sortierung gilt immer $i<k$ in der zweiten for Schleife.
-    Die äußere Schleife hat die Invariante, dass am Ende jedes Durchlaufs für $n \ge i \ge j$ keine Kettenregel $A_i \to \ldots$ in $P'$ existiert.
-    Beim Verlassen der Schleife ist $j = 1$ und es existieren überhaupt keine Kettenregeln mehr.
-
-Zu Laufzeit und Größe des Resultates:
-
-\begin{itemize}
-	\item Vor Schritt~\ref{alg:unit-step-chain} wird die Grammatik nie vergrößert und die Kosten übersteigen $O(|\mathcal{G}|^3)$ nicht.
-	\item Die innere Schleife in Schritt~\ref{alg:unit-step-chain} wird nur einmal pro Regel ausgeführt.
+	\begin{itemize}
+	\item Zur Äquivalenz:
 	
-	\item In Schritt~\ref{alg:unit-step-chain} kommen keine neuen Kettenregeln hinzu.
+	Wir zeigen dass jeden Schritt der die \ac{CFG} ändert eine äquivalente \ac{CFG} liefert.
+	Dazu zeigen wir dass es für jedes Wort dass in der alten \ac{CFG} abgeleitet werden konnte auch in der neuen \ac{CFG} abgeleitet werden kann und umgekehrt.
+	Für Schritt~\ref{alg:unit-step-chain} können wir -- es macht den Beweis etwas einfacher -- zeigen dass Äquivalenz sogar für jede Iteration der mittleren for-Schleife gilt.
 	
-	\item Es gibt nur höchstens $|P'|$ neue Regeln in der inneren Schleife.
-	\qedhere
-\end{itemize}
+	\item Zur Kettenregelfreiheit:
+	
+	In Schritt~\ref{alg:unit-step-DelCycle} wird mindestens ein Kettenregelzykel entfernt und da eine Grammatik nur endlich viele Regeln hat wird nach spätestens $|\mathcal{G}|$ Anwendungen von Schritt~\ref{alg:unit-step-DelCycle} der Schritt~\ref{alg:unit-step-dag}, in dem alle Zykeln entfernt sind, erreicht.
+	
+	In der mittleren for-Schleife von Schritt~\ref{alg:unit-step-chain} gilt aufgrund der topologischen Sortierung immer $i<k$.
+	Die äußere Schleife hat die Invariante, dass am Ende jedes Durchlaufs für $n \ge i \ge j$ keine Kettenregel $A_i \to \ldots$ in $P'$ existiert.
+	Beim Verlassen der Schleife ist $j = 1$ und es existieren überhaupt keine Kettenregeln mehr.
+	
+	\item Zu Laufzeit und Größe des Resultates:
+	
+		Vor Schritt~\ref{alg:unit-step-chain} wird die Grammatik nie vergrößert (wichtig sowohl für Laufzeit als auch für Größe!) und die Kosten übersteigen $O(|\mathcal{G}|^3)$ nicht.
+		Die Anzahl der Schleifendurchläufe ist jeweils durch $|\mathcal{G}|$ beschränkt.
+		Seien $B \to \alpha_1, \ldots, B \to \alpha_n$ die alle neuen Regeln die für eine Variable $B\in N$ in Schritt~\ref{alg:unit-step-chain} hinzugefügt werden.
+		Dann gilt, dass die Summe der Größe der $\alpha_i$ die Größe der Grammatik $|\mathcal{G}|$ nicht übersteigt. 
+		Somit ist die Größe des Resultates durch $|\mathcal{G}|^2$ beschränkt.
+		\qedhere
+	\end{itemize}
 \end{proof}
 
 \begin{figure}
@@ -630,7 +637,7 @@ Zu Laufzeit und Größe des Resultates:
   \item Betrachte den gerichteten Graphen $G$ dessen Knotenmenge $N$ und Kantenmenge $\{(A, B) \mid A \to B \in P' \}$ ist.
   (Es gibt also genau eine Kante pro Kettenregel.)
   \label{alg:unit-step-dg}
-  \item Suche, z.B. mittels Tiefensuche, einen Zyklus in $G$.
+  \item \label{alg:unit-step-DelCycle} Suche, z.B. mittels Tiefensuche, einen Zyklus in $G$.
     Wenn kein Zyklus gefunden wurde, fahre mit Schritt \ref{alg:unit-step-dag} fort.
   \item Wurde ein Zyklus $A_1 \to A_2 \to \ldots \to A_k \to A_1$ gefunden, dann sei o.B.d.A. $A_1=S$ falls $S$ im Zyklus enthalten. Ersetze nun in $P'$ alle Vorkommen von $A_j$ mit $j > 1$ durch $A_1$ (auf linker \emph{und} rechter Regelseite).
     Entferne dann alle Regeln der Form $A \to A$.
@@ -667,19 +674,25 @@ Zu Laufzeit und Größe des Resultates:
   Regel die Form $A\->a$, $A\->BC$, oder $S \-> \Eps$ hat, wobei $A,B,C\in N$, $a\in\Sigma$.
   Falls $S \to \Eps \in P$, dann darf $S$ auf keiner rechten Seite einer Regel vorkommen.
 \end{Def}
-\begin{Satz}
-Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G}|^3)$ eien äquivalente \ac{CFG} $\mathcal{G}'$ in CNF mit $|\mathcal{G}'|\in O(|\mathcal{G}|^2)$ berechnet.
+\begin{Satz}\label{satz:CFGtoCNF}
+Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G}|^3)$ Rechenschritten eine äquivalente \ac{CFG} $\mathcal{G}'$ in CNF mit $|\mathcal{G}'|\in O(|\mathcal{G}|^2)$ berechnet.
 \end{Satz}
 
-\begin{proof}
-    Wir erhalten eine äquivalente \ac{CFG} in \ac{CNF}, indem wir 
-    der Reihe nach \textsc{Sep}, \textsc{Bin}, \textsc{Del} und \textsc{Unit} anwenden.\footnote{Es genügt sogar nur \textsc{Del} und dann \textsc{Unit} anzuwenden, da \textsc{Del} schon \textsc{Sep} und \textsc{Bin} ausführt.}
+\begin{proof} (Beweisskizze)
+	Ein Algorithmus der diese Eigenschaften erfüllt ist das Hintereinanderschalten von \textsc{Sep}, \textsc{Bin}, \textsc{Del} und \textsc{Unit}.\footnote{Es genügt sogar nur \textsc{Del} und dann \textsc{Unit} anzuwenden, da \textsc{Del} schon \textsc{Sep} und \textsc{Bin} ausführt.}
+		\begin{itemize}
+	\item Zur Korrektheit:
+	
+	Wir zeigen dass jedes dieser vier Verfahren die vom vorherigen Verfahren etablierte Eigenschaft nicht zerstört und dass die vier etablierten Eigenschaften für die \ac{CNF} hinreichend sind.
+	
+	\item Zu Laufzeit und Größe des Resultates:
+	
+	Die ersten drei Verfahren erhöhen die Größe der Grammatik nur linear und die Laufzeiten sind durch $O(|\mathcal{G}|^3)$ beschränkt. 
+	Für \textsc{Unit} sind die in diesem Satz genannten Kosten eine obere Schranke. 
+	\qedhere
+	\end{itemize}
 \end{proof}
 	
-\begin{Bemerkung} 
-% Sei $|\mathcal{G}|=\sum\limits_{A\->\alpha\in P}(|\alpha|+1)$ die Gr"o"se einer \ac{CFG}.\\
-Die Transformation in \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^3)$. Die Größe der \ac{CNF}-Grammatik ist $O(|\mathcal{G}|^2)$.
-\end{Bemerkung}
 
 \begin{lemma}
  Die Menge der Typ-2-Sprachen ist eine Teilmenge der Typ-1-Sprachen.
@@ -702,28 +715,54 @@ Die Transformation in \ac{CNF} benötigt Zeit $O(|\mathcal{G}|^3)$. Die Größe 
 
 
 
-
+\newcommand{\expl}[1]{{\color{blue} #1}}
 
 \subsection{Wortproblem und Leerheitsproblem für kontextfreie Sprachen}
 \begin{Satz}[name={[Wortproblem für \acs*{CFL} entscheidbar]}]
-	Es gibt einen Algorithmus, der für eine beliebige kontextfreie Sprache~$L$ das Wortproblem "`$w\in L$"' in $O(n^3)$ Schritten und mit $O(n^2)$ Speicherplatz entscheidet.
+	Es gibt einen Algorithmus, für gegebene \ac{CFG} $\mathcal{G}$ in \ac{CNF} und gegebenes Wort $w$
+	in $O(|w|^3\cdot |\mathcal{G}|)$ Schritten und mit $O(|w|^2\cdot |\mathcal{G}|)$ Speicherplatz
+	entscheidet ob $w\in L(\mathcal{G})$ gilt.
 \end{Satz}
 
-\begin{proof}[\acsu{CYK}-Algorithmus] Sei $\mathcal{G}$ eine \ac{CFG} in \ac{CNF} und sei $w = a_1\dots a_n\in\Sigma^*$.
-Der \ac{CYK}-Algorithmus berechnet bei Eingabe von $\mathcal{G}$ und $w$, ob $w\in L(\mathcal{G})$.
 
-Idee: Definiere für $1\leq i < j\leq n$:
-$$M_{ij} = \{ A \in N \mid A \stackrel{*}{\vdash}_\mathcal{G} a_i\dots a_j \}$$
+
+\begin{proof}[\acsu{CYK}-Algorithmus] Sei $w = a_1\dots a_n\in\Sigma^*$.
+	% Der \ac{CYK}-Algorithmus berechnet bei Eingabe von $\mathcal{G}$ und $w$, ob $w\in L(\mathcal{G})$.
+	Der \ac{CYK}-Algorithmus aus \autoref{fig:AlgCYK} erfüllt diese Eigenschaften.
+	Wir wollten zunächst die Idee des Algorithmus erklären.
+	
+	Definiere für $1\leq i < j\leq n$:
+	\[
+	M_{ij} = \{ A \in N \mid A \stackrel{*}{\vdash}_\mathcal{G} a_i\dots a_j \}\label{eqn:CykMatrixEintragDeriv}\tag{EntryDeriv}
+	\]
+	\expl{Wir definieren also Mengen von Nichtterminalsymbolen die sich schön als obere Dreiecksmatrix darstellen lassen.
+		Die Matrix enthält einen Eintrag pro Teilwort von $w$, genauer der Eintrag $M_{ij}$ enthält das Nichtterminalsymbol $A$ 
+		genau dann wenn wir von $A$ das Teilwort vom $i$-ten Zeichen bis zum $j$-ten Zeichen ableiten können.
+		Zum Lösen des eigentlichen Problemes hilft dieses Vorgehen zunächst nichts.
+		Urspünglich wollte wir wissen ob wir das Wort $W$ aus de Startsymbol ableiten können.
+		Nun müssen wir diese Frage für alle Teilwörter und alle Nichtterminalsymbole beantworten.
+	}
+	
+	Offensichtlich gilt: $w\in L(\mathcal{G})$ genau dann, wenn $S \stackrel{*}{\vdash}_\mathcal{G} w$ genau dann, wenn $S \in M_{1n}$.
+	\expl{
+		Zum Lösen des eigentlichen Problemes hilft uns das betrachten der Matrix also zunächst nicht.
+		Urspünglich wollte wir wissen ob wir das Wort $W$ aus de Startsymbol ableiten können.
+		Nun müssen wir diese Frage für alle Teilwörter und alle Nichtterminalsymbole beantworten.
+	}
 	\begin{align*}
-	\intertext{Es gilt für $i=j$}
-		M_{ii} &= \{A \mid A\-> a_i \} \\
-	\intertext{Es gilt für $i<j$}
-		M_{ij} &= \{ A \mid A\-> BC \land BC \stackrel{*}{\vdash}\mathcal{G} a_i\dots a_j \}\\
-		&= \{ A \mid A\-> BC \land \exists k: i\leq k<j\quad 
-			\begin{aligned}[t]
-				B &\stackrel{*}{\vdash}\mathcal{G} a_i\dots a_k \land C \stackrel{*}{\vdash}\mathcal{G} a_{k+1}\dots a_j \}
-			\end{aligned}\\
-		&= \{ A \mid A\-> BC \land \exists k: i\leq k<j\quad B\in M_{ik} \land C \in M_{(k+1)j}\}
+		\intertext{Es gilt für $i=j$}
+		M_{ii} &= \{A \mid A\-> a_i \in P\} \\
+		\intertext{
+			\expl{Die Einträge auf der Hauptdiagonalen hängen also nur von Regeln der Form $A \to a$ 
+				ab und wir können diese Einträge jeweils durch einmaliges Iterieren über alle Regeln bestimmen.}
+		}
+		\intertext{Es gilt für $i<j$}
+		M_{ij} &= \{ A \mid A\-> BC \in P \text{ und } BC \stackrel{*}{\vdash}_{\mathcal{G}} a_i\dots a_j \}\\
+		&= \{ A \mid A\-> BC\in P \text{ und } \exists k \in\{i, \ldots j-1\} \text{ sodass }
+		\begin{aligned}[t]
+			B &\stackrel{*}{\vdash}_{\mathcal{G}} a_i\dots a_k \text{ und } C \stackrel{*}{\vdash}_{\mathcal{G}} a_{k+1}\dots a_j \}
+		\end{aligned}\\
+		&= \{ A \mid A\-> BC\in P \text{ und } \exists k \in\{i, \ldots j-1\} \text{ sodass } B\in M_{ik} \text{ und } C \in M_{(k+1)j}\}
 		% &= \bigcup_{k=i}^{j-1} \{ A \mid A \-> BC \land 
 		% 	\begin{aligned}[t]
 		% 		B &\xRightarrow{*} a_i\dots a_k \land{}\\
@@ -731,103 +770,150 @@ $$M_{ij} = \{ A \in N \mid A \stackrel{*}{\vdash}_\mathcal{G} a_i\dots a_j \}$$
 		% 	\end{aligned}\\
 		% &= \bigcup_{k=i}^{j-1} \{ A \mid A \-> BC \land B \in M_{i,k} \land C \in M_{k+1,j} \}
 	\end{align*}
-Es gilt:
-\begin{itemize}
- \item Wir können die $M_{ij}$ als eine $(n\x n)$-Matrix $M$ mit Einträgen in $\mathcal{P}(N)$ darstellen.
- \item Der Wert von $M_{ij}$ hängt nur von $M_{i'j'}$ mit $i'>i, j'\leq j$ oder $i'\geq i,j'<j$ ab.
- \item $w\in L$ genau dann, wenn $S \vdash^* w$ genau dann, wenn $S \in M_{1n}$.
-\end{itemize}
-
-\medskip
-
-
-
-Wir können die $M_{ij}$ mit dem folgenden Verfahren ermitteln:
-
+	
+	\expl{
+		Wir können also die Berechnung der Matrixeinträge die nicht auf der Hauptdiagonalen liegen 
+		auf die Existenz bestimmter Regel der Form $A\-> BC$ und Inhalte bestimmter anderer Matrixeinträge zurückführen.
+	}
+	
+	Beobachtung: Der Wert von $M_{ij}$ hängt nur von $M_{i'j'}$ mit $i'>i, j'\leq j$ oder $i'\geq i,j'<j$ ab.
+	Wir können die $M_{ij}$ also mit dem Verfahren aus \autoref{fig:AlgCYK} berechnen.
+	
+	\expl{
+		Es gibt also insbesonere keine zyklischen Abhängigkeiten und bei geeigneter Iterationsreihenfolge 
+		über alle Matrixeinträge kann jeder Eintrag direkt mit Hilfe der Einträge aus vorherigen
+		Iterationen bestimmt werden.
+	}
+	% \medskip
+	
+	Skizze der verbleibenden Beweisschritte.
+	
+	Zur Korrektheit: Zeige via einer verschachtelten Induktion über Zeilen und Spalten, 
+	dass am Ende der zweiten for-Schleife für alle $M_{i'j'}$ mit $i'\in\{i,\ldots, n-1\}$ und $j'\in\{i+1,\ldots, j\}$
+	die oben definierte Gleichung (\ref{eqn:CykMatrixEintragDeriv}) gilt.
+	
+	Zur Laufzeitabschätzung: Die Iterationen jeder for-Schleife sind durch die Länge des Wortes $|w|$ beschänkt. 
+	In der innersten Schleife genügt es ein mal über die Regeln der Grammatik zu iterieren.
+	
+	Zum Speicherplatz: Wir benötigen weniger als $|w|^2$ Matrixeinträge 
+	und jeder Eintrag enthält höchtens alle Variablen die in Regeln der Grammatik vorkommen.
+	\qedhere
 \end{proof}
 
 
 \begin{figure}
-\small
-% \framebox[\textwidth]{
-% \parbox{0.95\textwidth}{
-\begin{description}
- \item[Eingaben:] \ac{CFG} $\mathcal{G} = (\Sigma, N, P, S)$ in CNF und Wort $a_1\ldots a_n\in\Sigma^*$
- \item[Ausgabe:] ``Ja'' falls $a_1\ldots a_n\in L(\mathcal{G})$, ``Nein'' sonst.
-\end{description}
-
-Sei $M$  eine $n\x n\text{-Matrix mit (initial) } M_{ij}=\varnothing \text{ für alle } i, j$  // $O(n^2)$
-
-  \begin{center}
-  \begin{minipage}{12cm}
-\begin{lstlisting}[mathescape,morekeywords={for,do,return},morecomment={[l]{//}}]
-  for i=1 .. n do  // $O(|\mathcal{G}|)\cdot O(n)$
-    $M_{ii}=\{A \mid A \-> a_i \}$
-  for i=n-1 .. 1 do
-    for j=i+1 .. n do
-      for k=i .. j-1 do  // $O(|\mathcal{G}|)\cdot O(n^3)$
-        $M_{ij}=M_{ij}\cup \{ A \mid A \-> BC, B\in M_{ik}, C\in M_{(k+1)j} \}$
-  return $S\in M_{1n}$
-\end{lstlisting}
-\qedherefixlstlisting
-\end{minipage}
-   \end{center}
-%   }
-% }
-
-  \caption{CYK Algorithmus}
-  \end{figure}
+	\small
+	% \framebox[\textwidth]{
+	% \parbox{0.95\textwidth}{
+	\begin{description}
+		\item[Eingaben:] \ac{CFG} $\mathcal{G} = (\Sigma, N, P, S)$ in CNF und Wort $a_1\ldots a_n\in\Sigma^*$
+		\item[Ausgabe:] ``Ja'' falls $a_1\ldots a_n\in L(\mathcal{G})$, ``Nein'' sonst.
+	\end{description}
+	
+	Sei $M$  eine $n\x n\text{-Matrix mit (initial) } M_{ij}=\varnothing \text{ für alle } i, j$  // $O(n^2)$
+	
+	\begin{center}
+		\begin{minipage}{12cm}
+			\begin{lstlisting}[mathescape,morekeywords={for,do,return},morecomment={[l]{//}}]
+for i=1 .. n do  // $O(|\mathcal{G}|)\cdot O(n)$
+  $M_{ii}=\{A \mid A \-> a_i \}$
+for i=n-1 .. 1 do
+  for j=i+1 .. n do
+    for k=i .. j-1 do  // $O(|\mathcal{G}|)\cdot O(n^3)$
+      $M_{ij}=M_{ij}\cup \{ A \mid A \-> BC, B\in M_{ik}, C\in M_{(k+1)j} \}$
+return $S\in M_{1n}$
+			\end{lstlisting}
+			\qedherefixlstlisting
+		\end{minipage}
+	\end{center}
+	%   }
+	% }
+	
+	\caption{CYK Algorithmus}
+	\label{fig:AlgCYK}
+\end{figure}
 
 
 \begin{Bsp}
-	$L=\{a^nb^nc^m \mid n,m\geq 1\}$ mit Grammatik (\acs{CFG}) mit folgenden Regeln.
+	Sei $\Sigma=\{a,b,c\}$.\
+	Betrachte das Wort $w=aaabbbcc$ und die \ac{CFG} $\mathcal{G} = (\Sigma, \{S,X,Y\}, P, S)$\footnote{
+		Es gilt $L(\mathcal{G})=\{a^nb^nc^m \mid n,m\geq 1\}$ 
+		aber das bestimmen der erzeugten Sprache ist für das Entscheiden des Wortproblemes 
+		natürlich nicht erforderlich.}
+	deren Regeln $P$ wie folgt definiert sind.
 	\begin{align*}
 		S &\-> XY\\
 		X &\-> ab \mid aXb\\
 		Y &\-> c \mid cY
 	\end{align*}
-	In \ac{CNF}:
-	$\begin{aligned}[t]
+	Damit wir den \ac{CYK} Algorithmus anwenden können transformieren wir $\mathcal{G}$ in eine äquivalente Grammatik in CNF.
+	Z.B. in die \ac{CFG} $\mathcal{G'} = (\Sigma, \{S, X, Y, Z, A, B, C\}, P', S)$, deren Regeln $P'$ wie folgt definiert ist.
+	\begin{align*}
 		S &\-> XY\\
 		X &\-> AB \mid AZ\\
 		Z &\-> XB\\
 		Y &\-> CY | c\\
 		A &\-> a, B \-> b, C \-> c
-	\end{aligned}$
+	\end{align*}
+	Wir wenden den CYK Algorithmus an und erhalten die folgende Matrix.
+	
 
-  Beispiel der Matrix für $w = aaabbbcc$.
-  Zellen, die mit "`${\bullet}$"' markiert sind, sind leer.
-  Die Reihenfolge, in der die nicht-diagonalen, nicht leeren Zellen eingetragen wurden, ist mit kleinen Zahlen markiert.
-  Beispielsweise wurde $M_{35} = \{Z\}$ mit Zahl "`{\scriptsize 3}"' \emph{nach} $M_{78} = \{Y\}$ mit Zahl "`{\scriptsize 1}"' eingetragen.
-  Da $S \in M_{1n} = \{S\}$, gilt $w \in L$.
-  \begin{center}
+	
+	\begin{minipage}{0.6\textwidth}
+	\begin{center}
 		\begin{tabular}[t]{M{c}|*8{M{c}|}}
-%       w = & a & a & a & b & b & b & c & c \\
-		\cline{2-9}
-% 			M =
+			%       w = & a & a & a & b & b & b & c & c \\
+			\cline{2-9}
+			% 			M =
 			& A               & \bullet & \bullet & \bullet & \bullet & X ~\text{\tiny 6}& \emph{S} ~\text{\tiny 7}& S~\text{\tiny 8}       \\
-		\cline{2-9}
+			\cline{2-9}
 			\multicolumn{1}{r@{}}{a} & & A       & \bullet & \bullet & {X} ~\text{\tiny 4}& {Z} ~\text{\tiny 5}& \bullet & \bullet \\
-		\cline{3-9}
-			     \multicolumn{1}{c}{} & \multicolumn{1}{r@{}}{a} &    & A       & X ~\text{\tiny 2}      & Z     ~\text{\tiny 3}  & \bullet & \bullet & \bullet \\
-		\cline{4-9}
-			          \multicolumn{2}{c}{} & \multicolumn{1}{r@{}}{a} &         & B       & \bullet & \bullet & \bullet & \bullet \\
-		\cline{5-9}
-			               \multicolumn{3}{c}{} & \multicolumn{1}{r@{}}{b} &              & B       & \bullet & \bullet & \bullet \\
-		\cline{6-9}
-			                    \multicolumn{4}{c}{} & \multicolumn{1}{r@{}}{b} &                   & B & \bullet & \bullet \\
-		\cline{7-9}
-			                         \multicolumn{5}{c}{} & \multicolumn{1}{r@{}}{b} &                        & C,Y     & Y ~\text{\tiny 1}      \\
-		\cline{8-9}
-			                              \multicolumn{6}{c}{} & \multicolumn{1}{r@{}}{c} &                              & C,Y     \\
-		\cline{9-9}
-		\multicolumn{7}{c}{} & \multicolumn{1}{r@{}}{c} & \multicolumn{1}{c}{}
+			\cline{3-9}
+			\multicolumn{1}{c}{} & \multicolumn{1}{r@{}}{a} &    & A       & X ~\text{\tiny 2}      & Z     ~\text{\tiny 3}  & \bullet & \bullet & \bullet \\
+			\cline{4-9}
+			\multicolumn{2}{c}{} & \multicolumn{1}{r@{}}{a} &         & B       & \bullet & \bullet & \bullet & \bullet \\
+			\cline{5-9}
+			\multicolumn{3}{c}{} & \multicolumn{1}{r@{}}{b} &              & B       & \bullet & \bullet & \bullet \\
+			\cline{6-9}
+			\multicolumn{4}{c}{} & \multicolumn{1}{r@{}}{b} &                   & B & \bullet & \bullet \\
+			\cline{7-9}
+			\multicolumn{5}{c}{} & \multicolumn{1}{r@{}}{b} &                        & C,Y     & Y ~\text{\tiny 1}      \\
+			\cline{8-9}
+			\multicolumn{6}{c}{} & \multicolumn{1}{r@{}}{c} &                              & C,Y     \\
+			\cline{9-9}
+			\multicolumn{7}{c}{} & \multicolumn{1}{r@{}}{c} & \multicolumn{1}{c}{}
 		\end{tabular}
-  \end{center}
+	\end{center}
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+	\end{minipage}
+	\begin{minipage}{0.35\textwidth}
+		Zellen, die mit "`${\bullet}$"' markiert sind, sind leer.
+		Die Reihenfolge, in der die nicht-diagonalen, nicht leeren Zellen eingetragen wurden, ist mit kleinen Zahlen markiert.
+		Beispielsweise wurde $M_{35} = \{Z\}$ mit Zahl "`{\scriptsize 3}"' \emph{nach} $M_{78} = \{Y\}$ mit Zahl "`{\scriptsize 1}"' eingetragen.
+	\end{minipage}
+
+	Da $S \in M_{1n}$, gilt $w \in L(\mathcal{G}')$.
 \end{Bsp}
 
 
-\begin{Satz}[name={[Entscheidbarkeit des Leerheitsproblems für kontextfreie Sprachen]}] % 4.7
+\begin{Korollar}
+	Es gibt einen Algorithmus, für gegebene \ac{CFG} $\mathcal{G}$ und gegebenes Wort $w$
+	in $O(|w|^3\cdot |\mathcal{G}|^2)$ Schritten und mit $O(|w|^2\cdot |\mathcal{G}|^2)$ Speicherplatz
+	entscheidet ob $w\in L(\mathcal{G})$ gilt.
+\end{Korollar}
+
+\begin{proof}
+	Aus \autoref{satz:CFGtoCNF} wissen wir dass eine \ac{CFG} in \ac{CNF} 
+	konvertieren können sodass deren Größe höchstens quadratisch wächst.
+	Anschließend wenden wir den CYK Algorithmus auf das Resultat an.
+\end{proof}
+
+\expl{
+Um \datenote{12.12.2018} möglichst schnell zum Unterkapitel über Typ-3-Sprachen zu kommen wurde das restliche Unterkapitel in der Freitagsvorlesung übersprungen.
+}
+
+\begin{Satz}[name={[Entscheidbarkeit des Leerheitsproblems für kontextfreie Sprachen]}]
   \label{thm:cfl-decidable-emptyness}
     Es gibt einen Algorithmus, der das Leerheitsproblem%
     \footnote{Gefragt ist, ob $L(\mathcal{G}) = \{ w\in\Sigma^* \mid S\overset{*}{\vdash} w \} \overset{?}{=} \varnothing$.}
