@@ -644,7 +644,7 @@ Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G
     Fahre fort mit Schritt \ref{alg:unit-step-dg}.
   \item \label{alg:unit-step-dag}
     
-    Sortiere die Knoten des nun azyklischen Graphen\footnotemark $G$ topologisch als $A_1, \ldots, A_n$, sodass $A_n$ auf keiner linken Seite einer Kettenregel vorkommt.
+    Sortiere die Knoten des nun azyklischen Graphen\footnotemark $G$ topologisch\footnotemark als $A_1, \ldots, A_n$, sodass $A_n$ auf keiner linken Seite einer Kettenregel vorkommt.
   \item $\mathbf{for}~j = n-1, \ldots, 1$ \label{alg:unit-step-chain}
     \begin{itemize}
     \item[] $\mathbf{for}~\mathbf{each}~A_j \to A_k \in P'$
@@ -666,6 +666,67 @@ Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G
   \end{figure}
 \footnotetext{\ac{DAG} (engl.\ \emph{directed acyclic graph}).}
 
+\footnotetext{Topologies sortieren ist ein aus der Informatik 2 Vorlesung bekannter Begriff und bezeichnet das Erweitern einer gegebenen partiellen Ordnung zu einer totalen Ordnung.}
+
+\begin{Bsp}
+	Sei $\Sigma=\{0,1\}$. Betrachte und die \ac{CFG} $\mathcal{G} = (\Sigma, \{S,A,B,C,D,E\}, P, S)$
+	deren Regeln $P$ wie folgt definiert sind.
+	\begin{align*}
+		S &\-> A\\
+		A &\-> B \mid 0A1B \mid C\\
+		B &\-> S \mid 1B0A \mid D\\
+		C &\-> E\\
+		D &\-> E\\
+		E &\-> \varepsilon\\
+	\end{align*}
+	
+	Nach der erstmaligen Anwendung von Schritt~\ref{alg:unit-step-dg} erhalten wir den folgenden gerichteten Graphen.
+	\begin{center}
+	\begin{tikzpicture}
+		\node (s) at (-1,0) {S};
+		\node (a) at (0,0.6) {A};
+		\node (b) at (0,-0.6) {B};
+		\node (c) at (1,0.6) {C};
+		\node (d) at (1,-0.6) {D};
+		\node (e) at (2,0) {E};
+		\draw[->, bend left] (s) to (a);
+		\draw[->, bend left] (a) to (b);
+		\draw[->, bend left] (b) to (s);
+		\draw[->] (a) to (c);
+		\draw[->] (b) to (d);
+		\draw[->] (c) to (e);
+		\draw[->] (d) to (e);
+	\end{tikzpicture}
+	\end{center}
+	In Schritt~\ref{alg:unit-step-dg} wählen wir den Zykel $S \-> A \-> B \-> S$ und erhalten für $P'$ die folgenden den Regeln.
+	\begin{align*}
+		S &\-> C\mid D\ \mid 0S1S \mid 1S0S\\
+		C &\-> E\\
+		D &\-> E\\
+		E &\-> \varepsilon\\
+	\end{align*}
+	Nach dem zweiten Anwenden von Schritt~\ref{alg:unit-step-dg} erhalten wir den folgenden gerichteten Graphen und wählen in Schritt~\ref{alg:unit-step-dag} die durch die Zahlen angedeutete topologische Sortierung.
+	\begin{center}
+	\begin{tikzpicture}
+		\node (s) at (0,0) {$^1$ S};
+		\node (c) at (2,0.6) {$^2$ C};
+		\node (d) at (2,-0.6) {$^3$ D};
+		\node (e) at (4,0) {$^4$ E};
+		\draw[->] (s) to (c);
+		\draw[->] (s) to (d);
+		\draw[->] (c) to (e);
+		\draw[->] (d) to (e);
+	\end{tikzpicture}
+	\end{center}
+	Am Ende von Schritt~\ref{alg:unit-step-chain} sieht die Regelmenge $P'$ wie folgt aus.
+	\begin{align*}
+		S &\-> \varepsilon \mid 0S1S \mid 1S0S\\
+		C &\-> \varepsilon\\
+		D &\-> \varepsilon\\
+		E &\-> \varepsilon\\
+	\end{align*}
+
+\end{Bsp}
 
 
 
