@@ -981,6 +981,14 @@ Um \datenote{12.12.2018} möglichst schnell zum Unterkapitel über Typ-3-Sprache
     für kontextfreie Sprachen in $O(|\mathcal{G}|)$ entscheidet.
 \end{Satz}
 
+\begin{Def}
+	Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine beliebige Grammatik. 
+	Wir nennen ein Nichtterminalsymbol $A\in N$ co-erreichbar falls es ein Wort $w\in\Sigma$ existiert, 
+	sodass $A \stackrel{*}{\vdash}_\mathcal{G} w$ gilt.
+	\expl{Ein Symbol ist also co-erreichbar genau dann wenn wir daraus irgendein Wort ableiten können.}
+\end{Def}
+
+
 \begin{proof}
     Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine \ac{CFG} für $L$.
     Wir definieren die Menge $M$ der co-erreichbaren Nichtterminalsymbole.
