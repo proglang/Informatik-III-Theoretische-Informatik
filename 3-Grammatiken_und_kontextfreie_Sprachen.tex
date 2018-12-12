@@ -1,5 +1,10 @@
 \section{Grammatiken und kontextfreie Sprachen}
 
+\newcommand{\chz}{CH0}
+\newcommand{\cho}{CH1}
+\newcommand{\cht}{CH2}
+\newcommand{\chr}{CH3}
+
 % \datenote{18.11.16}
 % Im folgenden Kapitel wechseln wir den Standpunkt von Spracherkennung auf \emph{Spracherzeugung}.
 % Das Werkzeug sind hierbei sogenannte \emph{Phasenstrukturgrammatiken}, oder kurz, \emph{Grammatiken}.
@@ -718,7 +723,9 @@ Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G
 		\draw[->] (d) to (e);
 	\end{tikzpicture}
 	\end{center}
-	Am Ende von Schritt~\ref{alg:unit-step-chain} sieht die Regelmenge $P'$ wie folgt aus.
+	Am Ende von Schritt~\ref{alg:unit-step-chain} sieht die Regelmenge $P'$ wie folgt aus\footnote{
+		Das Beispiel zeigt dass das Resultat des Algorithmus völlig unnötige Regeln enthalten kann.
+	}.
 	\begin{align*}
 		S &\-> \varepsilon \mid 0S1S \mid 1S0S\\
 		C &\-> \varepsilon\\
@@ -978,7 +985,7 @@ Um \datenote{12.12.2018} möglichst schnell zum Unterkapitel über Typ-3-Sprache
   \label{thm:cfl-decidable-emptyness}
     Es gibt einen Algorithmus, der das Leerheitsproblem%
     \footnote{Gefragt ist, ob $L(\mathcal{G}) = \{ w\in\Sigma^* \mid S\overset{*}{\vdash} w \} \overset{?}{=} \varnothing$.}
-    für kontextfreie Sprachen in $O(|\mathcal{G}|)$ entscheidet.
+    für kontextfreie Grammatiken in $O(|\mathcal{G}|^2)$ entscheidet.
 \end{Satz}
 
 \begin{Def}
@@ -990,8 +997,8 @@ Um \datenote{12.12.2018} möglichst schnell zum Unterkapitel über Typ-3-Sprache
 
 
 \begin{proof}
-    Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine \ac{CFG} für $L$.
-    Wir definieren die Menge $M$ der co-erreichbaren Nichtterminalsymbole.
+    Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine \ac{CFG} für.
+    Die $M$ die Menge der co-erreichbaren Nichtterminalsymbole.
     %
     $$M = \{ A \mid A \stackrel{*}{\vdash}_\mathcal{G} w, w\in \Sigma^* \}$$
     %
@@ -1064,7 +1071,7 @@ Um \datenote{12.12.2018} möglichst schnell zum Unterkapitel über Typ-3-Sprache
 
 
 \begin{lemma}
-	$\mathcal{M}_3 \subsetneq \mathcal{M}_2$ (d.h., die regulären Sprachen sind eine \emph{echte} Teilmenge der kontextfreien Sprachen).
+	$\chr \subsetneq \cht$ (d.h., die regulären Sprachen sind eine \emph{echte} Teilmenge der kontextfreien Sprachen).
 \end{lemma}
 \begin{proof}
 	Betrachte $L_\text{centered}=\{0^n10^n \mid n\in\N \}\subseteq\{0,1\}^*$\\
