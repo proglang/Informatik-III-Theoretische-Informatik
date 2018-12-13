@@ -140,10 +140,17 @@ Im Weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
                 (q,aw,Z\gamma) &\ConfRel (q',w,\beta\gamma) &&\text{falls }\delta(q,a,Z)\ni(q',\beta)\\
                 (q,w,Z\gamma) &\ConfRel (q',w,\beta\gamma) &&\text{falls }\delta(q,\Eps,Z)\ni(q',\beta).
         \end{align*}
-
+\datenote{12.12.2018}
   Wir schreiben $(q,w,\gamma) \ConfRel^n (q',w',\gamma')$, wenn $\K$ in $n \in \mathbb{N}$ Schritten von Konfiguration $(q,w,\gamma)$ in Konfiguration $(q',w',\gamma')$ gelangt.
 
-  Wir schreiben ${\ConfRel^*}$ für die reflexive, transitive Hülle von ${\ConfRel}$.
+  Wir schreiben ${\ConfRel^*}$ für die reflexive, transitive Hülle\footnote{
+  Zur Erinnerung: Die reflexive, transitive Hülle einer binrären Relation $R$ 
+  ist die kleinste Obermenge von $R$ die reflexiv und transitiv ist.
+  Bsp.  Die reflexive, transitive Hülle der direkter-Nachfolger-Relation 
+  $\{(a,b)\in\mathbb{Z}\times\mathbb{Z}\mid b = a + 1\}$
+  ist die kleinergleich Relation ``$\leq$''.
+  }
+  von ${\ConfRel}$.
   Falls $(q,w,\gamma) \ConfRel^* (q',w',\gamma')$, so existiert also $n \in \mathbb{N}$, sodass $(q,w,\gamma) \ConfRel^n (q',w',\gamma')$.
   
         Die von $\K$ \emph{akzeptierte Sprache} ist
@@ -154,7 +161,7 @@ Im Weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
 \end{Def}
 
 \begin{Bsp*}
-  Die folgenden Schritte von $\K$ aus Beispiel \ref{bsp:pda-wwr} zeigen, dass $w = 0110 \in L(\K)$:\datenote{6.12.2017}
+  Die folgenden Schritte von $\K$ aus Beispiel \ref{bsp:pda-wwr} zeigen, dass $w = 0110 \in L(\K)$:
   \begin{displaymath}
   \begin{array}{r@{\ }ll}
     & (q_0, 0110, \#) \\
@@ -288,7 +295,6 @@ Das folgende Lemma beantwortet diese Frage.
 
 
 \begin{lemma}\label{lem:4.npdaToCfg}
-\datenote{8.12.2017}
  Zu jedem \ac{NPDA} $\mathcal{K}$ gibt es eine \ac{CFG} $\mathcal{G}$, sodass $L(\mathcal{K})=L(\mathcal{G})$.
 \end{lemma}
 
@@ -462,7 +468,6 @@ Das folgende Lemma beantwortet diese Frage.
     \end{itemize}
     
     \item Beweisrichtung "`$\Leftarrow$"'
-    \datenote{13.12.2017}
      Wir zeigen diese Richtung via vollständige Induktion über die Anzahl der Berechnungsschritte des \ac{NPDA}.
      \begin{description}
       \item[I.A.] $n=1$: Folgt wie oben erwähnt aus den $P_0$-Regeln.
@@ -732,7 +737,6 @@ Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, der nur einen Zustand 
 \end{proof}
 
 \begin{lemma}\label{bsp:5.planbncn}
-\datenote{15.12.2017}
 Die Sprache $L=\{a^nb^nc^n \mid n\geq 1\}$ ist nicht kontextfrei.
 \end{lemma}
 \begin{proof}
@@ -1092,7 +1096,6 @@ Die deterministisch kontextfreien Sprachen sind eine echte Teilmenge der kontext
                 L \in \ac{CFL}  \text{ gdw } L =L(M) \text{ für einen \ac{NPDA} $M$}
   \end{align*}
 \end{Satz}
-\datenote{21.12.16}
 \begin{proof}\hfill
         \begin{itemize}
         \item \ac{CFG} zu \ac{NPDA}:
