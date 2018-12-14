@@ -198,50 +198,51 @@ Für alle $q,q' \in Q,\enspace w \in \Sigma^*,\enspace Z \in \Gamma$ und $n \in 
 Sei $\mathcal{G} = (\Sigma,N,P,S)$ eine kontextfreie Grammatik für $L$ in \ac{CNF}.
                 Definiere einen \ac{NPDA} $\mathcal{K} = (\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ durch:
                 \begin{itemize}
-                        \item $Q = \{\qinit\}$ 
+                        \item $Q = \{q\}$ 
                         \item $\Gamma = \Sigma\overset.\cup N$
+                        \item $\qinit = q$
                         \item $\Zinit = S$
-                        \item $\delta(\qinit,a,a) = \{(\qinit,\Eps)\} $ für $ a\in\Sigma$
-                        \item $\delta(\qinit,\Eps,A) = \{(\qinit,\alpha)\}$ für $A\to\alpha\in P$
+                        \item $\delta(q,a,a) = \{(q,\Eps)\} $ für $ a\in\Sigma$
+                        \item $\delta(q,\Eps,A) = \{(q,\alpha)\}$ für $A\to\alpha\in P$
                 \end{itemize}
 Wir zeigen nun, dass $L(\K) = L(\mathcal{G})$.
 \begin{itemize}
  \item Beweisrichtung "`$\supseteq$"'
  
  Sei $w\in L(\mathcal{G})$, dann gilt $S\stackrel{*}{\vdash} w$.
- Wir wollen zeigen dass $(\qinit, w, S) \ConfRel^* (\qinit, \Eps, \Eps)$ folgt und beweisen dafür via vollständige Induktion über die Länge der Ableitung die folgende stärkere Eigenschaft.
+ Wir wollen zeigen dass $(q, w, S) \ConfRel^* (q, \Eps, \Eps)$ folgt und beweisen dafür via vollständige Induktion über die Länge der Ableitung die folgende stärkere Eigenschaft.
      \begin{displaymath}
-      \forall A \in N: \text{ wenn } A \stackrel{*}{\vdash} w, \text{dann } (\qinit, w, A) \ConfRel^* (\qinit, \Eps, \Eps)
+      \forall n>0 \text{ wenn } A \stackrel{n'}{\vdash} w \text{ für $A \in N$ und $n'\leq n$ \ \ dann \ \ } (q, w, A) \ConfRel^* (q, \Eps, \Eps)
     \end{displaymath}
   I.A.: $n=1$: Es gibt nur zwei Arten von Regeln, die für Ableitungen der Länge 1 in Frage kommen:
   \begin{itemize}
         \item $S \to \Eps$.
-        Per Konstruktion gilt $(\qinit, \Eps) \in \delta(\qinit, \Eps, S)$ und somit $(\qinit, \Eps, S) \ConfRel (\qinit, \Eps, \Eps)$.
+        Per Konstruktion gilt $(q, \Eps) \in \delta(q, \Eps, S)$ und somit $(q, \Eps, S) \ConfRel (q, \Eps, \Eps)$.
       \item $A \to a$, $a \in \Sigma$.
-        Per Konstruktion gilt $(\qinit, a) \in \delta(\qinit, \Eps, A)$ und $(\qinit, \Eps) \in \delta(\qinit, a, a)$.
+        Per Konstruktion gilt $(q, a) \in \delta(q, \Eps, A)$ und $(q, \Eps) \in \delta(q, a, a)$.
 
-        Somit gilt $(\qinit, a, A) \ConfRel (\qinit, a, a) \ConfRel (\qinit, \Eps, \Eps)$.
+        Somit gilt $(q, a, A) \ConfRel (q, a, a) \ConfRel (q, \Eps, \Eps)$.
    \end{itemize}
    
    I.S.: $n\rightsquigarrow n+1$: In diesem Fall verwendet der erste Ableitungsschritt eine Regel der Form $\pi = A \to BC$ mit $B,C \in N$.
    Wir betrachten den zugehörigen Ableitungsbaum $\mathcal{T} = \pi(\mathcal{T}_1, \mathcal{T}_2)$, $\mathcal{T}_1 \in \operatorname{Abl}(B)$, $\mathcal{T}_2 \in \operatorname{Abl}(C)$, $w = Y(\mathcal{T}_1)Y(\mathcal{T}_2)$.
 
-        Per Konstruktion gilt $(\qinit, BC) \in \delta(\qinit, \Eps, A)$. 
+        Per Konstruktion gilt $(q, BC) \in \delta(q, \Eps, A)$. 
 
-        Ferner gilt per I.V., dass $(\qinit, Y(\mathcal{T}_1), B) \ConfRel^* (\qinit, \Eps, \Eps)$ und $(\qinit, Y(\mathcal{T}_2), C) \ConfRel^* (\qinit, \Eps, \Eps)$.
+        Ferner gilt per I.V., dass $(q, Y(\mathcal{T}_1), B) \ConfRel^* (q, \Eps, \Eps)$ und $(q, Y(\mathcal{T}_2), C) \ConfRel^* (q, \Eps, \Eps)$.
 
         Mit \autoref{lem:4.mehrKeller} folgt schließlich:
         \begin{align*}
-          (\qinit, w, A) = (\qinit, Y(\mathcal{T}_1)Y(\mathcal{T}_2), A) &\ConfRel (\qinit, Y(\mathcal{T}_1)Y(\mathcal{T}_2), BC) \\
-          &\ConfRel^* (\qinit, Y(\mathcal{T}_2), C) \\
-          &\ConfRel^* (\qinit, \Eps, \Eps).
+          (q, w, A) = (q, Y(\mathcal{T}_1)Y(\mathcal{T}_2), A) &\ConfRel (q, Y(\mathcal{T}_1)Y(\mathcal{T}_2), BC) \\
+          &\ConfRel^* (q, Y(\mathcal{T}_2), C) \\
+          &\ConfRel^* (q, \Eps, \Eps).
         \end{align*}
  \item Beweisrichtung  "`$\subseteq$"'
  
- Sei $w\in L(\K)$, dann gilt $(\qinit, w, S) \ConfRel^* (\qinit, \Eps, \Eps)$.
+ Sei $w\in L(\K)$, dann gilt $(q, w, S) \ConfRel^* (q, \Eps, \Eps)$.
  Wir wollen $S \stackrel{*}{\vdash} w$ folgern und beweisen dafür via vollständige Induktion über die Anzahl der Berechnungsschritte $n$ die folgende Aussage:
      \begin{displaymath}
-      \forall n \in \mathbb{N}: \forall w \in \Sigma^*, \alpha \in \Gamma^*: \text{ wenn } (\qinit, w, \alpha) \ConfRel^n (\qinit, \Eps, \Eps), \text{dann } \alpha \stackrel{*}{\vdash} w
+      \forall n \in \mathbb{N}: \forall w \in \Sigma^*, \alpha \in \Gamma^*: \text{ wenn } (q, w, \alpha) \ConfRel^n (q, \Eps, \Eps), \text{dann } \alpha \stackrel{*}{\vdash} w
     \end{displaymath}
     
     \begin{description}
@@ -249,8 +250,8 @@ Wir zeigen nun, dass $L(\K) = L(\mathcal{G})$.
       $w = \Eps$, $\alpha = \Eps$: Es gilt $\Eps \stackrel{*}{\vdash} \Eps$.
 
   \item[I.S.] $n > 0$, $\alpha = Z\alpha'$: Es gilt
-    $(\qinit,w,Z\alpha') \ConfRel (\qinit, w', \beta\alpha') \ConfRel^{n-1} (\qinit, \Eps, \Eps)$, \linebreak
-    $\delta(\qinit, x, Z) \ni (\qinit, \beta)$, $x \in \Sigma \cup \{\varepsilon\}$.
+    $(q,w,Z\alpha') \ConfRel (q, w', \beta\alpha') \ConfRel^{n-1} (q, \Eps, \Eps)$, \linebreak
+    $\delta(q, x, Z) \ni (q, \beta)$, $x \in \Sigma \cup \{\varepsilon\}$.
 
     Es gibt zwei Fälle für $Z$:
     \begin{itemize}
