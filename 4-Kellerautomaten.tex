@@ -592,11 +592,11 @@ Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, der nur einen Zustand 
 				,dot/.style={inner sep=0pt,outer sep=0pt,label={center:\scalebox{.75}{\textbullet}}}
 				]
 				
-				\node[dot,label={above right:$S$}] (v1) at (0,-1) {};
+				\node[dot,label={above right:$S\rightarrow\alpha$}] (v1) at (0,-1) {};
 				\node[dot] (v2) at (-0.25,-1.6) {};
 				\node[dot,] (v3) at (0,-2) {};
 				\node[dot] (v4) at (-0.5,-2.5) {};
-				\node[dot,label={above right:$A$}] (v5) at (0,-3) {};
+				\node[dot,label={above right:$A\rightarrow \beta$}] (v5) at (0,-3) {};
 				\node[widebox] (v6) at (-1.5,-3.5) {$u$};
 				\node[widebox] (v7) at (-.75,-3.5) {$v$};
 				\node[widebox] (v8) at (0,-3.5) {$w$};
@@ -630,8 +630,8 @@ Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, der nur einen Zustand 
 					},
 					widebox/.style={draw, minimum width=.75cm, minimum height=.35cm, inner sep=0pt}
 				]
-				\node (S) {S};
-				\node[inner sep=2pt] (A) [below=of S.south, xshift=.2cm] {A};
+				\node (S) {S\rightarrow\alpha};
+				\node[inner sep=2pt] (A) [below=of S.south, xshift=6mm] {A\rightarrow\beta};
 				\coordinate (Ap) at (A.south west);
 				\node[widebox] (w) [below=of Ap] {w};
 				\node[widebox] (u) at ($(Ap)!2!(w.north west)+.5*(-.75,-.3)$) {u};
@@ -651,10 +651,13 @@ Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, der nur einen Zustand 
 						execute at end node=$
 					}
 				]
-				\node (0) {S};
-				\node (A1) [below=of 0] {A};
-				\node (A2) [below=of A1] {A};
-				\node (A3) [below=of A2] {A};
+				\node (0) {S\rightarrow\alpha};
+				\node (A1) [below=of 0] {};
+				\node () [below=of 0, yshift=-1mm] {\quad A\rightarrow BC};
+				\node (A2) [below=of A1] {};
+				\node () [below=of A1] {\quad A\rightarrow BC};
+				\node (A3) [below=of A2] {};
+				\node () [below=of A2] {\quad A\rightarrow BC};
 				
 				\newlength\Offset \setlength\Offset{.75cm}
 				\coordinate(p1) at ($(A2.south) - (0,\Offset)$);
@@ -675,7 +678,7 @@ Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, der nur einen Zustand 
 				
 				\node (dots) [below=\Offset of A3] {\vdots};
 				
-				\node (A4) [below=\Offset of dots] {A};
+				\node (A4) [below=\Offset of dots] {A\rightarrow\beta};
 				\coordinate (A4l) at ($(A3l) - (0,2*\Offset)$);
 				\coordinate (A4r) at ($(A3r) - (0,2*\Offset)$);
 				
@@ -732,7 +735,7 @@ Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, der nur einen Zustand 
 % 			\end{tikzpicture}
 % 			\caption{$\exists$ Pfad mit Länge $\geq k$}
 % 		\end{subfigure}
-		\caption{Erklärung zu \autoref{satz:PL für CFL}}
+		\caption{Illustration des Argumentes aus dem Beweis von \autoref{satz:PL für CFL}}
 	\end{figure}\vspace{-2em}\qedhere
 \end{proof}
 
@@ -740,31 +743,27 @@ Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, der nur einen Zustand 
 Die Sprache $L=\{a^nb^nc^n \mid n\geq 1\}$ ist nicht kontextfrei.
 \end{lemma}
 \begin{proof}
-  Wir nehmen an, $L$ wäre kontextfrei.
-	Sei $n$ die Konstante aus dem \ac{PL}.
-	Wir betrachten $z=a^nb^nc^n$. Es gilt also $|z| = 3n \ge n$.
-  Dann gibt es eine Zerlegung $z = uvwxy$ mit $|vx| \ge 1$ und $|vwx| \le n$.
-  Wir zeigen nun, dass $\forall i\in\N: uv^iwx^iy\in L$ nicht gilt (und folgern, dass unsere Annahme falsch war).
-
-  Durch $|vwx| \le n$ ergeben sich für $vwx$ folgende Möglichkeiten:
-  \begin{itemize}
-  \item $vwx = a^j$: 
-    Für $i=0$ ist $v^0wx^0=w$ mit $|w| < j$.
-    Die Anzahl der $a$ stimmt also nicht mehr mit der Anzahl der $b$ überein.
-  \item $vwx = a^kb^j$:
-    \begin{itemize}
-    \item Falls $v = a^{k'}$, $x = b^{j'}$: Für $i=0$ stimmt die Anzahl der $a$ oder die Anzahl der $b$ nicht mehr mit der Anzahl der $c$ überein.
-    \item Falls $v$ ein Gemisch aus $a$ und $b$ enthält:
-      Für $i\ge 2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
-    \item Falls $x$ ein Gemisch aus $a$ und $b$ enthält:
-      Für $i \ge2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
-    \end{itemize}
-  \item $vwx = b^j$: analog zu Fall $a^j$
-  \item $vwx = b^kc^j$: analog zu Fall $a^kb^j$
-  \item $vwx = c^j$: analog zu Fall $a^j$
-  \end{itemize}
-  In jeder der Möglichkeiten lässt sich also durch "`Pumpen"' ein Wort $w \not \in L$ finden.
-  Daher kann $L$ nicht kontextfrei sein.
+	Wir nehmen an, $L$ wäre kontextfrei.
+	Sei $n\in\N$ mit $n>0$ \expl{(die Zahl aus dem \ac{PL})}.
+	Wir betrachten $z=a^nb^nc^n$. \expl{Es gilt also $|z| = 3n \ge n$.}
+	Sei $z = uvwxy$ eine Zerlegung mit $|vx| \ge 1$ und $|vwx| \le n$.
+	\expl{Wir zeigen nun, dass $\forall i\in\N: uv^iwx^iy\in L$ nicht gilt (und folgern, dass unsere Annahme falsch war).}
+	
+	Wegen $|vwx| \le n$ trifft einer folgenden fünf Fälle zu.
+	\begin{itemize}
+		\item $vwx = a^j$ mit $j>0$: 
+		Es gilt $|v^0wx^0| < j$ und somit $uv^0wx^0y\notin L$,
+		da die Anzahl der $a$ nicht mit der Anzahl der $b$ übereinstimmt.
+		\item $vwx = a^kb^j$ mit $k>0$ und $j>0$.
+		\begin{itemize}
+			\item Falls $v = a^{k'}$ und $x = b^{j'}$, dann gilt $uv^0wx^0y\notin L$ da die Anzahl der $a$ oder die Anzahl der $b$ nicht mehr mit der Anzahl der $c$ übereinstimmt.
+			\item Falls $v$ oder $x$ die Form $a^+b^+$ hat, gilt $uv^2wx^2y\notin L$ da $uv^2wx^2y$ ein Teilwort der Form $a^+b^+a^+$ enthält.
+		\end{itemize}
+		\item $vwx = b^j$: analog zu Fall $a^j$
+		\item $vwx = b^kc^j$: analog zu Fall $a^kb^j$
+		\item $vwx = c^j$: analog zu Fall $a^j$
+	\end{itemize}
+	Die Sprache $L$ ist also nicht kontextfrei\expl{, denn wir erhalten in jedem der fünf Fälle einen Widerspruch zur Aussage des Pumping Lemma}.
 \end{proof}
 
 
@@ -772,12 +771,12 @@ Die Sprache $L=\{a^nb^nc^n \mid n\geq 1\}$ ist nicht kontextfrei.
 
 \begin{lemma} %\rlnote{Lemma \# 4.3?}
 
-  Die Menge der kontextfreien Sprachen ($\mathcal{M}_2$) ist eine echte Teilmenge der Menge der kontextsensitiven Sprachen ($\mathcal{M}_1$).
+  Die Menge der kontextfreien Sprachen (\cht) ist eine echte Teilmenge der Menge der kontextsensitiven Sprachen (\cho).
 \end{lemma}
 \begin{proof}
-Aus \autoref{beob:3.ChomskyHierarchie} wissen wir bereits, dass $\mathcal{M}_2 \subseteq \mathcal{M}_1$ gilt.
+Aus \autoref{beob:3.ChomskyHierarchie} wissen wir bereits, dass $\cht \subseteq \cho$ gilt.
 Aus \autoref{bsp:3.anbncn} wissen wir, dass $L=\{a^nb^nc^n \mid n\geq 1\}$ von einer kontextsensitiven Grammatik erzeugt wird.
-Mit Hilfe von \autoref{bsp:5.planbncn} folgern wir $\mathcal{M}_2 \subsetneq \mathcal{M}_1$.
+Mit Hilfe von \autoref{bsp:5.planbncn} folgern wir $\cht \subsetneq \cho$.
 \end{proof}
 
 % \begin{Bsp} Die Sprache
