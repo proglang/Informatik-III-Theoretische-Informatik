@@ -198,51 +198,50 @@ Für alle $q,q' \in Q,\enspace w \in \Sigma^*,\enspace Z \in \Gamma$ und $n \in 
 Sei $\mathcal{G} = (\Sigma,N,P,S)$ eine kontextfreie Grammatik für $L$ in \ac{CNF}.
                 Definiere einen \ac{NPDA} $\mathcal{K} = (\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ durch:
                 \begin{itemize}
-                        \item $Q = \{q\}$ 
+                        \item $Q = \{\qinit\}$ 
                         \item $\Gamma = \Sigma\overset.\cup N$
-                        \item $\qinit = q$
                         \item $\Zinit = S$
-                        \item $\delta(q,a,a) = \{(q,\Eps)\} $ für $ a\in\Sigma$
-                        \item $\delta(q,\Eps,A) = \{(q,\alpha)\}$ für $A\to\alpha\in P$
+                        \item $\delta(\qinit,a,a) = \{(\qinit,\Eps)\} $ für $ a\in\Sigma$
+                        \item $\delta(\qinit,\Eps,A) = \{(\qinit,\alpha)\}$ für $A\to\alpha\in P$
                 \end{itemize}
 Wir zeigen nun, dass $L(\K) = L(\mathcal{G})$.
 \begin{itemize}
  \item Beweisrichtung "`$\supseteq$"'
  
  Sei $w\in L(\mathcal{G})$, dann gilt $S\stackrel{*}{\vdash} w$.
- Wir wollen zeigen dass $(q, w, S) \ConfRel^* (q, \Eps, \Eps)$ folgt und beweisen dafür via vollständige Induktion über die Länge der Ableitung die folgende stärkere Eigenschaft.
+ Wir wollen zeigen dass $(\qinit, w, S) \ConfRel^* (\qinit, \Eps, \Eps)$ folgt und beweisen dafür via vollständige Induktion über die Länge der Ableitung die folgende stärkere Eigenschaft.
      \begin{displaymath}
-      \forall n>0 \text{ wenn } A \stackrel{n'}{\vdash} w \text{ für $A \in N$ und $n'\leq n$ \ \ dann \ \ } (q, w, A) \ConfRel^* (q, \Eps, \Eps)
+      \forall A \in N: \text{ wenn } A \stackrel{*}{\vdash} w, \text{dann } (\qinit, w, A) \ConfRel^* (\qinit, \Eps, \Eps)
     \end{displaymath}
   I.A.: $n=1$: Es gibt nur zwei Arten von Regeln, die für Ableitungen der Länge 1 in Frage kommen:
   \begin{itemize}
         \item $S \to \Eps$.
-        Per Konstruktion gilt $(q, \Eps) \in \delta(q, \Eps, S)$ und somit $(q, \Eps, S) \ConfRel (q, \Eps, \Eps)$.
+        Per Konstruktion gilt $(\qinit, \Eps) \in \delta(\qinit, \Eps, S)$ und somit $(\qinit, \Eps, S) \ConfRel (\qinit, \Eps, \Eps)$.
       \item $A \to a$, $a \in \Sigma$.
-        Per Konstruktion gilt $(q, a) \in \delta(q, \Eps, A)$ und $(q, \Eps) \in \delta(q, a, a)$.
+        Per Konstruktion gilt $(\qinit, a) \in \delta(\qinit, \Eps, A)$ und $(\qinit, \Eps) \in \delta(\qinit, a, a)$.
 
-        Somit gilt $(q, a, A) \ConfRel (q, a, a) \ConfRel (q, \Eps, \Eps)$.
+        Somit gilt $(\qinit, a, A) \ConfRel (\qinit, a, a) \ConfRel (\qinit, \Eps, \Eps)$.
    \end{itemize}
    
    I.S.: $n\rightsquigarrow n+1$: In diesem Fall verwendet der erste Ableitungsschritt eine Regel der Form $\pi = A \to BC$ mit $B,C \in N$.
    Wir betrachten den zugehörigen Ableitungsbaum $\mathcal{T} = \pi(\mathcal{T}_1, \mathcal{T}_2)$, $\mathcal{T}_1 \in \operatorname{Abl}(B)$, $\mathcal{T}_2 \in \operatorname{Abl}(C)$, $w = Y(\mathcal{T}_1)Y(\mathcal{T}_2)$.
 
-        Per Konstruktion gilt $(q, BC) \in \delta(q, \Eps, A)$. 
+        Per Konstruktion gilt $(\qinit, BC) \in \delta(\qinit, \Eps, A)$. 
 
-        Ferner gilt per I.V., dass $(q, Y(\mathcal{T}_1), B) \ConfRel^* (q, \Eps, \Eps)$ und $(q, Y(\mathcal{T}_2), C) \ConfRel^* (q, \Eps, \Eps)$.
+        Ferner gilt per I.V., dass $(\qinit, Y(\mathcal{T}_1), B) \ConfRel^* (\qinit, \Eps, \Eps)$ und $(\qinit, Y(\mathcal{T}_2), C) \ConfRel^* (\qinit, \Eps, \Eps)$.
 
         Mit \autoref{lem:4.mehrKeller} folgt schließlich:
         \begin{align*}
-          (q, w, A) = (q, Y(\mathcal{T}_1)Y(\mathcal{T}_2), A) &\ConfRel (q, Y(\mathcal{T}_1)Y(\mathcal{T}_2), BC) \\
-          &\ConfRel^* (q, Y(\mathcal{T}_2), C) \\
-          &\ConfRel^* (q, \Eps, \Eps).
+          (\qinit, w, A) = (\qinit, Y(\mathcal{T}_1)Y(\mathcal{T}_2), A) &\ConfRel (\qinit, Y(\mathcal{T}_1)Y(\mathcal{T}_2), BC) \\
+          &\ConfRel^* (\qinit, Y(\mathcal{T}_2), C) \\
+          &\ConfRel^* (\qinit, \Eps, \Eps).
         \end{align*}
  \item Beweisrichtung  "`$\subseteq$"'
  
- Sei $w\in L(\K)$, dann gilt $(q, w, S) \ConfRel^* (q, \Eps, \Eps)$.
+ Sei $w\in L(\K)$, dann gilt $(\qinit, w, S) \ConfRel^* (\qinit, \Eps, \Eps)$.
  Wir wollen $S \stackrel{*}{\vdash} w$ folgern und beweisen dafür via vollständige Induktion über die Anzahl der Berechnungsschritte $n$ die folgende Aussage:
      \begin{displaymath}
-      \forall n \in \mathbb{N}: \forall w \in \Sigma^*, \alpha \in \Gamma^*: \text{ wenn } (q, w, \alpha) \ConfRel^n (q, \Eps, \Eps), \text{dann } \alpha \stackrel{*}{\vdash} w
+      \forall n \in \mathbb{N}: \forall w \in \Sigma^*, \alpha \in \Gamma^*: \text{ wenn } (\qinit, w, \alpha) \ConfRel^n (\qinit, \Eps, \Eps), \text{dann } \alpha \stackrel{*}{\vdash} w
     \end{displaymath}
     
     \begin{description}
@@ -250,8 +249,8 @@ Wir zeigen nun, dass $L(\K) = L(\mathcal{G})$.
       $w = \Eps$, $\alpha = \Eps$: Es gilt $\Eps \stackrel{*}{\vdash} \Eps$.
 
   \item[I.S.] $n > 0$, $\alpha = Z\alpha'$: Es gilt
-    $(q,w,Z\alpha') \ConfRel (q, w', \beta\alpha') \ConfRel^{n-1} (q, \Eps, \Eps)$, \linebreak
-    $\delta(q, x, Z) \ni (q, \beta)$, $x \in \Sigma \cup \{\varepsilon\}$.
+    $(\qinit,w,Z\alpha') \ConfRel (\qinit, w', \beta\alpha') \ConfRel^{n-1} (\qinit, \Eps, \Eps)$, \linebreak
+    $\delta(\qinit, x, Z) \ni (\qinit, \beta)$, $x \in \Sigma \cup \{\varepsilon\}$.
 
     Es gibt zwei Fälle für $Z$:
     \begin{itemize}
@@ -542,11 +541,23 @@ Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, der nur einen Zustand 
         \end{alignat*}
 \end{Satz}
 \begin{lemma}\label{lemma:Binärbaum}
- In jedem Binärbaum (Baum, bei dem jeder innere Knoten zwei Nachfolger hat) mit $\geq 2^k$ Blättern gibt es mindestens einen Pfad der Länge $\geq k$ von einem Blatt zur Wurzel.
+	In jedem Binärbaum\footnote{
+		Sie kennen Bäume bereits aus der Informatik 2 Vorlesung.
+		In unserer Vorlesung sind Bäume immer gerichtet
+		Ein \emph{Baum} ist ein gerichteter Graph mit einer ausgezeichneten Knoten den wir \emph{Wurzel} 
+		nennen und für den die folgenden Eigenschaften gelten:
+		Die Wurzel hat keine eingehenden Kanten und von der Wurzel können wir jeden anderen Knoten über genau einen Pfad erreichen.
+		Wir nennen Knoten ohne Ausgehende Kanten \emph{Blätter}.
+		Knoten die keine Blätter sind heißen \emph{innere Knoten}.
+		Ein Binärbaum ist ein Baum bei dem jeder innere Knoten zwei Nachfolger hat.
+	}
+	mit $\geq 2^k$ Blättern gibt es mindestens ein Blatt sodass der einen Pfad von der Wurzel zu diesem Blatt Länge $\geq k$ hat.
+	(ohne Beweis)
 \end{lemma}
-(ohne Beweis)
 
-\begin{proof}[von \autoref{satz:PL für CFL}]
+\begin{proof}[von \autoref{satz:PL für CFL}]\footnote{
+		Dieser Beweis wurde in der Vorlesung mit Hilfe von \autoref{illCfgPl} erklärt aber nicht an die Tafel geschrieben.
+	}
 	Sei $\mathcal{G}= (\Sigma,N,P,S)$ in \ac{CNF} mit
     $L(\mathcal{G}) = L$. Wähle $n=2^{|N|}$.
     
@@ -559,17 +570,20 @@ Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, der nur einen Zustand 
 %      Dann kann man sie aber auch gleich $i$-fach nutzen ($v^i$ und $x^i$), und ist immernoch in der Sprache.}
   $\mathcal{T}$ ist ein Binärbaum mit $|z|\geq n = 2^{|N|}$ Blättern.
   In einem solchen Binärbaum existiert nach \autoref{lemma:Binärbaum} ein Pfad $\zeta$ der Länge $\geq |N|$.
-	Auf $\zeta$ liegen $\geq |N|+1$ Nichtterminalsymbole.
-	Es muss also mindestens ein Nichtterminalsymbol $A$ mehrmals vorkommen.
+	Auf $\zeta$ liegen $\geq |N|+1$ Knoten.
+	Jeder Knoten ist mit einer Regel beschriftet deren linke Seite ein Nichtterminalsymbol ist.
+	Es muss also mindestens ein Nichtterminalsymbol $A$ mehrmals als linke Seite einer Regel vorkommen.
 	
-  Folge $\zeta$ vom Blatt in Richtung Wurzel, bis sich ein Nichtterminalsymbol $A$ das erste Mal wiederholt. Das geschieht nach $\le |N|$ Schritten.
+  Folge $\zeta$ Rückwärts vom Blatt in Richtung Wurzel, bis sich eine linke Regelseite $A$ das erste Mal wiederholt. 
+  Das geschieht nach $\le |N|$ Schritten.
+%   Wir nennen den Knoten 
   Teile $z = uvwxy$ wie in \autoref{zerlegung} skizziert. Es gilt:
       \begin{itemize}
-      \item $|vx|\geq 1$, da $\zeta$ entweder durch $B$ oder durch $C$ läuft.
-        Angenommen, $\zeta$ verläuft durch $B$.
+      \item $|vx|\geq 1$, da $\zeta$ entweder durch den $B$-Nachfolger oder durch $C$-Nachfolger läuft.
+        Angenommen, $\zeta$ verläuft durch den $B$-Nachfolger.
         Somit muss $C \stackrel{*}{\vdash} x$ gelten. In \ac{CNF} ist $C \stackrel{*}{\vdash} \Eps$ nicht möglich und somit ist $|x| \ge 1$.
-        Der Fall, dass $\zeta$ durch $C$ verläuft, ist analog.
-      \item $|vwx| \le 2^{|N|} = n$, da das obere $A$ höchstens $|N|$ Schritte von der Blattebene entfernt und $\mathcal{T}$ ein Binärbaum ist.
+        Der Fall, dass $\zeta$ durch den $C$-Nachfolger verläuft, ist analog.
+      \item $|vwx| \le 2^{|N|} = n$, da der obere Knoten dessen linke Regelseite mit $A$ beschrftet ist höchstens $|N|$ Schritte von der Blattebene entfernt und $\mathcal{T}$ ein Binärbaum ist.
       \item Für die Aussage $\forall i\in\N: uv^iwx^iy\in L$ unterscheiden wir drei Fälle:
       \begin{itemize}
 				\item $i=0$: Aus dem "`unteren"' $A$ haben wir $w$ abgeleitet,
@@ -737,6 +751,7 @@ Zu jedem \ac{NPDA} gibt es einen äquivalenten \ac{NPDA}, der nur einen Zustand 
 % 			\caption{$\exists$ Pfad mit Länge $\geq k$}
 % 		\end{subfigure}
 		\caption{Illustration des Argumentes aus dem Beweis von \autoref{satz:PL für CFL}}
+		\label{illCfgPl}
 	\end{figure}\vspace{-2em}\qedhere
 \end{proof}
 
