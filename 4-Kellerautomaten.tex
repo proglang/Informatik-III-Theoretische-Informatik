@@ -417,23 +417,26 @@ Das folgende Lemma beantwortet diese Frage.
     $[\qinit, \Zinit, q']$ ableiten können und der \ac{NPDA} genau die Wörter $w$ akzeptiert, für die  $(\qinit, w, \Zinit)$ in eine akzeptierende Konfiguration überführt werden kann.
     
     Es bleibt zu zeigen, dass die Eigenschaft \eqref{eq:npdaToCfgProp} gilt.
-    Für den Fall $n=1$ folgt die Eigenschaft direkt aus den $P_0$-Regeln (und der Tatsache, dass keine der anderen Regeln ein einzelnes Symbol oder $\Eps$ ableiten kann).
+    Wir zeigen dafür via Induktion über $n$ dass für alle $n\in\N$ die folgende Eigenschaft gilt:
+	\begin{equation}
+        \forall n'< n:\quad [q,Z,q']\stackrel{n'}{\vdash} w \text{ gdw } (q,w,Z) \ConfRel^{n'} (q',\Eps,\Eps) \tag{$*$}
+    \end{equation}
     
-    \begin{itemize}
-     \item Beweisrichtung "`$\Rightarrow$"'
-     Wir zeigen diese Richtung via vollständige Induktion über die Anzahl der Ableitungsschritte.
-     \begin{description}
-      \item[I.A.] $n=1$: Folgt wie oben erwähnt aus den $P_0$-Regeln.
-      \item[I.S.] $n\rightsquigarrow n+1$:
-      Sei $[q,Z,q']\vdash\alpha\stackrel{n}{\vdash} w$ eine Ableitung für $w$. Für den ersten Ableitungsschritt kommen zwei Fälle in Frage:
+    \begin{description}
+    
+    	\item[I.A.] $n=1$: Folgt direkt aus den $P_0$-Regeln (und der Tatsache, dass keine der anderen Regeln ein einzelnes Symbol oder $\Eps$ ableiten kann).
+    	\item[I.S.] $n\rightsquigarrow n+1$:
+    	\begin{itemize}
+    	 \item Beweisrichtung "`$\Rightarrow$"'
+    	 
+    	 Sei $[q,Z,q']\vdash\alpha\stackrel{n+1}{\vdash} w$ eine Ableitung für $w$. Für den ersten Ableitungsschritt kommen zwei Fälle in Frage:
       \begin{itemize}
-      \item Fall 1: $\alpha$ hat die Form $x[q'', Z', q']$ ($[q,Z,q']\rightarrow\alpha \in P_1$).
+      \item Fall 1: $\alpha$ hat die Form $x[q'', Z', q']$ mit $q'' \in Q$\  ($[q,Z,q']\rightarrow\alpha \in P_1$).
       
-	  Es folgt $w = xw'$ für ein $w'$ mit $[q'', Z', q']\stackrel{n}{\vdash} w'$.
-	  
+	  Dann existiert $x \in \Sigma \cup \{\Eps\}$ und $w'\in\Sigma^*$ sodass $w = xw'$ und $[q'', Z', q']\stackrel{n}{\vdash} w'$.
 	  Nach I.V.\ gilt nun, dass $(q'', w', Z') \ConfRel^n (q',\Eps,\Eps)$.
 	  
-	  Nach Konstruktion gilt $\delta(q, x, Z) \ni (q'', Z'), q'' \in Q, x \in \Sigma \cup \{\Eps\}$ und somit
+	  Nach Konstruktion gilt $(q'', Z')\in\delta(q, x, Z)$ und somit
 	  $(q, w, Z) \ConfRel (q'', w', Z') \ConfRel^n (q',\Eps,\Eps)$.
       \item Fall 2: $\alpha$ hat die Form $x[q_1,Z_1,q_2][q_2, Z_2, q']$ ($[q,Z,q']\rightarrow\alpha \in P_2$).
       
@@ -463,16 +466,7 @@ Das folgende Lemma beantwortet diese Frage.
           \end{displaymath}
       \end{itemize}
       
-     \end{description}
-
-    \end{itemize}
-    
-    \item Beweisrichtung "`$\Leftarrow$"'
-     Wir zeigen diese Richtung via vollständige Induktion über die Anzahl der Berechnungsschritte des \ac{NPDA}.
-     \begin{description}
-      \item[I.A.] $n=1$: Folgt wie oben erwähnt aus den $P_0$-Regeln.
-      \item[I.S.] $n\rightsquigarrow n+1$:
-      
+      \item Beweisrichtung "`$\Leftarrow$"'
       Sei $(q,w,Z) \ConfRel^{n+1} (q',\Eps,\Eps)$ eine Berechnung für $w$. Da wir annehmen, 
       dass der \ac{NPDA} in einem Schritt höchstens zwei Symbole auf den Stack legen darf, kommen für den ersten Berechnungsschritt nur zwei Fälle in Frage:
       \begin{itemize}
@@ -508,7 +502,10 @@ Das folgende Lemma beantwortet diese Frage.
       [q, Z, q'] \vdash x[q_1,Z_1,q_2][q_2, Z_2, q'] \vdash^{k_1+k_2} xw_1w_2. \qedhere
       \end{equation*}
       \end{itemize}
-     \end{description}
+    	 
+    \end{itemize}
+    \end{description}
+
 \end{proof}
 
 \begin{Satz}
@@ -866,7 +863,7 @@ Angenommen, CFL wäre abgeschlossen unter $\overline{\!\phantom{i}\cdot\!\phanto
 \end{proof}
 
 
-
+\hide{
 \subsection{Deterministisch kontextfreie Sprachen}
 
 \begin{Def}
@@ -1255,7 +1252,7 @@ Anmerkung: first ist nicht die vollständige Lösung des Problems. Für
 den Lookahead müssen auch noch die Symbole betrachtet werden, die
 \emph{nach} einem bestimmten Nichtterminalsymbol auftreten können. Mehr dazu
 in Vorlesung Compilerbau. 
-}
+}}
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "Info_3_Skript_WS2016-17"
