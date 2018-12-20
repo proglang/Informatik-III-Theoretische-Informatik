@@ -298,7 +298,7 @@ Hält die \ac{TM} nicht, ist der Funktionswert für die entsprechende Eingabe un
 \color{red}
 Sie finden zwei weitere Beispiele für Turingmaschinen in den Folien, die auf der Vorlesungswebseite verlinkt sind.
 
-\url{https://swt.informatik.uni-freiburg.de/teaching/WS2017-18/info3}
+\url{https://swt.informatik.uni-freiburg.de/teaching/WS2018-19/info3}
 }
 
 \subsection{Formalisierung der \ac{TM}} % 2.2
@@ -375,8 +375,6 @@ Wir schreiben z.B.\ die Startkonfiguration als $\qinit w$~.
 	Die \emph{Rechenschrittrelation}
 	\[ {\vdash} \subseteq \Konf(\M)\x\Konf(\M) \]
 	ist definiert durch:%
-	\footnote{Die beiden Spezialfälle, dass $q$ "`ganz rechts"' oder "`ganz links"' steht, wurde in der Vorlesung am 20.12.2017 vergessen.
-	Die Definition wurde am 10.1.2018 nochmal kurz besprochen.}
 	\begin{alignat*}{3}
 		1.&\ & v qaw &\vdash v q'a'w &\quad& \text{falls }\delta(q,a)=(q',a',N)\\
 		2.&& v qaw &\vdash v a'q'w && \text{falls }\delta(q,a)=(q',a',R), w\neq \Eps\\
@@ -400,7 +398,9 @@ Analog zu den vorigen Kapiteln schreiben wir
 %
 \begin{Def}[Von \acs*{TM} akzeptierte Sprache] % 2.5
     \label{def:tmAkzeptanz}
-    Wir sagen $\M$ \emph{akzeptiert} $w\in\Sigma^*$, wenn die folgenden drei Eigenschaften gelten.
+    Wir sagen $\M$ \emph{akzeptiert} $w\in\Sigma^*$, 
+    wenn $u,y\in\Gamma^*$ und $q\in Q$ existieren sodass
+    die folgenden drei Eigenschaften gelten.
     \begin{enumerate}
      \item $\qinit w \vdash^*uqv$
      \item $uqv \text{ Haltekonfiguration}$
@@ -437,11 +437,11 @@ Funktion} $f_\M:\Sigma^*\nrightarrow\Sigma^*$ wie folgt definiert.
 $$
 f_\M(w)= 
 \begin{cases}
- v &\text{falls } \exists (u,q,v')\in \Konf(\M) \text{ sodass }
+ uv &\text{falls } \exists (u',q,v')\in \Konf(\M) \text{ sodass }
  \begin{array}{ll}
-  & \qinit w \vdash^*uqv'\\
-  \text{und} & uqv'\text{ ist Haltekonfiguration}\\
-  \text{und} & v=\out( v')
+  & \qinit w \vdash^*u'qv'\\
+  \text{und} & u'qv'\text{ ist Haltekonfiguration}\\
+  \text{und} & uv=\out( u'v')
  \end{array}
 \\
  \mathit{undef.} & \text{sonst}
