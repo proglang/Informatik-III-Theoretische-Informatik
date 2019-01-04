@@ -124,8 +124,8 @@ Wurde eine Eingabe nicht akzeptiert, kann dies also zwei Ursachen haben:
 
 Wir werden deterministische Turingmaschinen nicht nur verwenden, um \emph{Sprachen} zu definieren (Akzeptanz), sondern auch um (\emph{partielle}) \emph{Funktionen} vom Typ $\Sigma^*\rightarrow\Sigma^*$ zu definieren.
 Das Funktionsargument ist dabei das Wort, welches zu Beginn auf dem Band steht.
-Das Resultat ist das Wort, welches am Ende auf dem Band steht (ohne den Teil links des Kopfs);
-um sicherzustellen, dass das Resultat ein Element von $\Sigma^*$ ist, projizieren wir den Inhalt jeder Zelle nach dem Halten auf $\Sigma$.
+Das Resultat ist das Wort, welches am Ende auf dem Band steht.
+Um sicherzustellen, dass das Resultat ein Element von $\Sigma^*$ ist, projizieren wir den Inhalt jeder Zelle nach dem Halten auf $\Sigma$.
 
 Da die \ac{TM} in endlich vielen Schritten nur endlich viele Zeichen schreiben kann, ist klar, dass das Resultat nach dem Halten ein endliches Wort ist.
 Hält die \ac{TM} nicht, ist der Funktionswert für die entsprechende Eingabe undefiniert (daher beschreiben Turingmaschinen im Allgemeinen nur \emph{partielle} Funktionen).
