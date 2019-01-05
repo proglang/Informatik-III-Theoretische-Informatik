@@ -25,17 +25,26 @@ Suche nach formalem Modell für maschinelle Berechenbarkeit
 außerdem: Turing-Award
 }
 
-{
-\color{red}
-TODO ganz kurze Einführung
+Wir werden in diese Kapitel ein weiteres Maschinenmodell, das der \emph{Turingmaschine}~\footnote{Alan Mathison Turing *1912 †1954}, kennenlernen.
+Im Gegensatz zu endlichen Automaten und Kellerautomaten
+sind Turingmaschinen so ``mächtig''
+dass die Arbeitsweise jeder Rechenmaschine durch eine Turingmaschine modelliert werden kann.
 
-\begin{itemize}
- \item Weiteres Maschinenmodell
- \item Maximale Eskalation alles was berechnet werden kann
- \item zahlen dafür hohen Preis: Nicht-triviale Endlosschleifen
- \item werden sehen: Entspricht Typ-0 Grammatiken
-\end{itemize}
-}
+Diese ``Mächtigkeit'' stellt uns vor neue Herausforderungen:
+Eine Turingmaschine kann nicht-triviale Endlosschleifen erlauben und wir werden im Allgemeinen 
+nicht entscheiden können ob eine Berechnung überhaupt terminiert oder statt dessen unendlich lange läuft.
+
+Die Turingmaschine basiert auf der Idee, dass man die Arbeitsweise eines rechnenden Menschen abstrakt und idealisiert wie folgt beschreiben könnte:
+Wir bewegen uns mit einem Bleistift und einem Radiergummi auf einem Karopapier, das in alle Richtungen unbeschränkt ist 
+(weil wir immer zusätzliches Papier anlegen könnten wenn der Seitenrand erreicht ist).
+In jedem Rechenschritt lesen wir zunächst das Zeichen das in dem Kästchen unter der Bleistiftspitze steht.
+Anschließend radieren wir das Zeichen aus, beschriften das Kästchen neu und Bewegen die Bleistiftspitze zu einem benachbarten Kästchen oder 
+lassen die Position unverändert. 
+Unser Gehirn hat nur endlich viele verschiedene Zustände und steuert welches Zeichen wir schreiben und wohin die Bleistiftspitze bewegt wird.
+Der Zustand unseres Gehirns kann sich in jedem Rechenschritt ändern und wird auch durch das gelesene Zeichen beeinflusst.
+
+Im Gegensatz zu diesem Modell eines rechnenden Menschen hat die Turingmaschine ein in beide Richtungen unbeschränktes Band statt eines Karopapieres und einen Schreib- Lesekopf statt Bleistift und Radiergummi.
+
 
 \subsection{Turingmaschine \normalfont(informell)}
 
