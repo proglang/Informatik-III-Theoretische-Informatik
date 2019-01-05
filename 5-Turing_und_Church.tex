@@ -50,51 +50,51 @@ Im Gegensatz zu diesem Modell eines rechnenden Menschen hat die Turingmaschine e
 
 Die \acf{TM} ist eine Erweiterung des endlichen Automaten mit den folgenden Zusätzen.
 \begin{itemize}
- \item Die Eingabe steht auf einem Band, das rechts und links der Eingabe unendlich viele Zellen hat.
- 
- \begin{figure}[H]\centering
-	\begin{tikzpicture}[every node/.style={block}]
-		\node (1) {\blank};
-		\node (2) [right=of 1] {b};
-		\node (3) [right=of 2] {a};
-		\node (4) [right=of 3] {n};
-		\node (5) [right=of 4] {a};
-		\node (6) [right=of 5] {n};
-		\node (7) [right=of 6] {e};
-		\node (8) [right=of 7] {\blank};
-		\node (9) [right=of 8] {\blank};
-		\node (10) [right=of 9] {\blank};
-		\node (11) [right=of 10] {\blank};
-		\node (last) [right=of 11] {\blank};
-		
-		\node (Kopf) [below=1.5em of 2, draw=none, text height=.5em] {Kopf}
-		edge [->, shorten >=.5ex, semithick] (2);
-		
-		\node (TB) [below=.5em of 9, draw=none, text height=.5em,  anchor=north west] {Turingband};
-		
-		\draw (8.south) -- ($(8.south)-(0,1em)$) -- ($(TB.north west)-(0,.5em)$);
-		
-		% Open begin and end.
-		\draw (1.north west) -- ++(-1cm,0) (1.south west)
-		-- ++ (-1cm,0) (last.north east)
-		-- ++ ( 1cm,0) (last.south east)
-		-- ++ ( 1cm,0);
-	\end{tikzpicture}
-	\vspace{-1em}
-	\caption{Turingband}
-% 	\framebox{q} = Zustand
-\end{figure}
- 
- \item Der Kopf der \ac{TM} kann nicht nur Zeichen lesen, sondern auch Zeichen schreiben.
- Der Kopf steht wie bei endlichen Automaten immer auf genau einer Zelle und liest in jedem Rechenschritt das Zeichen, welches auf dieser Zelle geschrieben steht.
- Im Gegensatz zu endlichen Automaten kann der Kopf aber auch Zeichen schreiben; er tut dies in jedem Rechenschritt.
- Dabei wird das aktuelle Zeichen der Zelle durch ein neues Zeichen ersetzt.
- Neues und altes Zeichen dürfen aber auch identisch sein.
- \item Wir haben nicht nur ein Eingabealphabet $\Sigma$, sondern auch ein Bandalphabet $\Gamma$.
- Jede Zelle des Bands ist mit einem Zeichen des Bandalphabets beschriftet.
- Wir haben in unserem Bandalphabet ein spezielles Zeichen $\blank\in\Gamma$, das wir \emph{Blank} nennen und welches ein Feld als "`leer"' markiert.
- Zu Beginn sind alle Zellen, auf denen keine Eingabe steht, mit einem Blank-Zeichen beschriftet.
- \item Der Kopf der \ac{TM} kann nicht nur nach rechts bewegt werden, er darf auch nach links bewegt werden oder seine Position beibehalten.
+	\item Die Eingabe steht auf einem Band, das rechts und links der Eingabe unendlich viele Zellen hat.
+	
+	\begin{figure}[H]\centering
+		\begin{tikzpicture}[every node/.style={block}]
+			\node (1) {\blank};
+			\node (2) [right=of 1] {b};
+			\node (3) [right=of 2] {a};
+			\node (4) [right=of 3] {n};
+			\node (5) [right=of 4] {a};
+			\node (6) [right=of 5] {n};
+			\node (7) [right=of 6] {e};
+			\node (8) [right=of 7] {\blank};
+			\node (9) [right=of 8] {\blank};
+			\node (10) [right=of 9] {\blank};
+			\node (11) [right=of 10] {\blank};
+			\node (last) [right=of 11] {\blank};
+			
+			\node (Kopf) [below=1.5em of 2, draw=none, text height=.5em] {Kopf}
+			edge [->, shorten >=.5ex, semithick] (2);
+			
+			\node (TB) [below=.5em of 9, draw=none, text height=.5em,  anchor=north west] {Turingband};
+			
+			\draw (8.south) -- ($(8.south)-(0,1em)$) -- ($(TB.north west)-(0,.5em)$);
+			
+			% Open begin and end.
+			\draw (1.north west) -- ++(-1cm,0) (1.south west)
+			-- ++ (-1cm,0) (last.north east)
+			-- ++ ( 1cm,0) (last.south east)
+			-- ++ ( 1cm,0);
+		\end{tikzpicture}
+		\vspace{-1em}
+		\caption{Turingband}
+		% 	\framebox{q} = Zustand
+	\end{figure}
+	
+	\item Der Kopf der \ac{TM} kann nicht nur Zeichen lesen, sondern auch Zeichen schreiben.
+	Der Kopf steht wie bei endlichen Automaten immer auf genau einer Zelle und liest in jedem Rechenschritt das Zeichen, welches auf dieser Zelle geschrieben steht.
+	Im Gegensatz zu endlichen Automaten kann der Kopf aber auch Zeichen schreiben; er tut dies in jedem Rechenschritt.
+	Dabei wird das aktuelle Zeichen der Zelle durch ein neues Zeichen ersetzt.
+	Neues und altes Zeichen dürfen aber auch identisch sein.
+	\item Wir haben nicht nur ein Eingabealphabet $\Sigma$, sondern auch ein Bandalphabet $\Gamma$.
+	Jede Zelle des Bands ist mit einem Zeichen des Bandalphabets beschriftet.
+	Wir haben in unserem Bandalphabet ein spezielles Zeichen $\blank\in\Gamma$, das wir \emph{Blank} nennen und welches ein Feld als "`leer"' markiert.
+	Zu Beginn sind alle Zellen, auf denen keine Eingabe steht, mit einem Blank-Zeichen beschriftet.
+	\item Der Kopf der \ac{TM} kann nicht nur nach rechts bewegt werden, er darf auch nach links bewegt werden oder seine Position beibehalten.
 \end{itemize}
 
  Wie bei endlichen Automaten steht der Kopf zu Beginn auf dem ersten (am weitesten links stehenden) Zeichen der Eingabe.
@@ -106,9 +106,9 @@ Die \acf{TM} ist eine Erweiterung des endlichen Automaten mit den folgenden Zus�
  \begin{tabu}{>{\bfseries}X[.27]X[.62]}
 % 	Turingtabelle\newline\normalfont
 	\begin{tabular}[t]{|*5{c|}}
+		\vdots & \vdots & \vdots & \vdots & \vdots \\\hline
 		$q$ & $a$ & $q'$ & $a'$ & $d$ \\\hline
-		&&&&\\
-		&&&&
+		\vdots & \vdots & \vdots & \vdots & \vdots 
 	\end{tabular}
 	& 	Die Bedeutung eines Tabelleneintrags ist dabei: Wenn die \ac{TM} in Zustand $q$ ist und der Kopf liest
         gerade das Symbol $a\in\Gamma$, dann wechsle in den Zustand $q'$,
@@ -141,50 +141,15 @@ Hält die \ac{TM} nicht, ist der Funktionswert für die entsprechende Eingabe un
 
 
 
-
-% \hide{
-% Ein primitives Rechenmodell:
-% 
-% \vspace{-.5em}
-% \begin{tabu}{>{\bfseries}X[.22]X[.72]}
-% 	Turingband & \vspace{-1em}\begin{itemize}[leftmargin=1em,parsep=0pt,topsep=0pt]
-% 	\item unendliches Band
-% 	\item Jedes Feld enthält ein Symbol aus einem Bandalphabet $\Gamma$.
-% 	\item uninitialisiert: $\blank\in\Gamma$ (Blank) ist ein spezielles Symbol welches ein Feld als "`leer"' markiert
-% 	\end{itemize}
-% 	\\
-% 	Kopf & \vspace{-1em}\begin{itemize}[leftmargin=1em,parsep=0pt,topsep=0pt]
-% 	\item zeigt immer auf ein Feld
-% 	\item nur am Kopf kann die \ac{TM} ein Zeichen lesen und schreiben
-% 	\item kann nach rechts /links bewegt werden
-% 	\end{itemize}\\
-% 	Zustand & \vspace{-1em}\begin{itemize}[leftmargin=1em,parsep=0pt,topsep=0pt]
-% 	\item kann verändert werden
-% 	\item kann gelesen werden
-% 	\item es gibt nur endlich viele Zustände
-% 	\end{itemize}\\
-% 	Turingtabelle\newline\normalfont
-% 	\begin{tabular}{|*5{c|}}
-% 		q & a & q' & a' & d \\\hline
-% 		&&&&\\
-% 		&&&&
-% 	\end{tabular}
-% 	& $\sim$ Programm $\sim$ Transitionsfunktion \newline
-% 	$\rightarrow$ Wenn \ac{TM} in Zustand $q$ und Kopf liest
-%         gerade Symbol $a\in\Gamma$ dann wechsle in Zustand $q'$,
-%         schreibe $a'$ (über altes $a$) und bewege den Kopf gemäß
-%         $d\in\{L,R,N\}$ 
-% \end{tabu}\
-
 \goodbreak
 
 \begin{samepage}
-	\begin{Bsp*}%\
+	\begin{Bsp}%\
 % 		\vspace{-2em}
 % 		\begin{figure}[H]
-	Aufgabe: Verschiebe das erste Zeichen ans Ende der Eingabe. \\
-	%
-	Dafür benutzen wir für jedes Symbol $x$ im Eingabealphabet einen eigenen Zustand $q_x$.
+	Aufgabe: Verschiebe das erste Zeichen der Eingabe an das Ende der Eingabe. \\
+
+	\vspace{-11mm}
   \begin{center}
 			\begin{tikzpicture}[every node/.style={block}]
 				\node (1) {\blank};
@@ -209,6 +174,11 @@ Hält die \ac{TM} nicht, ist der Funktionswert für die entsprechende Eingabe un
 				-- ++ ( 1cm,0);
 			\end{tikzpicture}
 			\\[2ex]
+		\end{center}
+		
+		
+			Diese Aufgabe wird von einer \ac{TM} gelöst die für jedes Symbol $x$ des Eingabealphabetes $\Sigma$ 
+			einen eigenen Zustand $q_x$ und die folgende Turingtabelle hat.
                         \begin{displaymath}
                           \begin{array}{|c|c||c|c|c||l}
                             \hline
@@ -219,9 +189,8 @@ Hält die \ac{TM} nicht, ist der Funktionswert für die entsprechende Eingabe un
                                 q_3 & \blank & q_4 & \blank & R\\\hline
                           \end{array}
                         \end{displaymath}
-                        \end{center}
 % 		\end{figure}
-	\end{Bsp*}
+	\end{Bsp}
 \end{samepage}
 %
 % Was kann die \ac{TM} ausrechnen?
@@ -310,9 +279,11 @@ Sie finden zwei weitere Beispiele für Turingmaschinen in den Folien, die auf de
 \url{https://swt.informatik.uni-freiburg.de/teaching/WS2018-19/info3}
 }
 
-\subsection{Formalisierung der \ac{TM}} % 2.2
-\begin{Def}[name={[\acs*{TM}]}]\label{def:4.tm} % 2.1
-	Eine \ac{TM} ist ein 7-Tupel
+\subsection{Formalisierung der \acl{TM}}
+
+
+\begin{Def}[name={[\acf{TM}]}]\label{def:4.tm}
+	Eine \emph{\acf{TM}} ist ein 7-Tupel
 	\begin{equation*}
 		\M=\left(\Sigma,Q,\Gamma,\delta,\qinit,\blank,F\right)
 	\end{equation*}
@@ -326,19 +297,30 @@ Sie finden zwei weitere Beispiele für Turingmaschinen in den Folien, die auf de
 		\item $\blank\in\Gamma\setminus\Sigma$ ist ein Zeichen, das wir \emph{Blank} nennen und
 		\item $F\subseteq Q$ ist eine Teilmenge der Zustände, deren Elemente wir \emph{akzeptierende} Zustände nennen.
 	\end{itemize}
-        Die \ac{TM} $\M$ heißt \emph{deterministisch}
-        (\acsu{DTM}), falls $\forall q\in Q, \forall a\in\Gamma, |\delta
-        (q,a)| \le 1$.
-        Ansonsten ist $\M$ \emph{nichtdeterministisch} (\acsu{NTM}).
+	Die \ac{TM} $\M$ heißt \emph{deterministisch}
+	(\acsu{DTM}), falls $\forall q\in Q, \forall a\in\Gamma, |\delta
+	(q,a)| \le 1$.
+	Ansonsten ist $\M$ \emph{nichtdeterministisch} (\acsu{NTM}).
+	\index{Turingmaschine}
+	\index{Eingabealphabet!Turingmaschine}
+	\index{Zustand!Turingmaschine}
+	\index{Bandalphabet!Turingmaschine}
+	\index{Transitionsfunktion!Turingmaschine}
+	\index{Blank!Turingmaschine}
+	\index{akzeptierender Zustand!Turingmaschine}
+	\index{deterministisch!Turingmaschine}
+	\index{nichtdeterministisch!Turingmaschine}
 \end{Def}
+
+
 Im Folgenden sei $\M=(\Sigma, Q, \Gamma, \delta, \qinit, \blank, F)$ eine \ac{TM}.
 
 
 Die \emph{Konfiguration} einer Turingmaschine wird durch drei Dinge beschrieben:
 \begin{enumerate}
- \item Der aktuelle Zustand
- \item Der Bandinhalt
- \item Die Position des Kopfs
+	\item Der aktuelle Zustand
+	\item Der Bandinhalt
+	\item Die Position des Kopfs
 \end{enumerate}
 Die scheinbar "`natürlichste"' Beschreibung der Konfiguration wäre also ein Tripel aus
 $Q\times(\mathbb{Z}\rightarrow\Gamma)\times\mathbb{Z}$.
@@ -351,6 +333,8 @@ Dabei beschreibt
 	\item $q$ den aktuellen Zustand und
 	\item $w$ ein endliches Präfix der verbleibenden Bandhälfte (also unter Kopf und rechts davon), das alle nicht-Blank-Zeichen (dieser Hälfte) enthält.
 \end{itemize}
+
+
 \begin{figure}[H]\centering
 	\begin{tikzpicture}[every node/.style={block}, decoration={brace, amplitude=5pt}]
 		\node (A) {$v$};
@@ -369,18 +353,21 @@ Dabei beschreibt
 	\caption{Informelle graphische Darstellung einer Turingmaschinenkonfiguration}
 \end{figure}
 
-\begin{Def}[name={[Konfiguration einer \acs*{TM}]}] % 2.2
-	Die Menge der Konfigurationen einer \ac{TM} ist $\Konf(\M)=\Gamma^*\times Q\times\Gamma^+$.
+
+\begin{Def}[name={[Konfiguration]}]
+	Die Menge der \emph{Konfigurationen} einer \ac{TM} ist $\Konf(\M)=\Gamma^*\times Q\times\Gamma^+$.
 	Die \emph{Startkonfiguration} bei Eingabe $w$ ist $(\Eps,\qinit,w)$ für $w \neq \Eps$ und $(\Eps,\qinit,\blank)$ für $w = \Eps$.
 	Eine \emph{Haltekonfiguration} ist eine Konfiguration $(v,q,aw)$, bei der $\delta(q,a)=\emptyset$ gilt.
+	\index{Konfiguration!Turingmaschine}
+	\index{Startkonfiguration!Turingmaschine}
+	\index{Haltekonfiguration!Turingmaschine}
 \end{Def}
 Notation: Wenn aus dem Kontext klar wird, welcher Buchstabe zu welche Komponente des Tripels gehört, dürfen wir die Klammern und Kommata auch weglassen.
 Wir schreiben z.B.\ die Startkonfiguration als $\qinit w$~.
-%
 
 
 
-\begin{Def}[name={[Rechenschrittrelation]}] % 2.3
+\begin{Def}[name={[Rechenschrittrelation]}]
 	Die \emph{Rechenschrittrelation}
 	\[ {\vdash} \subseteq \Konf(\M)\x\Konf(\M) \]
 	ist definiert durch:%
@@ -390,100 +377,83 @@ Wir schreiben z.B.\ die Startkonfiguration als $\qinit w$~.
 		&&&\phantom{{}\vdash{}} v a'q'\blank && \ruleplaceholder{\widthof{falls $\delta(q,a)=(q',a',R)$}}, w=\Eps\\
 		3.&& qaw &\vdash q'\blank a'w && \delta(q,a)=(q',a',L)\\
 		&& vbqaw &\vdash vq'ba'w && \ruleplaceholder{\widthof{$\delta(q,a)=(q',a',L)$}}\  b\in\Gamma
-	\qedherefixalignat
+		\qedherefixalignat
 	\end{alignat*}
+	\index{Rechenschrittrelation!Turingmaschine}
 \end{Def}
+
+
 Analog zu den vorigen Kapiteln schreiben wir
-% $\vdash$ Einzelschritt, gesuchte Relation für endlich viele Schritte \smallskip\\
-	${\vdash^*} \subseteq \Konf(\M) \x \Konf(\M)$ 
-	für die reflexive transitive Hülle von $\vdash$.
+${\vdash^*} \subseteq \Konf(\M) \x \Konf(\M)$ 
+für die reflexive transitive Hülle von $\vdash$.
 \begin{itemize}
- \item Das Symbol $\vdash$ steht also für eine Relation über $\Konf(\M)$, die einzelne Berechnungsschritte beschreibt.
- \item Der Ausdruck $\vdash^*$ steht für eine Relation über $\Konf(\M)$, die eine endliche Sequenz von  Berechnungsschritten beschreibt.
+	\item Das Symbol $\vdash$ steht also für eine Relation über $\Konf(\M)$, die einzelne Berechnungsschritte beschreibt.
+	\item Der Ausdruck $\vdash^*$ steht für eine Relation über $\Konf(\M)$, die eine endliche Sequenz von  Berechnungsschritten beschreibt.
 \end{itemize}
 
- 
-%
-%
-\begin{Def}[Von \acs*{TM} akzeptierte Sprache] % 2.5
-    \label{def:tmAkzeptanz}
-    Wir sagen $\M$ \emph{akzeptiert} $w\in\Sigma^*$, 
-    wenn $u,y\in\Gamma^*$ und $q\in Q$ existieren sodass
-    die folgenden drei Eigenschaften gelten.
-    \begin{enumerate}
-     \item $\qinit w \vdash^*uqv$
-     \item $uqv \text{ Haltekonfiguration}$
-     \item $q\in F$
-    \end{enumerate}
-    Die von $\M$ akzeptierte Sprache ist
-    $$L(\M)=\{ w\in\Sigma^* \mid \M \text{ akzeptiert } w\}. 		\qedhere$$
+
+\begin{Def}[Akzeptanz]
+	\label{def:tmAkzeptanz}
+	Wir sagen $\M$ \emph{akzeptiert} das Wort $w\in\Sigma^*$, 
+	wenn $u,y\in\Gamma^*$ und $q\in Q$ existieren sodass
+	die folgenden drei Eigenschaften gelten.
+	\begin{enumerate}
+		\item $\qinit w \vdash^*uqv$
+		\item $uqv \text{ Haltekonfiguration}$
+		\item $q\in F$
+	\end{enumerate}
+	Die von $\M$ akzeptierte Sprache $L(\M)$ ist definiert als $\{ w\in\Sigma^* \mid \M \text{ akzeptiert } w\}$.
+	\index{akzeptiertes Wort!Turingmaschine}
+	\index{akzeptierte Sprache!Turingmaschine}
 \end{Def}
 
 
-\begin{Def}[name={[Terminierung]}]
- Eine \ac{DTM} $\M$ \emph{hält} auf einer Eingabe $w$,
- falls es eine Haltekonfiguration $uqv$ gibt, sodass $\qinit w\vdash^*uqv$ gilt.
+\begin{Def}[name={[Halten]}]
+	Eine \ac{DTM} $\M$ \emph{hält} auf einer Eingabe $w$,
+	falls es eine Haltekonfiguration $uqv$ gibt, sodass $\qinit w\vdash^*uqv$ gilt.
+	\index{Halten!Turingmaschine}
 \end{Def}
+
 
 Falls eine \ac{DTM} $\M$ ein Wort $w$ nicht akzeptiert, kann dies zwei Ursachen haben:
 \begin{enumerate}
- \item $\M$ hält nicht auf $w$.
- \item Der Zustand der Haltekonfiguration von $\M$ auf $w$ ist nicht akzeptierend.
+	\item $\M$ hält nicht auf $w$.
+	\item Der Zustand der Haltekonfiguration von $\M$ auf $w$ ist nicht akzeptierend.
 \end{enumerate}
 
-% \emph{Beachte:}
-% $w\notin L(\M)\begin{casesarrows}
-% \M\text{ kann anhalten}          \\
-% \M\text{ kann nicht terminieren}
-% \end{casesarrows}$
 
-\begin{Def}[Die von einer \ac{DTM} $\M$ berechnete Funktion] % 2.6
-Sei $\M$ eine \ac{DTM}.
-Dann ist die von $\M$ \emph{berechnete partielle%
-\footnote{Im Gegensatz zu einer Funktion muss eine partielle Funktion nicht für alle Elemente des Urbilds definiert sein.
-Ist $f$ keine Funktion, sondern nur eine partielle Funktion von $X$ nach $Y$, so schreiben wir $f: X\nrightarrow Y$ statt $f: X\rightarrow Y$.}
-Funktion} $f_\M:\Sigma^*\nrightarrow\Sigma^*$ wie folgt definiert.
-$$
-f_\M(w)= 
-\begin{cases}
- uv &\text{falls } \exists (u',q,v')\in \Konf(\M) \text{ sodass }
- \begin{array}{ll}
-  & \qinit w \vdash^*u'qv'\\
-  \text{und} & u'qv'\text{ ist Haltekonfiguration}\\
-  \text{und} & uv=\out( u'v')
- \end{array}
-\\
- \mathit{undef.} & \text{sonst}
-\end{cases}
-$$
-Dabei ist $\out$ die Funktion, die ein Wort auf das Eingabealphabet $\Sigma$ projiziert. 
-Wir definieren $\out:\Gamma^* \-> \Sigma^*$ formal wie folgt.
+\begin{Def}[berechnete Funktion] % 2.6
+	Sei $\M$ eine \ac{DTM}.
+	Dann ist die von $\M$ \emph{berechnete partielle%
+		\footnote{Im Gegensatz zu einer Funktion muss eine partielle Funktion nicht für alle Elemente des Urbilds definiert sein.
+			Ist $f$ keine Funktion, sondern nur eine partielle Funktion von $X$ nach $Y$, so schreiben wir $f: X\nrightarrow Y$ statt $f: X\rightarrow Y$.}
+		Funktion} $f_\M:\Sigma^*\nrightarrow\Sigma^*$ wie folgt definiert.
+	$$
+	f_\M(w)= 
+	\begin{cases}
+		uv &\text{falls } \exists (u',q,v')\in \Konf(\M) \text{ sodass }
+		\begin{array}{ll}
+			& \qinit w \vdash^*u'qv'\\
+			\text{und} & u'qv'\text{ ist Haltekonfiguration}\\
+			\text{und} & uv=\out( u'v')
+		\end{array}
+		\\
+		\mathit{undef.} & \text{sonst}
+	\end{cases}
+	$$
+	Dabei ist $\out$ die Funktion, die ein Wort auf das Eingabealphabet $\Sigma$ projiziert. 
+	Wir definieren $\out:\Gamma^* \-> \Sigma^*$ formal wie folgt.
 	\begin{alignat*}{3}
 		&\out(\Eps) &&= \Eps\\
 		&\out(au) &&= a\cdot\out(u) &\quad& a\in\Sigma\\
 		&\out(bu) &&= \out(u) && b\in\Gamma\setminus\Sigma
-	\qedherefixalignat
+		\qedherefixalignat
 	\end{alignat*}
+	\index{berechnete Funktion!Turingmaschine}
 \end{Def}
 \emph{Beobachtung:} Die Funktion $f_\M(w)$ ist genau für die Wörter definiert, 
 für die $\M$ angesetzt auf $w$ hält.
 
-% 
-% 	\begin{alignat*}{3}
-% 		&&&f_\M:\Sigma^*\nrightarrow\Sigma^*\\
-% 		&&&f_\M(w)=v\\
-% 		&\text{ falls } &&\qinit w \vdash^*uqv'&\quad&\text{Haltekonf.}\\
-% 		&\text{ und } &&v=\out( v')\\[.5em]
-% 		&\out:\Gamma^* &&\-> \Sigma^*\\
-% 		&\out(\Eps) &&= \Eps\\
-% 		&\out(au) &&= a\cdot\out(u) &\quad& a\in\Sigma\\
-% 		&\out(bu) &&= \out(u) && b\in\Gamma\setminus\Sigma
-% 	\end{alignat*}
-% \end{Def}
-% \emph{Beachte:} Falls $\qinit w$ nicht terminiert, dann ist $f_\M(w)$ nicht definiert.
-% 
-% Eine \ac{TM} $\M$ terminiert nicht bei Eingabe $w$, falls für alle $uq'v$, so dass $\qinit w\vdash^*uq'v$\\
-% $uq'v$ ist keine Haltekonfiguration.
 
 \subsection{\ac{TM}-Programmierung mit Hilfe von Flussdiagrammen}
 % 
@@ -968,7 +938,7 @@ Für jeden Schritt von $\M$ macht $\M_U$ dabei die folgenden Schritte.
 
 \end{itemize}
 
-\begin{Satz}
+\begin{Satz}[name={[Universelle \ac{TM}]}]
 	Die universelle \ac{TM} $\M_U$ erfüllt die Eigenschaften (\ref{Mu-eq-lang}), (\ref{Mu-eq-term}) und (\ref{Mu-eq-func}).
 \end{Satz}
 
