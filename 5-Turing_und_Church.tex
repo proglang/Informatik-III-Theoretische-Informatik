@@ -1,4 +1,4 @@
-\section{Turingmaschinen}
+\section{Turingmaschinen}\datenote{09.01.2019}
 \newcommand{\M}{\mathcal{M}}
 \newcommand{\godel}[1]{\ulcorner #1 \urcorner}
 \newcommand{\D}{\mathcal{D}}
@@ -566,7 +566,7 @@ $\M=\left(\Sigma,Q,\Gamma,\delta,\qinit,\blank,F\right)$, wobei
 
 Konvention: Analog zu Startzuständen von endlichen Automaten verwenden wir einen eingehenden Pfeil, um den Startknoten eines Flussdiagramms zu kennzeichnen.
 
-\begin{Bsp}
+\begin{Bsp}\datenote{11.01.2019}
 Wir wollen eine \ac{TM} konstruieren, welche die wie folgt definierte Subtraktion von natürlichen Zahlen implementiert.
 % 
 % mit Hilfe eines Flussdiagramms eine .
@@ -629,9 +629,12 @@ benötigen keine weiteren Zeichen für unsere Berechnung und verwenden daher das
 \end{Bsp}
   
 \subsection{Varianten von \ac{TM}s}
-Es gibt sehr viele Varianten von Turingmaschinen.
-Diese sind äquivalent zu \autoref{def:4.tm} in dem Sinne, dass sie nicht mehr Sprachen akzeptieren oder mehr Funktionen berechnen können.
-Je nach Anwendung können diese Varianten aber bequemer sein. Wir stellen in diesem Abschnitt zwei solche Varianten vor.
+Es gibt viele Varianten von Turingmaschinen.
+Diese sind typischerweise äquivalent zu \autoref{def:4.tm} in dem Sinne, dass sie die gleiche Klasse von Sprachen akzeptieren und die gleiche Menge von Funktionen berechnen können.
+Welche Variante am bequemsten zu benutzen ist, hängt von der Anwendung ab.
+Wir stellen in diesem Unterkapitel zwei alternative Varianten von TMs vor.
+Die Beschreibungen der Maschinen, die Behauptungen und zugehörigen Beweisskizzen sind in diesem Unterkapitel eher informell gehalten.
+Wir ermutigen die Leserschaft darüber nachzudenken wie man die Inhalte analog zu den vorigen Kapiteln formal präsentieren könnte.
 
 
 \subsubsection{Mehrspurmaschinen}
