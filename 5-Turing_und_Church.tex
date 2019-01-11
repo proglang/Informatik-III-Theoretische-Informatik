@@ -667,8 +667,8 @@ Eine $k$-Spur-\ac{TM} kann von einer (gewöhnlichen) \ac{TM} simuliert werden.
 
 \medskip
 
-Idee: Verwende Bandalphabet $\Gamma_\mathsf{sim} = \Sigma \overset{.}{\cup} (\Gamma^k\times\{\blank, B, A\})\text{ und Blanksymbol } \blank_\mathsf{sim}=\blank^{k+1}$.
-Hierbei steht $B$ für "`besucht"' und $A$ für "`Ausgabe"'.
+Idee: Verwende Bandalphabet $\Gamma_\mathsf{sim} = \Sigma \overset{.}{\cup} (\Gamma^k\times\{\blank, B\})\text{ und Blanksymbol } \blank_\mathsf{sim}=\blank^{k+1}$.
+Hierbei steht $B$ für "`besucht"'.
 
 \begin{enumerate}
  \item Konvertieren der Eingabe:
@@ -684,21 +684,15 @@ Hierbei steht $B$ für "`besucht"' und $A$ für "`Ausgabe"'.
  \item Konvertieren der Ausgabe:
  
  Idee: Ersetze jedes $\left(\begin{array}{c}a_1\\ \vdots\\ a_k\\ x\end{array}\right)\in\Gamma_\mathsf{sim}$ durch $a_1$, falls $a_1\in\Sigma$, und sonst durch
- $\left(\begin{array}{c}\mblank \\ \mblank\\ \vdots\\ A\end{array}\right)$.
+ $\left(\begin{array}{c}\mblank \\ \mblank\\ \vdots\\ \mblank\end{array}\right)$.
  (Zur Ausgabe gehören schließlich nur die Elemente aus $\Sigma$.)
  
- \begin{itemize}
-  \item Problem 1: Woher wissen wir, wie weit wir nach rechts laufen müssen?
+	Problem: Woher wissen wir, wie weit wir nach rechts laufen müssen?
   
   Lösung: Wir achten auf die letzte Komponente des Tupels. 
   Wir laufen so lange nach rechts, wie dort ein B steht, denn alle diese Zellen haben wir mindestens einmal besucht.
   
-  \item Problem 2: Alles was links des Kopfs steht, gehört nicht zur Ausgabe.
-  Wie bekommen wir den Kopf wieder an die Stelle, wo er vor dem Konvertieren der Ausgabe war?
-  
-  Lösung: Wir laufen so lange nach links, bis das erste Zeichen kommt, das nicht aus $\Sigma$ ist und dessen letzte Komponente kein $A$ ist.
  \qedhere
- \end{itemize}
 \end{enumerate}
 \end{Bemerkung}
 
@@ -792,7 +786,7 @@ Das Bandalphabet der $k$-Spur-\ac{TM} sei dabei $\Gamma_\mathsf{sim}=\Gamma\over
 
 
 
-\subsection{Universelle Turingmaschine}
+\subsection{Universelle Turingmaschine}\datenote{16.01.2019}
 Die bisher betrachteten Turingmaschinen waren (ebenso wie endliche Automaten oder Kellerautomaten) 
 auf einen Einsatzzweck beschränkt und konnten nur eine bestimmte Sprache akzeptieren oder eine bestimmte Funktion berechnen.
 Dies entspricht nicht unserer Vorstellung eines Computers, denn dieser kann normalerweise beliebige Programme ausführen.
