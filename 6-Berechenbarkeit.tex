@@ -2,13 +2,19 @@
 
 
 
-In diesem Kapitel wollen wir zeigen, 
+In diesem Kapitel werden wir zeigen, 
 dass es Sprachen gibt, die von keiner \ac{TM} akzeptiert werden können, und
 dass es Funktionen gibt, die von keiner \ac{TM} berechnet werden können.
 
 
-\subsection{Das Gesetz von Church-Turing (Churchsche These)} % 2.6
-\begin{These*}[name={[Intuitiv berechenbare Funktionen sind mit \acs*{TM} berechenbar]}]
+\subsection{Church-Turing These}
+\begin{Def}\label{def:berechenbar}
+ Eine (partielle) Funktion $f:\Sigma^*\rightarrow\Sigma^*$ heißt \emph{berechenbar}, wenn es eine Turingmaschine $\M$ gibt,
+ sodass $f$ die von $\M$ berechnete Funktion ist.
+\end{Def}
+
+
+\begin{These*}[Church-Turing These]
 	Jede intuitiv berechenbare Funktion ist mit einer \ac{TM} (in formalem Sinn) berechenbar.
 	
 	{\color{gray}
@@ -27,10 +33,20 @@ dass es Funktionen gibt, die von keiner \ac{TM} berechnet werden können.
 	}
 \end{These*}
 
-\begin{Def}\label{def:berechenbar}
- Eine (partielle) Funktion $f:\Sigma^*\rightarrow\Sigma^*$ heißt \emph{berechenbar}, wenn es eine Turingmaschine $\M$ gibt,
- sodass $f$ die von $\M$ berechnete Funktion ist.
-\end{Def}
+Diese nach Alonzo Church\footnote{Alonzo Church *1903 †1995}
+und Alan Turing benannte These vergleicht zwei Begriffe von denen nur einer
+formal definiert ist.
+Wir können diese These daher weder beweisen noch formal widerlegen.
+
+Unter dem Begriff der ``intuitiv berechenbaren Funktion'' 
+versteht man aber typischerweise ein Funktion die von einem Algorithmus berechnet wird
+und unter einem \emph{Algorithmus} versteht man eine präzise mit endlichen vielen Zeichen 
+beschriebene Handlungsvorschrift bei der jeder Schritt effektiv durchgeführt werden kann.
+Man könnte also versuchen ein Rechenverfahren zu finden dass allgemein als Algorithmus anerkannt ist aber nicht auf einer \ac{TM} berechnet werden kann.
+Solch ein Rechenverfahren würde die Church-Turing These widerlegen bzw. aufzeigen wie der Begriff des Algorithmus präzisiert werden sollte.
+Bisher ist es nicht gelungen solch ein Rechenverfahren zu finden.
+
+
 \begin{Bemerkung}
  In der Literatur wird in \autoref{def:berechenbar} oft auch nicht der Begriff \emph{berechenbar}, sondern die Begriffe \emph{Turing-berechenbar} oder \emph{rekursiv} verwendet.
  Die Intention dahinter ist, den Begriff \emph{berechenbar} für "`intuitiv berechenbar"' aufzusparen.

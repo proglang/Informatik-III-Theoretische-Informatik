@@ -422,7 +422,7 @@ Falls eine \ac{DTM} $\M$ ein Wort $w$ nicht akzeptiert, kann dies zwei Ursachen 
 \end{enumerate}
 
 
-\begin{Def}[berechnete Funktion] % 2.6
+\begin{Def}[berechnete Funktion]
 	Sei $\M$ eine \ac{DTM}.
 	Dann ist die von $\M$ \emph{berechnete partielle%
 		\footnote{Im Gegensatz zu einer Funktion muss eine partielle Funktion nicht für alle Elemente des Urbilds definiert sein.
@@ -525,7 +525,7 @@ Voraussetzung ist, dass alle \ac{TM}s das gleiche Bandalphabet und das gleiche B
 Wir definieren das Flussdiagramm nun formal wie folgt.
 
 
-\begin{Def}%[Flussdiagram]
+\begin{Def}[name={[Flussdiagram]}]
 Ein \emph{Flussdiagramm} ist ein 8-Tupel $G=(\Sigma, \Gamma, \blank,V,E,v^\mathsf{init},L_V,L_E)$.
 Dabei ist
 \begin{itemize}
@@ -545,7 +545,7 @@ Notation: Bis zum Ende des Kapitels schreiben wir
 $\M_v=\left(\Sigma,Q_v,\Gamma,\delta_v,\qinit_v,\blank,F_v\right)$
 für die Turingmaschine $L_V(v)$, also die Turingmaschine, die dem Knoten $v$ zugeordnet ist.
 
-\begin{Def}%[Flussdiagram]
+\begin{Def}[name={[Von Flussdiagram definierte \ac{TM}]}]
 Die von einem Flussdiagramm $G=(\Sigma, \Gamma, \blank,V,E,v^\mathsf{init},L_V,L_E)$ definierte Turingmaschine ist 
 $\M=\left(\Sigma,Q,\Gamma,\delta,\qinit,\blank,F\right)$, wobei
 \begin{itemize}
