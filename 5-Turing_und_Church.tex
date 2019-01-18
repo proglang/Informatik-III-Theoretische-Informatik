@@ -815,19 +815,36 @@ Einige Vorüberlegungen:
  Für das Ausführen einer \ac{TM} sind nur die Elemente aus $\Sigma$, $Q$ und $\Gamma$ relevant, die auch in der Transitionsfunktion $\delta$ vorkommen.
 \end{itemize}
 
-% Wir möchten zunächst mit einer Konvention und einer Definition dafür sorgen dass die Codierung einer Turingmaschine eindeutig ist.
-% 
-% \textbf{Konvention: } Wir wollen von nun an annehmen dass das Alphabet $\Sigma=\{a_1,\ldots, a_{n_\Sigma}\}$ ist,
-% bzw. das es eine eindeutige Reihenfolge der Symbole gibt.
-% 
-% \begin{Def}[name={[normierte \ac{TM}]}]
-% 	Wir nennen eine \ac{TM} $\M=(\Sigma, Q, \Gamma, \delta, \qinit, \blank, F)$  \emph{normiert} falls
-% 	\begin{itemize}
-% 		\item $Q=\{q_1,\ldots, q_{|Q|}\}$
-% 		\item $\Gamma=\{b_1,\ldots b_{|\Gamma|-|\Sigma|}$
-% 	\end{itemize}
-% 
-% \end{Def}
+Wir möchten zunächst mit einer Konvention und einer Definition dafür sorgen dass die Codierung einer Turingmaschine eindeutig ist.
+
+\textbf{Konvention: } Wir wollen von nun an annehmen dass das Alphabet $\Sigma=\{a_1,\ldots, a_{n_\Sigma}\}$ ist,
+bzw. das es eine eindeutige Reihenfolge der Symbole gibt.
+
+\begin{Def}[name={[normierte \ac{TM}]}]
+	Wir nennen eine \ac{TM} $\M=(\Sigma, Q, \Gamma, \delta, \qinit, \blank, F)$  \emph{normiert} falls
+	\begin{itemize}
+		\item $Q=\{q_1,\ldots, q_{|Q|}\}$
+		\item $\Gamma=\{b_1,\ldots b_{|\Gamma|-|\Sigma|}, a_1,\ldots a_{n_\Sigma}\}$
+		\item $\qinit = q_1$
+		\item $\blank = b_1$
+		\item Für alle $q\in Q$ existiert ein $x\in\Gamma$ sodass $\delta(q,x)\neq\{\}$
+		\item Für alle $x\in\Gamma$ existiert ein $q\in Q$ sodass $\delta(q,x)\neq\{\}$.
+	\end{itemize}
+	Wir schreiben $\mathbb{M}$ für die Menge aller normierten \ac{TM}s.
+\end{Def}
+
+\begin{lemma}
+	Für Zu jeder TM $\M$ existiert eine normierte TM $\M'$ dass
+	\begin{itemize}
+		\item $f_{\M'}=f_{\M}$
+		\item $L(\M')=L(\M)$
+	\end{itemize}
+\end{lemma}
+\begin{proof}
+	Umbenennen und Löschen von Zuständen.
+\end{proof}
+
+
 
 
 Idee: Codiere Elemente aus $Q$ und $\Gamma$ unär mit dem Zeichen~$0$.
