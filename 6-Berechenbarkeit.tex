@@ -231,6 +231,50 @@ Den Beweis dieses Satzes werden wir später diskutieren.
  Dies steht im Widerspruch zu \autoref{satz:Cantor}.
 \end{proof}
 
+ \begin{figure}[H]\centering
+
+\begin{tikzpicture}[
+countable/.style={ellipse,draw, minimum height=2cm, minimum width=12mm, node distance = 21mm},
+uncountable/.style={ellipse,draw, minimum height=3cm, minimum width=12mm, node distance = 21mm},
+]
+ \node (nat) [countable] at (0,0) {};
+ \node (lnat) [yshift=2mm] at (nat.north) {$\N$};
+ \node (strings) [countable, right=of nat] {};
+ \node (lstrings) [yshift=2mm] at (strings.north) {$\{0,1\}^*$};
+ \node (tms) [countable, right=of strings] {};
+ \node (ltms) [yshift=2mm] at (tms.north) {$\tmach$};
+ \node (funcs) [uncountable, right=of tms] {};
+ \node (llangs) [yshift=2mm] at (funcs.north) {$\Sigma^*\rightarrow\Sigma^*$};
+ \node (powernat) [uncountable, right=of funcs] {};
+ \node (lpowernat) [yshift=2mm] at (powernat.north) {$\calP(\N)$};
+ 
+ \node (e1nat) [yshift=-6mm] at (nat.north) {$\bullet 23$};
+ \node (e2nat) [yshift=-16mm] at (nat.north) {$\bullet 42$};
+ 
+ \node (e1strings) [yshift=-8mm] at (strings.north) {$\bullet 110$};
+ \node (e2strings) [yshift=-14mm] at (strings.north) {$\bullet 00$};
+
+ \node (e1tms) [yshift=-6mm] at (tms.north) {$\bullet \M_R$};
+ \node (e2tms) [yshift=-16mm] at (tms.north) {$\bullet \D_\mblank$};
+ 
+ \node (e1langs) [yshift=-12mm] at (funcs.north) {$\bullet \operatorname{inc}$};
+ \node (e2langs) [yshift=-20mm] at (funcs.north) {$\bullet \operatorname{id}$};
+ 
+ \node (e1powernat) [yshift=-15mm] at (powernat.north) {$\bullet \{5,7\}$};
+ \node (e2powernat) [yshift=-8mm] at (powernat.north) {$\bullet \N$};
+
+
+ 
+ \draw[->, bend left] (nat) to node[auto] {$\stdnum^{-1}$} (strings);
+ \draw[->, bend left] (strings) to node[auto] {$\bintotm$} (tms);
+ \draw[->, bend left] (tms) to node[auto] {$g$} (funcs);
+ \draw[->, bend left] (funcs) to node[auto] {$\functopower$} (powernat);
+ \draw[->, bend right, dashed] (nat) to node[below] {$\functopower\circ g \circ\bintotm\circ \stdnum^{-1}$} (powernat);
+\end{tikzpicture}
+
+	\caption{Konkatenierte Abbildung aus dem Widerspruchsbeweis zu \autoref{satz:nichtBerechenbar}}
+\end{figure}
+
 Ein zentraler und nicht offensichtlicher Teil dieses Beweises war \autoref{satz:Cantor}.
 Wir wollen diesen im restlichen Unterkapitel diskutieren.
 Zunächst geben wir einen formalen Beweis.
