@@ -803,7 +803,7 @@ Wir nennen $\M_U$ die \emph{universelle Turingmaschine}.
 
 \subsubsection{Codierung von Turingmaschinen}\label{subsec:codeTuring}
 
-Zunächst wollen wir uns eine Codierung $\godel{\M}$ für $\mathcal{\M}=(\Sigma, Q, \Gamma, \delta, \qinit, \blank, F)$ überlegen.
+Zunächst wollen wir uns eine Codierung $\godel{\M}$ für $\M=(\Sigma, Q, \Gamma, \delta, \qinit, \blank, F)$ überlegen.
 Die Effizienz unserer Codierung ist uns dabei nicht wichtig und wir versuchen der Einfachheit wegen mit Unärcodierungen zu arbeiten.
 
 Einige Vorüberlegungen:
@@ -814,6 +814,21 @@ Einige Vorüberlegungen:
  \item Wir müssen $\Sigma$, $Q$ und $\Gamma$ nicht explizit in die Codierung mit aufnehmen.
  Für das Ausführen einer \ac{TM} sind nur die Elemente aus $\Sigma$, $Q$ und $\Gamma$ relevant, die auch in der Transitionsfunktion $\delta$ vorkommen.
 \end{itemize}
+
+% Wir möchten zunächst mit einer Konvention und einer Definition dafür sorgen dass die Codierung einer Turingmaschine eindeutig ist.
+% 
+% \textbf{Konvention: } Wir wollen von nun an annehmen dass das Alphabet $\Sigma=\{a_1,\ldots, a_{n_\Sigma}\}$ ist,
+% bzw. das es eine eindeutige Reihenfolge der Symbole gibt.
+% 
+% \begin{Def}[name={[normierte \ac{TM}]}]
+% 	Wir nennen eine \ac{TM} $\M=(\Sigma, Q, \Gamma, \delta, \qinit, \blank, F)$  \emph{normiert} falls
+% 	\begin{itemize}
+% 		\item $Q=\{q_1,\ldots, q_{|Q|}\}$
+% 		\item $\Gamma=\{b_1,\ldots b_{|\Gamma|-|\Sigma|}$
+% 	\end{itemize}
+% 
+% \end{Def}
+
 
 Idee: Codiere Elemente aus $Q$ und $\Gamma$ unär mit dem Zeichen~$0$.
 Verwende das Zeichen~$1$, um unärcodierte Zahlen zu trennen.
