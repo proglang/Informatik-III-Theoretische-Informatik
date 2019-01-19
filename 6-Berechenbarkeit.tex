@@ -114,7 +114,7 @@ Dieses ist weniger allgemein, erlaubt aber etwas leichter nachzuvollziehende Bew
 
 Zur Vereinfachung werden wir uns in diesem Unterkapitel auf das Alphabet $\Sigma=\{0,1\}$ beschränken.
 
-\newcommand{\tmach}{\ensuremath{\mathbb{M}}}
+
 \newcommand{\bintonat}{\operatorname{bin}}
 \newcommand{\stdnum}{\operatorname{stdnum}}
 \newcommand{\nattotm}{\operatorname{nat2tm}}
@@ -174,16 +174,6 @@ Dabei ist $\D_\mblank$ die in \autoref{bsp:simpletms} definierte Druckmaschine.%
 \footnote{Für den weiteren Verlauf ist es nicht wichtig, dass wir hier die Druckmaschine gewählt haben. Jede andere \ac{TM} wäre ebenso gut geeignet gewesen.}
 \end{Def}
 
-\textbf{Notation:}
-Wir verwenden im Folgenden $\tmach$ für die Menge aller Turingmaschinen, bei denen 
-\begin{itemize}
- \item jeder Zustand $Q$ mindestens einmal in der Turingtabelle vorkommt%
- \footnote{Ein Zustand $q\in Q$ \emph{kommt in der Turingtabelle vor}, wenn das Folgende gilt:
- $\exists a\in\Gamma: \delta(q,a)\neq\emptyset\lor \exists p\in Q, \exists a'\in\Gamma, \exists d\in\{L,N,R\}: (q,a',d)\in\delta(p,a)$.}
- oder akzeptierend ist und
- \item jedes Zeichen aus $\Gamma\setminus(\Sigma\cup\{\mblank\})$ mindestens einmal in der Turingtabelle vorkommt.
-\end{itemize}
-
 
 \begin{Bemerkung}
  Im Folgenden genügt es, wenn wir uns auf \ac{TM}s aus $\tmach$ einschränken.
@@ -192,7 +182,7 @@ Wir verwenden im Folgenden $\tmach$ für die Menge aller Turingmaschinen, bei de
 
 
 \begin{lemma}\label{satz:bintotm}
- Die Abbildung $\bintotm: \Sigma^*\rightarrow \tmach$ 
+ Die Abbildung $\bintotm: \Sigma^*\rightarrow \tmach$ von Binärstrings auf normierte \acp{TM}\footnote{Siehe \autoref{def:normTM}} 
  $$ \bintotm(w)=\M_w$$
 ist surjektiv.
 \end{lemma}
@@ -478,7 +468,7 @@ Wir definieren dafür die Menge der Sprachen, für die eine Lösung für das Wor
 \end{Def}
 
 
-\begin{Satz}\label{satz:NichtEntscheidbareSprache}
+\begin{Satz}\label{satz:NichtEntscheidbareSprache}\datenote{23.01.2019}
  Es gibt Sprachen, die nicht entscheidbar sind.
 \end{Satz}
 

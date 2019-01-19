@@ -806,32 +806,49 @@ Wir nennen $\M_U$ die \emph{universelle Turingmaschine}.
 Zunächst wollen wir uns eine Codierung $\godel{\M}$ für $\M=(\Sigma, Q, \Gamma, \delta, \qinit, \blank, F)$ überlegen.
 Die Effizienz unserer Codierung ist uns dabei nicht wichtig und wir versuchen der Einfachheit wegen mit Unärcodierungen zu arbeiten.
 
-Einige Vorüberlegungen:
+Uns ist nicht wichtig dass alle Details von $\M$ codieren uns ist nur wichtig, 
+dass wir eine \ac{TM} mit dem Verhalten von $\M$ codieren. 
+Deshalb können wir uns mit den folgenden Überlegungen die Codierung vereinfachen.
 \begin{itemize}
- \item Da $Q$ und $\Gamma$ endlich sind, können wir jedem ihrer Elemente eine natürliche Zahl zuordnen.
- \item Wir müssen $\qinit$ und $\blank$ nicht explizit codieren; wir verwenden die Konvention,
- dass $\qinit$ der Zustand mit der Nummer $1$ und $\blank$ das Zeichen mit der Nummer $1$ ist.
- \item Wir müssen $\Sigma$, $Q$ und $\Gamma$ nicht explizit in die Codierung mit aufnehmen.
- Für das Ausführen einer \ac{TM} sind nur die Elemente aus $\Sigma$, $Q$ und $\Gamma$ relevant, die auch in der Transitionsfunktion $\delta$ vorkommen.
+	\item Da $Q$ und $\Gamma$ endlich sind, können wir jedem ihrer Elemente eine natürliche Zahl zuordnen
+	und in der Codierung dann nur diese Zahl verwenden.
+	\item Wir müssen $\qinit$ und $\blank$ nicht explizit codieren; wir verwenden die Konvention,
+	dass $\qinit$ der Zustand mit der Nummer $1$ und $\blank$ das Zeichen mit der Nummer $1$ ist.
+	\item Wir müssen $\Sigma$, $Q$ und $\Gamma$ nicht explizit in die Codierung mit aufnehmen.
+	Für das Ausführen einer \ac{TM} sind nur die Elemente aus $\Sigma$, $Q$ und $\Gamma$ relevant, die auch in der Transitionsfunktion $\delta$ vorkommen.
 \end{itemize}
 
-Wir möchten zunächst mit einer Konvention und einer Definition dafür sorgen dass die Codierung einer Turingmaschine eindeutig ist.
+\newcommand{\tmach}{\ensuremath{\mathbb{M}}}
 
-\textbf{Konvention: } Wir wollen von nun an annehmen dass das Alphabet $\Sigma=\{a_1,\ldots, a_{n_\Sigma}\}$ ist,
-bzw. das es eine eindeutige Reihenfolge der Symbole gibt.
+{\color{green!50!black}
+Wir möchten einer Konvention und der darauf folgenden Definition dafür sorgen dass wir die obigen Überlegungen umsetzen können.
+\footnote{In der Vorlesung vom 16.01.2019 gab es Fragen zur Umsetzung einer eindeutigen Codierung von \acp{TM}.
+	Ich habe deshalb diesen grünen Text nachträglich hinzugefügt und die Definition der \emph{normierten \ac{TM}} in der Vorlesung vom 18.01.2019 vorgestellt. }
 
-\begin{Def}[name={[normierte \ac{TM}]}]
+\textbf{Konvention: } 
+Wir wollen von nun an ein Alphabet $\Sigma=\{a_1,\ldots, a_{n_\Sigma}\}$ festhalten.
+Somit ist immer wenn wir von der Folge $a_1,\ldots, a_{n_\Sigma}$ sprechen die gleiche Reihenfolge der Symbole gemeint.
+
+
+Seien $q_1,q_2,\ldots$ und $b_1,b_2,\ldots$ zwei unendlich lange Folgen die jeweils für jede positive natürliche Zahl ein Element enthalten.
+In der folgenden Definition werden wir endliche Präfixe dieser Folgen als Zustände bzw. Symbole des Bandalphabets verwenden.
+
+\begin{Def}[name={[normierte \ac{TM}]}]\label{def:normTM}
 	Wir nennen eine \ac{TM} $\M=(\Sigma, Q, \Gamma, \delta, \qinit, \blank, F)$  \emph{normiert} falls
 	\begin{itemize}
 		\item $Q=\{q_1,\ldots, q_{|Q|}\}$
 		\item $\Gamma=\{b_1,\ldots b_{|\Gamma|-|\Sigma|}, a_1,\ldots a_{n_\Sigma}\}$
 		\item $\qinit = q_1$
 		\item $\blank = b_1$
-		\item Für alle $q\in Q$ existiert ein $x\in\Gamma$ sodass $\delta(q,x)\neq\{\}$
-		\item Für alle $x\in\Gamma$ existiert ein $q\in Q$ sodass $\delta(q,x)\neq\{\}$.
+		\item Für alle $q\in Q$ existiert ein $x\in\Gamma$ sodass $\delta(q,x)\neq\{\}$\footnote{
+			Anschaulich: Jeder Zustand kommt mindestens ein mal in der Turingtablle vor.}
+		\item Für alle $x\in\Gamma\setminus(\Sigma\cup\{\mblank\})$ existiert ein $q\in Q$ sodass $\delta(q,x)\neq\{\}$.\footnote{
+			Anschaulich: Jedes Symbol des Bandalphabetes ist entweder das Blank, Teil der Eingabealphabetes oder es kommt mindestens ein mal in der Turingtablle vor.}
 	\end{itemize}
 	Wir schreiben $\mathbb{M}$ für die Menge aller normierten \ac{TM}s.
 \end{Def}
+
+
 
 \begin{lemma}
 	Für Zu jeder TM $\M$ existiert eine normierte TM $\M'$ dass
@@ -841,9 +858,9 @@ bzw. das es eine eindeutige Reihenfolge der Symbole gibt.
 	\end{itemize}
 \end{lemma}
 \begin{proof}
-	Umbenennen und Löschen von Zuständen.
+	Umbenennen und Löschen von Zuständen und Symbolen des Bandalphabetes.
 \end{proof}
-
+}
 
 
 
@@ -859,15 +876,15 @@ Verwende das Zeichen~$1$, um unärcodierte Zahlen zu trennen.
     
   \item Menge der akzeptierenden Zustände:
   
-    Seien $q_{k_1},\dots, q_{k_n}$ die Elemente von $F$.
+    Seien $q_{k_1},\dots, q_{k_n}$ die Elemente von $F$, in der Reihenfolge sodass $k_1<\ldots <k_n$ gilt.
     
     Definiere $\godel{F}:=\godel{q_{k_1}} 1 \godel{q_{k_2}} 1 \ldots 1 \godel{q_{k_n}}$.
     
   \item Bandalphabet:
   
-    Seien $a_1,\dots, a_{n}$ die Elemente von $\Gamma$, sodass $a_1=\blank$.
+    Seien $b_1,\dots, b_{n}$ die Elemente von $\Gamma$, sodass $b_1=\blank$.
     
-    Definiere $\godel{a_j}:=0^j$.
+    Definiere $\godel{b_j}:=0^j$.
     
   \item Richtung (in die der Schreib-Lesekopf bewegt wird):
   
@@ -875,8 +892,9 @@ Verwende das Zeichen~$1$, um unärcodierte Zahlen zu trennen.
     
   \item Transitionsfunktion:
   
-   Seien $(q_{t_1}, a_{t_1}, q_{t_1}', a_{t_1}', d_{t_1}),\dots, (q_{t_n}, a_{t_n}, q_{t_n}', a_{t_n}', d_{t_n})$ 
+   Seien $(q_{t_1}, b_{t_1}, q_{t_1}', b_{t_1}', d_{t_1}),\dots, (q_{t_n}, b_{t_n}, q_{t_n}', b_{t_n}', d_{t_n})$ 
    die Elemente von $\delta$, die nicht auf $\{\}$ abgebildet werden.
+   Diese Elemente seien durch eine lexikographische Sortierung gegeben
   
    Definiere
    
