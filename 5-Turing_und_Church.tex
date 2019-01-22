@@ -3,6 +3,8 @@
 \newcommand{\godel}[1]{\ulcorner #1 \urcorner}
 \newcommand{\D}{\mathcal{D}}
 \newcommand{\mblank}{\text{\blank}}
+% Menge aller (normierten) Turingmaschinen
+\newcommand{\tmach}{\ensuremath{\mathbb{M}}}
 
 \hide{
 %\section{\acf{TM}}
@@ -411,7 +413,7 @@ für die reflexive transitive Hülle von $\vdash$.
 \begin{Def}[name={[Halten]}]
 	Eine \ac{DTM} $\M$ \emph{hält} auf einer Eingabe $w$,
 	falls es eine Haltekonfiguration $uqv$ gibt, sodass $\qinit w\vdash^*uqv$ gilt.
-	\index{Halten!Turingmaschine}
+	\index{halten!Turingmaschine}
 \end{Def}
 
 
@@ -569,7 +571,7 @@ für die Turingmaschine $L_V(v)$, also die Turingmaschine, die dem Knoten $v$ zu
 		\item $F=\overset{.}{\bigcup\limits_{v\in V}} F_v$.
 		\qedhere
 	\end{itemize}
-	\index{Von Flussdiagram definierte \ac{TM}}
+	\index{Flussdiagram definierte \ac{TM}, von}
 \end{Def}
 
 \textbf{Notation:}
@@ -839,7 +841,7 @@ Deshalb können wir uns mit den folgenden Überlegungen die Codierung vereinfach
 	Für das Ausführen einer \ac{TM} sind nur die Elemente aus $\Sigma$, $Q$ und $\Gamma$ relevant, die auch in der Transitionsfunktion $\delta$ vorkommen.
 \end{itemize}
 
-\newcommand{\tmach}{\ensuremath{\mathbb{M}}}
+
 
 {\color{green!50!black}
 	Wir möchten einer Konvention und der darauf folgenden Definition dafür sorgen dass wir die obigen Überlegungen umsetzen können.
@@ -867,11 +869,12 @@ Deshalb können wir uns mit den folgenden Überlegungen die Codierung vereinfach
 				Anschaulich: Jedes Symbol des Bandalphabetes ist entweder das Blank, Teil der Eingabealphabetes oder es kommt mindestens ein mal in der Turingtablle vor.}
 		\end{itemize}
 		Wir schreiben $\mathbb{M}$ für die Menge aller normierten \ac{TM}s.
+		\index{normierte!Turingmaschine}
 	\end{Def}
 	
 	
 	
-	\begin{lemma}
+	\begin{lemma}[name={[normierte \ac{TM}]}]\label{lem:normTM}
 		Für Zu jeder TM $\M$ existiert eine normierte TM $\M'$ dass
 		\begin{itemize}
 			\item $f_{\M'}=f_{\M}$
@@ -957,7 +960,7 @@ Verwende das Zeichen~$1$, um unärcodierte Zahlen zu trennen.
 Da die universelle Turingmaschine $\M_U$ recht komplex ist, wollen wir diese hier nicht formal definieren, sondern geben nur eine informelle Beschreibung der Arbeitsweise an.
 
 
-Wie definiere $\M_U$ als 3-Band-\ac{TM}, wobei die Bänder $B_1$, $B_2$ und $B_3$ wie folgt genutzt werden.
+Wir konstruieren $\M_U$ als 3-Band-\ac{TM}, wobei die Bänder $B_1$, $B_2$ und $B_3$ wie folgt genutzt werden.
 \begin{itemize}
 \item[$B_1:$] Zu Beginn steht hier die Eingabe für $\M_U$.
 Nach der Initialisierung von $\M_U$ verwenden wir $B_1$, um das Band der Eingabeturingmaschine $\M$ nachzuahmen.
@@ -968,9 +971,11 @@ Nach der Initialisierung von $\M_U$ verwenden wir $B_1$, um das Band der Eingabe
 Die universelle Turingmaschine $\M_U$ beginnt zunächst mit einer Initialisierung, die aus den folgenden drei Teilen besteht.
 
 \begin{enumerate}
- \item Prüfe, ob der erste Teil der Eingabe $\ulcorner \M \urcorner$ eine gültige Turingmaschine codiert.
+ \item Prüfe, ob der erste Teil der Eingabe, also $\ulcorner \M \urcorner$, eine gültige Turingmaschine codiert.
  
  Die Menge der gültigen Codierungen kann mit Hilfe einer kontextfreien Grammatik beschrieben werden (siehe Übungen).
+ Die kontextfreie Grammatik kann in einen Kellerautomaten übersetzt werden (siehe \autoref{lem:4.cfgToNpda})
+ und 
  
  \item Verschiebe $\ulcorner \M \urcorner$ auf $B_2$. Schreibe dabei Blanksymbole auf die Bandzellen von $B_1$.
  Überschreibe anschließend das Symbol $\#$, das die Eingabeturingmaschine und das Eingabewort trennt, durch ein Blanksymbol.
@@ -979,31 +984,33 @@ Die universelle Turingmaschine $\M_U$ beginnt zunächst mit einer Initialisierun
 \end{enumerate}
 
 Nach der Initialisierung ist $\M_U$ also in der folgenden Konfiguration.
-\begin{itemize}
-\item[$B_1:$] $w$
-\item[$B_2:$] $\ulcorner \M \urcorner$
-\item[$B_3:$] $0$
-\end{itemize}
+\begin{center}
+	\begin{tabular}{rl}
+		$B_1:$ & $w$\\
+		$B_2:$ & $\ulcorner \M \urcorner$\\
+		$B_3:$ & $0$
+	\end{tabular}
+\end{center}
 
 Nach der Initialisierung wird $\M_U$ das Verhalten von $\M$ nachahmen.
 Für jeden Schritt von $\M$ macht $\M_U$ dabei die folgenden Schritte.
 
- Suche ein Element $(q, a, q', a', d)$ der Transitionsfunktion $\delta$ von $\M$, das zum aktuellen Zustand $q$ und zum aktuellen Bandsymbol $a$ passt.
- 
- Wir laufen hierfür einmal über das komplette Band $B_2$. 
- Zustände werden zeichenweise mit dem Inhalt von $B_3$ verglichen.
- Die Zuordnung von Alphabetsymbolen $a$ zur Codierung $\godel{a}$ ist fest in $\M_U$ eingebaut.
- 
- \begin{itemize}
- 
- \item Falls solch ein Element der Transitionsfunktion existiert,
-    schreibe auf $B_1$ das Zeichen $a'$ und bewege den Kopf wie durch $d$ definiert.
-    Ersetze außerdem die Codierung $\godel{q}$ auf $B_3$ durch $\godel{q'}$.
-    Fahre anschließend mit dem Nachahmen des nächsten Schritts von $\M$ fort.
-    
- \item Falls kein solches Element der Transitionsfunktion existiert, hat $\M$ eine Haltekonfiguration erreicht.
- Wir vergleichen nun den aktuellen Zustand (auf $B_3$) mit den auf $B_2$ gespeicherten akzeptierenden Zuständen und akzeptieren oder verwerfen die Eingabe entsprechend.
+Suche ein Element $(q, a, q', a', d)$ der Transitionsfunktion $\delta$ von $\M$, das zum aktuellen Zustand $q$ und zum aktuellen Bandsymbol $a$ passt.
 
+Wir laufen hierfür einmal über das komplette Band $B_2$. 
+Zustände werden zeichenweise mit dem Inhalt von $B_3$ verglichen.
+Die Zuordnung von Alphabetsymbolen $a$ zur Codierung $\godel{a}$ ist fest in $\M_U$ eingebaut.
+
+\begin{itemize}
+	
+	\item Falls solch ein Element der Transitionsfunktion existiert,
+	schreibe auf $B_1$ das Zeichen $a'$ und bewege den Kopf wie durch $d$ definiert.
+	Ersetze außerdem die Codierung $\godel{q}$ auf $B_3$ durch $\godel{q'}$.
+	Fahre anschließend mit dem Nachahmen des nächsten Schritts von $\M$ fort.
+	
+	\item Falls kein solches Element der Transitionsfunktion existiert, hat $\M$ eine Haltekonfiguration erreicht.
+	Wir vergleichen nun den aktuellen Zustand (auf $B_3$) mit den auf $B_2$ gespeicherten akzeptierenden Zuständen und akzeptieren oder verwerfen die Eingabe entsprechend.
+	
 \end{itemize}
 
 \begin{Satz}[name={[Universelle \ac{TM}]}]

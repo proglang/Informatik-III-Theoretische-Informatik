@@ -1,6 +1,13 @@
 \section[Berechenbarkeit]{Berechenbarkeit}
 
 
+\newcommand{\bintonat}{\operatorname{bin}}
+\newcommand{\stdnum}{\operatorname{stdnum}}
+\newcommand{\nattotm}{\operatorname{nat2tm}}
+\newcommand{\bintotm}{\operatorname{bin2tm}}
+\newcommand{\langtopower}{\operatorname{lang2power}}
+\newcommand{\functopower}{\operatorname{func2power}}
+
 
 In diesem Kapitel werden wir zeigen, 
 dass es Sprachen gibt, die von keiner \ac{TM} akzeptiert werden können, und
@@ -8,29 +15,29 @@ dass es Funktionen gibt, die von keiner \ac{TM} berechnet werden können.
 
 
 \subsection{Church-Turing These}
-\begin{Def}\label{def:berechenbar}
- Eine (partielle) Funktion $f:\Sigma^*\rightarrow\Sigma^*$ heißt \emph{berechenbar}, wenn es eine Turingmaschine $\M$ gibt,
- sodass $f$ die von $\M$ berechnete Funktion ist.
+\begin{Def}[name={[berechenbare Funktion]}]\label{def:berechenbar}
+	Eine (partielle) Funktion $f:\Sigma^*\rightarrow\Sigma^*$ heißt \emph{berechenbar}, wenn es eine Turingmaschine $\M$ gibt,
+	sodass $f$ die von $\M$ berechnete Funktion ist.
+	\index{berechenbare Funktion}
 \end{Def}
 
 
 \begin{These*}[Church-Turing These]
 	Jede intuitiv berechenbare Funktion ist mit einer \ac{TM} (in formalem Sinn) berechenbar.
-	
-% 	{\color{gray}
-% 	"`Intuitiv berechenbar"' $\equiv$ man kann einen Algorithmus hinschreiben
-% 	\begin{itemize}
-% 		\item endliche Beschreibung
-% 		\item jeder Schritt effektiv durchführbar
-% 		\item klare Vorschrift
-% 	\end{itemize}
-% 	Status wie Naturgesetz -- nicht beweisbar
-% 	\begin{itemize}[label=\->]
-% 		\item allgemein anerkannt
-% 		\item Weitere Versuche um Berechenbarkeit zu formulieren haben sich als äquivalent zu einer \ac{TM} erwiesen.
-% 	\qedhere
-% 	\end{itemize}
-% 	}
+	% 	{\color{gray}
+	% 	"`Intuitiv berechenbar"' $\equiv$ man kann einen Algorithmus hinschreiben
+	% 	\begin{itemize}
+	% 		\item endliche Beschreibung
+	% 		\item jeder Schritt effektiv durchführbar
+	% 		\item klare Vorschrift
+	% 	\end{itemize}
+	% 	Status wie Naturgesetz -- nicht beweisbar
+	% 	\begin{itemize}[label=\->]
+	% 		\item allgemein anerkannt
+	% 		\item Weitere Versuche um Berechenbarkeit zu formulieren haben sich als äquivalent zu einer \ac{TM} erwiesen.
+	% 	\qedhere
+	% 	\end{itemize}
+	% 	}
 \end{These*}
 
 Diese nach Alonzo Church\footnote{Alonzo Church *1903 †1995}
@@ -48,9 +55,9 @@ Bisher ist es nicht gelungen solch ein Rechenverfahren zu finden.
 
 
 \begin{Bemerkung}
- In der Literatur wird in \autoref{def:berechenbar} oft auch nicht der Begriff \emph{berechenbar}, sondern die Begriffe \emph{Turing-berechenbar} oder \emph{rekursiv} verwendet.
- Die Intention dahinter ist, den Begriff \emph{berechenbar} für "`intuitiv berechenbar"' aufzusparen.
- Wir wollen uns hier aber ganz auf die Churchsche These verlassen und zur Vereinfachung den Begriff auch formal besetzen.
+	In der Literatur wird in \autoref{def:berechenbar} oft auch nicht der Begriff \emph{berechenbar}, sondern die Begriffe \emph{Turing-berechenbar} oder \emph{rekursiv} verwendet.
+	Die Intention dahinter ist, den Begriff \emph{berechenbar} für "`intuitiv berechenbar"' aufzusparen.
+	Wir wollen uns hier aber ganz auf die Churchsche These verlassen und zur Vereinfachung den Begriff auch formal besetzen.
 \end{Bemerkung}
 
 
@@ -77,14 +84,17 @@ Wir werden daher über die Existenz von bijektiven Abbildungen argumentieren.
 \end{Bemerkung}
 
 Wir führen zunächst die folgenden drei Begriffe ein.
-\begin{Def}[Abzählbar, Überabzählbar]
-Eine Menge $X$ heißt
-\begin{itemize}
- \item \emph{abzählbar unendlich}, wenn es eine bijektive Abbildung zwischen $X$ und $\N$ gibt,
- \item \emph{abzählbar}, wenn $X$ entweder endlich oder abzählbar unendlich ist und
- \item \emph{überabzählbar}, wenn $X$ unendlich ist und es keine bijektive Abbildung zwischen $X$ und $\N$ gibt.
- \qedhere
-\end{itemize}
+\begin{Def}[name={[Abzählbar, Überabzählbar]}]
+	Eine Menge $X$ heißt
+	\begin{itemize}
+		\item \emph{abzählbar unendlich}, wenn es eine bijektive Abbildung zwischen $X$ und $\N$ gibt,
+		\item \emph{abzählbar}, wenn $X$ entweder endlich oder abzählbar unendlich ist und
+		\item \emph{überabzählbar}, wenn $X$ unendlich ist und es keine bijektive Abbildung zwischen $X$ und $\N$ gibt.
+		\qedhere
+	\end{itemize}
+	\index{abzählbar}
+	\index{abzählbar unendlich}
+	\index{überabzählbar}
 \end{Def}
 
 Ein klassisches Vorgehen, um die Existenz nicht berechenbarer Funktionen zu zeigen, besteht aus den folgenden Schritten.
@@ -93,34 +103,24 @@ Ein klassisches Vorgehen, um die Existenz nicht berechenbarer Funktionen zu zeig
 
 % Nach dem Einführen dieser Begriffe werden die folgenden drei Dinge gezeigt.
 \begin{enumerate}
- \item Die Menge der Turingmaschinen ist abzählbar.
- \item Die Menge aller Funktionen ist überabzählbar.
- \item Es kann daher nicht zu jeder Funktion auch eine Turingmaschine geben.
+	\item Die Menge der Turingmaschinen ist abzählbar.
+	\item Die Menge aller Funktionen ist überabzählbar.
+	\item Es kann daher nicht zu jeder Funktion auch eine Turingmaschine geben.
 \end{enumerate}
 
 Wir wollen hier das folgende, leicht andere, Vorgehen wählen.
 Dieses ist weniger allgemein, erlaubt aber etwas leichter nachzuvollziehende Beweise.
 
 \begin{enumerate}
- \item Es gibt für jede Turingmaschine eine natürliche Zahl.
- \item Es gibt für jedes Element der Potenzmenge der natürlichen Zahlen $\calP(\N)$ eine Funktion.
- \item Die Potenzmenge $\calP(\N)$ hat "`sehr viel mehr"' Elemente als $\N$.
- Es kann daher nicht zu jeder Funktion auch eine Turingmaschine geben.
+	\item Es gibt für jede Turingmaschine eine natürliche Zahl.
+	\item Es gibt für jedes Element der Potenzmenge der natürlichen Zahlen $\calP(\N)$ eine Funktion.
+	\item Die Potenzmenge $\calP(\N)$ hat "`sehr viel mehr"' Elemente als $\N$.
+	Es kann daher nicht zu jeder Funktion auch eine Turingmaschine geben.
 \end{enumerate}
-
-
-
 
 
 Zur Vereinfachung werden wir uns in diesem Unterkapitel auf das Alphabet $\Sigma=\{0,1\}$ beschränken.
 
-
-\newcommand{\bintonat}{\operatorname{bin}}
-\newcommand{\stdnum}{\operatorname{stdnum}}
-\newcommand{\nattotm}{\operatorname{nat2tm}}
-\newcommand{\bintotm}{\operatorname{bin2tm}}
-\newcommand{\langtopower}{\operatorname{lang2power}}
-\newcommand{\functopower}{\operatorname{func2power}}
 
 \textbf{Erinnerung: } Die Funktion $\bintonat:\Sigma^*\rightarrow\N$ 
 ist die in \autoref{sec:regpl} eingeführte Decodierung von Binärstrings (Wörtern über $\{0,1\}$) in natürliche Zahlen.
@@ -130,20 +130,22 @@ Die Funktion $\bintonat$ ist hierfür ungeeignet, da führende Nullen ignoriert 
 
 Wir führen deshalb die \emph{Standardnummerierung} ein, die auf den folgenden Ideen basiert.
 \begin{itemize}
- \item Nummeriere alle Binärstrings der Länge nach; bei gleicher Länge gibt die Funktion $\bintonat$ die Reihenfolge vor.
- \item Es gibt $2^n$ Binärstrings der Länge $n$.
- \item Für einen Binärstring der Länge $n$ gibt es also $\sum\limits_{i=0}^{n-1} 2^i = 2^n-1$ Binärstrings mit kürzerer Länge.
+	\item Nummeriere alle Binärstrings der Länge nach; bei gleicher Länge gibt die Funktion $\bintonat$ die Reihenfolge vor.
+	\item Es gibt $2^n$ Binärstrings der Länge $n$.
+	\item Für einen Binärstring der Länge $n$ gibt es also $\sum\limits_{i=0}^{n-1} 2^i = 2^n-1$ Binärstrings mit kürzerer Länge.
 \end{itemize}
 
 
-\begin{lemma}\label{satz:stdnum}
-Die Standardnummerierung $\stdnum: \Sigma^*\rightarrow\N$ 
- $$ \stdnum(a_1\dots a_n)=\begin{cases}
-0 & \text{falls } a_1\dots a_n=\Eps\\
-2^{n}-1+\bintonat(a_1\dots a_n) & \text{sonst}
-\end{cases}$$
-ist eine bijektive Abbildung.
+\begin{lemma}[name={[Standardnummerierung $\stdnum$]}]\label{satz:stdnum}
+	Die Standardnummerierung, definiert als $\stdnum: \Sigma^*\rightarrow\N$ 
+	$$ \stdnum(a_1\dots a_n)=\begin{cases}
+		0 & \text{falls } a_1\dots a_n=\Eps\\
+		2^{n}-1+\bintonat(a_1\dots a_n) & \text{sonst}
+	\end{cases},$$
+	ist eine bijektive Abbildung.
+	\index{Standardnummerierung $\stdnum$}
 \end{lemma}
+Beweis: Siehe Übungsblatt 12 Aufgabe 3a.
 
 
  \begin{figure}[H]\centering
@@ -157,111 +159,128 @@ ist eine bijektive Abbildung.
     110 & 13 & $2^0 + 2^1 + 2^2 + 6$\\
     $\godel{\M_r}$ & 72057594037927935 & $2^{55} - 1 + 32977455905055295$
     \end{tabular}
+	
+	\smallskip
+	
+	Dabei ist $\godel{\M_r}$
+	die in \autoref{bsp:CodeVonMr} 
+	bestimmte Codierung der 1-Schritt-Rechtsmaschine.
 
-	\caption{Standardnummerierung für einige Beispielwerte; dabei ist $\godel{\M_r}$
-	die in \autoref{bsp:CodeVonMr} bestimmte Codierung der 1-Schritt-Rechtsmaschine.}
+	\caption{Standardnummerierung für einige Beispielwerte.}
 \end{figure}
 
 
-\begin{Def}
- Sei $w\in\{0,1\}^*$.
- Die \emph{durch $w$ codierte \ac{TM}} $\M_w$ ist wie folgt definiert.
- $$\M_w=\begin{cases}
-\M & \text{falls } w \text{ Code einer \ac{TM} ist und } \godel{\M}=w\\
-\D_\mblank & \text{sonst}
-\end{cases}$$
-Dabei ist $\D_\mblank$ die in \autoref{bsp:simpletms} definierte Druckmaschine.%
-\footnote{Für den weiteren Verlauf ist es nicht wichtig, dass wir hier die Druckmaschine gewählt haben. Jede andere \ac{TM} wäre ebenso gut geeignet gewesen.}
+\begin{Def}[name={[Durch Binärstring codierte \ac{TM}]}]
+	Sei $w\in\{0,1\}^*$.
+	Die \emph{durch $w$ codierte \ac{TM}} $\M_w$ ist wie folgt definiert.
+	$$\M_w=\begin{cases}
+		\M & \text{falls } w \text{ Code einer \ac{TM} ist und } \godel{\M}=w\\
+		\D_\mblank & \text{sonst}
+	\end{cases}$$
+	Dabei ist $\D_\mblank$ die in \autoref{bsp:simpletms} definierte Druckmaschine.%
+	\footnote{Für den weiteren Verlauf ist es nicht wichtig, dass wir hier die Druckmaschine gewählt haben. Jede andere \ac{TM} wäre ebenso gut geeignet gewesen.}
+	\index{codierte \ac{TM}}
 \end{Def}
 
 
 \begin{Bemerkung}
- Im Folgenden genügt es, wenn wir uns auf \ac{TM}s aus $\tmach$ einschränken.
- Gibt es eine \ac{TM}, die eine Funktion $f$ berechnet, so gibt es auch eine \ac{TM} aus $\tmach$, die $f$ berechnet.
+	Im Folgenden genügt es, wenn wir uns auf \ac{TM}s aus $\tmach$ einschränken.
+	Gibt es eine \ac{TM}, die eine Funktion $f$ berechnet, so gibt es auch eine \ac{TM} aus $\tmach$, die $f$ berechnet.
+	(Siehe \autoref{lem:normTM})
 \end{Bemerkung}
 
 
-\begin{lemma}\label{satz:bintotm}
- Die Abbildung $\bintotm: \Sigma^*\rightarrow \tmach$ von Binärstrings auf normierte \acp{TM}\footnote{Siehe \autoref{def:normTM}} 
- $$ \bintotm(w)=\M_w$$
-ist surjektiv.
+\begin{lemma}[name={[$\bintotm$]}]\label{satz:bintotm}
+	Die Abbildung $\bintotm: \Sigma^*\rightarrow \tmach$ von Binärstrings auf normierte \acp{TM}\footnote{Siehe \autoref{def:normTM}} 
+	definiert durch
+	$$ \bintotm(w)=\M_w$$
+	ist surjektiv.
+	\index{$\bintotm$}
 \end{lemma}
 
-\begin{lemma}\label{satz:functopower}
-Die Abbildung $\functopower:(\Sigma^*\rightarrow\Sigma^*)\rightarrow \calP(\N)$
-$$\functopower(f)=\{\stdnum(w)\mid f(w)=1\}$$
-ist surjektiv.
+
+\begin{lemma}[name={[$\functopower$]}]\label{satz:functopower}
+	Die Abbildung $\functopower:(\Sigma^*\rightarrow\Sigma^*)\rightarrow \calP(\N)$
+	definiert durch
+	$$\functopower(f)=\{\stdnum(w)\mid f(w)=1\}$$
+	ist surjektiv.
+	\index{$\functopower$}
 \end{lemma}
+Beweis: Siehe Übungsblatt 12 Aufgabe 3b.
 
- \begin{figure}[H]\centering
-    \begin{tabular}{ccc}
-    $f$ & $\{w\mid f(w)=1\}$ & $\functopower(f)$\\ \hline
-    Inkrement von Binärzahlen & $\{\varepsilon, 0\}$ & $\{0,1\}$\\
-    Identitätsfunktion & $\{1\}$ & $\{2\}$\\
-    "`alles auf eins"' & $\Sigma^*$ & $\N$
-    \end{tabular}
 
-	\caption{$\functopower$ für einige Beispielwerte}
+\begin{figure}[H]\centering
+	\begin{tabular}{ccc}
+		$f$ & $\{w\mid f(w)=1\}$ & $\functopower(f)$\\ \hline
+		Inkrement von Binärzahlen & $\{\varepsilon, 0\}$ & $\{0,1\}$\\
+		Identitätsfunktion & $\{1\}$ & $\{2\}$\\
+		"`alles auf eins"' & $\Sigma^*$ & $\N$
+	\end{tabular}
+	
+	\caption{Abbildung $\functopower$ für einige Beispielwerte}
 \end{figure}
 
 
 \begin{Satz}[Cantor]\label{satz:Cantor}
-Es gibt keine surjektive Abbildung einer Menge in ihre Potenzmenge.
-% Sei $X$ eine beliebige Menge. Es gibt keine surjektive Abbildung 
+	Es gibt keine surjektive Abbildung einer Menge in ihre Potenzmenge.
+	% Sei $X$ eine beliebige Menge. Es gibt keine surjektive Abbildung 
 \end{Satz}
 Den Beweis dieses Satzes werden wir später diskutieren.
 
-\begin{Satz}\label{satz:nichtBerechenbar}
- Es gibt Funktionen, die nicht berechenbar sind.
+
+\begin{Satz}[name={[nicht berechenbare Funktionen]}]\label{satz:nichtBerechenbar}
+	Es gibt Funktionen, die nicht berechenbar sind.
 \end{Satz}
+
+
 \begin{proof}
- Angenommen, jede Funktion $f:\Sigma^*\rightarrow\Sigma^*$ sei berechenbar.
- Dann gibt es für jede Funktion $f$ eine \ac{TM} $\M$ mit $f_\M=f$ und somit eine surjektive Abbildung $g:\tmach\rightarrow(\Sigma^*\rightarrow\Sigma^*)$.
- Nach \autoref{satz:bintotm} und \autoref{satz:functopower} wäre dann aber auch die Abbildung $\functopower\circ g \circ\bintotm\circ \stdnum^{-1}:\N\rightarrow\calP(\N)$ surjektiv.
- Dies steht im Widerspruch zu \autoref{satz:Cantor}.
+	Angenommen, jede Funktion $f:\Sigma^*\rightarrow\Sigma^*$ sei berechenbar.
+	Dann gibt es für jede Funktion $f$ eine \ac{TM} $\M$ mit $f_\M=f$ und somit eine surjektive Abbildung $g:\tmach\rightarrow(\Sigma^*\rightarrow\Sigma^*)$.
+	Nach \autoref{satz:bintotm} und \autoref{satz:functopower} wäre dann aber auch die Abbildung $\functopower\circ g \circ\bintotm\circ \stdnum^{-1}:\N\rightarrow\calP(\N)$ surjektiv.
+	Dies steht im Widerspruch zu \autoref{satz:Cantor}.
 \end{proof}
 
- \begin{figure}[H]\centering
-
-\begin{tikzpicture}[
-countable/.style={ellipse,draw, minimum height=2cm, minimum width=12mm, node distance = 21mm},
-uncountable/.style={ellipse,draw, minimum height=3cm, minimum width=12mm, node distance = 21mm},
-]
- \node (nat) [countable] at (0,0) {};
- \node (lnat) [yshift=2mm] at (nat.north) {$\N$};
- \node (strings) [countable, right=of nat] {};
- \node (lstrings) [yshift=2mm] at (strings.north) {$\{0,1\}^*$};
- \node (tms) [countable, right=of strings] {};
- \node (ltms) [yshift=2mm] at (tms.north) {$\tmach$};
- \node (funcs) [uncountable, right=of tms] {};
- \node (llangs) [yshift=2mm] at (funcs.north) {$\Sigma^*\rightarrow\Sigma^*$};
- \node (powernat) [uncountable, right=of funcs] {};
- \node (lpowernat) [yshift=2mm] at (powernat.north) {$\calP(\N)$};
- 
- \node (e1nat) [yshift=-6mm] at (nat.north) {$\bullet 23$};
- \node (e2nat) [yshift=-16mm] at (nat.north) {$\bullet 42$};
- 
- \node (e1strings) [yshift=-8mm] at (strings.north) {$\bullet 110$};
- \node (e2strings) [yshift=-14mm] at (strings.north) {$\bullet 00$};
-
- \node (e1tms) [yshift=-6mm] at (tms.north) {$\bullet \M_R$};
- \node (e2tms) [yshift=-16mm] at (tms.north) {$\bullet \D_\mblank$};
- 
- \node (e1langs) [yshift=-12mm] at (funcs.north) {$\bullet \operatorname{inc}$};
- \node (e2langs) [yshift=-20mm] at (funcs.north) {$\bullet \operatorname{id}$};
- 
- \node (e1powernat) [yshift=-15mm] at (powernat.north) {$\bullet \{5,7\}$};
- \node (e2powernat) [yshift=-8mm] at (powernat.north) {$\bullet \N$};
-
-
- 
- \draw[->, bend left] (nat) to node[auto] {$\stdnum^{-1}$} (strings);
- \draw[->, bend left] (strings) to node[auto] {$\bintotm$} (tms);
- \draw[->, bend left] (tms) to node[auto] {$g$} (funcs);
- \draw[->, bend left] (funcs) to node[auto] {$\functopower$} (powernat);
- \draw[->, bend right, dashed] (nat) to node[below] {$\functopower\circ g \circ\bintotm\circ \stdnum^{-1}$} (powernat);
-\end{tikzpicture}
-
+\begin{figure}[H]\centering
+	
+	\begin{tikzpicture}[
+		countable/.style={ellipse,draw, minimum height=2cm, minimum width=12mm, node distance = 21mm},
+		uncountable/.style={ellipse,draw, minimum height=3cm, minimum width=12mm, node distance = 21mm},
+		]
+		\node (nat) [countable] at (0,0) {};
+		\node (lnat) [yshift=2mm] at (nat.north) {$\N$};
+		\node (strings) [countable, right=of nat] {};
+		\node (lstrings) [yshift=2mm] at (strings.north) {$\{0,1\}^*$};
+		\node (tms) [countable, right=of strings] {};
+		\node (ltms) [yshift=2mm] at (tms.north) {$\tmach$};
+		\node (funcs) [uncountable, right=of tms] {};
+		\node (llangs) [yshift=2mm] at (funcs.north) {$\Sigma^*\rightarrow\Sigma^*$};
+		\node (powernat) [uncountable, right=of funcs] {};
+		\node (lpowernat) [yshift=2mm] at (powernat.north) {$\calP(\N)$};
+		
+		\node (e1nat) [yshift=-6mm] at (nat.north) {$\bullet 23$};
+		\node (e2nat) [yshift=-16mm] at (nat.north) {$\bullet 42$};
+		
+		\node (e1strings) [yshift=-8mm] at (strings.north) {$\bullet 110$};
+		\node (e2strings) [yshift=-14mm] at (strings.north) {$\bullet 00$};
+		
+		\node (e1tms) [yshift=-6mm] at (tms.north) {$\bullet \M_R$};
+		\node (e2tms) [yshift=-16mm] at (tms.north) {$\bullet \D_\mblank$};
+		
+		\node (e1langs) [yshift=-12mm] at (funcs.north) {$\bullet \operatorname{inc}$};
+		\node (e2langs) [yshift=-20mm] at (funcs.north) {$\bullet \operatorname{id}$};
+		
+		\node (e1powernat) [yshift=-15mm] at (powernat.north) {$\bullet \{5,7\}$};
+		\node (e2powernat) [yshift=-8mm] at (powernat.north) {$\bullet \N$};
+		
+		
+		
+		\draw[->, bend left] (nat) to node[auto] {$\stdnum^{-1}$} (strings);
+		\draw[->, bend left] (strings) to node[auto] {$\bintotm$} (tms);
+		\draw[->, bend left] (tms) to node[auto] {$g$} (funcs);
+		\draw[->, bend left] (funcs) to node[auto] {$\functopower$} (powernat);
+		\draw[->, bend right, dashed] (nat) to node[below] {$\functopower\circ g \circ\bintotm\circ \stdnum^{-1}$} (powernat);
+	\end{tikzpicture}
+	
 	\caption{Konkatenierte Abbildung aus dem Widerspruchsbeweis zu \autoref{satz:nichtBerechenbar}}
 \end{figure}
 
@@ -270,11 +289,11 @@ Wir wollen diesen im restlichen Unterkapitel diskutieren.
 Zunächst geben wir einen formalen Beweis.
 
 \begin{proof}[Von \autoref{satz:Cantor}]
-Sei $X$ eine beliebige Menge.
-Angenommen, es gäbe eine surjektive Abbildung $f:X\rightarrow\calP(X)$.
-Betrachte die Menge $Z=\{x\in X\mid x\notin f(x)\}\in\calP(X)$.
-Da $f$ surjektiv ist, gibt es ein $z\in X$, sodass $f(z)=Z$.
-Nach Definition der Menge $Z$ gilt nun aber $z\in f(z)\Leftrightarrow z\notin f(z)$. Widerspruch!
+	Sei $X$ eine beliebige Menge.
+	Angenommen, es gäbe eine surjektive Abbildung $f:X\rightarrow\calP(X)$.
+	Betrachte die Menge $Z=\{x\in X\mid x\notin f(x)\}\in\calP(X)$.
+	Da $f$ surjektiv ist, gibt es ein $z\in X$, sodass $f(z)=Z$.
+	Nach Definition der Menge $Z$ gilt nun aber $z\in f(z)\Leftrightarrow z\notin f(z)$. Widerspruch!
 \end{proof}
 
 Ein Beweis dieser Form wird auch \emph{Diagonalargument} genannt und ist nicht einfach zu verstehen.
@@ -292,74 +311,74 @@ Diese Zeile -- wir nehmen an, es sei die Zeile für $f(x_k)$ -- enthält nun in 
 Da der Diagonaleintrag $(k,k)$ nicht invers zu sich selbst sein kann, haben wir einen Widerspruch zu unserer Annahme.
 
 
- \begin{figure}[H]\centering
-
-\begin{tikzpicture}[scale=0.7]
-
-\draw[fill=lightgray!20, draw=lightgray!20] (-2,-3.5) rectangle (7.7,-4.5);
-
-\node at (0,1) {$x_0$};
-\node at (1,1) {$\dots$};
-\node at (2,1) {$x_i$};
-\node at (3,1) {$\dots$};
-\node at (4,1) {$x_k$};
-\node at (5,1) {$\dots$};
-\node at (6,1) {$x_j$};
-\node at (7,1) {$\dots$};
-
-\node at (-1.3,0) {$f(x_0)$};
-\node at (-1.3,-1) {$\vdots$};
-\node at (-1.3,-2) {$f(x_i)$};
-\node at (-1.3,-3) {$\vdots$};
-\node at (-1.3,-4) {$f(x_k)$};
-\node at (-1.3,-5) {$\vdots$};
-\node at (-1.3,-6) {$f(x_j)$};
-\node at (-1.3,-7) {$\vdots$};
-
-\draw (-2, 0.5) to (7.5,0.5);
-\draw (-0.5, 1.5) to (-0.5,-7.5);
-
-\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (00) at (0,0) {N};
-\node[lightgray] at (1,0) {$\ldots$};
-\node[lightgray] at (2,0) {Y};
-\node[lightgray] at (3,0) {$\ldots$};
-\node[lightgray] at (4,0) {Y};
-\node[lightgray] at (5,0) {$\ldots$};
-\node[lightgray] at (6,0) {N};
-\node[lightgray] at (7,0) {$\ldots$};
-
-\node[lightgray] at (0,-2) {N};
-\node[lightgray] at (1,-2) {$\ldots$};
-\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (ii) at (2,-2) {Y};
-\node[lightgray] at (3,-2) {$\ldots$};
-\node[lightgray] at (4,-2) {Y};
-\node[lightgray] at (5,-2) {$\ldots$};
-\node[lightgray] at (6,-2) {Y};
-\node[lightgray] at (7,-2) {$\ldots$};
-
-\node (k0) at (0,-4) {Y};
-\node[lightgray] at (1,-4) {$\ldots$};
-\node (ki) at (2,-4) {N};
-\node[lightgray] at (3,-4) {$\ldots$};
-\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=1] (kk) at (4,-4) {\textbf{?}};
-\node[lightgray] at (5,-4) {$\ldots$};
-\node (kj) at (6,-4) {Y};
-\node[lightgray] at (7,-4) {$\ldots$};
-
-\node[lightgray] at (0,-6) {Y};
-\node[lightgray] at (1,-6) {$\ldots$};
-\node[lightgray] at (2,-6) {Y};
-\node[lightgray] at (3,-6) {$\ldots$};
-\node[lightgray] at (4,-6) {N};
-\node[lightgray] at (5,-6) {$\ldots$};
-\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (jj) at (6,-6) {N};
-\node[lightgray] at (7,-6) {$\ldots$};
-
-\draw[->] (00) to (k0);
-\draw[->] (ii) to (ki);
-\draw[->] (jj) to (kj);
-
-\end{tikzpicture}
+\begin{figure}[H]\centering
+	
+	\begin{tikzpicture}[scale=0.7]
+		
+		\draw[fill=lightgray!20, draw=lightgray!20] (-2,-3.5) rectangle (7.7,-4.5);
+		
+		\node at (0,1) {$x_0$};
+		\node at (1,1) {$\dots$};
+		\node at (2,1) {$x_i$};
+		\node at (3,1) {$\dots$};
+		\node at (4,1) {$x_k$};
+		\node at (5,1) {$\dots$};
+		\node at (6,1) {$x_j$};
+		\node at (7,1) {$\dots$};
+		
+		\node at (-1.3,0) {$f(x_0)$};
+		\node at (-1.3,-1) {$\vdots$};
+		\node at (-1.3,-2) {$f(x_i)$};
+		\node at (-1.3,-3) {$\vdots$};
+		\node at (-1.3,-4) {$f(x_k)$};
+		\node at (-1.3,-5) {$\vdots$};
+		\node at (-1.3,-6) {$f(x_j)$};
+		\node at (-1.3,-7) {$\vdots$};
+		
+		\draw (-2, 0.5) to (7.5,0.5);
+		\draw (-0.5, 1.5) to (-0.5,-7.5);
+		
+		\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (00) at (0,0) {N};
+		\node[lightgray] at (1,0) {$\ldots$};
+		\node[lightgray] at (2,0) {Y};
+		\node[lightgray] at (3,0) {$\ldots$};
+		\node[lightgray] at (4,0) {Y};
+		\node[lightgray] at (5,0) {$\ldots$};
+		\node[lightgray] at (6,0) {N};
+		\node[lightgray] at (7,0) {$\ldots$};
+		
+		\node[lightgray] at (0,-2) {N};
+		\node[lightgray] at (1,-2) {$\ldots$};
+		\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (ii) at (2,-2) {Y};
+		\node[lightgray] at (3,-2) {$\ldots$};
+		\node[lightgray] at (4,-2) {Y};
+		\node[lightgray] at (5,-2) {$\ldots$};
+		\node[lightgray] at (6,-2) {Y};
+		\node[lightgray] at (7,-2) {$\ldots$};
+		
+		\node (k0) at (0,-4) {Y};
+		\node[lightgray] at (1,-4) {$\ldots$};
+		\node (ki) at (2,-4) {N};
+		\node[lightgray] at (3,-4) {$\ldots$};
+		\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=1] (kk) at (4,-4) {\textbf{?}};
+		\node[lightgray] at (5,-4) {$\ldots$};
+		\node (kj) at (6,-4) {Y};
+		\node[lightgray] at (7,-4) {$\ldots$};
+		
+		\node[lightgray] at (0,-6) {Y};
+		\node[lightgray] at (1,-6) {$\ldots$};
+		\node[lightgray] at (2,-6) {Y};
+		\node[lightgray] at (3,-6) {$\ldots$};
+		\node[lightgray] at (4,-6) {N};
+		\node[lightgray] at (5,-6) {$\ldots$};
+		\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (jj) at (6,-6) {N};
+		\node[lightgray] at (7,-6) {$\ldots$};
+		
+		\draw[->] (00) to (k0);
+		\draw[->] (ii) to (ki);
+		\draw[->] (jj) to (kj);
+		
+	\end{tikzpicture}
 	\caption{Illustration des Diagonalarguments beim Beweis des Satzes von Cantor}
 \end{figure}
 
@@ -377,75 +396,75 @@ Nehmen wir an, das sei die $k$-te Zeile.
 In dieser Zeile enthält nun der Eintrag in der $i$-ten Spalte immer genau das Inverse des Diagonaleintrags $(i,i)$.
 Da der Diagonaleintrag $(k,k)$ nicht invers zu sich selbst sein kann, kann es keine Zeile für den Barbier von Waldkirch geben.
 
- \begin{figure}[H]\centering
-
-\begin{tikzpicture}[scale=0.7]
-
-\draw[fill=lightgray!20, draw=lightgray!20] (-2,-3.5) rectangle (9.7,-4.5);
-
-\node at (0.2,1) {Hans};
-\node at (1.5,1) {$\dots$};
-\node at (2.8,1) {Horst};
-\node at (4.1,1) {$\dots$};
-\node at (5,1) {$M_k$};
-\node at (5.9,1) {$\dots$};
-\node at (7.3,1) {Hubert};
-\node at (9,1) {$\dots$};
-
-\node at (-1.4,0) {Hans};
-\node at (-1.4,-1) {$\vdots$};
-\node at (-1.4,-2) {Horst};
-\node at (-1.4,-3) {$\vdots$};
-\node at (-1.4,-4) {$M_k$};
-\node at (-1.4,-5) {$\vdots$};
-\node at (-1.4,-6) {Hubert};
-\node at (-1.4,-7) {$\vdots$};
-
-\draw (-2.3, 0.5) to (9.5,0.5);
-\draw (-0.5, 1.5) to (-0.5,-7.5);
-
-\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (00) at (0.2,0) {N};
-\node[lightgray] at (1,0) {$\ldots$};
-\node[lightgray] at (2.8,0) {Y};
-\node[lightgray] at (4.1,0) {$\ldots$};
-\node[lightgray] at (5,0) {Y};
-\node[lightgray] at (5.9,0) {$\ldots$};
-\node[lightgray] at (7.3,0) {N};
-\node[lightgray] at (9,0) {$\ldots$};
-
-\node[lightgray] at (0.2,-2) {N};
-\node[lightgray] at (1.5,-2) {$\ldots$};
-\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (ii) at (2.8,-2) {Y};
-\node[lightgray] at (4.1,-2) {$\ldots$};
-\node[lightgray] at (5,-2) {Y};
-\node[lightgray] at (5.9,-2) {$\ldots$};
-\node[lightgray] at (7.3,-2) {Y};
-\node[lightgray] at (9,-2) {$\ldots$};
-
-\node (k0) at (0.2,-4) {Y};
-\node[lightgray] at (1.5,-4) {$\ldots$};
-\node (ki) at (2.8,-4) {N};
-\node[lightgray] at (4.1,-4) {$\ldots$};
-\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=1] (kk) at (5,-4) {\textbf{?}};
-\node[lightgray] at (5.9,-4) {$\ldots$};
-\node (kj) at (7.3,-4) {Y};
-\node[lightgray] at (9,-4) {$\ldots$};
-
-\node[lightgray] at (0.2,-6) {Y};
-\node[lightgray] at (1.5,-6) {$\ldots$};
-\node[lightgray] at (2.8,-6) {Y};
-\node[lightgray] at (4.1,-6) {$\ldots$};
-\node[lightgray] at (5,-6) {N};
-\node[lightgray] at (5.9,-6) {$\ldots$};
-\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (jj) at (7.3,-6) {N};
-\node[lightgray] at (9,-6) {$\ldots$};
-
-\draw[->] (00) to (k0);
-\draw[->] (ii) to (ki);
-\draw[->] (jj) to (kj);
-
-\end{tikzpicture}
-	\caption{Illustration des Diagonalarguments beim Rätsel des Barbiers von Waldkirch}
+\begin{figure}[H]\centering
+	
+	\begin{tikzpicture}[scale=0.7]
+		
+		\draw[fill=lightgray!20, draw=lightgray!20] (-2,-3.5) rectangle (9.7,-4.5);
+		
+		\node at (0.2,1) {Hans};
+		\node at (1.5,1) {$\dots$};
+		\node at (2.8,1) {Horst};
+		\node at (4.1,1) {$\dots$};
+		\node at (5,1) {$M_k$};
+		\node at (5.9,1) {$\dots$};
+		\node at (7.3,1) {Hubert};
+		\node at (9,1) {$\dots$};
+		
+		\node at (-1.4,0) {Hans};
+		\node at (-1.4,-1) {$\vdots$};
+		\node at (-1.4,-2) {Horst};
+		\node at (-1.4,-3) {$\vdots$};
+		\node at (-1.4,-4) {$M_k$};
+		\node at (-1.4,-5) {$\vdots$};
+		\node at (-1.4,-6) {Hubert};
+		\node at (-1.4,-7) {$\vdots$};
+		
+		\draw (-2.3, 0.5) to (9.5,0.5);
+		\draw (-0.5, 1.5) to (-0.5,-7.5);
+		
+		\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (00) at (0.2,0) {N};
+		\node[lightgray] at (1,0) {$\ldots$};
+		\node[lightgray] at (2.8,0) {Y};
+		\node[lightgray] at (4.1,0) {$\ldots$};
+		\node[lightgray] at (5,0) {Y};
+		\node[lightgray] at (5.9,0) {$\ldots$};
+		\node[lightgray] at (7.3,0) {N};
+		\node[lightgray] at (9,0) {$\ldots$};
+		
+		\node[lightgray] at (0.2,-2) {N};
+		\node[lightgray] at (1.5,-2) {$\ldots$};
+		\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (ii) at (2.8,-2) {Y};
+		\node[lightgray] at (4.1,-2) {$\ldots$};
+		\node[lightgray] at (5,-2) {Y};
+		\node[lightgray] at (5.9,-2) {$\ldots$};
+		\node[lightgray] at (7.3,-2) {Y};
+		\node[lightgray] at (9,-2) {$\ldots$};
+		
+		\node (k0) at (0.2,-4) {Y};
+		\node[lightgray] at (1.5,-4) {$\ldots$};
+		\node (ki) at (2.8,-4) {N};
+		\node[lightgray] at (4.1,-4) {$\ldots$};
+		\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=1] (kk) at (5,-4) {\textbf{?}};
+		\node[lightgray] at (5.9,-4) {$\ldots$};
+		\node (kj) at (7.3,-4) {Y};
+		\node[lightgray] at (9,-4) {$\ldots$};
+		
+		\node[lightgray] at (0.2,-6) {Y};
+		\node[lightgray] at (1.5,-6) {$\ldots$};
+		\node[lightgray] at (2.8,-6) {Y};
+		\node[lightgray] at (4.1,-6) {$\ldots$};
+		\node[lightgray] at (5,-6) {N};
+		\node[lightgray] at (5.9,-6) {$\ldots$};
+		\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (jj) at (7.3,-6) {N};
+		\node[lightgray] at (9,-6) {$\ldots$};
+		
+		\draw[->] (00) to (k0);
+		\draw[->] (ii) to (ki);
+		\draw[->] (jj) to (kj);
+		
+	\end{tikzpicture}
+	\caption{Illustration des Diagonalarguments beim Rätsel des Barbier von Waldkirch}
 \end{figure}
 
 
@@ -459,95 +478,102 @@ Wir definieren dafür die Menge der Sprachen, für die eine Lösung für das Wor
 	Sei $\M$ eine \ac{TM}.
 	Wir sagen $\M$ \emph{entscheidet} $L\subseteq\Sigma^*$, falls die folgenden beiden Eigenschaften gelten:
 	\begin{enumerate}
-	\item $\M$ akzeptiert $L$.
-	\item $\M$ hält für jede Eingabe an.
+		\item $\M$ akzeptiert $L$.
+		\item $\M$ hält für jede Eingabe an.
 	\end{enumerate}
 	
-    Eine Sprache $L\subseteq\Sigma^*$ heißt \emph{entscheidbar}, falls es eine \ac{TM} gibt, die $L$ entscheidet.\footnote{
-    Ein alternativer in der Literatur auch oft verwendeter Begriff für "`entscheidbar"' ist "`rekursiv"'.}
+	Eine Sprache $L\subseteq\Sigma^*$ heißt \emph{entscheidbar}, falls es eine \ac{TM} gibt, die $L$ entscheidet.\footnote{
+		Ein alternativer in der Literatur auch oft verwendeter Begriff für "`entscheidbar"' ist "`rekursiv"'.}
+	
+	\index{entscheidbare Sprache}
 \end{Def}
 
 
-\begin{Satz}\label{satz:NichtEntscheidbareSprache}\datenote{23.01.2019}
- Es gibt Sprachen, die nicht entscheidbar sind.
+\begin{Satz}[name={[nicht entscheidbare Sprache]}]\label{satz:NichtEntscheidbareSprache}\datenote{23.01.2019}
+	Es gibt Sprachen, die nicht entscheidbar sind.
 \end{Satz}
 
 \begin{proof}
-Wähle $\Sigma=\{0,1\}$ 
-und definiere die Funktion \mbox{$\langtopower:\Sigma^*\rightarrow \calP(\N)$}
-$$\langtopower(L)=\{\stdnum(w) \mid w\in L\}$$
-(analog zu \autoref{satz:functopower}) und zeige, dass diese surjektiv ist.
-Führe anschließend analog zum Beweis von \autoref{satz:nichtBerechenbar} einen Widerspruchsbeweis.
-Annahme: Jede Sprache $L\subseteq\Sigma^*$ sei entscheidbar. Also gibt es eine surjektive Abbildung $g:\tmach\rightarrow\Sigma^*$.
-Somit wäre auch 
-$$\langtopower\circ g \circ\bintotm\circ \stdnum^{-1}:\N\rightarrow\calP(\N)$$
-surjektiv.
-Dies steht im Widerspruch zu \autoref{satz:Cantor}.
+	Wir definieren die Abbbildung \mbox{$\langtopower:\Sigma^*\rightarrow \calP(\N)$}
+	$$\langtopower(L)=\{\stdnum(w) \mid w\in L\}$$
+	(analog zu \autoref{satz:functopower}) und zeige, dass diese surjektiv ist.
+	Führe anschließend analog zum Beweis von \autoref{satz:nichtBerechenbar} einen Widerspruchsbeweis.
+	Annahme: Jede Sprache $L\subseteq\Sigma^*$ sei entscheidbar. Also gibt es eine surjektive Abbildung $g:\tmach\rightarrow\Sigma^*$.
+	Somit wäre auch 
+	$$\langtopower\circ g \circ\bintotm\circ \stdnum^{-1}:\N\rightarrow\calP(\N)$$
+	surjektiv.
+	Dies steht im Widerspruch zu \autoref{satz:Cantor}.
+	\index{$\langtopower$}
 \end{proof}
 
- \begin{figure}[H]\centering
-
-\begin{tikzpicture}[
-countable/.style={ellipse,draw, minimum height=2cm, minimum width=12mm, node distance = 21mm},
-uncountable/.style={ellipse,draw, minimum height=3cm, minimum width=12mm, node distance = 21mm},
-]
- \node (nat) [countable] at (0,0) {};
- \node (lnat) [yshift=2mm] at (nat.north) {$\N$};
- \node (strings) [countable, right=of nat] {};
- \node (lstrings) [yshift=2mm] at (strings.north) {$\{0,1\}^*$};
- \node (tms) [countable, right=of strings] {};
- \node (ltms) [yshift=2mm] at (tms.north) {$\tmach$};
- \node (langs) [uncountable, right=of tms] {};
- \node (llangs) [yshift=2mm] at (langs.north) {$\calP(\Sigma^*)$};
- \node (powernat) [uncountable, right=of langs] {};
- \node (lpowernat) [yshift=2mm] at (powernat.north) {$\calP(\N)$};
- 
- \node (e1nat) [yshift=-6mm] at (nat.north) {$\bullet 23$};
- \node (e2nat) [yshift=-16mm] at (nat.north) {$\bullet 42$};
- 
- \node (e1strings) [yshift=-8mm] at (strings.north) {$\bullet 110$};
- \node (e2strings) [yshift=-14mm] at (strings.north) {$\bullet 00$};
-
- \node (e1tms) [yshift=-6mm] at (tms.north) {$\bullet \M_R$};
- \node (e2tms) [yshift=-16mm] at (tms.north) {$\bullet \D_\mblank$};
- 
- \node (e1langs) [yshift=-12mm] at (langs.north) {$\bullet \{110\}$};
- \node (e2langs) [yshift=-20mm] at (langs.north) {$\bullet L(0^*)$};
- 
- \node (e1powernat) [yshift=-15mm] at (powernat.north) {$\bullet \{5,7\}$};
- \node (e2powernat) [yshift=-8mm] at (powernat.north) {$\bullet \N$};
-
-
- 
- \draw[->, bend left] (nat) to node[auto] {$\stdnum^{-1}$} (strings);
- \draw[->, bend left] (strings) to node[auto] {$\bintotm$} (tms);
- \draw[->, bend left] (tms) to node[auto] {$g$} (langs);
- \draw[->, bend left] (langs) to node[auto] {$\langtopower$} (powernat);
- \draw[->, bend right, dashed] (nat) to node[below] {$\langtopower\circ g \circ\bintotm\circ \stdnum^{-1}$} (powernat);
-\end{tikzpicture}
-
+\begin{figure}[H]\centering
+	
+	\begin{tikzpicture}[
+		countable/.style={ellipse,draw, minimum height=2cm, minimum width=12mm, node distance = 21mm},
+		uncountable/.style={ellipse,draw, minimum height=3cm, minimum width=12mm, node distance = 21mm},
+		]
+		\node (nat) [countable] at (0,0) {};
+		\node (lnat) [yshift=2mm] at (nat.north) {$\N$};
+		\node (strings) [countable, right=of nat] {};
+		\node (lstrings) [yshift=2mm] at (strings.north) {$\{0,1\}^*$};
+		\node (tms) [countable, right=of strings] {};
+		\node (ltms) [yshift=2mm] at (tms.north) {$\tmach$};
+		\node (langs) [uncountable, right=of tms] {};
+		\node (llangs) [yshift=2mm] at (langs.north) {$\calP(\Sigma^*)$};
+		\node (powernat) [uncountable, right=of langs] {};
+		\node (lpowernat) [yshift=2mm] at (powernat.north) {$\calP(\N)$};
+		
+		\node (e1nat) [yshift=-6mm] at (nat.north) {$\bullet 23$};
+		\node (e2nat) [yshift=-16mm] at (nat.north) {$\bullet 42$};
+		
+		\node (e1strings) [yshift=-8mm] at (strings.north) {$\bullet 110$};
+		\node (e2strings) [yshift=-14mm] at (strings.north) {$\bullet 00$};
+		
+		\node (e1tms) [yshift=-6mm] at (tms.north) {$\bullet \M_R$};
+		\node (e2tms) [yshift=-16mm] at (tms.north) {$\bullet \D_\mblank$};
+		
+		\node (e1langs) [yshift=-12mm] at (langs.north) {$\bullet \{110\}$};
+		\node (e2langs) [yshift=-20mm] at (langs.north) {$\bullet L(0^*)$};
+		
+		\node (e1powernat) [yshift=-15mm] at (powernat.north) {$\bullet \{5,7\}$};
+		\node (e2powernat) [yshift=-8mm] at (powernat.north) {$\bullet \N$};
+		
+		
+		
+		\draw[->, bend left] (nat) to node[auto] {$\stdnum^{-1}$} (strings);
+		\draw[->, bend left] (strings) to node[auto] {$\bintotm$} (tms);
+		\draw[->, bend left] (tms) to node[auto] {$g$} (langs);
+		\draw[->, bend left] (langs) to node[auto] {$\langtopower$} (powernat);
+		\draw[->, bend right, dashed] (nat) to node[below] {$\langtopower\circ g \circ\bintotm\circ \stdnum^{-1}$} (powernat);
+	\end{tikzpicture}
+	
 	\caption{Konkatenierte Abbildung aus dem Widerspruchsbeweis zu \autoref{satz:NichtEntscheidbareSprache}}
 \end{figure}
 
 
-\begin{Def}[Charakteristische Funktion]
-Sei $L\subseteq\Sigma^*$ eine Sprache. Die \emph{charakteristische Funktion} $\chi_L:\Sigma^*\rightarrow\{0,1\}$ ist wie folgt definiert:
-\begin{equation*}
-\chi_L(w)=\begin{cases}
-1 & \text{falls } w\in L\\
-0 & \text{falls } w\notin L           
-\end{cases}
-\qedhere
-\end{equation*}
+\begin{Def}[name={[Charakteristische Funktion]}]
+	Sei $L\subseteq\Sigma^*$ eine Sprache. Die \emph{charakteristische Funktion}\footnote{
+		Die charakteristische Funktion wurde auf Vorbereitungsblatt 12 eingeführt.
+	}
+	$\chi_L:\Sigma^*\rightarrow\{0,1\}$ ist wie folgt definiert:
+	\begin{equation*}
+		\chi_L(w)=\begin{cases}
+			1 & \text{falls } w\in L\\
+			0 & \text{falls } w\notin L           
+		\end{cases}
+		\qedhere
+	\end{equation*}
 \end{Def}
+
 
 Der folgende Satz zeigt uns nun einen direkten Zusammenhang zwischen den beiden Aufgaben einer Turingmaschine, 
 dem Berechnen von Funktionen und dem Akzeptieren von Wörtern.
-\begin{Satz}\label{satz:characFunc}
+\begin{Satz}[name={[Berechenbarkeit und Entscheidbarkeit]}]\label{satz:characFunc}
     Sei $\{0,1\}\subseteq\Sigma$.
     Eine Sprache $L\subseteq\Sigma^*$ ist genau dann entscheidbar, wenn die charakteristische Funktion $\chi_L$
     berechenbar ist.
 \end{Satz}
+Beweis: Siehe Vorbereitungsblatt 12 Aufgabe 2.
 
 
 
@@ -797,61 +823,69 @@ Die Rückrichtung "`L entscheidbar. $\xcancel{\curvearrowright}\ L$ ist Typ-1 Sp
 }
 
 
+
 \subsection{Das Halteproblem}
 Aus den bisherigen Sätzen wissen wir nur, 
 dass es nicht berechenbare Funktionen und unentscheidbare Sprachen geben muss.
 Es besteht also noch Hoffnung, dass kein praxisrelevantes Problem betroffen ist.
 In diesem Kapitel werden wir nun aber für ein ganz konkretes praxisrelevantes Problem die Unentscheidbarkeit nachweisen.
 
-% Schreibe ab jetzt $M_w$ für die Maschine mit Gödelnummer $w$. Falls
-% $w$ kein gültiger Code für eine \ac{TM}, dann sei $M_w$ eine beliebige fest
-% \ac{TM} $M$ mit $L(M) = \varnothing$.
 
 \begin{Def}[name={[Spezielles Halteproblem]}]
-  Das spezielle Halteproblem besteht aus allen Codes von \ac{TM}s, die
-  anhalten, falls sie auf den eigenen Code angesetzt werden.
-  \begin{align*}
-    K &= \{ w \in \{0,1\}^* \mid M_w \text{ angesetzt auf }w\text{
-        hält} \}\qedhere
-  \end{align*}
+	Das spezielle Halteproblem besteht aus allen Codes von \ac{TM}s, die
+	anhalten, falls sie auf den eigenen Code angesetzt werden.
+	\begin{align*}
+		K &= \{ w \in \{0,1\}^* \mid M_w \text{ angesetzt auf }w\text{
+			hält} \}\qedhere
+	\end{align*}
+	\index{spezielles!Halteproblem}
 \end{Def}
-\begin{Satz}\label{satz:speziellesHalteproblem}
-  Das spezielle Halteproblem ist unentscheidbar.
+
+
+\begin{Satz}[name={[spezielles Halteproblem ist unentscheidbar]}]\label{satz:speziellesHalteproblem}
+	Das spezielle Halteproblem ist unentscheidbar.
 \end{Satz}
+
 
 Wir geben zunächst einen kurzen formalen Beweis mit Hilfe eines Diagonalarguments
 und diskutieren diesen anschließend.
 \begin{proof}
-  Angenommen, $\M_\text{€}$ wäre eine \ac{TM}, die $K$ entscheidet.
-  Dann gibt es auch eine \ac{TM} $\M_\textsf{evil}$, (siehe \autoref{fig:Mevil})
-  die zunächst $\M_\text{€}$ auf ihre Eingabe anwendet.\footnote{
-  Der Name $\M_\text{€}$ soll den hohen Wert dieser \ac{TM} betonen.
-  Gäbe es einen Algorithmus zur Terminierungsanalyse, könnten wir damit viele Probleme in der Softwareentwicklung lösen.
-  Der Name $\M_\textsf{evil}$ soll suggerieren, dass diese \ac{TM} unsere entsprechenden Hoffnungen zunichte macht.
-  }
-  Falls $\M_\text{€}$ akzeptiert, dann geht $\M_\textsf{evil}$ in eine Endlosschleife. 
-  Falls $\M_\text{€}$ nicht akzeptiert, dann hält $\M_\textsf{evil}$ an. Nun gilt:
-  \begin{eqnarray*}
-  \M_\text{€} \text{ akzeptiert } \godel{\M_\textsf{evil}} 
-  &\stackrel{\text{Def.\ von } K}{\text{gdw.}} & \M_\textsf{evil} \text{ angesetzt auf } \godel{\M_\textsf{evil}} \text{ hält }\\
-  &\stackrel{\text{Def.\ von } \M_\textsf{evil}}{\text{gdw.}} & \M_\text{€} \text{ akzeptiert } \godel{\M_\textsf{evil}} \text{ nicht}
-  \end{eqnarray*}
-  Ein Widerspruch.
+	Angenommen, $\M_\text{€}$ wäre eine \ac{TM}, die $K$ entscheidet.
+	Dann gibt es auch eine \ac{TM} $\M_\textsf{evil}$, (siehe \autoref{fig:Mevil})
+	die zunächst $\M_\text{€}$ auf ihre Eingabe anwendet.\footnote{
+		Der Name $\M_\text{€}$ soll den hohen Wert dieser \ac{TM} betonen.
+		Gäbe es einen Algorithmus zur Terminierungsanalyse, könnten wir damit viele Probleme in der Softwareentwicklung lösen.
+		Der Name $\M_\textsf{evil}$ soll suggerieren, dass diese \ac{TM} unsere entsprechenden Hoffnungen zunichte macht.
+	}
+	Falls $\M_\text{€}$ akzeptiert, dann geht $\M_\textsf{evil}$ in eine Endlosschleife. 
+	Falls $\M_\text{€}$ nicht akzeptiert, dann hält $\M_\textsf{evil}$ an. Nun gilt:
+	\begin{eqnarray*}
+		\M_\text{€} \text{ akzeptiert } \godel{\M_\textsf{evil}} 
+		&\stackrel{\text{Def.\ von } K}{\text{gdw.}} & \M_\textsf{evil} \text{ angesetzt auf } \godel{\M_\textsf{evil}} \text{ hält }\\
+		&\stackrel{\text{Def.\ von } \M_\textsf{evil}}{\text{gdw.}} & \M_\text{€} \text{ akzeptiert } \godel{\M_\textsf{evil}} \text{ nicht}
+	\end{eqnarray*}
+	Ein Widerspruch.
 \end{proof}
 
- \begin{figure}[H]\centering
-  \begin{tikzpicture}
-   \node (0) at (0,0) {$\M_{\chi_K}$};
-   \node (init) at (-1.1,.2) {};
-   \node (1) at (2,0) {$\D_\mblank$};
-   \draw[->] (init) to (0);
-   \draw[->] (0) to node[auto] {$1$} (1);
-   \draw[->,loop right] (1) to node {$\Gamma$} (1);
-  \end{tikzpicture}
-  \caption{Definition der \ac{TM} $\M_\textsf{evil}$ aus dem Beweis von \autoref{satz:speziellesHalteproblem} mit Hilfe eines Flussdiagramms.
-  Die \ac{TM} $\M_{\chi_K}$ verhält sich wie $\M_\text{€}$, aber statt zu akzeptieren (bzw. nicht zu akzeptieren), schreibt diese 1 (bzw. 0) auf das Band und hält (siehe \autoref{satz:characFunc}).}
-  \label{fig:Mevil}
- \end{figure}
+\begin{figure}[H]\centering
+	
+	\parbox{102mm}{
+		Definition der \ac{TM} $\M_\textsf{evil}$ aus dem Beweis von \autoref{satz:speziellesHalteproblem} mit Hilfe eines Flussdiagramms.
+		Die \ac{TM} $\M_{\chi_K}$ welche die charakteristische Funktion von $K$ implementiert, verhält sich wie $\M_\text{€}$, aber statt zu akzeptieren (bzw. nicht zu akzeptieren), schreibt diese 1 (bzw. 0) auf das Band und hält (siehe \autoref{satz:characFunc}).
+	}
+	
+	\begin{tikzpicture}
+		\node (0) at (0,0) {$\M_{\chi_K}$};
+		\node (init) at (-1.1,.2) {};
+		\node (1) at (2,0) {$\D_\mblank$};
+		\draw[->] (init) to (0);
+		\draw[->] (0) to node[auto] {$1$} (1);
+		\draw[->,loop right] (1) to node {$\Gamma$} (1);
+	\end{tikzpicture}
+	
+	\caption{Definition der \ac{TM} $\M_\textsf{evil}$ aus dem Beweis von \autoref{satz:speziellesHalteproblem}.}
+	\label{fig:Mevil}
+\end{figure}
 
 
 
@@ -871,83 +905,85 @@ Sei $w_k$ das Wort, das die \ac{TM} $\M_\textsf{evil}$ codiert (also $\M_{w_k} =
 Die Definition von $\M_\textsf{evil}$ sagt uns, dass die Zeile $\M_{w_k}$ in Spalte $i$ immer genau das Gegenteil (Y/N) des Diagonaleintrags $(i,i)$ enthält. Die Betrachtung des Diagonaleintrags $(k,k)$ zeigt uns den Widerspruch.
 Die Annahme der Existenz von $\M_\text{€}$ war also falsch. 
 
- \begin{figure}[H]\centering
-
-\begin{tikzpicture}[scale=0.7]
-
-\draw[fill=lightgray!20, draw=lightgray!20] (-1.9,-3.5) rectangle (7.7,-4.5);
-
-\node at (0,1) {$w_0$};
-\node at (1,1) {$\dots$};
-\node at (2,1) {$w_i$};
-\node at (3,1) {$\dots$};
-\node at (4,1) {$w_k$};
-\node at (5,1) {$\dots$};
-\node at (6,1) {$w_j$};
-\node at (7,1) {$\dots$};
-
-\node at (-1.2,0) {$\M_{w_0}$};
-\node at (-1.2,-1) {$\vdots$};
-\node at (-1.2,-2) {$\M_{w_i}$};
-\node at (-1.2,-3) {$\vdots$};
-\node at (-1.2,-4) {$\M_{w_k}$};
-\node at (-1.2,-5) {$\vdots$};
-\node at (-1.2,-6) {$\M_{w_j}$};
-\node at (-1.2,-7) {$\vdots$};
-
-\draw (-1.5, 0.5) to (7.5,0.5);
-\draw (-0.5, 1.5) to (-0.5,-7.5);
-
-\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (00) at (0,0) {Y};
-\node[lightgray] at (1,0) {$\ldots$};
-\node[lightgray] at (2,0) {Y};
-\node[lightgray] at (3,0) {$\ldots$};
-\node[lightgray] at (4,0) {Y};
-\node[lightgray] at (5,0) {$\ldots$};
-\node[lightgray] at (6,0) {N};
-\node[lightgray] at (7,0) {$\ldots$};
-
-\node[lightgray] at (0,-2) {N};
-\node[lightgray] at (1,-2) {$\ldots$};
-\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (ii) at (2,-2) {N};
-\node[lightgray] at (3,-2) {$\ldots$};
-\node[lightgray] at (4,-2) {Y};
-\node[lightgray] at (5,-2) {$\ldots$};
-\node[lightgray] at (6,-2) {Y};
-\node[lightgray] at (7,-2) {$\ldots$};
-
-\node (k0) at (0,-4) {N};
-\node[lightgray] at (1,-4) {$\ldots$};
-\node (ki) at (2,-4) {Y};
-\node[lightgray] at (3,-4) {$\ldots$};
-\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=1] (kk) at (4,-4) {\textbf{?}};
-\node[lightgray] at (5,-4) {$\ldots$};
-\node (kj) at (6,-4) {Y};
-\node[lightgray] at (7,-4) {$\ldots$};
-
-\node[lightgray] at (0,-6) {Y};
-\node[lightgray] at (1,-6) {$\ldots$};
-\node[lightgray] at (2,-6) {Y};
-\node[lightgray] at (3,-6) {$\ldots$};
-\node[lightgray] at (4,-6) {N};
-\node[lightgray] at (5,-6) {$\ldots$};
-\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (jj) at (6,-6) {N};
-\node[lightgray] at (7,-6) {$\ldots$};
-
-\draw[->] (00) to (k0);
-\draw[->] (ii) to (ki);
-\draw[->] (jj) to (kj);
-
-\end{tikzpicture}
+\begin{figure}[H]\centering
+	
+	\begin{tikzpicture}[scale=0.7]
+		\draw[fill=lightgray!20, draw=lightgray!20] (-1.9,-3.5) rectangle (7.7,-4.5);
+		
+		\node at (0,1) {$w_0$};
+		\node at (1,1) {$\dots$};
+		\node at (2,1) {$w_i$};
+		\node at (3,1) {$\dots$};
+		\node at (4,1) {$w_k$};
+		\node at (5,1) {$\dots$};
+		\node at (6,1) {$w_j$};
+		\node at (7,1) {$\dots$};
+		
+		\node at (-1.2,0) {$\M_{w_0}$};
+		\node at (-1.2,-1) {$\vdots$};
+		\node at (-1.2,-2) {$\M_{w_i}$};
+		\node at (-1.2,-3) {$\vdots$};
+		\node at (-1.2,-4) {$\M_{w_k}$};
+		\node at (-1.2,-5) {$\vdots$};
+		\node at (-1.2,-6) {$\M_{w_j}$};
+		\node at (-1.2,-7) {$\vdots$};
+		
+		\draw (-1.5, 0.5) to (7.5,0.5);
+		\draw (-0.5, 1.5) to (-0.5,-7.5);
+		
+		\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (00) at (0,0) {Y};
+		\node[lightgray] at (1,0) {$\ldots$};
+		\node[lightgray] at (2,0) {Y};
+		\node[lightgray] at (3,0) {$\ldots$};
+		\node[lightgray] at (4,0) {Y};
+		\node[lightgray] at (5,0) {$\ldots$};
+		\node[lightgray] at (6,0) {N};
+		\node[lightgray] at (7,0) {$\ldots$};
+		
+		\node[lightgray] at (0,-2) {N};
+		\node[lightgray] at (1,-2) {$\ldots$};
+		\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (ii) at (2,-2) {N};
+		\node[lightgray] at (3,-2) {$\ldots$};
+		\node[lightgray] at (4,-2) {Y};
+		\node[lightgray] at (5,-2) {$\ldots$};
+		\node[lightgray] at (6,-2) {Y};
+		\node[lightgray] at (7,-2) {$\ldots$};
+		
+		\node (k0) at (0,-4) {N};
+		\node[lightgray] at (1,-4) {$\ldots$};
+		\node (ki) at (2,-4) {Y};
+		\node[lightgray] at (3,-4) {$\ldots$};
+		\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=1] (kk) at (4,-4) {\textbf{?}};
+		\node[lightgray] at (5,-4) {$\ldots$};
+		\node (kj) at (6,-4) {Y};
+		\node[lightgray] at (7,-4) {$\ldots$};
+		
+		\node[lightgray] at (0,-6) {Y};
+		\node[lightgray] at (1,-6) {$\ldots$};
+		\node[lightgray] at (2,-6) {Y};
+		\node[lightgray] at (3,-6) {$\ldots$};
+		\node[lightgray] at (4,-6) {N};
+		\node[lightgray] at (5,-6) {$\ldots$};
+		\node[circle, draw=lightgray!50, fill=lightgray!50, inner sep=0] (jj) at (6,-6) {N};
+		\node[lightgray] at (7,-6) {$\ldots$};
+		
+		\draw[->] (00) to (k0);
+		\draw[->] (ii) to (ki);
+		\draw[->] (jj) to (kj);
+		
+	\end{tikzpicture}
 	\caption{Illustration des Diagonalarguments beim Beweis der Unentscheidbarkeit des speziellen Halteproblems}
 \end{figure}
 
-\begin{Korollar}\label{kor:6.11_alt}
-    Das Komplement von $K$
-  $$\overline{K} = \{w \in\{0,1\}^* \mid M_w\text{ angesetzt auf }w\text{
-        hält nicht} \}$$
-  ist nicht entscheidbar.
+
+\begin{Korollar}[name={[Komplement des speziellen Halteproblems ist unentscheidbar]}]\label{kor:6.11_alt}
+	Das Komplement von $K$
+	$$\overline{K} = \{w \in\{0,1\}^* \mid M_w\text{ angesetzt auf }w\text{
+		hält nicht} \}$$
+	ist nicht entscheidbar.
 \end{Korollar}
+
+
 \begin{proof}
 	Angenommen, $\overline{K}$ sei entscheidbar durch eine \ac{TM} $\M$.
 	Betrachte \ac{TM} $\M'$, die zunächst $\M$ ausführt und dann das Ergebnis negiert.
@@ -956,23 +992,29 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 \end{proof}
 
 
-
-
 \begin{Def}[name={[Semi-Entscheidbarkeit]}]\label{def:semiEntscheidbar}
 	Eine Sprache $L\subseteq\Sigma^*$ heißt \emph{semi-entscheidbar}, falls es eine \ac{TM} gibt, die $L$ akzeptiert.\footnote{
-	Ein alternativer in der Literatur auch oft verwendeter Begriff für "`semi-entscheidbar"' ist "`rekursiv aufzählbar"'.}
+		Ein alternativer in der Literatur auch oft verwendeter Begriff für "`semi-entscheidbar"' ist "`rekursiv aufzählbar"'.
+	
+		Auf Vorbereitungsblatt~12 wurde in Aufgabe~3 durch Konstruktion einer \ac{TM} gezeigt dass die von dieser akzeptierten Sprache semi-entscheidbar ist.
+	}
+	\index{semi-entscheidbar}
 \end{Def}
 
 
-\begin{lemma}[name={[$K$ ist semi-entscheidbar]}]\label{lemma:Ksemi-entscheidbar}
+\begin{lemma}[name={[spezielles Halteproblems ist semi-entscheidbar]}]\label{lemma:Ksemi-entscheidbar}
 	$K$ ist semi-entscheidbar.
 \end{lemma}
+
+
 \begin{proof}
-  Die wie folgt konstruierte \ac{TM} $\M$ akzeptiert $K$.
-  Sei $w$ die Eingabe. 
-  Führe die universelle \ac{TM} für $\M_w$ mit Eingabe $w$ aus.
-  Falls diese Simulation stoppt, geht $\M$ in einen akzeptierenden Zustand und hält.
+	Die wie folgt konstruierte \ac{TM} $\M$ akzeptiert $K$.
+	Sei $w$ die Eingabe. 
+	Führe die universelle \ac{TM} für $\M_w$ mit Eingabe $w$ aus.
+	Falls diese Simulation stoppt, geht $\M$ in einen akzeptierenden Zustand und hält.
 \end{proof}
+
+
 % \begin{Def}[name={[length-lexicographic order]}]
 % 	Die \emph{length-lexicographic order} auf $\{0, 1\}^*$ (mit $0<1$) ist definiert durch
 % 	\begin{align*}
@@ -1030,27 +1072,32 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 
 
 \begin{Satz}[name={[{$L,\overline{L}$ semi-entscheidbar $\=> L$ entscheidbar}]},restate={[name=Wiederholung]repeatSatz613}]\label{satz:6.13}
-    Wenn eine Sprache $L$ und ihr Komplement $\overline{L}$ semi-entscheidbar sind, dann ist $L$ entscheidbar.
+	Wenn eine Sprache $L$ und ihr Komplement $\overline{L}$ semi-entscheidbar sind, dann ist $L$ entscheidbar.
 \end{Satz}
+
+
 \begin{proof}
 	Sei $\M$ eine \ac{TM}, die $L$ akzeptiert, und sei $\overline{\M}$ eine \ac{TM}, die $\overline{L}$ akzeptiert.
 	Führe $\M$ und $\overline{\M}$ "`parallel"' mit der gleichen Eingabe aus (z.B. mit einer 2-Band-\ac{TM}).\newline
 	Eine \ac{TM} muss anhalten, da für alle Eingaben $w$ entweder $w \in L$ oder $w \in \overline{L}$ gilt.
 	\begin{itemize}
-	\item Falls $\M$ akzeptiert -- halte und akzeptiere.
-	\item Falls $\overline{\M}$ akzeptiert -- halte aber akzeptiere nicht. \qedhere
+		\item Falls $\M$ akzeptiert -- halte und akzeptiere.
+		\item Falls $\overline{\M}$ akzeptiert -- halte aber akzeptiere nicht. \qedhere
 	\end{itemize}
 \end{proof}
 
-\begin{Korollar}\label{kor:6.11}
-    Das Komplement des speziellen Halteproblems $\overline{K}$
-    ist nicht semi-{\linebreak}entscheidbar.
+
+\begin{Korollar}[name={[Komplement des speziellen Halteproblems ist semi-entscheidbar]}]\label{kor:6.11}
+	Das Komplement des speziellen Halteproblems $\overline{K}$
+	ist nicht semi-{\linebreak}entscheidbar.
 \end{Korollar}
+
+
 \begin{proof}
-Nach \autoref{lemma:Ksemi-entscheidbar} ist $K$ semi-entscheidbar. 
-Angenommen, $\overline{K}$ sei auch semi-entscheidbar.
-Dann wäre $K$ nach \autoref{satz:6.13} entscheidbar.
-Widerspruch zu \autoref{satz:speziellesHalteproblem}.
+	Nach \autoref{lemma:Ksemi-entscheidbar} ist $K$ semi-entscheidbar. 
+	Angenommen, $\overline{K}$ sei auch semi-entscheidbar.
+	Dann wäre $K$ nach \autoref{satz:6.13} entscheidbar.
+	Widerspruch zu \autoref{satz:speziellesHalteproblem}.
 \end{proof}
 
 
@@ -1179,7 +1226,6 @@ Widerspruch zu \autoref{satz:speziellesHalteproblem}.
 %%%%%%%%%%%%%%%%%%%%
 
 
-\datenote{26.01.2018}
 
 % \def\note#1{{\color{green!50!black}\marginpar{$\ulcorner$}#1\marginpar{$\lrcorner$}}}
 \def\note#1{{}}
