@@ -1101,19 +1101,21 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 \end{proof}
 
 
-\begin{Def}[Reduktion]\label{def:reduktion}\ \\
-  Seien $U, V \subseteq \Sigma^*$ Sprachen.
+\begin{Def}[Reduktion]\label{def:reduktion}Seien $U, V \subseteq \Sigma^*$ Sprachen.
   \emph{$U$ ist auf $V$ reduzierbar (Notation: $U \preceq V$)}, falls eine totale, berechenbare Funktion
   $f:\Sigma^* \to \Sigma^*$ existiert, sodass
   \[
     \forall w \in \Sigma^*:w \in U \iff f(w) \in V. \qedhere
   \]
-
 \end{Def}
-\begin{lemma}\label{lemma:reduktion}
+
+
+\begin{lemma}[name={[Reduktion]}]\label{lemma:reduktion}\datenote{25.01.2019}
   Falls $U \preceq V$ gilt und die Sprache $V$ \mbox{(semi-)entscheidbar} ist, dann ist auch die Sprache $U$
   \mbox{(semi-)entscheidbar}.
 \end{lemma}
+
+
 \begin{proof}
   Sei $\M_V$ eine \ac{TM}, die ein (Semi-)Entscheidungsverfahren für $V$ implementiert,
   und sei $\M_f$ eine \ac{TM}, die $f$ berechnet.
@@ -1126,6 +1128,7 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
   $\M_U$ hält also genau dann, wenn $\M_V$ hält.
 \end{proof}
 
+
 \begin{Bemerkung} Mit der Kontraposition von \autoref{lemma:reduktion} können wir zeigen, dass eine Sprache \emph{nicht} \mbox{(semi-)entscheidbar} ist.
 \begin{itemize}
  \item $U \preceq V$ und $U$ unentscheidbar $\Rightarrow$ $V$ unentscheidbar.
@@ -1134,13 +1137,18 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 \end{itemize}
 \end{Bemerkung}
 
+
 \begin{Def}[name={[Halteproblem]}]
-	Das \emph{Halteproblem} ist definiert durch
+	Das \emph{(allgemeine) Halteproblem} ist definiert durch
 	\[H = \{\godel{\M}\# w \mid \M \text{ angesetzt auf } w \text{ hält}\}. \qedhere\]
 \end{Def}
+
+
 \begin{Satz}[name={[$H$ ist unentscheidbar]}]\label{satz:H ist unentscheidbar}
 	$H$ ist unentscheidbar.
 \end{Satz}
+
+
 \begin{proof}
   Wir zeigen die Reduktion $K \preceq H$ mittels der folgenden Funktion $f$.
   $f(w) = w\#w$, falls $w$ eine \ac{TM} codiert, und ansonsten bildet $f$ auf ein Wort $v$ ab, das nicht in $H$ liegt, z.B. $\Eps$.
@@ -1150,6 +1158,7 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
    & \quad\Longleftrightarrow\quad \underbrace{w\#w}_{f(w)} \in H \qedhere
   \end{align*}
 \end{proof}
+
 % \begin{proof}
 % 	Angenommen, $M_0$ entscheidet $H$.\\
 % 	Konstruiere $M'$ wie folgt:\\
