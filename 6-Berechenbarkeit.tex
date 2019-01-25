@@ -1105,11 +1105,13 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
   \emph{$U$ ist auf $V$ reduzierbar}, falls eine totale, berechenbare Funktion
   $f:\Sigma^* \to \Sigma^*$ existiert, sodass
   \[
-    \forall w \in \Sigma^*:w \in U \iff f(w) \in V. \qedhere
+    \forall w \in \Sigma^*:w \in U \iff f(w) \in V
   \]
-  gilt. \datenote{25.01.2019}
-  Wir nennen die zugehörige binäre Relation auf Sprachen die \emph{Reduktionsrelation}
+  gilt.
+  Wir nennen $f$ \emph{Reduktionsfunktion}
+  außerdem nennen wir die zugehörige binäre Relation auf Sprachen die \emph{Reduktionsrelation}
   und schreiben $U \preceq V$ wenn $U$ ist auf $V$ reduzierbar ist.
+  \datenote{25.01.2019}
 \end{Def}
 
 
@@ -1154,7 +1156,7 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 		\draw[t] (w5) to (f5);
 		\draw[t] (w6) to (f5);
 	\end{tikzpicture}
-	\caption{Schematische Reduktion $U \preceq V$ von einer Sprache $U$ auf eine Sprache $V$}
+	\caption{Illustration einer Reduktion $U \preceq V$ von einer Sprache $U$ auf eine Sprache $V$}
 \end{figure}
 
 
@@ -1198,12 +1200,11 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 
 
 \begin{proof}
-	Wir zeigen $K \preceq H$. Betrache die Funktion $f(w)=w\# w$. Es gilt:
+	Wir zeigen $K \preceq H$. Betrache die Funktion $f(w)=w\# w$. Offensichtlich ist $f$ total und berechenbar.
+	Außerdem gilt:
 	\[
-	w \in K \text{\ \ gdw. \ \ $\M_w$ hält bei Eingabe $w$ an \ \ gdw.\ \ } \underbrace{w\#w}_{f(w)} \in H 
+	w \in K \text{\ \ gdw. \ \ $\M_w$ hält bei Eingabe $w$ an \ \ gdw.\ \ } \underbrace{w\#w}_{f(w)} \in H \qedhere
 	\]
-	
-	Außerdem ist $f$ total und berechenbar.\qedhere
 \end{proof}
 
 
