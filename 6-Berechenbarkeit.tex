@@ -1102,15 +1102,63 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 
 
 \begin{Def}[Reduktion]\label{def:reduktion}Seien $U, V \subseteq \Sigma^*$ Sprachen.
-  \emph{$U$ ist auf $V$ reduzierbar (Notation: $U \preceq V$)}, falls eine totale, berechenbare Funktion
+  \emph{$U$ ist auf $V$ reduzierbar}, falls eine totale, berechenbare Funktion
   $f:\Sigma^* \to \Sigma^*$ existiert, sodass
   \[
     \forall w \in \Sigma^*:w \in U \iff f(w) \in V. \qedhere
   \]
+  gilt. \datenote{25.01.2019}
+  Wir nennen die zugehörige binäre Relation auf Sprachen die \emph{Reduktionsrelation}
+  und schreiben $U \preceq V$ wenn $U$ ist auf $V$ reduzierbar ist.
 \end{Def}
 
 
-\begin{lemma}[name={[Reduktion]}]\label{lemma:reduktion}\datenote{25.01.2019}
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[mydot/.style={circle,fill,inner sep=0.5pt,minimum size=0mm},t/.style={->,draw,>=stealth,shorten >=-2pt,shorten <=-2pt,dashed}]
+		\node[rectangle,draw,minimum size=3cm] (lR) {};
+		\node[rectangle,draw,minimum size=3cm,right=3cm of lR] (rR) {};
+		%
+% 		\node[above=2mm of lR] {$\Sigma^*$};
+% 		\node[above=2mm of rR] {$\Sigma^*$};
+		%
+		\node at (-0.4,0) {$U$};
+		\node at (6.3,-0.1) {$V$};
+		\node at (-1.2,0.6) {$\overline{U}$};
+		\node at (7.1,0.2) {$\overline{V}$};
+		%
+		\draw[rounded corners=10pt] (-1,0) -- ++(0.5,1) -- ++(0.5,-1) -- ++(0.8,1.1) -- ++(0.3,-1.2) -- ++(-0.8,-0.7) -- ++(-0.7,-0) -- cycle;
+		\draw[rounded corners=10pt] (5,0) -- ++(0.3,1.2) -- ++(2.1,-2) -- ++(-1.3,-0.1) -- cycle;
+		%
+		\node (w1) at (0.7,0.7) {$\bullet$};
+		\node (w2) at (0.3,0.1) {$\bullet$};
+		\node (w3) at (0.2,-0.5) {$\bullet$};
+		%
+		\node (w4) at (0.4,1.1) {$\bullet$};
+		\node (w5) at (1.3,0.5) {$\bullet$};
+		\node (w6) at (-0.2,-1.3) {$\bullet$};
+		%
+		\node (f1) at (5.6,0.6) {$\bullet$};
+		\node (f2) at (6.2,-0.5) {$\bullet$};
+		\node (f3) at (5.5,0.1) {$\bullet$};
+		%
+		\node (f4) at (7.0,1.1) {$\bullet$};
+		\node (f5) at (4.8,-1.1) {$\bullet$};
+		\node (f6) at (6.1,-1.2) {$\bullet$};
+		%
+		\draw[t] (w1) to (f1);
+		\draw[t] (w2) to (f2);
+		\draw[t] (w3) to (f2);
+		%
+		\draw[t] (w4) to (f4);
+		\draw[t] (w5) to (f5);
+		\draw[t] (w6) to (f5);
+	\end{tikzpicture}
+	\caption{Schematische Reduktion $U \preceq V$ von einer Sprache $U$ auf eine Sprache $V$}
+\end{figure}
+
+
+\begin{lemma}[name={[Reduktion]}]\label{lemma:reduktion}
   Falls $U \preceq V$ gilt und die Sprache $V$ \mbox{(semi-)entscheidbar} ist, dann ist auch die Sprache $U$
   \mbox{(semi-)entscheidbar}.
 \end{lemma}
@@ -1140,7 +1188,7 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 
 \begin{Def}[name={[Halteproblem]}]
 	Das \emph{(allgemeine) Halteproblem} ist definiert durch
-	\[H = \{\godel{\M}\# w \mid \M \text{ angesetzt auf } w \text{ hält}\}. \qedhere\]
+	\[H = \{u\# w \mid u,w\in\{0,1\}^* \text{ und } \M_u \text{ angesetzt auf } w \text{ hält}\}. \qedhere\]
 \end{Def}
 
 
@@ -1150,80 +1198,56 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 
 
 \begin{proof}
-  Wir zeigen die Reduktion $K \preceq H$ mittels der folgenden Funktion $f$.
-  $f(w) = w\#w$, falls $w$ eine \ac{TM} codiert, und ansonsten bildet $f$ auf ein Wort $v$ ab, das nicht in $H$ liegt, z.B. $\Eps$.
-  Die Funktion ist offensichtlich total und berechenbar.
-  \begin{align*}
-   w \in K & \quad\Longleftrightarrow\quad \text{ $\M_w$ hält bei Eingabe $w$ an}\\
-   & \quad\Longleftrightarrow\quad \underbrace{w\#w}_{f(w)} \in H \qedhere
-  \end{align*}
+	Wir zeigen $K \preceq H$. Betrache die Funktion $f(w)=w\# w$. Es gilt:
+	\[
+	w \in K \text{\ \ gdw. \ \ $\M_w$ hält bei Eingabe $w$ an \ \ gdw.\ \ } \underbrace{w\#w}_{f(w)} \in H 
+	\]
+	
+	Außerdem ist $f$ total und berechenbar.\qedhere
 \end{proof}
 
-% \begin{proof}
-% 	Angenommen, $M_0$ entscheidet $H$.\\
-% 	Konstruiere $M'$ wie folgt:\\
-% 	Bei Eingabe $w$ bestimme $i$, sodass $w = w(i)$\\
-% 	Verwende $M_0$ um festzustellen, ob $\ulcorner M_i\urcorner w$ anhält.\\
-% 	Antwort von $M_0:$\\
-% 	nein: $\begin{aligned}[t]
-% 		&\curvearrowright w(i) \notin L(M_i)\\
-% 		&\curvearrowright M'\text{ akzeptiert }w\text{ nicht}.
-% 	\end{aligned}$\\
-% 	ja: Führe $\ulcorner M_i\urcorner w$ mit $U$ aus (muss ja terminieren) und akzeptiere entsprechend das Ergebnis von $U$.\\
-% 	Insgesamt: $M'$ entscheidet $\overline{D} \qquad \lightning$ \autoref{kor:6.11}\\
-% 	$\curvearrowright M_0$ existiert nicht.
-% \end{proof}
+
 \begin{Satz}[name={[$H$ ist semi-entscheidbar]}]\label{satz:H-semi-entscheidbar}
 	$H$ ist semi-entscheidbar.
 \end{Satz}
 \begin{proof}
-  Die wie folgt konstruierte \ac{TM} $\M$ akzeptiert $H$.
-  Zunächst simuliert $\M$ die universelle \ac{TM} auf der Eingabe $\godel{\M}\#w$.
-  Falls diese Simulation stoppt, geht $\M$ in einen akzeptierenden Zustand und hält.
+	Die wie folgt konstruierte \ac{TM} $\M$ akzeptiert $H$.
+	Zunächst simuliert $\M$ die universelle \ac{TM} auf der Eingabe $v\#w$.
+	Falls diese Simulation stoppt, geht $\M$ in einen akzeptierenden Zustand und hält.
 \end{proof}
 
 
 \begin{Def}[name={[Halteproblem auf leerem Band $H_\Eps$]}]
 	Das \emph{Halteproblem auf dem leerem Band} ist definiert durch
-	\[H_\Eps = \{\godel{\M} \mid \M \text{ angesetzt auf das leere Band hält}\}. \qedhere\]
+	\[H_\Eps = \{u\in\{0,1\}^* \mid \M_u \text{ angesetzt auf das leere Band hält}\}. \qedhere\]
 \end{Def}
+
+
 \begin{Satz}[name={[$H_\Eps$ ist unentscheidbar]}]
-\label{satz:HalteproblemLeeresBand}
+	\label{satz:HalteproblemLeeresBand}
 	$H_\Eps$ ist unentscheidbar.
 \end{Satz}
 \begin{proof}
-  Wir zeigen die Reduktion $H \preceq H_\Eps$ mittels der Funktion $f$, 
-  die in der Eingabe das erste Vorkommen von $\#$ sucht und
-  für die zerlegte Eingabe $v = w\#x$ die wie folgt definierte \ac{TM} $\godel{\M_{w,x}}$ konstruiert.
-  \begin{itemize}
-  \item Zuerst schreibt $\M_{w,x}$ das Wort $x$ auf das leere Band (und läuft zum Anfang).
-  \item Dann wendet $\M_{w,x}$ die durch $w$ codierte \ac{TM} $\M_w$ auf $x$ an.
-  \end{itemize}
-  Enthält die Eingabe das Zeichen $\#$ nicht oder codiert $w$ keine \ac{TM},
-  so bildet $f$ auf den Code irgendeiner TM ab,
-  deren Code nicht in $H_\Eps$ liegt.\footnote{
-  Wir könnten z.B. die durch das folgende Flussdiagramm beschriebene TM nehmen, denn diese hält auf keiner Eingabe:
-  \begin{tikzpicture}
-   \node (0) at (0,0) {$\D_\mblank$};
-   \node (init) at (-0.7,.1) {};
-   \draw[->] (init) to (0);
-   \draw[->,loop right] (0) to node {$\Gamma$} (0);
-  \end{tikzpicture}}
-  
-%   \[ f(v) = \begin{cases} \godel{\M_{w,x}} & \text{falls } v = w\#x \\ 0 & \text{sonst}\end{cases} \]
-  Offensichtlich ist $f$ total und berechenbar und es gilt $v\in H$ gdw.\ $f(v) \in H_\Eps$.
+	Wir zeigen die Reduktion $H \preceq H_\Eps$ mittels der Funktion $f$, 
+	die in der Eingabe das Trennsymbol $\#$ sucht und
+	für die zerlegte Eingabe $u\#w$ die wie folgt definierte \ac{TM} $\godel{\M_{u,w}}$ konstruiert.
+	\begin{itemize}
+		\item Zuerst schreibt $\M_{u,w}$ das Wort $w$ auf das leere Band (und läuft zum Anfang).
+		\item Dann wendet $\M_{u,w}$ die durch $u$ codierte \ac{TM} $\M_u$ auf $w$ an.
+	\end{itemize}
+	Enthält die Eingabe das Zeichen $\#$ nicht so bildet $f$ auf den Code irgendeiner TM ab,
+	deren Code nicht in $H_\Eps$ liegt.\footnote{
+		Wir könnten z.B. die durch das folgende Flussdiagramm beschriebene TM nehmen, denn diese hält auf keiner Eingabe:
+		\begin{tikzpicture}
+			\node (0) at (0,0) {$\D_\mblank$};
+			\node (init) at (-0.7,.1) {};
+			\draw[->] (init) to (0);
+			\draw[->,loop right] (0) to node {$\Gamma$} (0);
+		\end{tikzpicture}}
+	
+	Die Funktion $f$ ist total und berechenbar und es gilt für alle $v\in\Sigma^*$ $v\in H$ gdw.\ $f(v) \in H_\Eps$.
 \end{proof}
-% \begin{proof}
-% 	Angenommen, $M_\varepsilon$ entscheidet $H_\Eps$.\\
-% 	Konstruiere $M'$ (mit Hilfe von $M_\varepsilon$), sodass $M'$ entscheidet $H$.\\
-% 	\begin{tabular}{r@{ }l}
-% 	$M':$ & Bei Eingabe $\ulcorner M\urcorner w$.\\
-% 	& Konstruiere $M^*$, $M^*$ schreibt zuerst $w$ aufs (leere) Band und 
-% 	startet dann $M$ auf $w$.\\
-% 	& Wende $M_\varepsilon$ auf $\ulcorner M^*\urcorner$ an.
-% 	\end{tabular}\\
-% 	$\curvearrowright M'$ entscheidet $H \qquad \lightning$ \autoref{satz:H ist unentscheidbar}
-% \end{proof}
+
 
 \begin{Bemerkung}
 	Die Reduktion gilt auch in der umgekehrten Richtung "`$H_\Eps \preceq H$"' (ohne Beweis).
@@ -1236,111 +1260,69 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 
 
 
-% \def\note#1{{\color{green!50!black}\marginpar{$\ulcorner$}#1\marginpar{$\lrcorner$}}}
-\def\note#1{{}}
+\def\note#1{{\color{green!50!black}\marginpar{$\ulcorner$}#1\marginpar{$\lrcorner$}}}
+% \def\note#1{{}}
 
-\begin{Bemerkung}
-	Das Phänomen des Halteproblems (oder des Barbiers von Waldkirch) tritt immer dann auf, wenn man in einem Formalismus über den Formalismus selbst sprechen kann (Selbstreferenzialität).
-	Wir können z.B.\ universelle \ac{TM}s konstruieren, die andere \ac{TM}s (und damit auch sich selbst) simulieren.
-
-	\note{
-	Anwendungen in der Informatik:
-	%
-	\begin{itemize}
-		\item Compiler/Interpreter; schreibe Compiler in der gleichen Sprache
-		%
-		\item Generieren von Programmen
-	\end{itemize}
-	}
-
-	Selbstreferenzialität existiert z.B.\ auch in der natürlichen Sprache ("`Dieser Satz ist falsch."').
-	Weitere für die Mathematik/Informatik relevante Beispiele sind die Unentscheidbarkeit (des Gültigkeitsproblems) der Prädikatenlogik und die Unvollständigkeit der Peano-Arithmetik (erster Gödelscher Unvollständigkeitssatz).
-\end{Bemerkung}
-
-\note{
-Der Rest der Vorlesung beschäftigt sich hauptsächlich mit Reduktionen.
-Reduktionen werden auch ca.\ 25\% der Klausur beanspruchen.
-Daher wollen wir uns heute nochmal intensiv damit beschäftigen.
-Wie immer gilt: Übung macht den Meister.
-}
-
-\note{
-Wiederholung: $L$ ist \dots
-%
-\begin{enumerate}
-	\item \dots entscheidbar:
-	$\exists \M$: $\M$ akzeptiert $L$ und hält auf allen Eingaben
-	%
-	\item \dots semi-entscheidbar:
-	$\exists \M$: $\M$ akzeptiert $L$
-	%
-	\item \dots unentscheidbar:
-	$L$ ist nicht entscheidbar
-\end{enumerate}
-}
-
-\note{
-\begin{itemize}
-	\item $L$ unentscheidbar $\Rightarrow$ (Wortproblem für) $L$ nicht (in allen Fällen) lösbar
-	%
-	\item $L$ unentscheidbar $\not\Rightarrow$ $L$ in der Praxis unlösbar (zunächst keine Aussage darüber, welche realen Instanzen nicht lösbar sind; vielleicht interessieren uns nur "`einfache"' Instanzen)
-	%
-	\item $L$ entscheidbar $\not\Rightarrow$ $L$ in der Praxis lösbar (sowohl Schwierigkeit (s.\ später "`hält $\M_0$ auf $w_0$?"') als auch Komplexität (mehrfach exponentiell/nichtelementar))
-	%
-	\item Häufig meint man mit "`$L$ in der Praxis lösbar"' eigentlich "`$L$ polynomiell lösbar"' (s.\ letztes Kapitel).
-\end{itemize}
-}
-
-\note{
-Wiederholung: \autoref{def:reduktion}, \autoref{lemma:reduktion}
-}
-
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}[mydot/.style={circle,fill,inner sep=0.5pt,minimum size=0mm},t/.style={->,draw,>=stealth,shorten >=-2pt,shorten <=-2pt,dashed}]
-		\node[rectangle,draw,minimum size=3cm] (lR) {};
-		\node[rectangle,draw,minimum size=3cm,right=3cm of lR] (rR) {};
-		%
-% 		\node[above=2mm of lR] {$\Sigma^*$};
-% 		\node[above=2mm of rR] {$\Sigma^*$};
-		%
-		\node at (-0.4,0) {$L_1$};
-		\node at (6.3,-0.1) {$L_2$};
-		\node at (-1.2,0.6) {$\overline{L}_1$};
-		\node at (7.1,0.2) {$\overline{L}_2$};
-		%
-		\draw[rounded corners=10pt] (-1,0) -- ++(0.5,1) -- ++(0.5,-1) -- ++(0.8,1.1) -- ++(0.3,-1.2) -- ++(-0.8,-0.7) -- ++(-0.7,-0) -- cycle;
-		\draw[rounded corners=10pt] (5,0) -- ++(0.3,1.2) -- ++(2.1,-2) -- ++(-1.3,-0.1) -- cycle;
-		%
-		\node (w1) at (0.7,0.7) {$\bullet$};
-		\node (w2) at (0.3,0.1) {$\bullet$};
-		\node (w3) at (0.2,-0.5) {$\bullet$};
-		%
-		\node (w4) at (0.4,1.1) {$\bullet$};
-		\node (w5) at (1.3,0.5) {$\bullet$};
-		\node (w6) at (-0.2,-1.3) {$\bullet$};
-		%
-		\node (f1) at (5.6,0.6) {$\bullet$};
-		\node (f2) at (6.2,-0.5) {$\bullet$};
-		\node (f3) at (5.5,0.1) {$\bullet$};
-		%
-		\node (f4) at (7.0,1.1) {$\bullet$};
-		\node (f5) at (4.8,-1.1) {$\bullet$};
-		\node (f6) at (6.1,-1.2) {$\bullet$};
-		%
-		\draw[t] (w1) to (f1);
-		\draw[t] (w2) to (f2);
-		\draw[t] (w3) to (f2);
-		%
-		\draw[t] (w4) to (f4);
-		\draw[t] (w5) to (f5);
-		\draw[t] (w6) to (f5);
-	\end{tikzpicture}
-	\caption{Schematische Reduktion $L_1 \preceq L_2$ von einer Sprache $L_1$ auf eine Sprache $L_2$}
-\end{figure}
-
-Reduzierbarkeit ($\preceq$) ist eine binäre Relation auf Sprachen.
-Wir nennen diese Relation die \emph{Reduktionsrelation}.
+% \begin{Bemerkung}
+% 	Das Phänomen des Halteproblems (oder des Barbiers von Waldkirch) tritt immer dann auf, wenn man in einem Formalismus über den Formalismus selbst sprechen kann (Selbstreferenzialität).
+% 	Wir können z.B.\ universelle \ac{TM}s konstruieren, die andere \ac{TM}s (und damit auch sich selbst) simulieren.
+% 
+% 	\note{
+% 	Anwendungen in der Informatik:
+% 	%
+% 	\begin{itemize}
+% 		\item Compiler/Interpreter; schreibe Compiler in der gleichen Sprache
+% 		%
+% 		\item Generieren von Programmen
+% 	\end{itemize}
+% 	}
+% 
+% 	Selbstreferenzialität existiert z.B.\ auch in der natürlichen Sprache ("`Dieser Satz ist falsch."').
+% 	Weitere für die Mathematik/Informatik relevante Beispiele sind die Unentscheidbarkeit (des Gültigkeitsproblems) der Prädikatenlogik und die Unvollständigkeit der Peano-Arithmetik (erster Gödelscher Unvollständigkeitssatz).
+% \end{Bemerkung}
+% 
+% \note{
+% Der Rest der Vorlesung beschäftigt sich hauptsächlich mit Reduktionen.
+% Reduktionen werden auch ca.\ 25\% der Klausur beanspruchen.
+% Daher wollen wir uns heute nochmal intensiv damit beschäftigen.
+% Wie immer gilt: Übung macht den Meister.
+% }
+% 
+% \note{
+% Wiederholung: $L$ ist \dots
+% %
+% \begin{enumerate}
+% 	\item \dots entscheidbar:
+% 	$\exists \M$: $\M$ akzeptiert $L$ und hält auf allen Eingaben
+% 	%
+% 	\item \dots semi-entscheidbar:
+% 	$\exists \M$: $\M$ akzeptiert $L$
+% 	%
+% 	\item \dots unentscheidbar:
+% 	$L$ ist nicht entscheidbar
+% \end{enumerate}
+% }
+% 
+% \note{
+% \begin{itemize}
+% 	\item $L$ unentscheidbar $\Rightarrow$ (Wortproblem für) $L$ nicht (in allen Fällen) lösbar
+% 	%
+% 	\item $L$ unentscheidbar $\not\Rightarrow$ $L$ in der Praxis unlösbar (zunächst keine Aussage darüber, welche realen Instanzen nicht lösbar sind; vielleicht interessieren uns nur "`einfache"' Instanzen)
+% 	%
+% 	\item $L$ entscheidbar $\not\Rightarrow$ $L$ in der Praxis lösbar (sowohl Schwierigkeit (s.\ später "`hält $\M_0$ auf $w_0$?"') als auch Komplexität (mehrfach exponentiell/nichtelementar))
+% 	%
+% 	\item Häufig meint man mit "`$L$ in der Praxis lösbar"' eigentlich "`$L$ polynomiell lösbar"' (s.\ letztes Kapitel).
+% \end{itemize}
+% }
+% 
+% \note{
+% Wiederholung: \autoref{def:reduktion}, \autoref{lemma:reduktion}
+% }
+% 
+% 
+% 
+% Reduzierbarkeit ($\preceq$) ist eine binäre Relation auf Sprachen.
+% Wir nennen diese Relation die \emph{Reduktionsrelation}.
 
 \begin{Satz}
 	Die Reduktionsrelation $\preceq$ ist reflexiv und transitiv.
@@ -1350,124 +1332,124 @@ Wir nennen diese Relation die \emph{Reduktionsrelation}.
 	Siehe Übungsblatt 13.
 \end{proof}
 
-\note{
-Motivation für Reduktionssymbol $\preceq$: "`links steht die einfachere Sprache"' \\
-Einfacher in welchem Sinn? \\
-Antwort: entscheidbar/semi-entscheidbar/unentscheidbar/nicht semi-entscheidbar
-}
-
-\begin{Bemerkung}
-	\autoref{lemma:reduktion} hilft uns, eine beliebige Sprache $L$ zu klassifizieren.
-	%
-	\begin{itemize}
-		\item "`$L$ ist entscheidbar"': \\
-		Reduktion $L \preceq L_E$ für entscheidbares $L_E$ (oder expliziter%
-		\footnote{Eine Reduktion repräsentiert implizit auch einen Algorithmus.}
-		Algorithmus)
-		%
-		\item "`$L$ semi-entscheidbar"': \\
-		Reduktion $L \preceq L_{SE}$ für semi-entscheidbares $L_{SE}$ (oder expliziter Algorithmus)
-		%
-		\item "`$L$ unentscheidbar"': \\
-		Reduktion $L_U \preceq L$ für unentscheidbares $L_U$
-		%
-		\item "`$L$ nicht semi-entscheidbar"': \\
-		Reduktion $L_{NSE} \preceq L$ für nicht semi-entscheidbares $L_{NSE}$
-		\qedhere
-	\end{itemize}
-\end{Bemerkung}
-
-\begin{Bemerkung}
-	Empfohlene Vorgehensweise zum Führen eines Reduktionsbeweises:
-	%
-	\begin{enumerate}
-		\item Reduktionsrichtung bestimmen
-
-		\item passende Sprache für Reduktion finden
-
-		\item Reduktionsfunktion $f$ angeben
-
-		\item angeben, dass und ggf.\ warum $f$ total und berechenbar ist
-
-		\item Äquivalenz "`$w \in L_1$ gdw.\ $f(w) \in L_2$"' zeigen
-
-		\item verwendete Eigenschaft der gewählten Sprache ((un-/semi-)entscheidbar) angeben
-		und damit die zu zeigende Aussage folgern
-		\qedhere
-	\end{enumerate}
-\end{Bemerkung}
-
-\note{
-typische Fehler:
-%
-\begin{itemize}
-	\item falsche Reduktionsrichtung
-	%
-	\item $f$ nicht total: $f(w) = x$, falls $\M_w$ keine Transition hat
-	%
-	\item $f$ nicht berechenbar: $f(w) = \begin{cases} x & \text{falls $\M_w$ angesetzt auf $w$ hält} \\ y & \text{sonst} \end{cases}$
-	%
-	\item Äquivalenz stimmt nur in eine Richtung: $H \preceq \Sigma^*$ mit $f(v) = v$ -- es gilt $v \in H \implies f(v) \in \Sigma^*$, aber nicht andersrum
-\end{itemize}
-}
-
-\begin{figure}[H]
-	\centering
-	\renewcommand{\baselinestretch}{1.3}\normalsize
-	\begin{tabular}{l|c|c}
-		& $\M$ beliebig & $\M$ fest \\
-		\hline
-		$w$ beliebig & $H = \{\godel{\M}\# w \mid \M \text{ hält auf } w\}$ & $H_\M = \{w \mid \M \text{ hält auf } w\}$ \\
-		\hline
-		$w$ fest & $H_w = \{\godel{\M} \mid \M \text{ hält auf } w\}$ & $H_{\M, w} = \left\{\godel{\M}\# w \ \middle| \begin{tabular}{l}$\M$ hält auf $w$, \\ $\M$ und $w$ fest\end{tabular}\right\}$
-	\end{tabular}
-	\renewcommand{\baselinestretch}{1}\normalsize
-	\caption{Verschiedene Halteprobleme mit \ac{TM} $\M$ und Eingabe~$w$}
-\end{figure}
-
-\begin{lemma}
-	Für jedes feste $w \in \Sigma^*$ ist $H_w$ unentscheidbar.
-\end{lemma}
-
-\begin{proof}
-	Für $w = \Eps$ haben wir in \autoref{satz:HalteproblemLeeresBand} bereits gesehen, dass $H_\Eps$ unentscheidbar ist.
-	Der Beweis dazu funktioniert analog für beliebige Wörter $w$, wenn wir "`das leere Band"' durch "`die Eingabe $w$"' ersetzen.
-\end{proof}
-
-\begin{lemma}
-	Es gibt \ac{TM}s $\M$, für die $H_\M$ unentscheidbar ist.
-\end{lemma}
-
-\begin{proof}
-	Es gilt $H = H_{\M_U}$.
-\end{proof}
-
-\begin{Bemerkung}
-	Für manche \ac{TM}s ist $H_\M$ entscheidbar, z.B.\ für $H_{\M_r}$.
-\end{Bemerkung}
-
-\begin{lemma}
-	$H_{\M, w}$ ist entscheidbar.
-\end{lemma}
-
-\begin{proof}
-	Für eine feste Kombination $(\M, w)$ gilt entweder $H_{\M, w} = \emptyset$ oder  $H_{\M, w} = \{\godel{\M}\# w\}$.
-	Beide Sprachen sind entscheidbar.%
-	\footnote{Wichtig ist, dass unsere Definition von "`entscheidbar"' nur die \emph{Existenz} einer \ac{TM} voraussetzt.
-	Es gibt in diesem Fall keinen Algorithmus, eine entsprechende \ac{TM} zu \emph{berechnen}.}
-\end{proof}
+% \note{
+% Motivation für Reduktionssymbol $\preceq$: "`links steht die einfachere Sprache"' \\
+% Einfacher in welchem Sinn? \\
+% Antwort: entscheidbar/semi-entscheidbar/unentscheidbar/nicht semi-entscheidbar
+% }
+% 
+% \begin{Bemerkung}
+% 	\autoref{lemma:reduktion} hilft uns, eine beliebige Sprache $L$ zu klassifizieren.
+% 	%
+% 	\begin{itemize}
+% 		\item "`$L$ ist entscheidbar"': \\
+% 		Reduktion $L \preceq L_E$ für entscheidbares $L_E$ (oder expliziter%
+% 		\footnote{Eine Reduktion repräsentiert implizit auch einen Algorithmus.}
+% 		Algorithmus)
+% 		%
+% 		\item "`$L$ semi-entscheidbar"': \\
+% 		Reduktion $L \preceq L_{SE}$ für semi-entscheidbares $L_{SE}$ (oder expliziter Algorithmus)
+% 		%
+% 		\item "`$L$ unentscheidbar"': \\
+% 		Reduktion $L_U \preceq L$ für unentscheidbares $L_U$
+% 		%
+% 		\item "`$L$ nicht semi-entscheidbar"': \\
+% 		Reduktion $L_{NSE} \preceq L$ für nicht semi-entscheidbares $L_{NSE}$
+% 		\qedhere
+% 	\end{itemize}
+% \end{Bemerkung}
+% 
+% \begin{Bemerkung}
+% 	Empfohlene Vorgehensweise zum Führen eines Reduktionsbeweises:
+% 	%
+% 	\begin{enumerate}
+% 		\item Reduktionsrichtung bestimmen
+% 
+% 		\item passende Sprache für Reduktion finden
+% 
+% 		\item Reduktionsfunktion $f$ angeben
+% 
+% 		\item angeben, dass und ggf.\ warum $f$ total und berechenbar ist
+% 
+% 		\item Äquivalenz "`$w \in L_1$ gdw.\ $f(w) \in L_2$"' zeigen
+% 
+% 		\item verwendete Eigenschaft der gewählten Sprache ((un-/semi-)entscheidbar) angeben
+% 		und damit die zu zeigende Aussage folgern
+% 		\qedhere
+% 	\end{enumerate}
+% \end{Bemerkung}
+% 
+% \note{
+% typische Fehler:
+% %
+% \begin{itemize}
+% 	\item falsche Reduktionsrichtung
+% 	%
+% 	\item $f$ nicht total: $f(w) = x$, falls $\M_w$ keine Transition hat
+% 	%
+% 	\item $f$ nicht berechenbar: $f(w) = \begin{cases} x & \text{falls $\M_w$ angesetzt auf $w$ hält} \\ y & \text{sonst} \end{cases}$
+% 	%
+% 	\item Äquivalenz stimmt nur in eine Richtung: $H \preceq \Sigma^*$ mit $f(v) = v$ -- es gilt $v \in H \implies f(v) \in \Sigma^*$, aber nicht andersrum
+% \end{itemize}
+% }
+% 
+% \begin{figure}[H]
+% 	\centering
+% 	\renewcommand{\baselinestretch}{1.3}\normalsize
+% 	\begin{tabular}{l|c|c}
+% 		& $\M$ beliebig & $\M$ fest \\
+% 		\hline
+% 		$w$ beliebig & $H = \{\godel{\M}\# w \mid \M \text{ hält auf } w\}$ & $H_\M = \{w \mid \M \text{ hält auf } w\}$ \\
+% 		\hline
+% 		$w$ fest & $H_w = \{\godel{\M} \mid \M \text{ hält auf } w\}$ & $H_{\M, w} = \left\{\godel{\M}\# w \ \middle| \begin{tabular}{l}$\M$ hält auf $w$, \\ $\M$ und $w$ fest\end{tabular}\right\}$
+% 	\end{tabular}
+% 	\renewcommand{\baselinestretch}{1}\normalsize
+% 	\caption{Verschiedene Halteprobleme mit \ac{TM} $\M$ und Eingabe~$w$}
+% \end{figure}
+% 
+% \begin{lemma}
+% 	Für jedes feste $w \in \Sigma^*$ ist $H_w$ unentscheidbar.
+% \end{lemma}
+% 
+% \begin{proof}
+% 	Für $w = \Eps$ haben wir in \autoref{satz:HalteproblemLeeresBand} bereits gesehen, dass $H_\Eps$ unentscheidbar ist.
+% 	Der Beweis dazu funktioniert analog für beliebige Wörter $w$, wenn wir "`das leere Band"' durch "`die Eingabe $w$"' ersetzen.
+% \end{proof}
+% 
+% \begin{lemma}
+% 	Es gibt \ac{TM}s $\M$, für die $H_\M$ unentscheidbar ist.
+% \end{lemma}
+% 
+% \begin{proof}
+% 	Es gilt $H = H_{\M_U}$.
+% \end{proof}
+% 
+% \begin{Bemerkung}
+% 	Für manche \ac{TM}s ist $H_\M$ entscheidbar, z.B.\ für $H_{\M_r}$.
+% \end{Bemerkung}
+% 
+% \begin{lemma}
+% 	$H_{\M, w}$ ist entscheidbar.
+% \end{lemma}
+% 
+% \begin{proof}
+% 	Für eine feste Kombination $(\M, w)$ gilt entweder $H_{\M, w} = \emptyset$ oder  $H_{\M, w} = \{\godel{\M}\# w\}$.
+% 	Beide Sprachen sind entscheidbar.%
+% 	\footnote{Wichtig ist, dass unsere Definition von "`entscheidbar"' nur die \emph{Existenz} einer \ac{TM} voraussetzt.
+% 	Es gibt in diesem Fall keinen Algorithmus, eine entsprechende \ac{TM} zu \emph{berechnen}.}
+% \end{proof}
 
 
 
  % Latex-Qelle von M. Geffken
 Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
-(partiellen) Funktionen.
+(partiellen) Funktionen.\footnote{Henry Gordon Rice *1920 †2003}
 
-\begin{Satz}[Satz von Rice]\ \\
+\begin{Satz}[Satz von Rice]
   Sei $R$ die Menge aller (partiellen) berechenbaren Funktionen und $S$
   eine nichtleere, echte Teilmenge davon (also $\varnothing \subsetneq S \subsetneq R$).
   Dann ist die Sprache
-  $$C_S=\{\godel{\M} \mid \M \text{ berechnet eine Funktion aus }S\}$$
+  $$C_S=\{u\in\{0,1\}^* \mid \M_u \text{ berechnet eine Funktion aus }S\}$$
   unentscheidbar.
 \end{Satz}
 
@@ -1491,7 +1473,7 @@ Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
 }
 
 \begin{proof}
-  Sei $\varnothing \subsetneq S \subsetneq R$ beliebig.
+  Sei $S$ beliebig sodass $\varnothing \subsetneq S \subsetneq R$ gilt.
   Angenommen, es gibt eine \ac{TM} $\M_\text{€}$, die $C_S$ entscheidet.
   Sei $\Omega \in R$ die überall undefinierte Funktion. 
   Wir betrachten zwei Fälle.
@@ -1525,7 +1507,7 @@ Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
     Also entscheidet $\M_\textsf{Evil}$ die Sprache $H_\Eps$. Widerspruch zu \autoref{satz:HalteproblemLeeresBand}.
     \item Fall 2: $\Omega \notin S$
     
-    Analog zu Fall 1. \qedhere
+    Analog zu Fall 1, wobei dir diesmal $f\in S$ wählen. \qedhere
   \end{itemize}
 \end{proof}
 
@@ -1534,7 +1516,7 @@ Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
 	In gewissem Sinne ja, denn es gibt Sprachen $L$, sodass sowohl $L$ als auch $\overline{L}$ nicht semi-entscheidbar sind.
 	Ein Beispiel ist das Halteproblem für \emph{alle} Eingaben:
 	\begin{align*}
-		H_{\forall w} = \{\godel{\M} \mid \text{$\M$ angesetzt auf jedes beliebige Wort $w \in \Sigma^*$ hält}\}
+		H_{\forall w} = \{u\in\{0,1\}^* \mid \text{$\M_u$ angesetzt auf jedes beliebige Wort $w \in \Sigma^*$ hält}\}
 		\qedhere
 	\end{align*}
 \end{Bemerkung}
