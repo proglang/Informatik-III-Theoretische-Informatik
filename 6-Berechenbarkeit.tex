@@ -1516,11 +1516,21 @@ Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
 	Gibt es noch "`schwerere"' Sprachen als das Halteproblem?
 	In gewissem Sinne ja, denn es gibt Sprachen $L$, sodass sowohl $L$ als auch $\overline{L}$ nicht semi-entscheidbar sind.
 	Ein Beispiel ist das Halteproblem für \emph{alle} Eingaben:
-	\begin{align*}
-		H_{\forall w} = \{u\in\{0,1\}^* \mid \text{$\M_u$ angesetzt auf jedes beliebige Wort $w \in \Sigma^*$ hält}\}
-		\qedhere
-	\end{align*}
 \end{Bemerkung}
+
+
+\begin{Def}[name={[Universelles Halteproblem $H_{\forall w}$]}]
+	Das \emph{universelle Halteproblem} ist definiert durch
+	$$
+	H_{\forall w} = \{u\in\{0,1\}^* \mid \text{$\M_u$ angesetzt auf jedes beliebige Wort $w \in \Sigma^*$ hält}\}. \qedhere
+	$$
+\end{Def}
+
+\begin{Satz}[name={[Universelles Halteproblem $H_{\forall w}$]}]
+	Sowohl $H_{\forall w}$ als auch $\overline{H}_{\forall w}$ nicht nicht semi-entscheidbar.
+\end{Satz}
+
+
 
 \begin{Satz}
 	Seien $L_1, L_2$ entscheidbare Sprachen.
