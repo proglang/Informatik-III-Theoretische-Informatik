@@ -117,7 +117,7 @@ Wir nennen die Menge der erfüllbaren \ac{AL}-Formeln \acsu{SAT}.
 \end{Def}
 
 
-Wir haben nun also die Frage, ob die Formel $F$ erfüllbar ist, als Wortproblem "`$F\in \ac{SAT}?$"' dargestellt.
+Wir können nun also die Frage, ob die Formel $F$ erfüllbar ist, als Wortproblem "`$F\in\ac{SAT}?$"' darstellen.
 Wir wollen im Folgenden eine \ac{TM} konstruieren, die \ac{SAT} entscheidet, betrachten aber als Vorstufe hierfür zunächst eine einfachere Sprache.
 
 
@@ -140,11 +140,11 @@ Sei $\M_{\text{SAT}_0}$ eine \ac{DTM}, deren Verhalten wir wie folgt informell b
 \end{Bsp}
 
 \begin{description}
-\item[Frage:] Was ist die bestmögliche Laufzeitkomplexität, die wir für $\M_{\text{SAT}_0}$ geben können?
+\item[Frage:] Was ist die bestmögliche Zeitkomplexität, die wir für $\M_{\text{SAT}_0}$ geben können?
 
 \item[Antwort:] Wir müssen im schlimmsten Fall für jeden Operator einmal über die Eingabe laufen.
-Die Laufzeitkomplexität ist also "`garantiert nicht viel schlimmer als $n^2$"', wobei $n$ die Größe der Eingabe ist.
-Wir können die Laufzeitkomplexität aber nicht exakt angeben, da die Beschreibung von $\M_{\text{SAT}_0}$ zu unpräzise ist.
+Die Zeitkomplexität ist also "`garantiert nicht viel schlimmer als $n^2$"', wobei $n$ die Größe der Eingabe ist.
+Wir können die Zeitkomplexität aber nicht exakt angeben, da die Beschreibung von $\M_{\text{SAT}_0}$ zu unpräzise ist.
 (Läuft der Kopf gelegentlich links und rechts über die Eingabe hinaus um das Wortende zu bestimmen?
 Läuft der Kopf beim Ersetzen zurück?)
 \end{description}
@@ -203,7 +203,7 @@ Da wir $\M_\text{SAT}$ aber pro Aussagenvariable nichtdeterministisch zwischen $
 
 \begin{description}
  \item[Frage:] Gibt es ein "`schnelles"' Entscheidungsverfahren für \ac{SAT} oder ist das Problem so schwierig, dass es kein solches Verfahren geben kann?
- \item[Antwort:] Die Informatik kann bisher (Stand Februar 2018) auf beide Frageteile keine Antwort liefern. 
+ \item[Antwort:] Die Informatik kann bisher (Stand Januar 2019) auf beide Frageteile keine Antwort liefern. 
  Wir stellen aber im Folgenden einen Formalismus vor, mit dem sich diese Frage präziser formulieren lässt und wir für verwandte Fragen hilfreichere Antworten liefern können.
 \end{description}
 
@@ -269,7 +269,7 @@ Ich weiß aber, dass mein Problem so schwierig ist, dass das Finden eines polyno
   $f:\Sigma^* \to \Sigma^*$ existiert, sodass
   \begin{itemize}
    \item $\forall w \in \Sigma^*:w \in U \iff f(w) \in V$
-   \item $f$ wird von einer \ac{DTM} berechnet, deren Laufzeitkomplexität ein Polynom ist.
+   \item $f$ wird von einer \ac{DTM} berechnet, deren Zeitkomplexität ein Polynom ist.
   \end{itemize}
   Wir nennen $f$ \emph{Reduktionsfunktion}.
 \end{Def}
@@ -682,8 +682,6 @@ Wir gehen davon aus, dass die Leser des Skripts mit Graphen vertraut sind, mache
 
 
 
-\hide{
-
 % \begin{Bsp*}
 % 	\begin{align*}
 % 	F &= (\underbrace{x\lor y\lor \overline{y}}_1) \land (\underbrace{z\lor \overline{y} \lor \overline x}_2)\\
@@ -696,7 +694,6 @@ Wir gehen davon aus, dass die Leser des Skripts mit Graphen vertraut sind, mache
 % \end{Bsp*}
 
 An dieser Stelle wollen wir nun den Beweis von \autoref{satz:cook} nachholen.
-\datenote{07.02.2018}
 Wir benötigen dafür zunächst das folgende Lemma.
 \begin{lemma}
 	Für jedes $k\in\N$ existiert eine Formel $G$, sodass $G(x_1,\dots,x_k)=1$ gdw. $\exists j: x_j = 1$ und $\forall i \neq j: x_i = 0$. Es gilt $|G| \in O(k^2)$.
@@ -773,6 +770,8 @@ Wir benötigen dafür zunächst das folgende Lemma.
 
 
 
+
+\hide{
 
 
 \newpage

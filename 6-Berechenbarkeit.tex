@@ -1251,7 +1251,9 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
 
 
 \begin{Bemerkung}
-	Die Reduktion gilt auch in der umgekehrten Richtung "`$H_\Eps \preceq H$"' (ohne Beweis).
+	Es gilt auch umgekehrt, dass $H_\Eps$ auf $H$ reduzierbar ist
+% 	Die Reduktion gilt auch in der umgekehrten Richtung "`$H_\Eps \preceq H$"' 
+	(ohne Beweis).
 	Mit \autoref{satz:H-semi-entscheidbar} und \autoref{lemma:reduktion} ist $H_\Eps$ damit auch semi-entscheidbar.
 \end{Bemerkung}
 
@@ -1527,15 +1529,15 @@ Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
 \end{Def}
 
 \begin{Satz}[name={[Universelles Halteproblem $H_{\forall w}$]}]
-	Sowohl $H_{\forall w}$ als auch $\overline{H}_{\forall w}$ nicht nicht semi-entscheidbar.
+	Sowohl $H_{\forall w}$ als auch $\overline{H}_{\forall w}$ sind nicht semi-entscheidbar.
 \end{Satz}
 
-
-
+\datenote{30.01.2019}
 \begin{Satz}
 	Seien $L_1, L_2$ entscheidbare Sprachen.
 	Dann sind auch $L_1 \cup L_2$, $L_1 \cap L_2$ und $\overline{L_1}$ entscheidbar.
 \end{Satz}
+
 
 \begin{proof}
 	Seien $L_1$, $L_2$ beliebige entscheidbare Sprachen und $\M_1$, $\M_2$ \ac{TM}s, welche die Sprachen entscheiden.
@@ -1565,7 +1567,38 @@ Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
 	Beispiel: Laut \autoref{lemma:Ksemi-entscheidbar} und \autoref{kor:6.11} ist das spezielle Halteproblem $K$ semi-entscheidbar, $\overline{K}$ aber nicht.
 \end{Bemerkung}
 
+
+
+
 \subsection{Nichtdeterministische Turingmaschinen}
+
+Zunächst definieren wir einige Begriffe um das Verhalten von \acp{NTM} zu beschreiben.
+Insbesondere wollen wir den Begriff des \emph{haltens}, 
+der bisher nur für \acp{DTM} definiert war auf \acp{NTM} erweitern.
+
+
+\begin{Def}[Berechnung]
+	Sei $\M$ eine TM mit Eingabealphabet $\Sigma$ und Rechenschrittrelation $\vdash$.
+	Sei $n\in\N$. Wir nennen eine Folge von Konfigurationen $u_0q_0v_0, \ldots, u_nq_nv_n$,
+	sodass $u_0q_0v_0$ eine Startkonfiguration ist,
+	eine \emph{Berechnung von $\M$ in $n$ Schritten} wenn $u_iq_iv_i\vdash u_{i+1}q_{i+1}v_{i+1}$
+	für alle $i$ mit $0\leq i < n$ gilt.
+	Die \emph{Anzahl der benutzten Bandzellen} dieser Berechnung ist $|u_n|+|v_n|$.
+	Wir nennen eine unendliche Folge von Konfigurationen $u_0q_0v_0, u_1q_1v_1,\ldots$,
+	sodass $u_0q_0v_0$ eine Startkonfiguration ist,
+	eine \emph{unendliche Berechnung} von $\M$ wenn $u_iq_iv_i\vdash u_{i+1}q_{i+1}v_{i+1}$
+	für alle $i\in\N$ gilt.
+	Wir sagen $\M$ \emph{hält} auf Eingabe $w$ wenn es keine unendliche Berechnung
+	mit Startkonfiguration $\qinit w$ gibt.
+	\index{Berechnung:Turingmaschine}
+	\index{benutzte Bandzellen:Turingmaschine}
+	\index{unendliche Berechnung:Turingmaschine}
+	\index{halten:Turingmaschine}
+\end{Def}
+
+
+
+
 
 \begin{Satz}\label{satz:Ntm2Dtm}
 	Sei $\M$ eine \ac{NTM}.
