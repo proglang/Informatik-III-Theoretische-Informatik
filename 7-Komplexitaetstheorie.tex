@@ -260,17 +260,20 @@ Aussagen der folgenden Form machen können:
 "`Ich weiß zwar nicht, ob meine neues Problem in \ac{P} liegt oder nicht.
 Ich weiß aber, dass mein Problem so schwierig ist, dass das Finden eines polynomiellen Algorithmus \ac{P} = \ac{NP} implizieren würde."'
 
-
-\begin{Def}[Polynomielle Reduktion]\label{def:PolyReduktion}\ \\
-  Seien $U, V \subseteq \Sigma^*$ Sprachen.
-  \emph{$U$ ist auf $V$ polynomiell reduzierbar (Notation: $U \preceq_p V$)}, falls eine totale, berechenbare Funktion
+\begin{Def}[Polynomielle Reduktion]\label{def:PolyReduktion}
+	Seien $U, V \subseteq \Sigma^*$ Sprachen.
+  \emph{$U$ ist auf $V$ polynomiell reduzierbar}, falls eine totale, berechenbare Funktion
   $f:\Sigma^* \to \Sigma^*$ existiert, sodass
   \begin{itemize}
    \item $\forall w \in \Sigma^*:w \in U \iff f(w) \in V$
    \item $f$ wird von einer \ac{DTM} berechnet, deren Zeitkomplexität ein Polynom ist.
   \end{itemize}
-  Wir nennen $f$ \emph{Reduktionsfunktion}.
+  gilt.
+  Wir nennen $f$ \emph{Reduktionsfunktion}
+  außerdem nennen wir die zugehörige binäre Relation auf Sprachen die \emph{Reduktionsrelation}
+  und schreiben $U \preceq_f V$ wenn $U$ ist auf $V$ reduzierbar ist.
 \end{Def}
+
 
 % \datenote{02.02.2018}
 Eine aussagenlogische Formel $F$ ist in \emph{konjunktiver Normalform} (CNF)\footnote{%
