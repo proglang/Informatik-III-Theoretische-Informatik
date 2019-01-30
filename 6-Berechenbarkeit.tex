@@ -1545,7 +1545,7 @@ Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
 	"`$\cup$"': Simuliere für eine Eingabe $w$ zunächst $\M_1$ und dann $\M_2$.
 	Akzeptiere, falls eine der beiden \ac{TM}s akzeptiert.
 
-	"`$\cap$"': Analog zu "`$\cup$"'; siehe Übungsblatt 12 Aufgabe 5.
+	"`$\cap$"': Analog zu "`$\cup$"'; siehe Übungsblatt~12 Aufgabe~4.
 
 	"`$\overline{L_1}$"': Simuliere $\M_1$ und akzeptiere genau dann, wenn $\M_1$ nicht akzeptiert.
 \end{proof}
@@ -1555,17 +1555,18 @@ Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
 	Dann sind auch $L_1 \cup L_2$ und $L_1 \cap L_2$ semi-entscheidbar.
 \end{Satz}
 
+
 \begin{proof}
 	Seien $L_1$, $L_2$ beliebige semi-entscheidbare Sprachen und $\M_1$, $\M_2$ \ac{TM}s, welche die Sprachen entscheiden.
-
 	"`$\cup$/$\cap$"': Simuliere für eine Eingabe $w$ zunächst $\M_1$ und $\M_2$ "`parallel"' (z.B.\ mit einer 2-Band-\ac{TM}).
 	Akzeptiere entsprechend zu $\cup$/$\cap$.
 \end{proof}
 
-\begin{Bemerkung}
-	Ist $L_1$ eine semi-entscheidbare Sprache, so ist $\overline{L}_1$ ist im Allgemeinen nicht semi-entscheidbar.
-	Beispiel: Laut \autoref{lemma:Ksemi-entscheidbar} und \autoref{kor:6.11} ist das spezielle Halteproblem $K$ semi-entscheidbar, $\overline{K}$ aber nicht.
-\end{Bemerkung}
+
+% \begin{Bemerkung}
+% 	Ist $L_1$ eine semi-entscheidbare Sprache, so ist $\overline{L}_1$ ist im Allgemeinen nicht semi-entscheidbar.
+% 	Beispiel: Laut \autoref{lemma:Ksemi-entscheidbar} und \autoref{kor:6.11} ist das spezielle Halteproblem $K$ semi-entscheidbar, $\overline{K}$ aber nicht.
+% \end{Bemerkung}
 
 
 

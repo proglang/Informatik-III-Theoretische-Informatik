@@ -1,14 +1,11 @@
 \section[Komplexitätstheorie]{Komplexitätstheorie}
 % \subsection{Komplexitätsklassen und \ac{P}/\ac{NP}}
 
-{\color{red} TODO: In Text ausformulieren.
+In der Information II Vorlesung betrachteten Sie Algorithmen und lernten Sie den Worst-case Ressourcenverbrauch von diesen zu bestimmen.
+In diesem Kapitel der Vorlesung werden wir nun Problemstellungen betrachten und versuchen den Worst-case Ressourcenverbrauch des bestmöglichen Algorithmus zu bestimmen.
 
-Aus Info2 kennen Sie: Worst-case Laufzeit eines Algorithmus bestimmen.
-
-Hier: Betrachte Problemstellung und bestime was Wort-case Laufzeit von bestmöglichem Algorithmus ist.
-
-}
-
+Wir betrachten zwei Arten von Ressourcen; Laufzeit und benötigter Speicherplatz.
+Für \acp{TM} formalisieren wir diese wie folgt.
 
 \begin{Def}
 Sei $f:\N\rightarrow\N$ eine Funktion und $\M$ eine \ac{TM} mit Eingabealphabet $\Sigma$.
@@ -18,6 +15,12 @@ Sei $f:\N\rightarrow\N$ eine Funktion und $\M$ eine \ac{TM} mit Eingabealphabet 
  \qedhere
 \end{itemize}
 \end{Def}
+
+
+Um Problemstellungen besser miteinander vergleichen zu können beschreiben wir diese als Wortproblem für Sprachen.
+Die Frage ob eine aussagenlogische Formel $F$ erfüllbar ist formulieren wir z.B. als:
+``Liegt $F$ in der Menge der erfüllbaren aussagenlogischen Formeln? ``
+Wir klassifizieren nun Sprachen entsprechend des Ressourcenverbrauchs von \acp{TM} die diese akzeptieren.
 
 
 \begin{Def}[name={[$\NTIME$ Klasse]}]
@@ -47,28 +50,23 @@ Sei $f:\N\rightarrow\N$ eine Funktion und $\M$ eine \ac{TM} mit Eingabealphabet 
 % 	\end{cases}$\\
 \end{Def}
 
-{\color{red}
 
-Diagramm: Raute mit Inklusionen
+\begin{figure}[htb]
+	\begin{center}
+		\begin{tikzpicture}
+			\node (dtime) at (0,1) {$\DTIME(f(n))$};
+			\node (ntime) at (2,0) {$\NTIME(f(n))$};
+			\node (dspace) at (-2,0) {$\DSPACE(f(n))$};
+			\node (nspace) at (0,-1) {$\NSPACE(f(n))$};
+			\path (dtime) to node[rotate=-45] {$\subseteq$} (ntime);
+			\path (dtime) to node[rotate=45] {$\supseteq$} (dspace);
+			\path (ntime) to node[rotate=45] {$\supseteq$} (nspace);
+			\path (dspace) to node[rotate=-45] {$\subseteq$} (nspace);
+		\end{tikzpicture}
+	\end{center}
+	\caption{Inklusionsrelationen zwischen Komplexitätsklassen}
+\end{figure}
 
-Erklärung dazu.
-
-% \bigskip
-% 
-% Probleme als Sprachen.
-% 
-% Bsp: Erfüllbarkeitsproblem der Aussagenlogik.
-% 
-% \begin{Def}[name={[\ac{SAT}: Erfüllbarkeitsproblem der \acs*{AL}]}]
-% 	\ac{SAT}, das Erfüllbarkeitsproblem der \acf{AL} ist  definiert durch
-% 	\begin{description}
-% 	\item[Eingaben:] Formal $F$ der \acl{AL}.
-% 	\item[Frage:] Ist $F$ erfüllbar, d.h. existiert eine Belegung $\beta$ der Variablen mit $\{0,1\}$, sodass $F[\beta]=1$ ist.
-% 	\end{description}
-% 	$\ac{SAT}=\{\code(F) \mid F\text{ist erfüllbare Formel der \acs{AL}}\}$
-% \end{Def}
-
-}
 
 Wir wollen im Folgenden Probleme als Sprachen darstellen und beginnen zunächst mit dem Erfüllbarkeitsproblem der Aussagenlogik.
 
