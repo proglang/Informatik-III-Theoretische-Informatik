@@ -1,8 +1,8 @@
 \section[Komplexitätstheorie]{Komplexitätstheorie}
 % \subsection{Komplexitätsklassen und \ac{P}/\ac{NP}}
 
-In der Information II Vorlesung betrachteten Sie Algorithmen und lernten Sie den Worst-case Ressourcenverbrauch von diesen zu bestimmen.
-In diesem Kapitel der Vorlesung werden wir nun Problemstellungen betrachten und versuchen den Worst-case Ressourcenverbrauch des bestmöglichen Algorithmus zu bestimmen.
+In der Informatik II Vorlesung betrachteten Sie Algorithmen und lernten Sie den ``Worst Case'' Ressourcenverbrauch von diesen zu bestimmen.
+In diesem Kapitel der Vorlesung werden wir nun Problemstellungen betrachten und versuchen den Worst Case Ressourcenverbrauch des bestmöglichen Algorithmus zu bestimmen.
 
 Wir betrachten zwei Arten von Ressourcen; Laufzeit und benötigter Speicherplatz.
 Für \acp{TM} formalisieren wir diese wie folgt.
@@ -26,20 +26,20 @@ Wir klassifizieren nun Sprachen entsprechend des Ressourcenverbrauchs von \acp{T
 \begin{Def}[name={[$\NTIME$ Klasse]}]
 	Sei $f:\N\->\N$ eine Funktion.
 	\begin{align*}
-	\DTIME(f(n)) = \{L \subseteq\Sigma^*\mid & \text{ Es gibt det. Mehrband-\ac{TM} $\M$, sodass $L(\M)=L$ und }\\
-	                & \text{$\M$ hat Zeitkomplexität $f(n)$} \}\\
+	\DTIME(f(n)) := \{L \subseteq\Sigma^*\mid & \text{ Es gibt det. Mehrband-\ac{TM} $\M$,}\\
+	                & \text{sodass $L(\M)=L$ und $\M$ Zeitkomplexität $f(n)$ hat.} \}\\
 %     \end{align*}
 %     \begin{align*}
-    \NTIME(f(n)) = \{L \subseteq\Sigma^*\mid & \text{ Es gibt nichtdet. Mehrband-\ac{TM} $\M$, sodass $L(\M)=L$ und }\\
-                    & \text{$\M$ hat Zeitkomplexität $f(n)$} \}\\           
+    \NTIME(f(n)) := \{L \subseteq\Sigma^*\mid & \text{ Es gibt nichtdet. Mehrband-\ac{TM} $\M$,}\\
+                    & \text{sodass $L(\M)=L$ und $\M$ Zeitkomplexität $f(n)$ hat.} \}\\           
 %     \end{align*}
 % 	\begin{align*}
-	\DSPACE(f(n)) = \{L \subseteq\Sigma^*\mid & \text{ Es gibt det. Mehrband-\ac{TM} $\M$, sodass $L(\M)=L$ und }\\
-	                & \text{$\M$ hat Platzkomplexität $f(n)$} \}\\
+	\DSPACE(f(n)) := \{L \subseteq\Sigma^*\mid & \text{ Es gibt det. Mehrband-\ac{TM} $\M$,}\\
+	                & \text{sodass $L(\M)=L$ und $\M$ Platzkomplexität $f(n)$ hat.} \}\\
 %     \end{align*}
 %     \begin{align*}
-    \NSPACE(f(n)) = \{L \subseteq\Sigma^*\mid & \text{ Es gibt nichtdet. Mehrband-\ac{TM} $\M$, sodass $L(\M)=L$ und }\\
-                    & \text{$\M$ hat Platzkomplexität $f(n)$} \}\qedhere
+    \NSPACE(f(n)) := \{L \subseteq\Sigma^*\mid & \text{ Es gibt nichtdet. Mehrband-\ac{TM} $\M$,}\\
+                    & \text{sodass $L(\M)=L$ und $\M$ Platzkomplexität $f(n)$ hat.} \}\qedhere
     \end{align*}	
 
 % 	Die Klasse $\NTIME(f(n))$ besteht aus allen Sprachen, die von einer (Mehrkanal-)\ac{TM} $M$ in $T_M(w)\leq f(|w|)$ akzeptiert werden.\\
@@ -154,7 +154,7 @@ Wir gehen davon aus, dass die Leser des Skripts mit diesem Formalismus vertraut 
 \begin{Def} Sei $g:\N\rightarrow\N$.
 \[ \mathcal{O}(g(n)) = \{f:\N\rightarrow\N \mid \exists n_0, k\in\N:\, \forall n\geq n_0: f(n)\leq k\cdot g(n)\} \qedhere \]
 \end{Def}
-Die Klasse $\mathcal{O}(g(n))$ enthält also genau die Funktionen, die für große Argumente durch ein Vielfaches von $g(n)$ beschränkt sind.
+Die Klasse $\mathcal{O}(g(n))$ enthält also genau die Funktionen, die für "`große Argumente"' durch ein Vielfaches von $g(n)$ beschränkt sind.
 
 Über die Schwierigkeit von $\text{SAT}_0$ können wir nun also sagen:
 Es gibt ein $f(n)\in\mathcal{O}(n^2)$, sodass $\text{SAT}_0\in\DTIME(f(n))$.
@@ -184,6 +184,8 @@ Sei $\M_\text{SAT}$ eine \ac{NTM}, deren Verhalten wir wie folgt informell besch
 Die Zeitkomplexität von $\M_\text{SAT}$ ist also durch $\mathcal{O}(n^3)$ beschränkt.
 \end{Bsp}
 
+
+\draftnote{01.02.2019}
 Über die Schwierigkeit von \ac{SAT} können wir somit sagen:
 Es gibt ein $f(n)\in\mathcal{O}(n^3)$, sodass $\ac{SAT}\in\NTIME(f(n))$.
 
@@ -238,7 +240,7 @@ Um Missverständnisse in Terminologie und Notation zu vermeiden, wiederholen wir
 % 	$\DTIME(f(n)) =$ Klasse der Sprachen, die von \ac{DTM} in $T_M(w)\leq f(|w|)$ Schritten akzeptiert wird.
 % 	\[ \ac{P} = \cup_{p\text{ Polynom}} DTIME(P(n)) \qedhere \]
 % \end{Def}
-Offenbar gilt $P\subseteq \ac{NP}$.
+Offensichtlich gilt $P\subseteq \ac{NP}$, da die \ac{DTM} ein Spezialfall der \ac{NTM} ist.
 Die Frage, ob $P=\ac{NP}$ oder $P\neq \ac{NP}$ gilt, wurde bereits 1971 von Stephen Cook gestellt und ist das vermutlich bekannteste ungelöste Problem der Informatik.
 
 Das "`\ac{P} vs. \ac{NP}"'-Problem ist auch deshalb interessant, weil es eine Vielzahl praxisrelevanter Problemstellungen gibt (Travelling Salesman, Erfüllbarkeit der Aussagenlogik, \dots),
@@ -271,7 +273,7 @@ Ich weiß aber, dass mein Problem so schwierig ist, dass das Finden eines polyno
   gilt.
   Wir nennen $f$ \emph{Reduktionsfunktion}
   außerdem nennen wir die zugehörige binäre Relation auf Sprachen die \emph{Reduktionsrelation}
-  und schreiben $U \preceq_f V$ wenn $U$ ist auf $V$ reduzierbar ist.
+  und schreiben $U \preceq_p V$ wenn $U$ auf $V$ polynomiell reduzierbar ist.
 \end{Def}
 
 
@@ -290,7 +292,7 @@ Das Problem \acsu{3SAT} ist wie folgt definiert.\footnote{
 Typischerweise nennt man Sprachen, die im Kontext der Komplexitätstheorie definiert werden, \emph{Probleme}.
 Es ist üblich, von einem konkreten Alphabet $\Sigma$ und einer konkreten Codierung der Objekte (hier: Formeln) zu abstrahieren und das Problem als (Gegeben, Frage)-Paar zu formulieren.
 Es bleibt dem Leser überlassen, sich selbst geeignete Alphabete und Codierungen zu überlegen.
-Für den Fall von aussagenlogische Formeln haben wir dies in {\color{red} TODO} noch einmal gemacht, werden aber in Zukunft darauf verzichten.}
+Für den Fall von aussagenlogische Formeln haben wir dies in \autoref{def:gal} noch einmal gemacht, werden aber in Zukunft darauf verzichten.}
 \begin{center}
 \framebox[\textwidth]{\parbox{.95\textwidth}{
 \smallskip
@@ -306,12 +308,14 @@ Für den Fall von aussagenlogische Formeln haben wir dies in {\color{red} TODO} 
 Alternativ könnten wir die Definition von \ac{3SAT} auch wie folgt aufschreiben.
 $$\ac{3SAT} = \{F\in L(\mathcal{G}_\mathsf{AL})\mid F \text{ ist erfüllbar und $F$ ist in 3CNF}\}$$
 
-Offensichtlich gilt $\ac{3SAT} \preceq_p \ac{SAT}$.\footnote{
-In der Vorlesung vom 02.02. wurde (fälschlicherweise) gesagt, die Identität sei eine geeignete Reduktionsfunktion.
-Dies ist nicht korrekt, da z.B. 
-$(A_1\lor A_2\lor A_3\lor A_4)\notin \ac{3SAT}$
-(weil nicht in 3CNF), aber $(A_1\lor A_2\lor A_3\lor A_4)\in \ac{SAT}$.
-} Wir zeigen als Nächstes auch die umgekehrte Richtung.
+Offensichtlich gilt $\ac{3SAT} \preceq_p \ac{SAT}$ (Reduktionsfunktion.
+% \footnote{
+% In der Vorlesung vom 02.02. wurde (fälschlicherweise) gesagt, die Identität sei eine geeignete Reduktionsfunktion.
+% Dies ist nicht korrekt, da z.B. 
+% $(A_1\lor A_2\lor A_3\lor A_4)\notin \ac{3SAT}$
+% (weil nicht in 3CNF), aber $(A_1\lor A_2\lor A_3\lor A_4)\in \ac{SAT}$.
+% }
+Wir zeigen als Nächstes auch die umgekehrte Richtung.
 
 \begin{lemma}\label{lem:sat3sat}
 	$\ac{SAT} \preceq_p \ac{3SAT}$
@@ -694,6 +698,7 @@ Wir gehen davon aus, dass die Leser des Skripts mit Graphen vertraut sind, mache
 % 	\end{align*}\rlnote{Grafik überprüfen}
 % \end{Bsp*}
 
+\draftnote{06.02.2019}
 An dieser Stelle wollen wir nun den Beweis von \autoref{satz:cook} nachholen.
 Wir benötigen dafür zunächst das folgende Lemma.
 \begin{lemma}

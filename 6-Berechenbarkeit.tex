@@ -494,11 +494,11 @@ Wir definieren dafür die Menge der Sprachen, für die eine Lösung für das Wor
 \end{Satz}
 
 \begin{proof}
-	Wir definieren die Abbbildung \mbox{$\langtopower:\Sigma^*\rightarrow \calP(\N)$}
+	Wir definieren die Abbbildung \mbox{$\langtopower:\calP(\Sigma^*)\rightarrow \calP(\N)$}
 	$$\langtopower(L)=\{\stdnum(w) \mid w\in L\}$$
 	(analog zu \autoref{satz:functopower}) und zeige, dass diese surjektiv ist.
 	Führe anschließend analog zum Beweis von \autoref{satz:nichtBerechenbar} einen Widerspruchsbeweis.
-	Annahme: Jede Sprache $L\subseteq\Sigma^*$ sei entscheidbar. Also gibt es eine surjektive Abbildung $g:\tmach\rightarrow\Sigma^*$.
+	Annahme: Jede Sprache $L\subseteq\Sigma^*$ sei entscheidbar. Also gibt es eine surjektive Abbildung $g:\tmach\rightarrow\calP(\Sigma^*)$.
 	Somit wäre auch 
 	$$\langtopower\circ g \circ\bintotm\circ \stdnum^{-1}:\N\rightarrow\calP(\N)$$
 	surjektiv.
@@ -1110,7 +1110,7 @@ Die Annahme der Existenz von $\M_\text{€}$ war also falsch.
   gilt.
   Wir nennen $f$ \emph{Reduktionsfunktion}
   außerdem nennen wir die zugehörige binäre Relation auf Sprachen die \emph{Reduktionsrelation}
-  und schreiben $U \preceq V$ wenn $U$ ist auf $V$ reduzierbar ist.
+  und schreiben $U \preceq V$ wenn $U$ auf $V$ reduzierbar ist.
   \datenote{25.01.2019}
 \end{Def}
 
