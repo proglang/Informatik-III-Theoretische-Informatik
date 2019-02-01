@@ -450,18 +450,18 @@ Sei $f:\Sigma_{AL}\rightarrow\Sigma_{AL}$ eine Funktion, die alle Formeln aus $L
 
 % \draftnote{8.2.17}
 
-\begin{Def}[name={[\ac{NP}-schwierig und \ac{NP}-vollständig]}]\
+\begin{Def}[name={[\ac{NP}-schwer und \ac{NP}-vollständig]}]\
 	\begin{itemize}
-	\item Eine Sprache $U$ heißt \emph{\ac{NP}-schwierig}, falls $\forall L\in \ac{NP}$ gilt: $L\preceq_p U$.
-	\item Eine Sprache $U$ heißt \emph{\ac{NP}-vollständig}, falls $U$ \ac{NP}-schwierig ist und $U\in \ac{NP}$ gilt. \qedhere
+	\item Eine Sprache $U$ heißt \emph{\ac{NP}-schwer}, falls $\forall L\in \ac{NP}$ gilt: $L\preceq_p U$.
+	\item Eine Sprache $U$ heißt \emph{\ac{NP}-vollständig}, falls $U$ \ac{NP}-schwer ist und $U\in \ac{NP}$ gilt. \qedhere
 	\end{itemize}
 \end{Def}
 
 {\color{red}
 TODO: Ausformulieren
 \begin{itemize}
- \item \ac{NP}-schwierig: sehr starke Forderung, dass man alle(!) \ac{NP}-Probleme darauf reduzieren kann
- \item zunächst unklar, ob es überhaupt ein \ac{NP}-schwieriges Problem gibt
+ \item \ac{NP}-schwer: sehr starke Forderung, dass man alle(!) \ac{NP}-Probleme darauf reduzieren kann
+ \item zunächst unklar, ob es überhaupt ein \ac{NP}-schweres Problem gibt
  \item bedeutet: wenn ich ein \ac{NP}-vollst. Problem gefunden habe, das ich effizient Lösen kann, kann ich alle \ac{NP}-Probleme effizient lösen (wie folgender Satz zeigt).
 \end{itemize}
 }
@@ -484,7 +484,7 @@ TODO: Ausformulieren
 
 \begin{Bem}
     Aus der Transitivität folgt:
-	Sobald ein \ac{NP}-schwieriges Problem $U$ bekannt ist, reicht es $U\preceq_p V$ zu zeigen, um zu beweisen, dass $V$ ebenfalls \ac{NP}-schwierig ist.
+	Sobald ein \ac{NP}-schweres Problem $U$ bekannt ist, reicht es $U\preceq_p V$ zu zeigen, um zu beweisen, dass $V$ ebenfalls \ac{NP}-schwer ist.
 \end{Bem}
 % Ein erstes \ac{NP}-vollständiges Problem.
 
@@ -508,7 +508,7 @@ Da der Beweis von \autoref{satz:cook} sehr umfangreich ist, wollen wir diesen et
   wir zeigen dies indirekt mit Hilfe einer polynomiellen Reduktion auf ein Problem in \ac{NP}.
   Wir wählen letzteres Vorgehen, da zum Beweis nur nochmal erwähnt werden muss, dass $\ac{SAT} \in \ac{NP}$ und (offensichtlich) $\ac{3SAT} \preceq_p \ac{SAT}$ gilt.
   
-  \item \ac{3SAT} ist \ac{NP}-schwierig
+  \item \ac{3SAT} ist \ac{NP}-schwer
   
   Folgt aus \autoref{lem:sat3sat}.\qedhere
  \end{itemize}
@@ -572,7 +572,7 @@ Wir gehen davon aus, dass die Leser des Skripts mit Graphen vertraut sind, mache
      Prüfe, ob $C$ eine Clique ist.
      Dies ist in polynomieller Laufzeit möglich, da wir für jedes Knotenpaar höchstens einmal die Menge der Kanten durchlaufen müssen.
      
-     \item Zeige, dass $\CLIQUE$ \ac{NP}-schwierig ist (mit Hilfe der Reduktion  $\ac{3SAT} \preceq_p \CLIQUE$).
+     \item Zeige, dass $\CLIQUE$ \ac{NP}-schwer ist (mit Hilfe der Reduktion  $\ac{3SAT} \preceq_p \CLIQUE$).
      
      Ziel: Konstruiere für eine gegebene 3CNF-Formel $F$ einen Graphen $\mathcal{G}=(V,E)$, sodass $F$ genau dann erfüllbar ist, wenn $\mathcal{G}$ eine $k$-Clique hat.
      
@@ -716,7 +716,7 @@ Wir benötigen dafür zunächst das folgende Lemma.
 		Werte anschließend $F[\beta]$ in polynomieller Zeit aus.
 		(Siehe \autoref{bsp:NtmSat})
 % 		$\curvearrowright$ in $\NTIME(n)$, polynomiell
-	\item \ac{SAT} ist \ac{NP}-schwierig.\\
+	\item \ac{SAT} ist \ac{NP}-schwer.\\
 		Zeige: $\forall L\in \ac{NP}: L \preceq_p \ac{SAT}$\\
 		Sei $L\in \ac{NP}$, d.h., es gibt ein Polynom $p$ und eine \ac{NTM} $\M$ mit $L=L(\M)$ mit Zeitkomplexität $p(n)$ für $n = |w|$.
 		
