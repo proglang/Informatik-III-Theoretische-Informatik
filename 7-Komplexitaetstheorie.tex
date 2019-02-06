@@ -702,11 +702,16 @@ Wir gehen davon aus, dass die Leser des Skripts mit Graphen vertraut sind, mache
 An dieser Stelle wollen wir nun den Beweis von \autoref{satz:cook} nachholen.
 Wir benötigen dafür zunächst das folgende Lemma.
 \begin{lemma}
-	Für jedes $k\in\N$ existiert eine Formel $G$, sodass $G(x_1,\dots,x_k)=1$ gdw. $\exists j: x_j = 1$ und $\forall i \neq j: x_i = 0$. Es gilt $|G| \in O(k^2)$.
+	Für jedes $k\in\N$ existiert eine aussagenlogische Formel $G(A_1,\dots,A_k)$, sodass $|G(A_1,\dots,A_k)| \in \mathcal{O}(k^2)$ und
+	\[
+	G(A_1,\dots,A_k)=1 \text{\ \ gdw. \ \ }\exists j\in\{1,\ldots k\}: A_j = 1 \text{ und }\forall i\in\{1,\ldots k\}: i\neq j \rightarrow A_i = 0
+	\]
 \end{lemma}
 \begin{proof}
-	\[ G(x_1,\dots,x_k) = \bigvee_{i=1}^k x_i\land \bigwedge_{i\neq j}\neg (x_i\land x_j) \]
-	$\M=(Q,\Sigma,\Gamma,\delta,q_0,\blank,F)$ akzeptiert $L$ in $\NTIME(p),\ p$ Polynom.
+	\[ 
+	G(A_1,\dots,A_k) = \bigvee_{i=1}^k x_i\land \bigwedge_{i\neq j}\neg (A_i\land A_j) \qedhere
+	\]
+% 	$\M=(Q,\Sigma,\Gamma,\delta,q_0,\blank,F)$ akzeptiert $L$ in $\NTIME(p),\ p$ Polynom.
 \end{proof}
 
 \begin{proof}[von \autoref{satz:cook}]\
@@ -777,7 +782,6 @@ Wir benötigen dafür zunächst das folgende Lemma.
 
 
 
-\hide{
 
 
 \newpage
@@ -810,7 +814,7 @@ Grund: Der zweite Fall folgt aus \autoref{lem:endlichKonfigurationen}. Ansonsten
 \end{Bemerkung}
 
 
-\begin{Satz}
+\begin{Satz}\label{satz:nspaceDecidable}
  Jede Sprache $L\in\NSPACE(n)$ ist entscheidbar.
 \end{Satz}
 \begin{proof}
@@ -820,18 +824,6 @@ Grund: Der zweite Fall folgt aus \autoref{lem:endlichKonfigurationen}. Ansonsten
 \end{proof}
 
 
-\begin{Satz}
- Jede Sprache $L\in\ch{1}$ ist entscheidbar.
-\end{Satz}
-
-\begin{proof}
- Seien $\mathcal{G}=(\Sigma,N,P,S)$ eine Typ-1-Grammatik (kontextsensitive Grammatik) für $L$, $w\in\Sigma^*$ und $n$ die Länge von $w$.
- Da alle Regeln expansiv (d.h., $\alpha\->\beta\in P \==> |\alpha|\leq |\beta|$) sind, 
- müssen wir nicht alle (unendlich viele!) Ableitungen betrachten.
- Es genügt, wenn wir Ableitungen
- $$S\vdash\alpha_1\vdash \ldots \vdash\alpha_m,$$
- betrachten, bei denen alle Satzformen $\alpha_j$ höchstens Länge $n$ haben (also $|\alpha_j| \leq n$) und paarweise verschieden sind.
-\end{proof}
 
 
 
@@ -840,7 +832,8 @@ Grund: Der zweite Fall folgt aus \autoref{lem:endlichKonfigurationen}. Ansonsten
 
 
 
-\begin{Satz}\label{satz:6.3}
+
+\begin{Satz}\label{satz:CH1IsNspace}
 	$\ch{1}=\NSPACE(n)$
 \end{Satz}
 \begin{proof}\
@@ -946,10 +939,31 @@ Grund: Der zweite Fall folgt aus \autoref{lem:endlichKonfigurationen}. Ansonsten
 	\end{itemize}
 \end{proof}
 
+Aus \autoref{satz:nspaceDecidable} und \autoref{satz:nspaceDecidable} folgt direkt:
+
+\begin{Korollar}\label{kor:CH1SubsetDecidable}
+ Jede Sprache $L\in\ch{1}$ ist entscheidbar.
+\end{Korollar}
+
+\begin{Bemerkung}
+ Alternativ hätten wir die Aussage von \autoref{kor:CH1SubsetDecidable} 
+ auch ohne \autoref{satz:nspaceDecidable} 
+ und \autoref{satz:nspaceDecidable} 
+ wie folgt beweisen können.
+
+ Seien $\mathcal{G}=(\Sigma,N,P,S)$ eine Typ-1-Grammatik (kontextsensitive Grammatik) für $L$, $w\in\Sigma^*$ und $n$ die Länge von $w$.
+ Da alle Regeln expansiv (d.h., $\alpha\->\beta\in P \==> |\alpha|\leq |\beta|$) sind, 
+ müssen wir nicht alle (unendlich viele!) Ableitungen betrachten.
+ Es genügt, wenn wir Ableitungen
+ $$S\vdash\alpha_1\vdash \ldots \vdash\alpha_m,$$
+ betrachten, bei denen alle Satzformen $\alpha_j$ höchstens Länge $n$ haben (also $|\alpha_j| \leq n$) und paarweise verschieden sind.
+\end{Bemerkung}
+
+
+
 
 \begin{Satz}
  Die Menge der entscheidbaren Sprachen ist verschieden von \ch{1}.
- \datenote{09.02.2018}
 \end{Satz}
 \begin{proof}
  Wir konstruieren zunächst analog zu Abschnitt~\ref{subsec:codeTuring} eine Codierung von Grammatiken durch Wörter $w\in\{0,1\}^*$.
@@ -1117,7 +1131,7 @@ Grund: Der zweite Fall folgt aus \autoref{lem:endlichKonfigurationen}. Ansonsten
     \end{itemize}
 \end{proof}
 \begin{Bemerkung}
-  "`1. \ac{LBA}-Problem (1964)"': Ist $\mathrm{NTAPE}(n) = \mathrm{DTAPE}(n)$? Bisher ungelöst.
+  "`1. \ac{LBA}-Problem (1964)"': Ist $\NSPACE(n) = \DSPACE(n)$? Bisher ungelöst.
 \end{Bemerkung}
 
 % \begin{Satz}
@@ -1140,8 +1154,8 @@ Grund: Der zweite Fall folgt aus \autoref{lem:endlichKonfigurationen}. Ansonsten
 \end{Satz}
 \begin{proof}
 	\begin{itemize}
-	\item["'\=>"'] Verwende die Konstruktion einer \ac{NTM} $\M$ wie in \autoref{satz:6.3}, aber ohne Platzbeschränkung.
-	\item["'\<="'] Konstruktion analog zu \autoref{satz:6.3} + Startsymbol $S'$
+	\item["'\=>"'] Verwende die Konstruktion einer \ac{NTM} $\M$ wie in \autoref{satz:CH1IsNspace}, aber ohne Platzbeschränkung.
+	\item["'\<="'] Konstruktion analog zu \autoref{satz:CH1IsNspace} + Startsymbol $S'$
 	\begin{align*}
 		S' &\-> \pmqty{\blank\\\Eps} S' \pmqty{\blank\\\Eps} &&\text{Schaffe Platz für Berechnung von }\M\\
 		S' &\-> S\\
@@ -1214,4 +1228,3 @@ Grund: Der zweite Fall folgt aus \autoref{lem:endlichKonfigurationen}. Ansonsten
 % \begin{proof}
 % 	$K$ ist unentscheidbar (also $\notin \mathcal{L}_1$), aber semi-entscheidbar (also $\in \mathcal{L}_0$).
 % \end{proof}
-}
