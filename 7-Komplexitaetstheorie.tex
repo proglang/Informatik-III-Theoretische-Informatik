@@ -488,7 +488,7 @@ TODO: Ausformulieren
 \end{Bem}
 % Ein erstes \ac{NP}-vollständiges Problem.
 
-\begin{Satz}[Cook]\label{satz:cook}
+\begin{Satz}[Cook, Levin]\label{satz:cook}
 	\ac{SAT} ist \ac{NP}-vollständig.
 \end{Satz}
 Wir werden nur für \ac{SAT} die \ac{NP}-Schwierigkeit direkt beweisen und für alle anderen \ac{NP}-vollständigen Probleme die \ac{NP}-Schwierigkeit wie in obiger Bemerkung angedeutet mit Hilfe einer polynomiellen Reduktion zeigen.
@@ -766,7 +766,7 @@ Wir benötigen dafür zunächst das folgende Lemma.
 		\[ E = \bigvee_{q\in F} \state(p(n),q) \]
 		$|F|$ ist polynomiell beschränkt in $|\M|+|w|$, also gilt $L\preceq_p \ac{SAT}$.%
 		\footnote{$|\M|$ dürfen wir als zu $L$ gehörende Konstante betrachten.}\\
-		Es ist klar, dass gilt: $F$ erfüllbar $\<==> \M$ akzeptiert $w$.\\
+		Nach Konstruktion gilt: $F$ erfüllbar $\<==> \M$ akzeptiert $w$.\\
 		Damit haben wir "`$\ac{SAT}$ ist \ac{NP}-vollständig"' gezeigt.
 		\qedhere
 	\end{enumerate}
