@@ -863,7 +863,6 @@ Angenommen, CFL wäre abgeschlossen unter $\overline{\!\phantom{i}\cdot\!\phanto
 \end{proof}
 
 
-\hide{
 \subsection{Deterministisch kontextfreie Sprachen}
 
 \begin{Def}
@@ -888,24 +887,18 @@ Hierbei ist $\ConfRel$ die Schrittrelation genau wie für gewöhnliche Kelleraut
 Zu jedem (gewöhnlichen) Kellerautomaten gibt es einen Kellerautomaten mit akzeptierenden Zuständen, der die gleiche Sprache akzeptiert.
 Gleiches gilt in die andere Richtung.
 \end{lemma}
-\begin{proof}
-Siehe Übungsblatt~8 Aufgabe~5.
-\end{proof}
+% \begin{proof}
+% Siehe Übungsblatt~8 Aufgabe~5.
+% \end{proof}
 
 
 
 
 \begin{Def}[name={[DPDA]}]
-        Ein \ac{DPDA} ist ein 7-Tupel
-        $$\mathcal{D} = (\underbrace{\Sigma,Q,\Gamma,\qinit,\Zinit}_{\text{wie gehabt}},\delta,F)$$
-        \vspace{-1em}
-        \begin{itemize}
-        \item $F\subseteq Q$ akzeptierende Zustände
-        \item $\delta: Q\x (\Sigma\cup\{\Eps\})\x \Gamma \-> \mathcal{P}(Q\x \Gamma^*)$ wobei für alle $q\in Q,a\in\Sigma,Z\in\Gamma$ gelten muss, dass
-        $|\delta(q,a,Z)| + |\delta(q,\Eps,Z)| \leq 1$
-        \item Die Schrittrelation "`$\ConfRel$"' ist definiert wie bei \ac{NPDA}s.
-        \item $L(\mathcal{D}) = \{w\in\Sigma^* \mid (\qinit,w,\Zinit) \ConfRel^* (q',\Eps,\gamma) \land q'\in F \}$ \qedhere
-        \end{itemize}
+Wir nennen sowohl einen gewöhnlichen Kellerautomaten als auch einen Kellerautomaten mit akzeptierenden Zuständen \emph{deterministisch},
+wenn für alle $q\in Q,a\in\Sigma,Z\in\Gamma$ gilt, dass $|\delta(q,a,Z)| + |\delta(q,\Eps,Z)| \leq 1$.
+
+Wir verwenden die Abkürzung \ac{DPDA} für den deterministischen Kellerautomaten mit akzeptierenden Zuständen.
 \end{Def}
 
 \begin{lemma}[name={[\acs*{DPDA}, der gesamte Eingabe verarbeitet]}]
@@ -973,8 +966,13 @@ Siehe Übungsblatt~8 Aufgabe~5.
   \end{itemize}
 \end{proof}
 
+\begin{Def}
+ Wir nennen eine Sprache $L$ \emph{deterministisch kontextfrei} wenn es einen \ac{DPDA} gibt der $L$ akzeptiert.
+\end{Def}
+
+
 \begin{Satz}[name={[Abgeschlossenheit der deterministischen \acs*{CFL}]}]
-        Die deterministischen \ac{CFL} sind unter Komplement abgeschlossen.
+        Die deterministisch kontextfreien Sprachen sind unter Komplement abgeschlossen.
 \end{Satz}
 \begin{proof}
   Sei $L$ deterministisch kontextfrei. 
@@ -1005,17 +1003,17 @@ Siehe Übungsblatt~8 Aufgabe~5.
   
   Falls $\delta(q,\Eps,Z) = \{(q',\gamma)\}$, dann
   \begin{align*}
-    \delta'((q,0),\Eps,Z) &= ((q',\mathit{acc} (q')),\gamma)
+    \delta'((q,0),\Eps,Z) &= \{(q',\mathit{acc} (q'),\gamma)\}
     \\
-    \delta'((q,1),\Eps,Z) &= ((q',1),\gamma)
+    \delta'((q,1),\Eps,Z) &= \{(q',1,\gamma)\}
   \end{align*}
   Falls $\delta(q,a,Z) = \{(q',\gamma)\}$, dann
   \begin{align*}
     \delta'((q,0), \Eps, Z) &= \{ ((q,2), Z) \} \\
-    \delta'((q,2), a, Z) &=((q',\mathit{acc} (q')), \gamma)
+    \delta'((q,2), a, Z) &=\{(q',\mathit{acc} (q'), \gamma)\}
     \\
     \delta'((q,1), a, Z) &=
-    ((q',\mathit{acc} (q')), \gamma)
+    \{(q',\mathit{acc} (q'), \gamma)\}
     \qedhere    %TODO Intuition?
   \end{align*}
 \end{proof}
@@ -1252,7 +1250,7 @@ Anmerkung: first ist nicht die vollständige Lösung des Problems. Für
 den Lookahead müssen auch noch die Symbole betrachtet werden, die
 \emph{nach} einem bestimmten Nichtterminalsymbol auftreten können. Mehr dazu
 in Vorlesung Compilerbau. 
-}}
+}
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "Info_3_Skript_WS2016-17"
