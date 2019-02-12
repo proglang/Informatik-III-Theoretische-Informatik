@@ -1218,14 +1218,17 @@ Aus \autoref{satz:nspaceDecidable} und \autoref{satz:nspaceDecidable} folgt dire
      \end{itemize}
 \end{proof}
 
-% \begin{Bem}
-% 	Typ-0 Sprachen sind \emph{nicht} unter Komplement abgeschlossen!
-% \end{Bem}
-% 
-% 
-% \begin{Korollar}
-% 	$\mathcal{L}_0 \supsetneqq \mathcal{L}_1$
-% \end{Korollar}
-% \begin{proof}
-% 	$K$ ist unentscheidbar (also $\notin \mathcal{L}_1$), aber semi-entscheidbar (also $\in \mathcal{L}_0$).
-% \end{proof}
+
+\begin{figure}[htb]
+	\begin{center}
+		\begin{tabular}{lc|ccccc}
+			& & $\cap$ & $\cup$ & $\overline{\phantom{m}}$ & $\cdot$ & $\quad^*$\\ \hline
+			regulär & \ch{3} & ja & ja & ja & ja & ja\\
+			kontextfrei & \ch{2} & nein & ja & nein & ja & ja\\
+			kontextsensitiv & \ch{1} & ja & ja & ja$^\clubsuit$ & ja & ja\\
+			entscheidbar & - & ja & ja & ja & ja & ja\\
+			semi-entscheidbar & \ch{0} & ja & ja & nein & ja & ja\\
+		\end{tabular}
+	\end{center}
+	\caption{Abschlusseigenschaften der Sprachklassen aus der Chomsky-Hierarchie sowie der Klasse der Entscheidbaren Sprachen}
+\end{figure}
