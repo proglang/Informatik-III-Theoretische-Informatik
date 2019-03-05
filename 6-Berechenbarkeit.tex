@@ -1568,7 +1568,17 @@ Nun betrachten wir \ac{TM}s vom Blickwinkel der von ihnen berechneten
 % 	Beispiel: Laut \autoref{lemma:Ksemi-entscheidbar} und \autoref{kor:6.11} ist das spezielle Halteproblem $K$ semi-entscheidbar, $\overline{K}$ aber nicht.
 % \end{Bemerkung}
 
-
+\begin{figure}[H]
+	\centering
+	\begin{tabular}{l@{}cc}
+		\hspace{20mm} Sprache & \begin{tabular}{c} ist\\ semi-entscheidbar\end{tabular} & \begin{tabular}{c}Komplement ist\\ semi-entscheidbar\end{tabular}\\ \hline
+		Spezielles Halteproblem $K$ & \checkmark & -\\
+		Allgemeines Halteproblem $H$ & \checkmark & -\\
+		Halteproblem auf dem leeren Band $H_\varepsilon$ & \checkmark & -\\
+		Universelles Halteproblem $H_{\forall w}$ & - & -\\
+	\end{tabular}
+	\caption{Semi-Entscheidbarkeit der in diesem Kapitel vorgestellten unentscheidbaren Sprachen}
+\end{figure}
 
 
 \subsection{Nichtdeterministische Turingmaschinen}
