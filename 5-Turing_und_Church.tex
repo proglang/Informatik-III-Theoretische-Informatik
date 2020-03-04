@@ -105,18 +105,24 @@ Die \acf{TM} ist eine Erweiterung des endlichen Automaten mit den folgenden Zus�
  
  Wir geben die Transitionsfunktion einer Turingmaschine mit Hilfe einer Tabelle, der sogenannten \emph{Turingtabelle} an.
  
- \begin{tabu}{>{\bfseries}X[.27]X[.62]}
+%  \begin{tabu}{>{\bfseries}X[.27]X[.62]}
 % 	Turingtabelle\newline\normalfont
+ \begin{center}
+	\begin{minipage}{40mm}
 	\begin{tabular}[t]{|*5{c|}}
 		\vdots & \vdots & \vdots & \vdots & \vdots \\\hline
 		$q$ & $a$ & $q'$ & $a'$ & $d$ \\\hline
 		\vdots & \vdots & \vdots & \vdots & \vdots 
 	\end{tabular}
-	& 	Die Bedeutung eines Tabelleneintrags ist dabei: Wenn die \ac{TM} in Zustand $q$ ist und der Kopf liest
+	\end{minipage}
+	\begin{minipage}{96mm}
+	 	Die Bedeutung eines Tabelleneintrags ist dabei: Wenn die \ac{TM} in Zustand $q$ ist und der Kopf liest
         gerade das Symbol $a\in\Gamma$, dann wechsle in den Zustand $q'$,
         schreibe $a'$ (über altes $a$) und bewege den Kopf gemäß
         $d\in\{R,L,N\}$ .
-\end{tabu}\
+	\end{minipage}
+\end{center}
+% \end{tabu}\
 
 Eine Turingmaschine arbeitet schrittweise.
 In jedem Rechenschritt wird eine Zeile der Turingtabelle angewendet.
