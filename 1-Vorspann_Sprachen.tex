@@ -1,4 +1,4 @@
-\section[Vorspann: Sprachen]{Vorspann: Sprachen\datenote{19.10.2018}}
+\section[Vorspann: Sprachen]{Vorspann: Sprachen}
 \begin{Def}[name={[Alphabet $\Sigma$]}]
 	Ein \emph{Alphabet} ist eine nicht leere, endliche Menge von \emph{Zeichen}.
 \end{Def} % 1.1
@@ -19,18 +19,30 @@ Zeichen sind hier beliebige abstrakte Symbole.
   \end{itemize}
 \end{Bsp*}
 Wir verwenden typischerweise den griechischen Buchstaben $\Sigma$ als Namen für ein Alphabet und die lateinischen Buchstaben $a,b,c$ als Namen für Zeichen.%
-\footnote{Dies ist eine Konventionen analog zu den folgenden, die Sie möglicherweise in der Schule befolgten: Verwende $n,m$ für natürliche Zahlen. Verwende $\alpha, \beta$ für Winkel in Dreiecken. Verwende $A$ für Matrizen.}
+% \footnote{Dies ist eine Konventionen analog zu den folgenden, die
+% Sie möglicherweise in der Schule befolgten: Verwende $n,m$ für
+% natürliche Zahlen. Verwende $\alpha, \beta$ für Winkel in
+% Dreiecken. Verwende $A$ für Matrizen.}  
 Im Folgenden sei $\Sigma$ immer ein beliebiges Alphabet.%
-\footnote{Dieser Satz dient dazu, dass die Autoren dieses Skripts nicht jede Definition mit ``Sei $\Sigma$ ein Alphabet...'' beginnen müssen.}
+% \footnote{Dieser Satz dient dazu, dass die Autoren dieses Skripts
+% nicht jede Definition mit ``Sei $\Sigma$ ein Alphabet...'' beginnen
+% müssen.} 
 
 \begin{Def}[name={[Wort $w$ über $\Sigma$]}]\label{def:1.2}
-  Wir nennen eine endliche Folge von Elementen aus $\Sigma$ ein \emph{Wort}
-  und schreiben solch eine Folge immer ohne Trennsymbole wie z.B. Komma.\footnote{Wir schreiben also z.B. \texttt{einhorn} statt \texttt{e,i,n,h,o,r,n}.}
-  Die leere Folge nennen wir das \emph{leere Wort}; als Konvention stellen wir das leere Wort mit dem griechischen Buchstaben $\Eps$ dar.\footnote{Eine analoge Konvention, die sie aus der Schule kennen: Verwende immer $\pi$ als Symbol für die Kreiszahl.}
-  Wir bezeichnen die Menge aller Wörter mit $\Sigma^*$ und die Menge aller nicht leeren Wörter mit $\Sigma^+$.
+  Ein \emph{Wort} ist eine endliche Folge von Elementen aus $\Sigma$.
+  Die leere Folge nennen wir das \emph{leere Wort} geschrieben als $\Eps$.
+  Wir bezeichnen die Menge aller Wörter mit $\Sigma^*$ und die Menge
+  aller nicht leeren Wörter mit $\Sigma^+ = \Sigma^*\setminus\{\Eps\}$.
   Die \emph{Länge} eines Wortes, $|\cdot| : \Sigma^* \to \N$, ist die Anzahl der Elemente der Folge.
 \end{Def}
-  Wir verwenden typischerweise $u,v,w$ als Namen für Wörter.
+
+Hier einige Konventionen:
+\begin{itemize}
+\item Wir schreiben ein Wort immer ohne Trennsymbole wie
+  z.B. Komma. Also \texttt{einhorn} statt \texttt{e,i,n,h,o,r,n}.
+\item Wir verwenden $\Eps$ für das leere Wort.
+\item Wir verwenden typischerweise $u,v,w$ als Namen für Wörter.
+\end{itemize}
 
 \goodbreak
 
@@ -42,7 +54,7 @@ Im Folgenden sei $\Sigma$ immer ein beliebiges Alphabet.%
   \qedhere
   \end{itemize}
 \end{Bsp*}
-Wörter lassen sich "`verketten''/"`hintereinanderreihen''.
+Wörter lassen sich "`verketten''/"`aneinanderhängen''.
 Die entsprechende Operation heißt \emph{Konkatenation}, geschrieben "`$\cdot$'' (wie Multiplikation).
 \begin{Def}[Konkatenation von Wörtern]
   Die \emph{Konkatenation}, $\mathord{\cdot} : \Sigma^* \times \Sigma^* \to \Sigma^*$, ist für $u=u_1\ldots u_n\in\Sigma^*$ und $v=v_1\ldots v_m\in\Sigma^*$ definiert durch
@@ -142,12 +154,17 @@ Wie bei der Konkatenation von Wörtern dürfen wir den Konkatenationsoperator au
 \begin{Def}[Kleene-Abschluss, Kleene-Stern, Kleene-Plus]
   Gegeben eine Sprache $U\subseteq\Sigma^*$, definieren wir den \emph{Kleene-Abschluss} $U^*$ wie folgt.
       $$U^* = \bigcup_{n\in\N} U^n$$
-  Wie nennen den Operator $\cdot^*: \mathcal{P}(\Sigma^*)\rightarrow\mathcal{P}(\Sigma^*)$ der für eine gegebene Sprache den Kleene-Abschluss liefert den \emph{Kleene-Stern}. Analog definieren wir den \emph{Kleene-Plus} Operator $\cdot^+: \mathcal{P}(\Sigma^*)\rightarrow\mathcal{P}(\Sigma^*)$ als 
+  Wie nennen den Operator $\cdot^*:
+  \mathcal{P}(\Sigma^*)\rightarrow\mathcal{P}(\Sigma^*)$, der für eine
+  gegebene Sprache den Kleene-Abschluss liefert, den
+  \emph{Kleene-Stern}. Analog definieren wir den \emph{Kleene-Plus}
+  Operator $\cdot^+:
+  \mathcal{P}(\Sigma^*)\rightarrow\mathcal{P}(\Sigma^*)$ als  
   $$U^+ = \bigcup_{n\ge1} U^n.$$
 \end{Def}
 Es gilt also $U^*=U^+\cup\{\Eps\}$.
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "Info_3_Skript_WS2016-17"
+%%% TeX-master: "Info_3_Skript_SS2026"
 %%% End:

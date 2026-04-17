@@ -1,15 +1,15 @@
-\section[Reguläre Sprachen und endliche Automaten]{Reguläre Sprachen und endliche Automaten\datenote{20.10.17}}\label{sec:reglang}
+\section[Reguläre Sprachen und endliche Automaten]{Reguläre Sprachen und endliche Automaten}\label{sec:reglang}
 Wie können wir potentiell unendlich große Mengen von Wörtern darstellen?
-Eine Lösung für dieses Problem sahen wir bereits im vorherigen Kapitel, als wir die (unendlich große) Menge der binär codierten Primzahlen mit Hilfe der folgenden Zeile darstellten.
+Eine Lösung für dieses Problem sahen wir bereits im vorherigen Kapitel, als wir die (unendlich große) Menge der binär codierten Primzahlen mit Hilfe der folgenden Sprache darstellten.
 \[
 L_\mathsf{prim}=\{w\in\{0,1\}^*\mid w \text{ ist Binärcodierung einer Primzahl}\}
 \]
-Ein weiteres Beispiel ist die folgende Zeile.
+Ein weiteres Beispiel ist die folgende Sprache.
 \[
 L_\mathsf{even}=\{w\in\{0,1\}^*\mid \text{ die Anzahl der Einsen in $w$ ist gerade. }\}
 \]
 Eine häufig interessante Fragestellung für ein gegebenes Wort $w$ und eine Sprache $L$ ist: "`Ist $w$ in $L$ enthalten?"' (Also: "`Gilt $w\in L$?"')
-Wir nennen dieses Entscheidunsproblem das \emph{Wortproblem}. Eine konkrete Instanz des Wortproblems wäre z.B.\ "`$1100101\in L_\mathsf{prim}$?"' oder "`$1100101\in L_\mathsf{even}$?"'
+Wir nennen dieses Entscheidungsproblem das \emph{Wortproblem}. Eine konkrete Instanz des Wortproblems wäre z.B.\ "`$1100101\in L_\mathsf{prim}$?"' oder "`$1100101\in L_\mathsf{even}$?"'
 
 Die obige Darstellung der unendlichen Mengen $L_\mathsf{prim}$ und $L_\mathsf{even}$ ist zwar sehr kompakt, 
 wir können daraus aber nicht direkt ein Vorgehen zur Lösung des Wortproblems ableiten.
@@ -56,10 +56,10 @@ Wir beschreiben zunächst informell die Bestandteile eines endlichen Automaten:
         \item Wenn er hinter das letzte Zeichen zeigt, \emph{stoppt} der Automat.
     Er muss sich nun "`entscheiden"' ob er das Wort \emph{akzeptiert} oder nicht.
   \end{itemize}
-\item[Zustände] $q$ aus \emph{endlicher} Zustandsmenge $Q$
+\item[Zustände] Zu jedem Zeitpunkt befindet sich der Automat in einem Zustand $q$ aus einer \emph{endlichen} Zustandsmenge $Q$.
 \item[Startzustand] $\qinit \in Q$
 \item[Akzeptierende Zustände] $F \subseteq Q$ 
-\item[Transitionsfunktion] Im Zustand $q$ beim Lesen von $a$ gehe in Zustand $\delta(q) = q'$.
+\item[Transitionsfunktion] Im Zustand $q$ beim Lesen von $a$ gehe in Zustand $q' := \delta(q,a)$.
 \end{description}
 Der endliche Automat akzeptiert eine Eingabe, falls er in einem akzeptierenden Zustand stoppt.
 
@@ -100,7 +100,7 @@ Der Startzustand ist $q_0$.
 Akzeptierende Zustände sind $q_0$ und $q_1$.
 Die Transitionsfunktion $\delta$ ist durch die folgende Tabelle gegeben.
 \begin{center}
-\begin{tabular}{cccl}
+\begin{tabular}{c|c|c|l}
   &\texttt{grün} & \texttt{nicht-grün} \\
   \hline
   $q_0$ & $q_1$ & $q_0$ & wechsle nach $q_1$ falls \texttt{grün}, ansonsten verweile \\
@@ -153,7 +153,7 @@ Die Transitionsfunktion $\delta$ ist durch die folgende Tabelle gegeben.
 %       \end{tabular}
 % \end{Bsp}
 \begin{Def}[\acs*{DEA}]
-        Ein \emph{\acf{DEA}}, (\acsu{DFA} $\hat=$ \acl{DFA}) ist ein 5-Tupel
+        Ein \emph{\acf{DEA}}\footnote{engl.\ \acsu{DFA} $\hat=$ \acl{DFA}} ist ein 5-Tupel
         \[ \A= (\Sigma, Q,\delta,\qinit,F). \]
 Dabei ist
         \begin{itemize}
@@ -193,6 +193,7 @@ Hier ist die graphische Darstellung von $A_{\mathtt{Macaron}}$ aus Beispiel~\ref
 
 % \acs*{DEA}s charakterisieren die Sprachen durch die Menge an Wörtern, die sie akzeptieren.
 Die folgenden beiden Definitionen erlauben uns mit Hilfe eines \acs*{DEA} eine Sprache zu charakterisieren.
+Hierbei sei $\A= (\Sigma, Q,\delta,\qinit,F)$ ein \acs*{DEA}.
 % \begin{Bsp}
 %     Sei $M=(\Sigma, Q,\delta,q_0,F)$ ein \acs*{DEA}.
 %     \begin{itemize}
@@ -200,6 +201,10 @@ Die folgenden beiden Definitionen erlauben uns mit Hilfe eines \acs*{DEA} eine S
 %     \item Wenn $F=\emptyset$, dann ist $L(M)=\emptyset$.
 %     \end{itemize}
 % \end{Bsp}
+% \begin{Def}
+%   Definiere eine Relation ${}\Rightarrow{} = {}\Rightarrow_\delta$ auf $Q \times \Sigma^*$ durch
+%   $(q, aw) \Rightarrow (\delta (q,a), w)$. Dazu sei $\Rightarrow^*$ die reflexive, transitive Hülle.
+% \end{Def}
 \begin{Def}[name={[Induktive erweiterung von $\delta$ auf Wörter]}]\label{def:2.deltaschlange}
         Die \emph{induktive Erweiterung} von $\delta:Q\x\Sigma\->Q$ auf Wörter, $\tilde{\delta}: Q\x\Sigma^*\->Q$, ist (induktiv) definiert durch
   \begin{enumerate}
@@ -211,8 +216,10 @@ Die folgenden beiden Definitionen erlauben uns mit Hilfe eines \acs*{DEA} eine S
 \begin{Def}[name={[Die durch einen \acs*{DEA} akzeptierte Sprache]}]\label{def:2.sprache}
         Sei $\A=(\Sigma, Q,\delta,\qinit,F)$. 
         Ein Wort $w\in\Sigma^*$ wird von $\A$ \emph{akzeptiert}, falls $\tilde\delta(\qinit,w)\in F$.
+%        Ein Wort $w\in\Sigma^*$ wird von $\A$ \emph{akzeptiert}, falls $(\qinit,w) \Rightarrow^* (q, \Eps)$ und $q\in F$.
         Die \emph{von $\A$ akzeptierte Sprache}, geschrieben $L(\A)$, ist die Menge aller Wörter, die von $\A$ akzeptiert werden. D.h., 
         \[ L(\A) = \{ w\in\Sigma^* \mid \tilde\delta(\qinit,w)\in F \}. \]
+%        \[ L(\A) = \{ w\in\Sigma^* \mid (\qinit,w) \Rightarrow^* (q, \Eps), q\in F \}. \]
         Eine durch einen \acs*{DEA} akzeptierte Sprache heißt \emph{regulär}.
 \end{Def}
 
@@ -308,7 +315,7 @@ aus der Einleitung dieses Kapitels hat die folgende graphische Repräsentation.
 %         \end{proof}
 % \end{Bsp}
 
-\datenote{24.10.18}
+
 Frage: Angenommen wir haben zwei \ac{DEA}s $A_1$ und $A_2$, können wir dann immer einen \ac{DEA} konstruieren der den Schnitt $L(A_1)\cap L(A_2)$ akzeptiert?
 
 Idee: Lasse beide \ac{DEA}s parallel laufen, akzeptiere nur wenn beide \ac{DEA}s akzeptieren.
@@ -328,11 +335,6 @@ Wir definieren den \emph{Produktautomaten für Schnitt} als den \ac{DEA} $A_\cap
 		\end{align*}
 \end{Def}
 
-{\color{green!60!black}
-\begin{Bemerkung}
-In der Vorlesung vom 24.10.2018 wurde zunächst das Beispiel und dann erst die Konstruktion präsentiert.
-\end{Bemerkung}
-}
 
 Im folgenden Beispiel sei $A_1$ der \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$, dessen graphische Repräsentation nahezu mit $A_{\mathtt{Macaron}}$ identisch ist.
 
@@ -388,12 +390,7 @@ Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende
 \end{tikzpicture}
 \end{center}
 \end{Bsp}
-{\color{green!60!black}
-\begin{Bemerkung}
-In der Vorlesung vom 24.10.2018 wurde das gleiche Beispiel mit vertauschten Operanden präsentiert. 
-(Die resultierende Graphstruktur war also identisch aber die Beschriftung der Knoten war eine andere.)
-\end{Bemerkung}
-}
+
 
 
 
@@ -413,11 +410,11 @@ In der Vorlesung vom 24.10.2018 wurde das gleiche Beispiel mit vertauschten Oper
 \begin{proof}\footnote{Dieser erste Beweis ist außergewöhnlich detailliert. In den folgenden Beweisen werden wir einfache Umformungen zusammenfassen.}
 Seien $A_1=(\Sigma, Q_1,\delta_1,\qinit_1,F_1)$ und $A_2=(\Sigma, Q_2,\delta_2,\qinit_2,F_2)$ \ac{DEA}s und
 $A_\cap=(\Sigma, Q_\cap,\delta_\cap,\qinit_\cap,F_\cap)$ der zugehörige Produktautomat für Schnitt.
-Wir zeigen zunächst via Induktion über die Länge von $w$, dass für alle $w\in\Sigma^*$, für alle $q_1\in Q_1$ und für alle $q_2\in Q_2$ die folgende Gleichung gilt.
-$$\tilde{\delta}_\cap((q_1,q_2),w) = (\tilde{\delta}_1(q_1,w), \tilde{\delta}_2(q_2,w))$$
-Der Induktionsanfang für $n=0$ folgt dabei direkt aus \autoref{def:2.deltaschlange}, da $\Eps$ das einzige Wort der Länge $0$ ist.
+Wir zeigen zunächst per Induktion über $w$, dass für alle $w\in\Sigma^*$, für alle $q_1\in Q_1$ und für alle $q_2\in Q_2$ die folgende Gleichung $\varphi(w)$ gilt.
+$$\varphi(w) := \tilde{\delta}_\cap((q_1,q_2),w) = (\tilde{\delta}_1(q_1,w), \tilde{\delta}_2(q_2,w))$$
+Der Induktionsanfang $\varphi(\Eps)$ folgt dabei direkt aus \autoref{def:2.deltaschlange}.
 $$\tilde{\delta}_\cap((q_1,q_2),\Eps) = (q_1,q_2)$$
-Den Induktionsschritt $n\rightsquigarrow n+1$ zeigen wir mit Hilfe der folgenden Umformungen, wobei $a\in\Sigma$ ein beliebiges Zeichen und $w\in\Sigma^n$ ein beliebiges Wort der Länge $n$ ist.
+Den Induktionsschritt $\varphi(w)\rightsquigarrow \varphi(a.w)$ zeigen wir mit Hilfe der folgenden Umformungen, wobei $a\in\Sigma$ ein beliebiges Zeichen und $w\in\Sigma^*$ ein beliebiges Wort. 
 \begin{eqnarray*}
   \tilde{\delta}_\cap((q_1,q_2),aw) 
     & \stackrel{\text{\autoref{def:2.deltaschlange}}}{=} & \tilde{\delta}_\cap(\delta_\cap((q_1,q_2),a),w)\\
@@ -478,7 +475,7 @@ Schließlich zeigen wir $L(A_\cap)=L(A_1)\cap L(A_2)$ mit Hilfe der folgenden Um
 Beobachtung: Der Zustand $q_{01}$ im Beispiel~\ref{bsp:2.schnitt} scheint nutzlos. Wir charakterisieren diese "`Nutzlosigkeit"' formal wie folgt.
 
 \begin{Def}
-  Ein Zustand $q \in Q$ heißt \emph{erreichbar}, falls ein $w \in \Sigma^*$ existiert, sodass $\hat \delta(\qinit, w) = q$.
+  Ein Zustand $q \in Q$ heißt \emph{erreichbar}, falls ein $w \in \Sigma^*$ existiert, sodass $\tilde \delta(\qinit, w) = q$.
 %   $M$ heißt \emph{reduziert}, falls alle Zustände erreichbar sind.
 \end{Def}
 % \begin{Satz}
@@ -492,7 +489,7 @@ Beobachtung: Der Zustand $q_{01}$ im Beispiel~\ref{bsp:2.schnitt} scheint nutzlo
 %   \item Die markierten Zustände bilden die Menge der erreichbaren Zustände.
 %   \end{itemize}
 % \end{proof}
-Bemerkung: Die Menge der erreichbaren Zustände kann mit dem folgenden Verfahren in $O(|Q|*|\Sigma|)$ berechnet werden.
+Bemerkung: Die Menge der erreichbaren Zustände kann mit dem folgenden Verfahren in $O(|Q|\cdot|\Sigma|)$ berechnet werden.
   \begin{itemize}
   \item Fasse $\A$ als Graph auf.
   \item Wende Tiefensuche an und markiere dabei alle besuchten Zustände.
@@ -537,7 +534,7 @@ Beobachtung: Auch nach dem Entfernen der nicht erreichbaren Zustände $q_{01}$ u
 Wir charakterisieren diese "`Ähnlichkeit"' formal wie folgt.
 
 \begin{Def}[name={[Äquivalenz von \acs*{DEA}-Zuständen]}] %\rlnote{Def.-Num. überprüfen}
-  Wir nennen zwei Zustände $p,q\in Q$ eines \ac{DEA} \emph{äquivalent}, geschrieben $p\equiv q$, falls
+  Zwei Zustände $p,q\in Q$ eines \ac{DEA} sind \emph{äquivalent}, geschrieben $p\equiv q$, falls
   \begin{displaymath}
   \forall w\in\Sigma^*: \tilde\delta(p,w)\in F \text{ gdw } \tilde\delta(q,w)\in F
   \qedhere
@@ -562,13 +559,9 @@ Geschrieben als Menge von Paaren sieht die Relation $\equiv\;\subseteq Q\times Q
 \]
 \end{Bsp}
 
-{\color{green!60!black}
-\begin{Bemerkung}
-Der folgende Exkurs war Thema von Vorbereitungsblatt 01 und wurde in der der Vorlesung vom 24.10.2018 wurde nur kurz besprochen.
-\end{Bemerkung}
-}
 
 
+\begin{comment}
 \subsubsection{Exkurs: Äquivalenzrelationen}
 Sie haben Äquivalenzrelationen bereits in "`Mathematik II für Studierende der Informatik"'\footnote{\url{http://home.mathematik.uni-freiburg.de/junker/ss17/matheII.html}} kennengelernt.
 Dieser kurze Exkurs wiederholt die für unsere Vorlesung relevanten Definitionen.
@@ -620,15 +613,22 @@ Zwei Fakten über eine beliebige Äquivalenzrelation $R$ (ohne Beweis).
  \item[Fakt 2] Die Vereinigung aller Äquivalenzklassen ist die Menge $X$.
 \end{description}
 
-Hiermit endet der Exkurs zu Äquivalenzrelationen; wir wollen mit diesem Wissen die oben definierte Relation $\equiv\; \subseteq Q\times Q$ genauer analysieren.
-
-\begin{lemma}[name={[$\equiv$ ist Äquivalenzrelation]}]\datenote{26.10.18} %\rlnote{Satz = Lemma-Nummer: 3.2 statt 3.1?}
+Hiermit endet der Exkurs zu Äquivalenzrelationen; wir wollen mit
+diesem Wissen die oben definierte Relation $\equiv\; \subseteq Q\times
+Q$ genauer analysieren. 
+\end{comment}
+\begin{lemma}[name={[$\equiv$ ist Äquivalenzrelation]}]
         Die Relation "`$\equiv$"' ist eine \emph{Äquivalenzrelation}.
 \end{lemma}
 \begin{proof}
-
-  Die Relation $\equiv$ ist offensichtlich reflexiv.
-  Die Symmetrie und Transitivität von~$\equiv$ folgt aus der Symmetrie und Transitivität der logischen Interpretation von "`genau dann, wenn"' (gdw).
+  Zu zeigen ist, dass $\equiv$ reflexiv, transitiv und symmetrisch
+  ist.
+  \begin{itemize}
+  \item Die Relation $\equiv$ ist offensichtlich reflexiv.
+  \item Die Symmetrie und Transitivität von~$\equiv$ folgen aus der
+    Symmetrie und Transitivität der logischen Interpretation von
+    "`genau dann, wenn"' (gdw).
+  \end{itemize}
 \end{proof}
 
 
@@ -735,17 +735,17 @@ Der Äquivalenzklassenautomat $\A_\equiv$ zum \ac{DEA} aus \autoref{bsp:2.schnit
         \begin{enumerate}
                 \item Wohldefiniert: Es gilt zu zeigen, dass $\delta_\equiv([q],a) =[\delta(q,a)]$ nicht abhängig von der Wahl des Repräsentanten $q\in [q]$ ist. Dies folgt direkt aus \autoref{eqn:delta-wohldefiniert}.
                 \item $L(\A)=L(\A_\equiv)$:
-                Zunächst zeigen wir via Induktion über die Länge von $w$, dass für alle $w\in\Sigma^*$ und alle $q\in Q$ die folgende Äquivalenz gilt.
-                \[\tilde\delta(q,w)\in F \<=> \tilde\delta_\equiv([q],w)\in F_\equiv\]
+                Zunächst zeigen wir per Induktion über $w$, dass für alle $w\in\Sigma^*$ und alle $q\in Q$ die folgende Äquivalenz gilt.
+                \[\varphi(w) := \quad \tilde\delta(q,w)\in F \<=> \tilde\delta_\equiv([q],w)\in F_\equiv\]
                 
                 
-                I.A. $(n=0,$ also $w=\Eps)$: $\tilde\delta(q,\Eps)=q\in F \<=> \tilde\delta_\equiv([q],\Eps)=[q]\in F_\equiv$\\
-                I.S.: ($n\rightsquigarrow n+1$) \begin{align*}
+                I.A. $(\varphi(\Eps))$: $\tilde\delta(q,\Eps)=q\in F \<=> \tilde\delta_\equiv([q],\Eps)=[q]\in F_\equiv$\\
+                I.S. ($\forall a,w: \varphi(w)\Rightarrow \varphi( aw)$): \begin{align*}
                 \tilde\delta(q,aw)\in F &\<==> \tilde\delta(\delta(q,a),w)\in F\\ &\xLeftrightarrow{I.V.} \tilde\delta_\equiv([\delta(q,a)],w)\in F_\equiv\\
                 &\<==> \tilde\delta_\equiv(\delta_\equiv([q],a),w)\in F_\equiv\\
                 &\<==> \tilde\delta_\equiv([q],a w)\in F_\equiv
                 \end{align*}
-                Mir Hilfe dessen zeigen wir nun $L(\A)=L(\A_\equiv)$. Sei $w\in\Sigma^*$.
+                Damit zeigen wir nun $L(\A)=L(\A_\equiv)$. Sei $w\in\Sigma^*$.
                 \begin{align*}
                  w\in L(\A)
                  & \<==> \tilde\delta(\qinit,w) \in F\\
@@ -757,7 +757,9 @@ Der Äquivalenzklassenautomat $\A_\equiv$ zum \ac{DEA} aus \autoref{bsp:2.schnit
 \end{proof}
 In den Übungen werden wir ein Verfahren mit Laufzeit $O(|Q|^4\cdot |\Sigma|)$ zur Konstruktion des Äquivalenzklassenautomaten kennenlernen. Es gibt aber auch schnellere Verfahren. Mit dem Algorithmus von Hopcroft kann $\A_\equiv$ in $O(|Q||\Sigma|\log|Q|)$ erzeugt werden.
 
-Wir werden später (\-> Satz von Myhill-Nerode) sehen, dass $\A_\equiv$ der kleinste \acs*{DEA} ist, der $L(\A)$ akzeptiert.
+Wir werden später (\-> Satz von Myhill-Nerode) sehen, dass $\A_\equiv$
+ein \acs*{DEA} ist, der $L(\A)$ akzeptiert, sodass kein \acs*{DEA},
+der ebenfalls $L(\A)$ akzeptiert, weniger Zustände haben kann.
 
 \begin{Def}[name={[Rechtskongruente Äquivalenzrelation]}]
         Eine Äquivalenzrelation $R\subseteq\Sigma^*\x\Sigma^*$ heißt \emph{rechtskongruent}, falls
@@ -775,10 +777,11 @@ Ist eigentlich jede Sprache regulär?
 Falls nein, wie können wir nicht-reguläre Sprachen finden?
 Wie können wir beweisen dass eine Sprache nicht regulär ist?
 In weiteren Verlauf dieses Unterkapitels wollen wir charakteristische Merkmale von reguläre Sprachen finden.
-Die Idee dazu basiert auf den folgenden Überlegungen:
+Die Idee dazu basiert auf den folgenden Überlegungen.
 
-Angenommen, wir möchten für eine gegebene Sprache $L$ einen \ac{DEA} $\A$ konstruieren.
-Angenommen, wir haben bereits einen ersten Entwurf gemacht und in diesem führen sowohl das Wort $u\in\Sigma^*$
+Angenommen, wir haben für eine gegebene Sprache $L$ einen ersten
+Entwurf für einen \ac{DEA} $\A$ konstruiert.
+In diesem führen sowohl das Wort $u\in\Sigma^*$
 als auch das Wort $v\in\Sigma^*$ in den Zustand $q_{42}$ (formal: $\tilde\delta(\qinit, u) = \tilde\delta(\qinit, v) = q_{42}$).
 \begin{figure}[H]\centering
                 \begin{tikzpicture}
@@ -798,12 +801,11 @@ als auch das Wort $v\in\Sigma^*$ in den Zustand $q_{42}$ (formal: $\tilde\delta(
 	\caption{Schematische Darstellung eines \ac{DEA}, mit $\tilde\delta(\qinit, u) = \tilde\delta(\qinit, v) = q_{42}$}
 \end{figure}
 \begin{itemize}
- \item Angenommen, es gibt ein Wort $w\in\Sigma^*$, sodass die Äquivalenz $uw\in L \Leftrightarrow vw\in L$ nicht gilt.
- Dann wissen wir, dass unser Entwurf noch einen Fehler enthält und wir dafür sorgen müssen, 
- dass der \ac{DEA} nicht sowohl von $u$
- als auch von $v$ in $q_{42}$ überführt wird.
+ \item Angenommen, es gibt ein Wort $w\in\Sigma^*$, dass die Äquivalenz $uw\in L \Leftrightarrow vw\in L$ verletzt.
+ Dann muss der Entwurf noch einen Fehler enthalten und wir müssen dafür sorgen, 
+ dass $\qinit$ nicht sowohl von $u$ als auch von $v$ in $q_{42}$ überführt wird.
  \item Angenommen, es gilt für alle Wörter $w\in\Sigma^*$, dass $uw\in L\Leftrightarrow vw\in L$.
- Dann wissen wir, dass es eine gute Idee war, den Automaten mit $u$ und $v$ in den gleichen Zustand zu führen.
+ Dann wissen wir, dass es eine gute Idee war, $\qinit$ mit $u$ und $v$ in den gleichen Zustand zu führen.
 \end{itemize}
 Angenommen, wir finden nicht nur für zwei Wörter $u,v$ ein Wort $w$, sodass die Äquivalenz $uw\in L \Leftrightarrow vw\in L$ nicht gilt,
 sondern wir finden solch ein $w$ für jedes Paar aus einer unendlich großen Menge von Wörtern $U$.
@@ -845,7 +847,7 @@ Im weiteren Verlauf des Unterkapitels werden wir genau diese Überlegungen forma
         \qedhere
         \end{align*}
 \end{Def}
-\begin{Def}\datenote{31.10.18}
+\begin{Def}
         Für eine Sprache $L\subseteq \Sigma^*$ ist die \emph{Nerode-Relation} wie folgt definiert.
         \[
         R_L = \{(u,v) \mid \forall w\in\Sigma^*: uw\in L \<=> vw\in L \}
@@ -855,22 +857,47 @@ Im weiteren Verlauf des Unterkapitels werden wir genau diese Überlegungen forma
 \begin{description}
  \item[Beobachtung 1] Die Nerode-Relation ist eine Äquivalenzrelation.
  
- Dies folgt daraus, dass "`$\Leftrightarrow$"' (Biimplikation, "`genau dann, wenn"') eine Äquivalenzrelation ist.
+ Dies folgt daraus, dass "`$\Leftrightarrow$"' eine Äquivalenzrelation ist.
  \item[Beobachtung 2] Die Nerode-Relation ist rechtskongruent.
-                \begin{proof}
-                Sei $(u,v)\in R_L$. Zeige $\forall w\in\Sigma^*: (uw,vw)\in R_L$.
-                Wir führen diesen Beweis via Induktion über die Länge von $w$.\\
-                I.A. ($n=0$) Für $w=\Eps$ ist $ (u\Eps,v\Eps)=(u,v)\in R_L$.\\
-%                 I.S. Sei Aussage gezeigt für alle Wörter $w'$ mit $|w'| \le k$.\\
-                I.S. ($n\rightsquigarrow n+1$) Betrachte mit $w=w'a$ ein beliebiges Wort der Länge $n+1$.
-                Nach Induktionsvoraussetzung ist dann auch $(uw', vw') \in R_L $.
-                \begin{eqnarray*}
-		(uw',vw')\in R_L 
-		& \stackrel{\text{Def.\ } R_L}{\text{gdw}} & \forall z\in\Sigma^*: uw'z\in L \<=> vw'z\in L\\
-		& \stackrel{\text{zerlege } z=az'}{\text{impliziert}} & \forall a\in \Sigma, z'\in\Sigma^*: uw'az'\in L \<=> vw'az'\in L\\
-		& \stackrel{\text{Def.\ } R_L}{\text{impliziert}} & (uw'a,vw'a)\in R_L
-		\qedherefixeqnarray
-	      \end{eqnarray*}
+   \begin{proof}
+     Wir starten mit folgender Beobachtung.
+     \begin{eqnarray*}
+       &&(u,v) \in R_L\\
+       &\Leftrightarrow& \forall w\in\Sigma^*: uw\in L \<=> vw\in L \\
+       && \text{wähle alle $w$ der Form $w = aw'$} \\
+       &\Rightarrow& \forall a\in\Sigma:\forall w'\in\Sigma^*: uaw'\in L \<=>
+                     vaw'\in L \\
+       & \<=> & (ua, va) \in R_L
+     \end{eqnarray*}
+     D.h. $(u,v) \in R_L \Rightarrow \forall a\in\Sigma: (ua, va) \in
+     R_L$.
+     
+     Wir wählen die folgende Induktionsbehauptung
+     \begin{displaymath}
+       \forall w\in\Sigma^*: \forall
+       (u,v) \in R_L : (uw,vw)\in R_L
+     \end{displaymath}
+     und führen eine Induktion über $w$ durch.
+
+     I.A.  ($w=\Eps$): $ (u\Eps,v\Eps)=(u,v)\in R_L$ \\
+     I.S.  ($w\rightsquigarrow a.w$): Zeige nun $\forall
+     (u,v) \in R_L : (uaw,vaw)\in R_L$.\\
+     Sei $(u,v) \in R_L$, dann ist auch $(ua, va)  \in R_L$.
+     Daraus liefert die Induktionsbehauptung sofort $(uaw, vaw)  \in R_L$.
+
+%                 Sei $(u,v)\in R_L$. Zeige $\forall w\in\Sigma^*: (uw,vw)\in R_L$.
+%                 Wir führen diesen Beweis per Induktion über $w$.\\
+%                 I.A. ($w=\Eps$) Es ist $ (u\Eps,v\Eps)=(u,v)\in R_L$.\\
+% %                 I.S. Sei Aussage gezeigt für alle Wörter $w'$ mit $|w'| \le k$.\\
+%                 I.S. ($w\rightsquigarrow a.w$) Betrachte mit $w=w'a$ ein beliebiges Wort der Länge $n+1$.
+%                 Nach Induktionsvoraussetzung ist dann auch $(uw', vw') \in R_L $.
+%                 \begin{eqnarray*}
+% 		(uw',vw')\in R_L 
+% 		& \stackrel{\text{Def.\ } R_L}{\text{gdw}} & \forall z\in\Sigma^*: uw'z\in L \<=> vw'z\in L\\
+% 		& \stackrel{\text{zerlege } z=az'}{\text{impliziert}} & \forall a\in \Sigma, z'\in\Sigma^*: uw'az'\in L \<=> vw'az'\in L\\
+% 		& \stackrel{\text{Def.\ } R_L}{\text{impliziert}} & (uw'a,vw'a)\in R_L
+% 		\qedherefixeqnarray
+% 	      \end{eqnarray*}
               \end{proof}
 \end{description}
 
@@ -906,8 +933,7 @@ Bemerkung 2: Nicht für alle Präfixe von Wörtern in $L_\text{centered}$ sind d
 Bemerkung 3: Für je zwei verschiedene $k\in\N$ sind die Äquivalenzklassen $[0^k1]$ verschieden. Es gibt also unendlich viele Äquivalenzklassen.
 \end{Bsp}
 
-{\color{violet}
-\begin{Bsp*}\footnote{Dieses Beispiel wurde in der Vorlesung übersprungen.}
+\begin{Bsp*}
  Die Sprache $L=\{w \in \{a,b\}^* \mid \#_a(w) > \#_b(w)\}$ hat bezüglich der Nerode-Relation die folgende Menge von Äquivalenzklassen:%
 
  \[
@@ -915,7 +941,6 @@ Bemerkung 3: Für je zwei verschiedene $k\in\N$ sind die Äquivalenzklassen $[0^
  \qedhere
  \]
 \end{Bsp*}
-}
 
 
 % Beispiel: Drei Sprachen $L_a, L_b$ und $L_c$ mit unterschiedlichem Index  (Anzahl an Äquivalenzklassen) bzgl. der Nerode-Relation:
@@ -930,7 +955,7 @@ Bemerkung 3: Für je zwei verschiedene $k\in\N$ sind die Äquivalenzklassen $[0^
 % \[ L_a / R_{L_a} = \{ [\Eps], [w] \} \]
 
 \begin{Satz}[Myhill und Nerode] % 3.4
-        Für alle Sprachen $L\subseteq \Sigma^*$ sind die folgenden Aussagen äquivalent:
+        Für Sprachen $L\subseteq \Sigma^*$ sind folgende Aussagen äquivalent.
         \begin{enumerate}
                 \item\label{itm:Nerode1} $L$ wird von einem \ac{DEA} akzeptiert.
                 \item\label{itm:Nerode2} $L$ ist Vereinigung von Äquivalenzklassen einer rechtskongruenten Äquivalenzrelation mit \emph{endlichem} Index.
@@ -955,7 +980,9 @@ Bemerkung 3: Für je zwei verschiedene $k\in\N$ sind die Äquivalenzklassen $[0^
 Nun sind $\{ w \mid \tilde\delta(\qinit,w)=q \}$ genau die Äquivalenzklassen der Relation $R_\A$ aus \autoref{Bsp:R_m}, einer rechtskongruenten Äquivalenzrelation.
 Der Index ist die Anzahl der erreichbaren Zustände und somit endlich: $\operatorname{\operatorname{Index}}(R_\A) \le |Q| < \infty$.
         
-\paragraph{(2) \=> (3)} Sei $R$ einer rechtskongruente Äquivalenzrelation mit endlichem Index, sodass $L$ die Vereinigung von $R$-Äquivalenzklassen ist.
+\paragraph{(2) \=> (3)} Sei $R$ eine rechtskongruente
+Äquivalenzrelation mit endlichem Index, sodass $L$ die Vereinigung von
+$R$-Äquivalenzklassen ist. 
         
 Es genügt zu zeigen, dass die Nerode-Relation $R_L$ eine Obermenge von $R$ ist.%
 \footnote{
@@ -977,21 +1004,21 @@ Das aber ist die Definition der Nerode-Relation, d.h.\ $(u, v) \in R_L$. Da wir 
 Es gilt also $R \subseteq R_L$ und somit $\operatorname{Index}(R_L) \leq \operatorname{Index}(R)<\infty$.
 
 
-\paragraph{(3) \=> (1)}\datenote{02.11.18} Gegeben $R_L$, konstruiere $\A=(Q,\Sigma,\delta,\qinit,F)$
+\paragraph{(3) \=> (1)} Gegeben $R_L$, konstruiere $\A=(Q,\Sigma,\delta,\qinit,F)$
     \begin{itemize}
     \item $Q = \{ [w]_{R_L} \mid w\in \Sigma^* \}$ \quad endlich, da $\operatorname{Index}$($R_L$) endlich
     \item $\delta([w],a) = [wa]$ \quad wohldefiniert, da $R_L$ rechtskongruent
     \item $\qinit = [\Eps]$
     \item $F = \{ [w] \mid w\in L \}$
     \end{itemize}
-    Wir wollen nun $L(\A)=L$ zeigen. Dafür beweisen wir zunächst via Induktion über die Länge von $w$ die folgende Eigenschaft.
+    Wir wollen nun $L(\A)=L$ zeigen. Dafür beweisen wir zunächst per Induktion über $w$ die folgende Eigenschaft.
         \begin{displaymath}
       \forall w\in\Sigma^* :
                         \forall v\in\Sigma^* : \tilde\delta([v],w) = [v\cdot w]
     \end{displaymath}
     I.A. $(w = \Eps)$: $\tilde\delta([v],\Eps) = [v]=[v\cdot\Eps]$
     
-    I.S. Sei $w = aw'$ beliebiges Wort der Länge $n+1$.
+    I.S. Sei $w = aw'$ mit $w'$ beliebiges Wort.
       \begin{displaymath}
         \begin{array}{lcl}
         \tilde\delta([v],aw') &=& \tilde\delta(\delta([v],a),w') \\
@@ -1005,7 +1032,7 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
 \begin{eqnarray*}
         w\in L(\A)
         & \text{gdw} & \tilde\delta([\Eps],w)\in F\\
-        & \text{gdw} & [w]\in F, \quad \text{(via Induktion gezeigte Eigenschaft für $v=\Eps$)}\\
+        & \text{gdw} & [w]\in F, \quad \text{(per Induktion gezeigte Eigenschaft für $v=\Eps$)}\\
         & \text{gdw} & w\in L
         \qedherefixeqnarray
 \end{eqnarray*}
@@ -1031,7 +1058,7 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
 
 
 
-\subsection[\acf{NEA}]{Nichtdeterministischer endlicher Automat (NEA)}
+\subsection[Nichtdeterministischer endlicher Automat (NEA)]{\Acf{NEA}}
 Aufgabe: Konstruiere für eine natürliche Zahl $n\in\N$ einen \acs*{DEA} für die folgende Sprache.
 	\begin{align*}
 		L_n &= \{ w\in\{0,1\}^* \mid \text{das $n$-letzte Symbol von $w$ ist 1} \}
@@ -1215,7 +1242,7 @@ Idee: Definiere einen neue Art von Automaten, bei dem ein Zustand pro Zeichen me
 \goodbreak
 
 \begin{Def}[\acs*{NEA}]
-        Ein \emph{\acf{NEA}}, (\acsu{NFA} $\hat=$ \acl{NFA}) ist ein 5-Tupel
+        Ein \emph{\acf{NEA}}\footnote{engl.\  \acsu{NFA} $\hat=$ \acl{NFA}} ist ein 5-Tupel
         \[ \calN= (\Sigma, Q,\delta,\qinit,F). \]
 Dabei ist
         \begin{itemize}
@@ -1227,7 +1254,11 @@ Dabei ist
                 \qedhere
         \end{itemize}
 \end{Def}
-Bemerkung: Die Definition des \acs*{NEA} unterscheidet sich vom \acs*{DEA} also nur in der Transitionsfunktion. Beim \acs*{DEA} ist der Bildbereich der Transitionsfunktion die Menge der Zustände $Q$. Beim \acs*{NEA} ist der Bildbereich die Potenzmenge $\mathcal{P}(Q)$ der Zustandsmenge~$Q$.
+Bemerkung: Die Definition des \acs*{NEA} unterscheidet sich vom
+\acs*{DEA} nur in der Transitionsfunktion. Beim \acs*{DEA} ist der
+Bildbereich der Transitionsfunktion die Menge der Zustände $Q$. Beim
+\acs*{NEA} ist der Bildbereich die Potenzmenge $\mathcal{P}(Q)$ der
+Zustandsmenge~$Q$. 
 Analog zu \acs*{DEA}s werden wir auch \acs*{NEA}s mit Hilfe eines Zustandsdiagramms beschrieben. Zum Beispiel beschreibt \autoref{fig:2.nletztesNea} für jedes $n\in\N$ einen \acs*{NEA} für die Sprache $L_n$.
 
 Im Folgenden sei $\calN$ immer ein \acs*{NEA}.
@@ -1335,15 +1366,16 @@ Die vier Zustände auf der rechten Seite sind nicht erreichbar.
 \end{Bsp}
 
 
-\datenote{7.11.18}
+
 \begin{proof}[von \autoref{satz:2.rabinscott}]
         Zeige $L(\A_\calP)=L(\calN)$. 
-        Dafür beweisen wir zunächst via Induktion über die Länge von $w$ die folgende Eigenschaft:
+        Dafür beweisen wir zunächst per Induktion über  $w$ die folgende Eigenschaft:
         
-        $\forall w\in\Sigma^*\; \forall p\in Q_\calP\backslash\{\{\}\}\; \forall q\in Q:$
+        $\forall w\in\Sigma^*: \forall p\in Q_\calP\backslash\{\{\}\}: \forall q\in Q:$
         $$q\in\tilde\delta_\calP(p,w) \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in p \text{ und } q_n=q$$
-        I.A. $(n=0,$ also $w=\Eps)$: Gilt trivialerweise, da $p\neq\{\}$.\\
-        I.S. ($n\rightsquigarrow n+1$): Sei $w=aw'$ ein beliebiges Wort der Länge $n+1$.
+        I.A. $(w=\Eps)$: $q\in\tilde\delta_\calP(p,\Eps) = p$ wähle
+        $q_0 = q$.\\
+        I.S. ($w=aw'$) ein beliebiges Wort.
         \begin{eqnarray*}
                 q\in\tilde\delta_\calP(p,w) 
                 \hspace*{-2.5mm} & \Leftrightarrow & \hspace*{-2.5mm} q\in\tilde\delta_\calP(\delta_\calP(p,a),w')\\
@@ -1355,7 +1387,7 @@ Die vier Zustände auf der rechten Seite sind nicht erreichbar.
         \begin{align*}
          w\in L(\A_\calP) 
          &\<=> \tilde\delta_\calP(\qinit_\calP,w)\in F_\calP\\
-         &\<=> \exists q_f\in \tilde\delta_\calP(\qinit_\calP,w)\cap F\\
+         &\<=> \exists q_f\in F : \tilde\delta_\calP(\qinit_\calP,w) = q_f\\
          &\<=> \exists \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in \qinit \text{ und } q_n\in F\\
          &\<=> \exists \text{ initialer, akzeptierender Lauf von $\calN$ über $w$} \\
          &\<=> w\in L(\calN)
@@ -1378,7 +1410,7 @@ Bemerkung: \ac{NEA}s sind eine exponentiell kompaktere Repräsentation von regul
 
 
 
-\subsection{\acf{PL} für reguläre Sprachen} %\rlnote{subsection \# (3.3)?}
+\subsection{\acf{PL} für reguläre Sprachen}\datenote{REVISION POINTER}
 % \datenote{26.10.16 (Eingeschoben)}
 \label{sec:regpl}
 % Welche interessanten Eigenschaften haben reguläre Sprachen?
@@ -1454,7 +1486,7 @@ Wir formalisieren diesen Verdacht im folgenden Lemma.
 \end{proof}
 
 
-\begin{Bsp}\label{bsp:2.centeredPL}\datenote{9.11.18}
+\begin{Bsp}\label{bsp:2.centeredPL}%\datenote{9.11.18}
         Die Sprache $L_\text{centered}=\{0^n10^n \mid n\in\N\}$ ist nicht regulär.
         
         Wir geben hierfür einen Widerspruchsbeweis mit Hilfe des Pumping Lemmas \ac{PL}.
@@ -1716,7 +1748,7 @@ Für die Sprachgleichheit zeigen wir via Induktion über die Länge von $w$, das
 $$\exists \text{ Lauf } q_0,q_1,\ldots, q_n \text{ von $\calN$ über } w \quad\Leftrightarrow\quad (q_0,w,q_n)\in\reach_\B$$
 Der folgende Satz zeigt uns, dass auch die umgekehrte Richtung gilt.
 
-\begin{Satz}\label{satz:2.EpsElim}\datenote{14.11.18}
+\begin{Satz}\label{satz:2.EpsElim}%\datenote{14.11.18}
     Zu jedem $\Eps$-NEA $\B$ gibt es einen \ac{NEA} $\calN$, sodass $L(\calN)=L(\B)$ gilt.
 \end{Satz}
 Zur Vorbereitung des Beweises machen wir zunächst die folgende Definition.
@@ -2023,8 +2055,8 @@ Bemerkung: Die Menge der regulären Sprachen $REG$ ist unter den folgenden Opera
 \renewcommand{\llbracket}{[\![}
 \renewcommand{\rrbracket}{]\!]}
 
-\subsection{Reguläre Ausdrücke}\datenote{16.11.18}
-\subsubsection{Motivation}
+\subsection{Reguläre Ausdrücke}%\datenote{16.11.18}
+
 Problemstellung: Sie haben auf Ihrem Rechner irgendwo eine Textdatei mit Notizen zu dieser Vorlesung, können sich aber gerade nicht an den Pfad erinnern.
 Sie wissen aber noch, dass die Zeichenkette \texttt{info3} oder \texttt{infoIII} enthalten ist. 
 Möglicherweise war das \texttt{i} am Anfang aber auch groß geschrieben.
@@ -2268,7 +2300,7 @@ Wir leiten nun ein Gleichungssystem zwischen den Sprachen $L_{q_i}$ her.
     \end{displaymath}
     
 
-\begin{Bsp}\label{bsp:2.mod3gleichungen}\datenote{21.11.18}
+\begin{Bsp}\label{bsp:2.mod3gleichungen}%\datenote{21.11.18}
 Wir wollen diese Gleichungen zunächst an einem Beispiel betrachten und verwenden dafür den
 aus \autoref{bsp:2.mod3} bekannten \acs*{DEA}, der die Sprache der Binärcodierung von durch drei teilbaren Zahlen akzeptiert:
                 $L = \{ w\in \{0,1\}^* \mid \operatorname{bin}(w)\equiv_3 0\}$.
@@ -2345,7 +2377,7 @@ Wir können Ardens Lemma wie folgt auch für reguläre Ausdrücke formulieren:
   eine Lösung für $r_X$, welche die Gleichung erfüllt. Außerdem erzeugen alle anderen Lösungen die gleiche Sprache wie $r_A^*r_B$.
 \end{Korollar}
 
-\datenote{23.11.18}
+%\datenote{23.11.18}
 % \datenote{11.11.16}
 
 \medskip
@@ -2539,5 +2571,5 @@ Programm erfüllt Sicherheitspolitik nicht, denn
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "Info_3_Skript_WS2016-17"
+%%% TeX-master: "Info_3_Skript_SS2026"
 %%% End:
