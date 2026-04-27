@@ -35,6 +35,7 @@
 \usepackage{enumitem}
 \usepackage{float} % H - option for figure
 \usepackage{graphicx}
+\usepackage{ifthen}
 \usepackage{listings} % Source printing & syntax highlighting
 \usepackage{mathtools}
 \usepackage{multirow}
@@ -43,6 +44,9 @@
 \usepackage{tabu}
 \usepackage{makeidx}
 \makeindex
+
+\provideboolean{fullversion}
+\setboolean{fullversion}{false}
 
 % \usepackage[perpage]{footmisc} % custom footnote markers
 % \DefineFNsymbols{daggers}{{$\dagger$}{$\dagger\dagger$}{${\dagger}{\dagger}{\dagger}$}{${\dagger}{\dagger}{\dagger}{\dagger}$}{${\dagger}{\dagger}{\dagger}{\dagger}{\dagger}$}}
@@ -308,7 +312,7 @@
 \DeclareMathOperator\mult{mult} % Bsp. zu 8.2
 
 % Faster compilation: one section / file.
-%\includeonly{6-Berechenbarkeit}
+\includeonly{1-Vorspann_Sprachen,2-Regulaere_Sprachen_und_endliche_Automaten}
 
 %========================%
 \begin{document}
@@ -383,7 +387,7 @@ Der Latex Quellcode des Skriptes ist in einem Git Repositorium verfügbar.\\
 \newpage
 
 \vspace{\baselineskip}
-\tableofcontents
+\ifthenelse{\boolean{fullversion}}{\tableofcontents}{}
 
 \include{1-Vorspann_Sprachen}
 \include{2-Regulaere_Sprachen_und_endliche_Automaten}
@@ -393,6 +397,7 @@ Der Latex Quellcode des Skriptes ist in einem Git Repositorium verfügbar.\\
 \include{6-Berechenbarkeit}
 \include{7-Komplexitaetstheorie}
 % \include{8-Rekursive_Funktionen}
+\iffalse
 \printindex
 
 \renewcommand{\listtheoremname}{Liste der Definitionen}
@@ -400,6 +405,7 @@ Der Latex Quellcode des Skriptes ist in einem Git Repositorium verfügbar.\\
 \renewcommand{\listtheoremname}{Liste der Sätze}
 \listoftheorems[ignoreall,show={Satz,Satz*,lemma,lemma*,Korollar,Korollar*},numwidth=2.8em]
 \listoffigures
+\fi
 \addsec{Abkürzungsverzeichnis}
 \begin{acronym}[MPCP]
 	\acro{3SAT}{Erfüllbarkeitsproblem der Aussagenlogik in 3CNF}

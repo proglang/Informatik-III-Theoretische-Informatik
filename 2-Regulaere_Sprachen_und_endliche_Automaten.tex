@@ -1,4 +1,4 @@
-\section[Reguläre Sprachen und endliche Automaten]{Reguläre Sprachen und endliche Automaten}\label{sec:reglang}
+\section[Reguläre Sprachen und endliche Automaten]{Reguläre Sprachen und endliche Automaten}\label{sec:reglang}\datenote{22.04.26}
 Wie können wir potentiell unendlich große Mengen von Wörtern darstellen?
 Eine Lösung für dieses Problem sahen wir bereits im vorherigen Kapitel, als wir die (unendlich große) Menge der binär codierten Primzahlen mit Hilfe der folgenden Sprache darstellten.
 \[
@@ -335,7 +335,8 @@ Wir definieren den \emph{Produktautomaten für Schnitt} als den \ac{DEA} $A_\cap
 		\end{align*}
 \end{Def}
 
-
+\clearpage
+\datenote{28.04.26}
 Im folgenden Beispiel sei $A_1$ der \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$, dessen graphische Repräsentation nahezu mit $A_{\mathtt{Macaron}}$ identisch ist.
 
 \begin{center}
@@ -390,7 +391,6 @@ Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende
 \end{tikzpicture}
 \end{center}
 \end{Bsp}
-
 
 
 
@@ -472,7 +472,9 @@ Schließlich zeigen wir $L(A_\cap)=L(A_1)\cap L(A_2)$ mit Hilfe der folgenden Um
 % Es ist zu bemerken, dass manche Zustände von $Q$ nie erreicht werden können, z.B.\ $\emptyset$.
 % Sei für die folgenden Überlegungen $M = (Q, \Sigma, \delta, \qinit, F)$ ein \acs*{DEA}.
 
-Beobachtung: Der Zustand $q_{01}$ im Beispiel~\ref{bsp:2.schnitt} scheint nutzlos. Wir charakterisieren diese "`Nutzlosigkeit"' formal wie folgt.
+Beobachtung: Der Zustand $q_{01}$ im Beispiel~\ref{bsp:2.schnitt}
+scheint nutzlos. Wir charakterisieren die Nützlichkeit eines Zustands
+in einem DEA $\A = (Q, \Sigma, \delta, \qinit, F)$ formal wie folgt.
 
 \begin{Def}
   Ein Zustand $q \in Q$ heißt \emph{erreichbar}, falls ein $w \in \Sigma^*$ existiert, sodass $\tilde \delta(\qinit, w) = q$.
@@ -492,8 +494,8 @@ Beobachtung: Der Zustand $q_{01}$ im Beispiel~\ref{bsp:2.schnitt} scheint nutzlo
 Bemerkung: Die Menge der erreichbaren Zustände kann mit dem folgenden Verfahren in $O(|Q|\cdot|\Sigma|)$ berechnet werden.
   \begin{itemize}
   \item Fasse $\A$ als Graph auf.
-  \item Wende Tiefensuche an und markiere dabei alle besuchten Zustände.
-  \item Die markierten Zustände bilden die Menge der erreichbaren Zustände.
+  \item Wende Tiefensuche ab $\qinit$ an und markiere dabei alle besuchten Zustände.
+  \item Genau die markierten Zustände sind erreichbar.
   \end{itemize}
 
 

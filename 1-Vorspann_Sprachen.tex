@@ -1,4 +1,4 @@
-\section[Vorspann: Sprachen]{Vorspann: Sprachen}
+\section[Vorspann: Sprachen]{Vorspann: Sprachen}\datenote{21.04.26}
 \begin{Def}[name={[Alphabet $\Sigma$]}]
 	Ein \emph{Alphabet} ist eine nicht leere, endliche Menge von \emph{Zeichen}.
 \end{Def} % 1.1
@@ -32,8 +32,14 @@ Im Folgenden sei $\Sigma$ immer ein beliebiges Alphabet.%
   Ein \emph{Wort} ist eine endliche Folge von Elementen aus $\Sigma$.
   Die leere Folge nennen wir das \emph{leere Wort} geschrieben als $\Eps$.
   Wir bezeichnen die Menge aller Wörter mit $\Sigma^*$ und die Menge
-  aller nicht leeren Wörter mit $\Sigma^+ = \Sigma^*\setminus\{\Eps\}$.
-  Die \emph{Länge} eines Wortes, $|\cdot| : \Sigma^* \to \N$, ist die Anzahl der Elemente der Folge.
+  aller nicht leeren Wörter mit $\Sigma^+ =
+  \Sigma^*\setminus\{\Eps\}$.
+
+  Hier die induktive Definition.
+  \begin{enumerate}
+  \item $\Eps \in \Sigma^*$.
+  \item $a \in \Sigma$ und $w \in \Sigma^*$ impliziert $a.w \in \Sigma^*$.
+  \end{enumerate}
 \end{Def}
 
 Hier einige Konventionen:
@@ -54,18 +60,63 @@ Hier einige Konventionen:
   \qedhere
   \end{itemize}
 \end{Bsp*}
+
+Aus der induktiven Definition ergibt sich das folgende Beweisprinzip
+für Aussagen $\varphi(w)$ über Worte $w$:
+\begin{displaymath}
+  \frac{\varphi(\Eps) \quad \forall a,w. \varphi(w) \Rightarrow \varphi(a.w)}{\forall w\in\Sigma^*.\varphi(w)}
+\end{displaymath}
+
+Dieses Prinzip können wir auch verwenden um Funktionen auf Worten zu
+definieren. Als erstes Beispiel definieren wir die Länge eines Wortes,
+d.h. die Anzahl der Symbole des Wortes.
+\begin{Def}[Länge eines Worts]
+  Die \emph{Länge} eines Worts, $|\_| : \Sigma^* \to \N$, wird für
+  alle $w \in \Sigma^*$ induktiv definiert durch
+  \begin{enumerate}
+  \item $|\Eps| = 0$;
+  \item für alle $a\in\Sigma$ und $w\in \Sigma^*$:  $|a.w| = 1+|w|$.
+  \end{enumerate}
+\end{Def}
+
 Wörter lassen sich "`verketten''/"`aneinanderhängen''.
 Die entsprechende Operation heißt \emph{Konkatenation}, geschrieben "`$\cdot$'' (wie Multiplikation).
 \begin{Def}[Konkatenation von Wörtern]
-  Die \emph{Konkatenation}, $\mathord{\cdot} : \Sigma^* \times \Sigma^* \to \Sigma^*$, ist für $u=u_1\ldots u_n\in\Sigma^*$ und $v=v_1\ldots v_m\in\Sigma^*$ definiert durch
-  $u\cdot v = u_1\ldots u_nv_1\ldots v_m$
-%   \begin{enumerate}
-%   \item $\Eps\cdot v = v$ (leeres Wort ist linksneutrales Element)
-%   \item $v\cdot \Eps = v$ (leeres Wort ist rechtsneutrales Element)
-%   \item $u\cdot (v \cdot w) = (u\cdot v) \cdot w$ (Assoziativität)
-%   \item $u(xw)\cdot v = ux(w\cdot v)$
-%   \end{enumerate}
+  Die \emph{Konkatenation}, $\mathord{\cdot} : \Sigma^* \times
+  \Sigma^* \to \Sigma^*$, wird für alle $v\in\Sigma^*$ induktiv definiert durch
+  \begin{enumerate}
+  \item $\Eps \cdot v = v$;
+  \item für alle $a\in\Sigma$ und $u\in \Sigma^*$:  $(a.u) \cdot v = a.(u \cdot v)$.
+  \end{enumerate}
 \end{Def}
+
+\begin{lemma}
+Eigenschaften der Konkatenation: $(\Sigma^*, \Eps, \cdot)$ ist ein Monoid:
+\begin{enumerate}
+\item $\Eps\cdot v = v$ (leeres Wort ist linksneutrales Element);
+\item $v\cdot \Eps = v$ (leeres Wort ist rechtsneutrales Element);
+\item $u\cdot (v \cdot w) = (u\cdot v) \cdot w$ (Assoziativität).
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+\begin{enumerate}
+\item $\Eps\cdot v = v$ (Definition)
+\item $v\cdot \Eps = v$ Induktion über $v$:
+  \begin{itemize}
+  \item IA: ($v = \Eps$)   $\Eps \cdot \Eps = \Eps$ (Definition)
+  \item IS: ($v \leadsto a.v$)   $(a.v)\cdot \Eps = a.(v \cdot \Eps)
+    \stackrel{IV}{=} a.v$
+  \end{itemize}
+\item $u\cdot (v \cdot w) = (u\cdot v) \cdot w$ Induktion über $u$:
+  \begin{itemize}
+  \item IA: ($u = \Eps$)  $\Eps\cdot (v \cdot w) = (v \cdot w) =
+    (\Eps\cdot v) \cdot w$ (Definition)
+  \item IS: ($u \leadsto a.u$)
+    $(a.u) \cdot (v \cdot w) \stackrel{Def}{=} a.(u\cdot (v \cdot w))
+    \stackrel{IV}{=} a.( (u\cdot v) \cdot w) \stackrel{Def}{=} ((a.u)\cdot v) \cdot w$
+  \end{itemize}
+\end{enumerate}
+\end{proof}
 % Punkt 2 (rechtsneutrales Element) folgt bereits aus 1. und 3. und könnte auch weggelassen werden.
 \begin{Bsp*} ~
   \begin{itemize}
@@ -74,12 +125,12 @@ Die entsprechende Operation heißt \emph{Konkatenation}, geschrieben "`$\cdot$''
   \qedhere
   \end{itemize}
 \end{Bsp*}
-Eigenschaften von "`$\cdot$"':
-\begin{itemize}
-\item assoziativ
-\item $\Eps$ ist neutrales Element
-\item \emph{nicht} kommutativ
-\end{itemize}
+% Eigenschaften von "`$\cdot$"':
+% \begin{itemize}
+% \item assoziativ
+% \item $\Eps$ ist neutrales Element
+% \item \emph{nicht} kommutativ
+% \end{itemize}
 
 
 Der Konkatenationsoperator "`$\cdot$"' wird oft weggelassen (ähnlich wie der Multiplikationsoperator in der Arithmetik).
@@ -109,7 +160,8 @@ $
 \end{Bsp*}
 
 \begin{Def}[name={[Sprache über $\Sigma$]}]
-	Eine \emph{Sprache} über $\Sigma$ ist eine Menge $L\subseteq\Sigma^*$.
+	Eine \emph{Sprache} über $\Sigma$ ist eine Menge
+        $L\subseteq\Sigma^*$. Gleichwertig: $L \in \mathcal{P}(\Sigma^*)$.
 \end{Def}
 
 \goodbreak
@@ -163,6 +215,27 @@ Wie bei der Konkatenation von Wörtern dürfen wir den Konkatenationsoperator au
   $$U^+ = \bigcup_{n\ge1} U^n.$$
 \end{Def}
 Es gilt also $U^*=U^+\cup\{\Eps\}$.
+
+Zum Abschluss eine alternative Definition, die in manchen Textbüchern
+oder manchmal in der Literatur verwendet wird. In diesem Skript werden
+wir sie nicht weiter verwenden.
+\begin{Def}[Alternative Definition für $\Sigma^*$] Sei $n \in \N$.
+  \begin{itemize}
+  \item $\Sigma^n = \{ 1, \dots, n \} \to \Sigma$  Worte der Länge $n$
+  \item insbesondere $\Sigma^0 = \{ \} \to \Sigma$ enthält nur ein
+    Element, $\Eps$
+  \item $\Sigma^* = \bigcup_{i=0}^\infty \Sigma^i$
+  \item Konkatenation: $u \in \Sigma^n$, $v \in \Sigma^m$
+    $\Rightarrow$ $u \cdot v \in \Sigma^{n+m}$ definiert durch
+    \begin{displaymath}
+      (u \cdot v) (i) =
+      \begin{cases}
+        u(i) & 1\le i\le n \\
+        v(i-n) & n < i \le n+m
+      \end{cases}
+    \end{displaymath}
+  \end{itemize}
+\end{Def}
 
 %%% Local Variables:
 %%% mode: latex
