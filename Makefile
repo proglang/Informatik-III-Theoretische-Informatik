@@ -3,8 +3,10 @@ LATEX = latexmk -pdf -latexoption='-interaction=nonstopmode' -latexoption='-file
 ROOT = Info_3_Skript_SS2026
 
 EXTRACT = source .venv/bin/activate; python3 extract_range_by_datenote.py $(ROOT).pdf
-EXPORTFILES =  2026-04-21.pdf
-TARGET = $(HOME)/git/proglang.github.io/src/teaching/26ss/ti/script/
+EXPORTFILES =  script.pdf
+HOMEPAGE = $(HOME)/git/proglang.github.io
+TARGET = $(HOMEPAGE)/src/teaching/26ss/ti/script/
+DATE := $(shell date '+%Y-%m-%d-%H:%M:%S')
 
 .PHONY: all
 
@@ -16,11 +18,10 @@ clean:
 
 $(ROOT).pdf: $(ROOT).tex 1-Vorspann_Sprachen.tex 2-Regulaere_Sprachen_und_endliche_Automaten.tex
 
-2026-04-21.pdf: $(ROOT).pdf
-	$(EXTRACT) 2026-04-21.pdf --begin 21.04.26 --end 22.04.26
-2026-04-22.pdf: $(ROOT).pdf
-	$(EXTRACT) 2026-04-22.pdf --begin 22.04.26 --end 28.04.26
+script.pdf: $(ROOT).pdf
+	$(EXTRACT) script.pdf --begin 21.04.26 --end 29.04.26
 
-export: 2026-04-21.pdf 2026-04-22.pdf
+export: script.pdf
 	cp $? $(TARGET)
+	cd $(HOMEPAGE); ./publish "update script $(DATE)"
 

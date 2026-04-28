@@ -187,3 +187,6 @@ TSWLatexianTemp*
 
 # LaTeX
 *.rel
+
+# Agda
+*.agdai
