@@ -19,7 +19,7 @@ clean:
 $(ROOT).pdf: $(ROOT).tex 1-Vorspann_Sprachen.tex 2-Regulaere_Sprachen_und_endliche_Automaten.tex
 
 script.pdf: $(ROOT).pdf
-	$(EXTRACT) script.pdf --begin 21.04.26 --end 29.04.26
+	$(EXTRACT) script.pdf --begin 21.04.26 --end NEXT-UP
 
 export: script.pdf
 	cp $? $(TARGET)

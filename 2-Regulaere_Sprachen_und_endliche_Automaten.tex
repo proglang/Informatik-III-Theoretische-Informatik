@@ -699,12 +699,13 @@ Wir formalisieren das "`Verschmelzen"' von Zuständen wie folgt.
 \begin{Def}[name={[Äquivalenzklassenautomat]}]
         Der Äquivalenzklassenautomat $\A_\equiv=(Q_\equiv,\Sigma,\delta_\equiv,{\qinit}_\equiv,F_\equiv)$ zu einem \acs*{DEA} $\A=(Q,\Sigma,\delta,\qinit,F)$ ist bestimmt durch:
         \begin{align*}
-                Q_\equiv &= \{[q]\mid q\in Q\} & \delta_\equiv([q],a) &= [\delta(q,a)]\\
-                \qinit_\equiv &= [\qinit] & F_\equiv & =\{[q]\mid q\in F \}
-                \qedhere
+          Q_\equiv &= \{[q]\mid q\in Q\} \\
+          \delta_\equiv(q_\equiv,a) &= [\delta(q,a)] & \text{ wobei }q\in q_\equiv \text{ beliebig gewählt } & (\text{also }q_\equiv = [q])\\
+          \qinit_\equiv &= [\qinit] \\
+          F_\equiv & =\{[q]\mid q\in F \}
+                     \qedhere
         \end{align*}
 \end{Def}
-\clearpage
 \datenote{29.04.26}
 
 \begin{Bsp}
@@ -858,13 +859,19 @@ Im weiteren Verlauf des Unterkapitels werden wir genau diese Überlegungen forma
         \qedhere
         \]
 \end{Def}
-\begin{description}
- \item[Beobachtung 1] Die Nerode-Relation ist eine Äquivalenzrelation.
+\begin{lemma}
+   Die Nerode-Relation ist eine Äquivalenzrelation.
+\end{lemma}
  
- Dies folgt daraus, dass "`$\Leftrightarrow$"' eine Äquivalenzrelation ist.
- \item[Beobachtung 2] Die Nerode-Relation ist rechtskongruent.
-   \begin{proof}
-     Wir starten mit folgender Beobachtung.
+Dies folgt daraus, dass "`$\Leftrightarrow$"' eine Äquivalenzrelation ist.
+\begin{lemma}\label{lem:2.nerode-rechtskongruent}
+   Die Nerode-Relation ist rechtskongruent.
+\end{lemma}
+Dafür starten wir mit folgender Beobachtung.
+\begin{lemma}\label{lem:2.nerode-rechtsabgeschlossen}
+  $\forall u, v \in \Sigma^*. \forall a \in \Sigma$. $(u,v) \in R_L \=> (ua, va) \in R_L$
+\end{lemma}
+\begin{proof}
      \begin{eqnarray*}
        &&(u,v) \in R_L\\
        &\Leftrightarrow& \forall w\in\Sigma^*: uw\in L \<=> vw\in L \\
@@ -875,6 +882,8 @@ Im weiteren Verlauf des Unterkapitels werden wir genau diese Überlegungen forma
      \end{eqnarray*}
      D.h. $(u,v) \in R_L \Rightarrow \forall a\in\Sigma: (ua, va) \in
      R_L$.
+\end{proof}
+\begin{proof}[\autoref{lem:2.nerode-rechtskongruent}]
      
      Wir wählen die folgende Induktionsbehauptung
      \begin{displaymath}
@@ -886,7 +895,7 @@ Im weiteren Verlauf des Unterkapitels werden wir genau diese Überlegungen forma
      I.A.  ($w=\Eps$): $ (u\Eps,v\Eps)=(u,v)\in R_L$ \\
      I.S.  ($w\rightsquigarrow a.w$): Zeige nun $\forall
      (u,v) \in R_L : (uaw,vaw)\in R_L$.\\
-     Sei $(u,v) \in R_L$, dann ist auch $(ua, va)  \in R_L$.
+     Sei $(u,v) \in R_L$, dann ist nach \autoref{lem:2.nerode-rechtsabgeschlossen} auch $(ua, va)  \in R_L$.
      Daraus liefert die Induktionsbehauptung sofort $(uaw, vaw)  \in R_L$.
 
 %                 Sei $(u,v)\in R_L$. Zeige $\forall w\in\Sigma^*: (uw,vw)\in R_L$.
@@ -902,8 +911,7 @@ Im weiteren Verlauf des Unterkapitels werden wir genau diese Überlegungen forma
 % 		& \stackrel{\text{Def.\ } R_L}{\text{impliziert}} & (uw'a,vw'a)\in R_L
 % 		\qedherefixeqnarray
 % 	      \end{eqnarray*}
-              \end{proof}
-\end{description}
+\end{proof}
 
 \begin{Bsp}
 Sei $\Sigma=\{0,1\}$. Die Sprache $L=\{w\in\Sigma^*\mid \text{vorletztes Zeichen von $w$ ist } 1\}$ hat die folgenden Äquivalenzklassen bezüglich der Nerode-Relation.
@@ -915,7 +923,8 @@ Sei $\Sigma=\{0,1\}$. Die Sprache $L=\{w\in\Sigma^*\mid \text{vorletztes Zeichen
         \qedhere
         \end{align*}
 \end{Bsp}
-
+\clearpage
+\datenote{NEXT-UP}
 \begin{Bsp}
       Für ein beliebiges Alphabet $\Sigma$ gilt:
       \begin{enumerate}
@@ -937,14 +946,14 @@ Bemerkung 2: Nicht für alle Präfixe von Wörtern in $L_\text{centered}$ sind d
 Bemerkung 3: Für je zwei verschiedene $k\in\N$ sind die Äquivalenzklassen $[0^k1]$ verschieden. Es gibt also unendlich viele Äquivalenzklassen.
 \end{Bsp}
 
-\begin{Bsp*}
+\begin{Bsp}\label{bsp:2.lettercountNerode}
  Die Sprache $L=\{w \in \{a,b\}^* \mid \#_a(w) > \#_b(w)\}$ hat bezüglich der Nerode-Relation die folgende Menge von Äquivalenzklassen:%
 
  \[
  \{ [w] \mid  \#_a(w) - \#_b(w)=k, k\in\mathbb{Z} \}
  \qedhere
  \]
-\end{Bsp*}
+\end{Bsp}
 
 
 % Beispiel: Drei Sprachen $L_a, L_b$ und $L_c$ mit unterschiedlichem Index  (Anzahl an Äquivalenzklassen) bzgl. der Nerode-Relation:
@@ -976,13 +985,13 @@ Bemerkung 3: Für je zwei verschiedene $k\in\N$ sind die Äquivalenzklassen $[0^
     (1) \=> (2), \quad \mbox{(2) \=> (3)}\quad \text{und} \quad (3) \=> (1)
   \end{center}
 
-        \paragraph{(1) \=> (2)} Sei $\A$ ein \ac{DEA} mit
+        \paragraph{(1) \=> (2)} Sei $\A$ ein \ac{DEA}. Es gilt
   \begin{displaymath}
     L(\A)=\{w \mid \tilde\delta(\qinit,w)\in F \} = \bigcup_{q \in F} \{ w \mid \tilde\delta(\qinit,w) = q\}.
 \end{displaymath}
 %
-Nun sind $\{ w \mid \tilde\delta(\qinit,w)=q \}$ genau die Äquivalenzklassen der Relation $R_\A$ aus \autoref{Bsp:R_m}, einer rechtskongruenten Äquivalenzrelation.
-Der Index ist die Anzahl der erreichbaren Zustände und somit endlich: $\operatorname{\operatorname{Index}}(R_\A) \le |Q| < \infty$.
+Nun sind die Mengen $\{ w \mid \tilde\delta(\qinit,w)=q \}$ für erreichbare $q\in Q$ genau die Äquivalenzklassen der Relation $R_\A$ aus \autoref{Bsp:R_m}, einer rechtskongruenten Äquivalenzrelation. 
+Der Index von $R_\A$ ist die Anzahl der \emph{erreichbaren} Zustände und somit endlich: $\operatorname{\operatorname{Index}}(R_\A) \le |Q| < \infty$.
         
 \paragraph{(2) \=> (3)} Sei $R$ eine rechtskongruente
 Äquivalenzrelation mit endlichem Index, sodass $L$ die Vereinigung von
@@ -1011,7 +1020,7 @@ Es gilt also $R \subseteq R_L$ und somit $\operatorname{Index}(R_L) \leq \operat
 \paragraph{(3) \=> (1)} Gegeben $R_L$, konstruiere $\A=(Q,\Sigma,\delta,\qinit,F)$
     \begin{itemize}
     \item $Q = \{ [w]_{R_L} \mid w\in \Sigma^* \}$ \quad endlich, da $\operatorname{Index}$($R_L$) endlich
-    \item $\delta([w],a) = [wa]$ \quad wohldefiniert, da $R_L$ rechtskongruent
+    \item $\delta(q,a) = [wa]$ \quad für ein $w\in q$---wohldefiniert (vgl.\ \autoref{lem:2.nerode-rechtsabgeschlossen})
     \item $\qinit = [\Eps]$
     \item $F = \{ [w] \mid w\in L \}$
     \end{itemize}
@@ -1022,13 +1031,13 @@ Es gilt also $R \subseteq R_L$ und somit $\operatorname{Index}(R_L) \leq \operat
     \end{displaymath}
     I.A. $(w = \Eps)$: $\tilde\delta([v],\Eps) = [v]=[v\cdot\Eps]$
     
-    I.S. Sei $w = aw'$ mit $w'$ beliebiges Wort.
+    I.S. ($w\rightsquigarrow a.w$)
       \begin{displaymath}
         \begin{array}{lcl}
-        \tilde\delta([v],aw') &=& \tilde\delta(\delta([v],a),w') \\
-                             &=& \tilde\delta([v\cdot a],w') \\
-                             &\stackrel{\text{I.V.}}{=}&[v\cdot a\cdot w'] \\
-                             &=& [v\cdot \underbrace{aw'}_{=w}]
+        \tilde\delta([v],a.w) &=& \tilde\delta(\delta([v],a),w) \\
+                             &=& \tilde\delta([v\cdot a],w) \\
+                             &\stackrel{\text{I.V.}}{=}&[(v\cdot a)\cdot w] \\
+                             &=& [v\cdot {a.w}]
         \end{array}
       \end{displaymath}
 
@@ -1047,15 +1056,15 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
         Der im Beweisschritt (3) \=> (1) konstruierte Automat $\A$ ist ein minimaler Automat (bzgl.\ der Zustandsanzahl) für eine reguläre Sprache $L$.
 \end{Korollar}
 \begin{proof}
-        Sei $\A'$ ein \emph{beliebiger} \ac{DEA} mit $L(\A')=L$.
+        Sei $\A'= (Q', \dots)$ ein \emph{beliebiger} \ac{DEA} mit $L(\A')=L$.
         
-        Aus "`\ref{itm:Nerode1} {\=>} \ref{itm:Nerode2}"' wissen wir, dass $\operatorname{Index}(R_{\A'})\leq |Q'|$ gilt.
+        Aus "`\ref{itm:Nerode1} {\=>} \ref{itm:Nerode2}"' wissen wir, dass $\operatorname{Index}(R_{\A'}) \le |Q'|$ gilt.
         
         Aus "`\ref{itm:Nerode2} \=> \ref{itm:Nerode3}"' wissen wir, dass $R_{\A'}\subseteq R_L$ und somit $\operatorname{Index}(R_L) \leq \operatorname{Index}(R_{\A'})$ gilt.
         
-        In "`\ref{itm:Nerode3} \=> \ref{itm:Nerode1}"' definieren wir $A$, sodass $|Q|=\operatorname{Index}(R_L) \leq \operatorname{Index}(R_\A)\leq |Q'|$ gilt.
+        Aus "`\ref{itm:Nerode3} \=> \ref{itm:Nerode1}"' erhalten wir $\A= (Q, \dots)$ mit $|Q|=\operatorname{Index}(R_L)$.
         
-        Für einen beliebigen \acs*{DEA} $A'$ ist $|Q|$ also nie größer als $|Q'|$.
+        Wegen $|Q|=\operatorname{Index}(R_L) \leq \operatorname{Index}(R_{\A'})\le |Q'|$  hat $\A$ nicht mehr Zustände als $\A'$.
 \end{proof}
 
 
@@ -1065,7 +1074,7 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
 \subsection[Nichtdeterministischer endlicher Automat (NEA)]{\Acf{NEA}}
 Aufgabe: Konstruiere für eine natürliche Zahl $n\in\N$ einen \acs*{DEA} für die folgende Sprache.
 	\begin{align*}
-		L_n &= \{ w\in\{0,1\}^* \mid \text{das $n$-letzte Symbol von $w$ ist 1} \}
+		L_n &= \{ w\in\{0,1\}^* \mid |w|\ge n\text{ und das $n$-letzte Symbol von $w$ ist 1} \}
 	\end{align*}
 Naiver Lösungsversuch:
 	\begin{figure}[H]\centering
@@ -1263,19 +1272,22 @@ Bemerkung: Die Definition des \acs*{NEA} unterscheidet sich vom
 Bildbereich der Transitionsfunktion die Menge der Zustände $Q$. Beim
 \acs*{NEA} ist der Bildbereich die Potenzmenge $\mathcal{P}(Q)$ der
 Zustandsmenge~$Q$. 
-Analog zu \acs*{DEA}s werden wir auch \acs*{NEA}s mit Hilfe eines Zustandsdiagramms beschrieben. Zum Beispiel beschreibt \autoref{fig:2.nletztesNea} für jedes $n\in\N$ einen \acs*{NEA} für die Sprache $L_n$.
+Analog zu \acs*{DEA}s werden wir auch \acs*{NEA}s mit Hilfe eines Zustandsdiagramms beschrieben. So beschreibt \autoref{fig:2.nletztesNea} für jedes $n\in\N$ einen \acs*{NEA} für die Sprache $L_n$.
 
 Im Folgenden sei $\calN$ immer ein \acs*{NEA}.
-\begin{Def}[name={[Lauf eines Automaten]}]
-	Wir nennen eine Folge von Zuständen $q_0q_1\dots q_n$ einen \emph{Lauf von $\calN$ über $w=a_1\dots a_n$}, falls
-	$q_i\in\delta(q_{i-1},a_i)$ für alle $i$ mit $1\leq i\leq n$.
-	Wir nennen einen Lauf \emph{initial}, falls $q_0=\qinit$.
-	Wir nennen einen Lauf \emph{akzeptierend}, falls $q_n\in F$.
+\begin{Def}[Lauf eines Automaten]
+  Die Funktion $\Run : Q \x \Sigma^* \to \mathcal{P}(Q^*)$ ist so definiert, dass $\Run (q, w)$ die Folgen von Zuständen liefert, die $\calN$ vom Zustand $q$ angesetzt auf die Eingabe $w$ durchläuft. 
+  \begin{align}
+    \Run(q, \Eps) & = \{q\} \\
+    \Run(q, a.w)  & = \{ q. \overline{q} \mid \overline{q} \in \Run (q', w), q' \in \delta (q, a) \}
+  \end{align}
+  Ein Lauf $q_0\dots q_n \in \Run (q_0, w)$  heißt \emph{initial}, falls $q_0 = \qinit$.
+  Er heißt \emph{akzeptierend}, falls $q_n\in F$.
 \end{Def}
-\begin{Def}[name={[NEA zu DEA]}]
+\begin{Def}[Akzeptanz]
 	Ein Wort $w\in\Sigma^*$ wird von $\calN$ \emph{akzeptiert}, falls $\calN$ einen initialen und akzeptierenden Lauf über $w$ hat.
 	Die von $\calN$ akzeptierte Sprache ist die Menge der von $\calN$ akzeptierten Wörter, d.h.\
-	$L(\calN)=\{ w\in\Sigma^* \mid \exists\text{ initialer, akzeptierender Lauf von $\calN$ über }w \}$.
+	$$L(\calN)=\{ w\in\Sigma^* \mid \exists\text{ initialer, akzeptierender Lauf von $\calN$ über }w \} \text. \qedhere$$
 \end{Def}
 
 
@@ -1376,23 +1388,23 @@ Die vier Zustände auf der rechten Seite sind nicht erreichbar.
         Dafür beweisen wir zunächst per Induktion über  $w$ die folgende Eigenschaft:
         
         $\forall w\in\Sigma^*: \forall p\in Q_\calP\backslash\{\{\}\}: \forall q\in Q:$
-        $$q\in\tilde\delta_\calP(p,w) \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in p \text{ und } q_n=q$$
+        $$q\in\tilde\delta_\calP(p,w) \Leftrightarrow \exists q_0 \in p. {q_0, q_1,\ldots, q_n} \in \Run (q_0, w), \text{ sodass } q_n=q$$
         I.A. $(w=\Eps)$: $q\in\tilde\delta_\calP(p,\Eps) = p$ wähle
         $q_0 = q$.\\
         I.S. ($w=aw'$) ein beliebiges Wort.
         \begin{eqnarray*}
                 q\in\tilde\delta_\calP(p,w) 
                 \hspace*{-2.5mm} & \Leftrightarrow & \hspace*{-2.5mm} q\in\tilde\delta_\calP(\delta_\calP(p,a),w')\\
-                & \stackrel{\text{I.V.}}{\Leftrightarrow} & \hspace*{-2.5mm} \exists\underbrace{q_1,q_2,\ldots, q_{n+1}}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, q_1\in \delta_\calP(p,a) \text{ und } q_{n+1}=q\\
-                & \Leftrightarrow & \hspace*{-2.5mm}\exists\underbrace{q_1,q_2,\ldots, q_{n+1}}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, \exists q_0\in p: q_1\in\delta(q_0,a) \text{ und } q_{n+1}=q\\
-                & \Leftrightarrow & \hspace*{-2.5mm} \exists\underbrace{q_0,q_1,q_2,\ldots, q_{n+1}}_{\text{Lauf}}\in Q,\text{ sodass }  n+1=|w|, q_0\in p \text{ und } q_{n+1}=q
+                & \stackrel{\text{I.V.}}{\Leftrightarrow} & \hspace*{-2.5mm} \exists q_1 \in \delta_\calP(p,a). \  {q_1,q_2,\ldots, q_n}\in \Run(q_1,w'), \text{ sodass } q_n=q\\
+                & {\Leftrightarrow} & \hspace*{-2.5mm} \exists q_0 \in p. \  q_1 \in \delta_\calP(p,a). \  {q_1,q_2,\ldots, q_n}\in \Run(q_1,w'), \text{ sodass } q_n=q\\
+                & {\Leftrightarrow} & \hspace*{-2.5mm} \exists q_0 \in p. \   {q_0,q_1,q_2,\ldots, q_n}\in \Run(q_1,aw'), \text{ sodass } q_{n+1}=q\\
         \end{eqnarray*}
         Mit Hilfe dieser Eigenschaft zeigen wir nun die Gleichheit $L(\A_\calP)=L(\calN)$.
         \begin{align*}
          w\in L(\A_\calP) 
          &\<=> \tilde\delta_\calP(\qinit_\calP,w)\in F_\calP\\
          &\<=> \exists q_f\in F : \tilde\delta_\calP(\qinit_\calP,w) = q_f\\
-         &\<=> \exists \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0\in \qinit \text{ und } q_n\in F\\
+         &\<=> \exists q_0 \in \qinit_\calP = \{ \qinit_\A \}. \  {q_0, q_1,\ldots, q_n} \in \Run(q_0, w), \text{ sodass } q_n\in F\\
          &\<=> \exists \text{ initialer, akzeptierender Lauf von $\calN$ über $w$} \\
          &\<=> w\in L(\calN)
          \qedhere
