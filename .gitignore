@@ -1,5 +1,6 @@
 ## Generated pdf
 /Info_3_Skript*.pdf
+/script.pdf
 
 ## Auctex
 /auto
@@ -175,6 +176,7 @@ TSWLatexianTemp*
 # WinEdt
 *.bak
 *.sav
+*~
 
 # Texpad
 .texpadtmp
