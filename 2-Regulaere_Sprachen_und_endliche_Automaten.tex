@@ -205,7 +205,7 @@ Hierbei sei $\A= (\Sigma, Q,\delta,\qinit,F)$ ein \acs*{DEA}.
 %   Definiere eine Relation ${}\Rightarrow{} = {}\Rightarrow_\delta$ auf $Q \times \Sigma^*$ durch
 %   $(q, aw) \Rightarrow (\delta (q,a), w)$. Dazu sei $\Rightarrow^*$ die reflexive, transitive Hülle.
 % \end{Def}
-\begin{Def}[name={[Induktive erweiterung von $\delta$ auf Wörter]}]\label{def:2.deltaschlange}
+\begin{Def}[Induktive Erweiterung von $\delta$ auf Wörter]\label{def:2.deltaschlange}
         Die \emph{induktive Erweiterung} von $\delta:Q\x\Sigma\->Q$ auf Wörter, $\tilde{\delta}: Q\x\Sigma^*\->Q$, ist (induktiv) definiert durch
   \begin{enumerate}
   \item $\tilde\delta(q,\Eps) =q$\ \ \ \  (Wortende erreicht)
@@ -213,7 +213,7 @@ Hierbei sei $\A= (\Sigma, Q,\delta,\qinit,F)$ ein \acs*{DEA}.
   \qedhere
   \end{enumerate}
 \end{Def}
-\begin{Def}[name={[Die durch einen \acs*{DEA} akzeptierte Sprache]}]\label{def:2.sprache}
+\begin{Def}[Durch einen \acs*{DEA} akzeptierte Sprache]\label{def:2.sprache}
         Sei $\A=(\Sigma, Q,\delta,\qinit,F)$. 
         Ein Wort $w\in\Sigma^*$ wird von $\A$ \emph{akzeptiert}, falls $\tilde\delta(\qinit,w)\in F$.
 %        Ein Wort $w\in\Sigma^*$ wird von $\A$ \emph{akzeptiert}, falls $(\qinit,w) \Rightarrow^* (q, \Eps)$ und $q\in F$.
@@ -316,7 +316,7 @@ aus der Einleitung dieses Kapitels hat die folgende graphische Repräsentation.
 % \end{Bsp}
 
 
-Frage: Angenommen wir haben zwei \ac{DEA}s $A_1$ und $A_2$, können wir dann immer einen \ac{DEA} konstruieren der den Schnitt $L(A_1)\cap L(A_2)$ akzeptiert?
+Frage: Angenommen wir haben zwei \ac{DEA}s $A_1$ und $A_2$, können wir dann immer einen \ac{DEA} konstruieren der den Durchschnitt $L(A_1)\cap L(A_2)$ akzeptiert?
 
 Idee: Lasse beide \ac{DEA}s parallel laufen, akzeptiere nur wenn beide \ac{DEA}s akzeptieren.
 
@@ -324,9 +324,9 @@ Frage: Lassen sich zwei \emph{parallel laufende} \ac{DEA}s in einem einzigen \ac
 
 Die nächste Konstruktion und der drauf folgende Satz liefern eine positive Antwort auf diese Frage.
 
-\begin{Def}[Produktautomat für Schnitt]\label{def:2.Produktautomat}
+\begin{Def}[Produktautomat für Durchschnitt]\label{def:2.Produktautomat}
 Seien $A_1=(\Sigma, Q_1,\delta_1,\qinit_1,F_1)$ und $A_2=(\Sigma, Q_2,\delta_2,\qinit_2,F_2)$ \ac{DEA}s.
-Wir definieren den \emph{Produktautomaten für Schnitt} als den \ac{DEA} $A_\cap=(\Sigma, Q_\cap,\delta_\cap,\qinit_\cap,F_\cap)$ mit den folgenden Komponenten.
+Wir definieren den \emph{Produktautomaten für Durchschnitt} als den \ac{DEA} $A_\cap=(\Sigma, Q_\cap,\delta_\cap,\qinit_\cap,F_\cap)$ mit den folgenden Komponenten.
 		\begin{align*}
 			Q_\cap &= Q_1\x Q_2\\
 			\delta_\cap((q_1,q_2),a) &= (\delta_1(q_1,a),\delta_2(q_2,a))\;, \quad \text{für alle } a\in\Sigma\\
@@ -360,7 +360,7 @@ Im folgenden Beispiel sei $A_1$ der \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$
 
 
 \begin{Bsp}\label{bsp:2.schnitt}
-Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende graphische Repräsentation, wobei wir um Platz zu sparen "`$q_{ij}$"' statt "`$(q_i, q_j)$"' schreiben.
+Der Produktautomat für den Durchschnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende graphische Repräsentation, wobei wir um Platz zu sparen "`$q_{ij}$"' statt "`$(q_i, q_j)$"' schreiben.
 
 \begin{center}
 \begin{tikzpicture}[node distance = 3cm]
@@ -395,7 +395,7 @@ Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende
 
 
 \begin{Satz}\label{satz:2.Produktautomat}
-  Für beliebige \ac{DEA}s $A_1$ und $A_2$ akzeptiert der entsprechende Produktautomat für Schnitt die Sprache $L(A_1)\cap L(A_1)$.
+  Für beliebige \ac{DEA}s $A_1$ und $A_2$ akzeptiert der entsprechende Produktautomat für Durchschnitt die Sprache $L(A_1)\cap L(A_1)$.
 %   Reguläre Sprachen sind abgeschlossen unter der Schnittoperation. (D.h.\ für zwei gegebene reguläre Sprachen $L_1$, $L_2$ über $\Sigma$ ist auch der Schnitt $L_1\cap L_2$ eine reguläre Sprache.)
 \end{Satz}
 
@@ -409,7 +409,7 @@ Der Produktautomat für Schnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende
 
 \begin{proof}\footnote{Dieser erste Beweis ist außergewöhnlich detailliert. In den folgenden Beweisen werden wir einfache Umformungen zusammenfassen.}
 Seien $A_1=(\Sigma, Q_1,\delta_1,\qinit_1,F_1)$ und $A_2=(\Sigma, Q_2,\delta_2,\qinit_2,F_2)$ \ac{DEA}s und
-$A_\cap=(\Sigma, Q_\cap,\delta_\cap,\qinit_\cap,F_\cap)$ der zugehörige Produktautomat für Schnitt.
+$A_\cap=(\Sigma, Q_\cap,\delta_\cap,\qinit_\cap,F_\cap)$ der zugehörige Produktautomat für den Durchschnitt.
 Wir zeigen zunächst per Induktion über $w$, dass für alle $w\in\Sigma^*$, für alle $q_1\in Q_1$ und für alle $q_2\in Q_2$ die folgende Gleichung $\varphi(w)$ gilt.
 $$\varphi(w) := \tilde{\delta}_\cap((q_1,q_2),w) = (\tilde{\delta}_1(q_1,w), \tilde{\delta}_2(q_2,w))$$
 Der Induktionsanfang $\varphi(\Eps)$ folgt dabei direkt aus \autoref{def:2.deltaschlange}.
@@ -923,8 +923,7 @@ Sei $\Sigma=\{0,1\}$. Die Sprache $L=\{w\in\Sigma^*\mid \text{vorletztes Zeichen
         \qedhere
         \end{align*}
 \end{Bsp}
-\clearpage
-\datenote{NEXT-UP}
+\datenote{05.05.2026}
 \begin{Bsp}
       Für ein beliebiges Alphabet $\Sigma$ gilt:
       \begin{enumerate}
@@ -1070,8 +1069,8 @@ Nun zeigen wir $L(\A)=L$ wie folgt:
 
 
 
-
 \subsection[Nichtdeterministischer endlicher Automat (NEA)]{\Acf{NEA}}
+\datenote{12.05.2026}
 Aufgabe: Konstruiere für eine natürliche Zahl $n\in\N$ einen \acs*{DEA} für die folgende Sprache.
 	\begin{align*}
 		L_n &= \{ w\in\{0,1\}^* \mid |w|\ge n\text{ und das $n$-letzte Symbol von $w$ ist 1} \}
@@ -1339,7 +1338,7 @@ Beispiel: der \ac{NEA} $\calN= (\Sigma, Q,\delta_\mathsf{NEA},\qinit,F)$ mit $\d
  Für einen gegebenen \ac{NEA}  $\calN= (\Sigma, Q,\delta,\qinit,F)$ ist der Potenzmengenautomat $\A_\calP$ wie folgt definiert.
          \begin{align*}
                 Q_\calP &= \mathcal{P}(Q)\\
-                \delta_\calP(p,a) &= \bigcup_{q\in p} \{\delta(q,a)\}\\
+                \delta_\calP(p,a) &= \bigcup_{q\in p} \delta(q,a)\\
                 \qinit_\calP &= \{\qinit\}\\
                 F_\calP &= \{ p\in Q_\calP \mid p\cap F\neq \varnothing \}
                 \qedhere
@@ -1393,7 +1392,7 @@ Die vier Zustände auf der rechten Seite sind nicht erreichbar.
         $q_0 = q$.\\
         I.S. ($w=aw'$) ein beliebiges Wort.
         \begin{eqnarray*}
-                q\in\tilde\delta_\calP(p,w) 
+                q\in\tilde\delta_\calP(p,w)
                 \hspace*{-2.5mm} & \Leftrightarrow & \hspace*{-2.5mm} q\in\tilde\delta_\calP(\delta_\calP(p,a),w')\\
                 & \stackrel{\text{I.V.}}{\Leftrightarrow} & \hspace*{-2.5mm} \exists q_1 \in \delta_\calP(p,a). \  {q_1,q_2,\ldots, q_n}\in \Run(q_1,w'), \text{ sodass } q_n=q\\
                 & {\Leftrightarrow} & \hspace*{-2.5mm} \exists q_0 \in p. \  q_1 \in \delta_\calP(p,a). \  {q_1,q_2,\ldots, q_n}\in \Run(q_1,w'), \text{ sodass } q_n=q\\
@@ -1403,8 +1402,9 @@ Die vier Zustände auf der rechten Seite sind nicht erreichbar.
         \begin{align*}
          w\in L(\A_\calP) 
          &\<=> \tilde\delta_\calP(\qinit_\calP,w)\in F_\calP\\
-         &\<=> \exists q_f\in F : \tilde\delta_\calP(\qinit_\calP,w) = q_f\\
-         &\<=> \exists q_0 \in \qinit_\calP = \{ \qinit_\A \}. \  {q_0, q_1,\ldots, q_n} \in \Run(q_0, w), \text{ sodass } q_n\in F\\
+         &\<=> \exists p_f\in F_\calP : \tilde\delta_\calP(\qinit_\calP,w) = p_f\\
+         &\<=> \exists q_f\in F : q_f \in \tilde\delta_\calP(\qinit_\calP,w) \\
+         &\<=> \exists q_0 \in \qinit_\calP = \{ \qinit_\A \}. \  {q_0, q_1,\ldots, q_n} \in \Run(q_0, w), \text{ sodass } q_n = q_f \in F\\
          &\<=> \exists \text{ initialer, akzeptierender Lauf von $\calN$ über $w$} \\
          &\<=> w\in L(\calN)
          \qedhere
@@ -1425,9 +1425,8 @@ Bemerkung: \ac{NEA}s sind eine exponentiell kompaktere Repräsentation von regul
 \end{enumerate}
 
 
-
-\subsection{\acf{PL} für reguläre Sprachen}\datenote{REVISION POINTER}
-% \datenote{26.10.16 (Eingeschoben)}
+\subsection{\acf{PL} für reguläre Sprachen}
+\datenote{13.05.2026}
 \label{sec:regpl}
 % Welche interessanten Eigenschaften haben reguläre Sprachen?
 
@@ -1566,8 +1565,8 @@ Wir formalisieren diesen Verdacht im folgenden Lemma.
 
 
 
+\subsection{\texorpdfstring{$\Eps$}{epsilon}-Transitionen}\label{sec:2.EpsNea}
 
-\subsection{\texorpdfstring{$\Eps$}{epsilon}-Übergänge}\label{sec:2.EpsNea}
 In diesem Unterkapitel führen wir mit dem $\Eps$-NEA ein weiteres Automatenmodell ein. 
 Wir wollen $\Eps$-NEAs zunächst durch die folgende Fragestellung und anschließende Diskussion motivieren.
 
@@ -1661,10 +1660,11 @@ Dieser \acs*{NEA} akzeptiert nun auch das Wort $w=11011$. Allerdings ist $w$ nic
 Das "`Verschmelzen"' von $p_2$ (bzw.\ $p_3$) mit $s_0$ war also keine gute Idee.
 Was uns aber helfen würde: ein Zustandsübergang, der es uns erlaubt, von Zustand $p_2$ (bzw.\ $p_3$) in den Zustand $s_0$ zu gehen, ohne dabei ein Zeichen zu lesen.
 
-Wir nennen solch einen Zustandsübergang $\Eps$-Übergang und definieren einen Automaten, der solche Zustandsübergänge haben kann, wie folgt.
+Wir nennen solch einen Zustandsübergang $\Eps$-Transition und definieren einen Automaten, der solche Zustandsübergänge haben kann, wie folgt.
+\datenote{19.05.2026}
 
 \begin{Def}[$\Eps$-NEA]\label{def2.EpsNea}
-        Ein \emph{nichtdeterministischer endlicher Automat mit $\Eps$-Übergängen} ist ein 5-Tupel
+        Ein \emph{nichtdeterministischer endlicher Automat mit $\Eps$-Transitionen} ist ein 5-Tupel
         \[ \B= (\Sigma, Q,\delta,\qinit,F) \]
 wobei $\Sigma$, $Q$, $\qinit$, $F$ wie bei \acs*{NEA}s (bzw.\ \acs*{DEA}s) definiert sind und die Transitionsfunktion den folgenden Typ hat.
 \[
@@ -1672,6 +1672,12 @@ wobei $\Sigma$, $Q$, $\qinit$, $F$ wie bei \acs*{NEA}s (bzw.\ \acs*{DEA}s) defin
 \qedhere
 \]
 \end{Def}
+
+Bemerkung: Wenn $f : A \to \calP (B)$ ist, dann schreiben wir $\hat{f} : \calP (A) \to \calP (B)$ für die Fortsetzung von $f$ auf Mengen. D.h. $\hat{f} (M) = \bigcup \{ f(a) \mid a \in M \}$, falls $M \subseteq A$.
+Z.B. verwenden wir $\hat\delta : \calP (Q) \times (\Sigma \cup\{\Eps\}) \to \calP (Q)$.
+
+Bemerkung: Funktionen $f, g : A \to \calP (B)$ können bzgl. ihres Bildbereichs geordnet werden. Wir schreiben $f \subseteq g$, falls $\forall a \in A. f(a) \subseteq g(a)$.
+Diese Relation auf $A \to \calP (B)$ ist eine partielle Ordnung mit kleinstem Element $f_0 : a \mapsto \emptyset$, die Funktion, die jedes $a\in A$ auf die leere Menge abbildet.
 
 \begin{Bsp}\label{bsp2.EpsNeaEx} 
    Zustandsdiagramm eines $\Eps$-NEA über dem Alphabet $\Sigma=\{a,b\}$.
@@ -1704,15 +1710,20 @@ Im Folgenden sei $\B$ immer ein $\Eps$-NEA.
 Wie bei den bisher definierten Automaten wollen wir mit Hilfe eines $\Eps$-NEA eine Sprache definieren.
 Wir benötigen dafür zunächst zwei weitere Definitionen.
 
-Der $\Eps$-Abschluss ist eine Abbildung, die jedem Zustand $q$ die Menge der Zustände zuordnet, die von $q$ über $\Eps$-Übergänge erreichbar sind.
+Der $\Eps$-Abschluss ist eine Abbildung, die jedem Zustand $q$ die Menge der Zustände zuordnet, die von $q$ über $\Eps$-Transitionen erreichbar sind.
 Wir definieren diese Abbildung formal wie folgt. Dabei verwenden wir den Abbildungsnamen $\ecl$, um an den englischen Begriff "`$\Eps$ closure"' zu erinnern.
 \begin{Def}
- Der \emph{$\Eps$-Abschluss} $\ecl_\B:Q\rightarrow\calP(Q)$ ist die kleinste Abbildung, die für alle $q,q',q''\in Q$ die folgenden Eigenschaften erfüllt:
- \begin{eqnarray*}
-  & q\in\ecl_\B(q) \\
-  & q'\in\ecl_\B(q) \text{ und } q''\in\delta(q',\Eps) \quad\Rightarrow\quad q''\in\ecl_\B(q)
-  \qedherefixeqnarray
- \end{eqnarray*}
+ Der \emph{$\Eps$-Abschluss} $\ecl_\B:Q\rightarrow\calP(Q)$ ist die kleinste Abbildung (bzgl. $\subseteq$), die für alle $q,q',q''\in Q$ die folgenden Eigenschaften erfüllt:
+ \begin{align*}
+   & q\in\ecl_\B(q)
+   &
+   & \frac{q'\in\ecl_\B(q) \qquad q''\in\delta(q',\Eps)}{q''\in\ecl_\B(q)}
+ \end{align*}
+ % \begin{eqnarray*}
+ %  & q\in\ecl_\B(q) \\
+ %  & q'\in\ecl_\B(q) \text{ und } q''\in\delta(q',\Eps) \quad\Rightarrow\quad 
+ %  \qedherefixeqnarray
+ % \end{eqnarray*}
 \end{Def}
 Offensichtlich kann immer eine endliche explizite Repräsentation von $\ecl_\B$ berechnet werden: Starte in jedem Zustand einmal und folge mit Breitensuche allen $\Eps$-Kanten im Zustandsdiagramm.
 
@@ -1728,20 +1739,43 @@ Für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} sieht $\ecl_\B$ wie folgt aus:
 \]
 \end{Bsp*}
 
-Als Nächstes definieren wir eine dreistellige Relation, die uns für je zwei Zustände sagt, welche Wörter den Automaten vom ersten Zustand in den zweiten Zustand überführen. Der Name der Relation "`$\reach$"' soll dabei an des englische Wort "`reachability"' erinnern.
+% Als Nächstes definieren wir eine dreistellige Relation, die uns für je
+% zwei Zustände sagt, welche Wörter den Automaten vom ersten Zustand in
+% den zweiten Zustand überführen. Der Name der Relation "`$\reach$"'
+% soll dabei an des englische Wort "`reachability"' erinnern.  
+
+Als Nächstes definieren wir eine mengenwertige Funktion, die uns für
+einen Zustand $q$ und ein Wort $w$ sagt, welche Zustände von $q$ durch
+$w$ erreichtbar sind. Der Name der Funktion "`$\reach$"'
+soll dabei an des englische Wort "`reachability"' erinnern.  
 
 \begin{Def}
- Die \emph{Erreichbarkeitsrelation} $\reach_\B\subseteq Q\times\Sigma^*\times Q$ ist die kleinste Relation, die für alle $q,q',q'',q'''\in Q$ und für alle $w\in\Sigma^*$ die folgenden Eigenschaften erfüllt:
-  \begin{eqnarray*}
-& q'\in\ecl_\B(q) \quad\Rightarrow\quad (q,\Eps,q')\in\reach_\B \\
-& q'\in\ecl_\B(q), q''\in\delta(q',a) \text{ und } (q'',w,q''')\in\reach_\B \quad\Rightarrow\quad (q,aw,q''')\in\reach_\B
-\qedherefixeqnarray
- \end{eqnarray*}
+  % Die \emph{Erreichbarkeitsfunktion} $\reach_\B : Q\times\Sigma^*\to \calP(Q)$ ist die kleinste Relation, die für alle $q,q',q'',q'''\in Q$ und für alle $w\in\Sigma^*$ die folgenden Eigenschaften erfüllt:
+  % \begin{align*}
+  %   & \frac{q'\in\ecl_\B(q)}{(q,\Eps,q')\in\reach_\B}
+  %   &
+  %   & \frac{q'\in\ecl_\B(q) \qquad q''\in\delta(q',a) \qquad (q'',w,q''')\in\reach_\B}{(q,aw,q''')\in\reach_\B}
+  % \end{align*}
+  Die \emph{Erreichbarkeitsfunktion} $\reach_\B : Q\times\Sigma^*\to \calP(Q)$ ist definiert durch:
+  \begin{align*}
+    \reach_\B (q, \Eps) & = \ecl_\B(q) \\
+    \reach_\B (q, a.w)  & = \bigcup\{ \reach_\B (q'', w) \mid  q' \in \ecl_\B (q), q'' \in \delta (q', a) \} \\
+                        & = \bigcup\{ \reach_\B (q'', w) \mid  q'' \in \hat\delta (\ecl_\B (q), a) \} \\
+    & = \widehat{\reach_\B} (\hat\delta (\ecl_\B (q), a), w)
+  \end{align*}
+%   \begin{eqnarray*}
+% & q'\in\ecl_\B(q) \quad\Rightarrow\quad (q,\Eps,q')\in\reach_\B \\
+% & q'\in\ecl_\B(q), q''\in\delta(q',a) \text{ und } (q'',w,q''')\in\reach_\B \quad\Rightarrow\quad (q,aw,q''')\in\reach_\B
+% \qedherefixeqnarray
+%  \end{eqnarray*}
 \end{Def}
 
+% Für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} können wir $\reach_\B$ mit Hilfe der folgenden Tabelle angeben.
+% Dabei bedeutet der Eintrag von einer Sprache $L$ in Zeile $q_i$ und Spalte $q_j$, dass für alle $w\in L$ das Tripel
+% $(q_i,w,q_j)$ in $\reach_\B$ enthalten ist.
 Für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} können wir $\reach_\B$ mit Hilfe der folgenden Tabelle angeben.
 Dabei bedeutet der Eintrag von einer Sprache $L$ in Zeile $q_i$ und Spalte $q_j$, dass für alle $w\in L$ das Tripel
-$(q_i,w,q_j)$ in $\reach_\B$ enthalten ist.
+$q_j \in \reach_\B(q_i,w)$.
 \[
 \begin{array}{c||c|c|c|c|c|c}
    \reach_\B  & q_0 & q_1 & q_2 & q_3\\ \hline
@@ -1752,16 +1786,24 @@ q_3 & \{\}     & \{\}    & \{a\}^*             & \{a\}^*
 \end{array}
 \]
 
+
+
+% \begin{Def}\label{def:2.EpsNeaSprache}
+%  Ein Wort $w\in\Sigma^*$ wird von $\B$ \emph{akzeptiert}, wenn $(\qinit,w,q_f)\in\reach_\B$ für ein $q_f\in F$.
+%  Die von $\B$ akzeptierte Sprache $L(\B)$ ist die Menge der von $\B$ akzeptierten Wörter, d.h.\
+% 	$L(\B)=\{ w\in\Sigma^* \mid \exists q\in F: (\qinit, w, q)\in\reach_\B \}$.
+% \end{Def}
 \begin{Def}\label{def:2.EpsNeaSprache}
- Ein Wort $w\in\Sigma^*$ wird von $\B$ \emph{akzeptiert}, wenn $(\qinit,w,q_f)\in\reach_\B$ für ein $q_f\in F$.
+ Ein Wort $w\in\Sigma^*$ wird von $\B$ \emph{akzeptiert}, wenn $\reach_\B(\qinit,w) \cap F \ne \emptyset$.
  Die von $\B$ akzeptierte Sprache $L(\B)$ ist die Menge der von $\B$ akzeptierten Wörter, d.h.\
-	$L(\B)=\{ w\in\Sigma^* \mid \exists q\in F: (\qinit, w, q)\in\reach_\B \}$.
+	$L(\B)=\{ w\in\Sigma^* \mid \reach_\B(\qinit,w) \cap F \ne \emptyset \}$.
 \end{Def}
 
 Offensichtlich gibt es zu jedem \ac{NEA} $\calN$ einen $\Eps$-NEA $\B$, der die gleiche Sprache akzeptiert.
-Die Konstruktion ist dabei einfach: Erweitere die Transitionsfunktion um $\delta(q,\Eps)=\{\}$ für alle $q\in Q$.
-Für die Sprachgleichheit zeigen wir via Induktion über die Länge von $w$, dass für alle Wörter $w \in \Sigma^*$ gilt:
-$$\exists \text{ Lauf } q_0,q_1,\ldots, q_n \text{ von $\calN$ über } w \quad\Leftrightarrow\quad (q_0,w,q_n)\in\reach_\B$$
+Die Konstruktion ist einfach: Erweitere die Transitionsfunktion um $\delta(q,\Eps)=\{\}$ für alle $q\in Q$.
+Für die Sprachgleichheit zeigen wir mittels Induktion über $w$, dass für alle Wörter $w \in \Sigma^*$ gilt:
+$$\exists \text{ Lauf } q_0,q_1,\ldots, q_n \text{ von $\calN$ über } w \quad\Leftrightarrow\quad q_n \in \reach_\B(q_0,w)$$
+% $$\exists \text{ Lauf } q_0,q_1,\ldots, q_n \text{ von $\calN$ über } w \quad\Leftrightarrow\quad (q_0,w,q_n)\in\reach_\B$$
 Der folgende Satz zeigt uns, dass auch die umgekehrte Richtung gilt.
 
 \begin{Satz}\label{satz:2.EpsElim}%\datenote{14.11.18}
@@ -1771,8 +1813,9 @@ Zur Vorbereitung des Beweises machen wir zunächst die folgende Definition.
 
 \begin{Def}[$\Eps$-freier Automat]
  Für einen gegebenen $\Eps$-NEA $\B= (\Sigma, Q,\delta,\qinit,F)$ definieren wir den \acs*{NEA} $\calN= (\Sigma, Q,\delta_\calN,\qinit,F_\calN)$ mit
-        $$\delta_\calN(q,a)=\bigcup\limits_{q'\,\in\,\ecl_\B(q)}\{q'''\mid \exists q'' : q''\in\delta(q',a) \text{ und } q'''\in\ecl_\B(q'')\}$$
-        $$F_\calN=\{q\in Q\mid \exists q_f\in F: q_f\in\ecl_\B(q)\}$$
+        % $$\delta_\calN(q,a)=\bigcup\limits_{q'\,\in\,\ecl_\B(q)}\{q'''\mid \exists q'' : q''\in\delta(q',a) \text{ und } q'''\in\ecl_\B(q'')\}$$
+        $$\delta_\calN(q,a)=\bigcup\{\ecl_\B(q'') \mid  q''\in\hat\delta(\ecl_\B(q),a)\}$$
+        $$F_\calN=\{q\in Q\mid \ecl_\B(q) \cap F \ne \emptyset \}$$
 und nennen diesen \ac{NEA} den \emph{$\Eps$-freien Automaten} von $\B$.
 \end{Def}
 
@@ -1811,10 +1854,11 @@ Der $\Eps$-freie Automat für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} hat das
 
 
 \begin{proof}[von \autoref{satz:2.EpsElim}: $\Eps$-Eliminierung]
-        Zeige $L(\calN)=L(\B)$. Dabei verwenden wir die folgende Eigenschaft, die wir via Induktion über die Länge von $w$ in den Übungen zeigen werden.
+        Zeige $L(\calN)=L(\B)$. Dabei verwenden wir die folgende Eigenschaft, die wir mittels Induktion über die Länge von $w$ in den Übungen zeigen werden.
         
         $\forall w\in\Sigma^+\; \forall q, q'\in Q:$
-        $$(q,w,q')\in\reach_\B \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=q \text{ und } q_n=q'$$
+        $$q'\in\reach_\B(q,w) \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=q \text{ und } q_n=q'$$
+        % $$(q,w,q')\in\reach_\B \Leftrightarrow \exists \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=q \text{ und } q_n=q'$$
 %         I.A. $(n=0,$ also $w=\Eps)$: Gilt trivialerweise da $(q,\Eps,q)\in\reach$ für alle $q$\\
 %         I.S. ($n\rightsquigarrow n+1$): Seit $w=aw'$ beliebiges Wort der Länge $n+1$.
 %         \begin{eqnarray*}
@@ -1824,14 +1868,14 @@ Der $\Eps$-freie Automat für den $\Eps$-NEA aus \autoref{bsp2.EpsNeaEx} hat das
 %                 & \Leftrightarrow & \exists\underbrace{q_1,q_2,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w'|, \exists q_0\in p, \delta(q_0,a)=q_1 \text{ und } q_n=q\\
 %                 & \Leftrightarrow & \exists\underbrace{q_0q_1,q_2,\ldots, q_n}_{\text{Lauf}}\in Q,\text{ sodass }  n+1=|w|, q_0\in p \text{ und } q_n=q
 %         \end{eqnarray*}
-        Mit Hilfe dieser Eigenschaft können wir nun leicht für $w \neq \varepsilon$ zeigen:
+        Mit Hilfe dieser Eigenschaft zeigen wir nun für $w \neq \varepsilon$:
         \begin{eqnarray*}
          w\in L(\B) \hspace*{-1mm}
-         &\stackrel{\text{\autoref{def:2.sprache}}}{\<=>} & \exists q_f\in F: (\qinit, w, q_f)\in\reach_\B\\
+         &\stackrel{\text{\autoref{def:2.sprache}}}{\<=>} &\reach_\B (\qinit, w)\cap F \ne\emptyset\\
          &\<=> & \exists q_f\in F_\calN: \underbrace{q_0, q_1,\ldots, q_n}_{\text{Lauf}}\in Q, \text{ sodass }  n=|w|, q_0=\qinit \text{ und } q_n=q_f\\
          &\stackrel{\text{\autoref{def:2.EpsNeaSprache}}}{\<=>} & w \in L(\calN)
         \end{eqnarray*}
-        Der Fall $w = \varepsilon$ folgt mit $\varepsilon \in L(\B) \Leftrightarrow \exists q \in F \cap \ecl_\B(\qinit) \Leftrightarrow \qinit \in F_\calN \Leftrightarrow \varepsilon \in L(\calN)$.
+        Der Fall $w = \varepsilon$ folgt mit $\varepsilon \in L(\B) \Leftrightarrow  F \cap \ecl_\B(\qinit) \ne \emptyset \Leftrightarrow \qinit \in F_\calN \Leftrightarrow \varepsilon \in L(\calN)$.
 \end{proof}
 
 
@@ -1842,15 +1886,20 @@ Mit Hilfe der $\Eps$-NEAs greifen wir nun die zu Beginn von Abschnitt~\ref{sec:2
 Wir geben hierfür zunächst eine Konstruktion an.
 
 \begin{Def}
-Gegeben zwei $\Eps$-NEA $\B_i= (\Sigma, Q_i,\delta_i,\qinit_i,F_i)$, $i = 1,2$, definieren wir den \emph{$\Eps$-NEA für Konkatenation} $\B= (\Sigma, Q,\delta,\qinit,F)$ wie folgt.
+Gegeben zwei NEA-$\Eps$ $\B_i= (\Sigma, Q_i,\delta_i,\qinit_i,F_i)$, $i = 1,2$, definieren wir den \emph{$\Eps$-NEA für Konkatenation} $\B= (\Sigma, Q,\delta,\qinit,F)$ wie folgt.
                 \begin{align*}
                 Q &= Q_1 \overset.\cup Q_2\\
-                \delta(q,x) &=
+                \delta(q,a) &=
                                 \begin{cases}
-                                        \delta_1(q,x) & q\in Q_1\land (q\notin F_1 \lor x\neq \Eps)\\
-                                        \delta_1(q,x)\cup\{\qinit_2\} & q\in F_1\land x=\Eps\\
-                                        \delta_2(q,x) & q\in Q_2
-                                \end{cases}\\
+                                        \delta_1(q,a) & q\in Q_1 \\
+                                        \delta_2(q,a) & q\in Q_2
+                                      \end{cases}&
+                  \delta (q, \Eps) &=
+                                     \begin{cases}
+                                       \delta_1 (q,\Eps) \cup \{\qinit_2\} & q \in F_1 \\
+                                       \delta_1 (q, \Eps) & q \in Q_1 \setminus F_1 \\
+                                       \delta_2 (q, \Eps) & q \in Q_2
+                                     \end{cases} \\
                 \qinit & = \qinit_1\\
                 F &= F_2 \qedhere
                 \end{align*}
@@ -1897,9 +1946,10 @@ Gegeben zwei $\Eps$-NEA $\B_i= (\Sigma, Q_i,\delta_i,\qinit_i,F_i)$, $i = 1,2$, 
 Die vom $\Eps$-NEA für Konkatenation akzeptierte Sprache ist $L(\B_1)\cdot L(\B_2)$.
 \end{lemma}
 \begin{proof}
- Zeige via Induktion über die Länge von $w_1$, dass $\forall w_1,w_2\in\Sigma^*, \forall q_1\in Q_1, \linebreak[1] \forall q_1'\in F, \forall q_2'\in Q_2$ die folgende Eigenschaft gilt.
+ Zeige mittels Induktion über $w_1$, dass $\forall w_1,w_2\in\Sigma^*, \forall q_1\in Q_1, \linebreak[1] \forall q_1'\in F, \forall q_2'\in Q_2$ die folgende Eigenschaft gilt.
  \[
- (q_1,w_1,q_1')\in\reach_{\B_1} \text{ und } (\qinit,w_2,q_2')\in\reach_{\B_2} \quad\Leftrightarrow\quad (q_1,w,q_2')\in\reach_\B
+   q_1' \in \reach_{\B_1}(q_1,w_1) \text{ und } q_2' \in
+   \reach_{\B_2}(\qinit,w_2) \quad\Leftrightarrow\quad q_2' \in \reach_\B(q_1,w_1w_2)
  \]
  Mit dieser Eigenschaft folgt leicht für alle $w_1, w_2 \in \Sigma^*$:
  \[
@@ -1911,9 +1961,9 @@ Die vom $\Eps$-NEA für Konkatenation akzeptierte Sprache ist $L(\B_1)\cdot L(\B
 
 
 
-
 \subsection{Abschlusseigenschaften}
-% \datenote{08.11.18}
+\datenote{20.05.12026}
+
 % \begin{Def}[name={[Abgeschlossenheit von $\mathcal{L}$]}]
 %         Eine Menge $\mathcal{L}\subseteq \mathcal{P}(\Sigma^*)$ von Sprachen heißt \emph{abgeschlossen} unter Operation \\
 %         $f:\mathcal{P}(\Sigma^*)^n \-> \mathcal{P}(\Sigma^*)$ falls $\forall L_1,\dots, L_n\in \mathcal{L} : f(L_1,\dots, L_n)\in \mathcal{L}$.
@@ -1946,8 +1996,8 @@ Sei $L$ eine reguläre Sprache. Dann gibt es einen $\Eps$-NEA $\B=(\Sigma, Q, \d
 Wir konstruieren einen NEA $\B_*=(\Sigma, Q\overset.\cup\{\qinit_*\}, \delta_*, \qinit_*, F\overset.\cup\{\qinit_*\})$ für $L^*$, indem wir
 \begin{itemize}
  \item einen neuen akzeptierenden Startzustand einführen,
- \item vom neuen Startzustand einen $\Eps$-Übergang zum alten Startzustand hinzufügen und
- \item von jedem akzeptierenden Zustand einen $\Eps$-Übergang zum alten Startzustand hinzufügen.
+ \item vom neuen Startzustand einen $\Eps$-Transition zum alten Startzustand hinzufügen und
+ \item von jedem akzeptierenden Zustand einen $\Eps$-Transition zum alten Startzustand hinzufügen.
 \end{itemize}
 \[
                 \delta_*(q,x) =
@@ -2367,13 +2417,27 @@ Wir kennen bisher kein systematisches Verfahren zum Lösen solcher Gleichungen u
  
  Angenommen, es gäbe Wörter $x$ mit dieser Eigenschaft.
  Dann gibt es auch Wörter minimaler Länge mit dieser Eigenschaft.
- Sei $w$ solch ein Wort minimaler Länge.
- Da alle Lösungen von der Form $\underbrace{A^nX}_{\ni w} \cup \underbrace{A^{n-1}B \cup \dots \cup AB \cup B}_{\not\ni w}$ sind, hat $w$ die Form
- $w = u_1\dots u_n w'\text{ mit } u_1,\dots,u_n\in A\text{ und } w'\in X$.
+ Sei $w \in X \setminus A^*B$ solch ein Wort minimaler Länge.
+
+ Wegen $X = AX \cup B$ gilt:
+ \begin{align*}
+   X &= AX \cup B \\
+     &=  A ( AX \cup B) \cup B &
+                               & = A^2X \cup AB \cup B \\
+     &= A^2 ( AX \cup B) \cup AB \cup B && = A^3X \cup A^2B \cup AB
+                                           \cup B\\
+     &= \dots &&= A^nX \cup A^{n-1}B \cup \dots \cup AB \cup B
+ \end{align*}
+ Daher muss es ein $n>0$ geben, sodass  $\underbrace{A^nX}_{\ni w}
+ \cup \underbrace{A^{n-1}B \cup \dots \cup AB \cup B}_{\not\ni w}$
+ ist. Also hat $w$ die Form
+ $w = u_1\dots u_n w'\text{ mit } u_1,\dots,u_n\in A, \forall i: u_i
+ \ne \Eps \text{ und } w'\in X$.
  Fallunterscheidung:
  \begin{itemize}
   \item $w' \in A^*B$ \ $\Rightarrow w\in A^nA^*B\subseteq A^*B$ -- Widerspruch!
-  \item $w' \notin A^*B$ \ $\Rightarrow w'$ ist bereits Element einer Lösung. Widerspruch zur minimalen Länge von $w$.
+  \item $w' \in X \setminus A^*B$ \ $\Rightarrow w'$ ist bereits
+    Element einer Lösung mit $|w'| < |u_1\dots u_n w'| = |w|$. Widerspruch zur minimalen Länge von $w$.
  \end{itemize}
  Die Sprache $A^*B$ ist also die einzige Lösung für $X$.
  \qedhere
@@ -2416,7 +2480,7 @@ Wir haben nun alle Hilfsmittel, um den Beweis für die fehlende Richtung zu füh
     Dieses Ergebnis in $r_0,\ldots,r_{n-1}$ eingesetzt ergibt:
     \begin{align*}
       r_i &= N(q_i) + \left (\sum_{j = 0}^{n-1} R_{ij} r_j \right) + R_{in} \underbrace{R_{nn}^*\left(N(q_n) + \sum_{j = 0}^{n-1} R_{nj} r_j  \right)}_{r_n} \\
-      \intertext{(Ausmultiplizieren von $R_{in}R_{nn}^*$)}
+      \intertext{(Distributivgesetz: $R_{in}R_{nn}^*$)}
           &= N(q_i) + \left (\sum_{j = 0}^{n-1} R_{ij} r_j \right) + R_{in}R_{nn}^*N(q_n) + \sum_{j = 0}^{n-1} R_{in}R_{nn}^*R_{nj} r_j  \\
       \intertext{(Zusammenlegen der Summen und Ausklammern von $r_j$)}
           &= N(q_i) + R_{in}R_{nn}^*N(q_n) + \sum_{j = 0}^{n-1} (R_{ij} + R_{in}R_{nn}^*R_{nj}) r_j
@@ -2584,6 +2648,8 @@ Programm erfüllt Sicherheitspolitik nicht, denn
 \]
 }
 
+\clearpage
+\datenote{NEXT-UP}
 
 %%% Local Variables:
 %%% mode: latex

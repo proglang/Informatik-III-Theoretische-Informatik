@@ -19,16 +19,16 @@ variable ℓ ℓ₁ ℓ₂ : Level
 _↔_ : Set → Set → Set
 A ↔ B = (A → B) × (B → A)
 
+module example-abc where
+  data Σabc : Set where a b c : Σabc
 
-data Σabc : Set where a b c : Σabc
+  _ : Word Σabc
+  _ = ε
 
-_ : Word Σabc
-_ = ε
+  _ : Word Σabc
+  _ = a ∷ b ∷ ε
 
-_ : Word Σabc
-_ = a ∷ b ∷ ε
-
-Language : Set → Set₁
+Language : Set → Set _
 Language Σ = Word Σ → Set
 
 module _ {Σ : Set} where

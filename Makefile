@@ -8,6 +8,8 @@ HOMEPAGE = $(HOME)/git/proglang.github.io
 TARGET = $(HOMEPAGE)/src/teaching/26ss/ti/script/
 DATE := $(shell date '+%Y-%m-%d-%H:%M:%S')
 
+MSG ?= update script
+
 .PHONY: all
 
 all: 
@@ -23,5 +25,5 @@ script.pdf: $(ROOT).pdf
 
 export: script.pdf
 	cp $? $(TARGET)
-	cd $(HOMEPAGE); ./publish "update script $(DATE)"
+	cd $(HOMEPAGE); ./publish "$(MSG)"
 
