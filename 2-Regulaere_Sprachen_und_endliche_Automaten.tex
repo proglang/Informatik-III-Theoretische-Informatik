@@ -1673,7 +1673,7 @@ wobei $\Sigma$, $Q$, $\qinit$, $F$ wie bei \acs*{NEA}s (bzw.\ \acs*{DEA}s) defin
 \]
 \end{Def}
 
-Bemerkung: Wenn $f : A \to \calP (B)$ ist, dann schreiben wir $\hat{f} : \calP (A) \to \calP (B)$ für die Fortsetzung von $f$ auf Mengen. D.h. $\hat{f} (M) = \bigcup \{ f(a) \mid a \in M \}$, falls $M \subseteq A$.
+Bemerkung: Wenn $f : A \to \calP (B)$ ist, dann schreiben wir $\hat{f} : \calP (A) \to \calP (B)$ für die Fortsetzung von $f$ auf Mengen. D.h. $\hat{f} (M) = \bigcup_{a \in M} f(a)$, falls $M \subseteq A$.
 Z.B. verwenden wir $\hat\delta : \calP (Q) \times (\Sigma \cup\{\Eps\}) \to \calP (Q)$.
 
 Bemerkung: Funktionen $f, g : A \to \calP (B)$ können bzgl. ihres Bildbereichs geordnet werden. Wir schreiben $f \subseteq g$, falls $\forall a \in A. f(a) \subseteq g(a)$.
@@ -1962,7 +1962,7 @@ Die vom $\Eps$-NEA für Konkatenation akzeptierte Sprache ist $L(\B_1)\cdot L(\B
 
 
 \subsection{Abschlusseigenschaften}
-\datenote{20.05.12026}
+\datenote{20.05.2026}
 
 % \begin{Def}[name={[Abgeschlossenheit von $\mathcal{L}$]}]
 %         Eine Menge $\mathcal{L}\subseteq \mathcal{P}(\Sigma^*)$ von Sprachen heißt \emph{abgeschlossen} unter Operation \\
