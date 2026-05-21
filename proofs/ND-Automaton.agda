@@ -19,29 +19,44 @@ open import Language hiding (_∩_)
 
 import Automaton as DET
 
--- nondeterministic automaton
+-- auxiliary definitions for sets
 
-is-final : {Q : Set} → Pred Q lzero → Pred Q lzero → Set
-is-final F R = ∃[ q ] q ∈ F ∩ R
+𝔓 : Set → Set₁
+𝔓 Q = Pred Q lzero
+
+non-empty : {Q : Set} → 𝔓 Q → Set
+non-empty R = ∃[ q ] q ∈ R
+
+infix 5 _≠∅
+_≠∅ = non-empty
+
+-- set comprehension notation
+
+｛｝ : ∀ {ℓ}{A : Set ℓ} → A → A
+｛｝ = λ z → z
+
+syntax ｛｝ (λ x → M) = ｛ x ∣ M ｝
+
+-- nondeterministic automaton
 
 record ND-Automaton (Σ : Set) : Set₁ where
   field
     Q      : Set
-    δ      : Q → Σ → Q → Set
+    δ      : Q → Σ → 𝔓 Q
     qinit  : Q
-    F      : Q → Set
+    F      : 𝔓 Q
 
-  δ̃ : Q → Word Σ → Q → Set _
+  δ̃ : Q → Word Σ → 𝔓 Q
   δ̃ q ε        = ｛ q ｝
-  δ̃ q (a ∷ w)  = λ p → ∃[ q′ ] q′ ∈ δ q a × p ∈ δ̃ q′ w
+  δ̃ q (a ∷ w)  = ｛ p ∣ ∃[ q′ ] q′ ∈ δ q a × p ∈ δ̃ q′ w ｝
 
   accepts : Q → Language Σ
-  accepts q w = is-final F (δ̃ q w)
+  accepts q w = F ∩ δ̃ q w ≠∅
 
   Lang : Language Σ
   Lang = accepts qinit
 
-  reachable : Q → Set _
+  reachable : 𝔓 Q
   reachable q = ∃[ w ] q ∈ δ̃ qinit w
 
 -- powerset construction
@@ -49,10 +64,10 @@ record ND-Automaton (Σ : Set) : Set₁ where
 module _ {Σ : Set} where
   powerset : ND-Automaton Σ → DET.Automaton Σ
   powerset 𝓝 = record {
-    Q      =  Qₙ → Set ;
-    δ      =  λ qq a → λ p → ∃[ q ] q ∈ qq × p ∈ δₙ q a  ;
+    Q      =  𝔓 Qₙ ;
+    δ      =  λ qq a → ｛ p ∣ ∃[ q ] q ∈ qq × p ∈ δₙ q a ｝ ;
     qinit  =  ｛ qinitₙ ｝ ;
-    F      =  λ qq → is-final Fₙ qq
+    F      =  λ qq → Fₙ ∩ qq ≠∅
     }
     where open ND-Automaton 𝓝 renaming (Q to Qₙ; δ to δₙ; qinit to qinitₙ; F to Fₙ)
 
@@ -69,8 +84,9 @@ module Powerset {Σ : Set} (𝓝 :  ND-Automaton Σ) where
 
   δ̃-mono : (q1 q2 : Qₚ) → q1 ⊆′ q2 → ∀ w → δ̃ₚ q1 w ⊆′ δ̃ₚ q2 w
   δ̃-mono q1 q2 q1⊆q2 ε = q1⊆q2
-  δ̃-mono q1 q2 q1⊆q2 (a ∷ w) x∈ = δ̃-mono (λ p → ∃-syntax λ q → q ∈ q1 × p ∈ δ q a)
-                                   (λ p → ∃-syntax λ q → q ∈ q2 × p ∈ δ q a) (δ-mono q1 q2 q1⊆q2 a) w x∈
+  δ̃-mono q1 q2 q1⊆q2 (a ∷ w) x∈ = δ̃-mono (λ p → ∃[ q ] q ∈ q1 × p ∈ δ q a)
+                                         (λ p → ∃[ q ] q ∈ q2 × p ∈ δ q a)
+                                         (δ-mono q1 q2 q1⊆q2 a) w x∈
 
   power-left : (qn : Q) → (qd : Qₚ) → qn ∈ qd
     → accepts qn ⊆ acceptsₚ qd
