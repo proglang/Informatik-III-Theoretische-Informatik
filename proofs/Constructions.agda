@@ -25,7 +25,7 @@ module _ {Σ} where
   intersection : Automaton {ℓ} Σ → Automaton {ℓ} Σ → Automaton Σ
   intersection A₁ A₂ = record {
     Q = Q₁ × Q₂ ;
-    δ = λ{ (q₁ , q₂) x → δ₁ q₁ x , δ₂ q₂ x} ;
+    δ = λ{ (q₁ , q₂) a → δ₁ q₁ a , δ₂ q₂ a} ;
     qinit = qinit₁ , qinit₂ ;
     F = λ{ (FA , FB) → F₁ FA × F₂ FB}
     }
@@ -40,12 +40,12 @@ module _ {Σ} where
     intersection-left : (qa : QA) (qb : QB)
       → accepts (intersection A B) (qa , qb) ⊆ (accepts A qa ∩ accepts B qb)
     intersection-left qa qb ε ε∈ = ε∈
-    intersection-left qa qb (x ∷ w) xw∈ = intersection-left (δA qa x) (δB qb x) w xw∈
+    intersection-left qa qb (a ∷ w) aw∈ = intersection-left (δA qa a) (δB qb a) w aw∈
 
     intersection-right : (qa : QA) (qb : QB)
       → (accepts A qa ∩ accepts B qb) ⊆ accepts (intersection A B) (qa , qb)
     intersection-right qa qb ε ε∈ = ε∈
-    intersection-right qa qb (x ∷ w) xw∈ = intersection-right (δA qa x) (δB qb x) w xw∈
+    intersection-right qa qb (a ∷ w) aw∈ = intersection-right (δA qa a) (δB qb a) w aw∈
 
     aux : (qa : QA) (qb : QB)
       → accepts (intersection A B) (qa , qb) ≐ (accepts A qa ∩ accepts B qb)
@@ -59,7 +59,7 @@ module _ {Σ} where
   union : Automaton{ℓ} Σ → Automaton{ℓ} Σ → Automaton Σ
   union A B = record {
     Q = (Q A) × (Q B) ;
-    δ = λ{ (qa , qb) x → δ A qa x , δ B qb x} ;
+    δ = λ{ (qa , qb) a → δ A qa a , δ B qb a} ;
     qinit = qinit A , qinit B ;
     F = λ{ (FA , FB) → F A FA ⊎ F B FB}
     }
@@ -72,12 +72,12 @@ module _ {Σ} where
     union-left : (qa : QA) (qb : QB)
       → accepts (union A B) (qa , qb) ⊆ (accepts A qa ∪ accepts B qb)
     union-left qa qb ε ε∈ = ε∈
-    union-left qa qb (x ∷ w) xw∈ = union-left (δA qa x) (δB qb x) w xw∈
+    union-left qa qb (a ∷ w) aw∈ = union-left (δA qa a) (δB qb a) w aw∈
 
     union-right : (qa : QA) (qb : QB)
       → (accepts A qa ∪ accepts B qb) ⊆ accepts (union A B) (qa , qb)
     union-right qa qb ε ε∈ = ε∈
-    union-right qa qb (x ∷ w) xw∈ = union-right (δA qa x) (δB qb x) w xw∈
+    union-right qa qb (a ∷ w) aw∈ = union-right (δA qa a) (δB qb a) w aw∈
 
   union-correct : (A B : Automaton{ℓ} Σ) → Lang (union A B) ≐ (Lang A ∪ Lang B)
   union-correct A B  = Union.union-left A B (qinit A) (qinit B) , Union.union-right A B (qinit A) (qinit B)
@@ -93,12 +93,12 @@ module _ {Σ} where
     complement-left : (qa : QA)
       → accepts (complement A) qa ⊆ ∁ (accepts A qa)
     complement-left qa ε ε∉ ε∈ = contradiction ε∈ ε∉
-    complement-left qa (x ∷ w) xw∉ xw∈ = complement-left (δA qa x) w xw∉ xw∈
+    complement-left qa (a ∷ w) aw∉ aw∈ = complement-left (δA qa a) w aw∉ aw∈
 
     complement-right : (qa : QA)
       → ∁ (accepts A qa) ⊆ accepts (complement A) qa
     complement-right qa ε ε∉ = ε∉
-    complement-right qa (x ∷ w) xw∉ = complement-right (δA qa x) w xw∉
+    complement-right qa (a ∷ w) aw∉ = complement-right (δA qa a) w aw∉
 
   complement-correct :
     (A : Automaton{ℓ} Σ)
