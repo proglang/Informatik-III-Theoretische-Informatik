@@ -49,7 +49,8 @@ record ND-Automaton (Σ : Set) : Set₁ where
 module _ {Σ : Set} (A : ND-Automaton Σ) where
   open ND-Automaton A
 
-  δ̃-++ : ∀ (q : Q) (u : Word Σ) {v} → δ̃ q (u ++ v) ≐′ lift (λ q′ → δ̃ q′ v) (δ̃ q u)
+  δ̃-++ : ∀ (q : Q) (u : Word Σ) {v} → δ̃ q (u ++ v) ≐′ lift₂ δ̃ (δ̃ q u) v
+  -- δ̃-++ : ∀ (q : Q) (u : Word Σ) {v} → δ̃ q (u ++ v) ≐′ lift (λ q′ → δ̃ q′ v) (δ̃ q u)
 
   δ̃-++ q ε .proj₁ x∈δ̃-q-v = q , refl , x∈δ̃-q-v
   δ̃-++ q (a ∷ u) .proj₁ (q′ , q′∈δ-q-a , x∈δ̃-q′-u++v) = let (q″ , q″∈δ̃-q′-u , ∈δ̃-q″-v) = δ̃-++ q′ u .proj₁ x∈δ̃-q′-u++v in  q″ , ((q′ , q′∈δ-q-a , q″∈δ̃-q′-u) , ∈δ̃-q″-v)

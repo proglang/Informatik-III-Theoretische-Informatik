@@ -67,8 +67,6 @@ module _ {Σ} (A : FiniteAutomaton Σ) where
   
   -- equivalence class of a state p
 
-  [_]≈ : Q → Subset n
-  [ p ]≈ = {!!}
-
-  is-≈-class : ∀ p → ≈-class ([ p ]≈)
-  is-≈-class p₀ = p₀ , {!!}
+  postulate
+    [_]≈ : Q → Subset n
+    is-≈-class : ∀ p → ≈-class ([ p ]≈)

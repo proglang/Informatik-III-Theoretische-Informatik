@@ -13,6 +13,8 @@ open import Relation.Binary.PropositionalEquality using
   (_≡_; _≢_; refl; sym; trans; cong; cong₂; subst)
 open import Relation.Nullary using (¬_; contradiction)
 open import Relation.Unary using (_∈_; _∉_)
+import Relation.Unary as Unary
+open import Sets using (𝔓)
 
 variable ℓ ℓ₁ ℓ₂ : Level
 
@@ -29,32 +31,32 @@ module example-abc where
   _ = a ∷ b ∷ ε
 
 Language : Set → Set _
-Language Σ = Word Σ → Set
+Language Σ = 𝔓 (Word Σ)
 
 module _ {Σ : Set} where
 
   -- set operations
 
   Σ⋆ : Language Σ
-  Σ⋆ w = ⊤
+  Σ⋆ = Unary.U
 
   ∅ : Language Σ
-  ∅ w = ⊥
+  ∅ = Unary.∅
 
   _∩_ : Language Σ → Language Σ → Language Σ
-  (L₁ ∩ L₂) w = L₁ w × L₂ w
+  _∩_ = Unary._∩_
 
   _∪_ : Language Σ → Language Σ → Language Σ
-  (L₁ ∪ L₂) w = L₁ w ⊎ L₂ w
+  _∪_ = Unary._∪_
 
   ∁ : Language Σ → Language Σ
-  ∁ L w = w ∉ L
+  ∁ = Unary.∁
 
   _⊆_ : Language Σ → Language Σ → Set
-  L₁ ⊆ L₂ = ∀ w → L₁ w → L₂ w
+  _⊆_ = Unary._⊆′_
 
   _≐_ : Language Σ → Language Σ → Set
-  L₁ ≐ L₂ = L₁ ⊆ L₂ × L₂ ⊆ L₁
+  _≐_ = Unary._≐′_
 
   lemma-∩ : (L : Language Σ) → (L ∩ Σ⋆) ≐ L
   lemma-∩ L = (λ{ w (w∈L , w∈Σ⋆) → w∈L}) , λ{ w w∈L → w∈L , tt}
@@ -64,8 +66,8 @@ module _ {Σ : Set} where
   𝟙 (x ∷ w) = ⊥
 
   ｛_｝ : Word Σ → Language Σ
-  ｛ w ｝ = w ≡_
-  
+  ｛_｝ = Unary.｛_｝
+
   _·_ : Language Σ → Language Σ → Language Σ
   (L₁ · L₂) w = ∃[ u ] ∃[ v ] (w ≡ u ++ v × L₁ u × L₂ v)
 
