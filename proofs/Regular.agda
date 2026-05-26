@@ -13,7 +13,7 @@ open import Data.Sum using (_⊎_; inj₁; inj₂)
 open import Relation.Binary.PropositionalEquality using
   (_≡_; _≢_; refl; sym; trans; cong; cong₂; dcong; subst)
 open import Relation.Nullary using (¬_; contradiction)
-open import Relation.Unary using (_∈_; _∉_)
+open import Relation.Unary using (_∈_; _∉_; ∅; _∪_; ｛_｝)
 
 open import Language
 -- open import ND-Automaton

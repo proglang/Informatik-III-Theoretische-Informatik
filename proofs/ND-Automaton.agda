@@ -14,10 +14,12 @@ open import Function using (case_of_; _∘_)
 open import Relation.Binary.PropositionalEquality using
   (_≡_; _≢_; refl; sym; trans; cong; cong₂; dcong; subst)
 open import Relation.Nullary using (¬_; contradiction)
-open import Relation.Unary using (Pred; _∈_; _∉_;_∩_; Empty; ｛_｝) renaming (_⊆_ to _⊆′_; _≐_ to _≐′_)
+open import Relation.Unary using (Pred; _∈_; _∉_; _∩_; Empty; ∅; ｛_｝)
+  renaming (_⊆_ to _⊆′_; _≐_ to _≐′_)
+open import Relation.Unary using () renaming (_⊆′_ to _⊆_; _≐′_ to _≐_)
 open import Relation.Unary.Properties using (≐-sym)
 
-open import Language hiding (_∩_) renaming (｛_｝ to singleton )
+open import Language
 open import Sets
 
 import Automaton as DET
@@ -140,7 +142,7 @@ module _ {Σ : Set} where
   Aa : Σ → ND-Automaton Σ
   Aa a = record { Q = Fin 2 ; δ = δa a ; qinit = zero ; F = suc zero ≡_ }
 
-  Aa-correct : ∀ a → ND-Automaton.Lang (Aa a) ≐ singleton [ a ]
+  Aa-correct : ∀ a → ND-Automaton.Lang (Aa a) ≐ ｛ [ a ] ｝
   Aa-correct a .proj₁ ε (suc zero , refl , ())
   Aa-correct a .proj₁ (b ∷ ε) (suc zero , refl , suc zero , refl , refl) = refl
   Aa-correct a .proj₁ (b ∷ x₁ ∷ w) (suc zero , refl , suc zero , refl , fst₂ , () , snd)
@@ -184,20 +186,21 @@ module _ {Σ : Set} where
     A·-inj₂ : ∀ q₁ q₂ w → inj₁ q₁ ∉ δ̃ (inj₂ q₂) w
     A·-inj₂ q₁ q₂ (a ∷ w) (inj₂ q₂′ , fst , snd) = A·-inj₂ q₁ q₂′ w snd
 
-    A·-left : ∀ q₁ w → δ̃ (inj₁ q₁) w ∩ F ≠∅ → ∃[ u ] ∃[ v ] w ≡ u ++ v × δ̃₁ q₁ u ∩ F₁ ≠∅ × v ∈ Lang₂
-    A·-left q₁ ε (inj₁ _ , refl , q₁∈F₁ , F₂-qi₂) = ε , ε , refl , (q₁ , refl , q₁∈F₁) , (qinit₂ , F₂-qi₂ , refl)
-    A·-left q₁ (a ∷ w) (q , (inj₁ q₁′ , q₁′∈ , q∈δ̃-q′-w) , q∈F)
-      with A·-left q₁′ w (q , q∈δ̃-q′-w , q∈F)
-    ... | u , v , refl , (q₁″ , ih , q₁″∈F₁) , ih₁ = (a ∷ u) , v , refl , (q₁″ , (q₁′ , q₁′∈ , ih) , q₁″∈F₁) , ih₁
-    A·-left q₁ (a ∷ w) (inj₁ x , (inj₂ q₂′ , q₂′∈ , q∈δ̃-q′-w) , q∈F) = contradiction q∈δ̃-q′-w (A·-inj₂ x q₂′ w)
-    A·-left q₁ (a ∷ w) (inj₂ q , (inj₂ q₂′ , q₂′∈ , q∈δ̃-q′-w) , q∈F) = ε , (a ∷ w) , refl , (q₁ , refl , q₂′∈ .proj₁) , q , (q∈F , q₂′ , ((q₂′∈ .proj₂) , (A₂-sim⁻ q₂′ w q∈δ̃-q′-w)))
+    A·-left : ∀ q₁ w → F ∩ δ̃ (inj₁ q₁) w ≠∅ → ∃[ u ] ∃[ v ] w ≡ u ++ v × F₁ ∩ δ̃₁ q₁ u ≠∅ × v ∈ Lang₂
+    A·-left q₁ ε (inj₁ _ , (q₁∈F₁ , F₂-qi₂) , refl) = ε , ε , refl , (q₁ , q₁∈F₁ , refl) , (qinit₂ , F₂-qi₂ , refl)
+    A·-left q₁ (a ∷ w) (q , q∈F , (inj₁ q₁′ , q₁′∈ , q∈δ̃-q′-w))
+      with A·-left q₁′ w (q , q∈F , q∈δ̃-q′-w)
+    ... | u , v , refl , (q₁″ , q₁″∈F₁ , ih) , ih₁ = (a ∷ u) , v , refl , (q₁″ , q₁″∈F₁ , (q₁′ , q₁′∈ , ih)) , ih₁
+    A·-left q₁ (a ∷ w) (inj₁ x , q∈F , (inj₂ q₂′ , q₂′∈ , q∈δ̃-q′-w)) = contradiction q∈δ̃-q′-w (A·-inj₂ x q₂′ w)
+    A·-left q₁ (a ∷ w) (inj₂ q , q∈F , (inj₂ q₂′ , q₂′∈ , q∈δ̃-q′-w)) = ε , (a ∷ w) , refl , (q₁ , q₂′∈ .proj₁ , refl) , q , (q∈F , q₂′ , ((q₂′∈ .proj₂) , (A₂-sim⁻ q₂′ w q∈δ̃-q′-w)))
 
     A·-correct : Lang ≐ (Lang₁ · Lang₂)
-    
-    A·-correct .proj₁ ε (inj₁ qinit₁ , (qi1∈F1 , qi2∈F2) , refl) = ε , ε , refl , ((qinit₁ , qi1∈F1 , refl) , (qinit₂ , (qi2∈F2 , refl)))
-    A·-correct .proj₁ (a ∷ w) w∈ = {!A·-left qinit₁ (a ∷ w) !}
-    
-    A·-correct .proj₂ w (u , ε , refl , u∈LA₁@(q₁ , q₁∈F₁ , δ̃₁-qi-u-q₁) , v∈LA₂@(q₂ , q₂∈F₂ , refl))
+    A·-correct .proj₁ ε (inj₁ qinit₁ , (qi1∈F1 , qi2∈F2) , refl) = ε , ε , refl , (qinit₁ , qi1∈F1 , refl) , (qinit₂ , qi2∈F2 , refl)
+    A·-correct .proj₁ (a ∷ w) w∈ = A·-left qinit₁ (a ∷ w) w∈
+
+    A·-correct .proj₂ w (u , ε , refl , (q₁ , q₁∈F₁ , δ̃₁-qi-u-q₁) , (q₂ , q₂∈F₂ , refl))
       rewrite ++-identityʳ u = (inj₁ q₁) , (q₁∈F₁ , q₂∈F₂) , A₁-sim qinit₁ u δ̃₁-qi-u-q₁
-    A·-correct .proj₂ w (u , a ∷ v , refl , u∈LA₁@(q₁ , q₁∈F₁ , δ̃₁-qi-u-q₁) , v∈LA₂@ (q₂ , q₂∈F₂ , (q₂′ , q₂′∈δ₂-qi2-a , q₂∈δ̃₂-q₂′-v)))
-      = (inj₂ q₂) , (q₂∈F₂ , δ̃-++ A· (inj₁ qinit₁) u {a ∷ v} .proj₂ {inj₂ q₂} {!!})
+    A·-correct .proj₂ w (u , a ∷ v , refl , (q₁ , q₁∈F₁ , δ̃₁-qi-u-q₁) , (q₂ , q₂∈F₂ , q₂′ , q₂′∈δ₂-qi2-a , q₂∈δ̃₂-q₂′-v))
+      = (inj₂ q₂) , q₂∈F₂ , δ̃-++ A· (inj₁ qinit₁) u {a ∷ v} .proj₂
+          ((inj₁ q₁) , A₁-sim qinit₁ u δ̃₁-qi-u-q₁
+          , (inj₂ q₂′) , ((q₁∈F₁ , q₂′∈δ₂-qi2-a) , A₂-sim q₂′ v q₂∈δ̃₂-q₂′-v))

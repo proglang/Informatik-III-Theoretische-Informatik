@@ -12,8 +12,8 @@ open import Data.Sum using (_⊎_; inj₁; inj₂)
 open import Relation.Binary.PropositionalEquality using
   (_≡_; _≢_; refl; sym; trans; cong; cong₂; subst)
 open import Relation.Nullary using (¬_; contradiction)
-open import Relation.Unary using (_∈_; _∉_)
-import Relation.Unary as Unary
+open import Relation.Unary using (_∈_; _∉_; U; ∅; _∩_; _∪_; ∁; ｛_｝)
+  renaming (_⊆′_ to _⊆_; _≐′_ to _≐_)
 open import Sets using (𝔓)
 
 variable ℓ ℓ₁ ℓ₂ : Level
@@ -37,36 +37,36 @@ module _ {Σ : Set} where
 
   -- set operations
 
-  Σ⋆ : Language Σ
-  Σ⋆ = Unary.U
+  -- Σ⋆ : Language Σ
+  -- Σ⋆ = U
+  --
+  -- ∅ : Language Σ
+  -- ∅ = ∅
+  --
+  -- _∩_ : Language Σ → Language Σ → Language Σ
+  -- _∩_ = _∩_
+  --
+  -- _∪_ : Language Σ → Language Σ → Language Σ
+  -- _∪_ = _∪_
+  --
+  -- ∁ : Language Σ → Language Σ
+  -- ∁ = ∁
+  --
+  -- _⊆_ : Language Σ → Language Σ → Set
+  -- _⊆_ = _⊆_
+  --
+  -- _≐_ : Language Σ → Language Σ → Set
+  -- _≐_ = _≐_
 
-  ∅ : Language Σ
-  ∅ = Unary.∅
-
-  _∩_ : Language Σ → Language Σ → Language Σ
-  _∩_ = Unary._∩_
-
-  _∪_ : Language Σ → Language Σ → Language Σ
-  _∪_ = Unary._∪_
-
-  ∁ : Language Σ → Language Σ
-  ∁ = Unary.∁
-
-  _⊆_ : Language Σ → Language Σ → Set
-  _⊆_ = Unary._⊆′_
-
-  _≐_ : Language Σ → Language Σ → Set
-  _≐_ = Unary._≐′_
-
-  lemma-∩ : (L : Language Σ) → (L ∩ Σ⋆) ≐ L
+  lemma-∩ : (L : Language Σ) → (L ∩ U) ≐ L
   lemma-∩ L = (λ{ w (w∈L , w∈Σ⋆) → w∈L}) , λ{ w w∈L → w∈L , tt}
 
   𝟙 : Language Σ
   𝟙 ε = ⊤
   𝟙 (x ∷ w) = ⊥
 
-  ｛_｝ : Word Σ → Language Σ
-  ｛_｝ = Unary.｛_｝
+  -- ｛_｝ : Word Σ → Language Σ
+  -- ｛_｝ = ｛_｝
 
   _·_ : Language Σ → Language Σ → Language Σ
   (L₁ · L₂) w = ∃[ u ] ∃[ v ] (w ≡ u ++ v × L₁ u × L₂ v)
