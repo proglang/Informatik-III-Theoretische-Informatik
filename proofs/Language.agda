@@ -63,6 +63,9 @@ module _ {Σ : Set} where
   𝟙 ε = ⊤
   𝟙 (x ∷ w) = ⊥
 
+  ｛_｝ : Word Σ → Language Σ
+  ｛ w ｝ = w ≡_
+  
   _·_ : Language Σ → Language Σ → Language Σ
   (L₁ · L₂) w = ∃[ u ] ∃[ v ] (w ≡ u ++ v × L₁ u × L₂ v)
 
