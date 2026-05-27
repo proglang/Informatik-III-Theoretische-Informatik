@@ -204,3 +204,131 @@ module _ {Σ : Set} where
       = (inj₂ q₂) , q₂∈F₂ , δ̃-++ A· (inj₁ qinit₁) u {a ∷ v} .proj₂
           ((inj₁ q₁) , A₁-sim qinit₁ u δ̃₁-qi-u-q₁
           , (inj₂ q₂′) , ((q₁∈F₁ , q₂′∈δ₂-qi2-a) , A₂-sim q₂′ v q₂∈δ̃₂-q₂′-v))
+
+  module Kleene (A : ND-Automaton Σ) where
+    open ND-Automaton A
+
+    A* : ND-Automaton Σ
+    A* = record {
+      Q      = Word Σ ;
+      δ      = λ u a → ｛ u ++ [ a ] ｝ ;
+      qinit  = ε ;
+      F      = Lang ∗
+      }
+
+    open ND-Automaton A* renaming (δ̃ to δ̃*; Lang to Lang*)
+
+    δ̃*-append : ∀ u w → δ̃* u w ≐′ ｛ u ++ w ｝
+    δ̃*-append u ε .proj₁ x∈ = trans (++-identityʳ u) x∈
+    δ̃*-append u ε .proj₂ x∈ = trans (sym (++-identityʳ u)) x∈
+    δ̃*-append u (a ∷ w) .proj₁ (. (u ++ [ a ]) , refl , x∈δ̃)
+      rewrite sym (++-assoc u [ a ] w) = δ̃*-append (u ++ [ a ]) w .proj₁ x∈δ̃
+    δ̃*-append u (a ∷ w) .proj₂ x∈
+      rewrite sym (++-assoc u [ a ] w) = (u ++ [ a ]) , refl , δ̃*-append (u ++ [ a ]) w .proj₂ x∈
+
+    A*-correct : ND-Automaton.Lang A* ≐ (Lang ∗)
+    A*-correct .proj₁ w (u , u∈L* , u∈δ̃*)
+      with δ̃*-append ε w .proj₁ u∈δ̃*
+    ... | refl = u∈L*
+    A*-correct .proj₂ w w∈L* = w , w∈L* , δ̃*-append ε w .proj₂ refl
+
+  module Kleene2 (A : ND-Automaton Σ) where
+    open ND-Automaton A
+
+    A* : ND-Automaton Σ
+    A* = record {
+      Q      = ⊤ ⊎ Q ;
+      δ      = λ{ (inj₁ tt) a → λ{ (inj₁ _) → ⊥
+                                 ; (inj₂ q′) → q′ ∈ δ qinit a }
+               ; (inj₂ q) a → λ{ (inj₁ _) → ⊥
+                                ; (inj₂ q′) → q′ ∈ δ q a ⊎ (q ∈ F × q′ ∈ δ qinit a) } } ;
+      qinit  = inj₁ tt ;
+      F      = λ{ (inj₁ _) → ⊤
+               ; (inj₂ q) → q ∈ F }
+      }
+
+    open ND-Automaton A* renaming (Q to Q*; δ to δ*; qinit to qinit*; F to F*; δ̃ to δ̃*; accepts to accepts*; Lang to Lang*)
+
+    finite-Q* : Finite Q → Finite Q*
+    finite-Q* (n , iso) = suc n , record {
+      fwd = λ{ (inj₁ tt) → zero
+             ; (inj₂ q) → suc (Iso.fwd iso q) } ;
+      bwd = λ{ zero → inj₁ tt
+             ; (suc i) → inj₂ (Iso.bwd iso i) } ;
+      fwd∘bwd = λ{ zero → refl
+                 ; (suc i) → cong suc (Iso.fwd∘bwd iso i) } ;
+      bwd∘fwd = λ{ (inj₁ tt) → refl
+                 ; (inj₂ q) → cong inj₂ (Iso.bwd∘fwd iso q) }
+      }
+
+    Acc₂ : Q → Language Σ
+    Acc₂ q w = F* ∩ δ̃* (inj₂ q) w ≠∅
+
+    acc-left : ∀ q w → Acc₂ q w → (accepts q · (Lang ∗)) w
+    acc-left q ε (inj₂ .q , q∈F , refl) = ε , ε , refl , (q , q∈F , refl) , (zero , tt)
+    acc-left q (a ∷ w) (r , r∈F* , (inj₂ q₁ , inj₁ q₁∈δqa , r∈δ̃))
+      with acc-left q₁ w (r , r∈F* , r∈δ̃)
+    ... | u , v , w≡u++v , (qf , qf∈F , qf∈δ̃q₁u) , v∈Lang*
+      = (a ∷ u) , v , cong (_∷_ a) w≡u++v
+      , (qf , qf∈F , (q₁ , q₁∈δqa , qf∈δ̃q₁u))
+      , v∈Lang*
+    acc-left q (a ∷ w) (r , r∈F* , (inj₂ q₁ , inj₂ (q∈F , q₁∈δqinita) , r∈δ̃))
+      with acc-left q₁ w (r , r∈F* , r∈δ̃)
+    ... | u , v , w≡u++v , (qf , qf∈F , qf∈δ̃q₁u) , (n , v∈Lang↑n)
+      = ε , (a ∷ w) , refl
+      , (q , q∈F , refl)
+      , subst (Lang ∗) (sym (cong (_∷_ a) w≡u++v))
+          (suc n
+          , (a ∷ u) , v , refl
+          , (qf , qf∈F , (q₁ , q₁∈δqinita , qf∈δ̃q₁u))
+          , v∈Lang↑n)
+
+    star-left : ∀ w → w ∈ Lang* → w ∈ (Lang ∗)
+    star-left ε (inj₁ tt , tt , refl) = zero , tt
+    star-left (a ∷ w) (r , r∈F* , (inj₂ q₁ , q₁∈δqinita , r∈δ̃))
+      with acc-left q₁ w (r , r∈F* , r∈δ̃)
+    ... | u , v , w≡u++v , (qf , qf∈F , qf∈δ̃q₁u) , (n , v∈Lang↑n)
+      = suc n
+      , (a ∷ u) , v , cong (_∷_ a) w≡u++v
+      , (qf , qf∈F , (q₁ , q₁∈δqinita , qf∈δ̃q₁u))
+      , v∈Lang↑n
+
+    mutual
+      star-right↑ : ∀ n w → w ∈ (Lang ↑ n) → w ∈ Lang*
+      star-right↑ zero ε tt = inj₁ tt , tt , refl
+      star-right↑ zero (a ∷ w) ()
+      star-right↑ (suc n) w (u , v , w≡u++v , u∈Lang , v∈Lang↑n)
+        with u | u∈Lang
+      ... | ε | (qf , qf∈F , refl)
+        = subst Lang* (sym w≡u++v) (star-right↑ n v v∈Lang↑n)
+      ... | a ∷ u' | (qf , qf∈F , q₁ , q₁∈δqinita , qf∈δ̃q₁u')
+        = subst Lang* (sym w≡u++v)
+            (r , r∈F*
+            , (inj₂ q₁ , q₁∈δqinita , r∈δ̃*))
+        where
+          r : Q*
+          r = proj₁ (acc-right↑ n q₁ u' v (qf , qf∈F , qf∈δ̃q₁u') v∈Lang↑n)
+
+          r∈F* : r ∈ F*
+          r∈F* = proj₁ (proj₂ (acc-right↑ n q₁ u' v (qf , qf∈F , qf∈δ̃q₁u') v∈Lang↑n))
+
+          r∈δ̃* : r ∈ δ̃* (inj₂ q₁) (u' ++ v)
+          r∈δ̃* = proj₂ (proj₂ (acc-right↑ n q₁ u' v (qf , qf∈F , qf∈δ̃q₁u') v∈Lang↑n))
+
+      acc-right↑ : ∀ n q u v → accepts q u → v ∈ (Lang ↑ n) → Acc₂ q (u ++ v)
+      acc-right↑ n q ε v (qf , qf∈F , refl) v∈Lang↑n with v
+      ... | ε = inj₂ q , qf∈F , refl
+      ... | a ∷ v'
+        with star-right↑ n (a ∷ v') v∈Lang↑n
+      ... | r , r∈F* , (inj₂ q₁ , q₁∈δqinita , r∈δ̃*)
+        = r , r∈F* , (inj₂ q₁ , inj₂ (qf∈F , q₁∈δqinita) , r∈δ̃*)
+      acc-right↑ n q (a ∷ u) v (qf , qf∈F , q₁ , q₁∈δqa , qf∈δ̃q₁u) v∈Lang↑n
+        with acc-right↑ n q₁ u v (qf , qf∈F , qf∈δ̃q₁u) v∈Lang↑n
+      ... | r , r∈F* , r∈δ̃*
+        = r , r∈F* , (inj₂ q₁ , inj₁ q₁∈δqa , r∈δ̃*)
+
+    star-right : ∀ w → w ∈ (Lang ∗) → w ∈ Lang*
+    star-right w (n , w∈Lang↑n) = star-right↑ n w w∈Lang↑n
+
+    A*-correct : ND-Automaton.Lang A* ≐ (Lang ∗)
+    A*-correct = star-left , star-right

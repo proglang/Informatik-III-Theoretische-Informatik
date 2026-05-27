@@ -15,13 +15,7 @@ open import Relation.Nullary using (¬_; contradiction)
 open import Relation.Unary using (_∈_; _∉_)
 
 open import Language
-
-
-record Iso (A : Set ℓ₁) (B : Set ℓ₂) : Set (ℓ₁ ⊔ ℓ₂) where
-  field fwd : A → B
-        bwd : B → A
-        fwd∘bwd : ∀ b → fwd (bwd b) ≡ b
-        bwd∘fwd : ∀ a → bwd (fwd a) ≡ a
+open import Sets using (Iso)
 
 
 -- automaton
