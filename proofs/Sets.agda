@@ -1,14 +1,20 @@
 module Sets where
 
 open import Level using (Level; _⊔_) renaming (zero to lzero; suc to lsuc)
-open import Data.Nat using (ℕ; _^_)
-open import Data.Fin using (Fin)
-open import Data.Product using (∃-syntax; _×_; _,_)
-open import Relation.Binary.PropositionalEquality using (_≡_)
-open import Relation.Unary using (Pred; _∈_)
+open import Data.Empty as Empty hiding (⊥)
+open import Data.Nat using (ℕ; zero; suc; _^_; _*_; _+_; _<_; _≤_; z≤n; s≤s)
+open import Data.Nat.Properties using (+-suc; +-identityʳ; +-monoˡ-≤)
+open import Data.Fin using (Fin; zero; suc; remQuot; combine; finToFun; funToFin; inject≤)
+open import Data.Fin.Subset using (Subset; ⊥; ⊤; Side; inside; outside) renaming (_∈_ to _∈′_)
+open import Data.Fin.Properties using (funToFin-finToFin; finToFun-funToFin)
+open import Data.Vec using (Vec; []; _∷_; tabulate)
+open import Data.Product using (∃-syntax; _×_; _,_; Σ)
+open import Relation.Binary.PropositionalEquality using (_≡_; refl; sym; cong; subst; trans)
+open import Relation.Unary using (Pred; _∈_; Decidable)
+open import Function using (_∘_)
 
 variable
-  ℓ₁ ℓ₂ : Level
+  ℓ₁ ℓ₂ ℓ₃ : Level
 
 record Iso (A : Set ℓ₁) (B : Set ℓ₂) : Set (ℓ₁ ⊔ ℓ₂) where
   field
@@ -16,6 +22,17 @@ record Iso (A : Set ℓ₁) (B : Set ℓ₂) : Set (ℓ₁ ⊔ ℓ₂) where
     bwd : B → A
     fwd∘bwd : ∀ b → fwd (bwd b) ≡ b
     bwd∘fwd : ∀ a → bwd (fwd a) ≡ a
+
+comp : ∀ {A : Set ℓ₁} {B : Set ℓ₂} {C : Set ℓ₃} → Iso A B → Iso B C → Iso A C
+comp iso-ab iso-bc =
+  record {
+    fwd = fwd iso-bc ∘ fwd iso-ab
+  ; bwd = (bwd iso-ab) ∘ (bwd iso-bc)
+  ; fwd∘bwd = λ b → trans (cong (fwd iso-bc) (fwd∘bwd iso-ab (bwd iso-bc b))) (fwd∘bwd iso-bc b)
+  ; bwd∘fwd = λ a → trans (cong (bwd iso-ab) (bwd∘fwd iso-bc (fwd iso-ab a))) (bwd∘fwd iso-ab a)
+  }
+  where
+    open Iso
 
 Finite : ∀ {ℓ} → Set ℓ → Set ℓ
 Finite X = ∃[ n ] Iso X (Fin n)
@@ -48,5 +65,93 @@ lift₂ f Pa b = ｛ c ∣ ∃[ a ] a ∈ Pa × c ∈ f a b ｝
 
 -- properties
 
--- Finite-𝔓 : ∀ {ℓ} {X : Set ℓ} → Finite X → Finite (𝔓 X)
--- Finite-𝔓 (n , iso) = (2 ^ n) , {!!}
+side→fin : Side → Fin 2
+side→fin outside = zero
+side→fin inside = suc zero
+
+fin→side : Fin 2 → Side
+fin→side zero = outside
+fin→side (suc zero) = inside
+
+fin→side∘side→fin : ∀ s → fin→side (side→fin s) ≡ s
+fin→side∘side→fin outside = refl
+fin→side∘side→fin inside = refl
+
+side→fin∘fin→side : ∀ r → side→fin (fin→side r) ≡ r
+side→fin∘fin→side zero = refl
+side→fin∘fin→side (suc zero) = refl
+
+subset→fun : ∀ {n} → Subset n → Fin n → Fin 2
+subset→fun [] ()
+subset→fun (s ∷ xs) zero = side→fin s
+subset→fun (s ∷ xs) (suc i) = subset→fun xs i
+
+fun→subset : ∀ {n} → (Fin n → Fin 2) → Subset n
+fun→subset {zero} f = []
+fun→subset {suc n} f = fin→side (f zero) ∷ fun→subset (λ i → f (suc i))
+
+subset-encode : ∀ {n} → Fin (2 ^ n) → Subset n
+subset-encode {n} i = fun→subset (finToFun {m = 2} {n = n} i)
+
+subset-decode : ∀ {n} → Subset n → Fin (2 ^ n)
+subset-decode {n} xs = funToFin {m = n} {n = 2} (subset→fun xs)
+
+fun→subset∘subset→fun : ∀ {n} (xs : Subset n) → fun→subset (subset→fun xs) ≡ xs
+fun→subset∘subset→fun [] = refl
+fun→subset∘subset→fun (s ∷ xs)
+  rewrite fin→side∘side→fin s
+        | fun→subset∘subset→fun xs
+  = refl
+
+subset→fun∘fun→subset : ∀ {n} (f : Fin n → Fin 2) → ∀ i → subset→fun (fun→subset f) i ≡ f i
+subset→fun∘fun→subset {zero} f ()
+subset→fun∘fun→subset {suc n} f zero = side→fin∘fin→side (f zero)
+subset→fun∘fun→subset {suc n} f (suc i) = subset→fun∘fun→subset (λ j → f (suc j)) i
+
+fun→subset-ext : ∀ {n} {f g : Fin n → Fin 2} →
+  (∀ i → f i ≡ g i) → fun→subset f ≡ fun→subset g
+fun→subset-ext {zero} p = refl
+fun→subset-ext {suc n} p
+  rewrite cong fin→side (p zero)
+        | fun→subset-ext (λ i → p (suc i))
+  = refl
+
+funToFin-cong : ∀ {m n} {f g : Fin m → Fin n} →
+  (∀ i → f i ≡ g i) → funToFin f ≡ funToFin g
+funToFin-cong {zero} p = refl
+funToFin-cong {suc m} p
+  rewrite p zero
+        | funToFin-cong (λ i → p (suc i))
+  = refl
+
+subset-iso : ∀ n → Iso (Fin (2 ^ n)) (Subset n)
+subset-iso n =
+  record {
+    fwd = subset-encode
+  ; bwd = subset-decode
+  ; fwd∘bwd = λ xs →
+      trans
+        (fun→subset-ext (finToFun-funToFin {m = n} {n = 2} (subset→fun xs)))
+        (fun→subset∘subset→fun xs)
+  ; bwd∘fwd = λ i →
+      trans
+        (funToFin-cong (subset→fun∘fun→subset (finToFun {m = 2} {n = n} i)))
+        (funToFin-finToFin {m = n} {n = 2} i)
+  }
+
+inverse-iso : ∀ {ℓ₁ ℓ₂} {A : Set ℓ₁} {B : Set ℓ₂} → Iso A B → Iso B A
+inverse-iso iso =
+  record
+    { fwd = Iso.bwd iso
+    ; bwd = Iso.fwd iso
+    ; fwd∘bwd = Iso.bwd∘fwd iso
+    ; bwd∘fwd = Iso.fwd∘bwd iso
+    }
+
+postulate
+  power-iso : ∀ {ℓ} {X : Set ℓ} n → Iso X (Fin n) → Iso (𝔓 X) (Subset n)
+
+Finite-𝔓 : ∀ {ℓ} {X : Set ℓ} → Finite X → Finite (𝔓 X)
+Finite-𝔓 (n , iso)
+  = (2 ^ n)
+  , comp (power-iso n iso) (inverse-iso (subset-iso n))

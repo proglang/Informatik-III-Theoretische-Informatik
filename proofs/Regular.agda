@@ -13,10 +13,10 @@ open import Data.Sum using (_⊎_; inj₁; inj₂)
 open import Relation.Binary.PropositionalEquality using
   (_≡_; _≢_; refl; sym; trans; cong; cong₂; dcong; subst)
 open import Relation.Nullary using (¬_; contradiction)
-open import Relation.Unary using (_∈_; _∉_; ∅; _∪_; ｛_｝)
+open import Relation.Unary using (_∈_; _∉_; ∅; _∪_; ｛_｝) renaming (_≐′_ to _≐_)
 
 open import Language
--- open import ND-Automaton
+open import ND-Automaton
 
 -- regular expressions
 
@@ -39,10 +39,20 @@ module _ {Σ : Set} where
   ⟦ r `* ⟧     = ⟦ r ⟧ ∗
 
 
-  -- encode : RE Σ → ND-Automaton Σ
-  -- encode `∅ = A∅
-  -- encode `ε = Aε
-  -- encode (` a) = Aa a
-  -- encode (r `· r₁) = {!!}
-  -- encode (r `+ r₁) = {!!}
-  -- encode (r `*) = {!!}
+  encode : RE Σ → ND-Automaton Σ
+  encode `∅ = A∅
+  encode `ε = Aε
+  encode (` a) = Aa a
+  encode (r `· r₁) = Concatenation.A· (encode r) (encode r₁)
+  encode (r `+ r₁) = Union.A∪ (encode r) (encode r₁)
+  encode (r `*) = Kleene2.A* (encode r)
+
+  open ND-Automaton.ND-Automaton
+
+  correct : ∀ r → Lang (encode r) ≐ ⟦ r ⟧
+  correct `∅ = A∅-correct
+  correct `ε = Aε-correct
+  correct (` a) = Aa-correct a
+  correct (r `· r₁) = {!Concatenation.A·-correct (encode r) (encode r₁)!}
+  correct (r `+ r₁) = {!Union.A∪-correct (encode r) (encode r₁) !}
+  correct (r `*) = {!Kleene2.A*-correct (encode r)!}

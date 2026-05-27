@@ -14,7 +14,7 @@ open import Function using (case_of_; _∘_)
 open import Relation.Binary.PropositionalEquality using
   (_≡_; _≢_; refl; sym; trans; cong; cong₂; dcong; subst)
 open import Relation.Nullary using (¬_; contradiction)
-open import Relation.Unary using (Pred; _∈_; _∉_; _∩_; Empty; ∅; ｛_｝)
+open import Relation.Unary using (Pred; _∈_; _∉_; _∩_; _∪_; Empty; ∅; ｛_｝)
   renaming (_⊆_ to _⊆′_; _≐_ to _≐′_)
 open import Relation.Unary using () renaming (_⊆′_ to _⊆_; _≐′_ to _≐_)
 open import Relation.Unary.Properties using (≐-sym)
@@ -332,3 +332,109 @@ module _ {Σ : Set} where
 
     A*-correct : ND-Automaton.Lang A* ≐ (Lang ∗)
     A*-correct = star-left , star-right
+
+  module Union (A₁ A₂ : ND-Automaton Σ) where
+    open ND-Automaton A₁ renaming (Q to Q₁; δ to δ₁; qinit to qinit₁; F to F₁; δ̃ to δ̃₁; Lang to Lang₁)
+    open ND-Automaton A₂ renaming (Q to Q₂; δ to δ₂; qinit to qinit₂; F to F₂; δ̃ to δ̃₂; Lang to Lang₂)
+
+    A∪ : ND-Automaton Σ
+    A∪ = record
+      { Q = ⊤ ⊎ (Q₁ ⊎ Q₂)
+      ; δ = λ{ (inj₁ tt) a → λ{ (inj₁ x) → ⊥
+                              ; (inj₂ (inj₁ x)) → x ∈ δ₁ qinit₁ a
+                              ; (inj₂ (inj₂ y)) → y ∈ δ₂ qinit₂ a }
+             ; (inj₂ (inj₁ q₁)) a → λ{ (inj₁ x) → ⊥
+                                    ; (inj₂ (inj₁ q₁′)) → q₁′ ∈ δ₁ q₁ a 
+                                    ; (inj₂ (inj₂ q₂′)) → ⊥ }
+             ; (inj₂ (inj₂ q₂)) a → λ{ (inj₁ x) → ⊥
+                                     ; (inj₂ (inj₁ q₁′)) → ⊥
+                                     ; (inj₂ (inj₂ q₂′)) → q₂′ ∈ δ₂ q₂ a }
+             }
+      ; qinit = inj₁ tt
+      ; F = λ{ (inj₁ x) → qinit₁ ∈ F₁ ⊎ qinit₂ ∈ F₂
+             ; (inj₂ (inj₁ q₁)) → q₁ ∈ F₁
+             ; (inj₂ (inj₂ q₂)) → q₂ ∈ F₂ }
+      }
+
+    open ND-Automaton A∪
+
+    A∪-sim₁ : ∀ q q′ w 
+      → (inj₂ (inj₁ q′)) ∈ δ̃ (inj₂ (inj₁ q)) w
+      → q′ ∈ δ̃₁ q w
+    A∪-sim₁ q q′ ε refl = refl
+    A∪-sim₁ q q′ (a ∷ w) (inj₂ (inj₁ q₁) , q₁∈δ₁-q-a , δ̃-q₁-w)
+      = q₁ , q₁∈δ₁-q-a , A∪-sim₁ q₁ q′ w δ̃-q₁-w
+
+    A∪-sim₂ : ∀ q q′ w
+      → (inj₂ (inj₂ q′)) ∈ δ̃ (inj₂ (inj₂ q)) w
+      → q′ ∈ δ̃₂ q w
+    A∪-sim₂ q q′ ε refl = refl
+    A∪-sim₂ q q′ (a ∷ w) (inj₂ (inj₂ q₂) , q₂∈δ₂-q-a , δ̃-q₂-w)
+      = q₂ , q₂∈δ₂-q-a , A∪-sim₂ q₂ q′ w δ̃-q₂-w
+
+    A∪-sim₁⁺ : ∀ q q′ w
+      → q′ ∈ δ̃₁ q w
+      → (inj₂ (inj₁ q′)) ∈ δ̃ (inj₂ (inj₁ q)) w
+    A∪-sim₁⁺ q q′ ε refl = refl
+    A∪-sim₁⁺ q q′ (a ∷ w) (q₁ , q₁∈δ₁-q-a , δ̃-q₁-w)
+      = (inj₂ (inj₁ q₁)) , q₁∈δ₁-q-a , A∪-sim₁⁺ q₁ q′ w δ̃-q₁-w
+
+    A∪-sim₂⁺ : ∀ q q′ w
+      → q′ ∈ δ̃₂ q w
+      → (inj₂ (inj₂ q′)) ∈ δ̃ (inj₂ (inj₂ q)) w
+    A∪-sim₂⁺ q q′ ε refl = refl
+    A∪-sim₂⁺ q q′ (a ∷ w) (q₂ , q₂∈δ₂-q-a , δ̃-q₂-w)
+      = (inj₂ (inj₂ q₂)) , q₂∈δ₂-q-a , A∪-sim₂⁺ q₂ q′ w δ̃-q₂-w
+
+    A∪-no-tt₁ : ∀ q w → inj₁ tt ∉ δ̃ (inj₂ (inj₁ q)) w
+    A∪-no-tt₁ q ε ()
+    A∪-no-tt₁ q (a ∷ w) (q′ , q′∈δ-a , tt∈δ̃-q′-w) with q′
+    ... | inj₁ tt = contradiction q′∈δ-a (λ ())
+    ... | inj₂ (inj₁ q₁′) = A∪-no-tt₁ q₁′ w tt∈δ̃-q′-w
+    ... | inj₂ (inj₂ q₂′) = contradiction q′∈δ-a (λ ())
+
+    A∪-no-tt₂ : ∀ q w → inj₁ tt ∉ δ̃ (inj₂ (inj₂ q)) w
+    A∪-no-tt₂ q ε ()
+    A∪-no-tt₂ q (a ∷ w) (q′ , q′∈δ-a , tt∈δ̃-q′-w) with q′
+    ... | inj₁ tt = contradiction q′∈δ-a (λ ())
+    ... | inj₂ (inj₁ q₁′) = contradiction q′∈δ-a (λ ())
+    ... | inj₂ (inj₂ q₂′) = A∪-no-tt₂ q₂′ w tt∈δ̃-q′-w
+
+    A∪-no-12 : ∀ q₁ q₂ w → inj₂ (inj₂ q₂) ∉ δ̃ (inj₂ (inj₁ q₁)) w
+    A∪-no-12 q₁ q₂ ε ()
+    A∪-no-12 q₁ q₂ (a ∷ w) (q′ , q′∈δ-a , q₂∈δ̃-q′-w) with q′
+    ... | inj₁ tt = contradiction q′∈δ-a (λ ())
+    ... | inj₂ (inj₁ q₁′) = A∪-no-12 q₁′ q₂ w q₂∈δ̃-q′-w
+    ... | inj₂ (inj₂ q₂′) = contradiction q′∈δ-a (λ ())
+
+    A∪-no-21 : ∀ q₂ q₁ w → inj₂ (inj₁ q₁) ∉ δ̃ (inj₂ (inj₂ q₂)) w
+    A∪-no-21 q₂ q₁ ε ()
+    A∪-no-21 q₂ q₁ (a ∷ w) (q′ , q′∈δ-a , q₁∈δ̃-q′-w) with q′
+    ... | inj₁ tt = contradiction q′∈δ-a (λ ())
+    ... | inj₂ (inj₁ q₁′) = contradiction q′∈δ-a (λ ())
+    ... | inj₂ (inj₂ q₂′) = A∪-no-21 q₂′ q₁ w q₁∈δ̃-q′-w
+
+    A∪-correct : Lang ≐ Lang₁ ∪ Lang₂
+    A∪-correct .proj₁ ε (inj₁ tt , inj₁ qinit₁∈F₁ , refl) = inj₁ (qinit₁ , qinit₁∈F₁ , refl)
+    A∪-correct .proj₁ ε (inj₁ tt , inj₂ qinit₂∈F₂ , refl) = inj₂ (qinit₂ , qinit₂∈F₂ , refl)
+    A∪-correct .proj₁ (a ∷ w) (qf , qf∈F , inj₁ tt , q0∈δ-a , qf∈δ̃)
+      = contradiction q0∈δ-a (λ ())
+    A∪-correct .proj₁ (a ∷ w) (inj₁ tt , qf∈F , inj₂ (inj₁ q₁) , q0∈δ-a , qf∈δ̃)
+      = contradiction qf∈δ̃ (A∪-no-tt₁ q₁ w)
+    A∪-correct .proj₁ (a ∷ w) (inj₂ (inj₁ q₁′) , qf∈F , inj₂ (inj₁ q₁) , q0∈δ-a , qf∈δ̃)
+      = inj₁ (q₁′ , qf∈F , q₁ , q0∈δ-a , A∪-sim₁ q₁ q₁′ w qf∈δ̃)
+    A∪-correct .proj₁ (a ∷ w) (inj₂ (inj₂ q₂′) , qf∈F , inj₂ (inj₁ q₁) , q0∈δ-a , qf∈δ̃)
+      = contradiction qf∈δ̃ (A∪-no-12 q₁ q₂′ w)
+    A∪-correct .proj₁ (a ∷ w) (inj₁ tt , qf∈F , inj₂ (inj₂ q₂) , q0∈δ-a , qf∈δ̃)
+      = contradiction qf∈δ̃ (A∪-no-tt₂ q₂ w)
+    A∪-correct .proj₁ (a ∷ w) (inj₂ (inj₁ q₁′) , qf∈F , inj₂ (inj₂ q₂) , q0∈δ-a , qf∈δ̃)
+      = contradiction qf∈δ̃ (A∪-no-21 q₂ q₁′ w)
+    A∪-correct .proj₁ (a ∷ w) (inj₂ (inj₂ q₂′) , qf∈F , inj₂ (inj₂ q₂) , q0∈δ-a , qf∈δ̃)
+      = inj₂ (q₂′ , qf∈F , q₂ , q0∈δ-a , A∪-sim₂ q₂ q₂′ w qf∈δ̃)
+
+    A∪-correct .proj₂ ε (inj₁ (qf , qf∈F₁ , refl)) = inj₁ tt , inj₁ qf∈F₁ , refl
+    A∪-correct .proj₂ ε (inj₂ (qf , qf∈F₂ , refl)) = inj₁ tt , inj₂ qf∈F₂ , refl
+    A∪-correct .proj₂ (a ∷ w) (inj₁ (qf , qf∈F₁ , q₁ , q₁∈δ₁-a , qf∈δ̃₁))
+      = inj₂ (inj₁ qf) , qf∈F₁ , inj₂ (inj₁ q₁) , q₁∈δ₁-a , A∪-sim₁⁺ q₁ qf w qf∈δ̃₁
+    A∪-correct .proj₂ (a ∷ w) (inj₂ (qf , qf∈F₂ , q₂ , q₂∈δ₂-a , qf∈δ̃₂))
+      = inj₂ (inj₂ qf) , qf∈F₂ , inj₂ (inj₂ q₂) , q₂∈δ₂-a , A∪-sim₂⁺ q₂ qf w qf∈δ̃₂
