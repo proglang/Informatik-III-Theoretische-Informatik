@@ -12,11 +12,11 @@
 \begin{Def}
 	Eine \emph{Grammatik} ist ein 4-Tupel $(\Sigma,N,P,S)$ mit folgenden Komponenten:
 	\begin{itemize}
-	\item $\Sigma$ ist ein Alphabet, dessen Elemente wir in diesem Kontext auch \emph{Terminalsymbole} nennen.
-	\item $N$ ist eine endliche Menge, deren Elemente wir \emph{Nichtterminalsymbole} oder \emph{Variablen} nennen.
+	\item $\Sigma$ ist ein Alphabet, dessen Elemente wir \emph{Terminalsymbole} nennen.
+	\item $N$ ist eine endliche Menge, $N\cap\Sigma = \emptyset$, deren Elemente wir \emph{Nichtterminalsymbole} oder \emph{Variablen} nennen. 
 	\item $P\subseteq (N\cup\Sigma)^*N(N\cup\Sigma)^* \x (N\cup\Sigma)^*$ ist eine endliche Relation, 
 	deren Elemente wir \emph{Regeln} oder \emph{Produktionen} nennen.
-	\item $S\in N$ ist ein Nichtterminalsymbol, das wir \emph{Startsymbol} nennen.
+	\item $S\in N$ ist ein Nichtterminalsymbol, das \emph{Startsymbol}.
 	\qedhere
 	\end{itemize}
 \end{Def}
@@ -29,8 +29,8 @@
 		N &= \{S\}\\
 		P &= \begin{aligned}[t]
       \{ S & \to 1S0S \\
-        S & \to 0S1S \\
-        S & \to \Eps
+      , S & \to 0S1S \\
+       , S & \to \Eps
       \}
         \end{aligned}
       \qedhere
@@ -49,17 +49,34 @@
   \end{displaymath}
   mit \ \ $\alpha \vdash_\mathcal{G} \beta$\ \  gdw\ \  $\alpha = \gamma_1\alpha'\gamma_2$,\ \  $\beta = \gamma_1\beta'\gamma_2$\ \  und \ \ $\alpha' \to \beta' \in P$
 
-  Eine Folge $\alpha = \alpha_0,\ldots,\alpha_n = \beta$ heißt \emph{Ableitung von $\beta$ aus $\alpha$ in $n$ Schritten}, geschrieben $\alpha \stackrel{n}{\vdash}_\mathcal{G} \beta$, gdw $\alpha_i \vdash_\mathcal{G} \alpha_{i+1}$ für $0 \le i < n$.
-  Jedes solche $\alpha_i$ heißt \emph{Satzform von $\mathcal{G}$}.
+  % Eine Folge $\alpha = \alpha_0,\ldots,\alpha_n = \beta$ heißt \emph{Ableitung von $\beta$ aus $\alpha$ in $n$ Schritten}, geschrieben $\alpha \stackrel{n}{\vdash}_\mathcal{G} \beta$, gdw $\alpha_i \vdash_\mathcal{G} \alpha_{i+1}$ für $0 \le i < n$.
+  % Jedes solche $\alpha_i$ heißt \emph{Satzform von $\mathcal{G}$}.
 
-  Die \emph{Ableitung von $\beta$ aus $\alpha$}, geschrieben $\alpha \stackrel{*}{\vdash}_\mathcal{G} \beta$, existiert gdw ein $n \in \N$ existiert, sodass $\alpha \stackrel{n}{\vdash}_\mathcal{G} \beta$.
-  Damit ist "`$\stackrel{*}{\vdash}_\mathcal{G}$"' die reflexive, transitive Hülle von "`$\vdash_\mathcal{G}$"'.
+  % Die \emph{Ableitung von $\beta$ aus $\alpha$}, geschrieben $\alpha \stackrel{*}{\vdash}_\mathcal{G} \beta$, existiert gdw ein $n \in \N$ existiert, sodass $\alpha \stackrel{n}{\vdash}_\mathcal{G} \beta$.
+  % Damit ist "`$\stackrel{*}{\vdash}_\mathcal{G}$"' die reflexive, transitive Hülle von "`$\vdash_\mathcal{G}$"'.
 
-  Ein Wort $w\in\Sigma^*$ wird von $\mathcal{G}$ \emph{erzeugt}, wenn $S \stackrel{*}{\vdash}_{\mathcal{G}} w$ gilt.
+  Die \emph{Ableitung von $\beta$ aus $\alpha$}, geschrieben $\alpha
+  \vdash^*_\mathcal{G} \beta$ ist induktiv definiert als
+  die reflexive, transitive Hülle von "`$\vdash_\mathcal{G}$"':
+  \begin{align*}
+    \frac{}{\alpha \vdash^*_\mathcal{G} \alpha}
+    &
+    &
+      \frac{{\alpha \vdash_\mathcal{G} \beta} \quad \beta
+      \vdash^*_\mathcal{G} \gamma}
+      {{\alpha \vdash^*_\mathcal{G} \gamma}}
+  \end{align*}
+  Falls $\alpha \vdash^*_\mathcal{G} \beta$, so ist $\beta$ eine
+  \emph{Satzform von $\mathcal{G}$}. Oft wird die Ableitung durch eine
+  Liste von Satzformen $\alpha_0,\ldots,\alpha_n$ angegeben mit
+  $\alpha_i \vdash_\mathcal{G} \alpha_{i+1}$ für $0 \le i < n$.
+  
+
+  Ein Wort $w\in\Sigma^*$ wird von $\mathcal{G}$ \emph{erzeugt}, wenn $S \vdash^*_{\mathcal{G}} w$ gilt.
 	Die von $\mathcal{G}$ \emph{erzeugte Sprache} ist definiert als:
-	\[ L(\mathcal{G}) = \{w\in\Sigma^* \mid S \stackrel{*}{\vdash}_{\mathcal{G}} w \}  \]
+	\[ L(\mathcal{G}) = \{w\in\Sigma^* \mid S \vdash^*_{\mathcal{G}} w \}  \]
 	
-	Wir nennen zwei Grammatiken \emph{äquivalent}, wenn sie die gleiche Sprache erzeugen.
+	Wir nennen zwei Grammatiken \emph{äquivalent}, falls sie die gleiche Sprache erzeugen.
 \end{Def}
 
 
@@ -76,32 +93,44 @@ $$ S
 \vdash_\mathcal{G} 1001
 $$
 % \datenote{22.11.17}
-Außerdem gilt: $L(\mathcal{G})$ ist die Sprache der Wörter über $\{0,1\}$, die gleich viele Nullen wie Einsen haben:
+Es gilt: $L(\mathcal{G})$ ist die Sprache der Wörter über $\{0,1\}$, die gleich viele Nullen wie Einsen haben:
   \begin{displaymath}
     L = \{ w \in \Sigma^* \mid \#_0(w) = \#_1(w)\}
   \end{displaymath}
   Die Funktion $\#_a(w)$ berechnet hierbei die Anzahl der Vorkommen von $a \in \{0, 1\}$ in $w$.
 
-  Dass $L(\mathcal{G}) \subseteq L$, lässt sich via Induktion über die Länge der Ableitung von $S \stackrel{*}{\vdash}_\mathcal{G} w$ zeigen.
+  Dass $L(\mathcal{G}) \subseteq L$, lässt sich mittels Induktion über
+  die Ableitung $S \vdash^*_\mathcal{G} w$ zeigen. 
   Der Beweis wird als Übung dem Leser überlassen.
 
-  Wir zeigen $L \subseteq L(\mathcal{G})$.
-  Dazu zeigen wir "`Wenn $w \in L$, dann $w \in L(\mathcal{G})$"' via Induktion über die Länge von $w$.
-  Hierzu definieren wir noch die Hilfsfunktion $d : \Sigma^* \to \N$:
+  Wir zeigen $L \subseteq L(\mathcal{G})$, d.h. $\forall w\in
+  \Sigma^*. w \in L \=> w \in L(\mathcal{G})$.
+  Hierzu definieren wir noch die Hilfsfunktion $d : \Sigma^* \to \Z$:
   \begin{align*}
     d(\Eps) &= 0 \\
     d(1w) &= d(w) + 1 \\
     d(0w) &= d(w) - 1
   \end{align*}
-  Per Induktion über $|w|$ mit $w \in \Sigma^*$ lässt sich leicht zeigen, dass $L = \{w \in \Sigma^* \mid d(w) = 0\}$ und $d(v \cdot w) = d(v) + d(w)$.
+  Per Induktion über $u$ lässt sich leicht zeigen, dass $u \in L \<=>
+  d(u) = 0$ und $d(u \cdot v) = d(u) + d(v)$. 
   
-Wir zeigen nun via Induktion über $n$ die folgende Eigenschaft:
-$$\forall n' \leq n: \forall w \in \Sigma^*: \text{ falls } |w| = n' \text{ und } w \in L, \text{ dann } w \in L(\mathcal{G})$$
-
-\begin{description}[font=\normalfont]
-\item[I.A.:] $n = 0$: $w = \Eps$. Es gilt $\Eps \in L$, da $\#_0(\Eps) = \#_1(\Eps) = 0$.
-% \item[IV] $\forall n' < n: \forall w' \in \Sigma^*: falls |w| = n' \text{ und } w \in L \text{ dann } w \in L(\mathcal{G})$
-\item[I.S.:] $n \rightsquigarrow n+1$: $|w| = n > 1$, $w = aw'$, $a \in \{0,1\}$.
+  Wir betrachten nun die folgende Aussage
+  \begin{align*}
+    P(n) &= \forall w. |w| = n \=> w \in L \=> w \in L(\mathcal{G})
+           \text.
+  \end{align*}
+  und beweisen sie mit Hilfe des folgenden Beweisprinzips
+  (vollständige  Induktion bzw. starke Induktion):
+  \begin{gather*}
+    \frac{
+      \forall n. (\forall j. j<n \=> P(j)) \=> P(n)
+    }{\forall n. P (n)}
+  \end{gather*}
+  
+Fallunterscheidung auf $n$.
+\begin{itemize}[font=\normalfont]
+\item $n = 0$: $w = \Eps$. Es gilt $\Eps \in L \cap  L(\mathcal{G})$, da $\#_0(\Eps) = \#_1(\Eps) = 0$.
+\item $n > 0$: Angenommen $w\in L$,  $|w| > 0$, $w = aw'$, $a \in \{0,1\}$.
   Beachte: $|w|$ ist gerade für alle $w \in L$.
 
   Betrachte $a = 0$ (der Fall für $a = 1$ funktioniert analog).
@@ -110,31 +139,35 @@ $$\forall n' \leq n: \forall w \in \Sigma^*: \text{ falls } |w| = n' \text{ und 
   
   \medskip
 
-  Wir zeigen zunächst, dass wir $w'$ in $w_11w_2$ mit $d(w_1) = 0$ und $d(w_2) = 0$ zerlegen können:
+  Wir zeigen zunächst, dass wir $w'$ in $u1v$ mit $d(u) = 0$ und $d(v) = 0$ zerlegen können:
 %   \begin{itemize}
 %   \item[] 
 
-    Sei $w' = a_1 \ldots a_n$.
-    Betrachte die Folge $d_0,\ldots,d_n$ mit $d_0 = 0$ und $d_i = d(a_1\ldots a_i)$ für $1 \le i \leq n$.
-    Wähle $0 \le i < n$ maximal, sodass für alle $0 \le j \le i$ gilt: $d_j < 1$.%
+    Sei $w' = a_2 \ldots a_n$.
+    Betrachte die Folge $d_1,\ldots,d_n$ mit $d_1 = 0$ und $d_i = d(a_2\ldots a_i)$ für $1 < i \leq n$.
+    Wähle $0 < i < n$ maximal, sodass für alle $0 < j \le i$ gilt: $d_j < 1$.%
     \footnote{Wir wissen, dass $i < n$, da $d_n = d(w') = 1$.}
 
     Da $i$ maximal ist, folgt $d_{i+1} \ge 1$.
-    Da $d_{j+1} - d_j \le 1$ für alle $0 \le j \le i$, folgt $d_{i+1} - d_i \le 1$ und damit auch $d_i = 0$, $d_{i+1} = 1$ und $a_{i+1} = 1$.
-    Setze $w_1 = a_1\ldots a_{i}$.
+    Da $|d_{j+1} - d_j| = 1$ für alle $0 \le j \le i$, folgt $d_{i+1}
+    - d_i = 1$ und damit auch $d_i = 0$, $d_{i+1} = 1$ und $a_{i+1} =
+    1$. 
+    Setze $u = a_1\ldots a_{i}$.
 
-    Es gilt also $w' = a_1\ldots a_{i}a_{i+1}w_2 = w_1w_2$ mit $d(w_1) = 0$.
+    Es gilt also $w' = a_1\ldots a_{i}a_{i+1}v = u1v$ mit $d(u) = 0$.
 
-    Da $d(v \cdot w) = d(v) + d(w)$ und $d(w') = d(w_11w_2) = 1$, folgt $d(w_2) = 0$.
+    Da $d(u \cdot v) = d(u) + d(v)$ und $d(w') = d(u1v) = 1$, folgt $d(v) = 0$.
 %   \end{itemize}
   \bigskip
   \goodbreak
 
-  Da $|w_1| < n$ und $|w_2| < n$, folgt nach I.V., dass $S \stackrel{*}{\vdash}_{\mathcal{G}} w_1$ und $S \stackrel{*}{\vdash}_{\mathcal{G}} w_2$.
+  Da $|u| < n$ und $|v| < n$, folgt nach I.V., dass $S
+  \vdash^*_{\mathcal{G}} u$ und $S \vdash^*_{\mathcal{G}} v$. 
 
-  Es folgt mit den Regeln $S \vdash_{\mathcal{G}} 0S1S \stackrel{*}{\vdash}_{\mathcal{G}} 0w_11S \stackrel{*}{\vdash}_{\mathcal{G}} 0w_11w_2$.
+  Daraus konstruieren wir die Ableitung
+  $S \vdash_{\mathcal{G}} 0S1S \vdash^*_{\mathcal{G}} 0u1S \vdash^*_{\mathcal{G}} 0u1v$.
   \qedhere
-\end{description}
+\end{itemize}
 \end{Bsp}
 
 \begin{Bsp}\label{bsp:3.anbncn}
@@ -259,16 +292,20 @@ den sogenannten Ableitungsbaum, darzustellen.
 
 \newcommand{\T}{\mathcal{T}}
 
-\begin{Def}[name={[Ableitungsbaum]}] Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine kontextfreie Grammatik.
-  Wir definieren die Menge der \emph{in $A$ beginnenden Ableitungsbäume von $\mathcal{G}$}, $\operatorname{Abl}(A)$, für $A\in N$ als Menge von beschrifteten, geordneten Bäumen induktiv wie folgt:
+\begin{Def}[Ableitungsbaum] Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine
+  kontextfreie Grammatik und $A\in N$.
+  Wir definieren die Menge der \emph{in $A$ beginnenden Ableitungsbäume von $\mathcal{G}$}, $\operatorname{Abl}(A)$, als Menge von beschrifteten, geordneten Bäumen induktiv wie folgt:
   
-  Falls $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$ mit $A_i \in N$, $w_0, w_i \in \Sigma^*$, $1 \le i \le n$ und $\T_i \in \operatorname{Abl}(A_i)$, dann ist
+  Falls $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$ mit $A_i \in N$, $ w_i \in \Sigma^*$, $0 \le i \le n$ und $\T_i \in \operatorname{Abl}(A_i)$, dann ist
     \begin{center}
 			\tikz[baseline=0cm]{\Tree [.$\pi$ $\T_1$ \edge[draw=none]; {$\dots$} $\T_n$ ]} $\in \operatorname{Abl}(A)$
     \end{center}
     Da es manchmal aufwendig ist, Bäume zu zeichnen, verwenden wir alternativ die folgende Notation: $\pi(\T_1, \ldots, \T_n)$
 
-    Das \emph{abgeleitete Wort zu einem $\T \in \operatorname{Abl}(A)$}, $Y(\T)$\footnote{Wir verwenden $Y(\T)$, um an das englische Wort "`yield"' zu erinnern.}, ist definiert durch
+    Das \emph{abgeleitete Wort zu einem $\T \in
+      \operatorname{Abl}(A)$}, $Y : \operatorname{Abl}(A) \to \Sigma^*$\footnote{Wir verwenden $Y(\T)$,
+      um an das englische Wort "`yield"' zu erinnern.}, ist definiert
+    durch 
     \begin{displaymath}
       Y\left(\tikz[baseline=-0.4cm]{\Tree [.$\pi$ $\T_1$ \edge[draw=none]; {$\dots$} $\T_n$ ]} \right) = w_0Y(\T_1)w_1\ldots Y(\T_n)w_n
     \end{displaymath}
@@ -276,7 +313,10 @@ den sogenannten Ableitungsbaum, darzustellen.
 \end{Def}
 
 \begin{Bemerkung}
-Nach dieser Definition gibt es also insbesonere für jede Regel $\pi$ bei der nur Terminalsymbole auf der rechten Seite vorkommen einen Ableitungsbaum der die einelementige Knotenmenge $\{\pi\}$ und einer leeren Menge von Kanten hat.
+Nach dieser Definition gibt es also insbesondere für jede Regel $\pi$,
+bei der nur Terminalsymbole auf der rechten Seite vorkommen, einen
+Ableitungsbaum, der die ein-elementige Knotenmenge $\{\pi\}$ und einer
+leeren Menge von Kanten hat. 
 \end{Bemerkung}
 
 
@@ -348,7 +388,11 @@ Für die Grammatik aus \autoref{bsp:3.ArithExpr} sind die folgenden drei Beispie
 %   
 % \end{proof}
 
-\begin{Def}[name={[Eindeutigkeit von \acs*{CFG} und \acs*{CFL}]}]\
+
+
+\hide{
+
+\begin{Def}[Eindeutigkeit von \acs*{CFG} und \acs*{CFL}]\
 	\begin{itemize}
 % 	\item Sei CFG die Menge der kontextfreien Grammatiken.
   \item Eine Grammatik $\mathcal{G}$ heißt \emph{eindeutig}, falls es für jedes Wort $\in L(\mathcal{G})$ genau einen Ableitungsbaum gibt.
@@ -370,7 +414,7 @@ Die Grammatik aus \autoref{bsp:3.ArithExpr} ist also nicht eindeutig, denn sowoh
 
 Im Folgenden verwenden wir auch die Abkürzung \acsu{CFG} für "`kontextfreie Grammatik"' (engl.\ context-free grammar).
 
-
+}
 
 \subsection{Die Chomsky-Normalform für kontextfreie Sprachen}\label{sec:cnf}
 % Notwendig für das Pumping Lemma kontextfreier Sprachen und für einen effizienten Algorithmus für das \nameref{satz:wortproblem}.
@@ -390,7 +434,7 @@ Dafür definieren wir die Größe einer Grammatik wie folgt.
 Die Größe ist also genau die Anzahl an Zeichen aus $\Sigma\cup N$, die man benötigt, um die Regeln der Grammatik aufzuschreiben.
 
 \begin{Def}
-  Eine \ac{CFG} heißt \emph{separiert}, wenn jede Regel eine der folgenden beiden Formen hat.
+  Eine \ac{CFG} heißt \emph{separiert}, wenn jede Regel eine der folgenden Formen hat.
   \begin{alignat*}{3}
    A &\-> A_1\dots A_n && \quad \text{für } A\in N, A_i\in N,n\geq 0\\[1mm]
    A &\-> a && \quad \text{für } A\in N, a\in\Sigma
@@ -415,7 +459,8 @@ Die Größe ist also genau die Anzahl an Zeichen aus $\Sigma\cup N$, die man ben
 \begin{Bemerkung}
 \textsc{Sep} berechnet in $O(|\mathcal{G}|^2)$ eine Grammatik der Größe $O(|\mathcal{G}|)$.
 \begin{itemize}
-	\item Laufe für jedes Terminalsymbol einmal über alle Regeln.
+	\item Laufe einmal über alle Regeln und ersetze jeweils $a
+          \mapsto Y_a$.
 	
 	\item Für jedes neue Nichtterminalsymbol fügen wir eine Regel der Größe 2 hinzu.
 	\qedhere
@@ -674,7 +719,7 @@ Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G
 \footnotetext{Topologies sortieren ist ein aus der Informatik 2 Vorlesung bekannter Begriff und bezeichnet das Erweitern einer gegebenen partiellen Ordnung zu einer totalen Ordnung.}
 
 \begin{Bsp}
-	Sei $\Sigma=\{0,1\}$. Betrachte und die \ac{CFG} $\mathcal{G} = (\Sigma, \{S,A,B,C,D,E\}, P, S)$
+	Sei $\Sigma=\{0,1\}$. Betrachte die \ac{CFG} $\mathcal{G} = (\Sigma, \{S,A,B,C,D,E\}, P, S)$
 	deren Regeln $P$ wie folgt definiert sind.
 	\begin{align*}
 		S &\-> A\\
@@ -1458,5 +1503,5 @@ Um \datenote{12.12.2018} möglichst schnell zum Unterkapitel über Typ-3-Sprache
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "Info_3_Skript_WS2016-17"
+%%% TeX-master: "Info_3_Skript_SS2026"
 %%% End:
