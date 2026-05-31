@@ -20,6 +20,7 @@ open import Relation.Unary using () renaming (_⊆′_ to _⊆_; _≐′_ to _�
 open import Relation.Unary.Properties using (≐-sym)
 
 open import Language
+open import Isomorphism using (Iso)
 open import Sets
 
 import Automaton as DET

@@ -1,49 +1,72 @@
-module Sets where
+module DecSets where
 
 open import Level using (Level; _⊔_) renaming (zero to lzero; suc to lsuc)
-open import Data.Empty as Empty hiding (⊥)
-open import Data.Nat using (ℕ; zero; suc; _^_; _*_; _+_; _<_; _≤_; z≤n; s≤s)
-open import Data.Nat.Properties using (+-suc; +-identityʳ; +-monoˡ-≤)
-open import Data.Fin using (Fin; zero; suc; remQuot; combine; finToFun; funToFin; inject≤)
-open import Data.Fin.Subset using (Subset; ⊥; ⊤; Side; inside; outside) renaming (_∈_ to _∈′_)
+open import Data.Bool using (Bool; true; false; not; _∧_; _∨_; T)
+open import Data.Nat using (ℕ; zero; suc; _^_)
+open import Data.Fin using (Fin; zero; suc; finToFun; funToFin)
+open import Data.Fin.Subset using (Subset; Side; inside; outside) renaming (_∈_ to _∈′_)
 open import Data.Fin.Properties using (funToFin-finToFin; finToFun-funToFin)
-open import Data.Vec using (Vec; []; _∷_; tabulate)
-open import Data.Product using (∃-syntax; _×_; _,_; Σ)
-open import Relation.Binary.PropositionalEquality using (_≡_; refl; sym; cong; subst; trans)
-open import Relation.Unary using (Pred; _∈_; Decidable)
+open import Data.Vec using (Vec; []; _∷_; tabulate; lookup)
+open import Data.Vec.Properties using (tabulate∘lookup; lookup∘tabulate)
+open import Data.Product using (∃-syntax; _×_; _,_)
+open import Relation.Binary.PropositionalEquality using (_≡_; refl; cong; trans; subst)
 open import Isomorphism using (Iso; comp; inverse-iso)
+
+open import FunExt
 
 Finite : ∀ {ℓ} → Set ℓ → Set ℓ
 Finite X = ∃[ n ] Iso X (Fin n)
 
-𝔓 : ∀{ℓ} → Set ℓ → Set (lsuc ℓ)
-𝔓 Q = Pred Q _
+𝔓 : ∀ {ℓ} → Set ℓ → Set ℓ
+𝔓 X = X → Bool
 
-non-empty : ∀ {ℓ} {Q : Set ℓ} → 𝔓{ℓ} Q → Set _
-non-empty R = ∃[ q ] q ∈ R
+infix 4 _∈_ _∈ᵇ_
+
+_∈ᵇ_ : ∀ {ℓ} {X : Set ℓ} → X → 𝔓 X → Bool
+x ∈ᵇ R = R x
+
+_∈_ : ∀ {ℓ} {X : Set ℓ} → X → 𝔓 X → Set
+x ∈ R = T (x ∈ᵇ R)
 
 infix 5 _≠∅
+
+non-empty : ∀ {ℓ} {X : Set ℓ} → 𝔓 X → Set ℓ
+non-empty R = ∃[ x ] x ∈ R
+
 _≠∅ = non-empty
 
--- set comprehension notation
+infixr 7 _∩_
+infixr 6 _∪_
+infix 4 _⊆_ _≐_
 
-｛｝ : ∀ {ℓ}{A : Set ℓ} → A → A
+U : ∀ {ℓ} {X : Set ℓ} → 𝔓 X
+U _ = true
+
+∅ : ∀ {ℓ} {X : Set ℓ} → 𝔓 X
+∅ _ = false
+
+_∩_ : ∀ {ℓ} {X : Set ℓ} → 𝔓 X → 𝔓 X → 𝔓 X
+(R ∩ S) x = R x ∧ S x
+
+_∪_ : ∀ {ℓ} {X : Set ℓ} → 𝔓 X → 𝔓 X → 𝔓 X
+(R ∪ S) x = R x ∨ S x
+
+∁ : ∀ {ℓ} {X : Set ℓ} → 𝔓 X → 𝔓 X
+∁ R x = not (R x)
+
+_⊆_ : ∀ {ℓ} {X : Set ℓ} → 𝔓 X → 𝔓 X → Set ℓ
+R ⊆ S = ∀ x → x ∈ R → x ∈ S
+
+_≐_ : ∀ {ℓ} {X : Set ℓ} → 𝔓 X → 𝔓 X → Set ℓ
+R ≐ S = (R ⊆ S) × (S ⊆ R)
+
+-- set comprehension notation
+｛｝ : ∀ {ℓ} {A : Set ℓ} → A → A
 ｛｝ = λ z → z
 
 syntax ｛｝ (λ x → M) = ｛ x ∣ M ｝
 
--- lift function to a set
-
-lift : ∀ {ℓ₁ ℓ₂}{A : Set ℓ₁}{B : Set ℓ₂}
-  → (f : A → Pred B ℓ₁) → (Pred A ℓ₁ → Pred B ℓ₁)
-lift f Pa = ｛ b ∣ ∃[ a ] a ∈ Pa × b ∈ f a ｝
-
-lift₂ : ∀ {ℓ}{ℓc} {A : Set ℓ} {C : Set ℓc} {B : Set ℓ}
-  → (f : A → B → Pred C ℓ) → (Pred A ℓ → B → Pred C ℓ)
-lift₂ f Pa b = ｛ c ∣ ∃[ a ] a ∈ Pa × c ∈ f a b ｝
-
-
--- properties
+-- finite subsets as vectors of booleans
 
 side→fin : Side → Fin 2
 side→fin outside = zero
@@ -119,8 +142,21 @@ subset-iso n =
         (funToFin-finToFin {m = n} {n = 2} i)
   }
 
-postulate
-  power-iso : ∀ {ℓ} {X : Set ℓ} n → Iso X (Fin n) → Iso (𝔓 X) (Subset n)
+power-iso : ∀ {ℓ} {X : Set ℓ} n → Iso X (Fin n) → Iso (𝔓 X) (Subset n)
+power-iso {X = X} n iso-xf =
+  record
+    { fwd = λ P → tabulate (λ i → iso-xf .Iso.bwd i ∈ᵇ P)
+    ; bwd = λ ss x → lookup ss (iso-xf .Iso.fwd x)
+    ; fwd∘bwd = λ ss →
+        trans
+          (cong tabulate (funext (λ i → cong (lookup ss) (iso-xf .Iso.fwd∘bwd i))))
+          (tabulate∘lookup ss)
+    ; bwd∘fwd = λ P →
+        funext (λ x →
+          trans
+            (lookup∘tabulate (λ i → iso-xf .Iso.bwd i ∈ᵇ P) (iso-xf .Iso.fwd x))
+            (cong (λ z → z ∈ᵇ P) (iso-xf .Iso.bwd∘fwd x)))
+    }
 
 Finite-𝔓 : ∀ {ℓ} {X : Set ℓ} → Finite X → Finite (𝔓 X)
 Finite-𝔓 (n , iso)

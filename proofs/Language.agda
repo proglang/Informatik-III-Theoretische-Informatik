@@ -18,9 +18,6 @@ open import Sets using (𝔓)
 
 variable ℓ ℓ₁ ℓ₂ : Level
 
-_↔_ : Set → Set → Set
-A ↔ B = (A → B) × (B → A)
-
 module example-abc where
   data Σabc : Set where a b c : Σabc
 
@@ -68,6 +65,8 @@ module _ {Σ : Set} where
   -- ｛_｝ : Word Σ → Language Σ
   -- ｛_｝ = ｛_｝
 
+  infixr 6 _·_
+
   _·_ : Language Σ → Language Σ → Language Σ
   (L₁ · L₂) w = ∃[ u ] ∃[ v ] (w ≡ u ++ v × L₁ u × L₂ v)
 
@@ -93,13 +92,20 @@ module _ {Σ : Set} where
             assoc-right w (u₁ , u₂₃ , refl , u₁∈ , u₂ , u₃ , refl , u₂∈ , u₃∈)
               rewrite sym (++-assoc u₁ u₂ u₃) = u₁ ++ u₂ , u₃ , refl , (u₁ , u₂ , refl , u₁∈ , u₂∈) , u₃∈
 
+  ε∈-concat : {L₁ L₂ : Language Σ} → ε ∈ L₁ · L₂ → ε ∈ L₁ × ε ∈ L₂
+  ε∈-concat (ε , v , refl , u∈L₁ , v∈L₂) = u∈L₁ , v∈L₂
+
   -- power
+
+  infix 5 _↑_
 
   _↑_ : Language Σ → ℕ → Language Σ
   L ↑ zero = 𝟙
   L ↑ suc n = L · (L ↑ n)
 
   -- Kleene star
+
+  infix 2 _∗ _⁺
 
   _∗ : Language Σ → Language Σ
   (L ∗) w = ∃[ n ] (L ↑ n) w

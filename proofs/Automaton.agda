@@ -15,7 +15,7 @@ open import Relation.Nullary using (¬_; contradiction)
 open import Relation.Unary using (_∈_; _∉_)
 
 open import Language
-open import Sets using (Iso)
+open import Isomorphism using (Iso; _↔_)
 
 
 -- automaton
