@@ -41,13 +41,18 @@
 %   Eine Grammatik erzeugt Wörter durch \emph{Ableitungen}, die wir im Folgenden definieren.
 %   
 \begin{Def}[Ableitungsrelation, Ableitung, Sprache einer Grammatik]
-  Sei $\mathcal{G} =(\Sigma,N,P,S)$ eine Grammatik.
 	Die \emph{Ableitungsrelation}\footnote{Analog zur Relation $P$ verwenden wir auch für die Ableitungsrelation wieder Infix-Notation, also $\alpha\vdash\beta$ statt $(\alpha,\beta)\in\;\vdash$.}
-	zu $\mathcal{G}$ ist 
-  \begin{displaymath}
-    \cdot \vdash_\mathcal{G} \cdot \subseteq (N\cup\Sigma)^*\x(N\cup\Sigma)^*
-  \end{displaymath}
-  mit \ \ $\alpha \vdash_\mathcal{G} \beta$\ \  gdw\ \  $\alpha = \gamma_1\alpha'\gamma_2$,\ \  $\beta = \gamma_1\beta'\gamma_2$\ \  und \ \ $\alpha' \to \beta' \in P$
+	zu $\mathcal{G}=(\Sigma,N,P,S)$ ist 
+        $ \cdot \vdash_\mathcal{G} \cdot \subseteq
+        (N\cup\Sigma)^*\x(N\cup\Sigma)^* $
+        definiert durch
+        \begin{gather*}
+          \frac{\alpha \to \beta \in P}{\gamma\cdot\alpha\cdot\delta \vdash_\mathcal{G} \gamma\cdot\beta\cdot\delta }
+        \end{gather*}
+    
+  % mit \ \ $\alpha \vdash_\mathcal{G} \beta$\ \  gdw\ \  $\alpha =
+  % \gamma_1\alpha'\gamma_2$,\ \  $\beta = \gamma_1\beta'\gamma_2$\ \
+  % und \ \ $\alpha' \to \beta' \in P$ 
 
   % Eine Folge $\alpha = \alpha_0,\ldots,\alpha_n = \beta$ heißt \emph{Ableitung von $\beta$ aus $\alpha$ in $n$ Schritten}, geschrieben $\alpha \stackrel{n}{\vdash}_\mathcal{G} \beta$, gdw $\alpha_i \vdash_\mathcal{G} \alpha_{i+1}$ für $0 \le i < n$.
   % Jedes solche $\alpha_i$ heißt \emph{Satzform von $\mathcal{G}$}.
@@ -105,26 +110,26 @@ Es gilt: $L(\mathcal{G})$ ist die Sprache der Wörter über $\{0,1\}$, die gleic
 
   Wir zeigen $L \subseteq L(\mathcal{G})$, d.h. $\forall w\in
   \Sigma^*. w \in L \=> w \in L(\mathcal{G})$.
-  Hierzu definieren wir noch die Hilfsfunktion $d : \Sigma^* \to \Z$:
+  Hierzu definieren wir eine Hilfsfunktion $d : \Sigma^* \to \Z$:
   \begin{align*}
-    d(\Eps) &= 0 \\
-    d(1w) &= d(w) + 1 \\
+    d(\Eps) &= 0 &
+    d(1w) &= d(w) + 1 &
     d(0w) &= d(w) - 1
   \end{align*}
-  Per Induktion über $u$ lässt sich leicht zeigen, dass $u \in L \<=>
+  Mittels Induktion über $u$ zeige, dass $u \in L \<=>
   d(u) = 0$ und $d(u \cdot v) = d(u) + d(v)$. 
   
   Wir betrachten nun die folgende Aussage
   \begin{align*}
-    P(n) &= \forall w. |w| = n \=> w \in L \=> w \in L(\mathcal{G})
+    P(n) &= \forall w.\, |w| = n \=> w \in L \=> w \in L(\mathcal{G})
            \text.
   \end{align*}
-  und beweisen sie mit Hilfe des folgenden Beweisprinzips
-  (vollständige  Induktion bzw. starke Induktion):
+  und beweisen sie mit Hilfe des Beweisprinzips der vollständigen
+  (bzw.\ starken) Induktion:
   \begin{gather*}
     \frac{
-      \forall n. (\forall j. j<n \=> P(j)) \=> P(n)
-    }{\forall n. P (n)}
+      \forall n.\, (\forall j.\, j<n \=> P(j)) \=> P(n)
+    }{\forall n.\, P (n)}
   \end{gather*}
   
 Fallunterscheidung auf $n$.
@@ -643,7 +648,7 @@ return M
 
 \datenote{7.12.2018}
 \begin{lemma}[\textsc{Unit}]
-Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G}|^3)$ eien äquivalente \ac{CFG} $\mathcal{G}'$ ohne Kettenregeln mit $|\mathcal{G}'|\in O(|\mathcal{G}|^2)$ berechnet.
+Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G}|^3)$ eine äquivalente \ac{CFG} $\mathcal{G}'$ ohne Kettenregeln mit $|\mathcal{G}'|\in O(|\mathcal{G}|^2)$ berechnet.
 %   Zu jeder \ac{CFG} $\mathcal{G} = (\Sigma, N, P, S)$ gibt es eine äquivalente \ac{CFG} $\mathcal{G}' = (N, \Sigma, P', S)$ ohne Kettenregeln.
 \end{lemma}
 \begin{proof} (Beweisskizze)
