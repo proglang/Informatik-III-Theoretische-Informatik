@@ -11,6 +11,7 @@ open import Relation.Nullary using (¬_; contradiction)
 
 
 open import Language
+open import Isomorphism using (_↔_)
 
 
 record FiniteAutomaton (Σ : Set) : Set where
