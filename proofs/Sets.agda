@@ -4,17 +4,22 @@ open import Level using (Level; _⊔_) renaming (zero to lzero; suc to lsuc)
 open import Data.Empty as Empty hiding (⊥)
 open import Data.Nat using (ℕ; zero; suc; _^_; _*_; _+_; _<_; _≤_; z≤n; s≤s)
 open import Data.Nat.Properties using (+-suc; +-identityʳ; +-monoˡ-≤)
-open import Data.Fin using (Fin; zero; suc; remQuot; combine; finToFun; funToFin; inject≤)
+open import Data.Fin using (Fin; zero; suc; remQuot; quotRem; combine; finToFun; funToFin; inject≤; _↑ˡ_; _↑ʳ_; splitAt; join)
 open import Data.Fin.Subset using (Subset; ⊥; ⊤; Side; inside; outside) renaming (_∈_ to _∈′_)
-open import Data.Fin.Properties using (funToFin-finToFin; finToFun-funToFin)
+open import Data.Fin.Properties using (funToFin-finToFin; finToFun-funToFin; combine-remQuot; remQuot-combine; splitAt-join; join-splitAt)
 open import Data.Vec using (Vec; []; _∷_; tabulate)
-open import Data.Product using (∃-syntax; _×_; _,_; Σ)
-open import Relation.Binary.PropositionalEquality using (_≡_; refl; sym; cong; subst; trans)
+open import Data.Product using (∃-syntax; _×_; _,_; Σ; proj₁; proj₂)
+open import Data.Product.Properties using (×-≡,≡←≡)
+open import Data.Sum using (_⊎_; inj₁; inj₂; map; [_,_])
+open import Data.Sum.Properties using (map-map; [,]-map; [,]-∘; [,]-cong)
+open import Relation.Binary.PropositionalEquality using (_≡_; refl; sym; cong; cong₂; subst; trans)
 open import Relation.Unary using (Pred; _∈_; Decidable)
+open import Function using (_∘_)
+open import FunExt
 open import Isomorphism using (Iso; comp; inverse-iso)
+open import Finiteness using (Finite)
 
-Finite : ∀ {ℓ} → Set ℓ → Set ℓ
-Finite X = ∃[ n ] Iso X (Fin n)
+-- powerset
 
 𝔓 : ∀{ℓ} → Set ℓ → Set (lsuc ℓ)
 𝔓 Q = Pred Q _

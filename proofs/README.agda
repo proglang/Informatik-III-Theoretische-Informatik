@@ -8,6 +8,10 @@ open import FunExt
 -- This is the core utility module used by both set and automata developments.
 open import Isomorphism
 
+-- Generic finiteness witnesses and closure properties.
+-- Provides finite product, sum, and function-space constructions.
+open import Finiteness
+
 -- Generic set-level infrastructure over predicates.
 -- Defines finiteness, powerset-style predicates, and helper constructions.
 open import Sets

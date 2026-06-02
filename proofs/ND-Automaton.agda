@@ -21,6 +21,7 @@ open import Relation.Unary.Properties using (≐-sym)
 
 open import Language
 open import Isomorphism using (Iso)
+open import Finiteness using (Finite)
 open import Sets
 
 import Automaton as DET
