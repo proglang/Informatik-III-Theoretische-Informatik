@@ -1,4 +1,4 @@
-\section{Grammatiken und kontextfreie Sprachen}
+\section{Grammatiken und kontextfreie Sprachen}\datenote{02.06.2026}
 
 \newcommand{\chz}{CH0}
 \newcommand{\cho}{CH1}
@@ -88,7 +88,7 @@
 
 
 
-\begin{Bsp}Wir betrachten nochmal die Grammatik aus \autoref{bsp:3.sameNumber}.\datenote{28.11.18}
+\begin{Bsp}Wir betrachten nochmal die Grammatik aus \autoref{bsp:3.sameNumber}.
 Es gilt: $1001\in L(\mathcal{G})$.
 $$ S 
 \vdash_\mathcal{G} 1S0S
@@ -209,8 +209,8 @@ Die Chomsky-Hierarchie teilt die Grammatiken in vier Typen unterschiedlicher Mä
 	\item Eine Grammatik heißt \emph{Typ-2} oder \emph{kontextfrei}, falls alle Regeln die Form $A\->\alpha$ mit $A\in N$ und $\alpha\in(N\cup\Sigma)^*$ haben.
 	\item Eine Grammatik heißt \emph{Typ-3} oder \emph{regulär}, falls alle Regeln die folgende Form haben:
 	\begin{alignat*}{2}
-		&A\->w &\quad w&\in\Sigma^*\\
-		\text{oder}\quad &A\->aB& a&\in\Sigma,\ B\in N
+		&A\->w &\quad w&\in\Sigma^*,\, A \in N\\
+		\text{oder}\quad &A\->aB& a&\in\Sigma,\, A,B\in N
 	\end{alignat*}
 	\end{itemize}
 	Eine Sprache heißt Typ-$i$-Sprache, falls es eine Typ-$i$-Grammatik für sie gibt.
@@ -233,7 +233,7 @@ $CH3 \subsetneq CH2 \subsetneq CH1 \subsetneq CH0$.
 
 
 
-\subsection{Kontextfreie Sprachen}\datenote{30.11.2018}
+\subsection{Kontextfreie Sprachen}\datenote{skipped}
 Die Sprache aus \autoref{bsp:3.sameNumber} ist kontextfrei. Weitere Beispiele sind:
 
 \begin{Bsp}\label{bsp:3.ArithExpr}
@@ -294,9 +294,7 @@ Beide Ableitungen unterscheiden sich nur durch die Reihenfolge, in der Variablen
 Die folgende Definition erlaubt es uns, beide Ableitungen durch das gleiche Objekt,
 den sogenannten Ableitungsbaum, darzustellen.
 
-
-\newcommand{\T}{\mathcal{T}}
-
+\datenote{03.06.2026}
 \begin{Def}[Ableitungsbaum] Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine
   kontextfreie Grammatik und $A\in N$.
   Wir definieren die Menge der \emph{in $A$ beginnenden Ableitungsbäume von $\mathcal{G}$}, $\operatorname{Abl}(A)$, als Menge von beschrifteten, geordneten Bäumen induktiv wie folgt:
@@ -318,10 +316,10 @@ den sogenannten Ableitungsbaum, darzustellen.
 \end{Def}
 
 \begin{Bemerkung}
-Nach dieser Definition gibt es also insbesondere für jede Regel $\pi$,
+Nach dieser Definition gibt es für jede Regel $\pi$,
 bei der nur Terminalsymbole auf der rechten Seite vorkommen, einen
-Ableitungsbaum, der die ein-elementige Knotenmenge $\{\pi\}$ und einer
-leeren Menge von Kanten hat. 
+Ableitungsbaum, der die ein-elementige Knotenmenge $\{\pi\}$ und eine
+leere Menge von Kanten hat. 
 \end{Bemerkung}
 
 
@@ -423,11 +421,20 @@ Im Folgenden verwenden wir auch die Abkürzung \acsu{CFG} für "`kontextfreie Gr
 
 \subsection{Die Chomsky-Normalform für kontextfreie Sprachen}\label{sec:cnf}
 % Notwendig für das Pumping Lemma kontextfreier Sprachen und für einen effizienten Algorithmus für das \nameref{satz:wortproblem}.
-Wir lernen in diesem Unterkapitel eine spezielle Form von kontextfreien Grammatiken (Chomsky-Normalform) kennen, für die gilt:
+Wir lernen in diesem Unterkapitel eine spezielle Form von
+kontextfreien Grammatiken (Chomsky-Normalform, CNF) kennen, für die gilt:
 \begin{itemize}
- \item Das Wortproblem ($w\in L(\mathcal{G})$?) lässt sich mit Hilfe eines einfachen Algorithmus entscheiden.
- \item Jede kontextfreie Grammatik lässt sich "`effizient"' in diese Normalform transformieren.
+\item Es gibt einen einfachen Algorithms für das Wortproblem ($w\in
+  L(\mathcal{G})$?). 
+\item Jede kontextfreie Grammatik lässt sich effektiv in CNF transformieren. 
 \end{itemize}
+
+ \begin{Def}[\acs*{CFG} in \acs*{CNF}]
+   Eine \ac{CFG} $\mathcal{G} = (\Sigma, N, P, S)$ ist in \ac{CNF}, falls jede
+  Regel die Form $A\->a$, $A\->BC$, oder $S \-> \Eps$ hat, wobei $A,B,C\in N$, $a\in\Sigma$.
+  Falls $S \to \Eps \in P$, dann darf $S$ auf keiner rechten Seite einer Regel vorkommen.
+\end{Def}
+
 
 Wir stellen im Folgenden vier Transformationen (\textsc{Sep, Bin, Del, Unit}) 
 vor und wollen dabei jeweils den Zeitaufwand und die Größe der resultierenden \ac{CFG} analysieren.
@@ -514,7 +521,7 @@ Wir definieren die Menge der Nichtterminalsymbole, aus denen das leere Wort abge
   \end{displaymath}
 \end{Def}
 
-\begin{Satz}\label{satz:3.nullable}\datenote{5.12.2018}
+\begin{Satz}\label{satz:3.nullable}
   Es gibt einen Algorithmus, der $\operatorname{Nullable}(\mathcal{G})$ in $O(|\mathcal{G}|^3)$ berechnet.
 \end{Satz}
 \begin{proof}
@@ -526,40 +533,43 @@ Wir definieren die Menge der Nichtterminalsymbole, aus denen das leere Wort abge
     M_{i+1} &= M_i \cup \{ A \mid A \to \alpha \in P \text{ und }
               \alpha \in M_i^* \}
   \end{align*}
-  Es gilt für alle $i \in \N$, dass $M_i \subseteq N$.
+  Es gilt für alle $i \in \N$, dass $M_i \subseteq M_{i+1} \subseteq N$.
   Da $|N|$ endlich ist, existiert ein $m \in \N$, sodass
   \begin{displaymath}
     M_m = M_{m+1} = \bigcup_{i \in \N} M_i
   \end{displaymath}
-  Wir können $\bigcup_{i \in \N} M_i$ mit dem folgenden Verfahren in $O(|\mathcal{G}|^3)$ berechnen.
+  Wir können daher $\bigcup_{i \in \N} M_i$ mit dem Algorithmus in
+  Abb.~\ref{fig:algorithm-nullable} in $O(|\mathcal{G}|^3)$ berechnen. 
   
-  \begin{center}
+  \begin{figure}[tp]
   \begin{minipage}{7cm}
   \begin{lstlisting}[
   mathescape,
   columns=fullflexible,
   basicstyle=\fontfamily{lmvtt}\selectfont,
 ]
-M = {}
-done = $false$
-while (not done):
-    done = $true$
-    M$_{old}$ = M
-    foreach $A \to a \in P$:
-         if ($ A \not \in M \wedge a \in M_{old}^*$):
+$M = \{\}$
+repeat
+    changed = false
+    $M_{old} = M$
+    foreach $A \to \alpha \in P$:
+         if ($ A \not \in M \wedge \alpha \in M_{old}^*$):
              $M = M \cup \{A\}$
-             done = $false$
+             changed = true
+until not changed
 return M
 \end{lstlisting}
 \end{minipage}
-\end{center}
+\caption{Berechung von $\operatorname{Nullable} (\G)$}
+\label{fig:algorithm-nullable}
+\end{figure}
 
   Wir zeigen nun, dass $\operatorname{Nullable}(\mathcal{G}) = \bigcup_{i \in \N} M_i$.
 
   \medskip
   
   "`$\supseteq$"'\quad
-  Wir zeigen via Induktion über die Höhe des Ableitungsbaums $i$, dass 
+  Wir zeigen mittels Induktion, dass 
   $$\forall i \in \N: M_i \subseteq \operatorname{Nullable}(\mathcal{G})$$
   \begin{description}
   \item[IA] $i = 0$: $M_0 = \emptyset \subseteq \operatorname{Nullable}(\mathcal{G})$
@@ -571,16 +581,20 @@ return M
       $A \in M_i \subseteq \operatorname{Nullable}(\mathcal{G})$ nach
       IV oder
     \item 
-      es existiert $A \to A_1\ldots A_n \in P$ mit $A_j \in M_i$ für
+      es existiert $A \to A_1\ldots A_n \in P$ mit $A_j \in M_i$ für alle
       $1 \le j \le n$.
-      Nach IV existieren Ableitungen
+      Nach IV existieren Ableitungsbäume $\T_j$ für
       \begin{displaymath}
-        A_j \stackrel{*}{\vdash}\mathcal{G} \Eps
+        A_j \vdash^*_\mathcal{G} \Eps
       \end{displaymath}
-      sodass auch eine Ableitung von $A$ nach $\Eps$ existiert:
-      \begin{displaymath}
-        A  \vdash_\mathcal{G} A_1 \ldots A_n \stackrel{*}{\vdash}\mathcal{G} \underbrace{\Eps \ldots \Eps}_{n \text{ Mal}} = \Eps
-      \end{displaymath}
+      die zu einem Ableitungsbaum von $A$ nach $\Eps$ kombiniert
+      werden können:
+      \begin{center}
+        \tikz[baseline=0cm]{\Tree [.{$A  \vdash_\mathcal{G} A_1 \ldots A_n$} $\T_1$ \edge[draw=none]; {$\dots$} $\T_n$ ]}
+      \end{center}
+      % \begin{displaymath}
+      %   A  \vdash_\mathcal{G} A_1 \ldots A_n \vdash^*_\mathcal{G} \underbrace{\Eps \ldots \Eps}_{n \text{ Mal}} = \Eps
+      % \end{displaymath}
       Also gilt $A \in \operatorname{Nullable}(\mathcal{G})$.
     \end{itemize}
   \end{description}
@@ -588,25 +602,44 @@ return M
   \medskip
   
   "`$\subseteq$"'\quad
-  Wenn $A \in \operatorname{Nullable}(\mathcal{G})$, dann existiert $m
-  \in \N$, sodass $A \stackrel{*}{\vdash}\mathcal{G} \Eps$ mit einem
-  Ableitungsbaum der Höhe $m$.
-  Wir zeigen via Induktion über $m$, dass $A \in M_{m+1} \subseteq \bigcup_{i \in \N} M_i$.
+  % Wenn $A \in \operatorname{Nullable}(\mathcal{G})$, dann existiert $m
+  % \in \N$, sodass $A \vdash^*_\mathcal{G} \Eps$ mit einem
+  % Ableitungsbaum der Höhe $m$.
+
+  Wir zeigen mittels Induktion über den Ableitungsbaum von $A
+  \vdash^*_\mathcal{G} \Eps$, dass $\exists i.\, A \in M_i$. 
   \begin{description}
-  \item[IA] $m = 1$. Die Ableitung ist $A \vdash_\mathcal{G} \Eps$, sodass $A\in M_1$.
-  \item[IS] $m > 1$.
-    Die Wurzel des Ableitungsbaum muss mit $A \to A_1\ldots A_n$ ($n>0$)
-    beschriftet sein und die Kinder sind jeweils Ableitungsbäume für
-    $\Eps$ in  $Abl(A_i)$ der Höhe $m_i \le m-1$, wobei $1 \le i \le n$.
-    
-    Es gilt nun nach IV, dass $A_i \in M_{m_i} \subseteq M_{m-1}$.
-    Somit ist $A_i \in M_{m-1}$ und damit, nach Definition, $A \in M_m$.
+  \item[IA] $A \vdash_\mathcal{G} \Eps$ ist eine Produktion. Also ist
+    $A \in M_1$.
+  \item[IS] Die Wurzel des Ableitungsbaums ist mit $A \vdash_\mathcal{G} A_1\dots
+    A_n$ beschriftet und die Teilbäume entsprechen den Ableitungen
+    $A_j \vdash^*_\mathcal{G} \Eps$, $1\le j \le n$.
+
+    Die IV liefert für jeden Teilbaum ein $i_j$, sodass $A_j \in
+    M_{i_j}$.
+    Also gilt für $i = \max \{i_1, \dots, i_n \}$, dass $A_j \in M_i$.
+    Daher ist $A \in M_{i+1}$.
     \qedhere
   \end{description}
-\end{proof}
 
+  % Wir zeigen mittels Induktion über $m$, dass $A \in M_{m+1} \subseteq \bigcup_{i \in \N} M_i$.
+  % \begin{description}
+  % \item[IA] $m = 1$. Die Ableitung ist $A \vdash_\mathcal{G} \Eps$, sodass $A\in M_1$.
+  % \item[IS] $m > 1$.
+  %   Die Wurzel des Ableitungsbaum muss mit $A \to A_1\ldots A_n$ ($n>0$)
+  %   beschriftet sein und die Kinder sind jeweils Ableitungsbäume für
+  %   $\Eps$ in  $Abl(A_i)$ der Höhe $m_i \le m-1$, wobei $1 \le i \le n$.
+    
+  %   Es gilt nun nach IV, dass $A_i \in M_{m_i} \subseteq M_{m-1}$.
+  %   Somit ist $A_i \in M_{m-1}$ und damit, nach Definition, $A \in M_m$.
+  %   \qedhere
+  % \end{description}
+\end{proof}
+\clearpage
+\datenote{NEXT-UP}
 \begin{Korollar}
-  Man kann zu einer \ac{CFG} $\mathcal{G}$ berechnen, ob $\Eps \in L(\mathcal{G})$.
+  Man kann zu einer \ac{CFG} $\mathcal{G}$ entscheiden, ob $\Eps \in
+  L(\mathcal{G})$.
 \end{Korollar}
 \begin{proof}
   Prüfe, ob $S \in \operatorname{Nullable}(\mathcal{G})$.
@@ -643,39 +676,58 @@ return M
 
 \begin{Def}
   Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine Grammatik.
-  Eine \emph{Kettenregel} von $\mathcal{G}$ ist eine Regel in $P$ der Form $A \to B$, wobei $A,B \in N$.
+  Eine Regel der Form $A \to B \in P$ mit $A, B \in N$ heißt \emph{Kettenregel}.
 \end{Def}
 
-\datenote{7.12.2018}
+%\datenote{7.12.2018}
 \begin{lemma}[\textsc{Unit}]
-Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G}|^3)$ eine äquivalente \ac{CFG} $\mathcal{G}'$ ohne Kettenregeln mit $|\mathcal{G}'|\in O(|\mathcal{G}|^2)$ berechnet.
+Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in
+$O(|\mathcal{G}|^3)$ eine äquivalente \ac{CFG} $\mathcal{G}'$ ohne
+Kettenregeln mit $|\mathcal{G}'|\in O(|\mathcal{G}|^2)$ berechnet. 
 %   Zu jeder \ac{CFG} $\mathcal{G} = (\Sigma, N, P, S)$ gibt es eine äquivalente \ac{CFG} $\mathcal{G}' = (N, \Sigma, P', S)$ ohne Kettenregeln.
 \end{lemma}
-\begin{proof} (Beweisskizze)
-	\begin{itemize}
-	\item Zur Äquivalenz:
+\begin{proof} Beweisskizze zum Algorithmus in Abb.~\ref{fig:algorithmus-unit}.
+  \begin{itemize}
+  \item Zur Äquivalenz:
+    
+    Wir zeigen, dass jeder Schritt, der die \ac{CFG} ändert, eine
+    äquivalente \ac{CFG} liefert. 
+    Dazu zeigen wir, dass jedes Wort, das in der alten \ac{CFG}
+    abgeleitet werden konnte, auch in der neuen \ac{CFG}
+    abgeleitet werden kann und umgekehrt. 
+    Für Schritt~\ref{alg:unit-step-chain} gilt die
+    Äquivalenz sogar für jede Iteration der mittleren for-Schleife. 
+    
+  \item Zur Kettenregelfreiheit:
+    
+    In Schritt~\ref{alg:unit-step-DelCycle} wird mindestens ein
+    Kettenregelzykel entfernt. Da eine Grammatik nur endlich viele
+    Regeln hat, wird nach spätestens $|\mathcal{G}|$ Anwendungen von
+    Schritt~\ref{alg:unit-step-DelCycle} der
+    Schritt~\ref{alg:unit-step-dag}, in dem alle Zyklen entfernt sind,
+    erreicht. 
 	
-	Wir zeigen dass jeden Schritt der die \ac{CFG} ändert eine äquivalente \ac{CFG} liefert.
-	Dazu zeigen wir dass es für jedes Wort dass in der alten \ac{CFG} abgeleitet werden konnte auch in der neuen \ac{CFG} abgeleitet werden kann und umgekehrt.
-	Für Schritt~\ref{alg:unit-step-chain} können wir -- es macht den Beweis etwas einfacher -- zeigen dass Äquivalenz sogar für jede Iteration der mittleren for-Schleife gilt.
+    In der mittleren for-Schleife von
+    Schritt~\ref{alg:unit-step-chain} gilt aufgrund der topologischen
+    Sortierung immer $i<k$.  Die äußere Schleife hat die Invariante,
+    dass am Ende jedes Durchlaufs für $n \ge i \ge j$ keine
+    Kettenregel $A_i \to \ldots$ in $P'$ existiert.  Beim Verlassen
+    der Schleife ist $j = 1$ und es existieren überhaupt keine
+    Kettenregeln mehr.
 	
-	\item Zur Kettenregelfreiheit:
+  \item Zu Laufzeit und Größe des Resultates:
 	
-	In Schritt~\ref{alg:unit-step-DelCycle} wird mindestens ein Kettenregelzykel entfernt und da eine Grammatik nur endlich viele Regeln hat wird nach spätestens $|\mathcal{G}|$ Anwendungen von Schritt~\ref{alg:unit-step-DelCycle} der Schritt~\ref{alg:unit-step-dag}, in dem alle Zykeln entfernt sind, erreicht.
-	
-	In der mittleren for-Schleife von Schritt~\ref{alg:unit-step-chain} gilt aufgrund der topologischen Sortierung immer $i<k$.
-	Die äußere Schleife hat die Invariante, dass am Ende jedes Durchlaufs für $n \ge i \ge j$ keine Kettenregel $A_i \to \ldots$ in $P'$ existiert.
-	Beim Verlassen der Schleife ist $j = 1$ und es existieren überhaupt keine Kettenregeln mehr.
-	
-	\item Zu Laufzeit und Größe des Resultates:
-	
-		Vor Schritt~\ref{alg:unit-step-chain} wird die Grammatik nie vergrößert (wichtig sowohl für Laufzeit als auch für Größe!) und die Kosten übersteigen $O(|\mathcal{G}|^3)$ nicht.
-		Die Anzahl der Schleifendurchläufe ist jeweils durch $|\mathcal{G}|$ beschränkt.
-		Seien $B \to \alpha_1, \ldots, B \to \alpha_n$ die alle neuen Regeln die für eine Variable $B\in N$ in Schritt~\ref{alg:unit-step-chain} hinzugefügt werden.
-		Dann gilt, dass die Summe der Größe der $\alpha_i$ die Größe der Grammatik $|\mathcal{G}|$ nicht übersteigt. 
-		Somit ist die Größe des Resultates durch $|\mathcal{G}|^2$ beschränkt.
-		\qedhere
-	\end{itemize}
+    Vor Schritt~\ref{alg:unit-step-chain} wird die Grammatik nie
+    vergrößert (wichtig sowohl für Laufzeit als auch für Größe!) und
+    die Kosten übersteigen $O(|\mathcal{G}|^3)$ nicht.  Die Anzahl der
+    Schleifendurchläufe ist jeweils durch $|\mathcal{G}|$ beschränkt.
+    Seien $B \to \alpha_1, \ldots, B \to \alpha_n$ alle neuen
+    Regeln, die für eine Variable $B\in N$ in
+    Schritt~\ref{alg:unit-step-chain} hinzugefügt werden.  Dann gilt,
+    dass die Summe der Größe der $\alpha_i$ die Größe der Grammatik
+    $|\mathcal{G}|$ nicht übersteigt.  Somit ist die Größe des
+    Resultates durch $|\mathcal{G}|^2$ beschränkt.  \qedhere
+  \end{itemize}
 \end{proof}
 
 \begin{figure}
@@ -684,12 +736,14 @@ Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G
 \parbox{0.95\textwidth}{
 \begin{description}
  \item[Eingabe:] \ac{CFG} $\mathcal{G} = (\Sigma, N, P, S)$
- \item[Ausgabe:] \ac{CFG} $\mathcal{G'} = (\Sigma, N', P', S)$ die Äquivalent zu $\mathcal{G}$ ist aber keine Kettenregeln enthält
+ \item[Ausgabe:] \ac{CFG} $\mathcal{G'} = (\Sigma, N', P', S)$, die
+   äquivalent zu $\mathcal{G}$ ist, aber keine Kettenregeln enthält.
 \end{description}
 
   \begin{enumerate}
-  \item Setze $N'=N$ und $P' = P$
-  \item Betrachte den gerichteten Graphen $G$ dessen Knotenmenge $N$ und Kantenmenge $\{(A, B) \mid A \to B \in P' \}$ ist.
+  \item Setze $N'=N$ und $P' = P$.
+  \item Betrachte den gerichteten Graphen $G$, dessen Knotenmenge $N$
+    und Kantenmenge $\{(A, B) \mid A \to B \in P' \}$ ist.
   (Es gibt also genau eine Kante pro Kettenregel.)
   \label{alg:unit-step-dg}
   \item \label{alg:unit-step-DelCycle} Suche, z.B. mittels Tiefensuche, einen Zyklus in $G$.
@@ -716,8 +770,8 @@ Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G
   \end{enumerate}
   }
 }
-
-  \caption{Algorithmus \textsc{Unit}}
+\caption{Algorithmus \textsc{Unit}}
+\label{fig:algorithmus-unit}
   \end{figure}
 \footnotetext{\ac{DAG} (engl.\ \emph{directed acyclic graph}).}
 
@@ -787,11 +841,6 @@ Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G
 
 
 
-\begin{Def}[name={[\acs*{CFG} in \acs*{CNF}]}]
-	Eine \ac{CFG} $\mathcal{G} = (\Sigma, N, P, S)$ ist in \ac{CNF}, falls jede
-  Regel die Form $A\->a$, $A\->BC$, oder $S \-> \Eps$ hat, wobei $A,B,C\in N$, $a\in\Sigma$.
-  Falls $S \to \Eps \in P$, dann darf $S$ auf keiner rechten Seite einer Regel vorkommen.
-\end{Def}
 \begin{Satz}\label{satz:CFGtoCNF}
 Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G}|^3)$ Rechenschritten eine äquivalente \ac{CFG} $\mathcal{G}'$ in CNF mit $|\mathcal{G}'|\in O(|\mathcal{G}|^2)$ berechnet.
 \end{Satz}
