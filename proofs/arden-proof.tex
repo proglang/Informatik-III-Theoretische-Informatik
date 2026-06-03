@@ -1,0 +1,50 @@
+\begin{proof}[Beschreibung des Agda-Beweises von \texttt{ardens-left}]
+Sei $\Eps \notin A$ und sei $X$ eine Lösung der Gleichung
+$X=A\cdot X\cup B$.
+Der Agda-Beweis zeigt die Inklusion
+\[
+  X \subseteq A^*B .
+\]
+Zusammen mit der bereits im manuellen Beweis verwendeten Inklusion
+$A^*B\subseteq X$ folgt daraus die Eindeutigkeit der Lösung.
+
+Der eigentliche Induktionsbeweis steckt in der Hilfsaussage
+\texttt{ardens-left-gen}.
+Gezeigt wird die stärkere Aussage:
+\[
+  \forall n\in\mathbb{N}:\forall w\in\Sigma^*:
+  |w|<n \text{ und } w\in X
+  \quad\Rightarrow\quad
+  w\in A^*B .
+\]
+Wir führen eine Induktion über $n$ durch.
+
+I.A. ($n=0$): Es gibt kein Wort $w$ mit $|w|<0$, also ist nichts zu zeigen.
+
+I.S. ($n\rightsquigarrow n+1$): Sei $w\in\Sigma^*$ mit $|w|<n+1$ und
+$w\in X$.
+Wegen $X=A\cdot X\cup B$ gibt es zwei Möglichkeiten.
+\begin{itemize}
+ \item Falls $w\in B$, dann ist
+   $w=\Eps\cdot w$ mit $\Eps\in A^0$.
+   Also gilt $w\in A^*B$.
+ \item Falls $w\in A\cdot X$, dann gibt es Wörter $u,v$ mit
+   $w=uv$, $u\in A$ und $v\in X$.
+   Der Fall $u=\Eps$ ist unmöglich, denn daraus würde
+   $\Eps\in A$ folgen, im Widerspruch zur Annahme.
+   Also ist $u\ne\Eps$.
+   Dann ist $v$ ein echtes Restwort von $w$; aus $|w|<n+1$ folgt
+   $|v|<n$.
+   Nach Induktionsvoraussetzung gilt daher $v\in A^*B$.
+   Also gibt es ein $j$ sowie Wörter $y,z$ mit
+   $v=yz$, $y\in A^j$ und $z\in B$.
+   Wegen $u\in A$ folgt $uy\in A^{j+1}$ und damit
+   $w=uv=uyz\in A^{j+1}B\subseteq A^*B$.
+\end{itemize}
+
+Damit ist die Hilfsaussage bewiesen.
+Für \texttt{ardens-left} selbst wählt der Agda-Beweis zu einem beliebigen
+$w\in X$ den Wert $n=|w|+1$.
+Dann gilt $|w|<n$, und die Hilfsaussage liefert sofort $w\in A^*B$.
+Also gilt $X\subseteq A^*B$.
+\end{proof}

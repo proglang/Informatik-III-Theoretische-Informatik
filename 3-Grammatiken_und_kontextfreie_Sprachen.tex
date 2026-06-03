@@ -131,7 +131,8 @@ Es gilt: $L(\mathcal{G})$ ist die Sprache der Wörter über $\{0,1\}$, die gleic
       \forall n.\, (\forall j.\, j<n \=> P(j)) \=> P(n)
     }{\forall n.\, P (n)}
   \end{gather*}
-  
+  Die Ausformulierung des Beweises erfolgt in der Übung.
+\hide{  
 Fallunterscheidung auf $n$.
 \begin{itemize}[font=\normalfont]
 \item $n = 0$: $w = \Eps$. Es gilt $\Eps \in L \cap  L(\mathcal{G})$, da $\#_0(\Eps) = \#_1(\Eps) = 0$.
@@ -173,6 +174,7 @@ Fallunterscheidung auf $n$.
   $S \vdash_{\mathcal{G}} 0S1S \vdash^*_{\mathcal{G}} 0u1S \vdash^*_{\mathcal{G}} 0u1v$.
   \qedhere
 \end{itemize}
+}
 \end{Bsp}
 
 \begin{Bsp}\label{bsp:3.anbncn}
@@ -584,17 +586,16 @@ return M
       es existiert $A \to A_1\ldots A_n \in P$ mit $A_j \in M_i$ für alle
       $1 \le j \le n$.
       Nach IV existieren Ableitungsbäume $\T_j$ für
-      \begin{displaymath}
-        A_j \vdash^*_\mathcal{G} \Eps
-      \end{displaymath}
+      $A_j \vdash^*_\mathcal{G} \Eps$,
       die zu einem Ableitungsbaum von $A$ nach $\Eps$ kombiniert
       werden können:
-      \begin{center}
-        \tikz[baseline=0cm]{\Tree [.{$A  \vdash_\mathcal{G} A_1 \ldots A_n$} $\T_1$ \edge[draw=none]; {$\dots$} $\T_n$ ]}
-      \end{center}
+      \begin{displaymath}
+        \T = \tikz[baseline=0cm]{\Tree [.{$A  \to A_1 \ldots A_n$} $\T_1$ \edge[draw=none]; {$\dots$} $\T_n$ ]}
+      \end{displaymath}
       % \begin{displaymath}
       %   A  \vdash_\mathcal{G} A_1 \ldots A_n \vdash^*_\mathcal{G} \underbrace{\Eps \ldots \Eps}_{n \text{ Mal}} = \Eps
       % \end{displaymath}
+      Wegen $Y(\T_j) = \Eps$, $1\le j \le n$, gilt auch $Y(\T) = \Eps$.
       Also gilt $A \in \operatorname{Nullable}(\mathcal{G})$.
     \end{itemize}
   \end{description}
@@ -606,12 +607,12 @@ return M
   % \in \N$, sodass $A \vdash^*_\mathcal{G} \Eps$ mit einem
   % Ableitungsbaum der Höhe $m$.
 
-  Wir zeigen mittels Induktion über den Ableitungsbaum von $A
+  Wir zeigen mittels Induktion über einen Ableitungsbaum von $A
   \vdash^*_\mathcal{G} \Eps$, dass $\exists i.\, A \in M_i$. 
   \begin{description}
-  \item[IA] $A \vdash_\mathcal{G} \Eps$ ist eine Produktion. Also ist
+  \item[IA] $A \to \Eps$ ist eine Produktion. Also ist
     $A \in M_1$.
-  \item[IS] Die Wurzel des Ableitungsbaums ist mit $A \vdash_\mathcal{G} A_1\dots
+  \item[IS] Die Wurzel des Ableitungsbaums ist mit $A \to A_1\dots
     A_n$ beschriftet und die Teilbäume entsprechen den Ableitungen
     $A_j \vdash^*_\mathcal{G} \Eps$, $1\le j \le n$.
 

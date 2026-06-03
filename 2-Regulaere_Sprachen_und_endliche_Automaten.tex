@@ -2308,7 +2308,21 @@ Zeige via strukturelle Induktion über den Aufbau regulärer Ausdrücke, dass $ 
         \vspace{-1.45\baselineskip}
         \begin{itemize}
         \item $r = \0$, $\llbracket r \rrbracket = \emptyset$ ist regulär
+          (\acs{NEA}: \tikz[>=stealth, shorten >=1pt, initial text=,
+    					on grid, baseline=-.6ex,
+    					every state/.style={minimum size=0pt,inner sep=0pt}
+    				]{
+    				\node [state,initial] (a) {};
+    			}
+    			)
         \item $r = \1$, $\llbracket r \rrbracket = \{ \Eps \}$ ist regulär
+          (\acs{NEA}: \tikz[>=stealth, shorten >=1pt, initial text=,
+    					on grid, baseline=-.6ex,
+    					every state/.style={minimum size=0pt,inner sep=0pt}
+    				]{
+    				\node [state,initial,accepting] (a) {};
+    			}
+    			)
         \item $r = a$, $\llbracket r \rrbracket = \{ a \}$ ist regulär
           (\acs{NEA}: \tikz[>=stealth, shorten >=1pt, initial text=,
     					on grid, baseline=-.6ex,
@@ -2406,43 +2420,49 @@ Wir kennen bisher kein systematisches Verfahren zum Lösen solcher Gleichungen u
         \end{enumerate}
 \end{lemma}
 
-\begin{proof}
-\hfill \vspace{-\baselineskip} \\
-\begin{enumerate}
- \item Wir können leicht nachrechnen, dass $A^*B$ tatsächlich eine Lösung ist.
- $$ \underbrace{A^*B}_X = (AA^*\cup \{\Eps\})B = A\cdot (\underbrace{A^*B}_X)\cup B$$
- \item Sei $\Eps \notin A$.
- Aus dem Beweis für 1.\ wissen wir außerdem, dass jede Lösung eine Obermenge von $A^*B$ sein muss.
- Wir führen einen Widerspruchsbeweis, dass keine Lösung ein Wort $x\in\Sigma^*$ mit $x\notin A^*B$ enthalten kann.
- 
- Angenommen, es gäbe Wörter $x$ mit dieser Eigenschaft.
- Dann gibt es auch Wörter minimaler Länge mit dieser Eigenschaft.
- Sei $w \in X \setminus A^*B$ solch ein Wort minimaler Länge.
-
- Wegen $X = AX \cup B$ gilt:
- \begin{align*}
-   X &= AX \cup B \\
-     &=  A ( AX \cup B) \cup B &
-                               & = A^2X \cup AB \cup B \\
-     &= A^2 ( AX \cup B) \cup AB \cup B && = A^3X \cup A^2B \cup AB
-                                           \cup B\\
-     &= \dots &&= A^nX \cup A^{n-1}B \cup \dots \cup AB \cup B
- \end{align*}
- Daher muss es ein $n>0$ geben, sodass  $\underbrace{A^nX}_{\ni w}
- \cup \underbrace{A^{n-1}B \cup \dots \cup AB \cup B}_{\not\ni w}$
- ist. Also hat $w$ die Form
- $w = u_1\dots u_n w'\text{ mit } u_1,\dots,u_n\in A, \forall i: u_i
- \ne \Eps \text{ und } w'\in X$.
- Fallunterscheidung:
- \begin{itemize}
-  \item $w' \in A^*B$ \ $\Rightarrow w\in A^nA^*B\subseteq A^*B$ -- Widerspruch!
-  \item $w' \in X \setminus A^*B$ \ $\Rightarrow w'$ ist bereits
-    Element einer Lösung mit $|w'| < |u_1\dots u_n w'| = |w|$. Widerspruch zur minimalen Länge von $w$.
- \end{itemize}
- Die Sprache $A^*B$ ist also die einzige Lösung für $X$.
- \qedhere
-\end{enumerate}
+\begin{proof}[Teil 1]
+  Durch Einsetzen in die Gleichung rechnen wir nach, dass $A^*B$ tatsächlich eine Lösung ist. 
+  $$ \underbrace{A^*B}_X = (AA^*\cup \{\Eps\})B = A\cdot (\underbrace{A^*B}_X)\cup B
+  \text.$$
+  Daraus folgt $A^*B \subseteq X$.
 \end{proof}
+
+\input{proofs/arden-proof.tex}
+
+
+% \begin{enumerate}
+%  \item Sei $\Eps \notin A$.
+%  Aus dem Beweis für 1.\ wissen wir außerdem, dass jede Lösung eine Obermenge von $A^*B$ sein muss.
+%  Wir führen einen Widerspruchsbeweis, dass keine Lösung ein Wort $x\in\Sigma^*$ mit $x\notin A^*B$ enthalten kann.
+ 
+%  Angenommen, es gäbe Wörter $x$ mit dieser Eigenschaft.
+%  Dann gibt es auch Wörter minimaler Länge mit dieser Eigenschaft.
+%  Sei $w \in X \setminus A^*B$ solch ein Wort minimaler Länge.
+
+%  Wegen $X = AX \cup B$ gilt:
+%  \begin{align*}
+%    X &= AX \cup B \\
+%      &=  A ( AX \cup B) \cup B &
+%                                & = A^2X \cup AB \cup B \\
+%      &= A^2 ( AX \cup B) \cup AB \cup B && = A^3X \cup A^2B \cup AB
+%                                            \cup B\\
+%      &= \dots &&= A^nX \cup A^{n-1}B \cup \dots \cup AB \cup B
+%  \end{align*}
+%  Daher muss es ein $n>0$ geben, sodass  $\underbrace{A^nX}_{\ni w}
+%  \cup \underbrace{A^{n-1}B \cup \dots \cup AB \cup B}_{\not\ni w}$
+%  ist. Also hat $w$ die Form
+%  $w = u_1\dots u_n w'\text{ mit } u_1,\dots,u_n\in A, \forall i: u_i
+%  \ne \Eps \text{ und } w'\in X$.
+%  Fallunterscheidung:
+%  \begin{itemize}
+%   \item $w' \in A^*B$ \ $\Rightarrow w\in A^nA^*B\subseteq A^*B$ -- Widerspruch!
+%   \item $w' \in X \setminus A^*B$ \ $\Rightarrow w'$ ist bereits
+%     Element einer Lösung mit $|w'| < |u_1\dots u_n w'| = |w|$. Widerspruch zur minimalen Länge von $w$.
+%  \end{itemize}
+%  Die Sprache $A^*B$ ist also die einzige Lösung für $X$.
+%  \qedhere
+% \end{enumerate}
+
 
 Wir können Ardens Lemma wie folgt auch für reguläre Ausdrücke formulieren:
 \begin{Korollar}
