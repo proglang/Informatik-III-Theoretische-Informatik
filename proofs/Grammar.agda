@@ -69,17 +69,14 @@ record CFG (Σ : Set) : Set₁ where
   Sentential : Set
   Sentential = Word Symbol
 
-  infix 4 _⇒_ _⇒*_
+  infix 4 _⇒_
+  -- _⇒*_
 
   _⇒_ : Sentential → Sentential → Set
   α ⇒ β = ∃[ u ] ∃[ A ] ∃[ y ] ∃[ v ]
     α ≡ u ++ inj₁ A ∷ v
     × (y ∈ P A)
     × β ≡ u ++ y ++ v
-
-  data _⇒*_ : Sentential → Sentential → Set where
-    ⇒*-refl : ∀ α → α ⇒* α
-    ⇒*-step : ∀ {α β γ} → α ⇒ β → β ⇒* γ → α ⇒* γ
 
 record Grammar {Σ : Set} (G : Set₁) : Set₁ where
   field
@@ -100,6 +97,10 @@ record Grammar {Σ : Set} (G : Set₁) : Set₁ where
 
   start : (g : G) → Sentential g
   start g = inj₁ (S g) ∷ ε
+
+  start≢terminals : ∀ g w → start g ≢ terminals g w
+  start≢terminals g ε ()
+  start≢terminals g (x₁ ∷ _) ()
 
 instance
   PhraseStructureGrammar-instance : ∀ {Σ} → Grammar {Σ} (PhraseStructureGrammar Σ)
@@ -131,14 +132,18 @@ module _ {Σ : Set} {G : Set₁} ⦃ grammarG : Grammar {Σ} G ⦄ where
     α ⇒[ zero ] β = α ≡ β
     α ⇒[ suc n ] β = ∃[ γ ] α ⇒ γ × γ ⇒[ n ] β
 
-    _⇒*_ : Sentential g → Sentential g → Set
-    α ⇒* β = ∃[ n ] α ⇒[ n ] β
+    -- _⇒*_ : Sentential g → Sentential g → Set
+    -- α ⇒* β = ∃[ n ] α ⇒[ n ] β
 
-    ⇒*-refl : ∀ α → α ⇒* α
-    ⇒*-refl α = zero , refl
+    --  ⇒*-refl : ∀ α → α ⇒* α
+    -- ⇒*-refl α = zero , refl
 
-    ⇒*-step : ∀ {α β γ} → α ⇒ β → β ⇒* γ → α ⇒* γ
-    ⇒*-step α⇒β (n , β⇒[n]γ) = suc n , (_ , α⇒β , β⇒[n]γ)
+    -- ⇒*-step : ∀ {α β γ} → α ⇒ β → β ⇒* γ → α ⇒* γ
+    -- ⇒*-step α⇒β (n , β⇒[n]γ) = suc n , (_ , α⇒β , β⇒[n]γ)
+
+    data _⇒*_ : Sentential g → Sentential g → Set where
+      ⇒*-refl : ∀ α → α ⇒* α
+      ⇒*-step : ∀ {α β γ} → α ⇒ β → β ⇒* γ → α ⇒* γ
 
   module Generated (g : G) where
     open Derivation g
