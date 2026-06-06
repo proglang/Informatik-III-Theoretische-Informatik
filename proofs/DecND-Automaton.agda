@@ -12,7 +12,8 @@ open import Data.Sum using (_⊎_; inj₁; inj₂)
 open import Relation.Binary.PropositionalEquality using (_≡_; refl; cong; trans)
 
 open import Isomorphism using (Iso; comp; inverse-iso)
-open import DecSets using (𝔓; Finite; Finite-𝔓)
+open import Finiteness using (Finite)
+open import DecSets using (𝔓; Finite-𝔓)
 
 import DecAutomaton as DET
 

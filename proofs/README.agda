@@ -48,6 +48,18 @@ open import Arden
 -- Derivation and generated-language modules are abstracted over this interface.
 open import Grammar
 
+-- Shared helper lemmas for CFG derivations.
+-- Provides context closure, transitivity, and terminal-yield composition.
+open import Grammar.DerivationHelpers
+
+-- Derivation trees for context-free grammars.
+-- Encodes production choices and terminal yields as indexed tree/forest data.
+open import Grammar.DerivationTree
+
+-- Leftmost derivations for CFGs and their generated-language equivalence.
+-- Provides the leftmost reflexive-transitive closure used by CFG closures.
+open import Grammar.Leftmost-Derivation
+
 -- Concrete example grammars used for experimentation and sanity checks.
 -- Provides sample CFG instances and explicit production tables.
 open import Grammar.Example
@@ -55,6 +67,10 @@ open import Grammar.Example
 -- Properties and conversions for grammar formalisms.
 -- Includes the isomorphism statement relating CFG and phrase-structure views.
 open import Grammar.Properties
+
+-- Closure constructions for CFGs.
+-- Contains union, concatenation, and Kleene-star grammar constructions.
+open import Grammar.CFG-Closure
 
 -- Decidable-set infrastructure modeled as Bool-valued predicates.
 -- Mirrors core set operations and finiteness in the decidable setting.

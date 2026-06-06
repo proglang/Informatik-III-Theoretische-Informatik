@@ -78,6 +78,13 @@ record CFG (Σ : Set) : Set₁ where
     × (y ∈ P A)
     × β ≡ u ++ y ++ v
 
+  _⇒ˡ_ : Sentential → Sentential → Set
+  α ⇒ˡ β = ∃[ u ] ∃[ A ] ∃[ y ] ∃[ v ]
+    α ≡ map inj₂ u ++ inj₁ A ∷ v
+    × (y ∈ P A)
+    × β ≡ map inj₂ u ++ y ++ v
+  
+
 record Grammar {Σ : Set} (G : Set₁) : Set₁ where
   field
     N : G → Set

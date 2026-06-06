@@ -2,9 +2,10 @@ module Grammar.CFG-Closure where
 
 open import Data.Empty using (⊥; ⊥-elim)
 open import Data.List using (_∷_; _++_; map; length; [_]) renaming (List to Word; [] to ε)
-open import Data.List.Properties using (map-++; ++-assoc; ++-identityʳ)
+open import Data.List.Properties using (map-++; ++-assoc; ++-identityʳ; length-++)
 open import Data.Maybe using (Maybe; just; nothing)
-open import Data.Nat using (ℕ; zero; suc; _≤_)
+open import Data.Nat using (ℕ; zero; suc; _≤_; _<_; _+_; s≤s)
+open import Data.Nat.Properties using (≤-<-trans; ≤-trans; ≤-refl; ≤-reflexive; m≤n+m)
 open import Data.Product using (∃-syntax; _×_; _,_; proj₁; proj₂)
 open import Data.Sum using (_⊎_; inj₁; inj₂)
 open import Data.Unit using (⊤; tt)
@@ -16,6 +17,7 @@ open import Sets using (𝔓)
 open import Language using (Language; 𝟙; _·_; _↑_; _∗)
 
 open import Grammar
+import Grammar.Leftmost-Derivation as Leftmost-Derivation
 
 module Union {Σ : Set} where
 
@@ -774,8 +776,8 @@ module Concatenation {Σ : Set} where
     ⇒*-nonrefl-step neq (Derivation.⇒*-refl α) = ⊥-elim (neq refl)
     ⇒*-nonrefl-step neq (Derivation.⇒*-step {β = β} α⇒β β⇒*γ) = β , α⇒β , β⇒*γ
 
-    correct-left : Lang G ⊆ Lang G₁ · Lang G₂
-    correct-left w deriv
+    correct-left-direct : Lang G ⊆ Lang G₁ · Lang G₂
+    correct-left-direct w deriv
       with ⇒*-nonrefl-step (Grammar.start≢terminals CFG-instance G w) deriv
     ... | β , start⇒β , β⇒*w
       rewrite start-step-inversion β start⇒β
@@ -783,6 +785,14 @@ module Concatenation {Σ : Set} where
     ... | β₁ , β₂ , eqβ , S₁⇒*β₁ , S₂⇒*β₂
       with terminal-split w β₁ β₂ eqβ
     ... | u , v , eqw , refl , refl = u , v , eqw , S₁⇒*β₁ , S₂⇒*β₂
+
+    correct-leftˡ : Leftmost-Derivation.Lang^l G ⊆ Lang G₁ · Lang G₂
+    correct-leftˡ w deriv =
+      correct-left-direct w (Leftmost-Derivation.Lang^l⊆Lang G w deriv)
+
+    correct-left : Lang G ⊆ Lang G₁ · Lang G₂
+    correct-left w deriv =
+      correct-leftˡ w (Leftmost-Derivation.Lang⊆Lang^l G w deriv)
 
     sim₁ : ∀ α₁ β₁ → α₁ ⇒₁ β₁ → map inject₁ α₁ ⇒ map inject₁ β₁
     sim₁ α₁ β₁ (γ₁ , A₁ , δ , γ₂ , refl , δ∈P , refl) =
@@ -903,19 +913,6 @@ module Kleene {Σ : Set} where
     inject₁ (inj₁ x) = inj₁ (inj₂ (inj₁ x))
     inject₁ (inj₂ a) = inj₂ a
 
-    project₁ : (⊤ ⊎ N₁ ⊎ N₀) ⊎ Σ → Maybe Symbol₁
-    project₁ (inj₁ (inj₁ tt)) = nothing
-    project₁ (inj₁ (inj₂ (inj₁ x))) = just (inj₁ x)
-    project₁ (inj₁ (inj₂ (inj₂ y))) = nothing
-    project₁ (inj₂ a) = just (inj₂ a)
-
-    copies : ℕ → Word Symbol₁
-    copies zero = ε
-    copies (suc n) = Grammar.start CFG-instance G₁ ++ copies n
-
-    starts : ℕ → Word ((⊤ ⊎ N₁ ⊎ N₀) ⊎ Σ)
-    starts n = map inject₁ (copies n)
-
     G : CFG Σ
     G =
       record
@@ -925,7 +922,8 @@ module Kleene {Σ : Set} where
       }
       where
         productions : _
-        productions (inj₁ tt) δ = ∃[ n ] δ ≡ starts n
+        productions (inj₁ tt) = ｛ ε  ｝
+                              ∪ ｛ inj₁ (inj₂ (inj₁ S₁)) ∷ inj₁ (inj₁ tt) ∷ ε ｝
         productions (inj₂ (inj₁ A₁)) = U.narrow (U.project₁ G₁ G₀) (P₁ A₁)
         productions (inj₂ (inj₂ A₀)) δ = ⊥
 
@@ -933,41 +931,11 @@ module Kleene {Σ : Set} where
     open Derivation G
     open Derivation G₁ using () renaming (_⇒*_ to _⇒*₁_)
 
-    private
-      lemma-eq-++ : ∀ {A : Set}{x y : A} xs ys → [ x ] ≡ xs ++ y ∷ ys → xs ≡ ε × x ≡ y × ys ≡ ε
-      lemma-eq-++ ε ys refl = refl , refl , refl
-      lemma-eq-++ (x ∷ ε) ys ()
-      lemma-eq-++ (x ∷ x₁ ∷ xs) ys ()
-
-      ∷-head : ∀ {A : Set}{x y : A}{xs ys} → x ∷ xs ≡ y ∷ ys → x ≡ y
-      ∷-head refl = refl
-
-      ∷-tail : ∀ {A : Set}{x y : A}{xs ys} → x ∷ xs ≡ y ∷ ys → xs ≡ ys
-      ∷-tail refl = refl
-
-    start-step-inversion : ∀ β → (Grammar.start CFG-instance G ⇒ β) → ∃[ n ] β ≡ starts n
-    start-step-inversion β (γ₁ , A , δ , γ₂ , eq-in , δ∈PA , eq-out)
-      with lemma-eq-++ γ₁ γ₂ eq-in
-    ... | refl , refl , refl with δ∈PA
-    ... | n , refl = n , trans eq-out (++-identityʳ δ)
-
-    ⇒*-nonrefl-step : ∀ {α β} → α ≢ β → α ⇒* β → ∃[ γ ] α ⇒ γ × γ ⇒* β
-    ⇒*-nonrefl-step neq (Derivation.⇒*-refl α) = ⊥-elim (neq refl)
-    ⇒*-nonrefl-step neq (Derivation.⇒*-step {β = β} α⇒β β⇒*γ) = β , α⇒β , β⇒*γ
-
     sentential₁ : 𝔓 (Word (Symbol G))
     sentential₁ = U.sentential₁ G₁ G₀
 
-    starts-sentential₁ : ∀ n → sentential₁ (starts n)
-    starts-sentential₁ zero = tt
-    starts-sentential₁ (suc n) = tt , starts-sentential₁ n
-
-    inject-project-sen₁ : ∀ δ sen → map inject₁ (U.project-sen₁ G₁ G₀ δ sen) ≡ δ
-    inject-project-sen₁ ε sen = refl
-    inject-project-sen₁ (inj₁ (inj₁ tt) ∷ δ) ()
-    inject-project-sen₁ (inj₁ (inj₂ (inj₁ x)) ∷ δ) (_ , sen) = cong (inj₁ (inj₂ (inj₁ x)) ∷_) (inject-project-sen₁ δ sen)
-    inject-project-sen₁ (inj₁ (inj₂ (inj₂ y)) ∷ δ) (() , sen)
-    inject-project-sen₁ (inj₂ y ∷ δ) sen = cong (inj₂ y ∷_) (inject-project-sen₁ δ sen)
+    start-sentential₁ : sentential₁ (map inject₁ (Grammar.start CFG-instance G₁))
+    start-sentential₁ = tt , tt
 
     sen-preserve₁ : ∀ α β → sentential₁ α → α ⇒ β → sentential₁ β
     sen-preserve₁ α β senα (γ₁ , A , δ , γ₂ , refl , δ∈P , refl)
@@ -976,7 +944,6 @@ module Kleene {Σ : Set} where
     sen-preserve₁ .(γ₁ ++ inj₁ (inj₂ (inj₁ A₁)) ∷ γ₂) .(γ₁ ++ δ ++ γ₂) senα (γ₁ , inj₂ (inj₁ A₁) , δ , γ₂ , refl , δ∈P , refl) | senγ₁ , tt , senγ₂
       using senδ ← U.project-sentential G₁ G₀ δ A₁ δ∈P
       = U.sentential₁-++⁺ G₁ G₀ γ₁ (δ ++ γ₂) senγ₁ (U.sentential₁-++⁺ G₁ G₀ δ γ₂ senδ senγ₂)
-
     sen-preserve₁* : ∀ α β → sentential₁ α → α ⇒* β → sentential₁ β
     sen-preserve₁* α β senα (Derivation.⇒*-refl α) = senα
     sen-preserve₁* α γ senα (Derivation.⇒*-step {β = β} α⇒β β⇒*γ) =
@@ -1008,118 +975,6 @@ module Kleene {Σ : Set} where
     sim₁*- α β senα (Derivation.⇒*-refl α) = Derivation.⇒*-refl (U.project-sen₁ G₁ G₀ α senα)
     sim₁*- α γ senα (Derivation.⇒*-step {β = β} α⇒β β⇒*γ) =
       Derivation.⇒*-step (sim₁- α β senα α⇒β) (sim₁*- β γ (sen-preserve₁ α β senα α⇒β) β⇒*γ)
-
-    no-step-empty₁ : ∀ β → (ε ⇒₁ β) → ⊥
-    no-step-empty₁ β (ε , A , δ , γ₂ , () , δ∈P , eq-out)
-    no-step-empty₁ β (x ∷ γ₁ , A , δ , γ₂ , () , δ∈P , eq-out)
-
-    empty-deriv₁ : ∀ β → ε ⇒*₁ β → β ≡ ε
-    empty-deriv₁ .ε (Derivation.⇒*-refl .ε) = refl
-    empty-deriv₁ β (Derivation.⇒*-step ε⇒β β⇒*γ) = ⊥-elim (no-step-empty₁ _ ε⇒β)
-
-    terminals-empty₁ : ∀ w → Grammar.terminals CFG-instance G₁ w ≡ ε → 𝟙 w
-    terminals-empty₁ ε refl = tt
-    terminals-empty₁ (a ∷ w) ()
-
-    terminal-head₁ : ∀ {a b : Σ} → _≡_ {A = Symbol₁} (inj₂ a) (inj₂ b) → a ≡ b
-    terminal-head₁ refl = refl
-
-    occurrence₁ : ∀ (α γ₁ : Word Symbol₁) (A : N₁) (γ₂ : Word Symbol₁) →
-      α ≡ γ₁ ++ inj₁ A ∷ γ₂ →
-      ∃[ u ] ∃[ v ] α ≡ u ++ inj₁ A ∷ v × γ₁ ≡ u × γ₂ ≡ v
-    occurrence₁ ε ε A γ₂ ()
-    occurrence₁ ε (x ∷ γ₁) A γ₂ ()
-    occurrence₁ (inj₁ A ∷ α) ε .A .α refl = ε , α , refl , refl , refl
-    occurrence₁ (inj₂ a ∷ α) ε A γ₂ ()
-    occurrence₁ (x ∷ α) (y ∷ γ₁) A γ₂ eq
-      with occurrence₁ α γ₁ A γ₂ (∷-tail eq)
-    ... | u , v , eqα , eqγ₁ , eqγ₂ =
-      x ∷ u , v , cong (x ∷_) eqα , cong₂ _∷_ (sym (∷-head eq)) eqγ₁ , eqγ₂
-
-    occurrence-++₁ : ∀ (α₁ α₂ γ₁ : Word Symbol₁) (A : N₁) (γ₂ : Word Symbol₁) →
-      α₁ ++ α₂ ≡ γ₁ ++ inj₁ A ∷ γ₂ →
-        (∃[ u ] ∃[ v ] α₁ ≡ u ++ inj₁ A ∷ v × γ₁ ≡ u × γ₂ ≡ v ++ α₂)
-      ⊎ (∃[ u ] ∃[ v ] α₂ ≡ u ++ inj₁ A ∷ v × γ₁ ≡ α₁ ++ u × γ₂ ≡ v)
-    occurrence-++₁ ε α₂ γ₁ A γ₂ eq
-      with occurrence₁ α₂ γ₁ A γ₂ eq
-    ... | u , v , eqα₂ , eqγ₁ , eqγ₂ = inj₂ (u , v , eqα₂ , eqγ₁ , eqγ₂)
-    occurrence-++₁ (inj₁ A ∷ α₁) α₂ ε .A .(α₁ ++ α₂) refl =
-      inj₁ (ε , α₁ , refl , refl , refl)
-    occurrence-++₁ (inj₂ a ∷ α₁) α₂ ε A γ₂ ()
-    occurrence-++₁ (x ∷ α₁) α₂ (y ∷ γ₁) A γ₂ eq
-      with occurrence-++₁ α₁ α₂ γ₁ A γ₂ (∷-tail eq)
-    ... | inj₁ (u , v , eqα₁ , eqγ₁ , eqγ₂) =
-      inj₁ (x ∷ u , v , cong (x ∷_) eqα₁ , cong₂ _∷_ (sym (∷-head eq)) eqγ₁ , eqγ₂)
-    ... | inj₂ (u , v , eqα₂ , eqγ₁ , eqγ₂) =
-      inj₂ (u , v , eqα₂ , cong₂ _∷_ (sym (∷-head eq)) eqγ₁ , eqγ₂)
-
-    StepSplit₁ : Word Symbol₁ → Word Symbol₁ → Word Symbol₁ → Set
-    StepSplit₁ α₁ α₂ β =
-        (∃[ β₁ ] β ≡ β₁ ++ α₂ × α₁ ⇒₁ β₁)
-      ⊎ (∃[ β₂ ] β ≡ α₁ ++ β₂ × α₂ ⇒₁ β₂)
-
-    assoc-left₁ : ∀ (u δ v α₂ : Word Symbol₁) → u ++ δ ++ v ++ α₂ ≡ (u ++ δ ++ v) ++ α₂
-    assoc-left₁ ε δ v α₂ = sym (++-assoc δ v α₂)
-    assoc-left₁ (x ∷ u) δ v α₂ = cong (x ∷_) (assoc-left₁ u δ v α₂)
-
-    assoc-right₁ : ∀ (α₁ u δ v : Word Symbol₁) → (α₁ ++ u) ++ δ ++ v ≡ α₁ ++ u ++ δ ++ v
-    assoc-right₁ ε u δ v = refl
-    assoc-right₁ (x ∷ α₁) u δ v = cong (x ∷_) (assoc-right₁ α₁ u δ v)
-
-    split-step₁ : ∀ (α₁ α₂ β : Word Symbol₁) → (α₁ ++ α₂) ⇒₁ β → StepSplit₁ α₁ α₂ β
-    split-step₁ α₁ α₂ β (γ₁ , A , δ , γ₂ , eq-in , δ∈P , eq-out)
-      with occurrence-++₁ α₁ α₂ γ₁ A γ₂ eq-in
-    ... | inj₁ (u , v , refl , refl , refl) =
-      inj₁ (u ++ δ ++ v , trans eq-out (assoc-left₁ u δ v α₂) , u , A , δ , v , refl , δ∈P , refl)
-    ... | inj₂ (u , v , refl , refl , refl) =
-      inj₂ (u ++ δ ++ v , trans eq-out (assoc-right₁ α₁ u δ v) , u , A , δ , v , refl , δ∈P , refl)
-
-    SplitDeriv₁ : Word Symbol₁ → Word Symbol₁ → Word Symbol₁ → Set
-    SplitDeriv₁ α₁ α₂ β =
-      ∃[ β₁ ] ∃[ β₂ ] β ≡ β₁ ++ β₂ × α₁ ⇒*₁ β₁ × α₂ ⇒*₁ β₂
-
-    split-deriv₁ : ∀ α₁ α₂ β → (α₁ ++ α₂) ⇒*₁ β → SplitDeriv₁ α₁ α₂ β
-    split-deriv₁ α₁ α₂ β (Derivation.⇒*-refl α) =
-      α₁ , α₂ , refl , Derivation.⇒*-refl α₁ , Derivation.⇒*-refl α₂
-    split-deriv₁ α₁ α₂ γ (Derivation.⇒*-step {β = β} α⇒β β⇒*γ)
-      with split-step₁ α₁ α₂ β α⇒β
-    ... | inj₁ (β₁ , refl , α₁⇒β₁)
-      with split-deriv₁ β₁ α₂ γ β⇒*γ
-    ... | γ₁ , γ₂ , eqγ , β₁⇒*γ₁ , α₂⇒*γ₂ =
-      γ₁ , γ₂ , eqγ , Derivation.⇒*-step α₁⇒β₁ β₁⇒*γ₁ , α₂⇒*γ₂
-    split-deriv₁ α₁ α₂ γ (Derivation.⇒*-step {β = β} α⇒β β⇒*γ)
-      | inj₂ (β₂ , refl , α₂⇒β₂)
-      with split-deriv₁ α₁ β₂ γ β⇒*γ
-    ... | γ₁ , γ₂ , eqγ , α₁⇒*γ₁ , β₂⇒*γ₂ =
-      γ₁ , γ₂ , eqγ , α₁⇒*γ₁ , Derivation.⇒*-step α₂⇒β₂ β₂⇒*γ₂
-
-    terminal₂-split₁ : ∀ w β → Grammar.terminals CFG-instance G₁ w ≡ β → β ≡ Grammar.terminals CFG-instance G₁ w
-    terminal₂-split₁ w β eq = sym eq
-
-    terminal-split₁ : ∀ w β₁ β₂ →
-      Grammar.terminals CFG-instance G₁ w ≡ β₁ ++ β₂ →
-      ∃[ u ] ∃[ v ] w ≡ u ++ v
-        × β₁ ≡ Grammar.terminals CFG-instance G₁ u
-        × β₂ ≡ Grammar.terminals CFG-instance G₁ v
-    terminal-split₁ w ε β₂ eq = ε , w , refl , refl , sym eq
-    terminal-split₁ ε (inj₁ A ∷ β₁) β₂ ()
-    terminal-split₁ ε (inj₂ a ∷ β₁) β₂ ()
-    terminal-split₁ (a ∷ w) (inj₁ A ∷ β₁) β₂ ()
-    terminal-split₁ (a ∷ w) (inj₂ b ∷ β₁) β₂ eq
-      with terminal-split₁ w β₁ β₂ (∷-tail eq)
-    ... | u , v , eqw , eqβ₁ , eqβ₂ =
-      a ∷ u , v , cong (a ∷_) eqw
-      , cong₂ _∷_ (cong inj₂ (sym (terminal-head₁ (∷-head eq)))) eqβ₁
-      , eqβ₂
-
-    copies-left : ∀ n w → copies n ⇒*₁ Grammar.terminals CFG-instance G₁ w → (Lang G₁ ↑ n) w
-    copies-left zero w d = terminals-empty₁ w (empty-deriv₁ _ d)
-    copies-left (suc n) w d
-      with split-deriv₁ (Grammar.start CFG-instance G₁) (copies n) (Grammar.terminals CFG-instance G₁ w) d
-    ... | β₁ , β₂ , eqβ , S⇒*β₁ , copies⇒*β₂
-      with terminal-split₁ w β₁ β₂ eqβ
-    ... | u , v , eqw , refl , refl =
-      u , v , eqw , S⇒*β₁ , copies-left n v copies⇒*β₂
 
     inject-project₁-map : ∀ δ → U.mapMaybe (map (U.project₁ G₁ G₀) (map inject₁ δ)) ≡ just δ
     inject-project₁-map ε = refl
@@ -1182,45 +1037,160 @@ module Kleene {Σ : Set} where
     terminal-concat ε v = refl
     terminal-concat (a ∷ u) v = cong (inj₂ a ∷_) (terminal-concat u v)
 
-    copies-right : ∀ n w → (Lang G₁ ↑ n) w → starts n ⇒* Grammar.terminals CFG-instance G w
-    copies-right zero ε tt = Derivation.⇒*-refl ε
-    copies-right zero (a ∷ w) ()
-    copies-right (suc n) w (u , v , refl , u∈L , v∈Ln) =
+    start-empty : Grammar.start CFG-instance G ⇒ ε
+    start-empty = ε , S G , ε , ε , refl , inj₁ refl , refl
+
+    start-cons :
+      Grammar.start CFG-instance G ⇒
+      map inject₁ (Grammar.start CFG-instance G₁) ++ Grammar.start CFG-instance G
+    start-cons =
+      ε , S G
+      , inj₁ (inj₂ (inj₁ S₁)) ∷ inj₁ (inj₁ tt) ∷ ε
+      , ε
+      , refl
+      , inj₂ refl
+      , refl
+
+    private
+      lemma-eq-++ : ∀ {x y : Symbol G} xs ys → [ x ] ≡ xs ++ y ∷ ys → xs ≡ ε × x ≡ y × ys ≡ ε
+      lemma-eq-++ ε ys refl = refl , refl , refl
+      lemma-eq-++ (x ∷ ε) ys ()
+      lemma-eq-++ (x ∷ x₁ ∷ xs) ys ()
+
+    start-step-inversion : ∀ β → Grammar.start CFG-instance G ⇒ β →
+        (β ≡ ε)
+      ⊎ (β ≡ map inject₁ (Grammar.start CFG-instance G₁) ++ Grammar.start CFG-instance G)
+    start-step-inversion β (γ₁ , A , δ , γ₂ , eq-in , δ∈PA , eq-out)
+      with lemma-eq-++ γ₁ γ₂ eq-in
+    ... | refl , refl , refl with δ∈PA | eq-out
+    ... | inj₁ refl | refl = inj₁ refl
+    ... | inj₂ refl | refl = inj₂ refl
+
+    ⇒*-nonrefl-step : ∀ {α β} → α ≢ β → α ⇒* β → ∃[ γ ] α ⇒ γ × γ ⇒* β
+    ⇒*-nonrefl-step neq (Derivation.⇒*-refl α) = ⊥-elim (neq refl)
+    ⇒*-nonrefl-step neq (Derivation.⇒*-step {β = β} α⇒β β⇒*γ) = β , α⇒β , β⇒*γ
+
+    record NonreflStep {α β : Word (Symbol G)} (deriv : α ⇒* β) : Set where
+      constructor nonrefl-step
+      field
+        γ : Word (Symbol G)
+        first : α ⇒ γ
+        rest : γ ⇒* β
+        length-rest : Leftmost-Derivation.⇒*-length G deriv ≡ suc (Leftmost-Derivation.⇒*-length G rest)
+
+    ⇒*-nonrefl-step-length : ∀ {α β} → α ≢ β → (deriv : α ⇒* β) → NonreflStep deriv
+    ⇒*-nonrefl-step-length neq (Derivation.⇒*-refl α) = ⊥-elim (neq refl)
+    ⇒*-nonrefl-step-length neq (Derivation.⇒*-step {β = β} α⇒β β⇒*γ) =
+      nonrefl-step β α⇒β β⇒*γ refl
+
+    terminals-empty : ∀ w → Grammar.terminals CFG-instance G w ≡ ε → 𝟙 w
+    terminals-empty ε refl = tt
+    terminals-empty (a ∷ w) ()
+
+    project-left : ∀ u →
+      map inject₁ (Grammar.start CFG-instance G₁) ⇒* Grammar.terminals CFG-instance G u →
+      Lang G₁ u
+    project-left u deriv =
       subst
-        (λ γ → starts (suc n) ⇒* γ)
-        (terminal-concat u v)
-        (⇒*-trans
-          (⇒*-++ʳ (starts n)
-            (sim₁* (Grammar.start CFG-instance G₁) (Grammar.terminals CFG-instance G₁ u) u∈L))
-          (⇒*-++ˡ (map inject₁ (Grammar.terminals CFG-instance G₁ u))
-            (copies-right n v v∈Ln)))
+        (λ γ → Grammar.start CFG-instance G₁ ⇒*₁ γ)
+        (U.project-sen₁-terminals G₁ G₀ u (sen-preserve₁* _ _ start-sentential₁ deriv))
+        (sim₁*- _ _ start-sentential₁ deriv)
 
-    project-starts : ∀ n → U.project-sen₁ G₁ G₀ (starts n) (starts-sentential₁ n) ≡ copies n
-    project-starts zero = refl
-    project-starts (suc n) = cong (inj₁ S₁ ∷_) (project-starts n)
+    suffix-length< : ∀ i (u v w : Word Σ) → w ≡ u ++ v → length w < i → length v < i
+    suffix-length< i u v .(u ++ v) refl lenw<i =
+      ≤-<-trans
+        (≤-trans (m≤n+m (length v) (length u)) (≤-reflexive (sym (length-++ u {ys = v}))))
+        lenw<i
 
-    correct-left : Lang G ⊆ (Lang G₁ ∗)
-    correct-left w deriv
-      with ⇒*-nonrefl-step (Grammar.start≢terminals CFG-instance G w) deriv
-    ... | β , start⇒β , β⇒*w
+    right-deriv-length< : ∀ j {α₁ α₂ β β₁ β₂ : Word (Symbol G)}
+      (deriv : (α₁ ++ α₂) ⇒* β)
+      (left : α₁ ⇒* β₁)
+      (right : α₂ ⇒* β₂)
+      → Leftmost-Derivation.⇒*-length G deriv ≡ Leftmost-Derivation.⇒*-length G left + Leftmost-Derivation.⇒*-length G right
+      → Leftmost-Derivation.⇒*-length G deriv < j
+      → Leftmost-Derivation.⇒*-length G right < j
+    right-deriv-length< j deriv left right len-eq deriv<j =
+      ≤-<-trans
+        (subst
+          (λ n → Leftmost-Derivation.⇒*-length G right ≤ n)
+          (sym len-eq)
+          (m≤n+m (Leftmost-Derivation.⇒*-length G right) (Leftmost-Derivation.⇒*-length G left)))
+        deriv<j
+
+    correct-left-ordinary-gen : ∀ i j w →
+      length w < i →
+      (deriv : Lang G w) →
+      Leftmost-Derivation.⇒*-length G deriv < j →
+      (Lang G₁ ∗) w
+    correct-left-ordinary-gen zero j w () deriv deriv<j
+    correct-left-ordinary-gen i zero w lenw<i deriv ()
+    correct-left-ordinary-gen (suc i) (suc j) w lenw<i deriv deriv<j
+      with ⇒*-nonrefl-step-length (Grammar.start≢terminals CFG-instance G w) deriv
+    ... | nonrefl-step β start⇒β β⇒*w len-rest
+      with subst (λ n → n < suc j) len-rest deriv<j
+    ... | s≤s β⇒*w<j
       with start-step-inversion β start⇒β
-    ... | n , refl =
-      n , copies-left n w
-        (subst (λ α → α ⇒*₁ Grammar.terminals CFG-instance G₁ w)
-          (project-starts n)
-          (subst
-            (λ γ → U.project-sen₁ G₁ G₀ (starts n) (starts-sentential₁ n) ⇒*₁ γ)
-            (U.project-sen₁-terminals G₁ G₀ w (sen-preserve₁* _ _ (starts-sentential₁ n) β⇒*w))
-            (sim₁*- _ _ (starts-sentential₁ n) β⇒*w)))
+    ... | inj₁ refl =
+      zero , terminals-empty w (Leftmost-Derivation.empty-deriv G (Grammar.terminals CFG-instance G w) β⇒*w)
+    ... | inj₂ refl
+      with Leftmost-Derivation.split-deriv-length G
+        (map inject₁ (Grammar.start CFG-instance G₁))
+        (Grammar.start CFG-instance G)
+        (Grammar.terminals CFG-instance G w)
+        β⇒*w
+    ... | Leftmost-Derivation.split-length β₁ β₂ eqβ S₁⇒*β₁ S⇒*β₂ len-split
+      with Leftmost-Derivation.terminal-split G w β₁ β₂ eqβ
+    ... | u , v , eqw , refl , refl
+      with correct-left-ordinary-gen
+        (suc i)
+        j
+        v
+        (suffix-length< (suc i) u v w eqw lenw<i)
+        S⇒*β₂
+        (right-deriv-length< j β⇒*w S₁⇒*β₁ S⇒*β₂ len-split β⇒*w<j)
+    ... | n , v∈Ln = suc n , u , v , eqw , project-left u S₁⇒*β₁ , v∈Ln
+
+    correct-left-ordinary : Lang G ⊆ (Lang G₁ ∗)
+    correct-left-ordinary w deriv =
+      correct-left-ordinary-gen
+        (suc (length w))
+        (suc (Leftmost-Derivation.⇒*-length G deriv))
+        w
+        ≤-refl
+        deriv
+        ≤-refl
 
     correct-right : (Lang G₁ ∗) ⊆ Lang G
-    correct-right w (n , w∈Ln) =
-      Derivation.⇒*-step
-        (ε , S G , starts n , ε , refl , (n , refl) , refl)
+    correct-right ε (zero , tt) =
+      Derivation.⇒*-step start-empty (Derivation.⇒*-refl ε)
+    correct-right (a ∷ w) (zero , ())
+    correct-right w (suc n , u , v , eqw , u∈L , v∈Ln) =
+      subst (Lang G) (sym eqw)
+        (Derivation.⇒*-step start-cons
+          (subst
+            (λ γ → (map inject₁ (Grammar.start CFG-instance G₁) ++ Grammar.start CFG-instance G) ⇒* γ)
+            (terminal-concat u v)
+            (⇒*-trans
+              (⇒*-++ʳ (Grammar.start CFG-instance G)
+                (sim₁* (Grammar.start CFG-instance G₁) (Grammar.terminals CFG-instance G₁ u) u∈L))
+              (⇒*-++ˡ (map inject₁ (Grammar.terminals CFG-instance G₁ u))
+                (correct-right v (n , v∈Ln))))))
+
+    correct-leftˡ : Leftmost-Derivation.Lang^l G ⊆ (Lang G₁ ∗)
+    correct-leftˡ w deriv =
+      correct-left-ordinary-gen
+        (suc (length w))
+        (suc (Leftmost-Derivation.⇒ˡ*-length G deriv))
+        w
+        ≤-refl
+        (Leftmost-Derivation.⇒ˡ*⇒* G deriv)
         (subst
-          (λ α → α ⇒* Grammar.terminals CFG-instance G w)
-          (sym (++-identityʳ (starts n)))
-          (copies-right n w w∈Ln))
+          (λ n → n < suc (Leftmost-Derivation.⇒ˡ*-length G deriv))
+          (sym (Leftmost-Derivation.⇒ˡ*⇒*-length G deriv))
+          ≤-refl)
+
+    correct-left : Lang G ⊆ (Lang G₁ ∗)
+    correct-left = correct-left-ordinary
 
     correct : Lang G ≐ (Lang G₁ ∗)
     correct = correct-left , correct-right

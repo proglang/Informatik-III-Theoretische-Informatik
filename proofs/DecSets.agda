@@ -13,9 +13,7 @@ open import Relation.Binary.PropositionalEquality using (_≡_; refl; cong; tran
 open import Isomorphism using (Iso; comp; inverse-iso)
 
 open import FunExt
-
-Finite : ∀ {ℓ} → Set ℓ → Set ℓ
-Finite X = ∃[ n ] Iso X (Fin n)
+open import Finiteness
 
 𝔓 : ∀ {ℓ} → Set ℓ → Set ℓ
 𝔓 X = X → Bool
