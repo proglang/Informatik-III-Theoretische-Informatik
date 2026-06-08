@@ -312,7 +312,7 @@ den sogenannten Ableitungsbaum, darzustellen.
       um an das englische Wort "`yield"' zu erinnern.}, ist definiert
     durch 
     \begin{displaymath}
-      Y\left(\tikz[baseline=-0.4cm]{\Tree [.$\pi$ $\T_1$ \edge[draw=none]; {$\dots$} $\T_n$ ]} \right) = w_0Y(\T_1)w_1\ldots Y(\T_n)w_n
+      Y\left(\tikz[baseline=-0.5cm]{\Tree [.$\pi$ $\T_1$ \edge[draw=none]; {$\dots$} $\T_n$ ]} \right) = w_0Y(\T_1)w_1\ldots Y(\T_n)w_n
     \end{displaymath}
     wobei $\pi = A \to w_0A_1w_1\ldots A_nw_n \in P$.
 \end{Def}
@@ -532,7 +532,7 @@ Wir definieren die Menge der Nichtterminalsymbole, aus denen das leere Wort abge
   Im Folgenden ist mit $*$ bei $M_i^*$ und $M^*$ der Kleene-Stern gemeint.} 
   \begin{align*}
     M_0 &= \emptyset \\
-    M_{i+1} &= M_i \cup \{ A \mid A \to \alpha \in P \text{ und }
+    M_{i+1} &= \{ A \mid A \to \alpha \in P \text{ und }
               \alpha \in M_i^* \}
   \end{align*}
   Es gilt für alle $i \in \N$, dass $M_i \subseteq M_{i+1} \subseteq N$.
@@ -578,26 +578,20 @@ return M
   \item[IS] $i \rightsquigarrow i+1$
 
     Wenn $A \in M_{i+1}$, dann
-    \begin{itemize}
-    \item gilt entweder
-      $A \in M_i \subseteq \operatorname{Nullable}(\mathcal{G})$ nach
-      IV oder
-    \item 
-      es existiert $A \to A_1\ldots A_n \in P$ mit $A_j \in M_i$ für alle
+    existiert $A \to A_1\ldots A_n \in P$ mit $A_j \in M_i$ für alle
       $1 \le j \le n$.
       Nach IV existieren Ableitungsbäume $\T_j$ für
       $A_j \vdash^*_\mathcal{G} \Eps$,
       die zu einem Ableitungsbaum von $A$ nach $\Eps$ kombiniert
       werden können:
       \begin{displaymath}
-        \T = \tikz[baseline=0cm]{\Tree [.{$A  \to A_1 \ldots A_n$} $\T_1$ \edge[draw=none]; {$\dots$} $\T_n$ ]}
+        \T = \left\{\tikz[baseline=-0.5cm]{\Tree [.{$A  \to A_1 \ldots A_n$} $\T_1$ \edge[draw=none]; {$\dots$} $\T_n$ ]}\right.
       \end{displaymath}
       % \begin{displaymath}
       %   A  \vdash_\mathcal{G} A_1 \ldots A_n \vdash^*_\mathcal{G} \underbrace{\Eps \ldots \Eps}_{n \text{ Mal}} = \Eps
       % \end{displaymath}
       Wegen $Y(\T_j) = \Eps$, $1\le j \le n$, gilt auch $Y(\T) = \Eps$.
       Also gilt $A \in \operatorname{Nullable}(\mathcal{G})$.
-    \end{itemize}
   \end{description}
 
   \medskip
@@ -651,16 +645,20 @@ return M
 \begin{proof}
   \hfill
   \begin{enumerate}
-  \item Erweitere $\mathcal{G}$ um ein neues Startsymbol $S' \notin N$ mit $S' \to S$ als neue Regel.
-    Dieser Schritt stellt sicher, dass $S'$ auf keiner rechten Regelseite vorkommt.
-  \item Wende erst \textsc{Sep}, dann \textsc{Bin} an.
-    Nun hat jede rechte Regelseite die Form $a \in \Sigma$ oder $\Eps$ oder $A$ oder $BC$.
+  \item Definiere $\G'$ wie folgt:
+    \begin{itemize}
+    \item Erweitere $\mathcal{G}$ um ein neues Startsymbol
+      $S' \notin N$ mit $S' \to S$ als neue Regel.  Dieser Schritt
+      stellt sicher, dass $S'$ auf keiner rechten Regelseite vorkommt.
+    \item Wende erst \textsc{Sep}, dann \textsc{Bin} an.
+      Nun hat jede rechte Regelseite von $\G'$ die Form $a \in \Sigma$ oder $\Eps$ oder $A$ oder $BC$.
+    \end{itemize}
   \item Für alle Regeln $A \to BC \in P$:
     \begin{itemize}
-    \item Falls $B \in \operatorname{Nullable}(\mathcal{G})$ füge $A \to C$ hinzu.
-    \item Falls $C \in \operatorname{Nullable}(\mathcal{G})$ füge $A \to B$ hinzu.
+    \item Falls $B \in \operatorname{Nullable}(\G')$ füge $A \to C$ hinzu.
+    \item Falls $C \in \operatorname{Nullable}(\G')$ füge $A \to B$ hinzu.
     \end{itemize}
-  \item Falls $S \in \operatorname{Nullable}(\mathcal{G})$, füge $S' \to \Eps$ hinzu
+  \item Falls $S \in \operatorname{Nullable}(\G')$, füge $S' \to \Eps$ hinzu.
   \item Entferne alle Regeln $A \to \Eps$ für $A \neq S'$.
   \qedhere
   \end{enumerate}
@@ -883,25 +881,27 @@ Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G
 
 
 
-\newcommand{\expl}[1]{{\color{blue} #1}}
+% \newcommand{\expl}[1]{{\color{blue} #1}}
+\newcommand{\expl}[1]{}
 
 \subsection{Wortproblem und Leerheitsproblem für kontextfreie Sprachen}
 \begin{Satz}[name={[Wortproblem für \acs*{CFL} entscheidbar]}]
-	Es gibt einen Algorithmus, für gegebene \ac{CFG} $\mathcal{G}$ in \ac{CNF} und gegebenes Wort $w$
+	Es gibt einen Algorithmus, der für eine \ac{CFG} $\mathcal{G}$ in \ac{CNF} und ein Wort $w$
 	in $O(|w|^3\cdot |\mathcal{G}|)$ Schritten und mit $O(|w|^2\cdot |\mathcal{G}|)$ Speicherplatz
 	entscheidet ob $w\in L(\mathcal{G})$ gilt.
 \end{Satz}
 
 
 
-\begin{proof}[\acsu{CYK}-Algorithmus] Sei $w = a_1\dots a_n\in\Sigma^*$.
+\begin{proof}[\acsu{CYK}-Algorithmus]
 	% Der \ac{CYK}-Algorithmus berechnet bei Eingabe von $\mathcal{G}$ und $w$, ob $w\in L(\mathcal{G})$.
-	Der \ac{CYK}-Algorithmus aus \autoref{fig:AlgCYK} erfüllt diese Eigenschaften.
+	Der \ac{CYK}-Algorithmus in \autoref{fig:AlgCYK} erfüllt diese Eigenschaften.
 	Wir wollten zunächst die Idee des Algorithmus erklären.
-	
-	Definiere für $1\leq i < j\leq n$:
+
+        Sei $w = a_1\dots a_n\in\Sigma^*$.
+	Definiere für $1\leq i \le j\leq n$:
 	\[
-	M_{ij} = \{ A \in N \mid A \stackrel{*}{\vdash}_\mathcal{G} a_i\dots a_j \}\label{eqn:CykMatrixEintragDeriv}\tag{EntryDeriv}
+	M_{ij} = \{ A \in N \mid A \vdash^*_\mathcal{G} a_i\dots a_j \}\label{eqn:CykMatrixEintragDeriv}\tag{EntryDeriv}
 	\]
 	\expl{Wir definieren also Mengen von Nichtterminalsymbolen die sich schön als obere Dreiecksmatrix darstellen lassen.
 		Die Matrix enthält einen Eintrag pro Teilwort von $w$, genauer der Eintrag $M_{ij}$ enthält das Nichtterminalsymbol $A$ 
@@ -910,8 +910,7 @@ Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G
 		Urspünglich wollte wir wissen ob wir das Wort $W$ aus de Startsymbol ableiten können.
 		Nun müssen wir diese Frage für alle Teilwörter und alle Nichtterminalsymbole beantworten.
 	}
-	
-	Offensichtlich gilt: $w\in L(\mathcal{G})$ genau dann, wenn $S \stackrel{*}{\vdash}_\mathcal{G} w$ genau dann, wenn $S \in M_{1n}$.
+	Es gilt: $w\in L(\mathcal{G})$ genau dann, wenn $S \vdash^*_\mathcal{G} w$ genau dann, wenn $S \in M_{1n}$.
 	\expl{
 		Zum Lösen des eigentlichen Problemes hilft uns das betrachten der Matrix also zunächst nicht.
 		Urspünglich wollte wir wissen ob wir das Wort $W$ aus de Startsymbol ableiten können.
@@ -956,7 +955,7 @@ Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G
 	
 	Skizze der verbleibenden Beweisschritte.
 	
-	Zur Korrektheit: Zeige via einer verschachtelten Induktion über Zeilen und Spalten, 
+	Zur Korrektheit: Zeige mittels einer verschachtelten Induktion über Zeilen und Spalten, 
 	dass am Ende der zweiten for-Schleife für alle $M_{i'j'}$ mit $i'\in\{i,\ldots, n-1\}$ und $j'\in\{i+1,\ldots, j\}$
 	die oben definierte Gleichung (\ref{eqn:CykMatrixEintragDeriv}) gilt.
 	
@@ -964,7 +963,7 @@ Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G
 	In der innersten Schleife genügt es ein mal über die Regeln der Grammatik zu iterieren.
 	
 	Zum Speicherplatz: Wir benötigen weniger als $|w|^2$ Matrixeinträge 
-	und jeder Eintrag enthält höchtens alle Variablen die in Regeln der Grammatik vorkommen.
+	und jeder Eintrag enthält höchstens $|N|$ Variablen.
 	\qedhere
 \end{proof}
 
@@ -975,7 +974,7 @@ Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G
 	% \parbox{0.95\textwidth}{
 	\begin{description}
 		\item[Eingaben:] \ac{CFG} $\mathcal{G} = (\Sigma, N, P, S)$ in CNF und Wort $a_1\ldots a_n\in\Sigma^*$
-		\item[Ausgabe:] ``Ja'' falls $a_1\ldots a_n\in L(\mathcal{G})$, ``Nein'' sonst.
+		\item[Ausgabe:]  $a_1\ldots a_n\in L(\mathcal{G})$?
 	\end{description}
 	
 	Sei $M$  eine $n\x n\text{-Matrix mit (initial) } M_{ij}=\varnothing \text{ für alle } i, j$  // $O(n^2)$
@@ -983,11 +982,11 @@ Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G
 	\begin{center}
 		\begin{minipage}{12cm}
 			\begin{lstlisting}[mathescape,morekeywords={for,do,return},morecomment={[l]{//}}]
-for i=1 .. n do  // $O(|\mathcal{G}|)\cdot O(n)$
+for $i=1,\dots,n$ do  // $O(|\mathcal{G}|)\cdot O(n)$
   $M_{ii}=\{A \mid A \-> a_i \}$
-for i=n-1 .. 1 do
-  for j=i+1 .. n do
-    for k=i .. j-1 do  // $O(|\mathcal{G}|)\cdot O(n^3)$
+for $i=n-1,\dots,1$ do
+  for $j=i+1,\dots,n$ do
+    for $k=i,\dots,j-1$ do  // $O(|\mathcal{G}|)\cdot O(n^3)$
       $M_{ij}=M_{ij}\cup \{ A \mid A \-> BC, B\in M_{ik}, C\in M_{(k+1)j} \}$
 return $S\in M_{1n}$
 			\end{lstlisting}
@@ -1015,12 +1014,12 @@ return $S\in M_{1n}$
 		Y &\-> c \mid cY
 	\end{align*}
 	Damit wir den \ac{CYK} Algorithmus anwenden können transformieren wir $\mathcal{G}$ in eine äquivalente Grammatik in CNF.
-	Z.B. in die \ac{CFG} $\mathcal{G'} = (\Sigma, \{S, X, Y, Z, A, B, C\}, P', S)$, deren Regeln $P'$ wie folgt definiert ist.
+	Z.B. in die \ac{CFG} $\mathcal{G'} = (\Sigma, \{S, X, Y, Z, A, B, C\}, P', S)$, deren Regeln $P'$ wie folgt definiert sind.
 	\begin{align*}
 		S &\-> XY\\
 		X &\-> AB \mid AZ\\
 		Z &\-> XB\\
-		Y &\-> CY | c\\
+		Y &\-> CY \mid c\\
 		A &\-> a, B \-> b, C \-> c
 	\end{align*}
 	Wir wenden den CYK Algorithmus an und erhalten die folgende Matrix.
@@ -1066,57 +1065,61 @@ return $S\in M_{1n}$
 
 
 \begin{Korollar}
-	Es gibt einen Algorithmus, für gegebene \ac{CFG} $\mathcal{G}$ und gegebenes Wort $w$
+	Es gibt einen Algorithmus, der für eine \ac{CFG} $\mathcal{G}$ und ein Wort $w$
 	in $O(|w|^3\cdot |\mathcal{G}|^2)$ Schritten und mit $O(|w|^2\cdot |\mathcal{G}|^2)$ Speicherplatz
-	entscheidet ob $w\in L(\mathcal{G})$ gilt.
+	entscheidet, ob $w\in L(\mathcal{G})$.
 \end{Korollar}
 
 \begin{proof}
-	Aus \autoref{satz:CFGtoCNF} wissen wir dass eine \ac{CFG} in \ac{CNF} 
-	konvertieren können sodass deren Größe höchstens quadratisch wächst.
-	Anschließend wenden wir den CYK Algorithmus auf das Resultat an.
+	Nach \autoref{satz:CFGtoCNF} kann eine \ac{CFG} in \ac{CNF} 
+	konvertiert werden, sodass deren Größe höchstens quadratisch wächst.
+	Wende anschließend den CYK Algorithmus auf das Resultat an.
 \end{proof}
 
 \expl{
 Um \datenote{12.12.2018} möglichst schnell zum Unterkapitel über Typ-3-Sprachen zu kommen wurde das restliche Unterkapitel in der Freitagsvorlesung übersprungen.
 }
 
-\begin{Satz}[name={[Entscheidbarkeit des Leerheitsproblems für kontextfreie Sprachen]}]
-  \label{thm:cfl-decidable-emptyness}
+\begin{Satz}\label{thm:cfl-decidable-emptyness}
     Es gibt einen Algorithmus, der das Leerheitsproblem%
     \footnote{Gefragt ist, ob $L(\mathcal{G}) = \{ w\in\Sigma^* \mid S\overset{*}{\vdash} w \} \overset{?}{=} \varnothing$.}
     für kontextfreie Grammatiken in $O(|\mathcal{G}|^2)$ entscheidet.
 \end{Satz}
 
 \begin{Def}
-	Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine beliebige Grammatik. 
-	Wir nennen ein Nichtterminalsymbol $A\in N$ co-erreichbar falls es ein Wort $w\in\Sigma$ existiert, 
+	Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine \ac{CFG}. 
+	Ein Nichtterminalsymbol $A\in N$ ist \emph{co-erreichbar}, falls es ein Wort $w\in\Sigma$ existiert, 
 	sodass $A \stackrel{*}{\vdash}_\mathcal{G} w$ gilt.
-	\expl{Ein Symbol ist also co-erreichbar genau dann wenn wir daraus irgendein Wort ableiten können.}
+	\expl{Ein Symbol ist also co-erreichbar genau dann, wenn wir daraus irgendein Wort ableiten können.}
 \end{Def}
 
 
 \begin{proof}
-    Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine \ac{CFG} für.
-    Die $M$ die Menge der co-erreichbaren Nichtterminalsymbole.
+    % Sei $\mathcal{G} = (\Sigma, N, P, S)$ eine \ac{CFG}.
+    Die $M$ die Menge der co-erreichbaren Nichtterminale von $\G$ ist gegeben durch
     %
-    $$M = \{ A \mid A \stackrel{*}{\vdash}_\mathcal{G} w, w\in \Sigma^* \}$$
+    $$M = \{ A \mid A \vdash^*_\mathcal{G} w, w\in \Sigma^* \}
+    \text.$$
     %
-    Offensichtlich gilt: $L =\varnothing \<=> S\notin M$.
+    Dann gilt: $L =\varnothing \<=> S\notin M$.
     
     Wir können $M$ induktiv berechnen. Wir definieren hierfür:
-	\begin{align*}
-		M_0 &= \{ A \mid A \-> w\in P, w\in \Sigma^* \}\\
-		M_{i+1} &= M_i\cup \{ A \mid A \-> \alpha\in P, \alpha\in(\Sigma\cup M_i)^* \}
-	\end{align*}
-    Offensichtlich gilt für alle $i\in\N$ $M_i\subseteq M_{i+}$ und $M_i\subseteq M$.
+    \begin{align*}
+      M_0 &= \emptyset \\
+      M_{i+1} &=  \{ A \mid A \-> \alpha\in P, \alpha\in(\Sigma\cup M_i)^* \}
+    \end{align*}
+    Es gilt für alle $i\in\N$, $M_i\subseteq M_{i+1} \subseteq M$.
     Da $M\subseteq N$ endlich ist, gibt es ein $n$, sodass $M_n = M_{n+1}$ (hier ohne Beweis).
     
     Wir können daher $M$ analog zu $\operatorname{Nullable}(\mathcal{G})$ (siehe \autoref{satz:3.nullable}) in $O(|\mathcal{G}|)$ berechnen.
 \end{proof}
 \begin{Bem}
-        Wenn wir in einer Grammatik $\mathcal{G}$ ein nicht co-erreichbares Nichtterminalsymbol (und alle zugehörigen Regeln) entfernen, ändert sich $L(\mathcal{G})$ nicht.
-        Wir können eine gegebene Grammatik also optimieren, indem wir alle nicht co-erreichbaren Nichtterminalsymbole entfernen.
+  Wenn wir in einer Grammatik $\mathcal{G}$ ein nicht co-erreichbares
+  Nichtterminalsymbol $A$ und alle Regeln, bei denen $A$ auf der
+  linken oder rechten Regelseite auftritt, entfernen, ändert sich
+  $L(\mathcal{G})$ nicht.  Wir können eine gegebene Grammatik also
+  optimieren, indem wir alle nicht co-erreichbaren
+  Nichtterminalsymbole entfernen.
 \end{Bem}
 % \begin{Satz}[name={[Entscheidbarkeit des Endlichkeitsproblem für \acs*{CFL}]}]
 % 	Das Endlichkeitsproblem für kontextfreie Sprachen ist entscheidbar.
