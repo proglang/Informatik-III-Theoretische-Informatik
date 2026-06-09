@@ -630,8 +630,7 @@ return M
   %   \qedhere
   % \end{description}
 \end{proof}
-\clearpage
-\datenote{NEXT-UP}
+\datenote{09.06.2026}
 \begin{Korollar}
   Man kann zu einer \ac{CFG} $\mathcal{G}$ entscheiden, ob $\Eps \in
   L(\mathcal{G})$.
@@ -774,7 +773,7 @@ Kettenregeln mit $|\mathcal{G}'|\in O(|\mathcal{G}|^2)$ berechnet.
   \end{figure}
 \footnotetext{\ac{DAG} (engl.\ \emph{directed acyclic graph}).}
 
-\footnotetext{Topologies sortieren ist ein aus der Informatik 2 Vorlesung bekannter Begriff und bezeichnet das Erweitern einer gegebenen partiellen Ordnung zu einer totalen Ordnung.}
+\footnotetext{Topologisches Sortieren ist ein aus der Informatik 2 Vorlesung bekannter Begriff und bezeichnet das Erweitern einer gegebenen partiellen Ordnung zu einer totalen Ordnung.}
 
 \begin{Bsp}
 	Sei $\Sigma=\{0,1\}$. Betrachte die \ac{CFG} $\mathcal{G} = (\Sigma, \{S,A,B,C,D,E\}, P, S)$
@@ -895,7 +894,9 @@ Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G
 
 \begin{proof}[\acsu{CYK}-Algorithmus]
 	% Der \ac{CYK}-Algorithmus berechnet bei Eingabe von $\mathcal{G}$ und $w$, ob $w\in L(\mathcal{G})$.
-	Der \ac{CYK}-Algorithmus in \autoref{fig:AlgCYK} erfüllt diese Eigenschaften.
+	Der \ac{CYK}-Algorithmus\footnote{Benannt nach Cocke, Younger
+          und Kasami, die den Algorithmus unabhängig voneinander
+          entdeckt haben. Manchmal auch YCK.} in \autoref{fig:AlgCYK} erfüllt diese Eigenschaften.
 	Wir wollten zunächst die Idee des Algorithmus erklären.
 
         Sei $w = a_1\dots a_n\in\Sigma^*$.
@@ -942,7 +943,7 @@ Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G
 		Wir können also die Berechnung der Matrixeinträge die nicht auf der Hauptdiagonalen liegen 
 		auf die Existenz bestimmter Regel der Form $A\-> BC$ und Inhalte bestimmter anderer Matrixeinträge zurückführen.
 	}
-	
+	\clearpage\datenote{NEXT-UP}
 	Beobachtung: Der Wert von $M_{ij}$ hängt nur von $M_{i'j'}$ mit $i'>i, j'\leq j$ oder $i'\geq i,j'<j$ ab.
 	Wir können die $M_{ij}$ also mit dem Verfahren aus \autoref{fig:AlgCYK} berechnen.
 	
@@ -1103,7 +1104,7 @@ Um \datenote{12.12.2018} möglichst schnell zum Unterkapitel über Typ-3-Sprache
     %
     Dann gilt: $L =\varnothing \<=> S\notin M$.
     
-    Wir können $M$ induktiv berechnen. Wir definieren hierfür:
+    Wir können $M$ wie folgt berechnen:
     \begin{align*}
       M_0 &= \emptyset \\
       M_{i+1} &=  \{ A \mid A \-> \alpha\in P, \alpha\in(\Sigma\cup M_i)^* \}
