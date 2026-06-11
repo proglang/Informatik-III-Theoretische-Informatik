@@ -47,6 +47,10 @@ lift₂ : ∀ {ℓ}{ℓc} {A : Set ℓ} {C : Set ℓc} {B : Set ℓ}
   → (f : A → B → Pred C ℓ) → (Pred A ℓ → B → Pred C ℓ)
 lift₂ f Pa b = ｛ c ∣ ∃[ a ] a ∈ Pa × c ∈ f a b ｝
 
+-- ∀-distrib-×
+
+∀-distrib-× : ∀ {a b} {A : Set a}{P Q : A → Set b} → (∀ x → P x × Q x) → (∀ x → P x) × (∀ x → Q x)
+∀-distrib-× ∀PQ = (λ x → ∀PQ x .proj₁) , (λ x → ∀PQ x .proj₂)
 
 -- properties
 
