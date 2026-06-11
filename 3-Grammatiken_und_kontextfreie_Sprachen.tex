@@ -943,7 +943,7 @@ Es gibt einen Algorithmus der für eine \ac{CFG} $\mathcal{G}$ in $O(|\mathcal{G
 		Wir können also die Berechnung der Matrixeinträge die nicht auf der Hauptdiagonalen liegen 
 		auf die Existenz bestimmter Regel der Form $A\-> BC$ und Inhalte bestimmter anderer Matrixeinträge zurückführen.
 	}
-	\clearpage\datenote{NEXT-UP}
+	\datenote{10.06.2026}
 	Beobachtung: Der Wert von $M_{ij}$ hängt nur von $M_{i'j'}$ mit $i'>i, j'\leq j$ oder $i'\geq i,j'<j$ ab.
 	Wir können die $M_{ij}$ also mit dem Verfahren aus \autoref{fig:AlgCYK} berechnen.
 	
@@ -1077,9 +1077,7 @@ return $S\in M_{1n}$
 	Wende anschließend den CYK Algorithmus auf das Resultat an.
 \end{proof}
 
-\expl{
-Um \datenote{12.12.2018} möglichst schnell zum Unterkapitel über Typ-3-Sprachen zu kommen wurde das restliche Unterkapitel in der Freitagsvorlesung übersprungen.
-}
+
 
 \begin{Satz}\label{thm:cfl-decidable-emptyness}
     Es gibt einen Algorithmus, der das Leerheitsproblem%
@@ -1110,7 +1108,8 @@ Um \datenote{12.12.2018} möglichst schnell zum Unterkapitel über Typ-3-Sprache
       M_{i+1} &=  \{ A \mid A \-> \alpha\in P, \alpha\in(\Sigma\cup M_i)^* \}
     \end{align*}
     Es gilt für alle $i\in\N$, $M_i\subseteq M_{i+1} \subseteq M$.
-    Da $M\subseteq N$ endlich ist, gibt es ein $n$, sodass $M_n = M_{n+1}$ (hier ohne Beweis).
+    Da $M\subseteq N$ endlich ist, gibt es ein $n$, sodass $M_n =
+    M_{n+1}$ (hier ohne Beweis). Setze $M = M_n$.
     
     Wir können daher $M$ analog zu $\operatorname{Nullable}(\mathcal{G})$ (siehe \autoref{satz:3.nullable}) in $O(|\mathcal{G}|)$ berechnen.
 \end{proof}
@@ -1130,6 +1129,336 @@ Um \datenote{12.12.2018} möglichst schnell zum Unterkapitel über Typ-3-Sprache
 % 	Die Grundidee ist: $L$ ist endlich genau dann, wenn es keinen (echt wachsenden) Zyklus gibt, der zu einer Wortbildung beitragen kann.
 % \end{proof}
 
+
+
+\subsection{Das Pumping Lemma für kontextfreie Sprachen}
+\begin{Satz}[Pumping Lemma für \acs*{CFL}]
+\label{satz:PL für CFL}
+%\rlnote{Satz \# 4.2?}
+	Sei $L$ eine kontextfreie Sprache. Dann gilt:
+	        \begin{alignat*}{2}
+                &\exists n\in\N,\ n>0:\quad \forall z\in L,\ |z|\geq n:\\
+                &\exists u,v,w,x,y\in\Sigma^* :\\
+                &z = uvwxy,\ |vwx| \leq n,\ |vx| \geq 1\\
+                \text{und }& \forall i\in\N: uv^iwx^iy\in L
+        \qedhere
+        \end{alignat*}
+\end{Satz}
+\begin{lemma}\label{lemma:Binärbaum}
+	In jedem Binärbaum
+	mit $\geq 2^k$ Blättern gibt es mindestens ein Blatt sodass der einen Pfad von der Wurzel zu diesem Blatt Länge $\geq k$ hat.
+	(ohne Beweis)
+\end{lemma}
+
+\begin{proof}[von \autoref{satz:PL für CFL}]\footnote{
+		Dieser Beweis wurde in der Vorlesung mit Hilfe von \autoref{illCfgPl} erklärt aber nicht an die Tafel geschrieben.
+	}
+	Sei $\mathcal{G}= (\Sigma,N,P,S)$ in \ac{CNF} mit
+    $L(\mathcal{G}) = L$. Wähle $n=2^{|N|}$.
+    
+     Betrachte den Ableitungsbaum $\mathcal{T} \in \operatorname{Abl}(S)$ für ein Wort $z$ mit $|z|\geq n$. 
+%     \footnote{Intuition: Da $\mathcal{G}$ in \ac{CNF}, ist Ableitungsbaum $\mathcal{T}$ ein Binärbaum. 
+%         Mit $|N|$ 
+%     verschiedenen Nichtterminalsymbolen kann man 
+%     also maximal Wörter der Länge $2^{|N|}$ ableiten, wenn man keine Ableitung doppelt nutzen möchte. 
+%     Leitet man ein längeres Wort ab, so muss man mind. eine Ableitung doppelt nutzen.
+%      Dann kann man sie aber auch gleich $i$-fach nutzen ($v^i$ und $x^i$), und ist immernoch in der Sprache.}
+  $\mathcal{T}$ ist ein Binärbaum mit $|z|\geq n = 2^{|N|}$ Blättern.
+  In einem solchen Binärbaum existiert nach \autoref{lemma:Binärbaum} ein Pfad $\zeta$ der Länge $\geq |N|$.
+	Auf $\zeta$ liegen $\geq |N|+1$ Knoten.
+	Jeder Knoten ist mit einer Regel beschriftet deren linke Seite ein Nichtterminalsymbol ist.
+	Es muss also mindestens ein Nichtterminalsymbol $A$ mehrmals als linke Seite einer Regel vorkommen.
+	
+  Folge $\zeta$ Rückwärts vom Blatt in Richtung Wurzel, bis sich eine linke Regelseite $A$ das erste Mal wiederholt. 
+  Das geschieht nach $\le |N|$ Schritten.
+%   Wir nennen den Knoten 
+  Teile $z = uvwxy$ wie in \autoref{zerlegung} skizziert. Es gilt:
+      \begin{itemize}
+      \item $|vx|\geq 1$, da $\zeta$ entweder durch den $B$-Nachfolger oder durch $C$-Nachfolger läuft.
+        Angenommen, $\zeta$ verläuft durch den $B$-Nachfolger.
+        Somit muss $C \stackrel{*}{\vdash} x$ gelten. In \ac{CNF} ist $C \stackrel{*}{\vdash} \Eps$ nicht möglich und somit ist $|x| \ge 1$.
+        Der Fall, dass $\zeta$ durch den $C$-Nachfolger verläuft, ist analog.
+      \item $|vwx| \le 2^{|N|} = n$, da der obere Knoten dessen linke Regelseite mit $A$ beschrftet ist höchstens $|N|$ Schritte von der Blattebene entfernt und $\mathcal{T}$ ein Binärbaum ist.
+      \item Für die Aussage $\forall i\in\N: uv^iwx^iy\in L$ unterscheiden wir drei Fälle:
+      \begin{itemize}
+				\item $i=0$: Aus dem "`unteren"' $A$ haben wir $w$ abgeleitet,
+				aus dem oberen $A$ haben wir $vwx$ abgeleitet.
+				Wir könnten also auch aus dem oberen $A$ direkt $w$ ableiten und erhalten $S\vdash^* uwy$.
+				(Siehe \autoref{uv0wx0y}).
+				\item $i=1$: Gilt trivialerweise, da $uv^1wx^1y=z$.
+				\item $i\geq 1$: Aus dem "`oberen"' $A$ haben wir $vAx$ abgeleitet,
+				aus dem unteren $A$ haben wir $w$ abgeleitet.
+				Wir könnten also auch aus dem unteren $A$ nochmal $vAx$ ableiten.
+				Wenn wir dies oft genug wiederholen, können wir jedes $uv^iwx^iy$ mit $i\geq 2$ erzeugen
+				(siehe auch \autoref{uviwxiy}).
+				
+      \end{itemize}
+
+      \end{itemize}
+		\begin{figure}[H]\centering
+		\begin{subfigure}[b]{.35\linewidth}\centering
+					\begin{tikzpicture}[>=stealth,
+				widebox/.style={draw, minimum width=.75cm, minimum height=.35cm, inner sep=0pt}
+				,dot/.style={inner sep=0pt,outer sep=0pt,label={center:\scalebox{.75}{\textbullet}}}
+				]
+				
+				\node[dot,label={above right:$S\rightarrow\alpha$}] (v1) at (0,-1) {};
+				\node[dot] (v2) at (-0.25,-1.6) {};
+				\node[dot,] (v3) at (0,-2) {};
+				\node[dot] (v4) at (-0.5,-2.5) {};
+				\node[dot,label={above right:$A\rightarrow \beta$}] (v5) at (0,-3) {};
+				\node[widebox] (v6) at (-1.5,-3.5) {$u$};
+				\node[widebox] (v7) at (-.75,-3.5) {$v$};
+				\node[widebox] (v8) at (0,-3.5) {$w$};
+				\node[widebox] (v9) at (.75,-3.5) {$x$};
+				\node[widebox] (v10) at (1.5,-3.5) {$y$};
+				
+				\draw  (v1) edge (v2);
+				\draw  (v2) edge (v3);
+				\draw  (v3) edge (v4);
+				\draw  (v4) edge (v7.north west);
+				\draw  (v4) edge (v5);
+				\draw  (v3) edge (v10.north west);
+				\draw  (v5) edge (v8.north west);
+				\draw  (v5) edge (v8.north east);
+				\draw  (v1) edge (v6.north west);
+				\draw  (v1) edge (v10.north east);
+				\node[align=left,inner sep=2pt] at (1.7,-1.4) {$A\rightarrow BC$} edge[->,shorten >=.1cm] (v3);
+				\node[inner sep=0pt] at (2.75,-3.0) {$A\rightarrow a$} edge[->] (v10);
+				\node (v11) at (0,-4) {$z$};
+				\draw[semithick]
+				let \p1 = (v6.west), \p2 = (v11), \p3 = (v10.east) in 
+				 (\x1,\y2) edge[{Bar[]<}-] (v11) (v11) edge[-{>Bar[]}] (\x3,\y2);
+			\end{tikzpicture}
+					\caption{Zerlegung $z = uvwxy$}\label{zerlegung}
+		\end{subfigure}
+		\begin{subfigure}[b]{.28\linewidth}\centering
+			\begin{tikzpicture}[node distance=.5cm, on grid,
+					every node/.style={
+						execute at begin node=$,
+						execute at end node=$
+					},
+					widebox/.style={draw, minimum width=.75cm, minimum height=.35cm, inner sep=0pt}
+				]
+				\node (S) {S\rightarrow\alpha};
+				\node[inner sep=2pt] (A) [below=of S.south, xshift=6mm] {A\rightarrow\beta};
+				\coordinate (Ap) at (A.south west);
+				\node[widebox] (w) [below=of Ap] {w};
+				\node[widebox] (u) at ($(Ap)!2!(w.north west)+.5*(-.75,-.3)$) {u};
+				\node[widebox] (y) at ($(Ap)!2!(w.north east)+.5*(.75,-.3)$) {y};
+				
+				\draw (S.south) edge (u.north west) edge (y.north east)
+					(Ap) edge (u.north east) edge (y.north west) edge (w.north)
+					($(S.south) - (.25,.6)$) edge (S.south) edge (Ap)
+				;
+			\end{tikzpicture}
+			\caption{$uwy\in L$}\label{uv0wx0y}
+		\end{subfigure}
+		\begin{subfigure}[b]{.29\linewidth}\centering
+			\begin{tikzpicture}[node distance=.75cm, on grid,
+					every node/.style={
+						execute at begin node=$,
+						execute at end node=$
+					}
+				]
+				\node (0) {S\rightarrow\alpha};
+				\node (A1) [below=of 0] {};
+				\node () [below=of 0, yshift=-1mm] {\quad A\rightarrow BC};
+				\node (A2) [below=of A1] {};
+				\node () [below=of A1] {\quad A\rightarrow BC};
+				\node (A3) [below=of A2] {};
+				\node () [below=of A2] {\quad A\rightarrow BC};
+				
+				\newlength\Offset \setlength\Offset{.75cm}
+				\coordinate(p1) at ($(A2.south) - (0,\Offset)$);
+				%
+				\coordinate (A2l) at ($(p1) - (\Offset,0)$);
+				\coordinate (A1l) at ($(A2l) - (\Offset,0)$);
+				\coordinate (0l) at ($(A1l) - (\Offset,0)$);
+				%
+				\coordinate (A2r) at ($(p1) + (\Offset,0)$);
+				\coordinate (A1r) at ($(A2r) + (\Offset,0)$);
+				\coordinate (0r) at ($(A1r) + (\Offset,0)$) ;
+				
+				\coordinate (A3l) at ($(A3.south) - (\Offset,\Offset)$);
+				\coordinate (A2l2) at ($(A3l) - (\Offset,0)$);
+				%
+				\coordinate (A3r) at ($(A3.south) + (\Offset,-\Offset)$);
+				\coordinate (A2r2) at ($(A3r) + (\Offset,0)$);
+				
+				\node (dots) [below=\Offset of A3] {\vdots};
+				
+				\node (A4) [below=\Offset of dots] {A\rightarrow\beta};
+				\coordinate (A4l) at ($(A3l) - (0,2*\Offset)$);
+				\coordinate (A4r) at ($(A3r) - (0,2*\Offset)$);
+				
+				\draw (0.south) edge (0l.center) edge (0r.center)
+					(A1.south) edge (A1l.center) edge (A1r.center)
+					(A2.south) edge (A2l2.center) edge (A2r2.center)
+					(A3.south) edge (A3l.center) edge (A3r.center)
+					(A4.south) edge (A4l.center) edge (A4r.center)
+				;
+				\draw (0l.center) edge node[below] {u} (A1l.center)
+					(A1l.center)  edge node[below] {v} (A2l.center)
+					(A2r.center)  edge node[below] {x} (A1r.center)
+					(A1r.center)  edge node[below] {y} (0r.center)
+					(A2l2.center) edge node[below] {v} (A3l.center)
+					(A3r.center)  edge node[below] {x} (A2r2.center)
+					(A4l.center)  edge node[below] {w} (A4r.center)
+				;
+			\end{tikzpicture}
+			\caption{$uv^iwx^iy\in L$}\label{uviwxiy}
+		\end{subfigure}
+% 		\begin{subfigure}[b]{.33\linewidth}\centering
+% 			\begin{tikzpicture}[>=stealth,
+% 				widebox/.style={draw, minimum width=.75cm, minimum height=.35cm, inner sep=0pt}
+% 				,dot/.style={inner sep=0pt,outer sep=0pt,label={center:\scalebox{.75}{\textbullet}}}
+% 				]
+% 				
+% 				\node[dot,label={above right:$S$}] (v1) at (0,-1) {};
+% 				\node[dot] (v2) at (-0.25,-1.6) {};
+% 				\node[dot,label={above right:$A$}] (v3) at (0,-2) {};
+% 				\node[dot] (v4) at (-0.5,-2.5) {};
+% 				\node[dot,label={above right:$A$}] (v5) at (0,-3) {};
+% 				\node[widebox] (v6) at (-1.5,-3.5) {$u$};
+% 				\node[widebox] (v7) at (-.75,-3.5) {$v$};
+% 				\node[widebox] (v8) at (0,-3.5) {$w$};
+% 				\node[widebox] (v9) at (.75,-3.5) {$x$};
+% 				\node[widebox] (v10) at (1.5,-3.5) {$y$};
+% 				
+% 				\draw  (v1) edge (v2);
+% 				\draw  (v2) edge (v3);
+% 				\draw  (v3) edge (v4);
+% 				\draw  (v4) edge (v7.north west);
+% 				\draw  (v4) edge (v5);
+% 				\draw  (v3) edge (v10.north west);
+% 				\draw  (v5) edge (v8.north west);
+% 				\draw  (v5) edge (v8.north east);
+% 				\draw  (v1) edge (v6.north west);
+% 				\draw  (v1) edge (v10.north east);
+% 				\node[align=left, text height=3em,inner sep=2pt] at (2.1,-1.5) {$A\rightarrow BC$\small{ist Binärbaum}} edge[->,shorten >=.1cm] (v3);
+% 				\node[inner sep=0pt] at (2.75,-3.5) {$A\rightarrow a$} edge[->] (v10);
+% 				\node (v11) at (0,-4) {$z$};
+% 				\draw[semithick]
+% 				let \p1 = (v6.west), \p2 = (v11), \p3 = (v10.east) in 
+% 				 (\x1,\y2) edge[{Bar[]<}-] (v11) (v11) edge[-{>Bar[]}] (\x3,\y2);
+% 			\end{tikzpicture}
+% 			\caption{$\exists$ Pfad mit Länge $\geq k$}
+% 		\end{subfigure}
+		\caption{Illustration des Argumentes aus dem Beweis von \autoref{satz:PL für CFL}}
+		\label{illCfgPl}
+	\end{figure}\vspace{-2em}\qedhere
+\end{proof}
+\clearpage\datenote{NEXT-UP}
+\begin{lemma}\label{bsp:5.planbncn}
+Die Sprache $L=\{a^nb^nc^n \mid n\geq 1\}$ ist nicht kontextfrei.
+\end{lemma}
+\begin{proof}
+	Wir nehmen an, $L$ wäre kontextfrei.
+	Sei $n\in\N$ mit $n>0$ \expl{(die Zahl aus dem \ac{PL})}.
+	Wir betrachten $z=a^nb^nc^n$. \expl{Es gilt also $|z| = 3n \ge n$.}
+	Sei $z = uvwxy$ eine Zerlegung mit $|vx| \ge 1$ und $|vwx| \le n$.
+	\expl{Wir zeigen nun, dass $\forall i\in\N: uv^iwx^iy\in L$ nicht gilt (und folgern, dass unsere Annahme falsch war).}
+	
+	Wegen $|vwx| \le n$ trifft einer folgenden fünf Fälle zu.
+	\begin{itemize}
+		\item $vwx = a^j$ mit $j>0$: 
+		Es gilt $|v^0wx^0| < j$ und somit $uv^0wx^0y\notin L$,
+		da die Anzahl der $a$ nicht mit der Anzahl der $b$ übereinstimmt.
+		\item $vwx = a^kb^j$ mit $k>0$ und $j>0$.
+		\begin{itemize}
+			\item Falls $v = a^{k'}$ und $x = b^{j'}$, dann gilt $uv^0wx^0y\notin L$ da die Anzahl der $a$ oder die Anzahl der $b$ nicht mehr mit der Anzahl der $c$ übereinstimmt.
+			\item Falls $v$ oder $x$ die Form $a^+b^+$ hat, gilt $uv^2wx^2y\notin L$ da $uv^2wx^2y$ ein Teilwort der Form $a^+b^+a^+$ enthält.
+		\end{itemize}
+		\item $vwx = b^j$: analog zu Fall $a^j$
+		\item $vwx = b^kc^j$: analog zu Fall $a^kb^j$
+		\item $vwx = c^j$: analog zu Fall $a^j$
+	\end{itemize}
+	Die Sprache $L$ ist also nicht kontextfrei\expl{, denn wir erhalten in jedem der fünf Fälle einen Widerspruch zur Aussage des Pumping Lemma}.
+\end{proof}
+
+
+
+
+\begin{lemma} %\rlnote{Lemma \# 4.3?}
+
+  Die Menge der kontextfreien Sprachen (\cht) ist eine echte Teilmenge der Menge der kontextsensitiven Sprachen (\cho).
+\end{lemma}
+\begin{proof}
+Aus \autoref{beob:3.ChomskyHierarchie} wissen wir bereits, dass $\cht \subseteq \cho$ gilt.
+Aus \autoref{bsp:3.anbncn} wissen wir, dass $L=\{a^nb^nc^n \mid n\geq 1\}$ von einer kontextsensitiven Grammatik erzeugt wird.
+Mit Hilfe von \autoref{bsp:5.planbncn} folgern wir $\cht \subsetneq \cho$.
+\end{proof}
+
+% \begin{Bsp} Die Sprache
+%   \begin{displaymath}
+%     L = \{ww \mid w \in \{a,b\}^*\}
+%   \end{displaymath}
+%   ist kontextsensitiv aber nicht kontextfrei.
+% 
+%   Sei $n$ die Konstante aus dem PL
+% 
+%   Betrachte $z = a^nb^na^nb^n \in L$ mit $|z| = 4n \ge n$.
+%   Nach PL ist $z = uvwxy$ mit $|vx| \ge 1$ und $|vwx| \le n$.
+% 
+%   Es ergeben sich folgende Möglichkeiten:
+%   \begin{itemize}
+%   \item $vwx = a^j$, $j \le n$.
+%     Für $i=0$ ist $vwx=w$ mit $|w| < j$.
+%     Anzahl der $a$ stimmt nicht mehr mit $n$ überein.
+%   \item $vwx = a^kb^j$, $k+j \le n$.
+% 
+%     \begin{itemize}
+%     \item Falls $v = a^{k'}$, $x = b^{j'}$: Für $i=0$ stimmt die Anzahl der $a$ nicht mehr mit $n$ überein.
+%     \item Falls $v$ ein Gemisch aus $a$ und b enthält.
+%       Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
+%     \item Falls $x$ ein Gemisch aus $a$ und b enthält.
+%       Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
+%     \end{itemize}
+%   \item $vwx = b^j$ analog Fall $a^j$
+%   \item $vwx = b^ka^j$ analog Fall $a^kb^j$
+%   \end{itemize}
+% \end{Bsp}
+
+
+\subsection{Abschlusseigenschaften für kontextfreie Sprachen}
+\begin{Satz} % 4.7
+  \label{thm:cfl-closed-reg-intersect}
+	Die \ac{CFL} ist abgeschlossen unter Vereinigung ($\cup$), Konkatenation ($\cdot$) und dem Sternoperator ($^*$).
+\end{Satz}
+\begin{proof}
+	Für zwei \ac{CFG} $\mathcal{G}_i = (\Sigma, N_i, P_i,S_i), i=1,2$, konstruiere $\mathcal{G} = (\Sigma, N,P,S)$ mit
+	\begin{align*}
+		\text{"`}\cup\text{"'}: N &= N_1\dotcup N_2\dotcup\{S\}\\
+		P &= \{S\->S_1, S\->S_2 \} \cup P_1\cup P_2\\
+		\text{"`}\cdot\text{"'}: N &= N_1\dotcup N_2\dotcup\{S\}\\
+		P &= \{ S\->S_1S_2 \} \cup P_1\cup P_2\\
+		\text{"`}^*\text{"'}: N &= N_1 \dotcup \{S\}\\
+		P &= \{ S\->\Eps, S\-> S_1S \} \dotcup P_1
+	\qedhere
+	\end{align*}
+\end{proof}
+
+\begin{Satz}
+ 	Die \ac{CFL} sind \emph{nicht} unter Schnitt ($\cap$) abgeschlossen.
+\end{Satz}
+\begin{proof}
+ für $n\geq 1$
+		\[ \underbrace{\{a^nb^nc^m \mid n,m\geq 1 \}}_{\in \acs{CFL}} \cap \underbrace{\{a^mb^nc^n \mid m,n\geq 1 \}}_{\in \acs{CFL}} = \underbrace{\{a^nb^nc^n\}}_{\notin \acs{CFL}} \]
+		Also \ac{CFL} nicht abgeschlossen unter $\cap$.
+		(siehe \autoref{bsp:5.planbncn})
+\end{proof}
+
+
+\begin{Satz}
+ 	Die \ac{CFL} sind \emph{nicht} unter Komplement ($\overline{\!\phantom{i}\cdot\!\phantom{i}}$) abgeschlossen.
+\end{Satz}
+\begin{proof}
+Angenommen, CFL wäre abgeschlossen unter $\overline{\!\phantom{i}\cdot\!\phantom{i}}$.\\
+		Falls $L_1,L_2\in \acs*{CFL}$, dann ist $\overline{L}_1,\overline{L}_2\in\acs*{CFL}$ nach Annahme.\\
+		$\Rightarrow \overline{L}_1\cup \overline{L}_2\in\acs*{CFL}$ wegen Abschluss unter "`$\cup$"'.\\
+		$\Rightarrow \overline{\overline{L}_1\cup \overline{L}_2} = L_1\cap L_2\in\acs*{CFL}$ -- Widerspruch zu Nicht-Abschluss unter "`$\cap$"'. \qedhere
+\end{proof}
 
 \subsection{Einschub: Typ-3-Sprachen}
 \begin{Satz}[name={[Typ-3-Sprache ist regulär]}]
@@ -1185,379 +1514,6 @@ Um \datenote{12.12.2018} möglichst schnell zum Unterkapitel über Typ-3-Sprache
 	\[ \mathcal{G} = (\{0,1\}, \{S\}, \{S\->1, S\->0S0 \}, S) \]
 	(ohne Beweis)
 \end{proof}
-
-
-
-
-
-\hide{
-
-
-\subsection{Abschlusseigenschaften für kontextfreie Sprachen}
-
-
-\begin{Satz} % 4.7
-  \label{thm:cfl-closed-reg-intersect}
-	Die Menge \acs{CFL} ist abgeschlossen unter $\cup, \cdot, ^*$, jedoch \emph{nicht} unter $\cap, \overline{\phantom{A}}$.
-\end{Satz}
-\begin{proof}
-	\begin{align*}
-		\mathcal{G}_i :&= (N_i, \Sigma,P_i,S_i) \quad i=1,2\\
-		\text{"`}\cup\text{"'}: N &= N_1\dotcup N_2\dotcup\{S\}\\
-		P &= \{S\->S_1, S\->S_2 \} \cup P_1\cup P_2\\
-		\text{"`}\cdot\text{"'}:: N &= N_1\dotcup N_2\dotcup\{S\}\\
-		P &= \{ S\->S_1S_2 \} \cup P_1\cup P_2\\
-		\text{"`}^*\text{"'}: N &= N_1 \dotcup \{S\}\\
-		P &= \{ S\->\Eps, S\-> S_1S \} \dotcup P_1
-	\end{align*}
-	\begin{itemize}
-	\item für $n\geq 1$
-		\[ \underbrace{\{a^nb^nc^n\}}_{\notin \acs{CFL}} = \underbrace{\{a^nb^nc^m \mid n,m\geq 1 \}}_{\in \acs{CFL}} \cap \underbrace{\{a^mb^nc^n \mid m,n\geq 1 \}}_{\in \acs{CFL}} \]
-		Also \ac{CFL} nicht abgeschlossen unter $\cap$.
-	\item Angenommen CFL wäre abgeschlossen unter $\overline{\phantom{X}}$\\
-		Falls $L_1,L_2\in \acs*{CFL}$, dann ist $\overline{L}_1,\overline{L}_2\in\acs*{CFL}$ nach Annahme.\\
-		$\curvearrowright \overline{L}_1\cup \overline{L}_2\in\acs*{CFL}$ wegen Teil "'$\cup$"'.\\
-		$\curvearrowright \overline{\overline{L}_1\cup \overline{L}_2} = L_1\cap L_2\in\acs*{CFL}\ \lightning$ zu Teil "'$\cap$"'. \qedhere
-	\end{itemize}
-\end{proof}
-
-
-
-
-
-
-
-
-\datenote{14.12.16}
-\begin{Satz} % 4.8
-	Die Menge \ac{CFL} ist abgeschlossen unter "`$\cap$ mit regulären Sprachen REG"'.
-  Das heißt, für alle $L \in \mathrm{CFL}$ und $R \in \mathrm{REG}$ gilt $L \cap R \in \mathrm{CFL}$.
-\end{Satz}
-\begin{proof}
-  Sei $\mathcal{G} = (\Sigma, N, P, S)$ kontextfreie Grammatik in \ac{CNF} mit $L(\mathcal{G}) = L$.
-
-  Sei $M = (Q, \Sigma, q, \delta, q_0, F)$ NEA mit $L(M) = R$.
-
-  Definiere $\mathcal{G}' = (N', \Sigma, P', S)$ durch
-  \begin{itemize}
-  \item[] $N' = Q \times N \times Q \cup \{S\}$
-  \item[] $P' =
-    \begin{aligned}[t]
-      &\{ (p, A, q) \to a \mid A \to a \in P \text{ und } \delta(p,a) \ni q \} \\
-      &\cup \{ (p, A, q) \to (p,B,q')(q',C,q) \mid A \to BC \in P \text{ und } p,q,q' \in Q\} \\
-      &\cup \{ S \to (q_0, S, q) \mid q \in F \}
-    \end{aligned}
-    $
-  \end{itemize}
-  Durch die $S \to \ldots$ Regeln erzeugt $\mathcal{G}'$ offensichtlich genau die Wörter, die durch die Nichtterminalsymbole $(q_0, S, q)$ für $q \in F$ erzeugt werden.
-  Es bleibt zu zeigen, dass ein Nichtterminal genau die Wörter aus $L$ erzeugt die gleichzeitig einen (akzeptierenden) Lauf $q_0\ldots q$ von $M$ erlauben.
-  Wir zeigen eine Verallgemeinerung: für alle $p,q \in Q$ und $A \in N$ gilt
-  \begin{align*}
-    &(p,A,q) \stackrel{*}{\Longrightarrow}_{\mathcal{G}'} w \\
-    \text{ gdw } & A \stackrel{*}{\Longrightarrow}_{\mathcal{G}} w \text{ und es existiert ein Lauf } p\ldots q \text{ von $M$ auf $w$}
-  \end{align*}
-  \begin{itemize}
-  \item Richtung "`links nach rechts"': (siehe Übung)
-  \item Richtung "`rechts nach links"':
-
-    Per Induktion über den Ableitungsbaum $\mathcal{A} = \pi(\mathcal{A}_1,\ldots,\mathcal{A}_n) \in \operatorname{Abl}(\mathcal{G}, A)$ mit $Y(\mathcal{A}) = w$.
-    \begin{description}
-      \item[IV] $\forall 1 \le i \le n:$ wenn $w_i = Y(\mathcal{A}_i)$ mit $\mathcal{A}_i \in \operatorname{Abl}(\mathcal{G}, A_i)$ und es existiert ein Lauf  $p_i\ldots q_i$  von M auf $w_i$, dann $(p_i, A_i, q_i) \stackrel{*}{\Longrightarrow}_{\mathcal{G}'} w_i$.
-      \item[IS] \hfill
-        \begin{itemize}
-        \item $\pi = A \to a$, $a \in \Sigma$.
-          Es gilt $w = a$ und $pq$ ist Lauf auf $a$.
-          Folglich ist $\delta(p, a) \ni q$. Damit ist $(p,A,q) \to a \in P'$, woraus direkt folgt, dass $(p,A,q) \Longrightarrow_{\mathcal{G}'} a$.
-        \item $\pi = A \to BC$, $\mathcal{A} = \pi(\mathcal{A}_1, \mathcal{A}_2)$, $Y(\mathcal{A}_1) = w_1$, $Y(\mathcal{A}_2) = w_2$, \mbox{$\mathcal{A}_1 \in \operatorname{Abl}(\mathcal{G}, B)$} und $\mathcal{A}_2 \in \operatorname{Abl}(\mathcal{G}, C)$.
-
-          Es gilt $w = w_1w_2$ und $\zeta = p\ldots q$ ist Lauf auf $w_1w_2$.
-          Es existiert also $q'$ sodass $\zeta = p\ldots q' \ldots q$ und $p\ldots q'$ ist Lauf auf $w_1$ und $q' \ldots q$ ist Lauf auf $w_2$.
-
-          Es folgt nach IV, dass
-          \begin{displaymath}
-            (p, B, q') \stackrel{*}{\Longrightarrow}_{\mathcal{G}'} Y(\mathcal{A}_1) = w_1 \text{ und } (q', C, q) \stackrel{*}{\Longrightarrow}_{\mathcal{G}'} Y(\mathcal{A}_2) = w_2.
-          \end{displaymath}
-          Nun ist $(p,A,q) \to (p,B,q')(q',C,q) \in P'$ nach Konstruktion, also ist folgende Ableitung möglich:
-          \begin{displaymath}
-            (p,A,q) \Longrightarrow_{\mathcal{G}'} (p,B,q')(q',C,q) \stackrel{*}{\Longrightarrow}_{\mathcal{G}'} w_1(q',C,q) \stackrel{*}{\Longrightarrow}_{\mathcal{G}'} w_1w_2 = w
-          \end{displaymath}
-        \end{itemize}
-    \end{description}
-  \end{itemize}
-  \end{proof}
-%
-%Zuletzt: $\acsu{CFL}\land\acsu{REG}=\ac{REG}$
-\begin{Satz}[name={[$L\subseteq R$ entscheidbar]}] %\rlwarning{Satz 4.9}
-	Sei $L\in\ac{CFL}$ und $R\in\textrm{REG}$. Es ist entscheidbar, ob $L\subseteq R$.
-\end{Satz}
-\begin{proof}
-  Es gilt $L\subseteq R \text{ gdw } L \cap\overline{R} = \emptyset$.
-
-  Da $R \in \mathrm{REG}$ ist durch die Abschlusseigenschaften regulärer Sprachen auch $\overline{R} \in \mathrm{REG}$.
-  Nach Satz \ref{thm:cfl-closed-reg-intersect} ist $L \cap\overline{R} \in \mathrm{CFL}$.
-  Nach Satz \ref{thm:cfl-decidable-emptyness} ist $L \cap\overline{R} = \emptyset$ daher entscheidbar
-\end{proof}
-
-
-\draftnote{25.11.16}
-
-
-\datenote{30.11.16}
-
-
-\datenote{2.12.16}
-
-
-\subsection{Das Pumping Lemma für kontextfreie Sprachen}
-\begin{Satz}[Pumping lemma für \acs*{CFL}, uvwxy Lemma]
-\label{satz:PL für CFL}
-%\rlnote{Satz \# 4.2?}
-	Sei $L\in {CFL}$. Dann $\exists n>0$, sodass $\forall z\in L$ mit $|z|\geq n\ \exists u,v,w,x,y$ sodass $z=uvwxy$ mit
-	\begin{itemize}
-	\item $|vwx|\leq n$
-	\item $|vx|\geq 1$
-	\item $\forall i \in \N : uv^iwx^iy\in L$
-	\end{itemize}
-\end{Satz}
-\begin{proof}
-	Sei $\mathcal{G}= (\Sigma,N,P,S)$ in \ac{CNF} mit
-    $L(\mathcal{G}) = L$. Wähle die Pumping-Konstante $n=2^{|N|}$.
-    
-     Betrachte den Ableitungsbaum $\mathcal{A} \in \operatorname{Abl}(\mathcal{G}, S)$ von $z$ mit $|z|\geq n$. 
-    \footnote{Intuition: Da $\mathcal{G}$ in \ac{CNF}, ist Ableitungsbaum $\mathcal{A}$ ein Binärbaum. 
-        Mit $|N|$ 
-    verschiedenen Nichtterminalsymbolen kann man 
-    also maximal Wörter der Länge $2^{|N|}$ ableiten, wenn man keine Ableitung doppelt nutzen möchte. 
-    Leitet man ein längeres Wort ab, so muss man mind. eine Ableitung doppelt nutzen.
-     Dann kann man sie aber auch gleich $i$-fach nutzen ($v^i$ und $x^i$), und ist immernoch in der Sprache.}
-  $\mathcal{A}$ ist ein Binärbaum mit $|z|\geq n = 2^{|N|}$ Blättern. In einem solchen Binärbaum existiert ein Pfad $\zeta$ der Länge $\geq |N|$.
-	Auf $\zeta$ liegen $\geq |N|+1$ \acfp{NT}, es muss also mindestens ein Nichtterminal $A$ mehrmals vorkommen.
-	
-  Folge $\zeta$ vom Blatt Richtung Wurzel und bis sich das ein $A$ das erste Mal wiederholt. Das geschieht nach $\le |N|$ Schritten.
-  Nun teile $z = uvwxy$ wie hier skizziert:
-  
-			\begin{tikzpicture}[>=stealth,
-				widebox/.style={draw, minimum width=.75cm, minimum height=.35cm, inner sep=0pt}
-				,dot/.style={inner sep=0pt,outer sep=0pt,label={center:\scalebox{.75}{\textbullet}}}
-				]
-				
-				\node[dot,label={above right:$S$}] (v1) at (0,-1) {};
-				\node[dot] (v2) at (-0.25,-1.6) {};
-				\node[dot,] (v3) at (0,-2) {};
-				\node[dot] (v4) at (-0.5,-2.5) {};
-				\node[dot,label={above right:$A$}] (v5) at (0,-3) {};
-				\node[widebox] (v6) at (-1.5,-3.5) {$u$};
-				\node[widebox] (v7) at (-.75,-3.5) {$v$};
-				\node[widebox] (v8) at (0,-3.5) {$w$};
-				\node[widebox] (v9) at (.75,-3.5) {$x$};
-				\node[widebox] (v10) at (1.5,-3.5) {$y$};
-				
-				\draw  (v1) edge (v2);
-				\draw  (v2) edge (v3);
-				\draw  (v3) edge (v4);
-				\draw  (v4) edge (v7.north west);
-				\draw  (v4) edge (v5);
-				\draw  (v3) edge (v10.north west);
-				\draw  (v5) edge (v8.north west);
-				\draw  (v5) edge (v8.north east);
-				\draw  (v1) edge (v6.north west);
-				\draw  (v1) edge (v10.north east);
-				\node[align=left, text height=3em,inner sep=2pt] at (2.1,-1.5) {$A\rightarrow BC$~\small{ist Binärbaum}} edge[->,shorten >=.1cm] (v3);
-				\node[inner sep=0pt] at (2.75,-3.5) {$A\rightarrow a$} edge[->] (v10);
-				\node (v11) at (0,-4) {$z$};
-				\draw[semithick]
-				let \p1 = (v6.west), \p2 = (v11), \p3 = (v10.east) in 
-				 (\x1,\y2) edge[{Bar[]<}-] (v11) (v11) edge[-{>Bar[]}] (\x3,\y2);
-			\end{tikzpicture}
-	
-      Nun gilt
-      \begin{itemize}
-      \item $|vx|\geq 1$, da $\zeta$ entweder durch $B$ oder durch $C$ läuft. Nehme also an, $\zeta$ verläuft durch $B$.
-        Somit muss $C \stackrel{*}{\Longrightarrow} x$. In \ac{CNF} ist $C \stackrel{*}{\Longrightarrow} \Eps$ nicht möglich und somit ist $|x| \ge 1$.
-        Der Fall, das $\zeta$ durch $C$ verläuft, ist analog.
-      \item $|vwx| \le 2^{|N|} = n$ TODO
-      \end{itemize}
-		\begin{figure}[H]\centering
-		\begin{subfigure}[b]{.29\linewidth}\centering
-			\begin{tikzpicture}[node distance=.75cm, on grid,
-					every node/.style={
-						execute at begin node=$,
-						execute at end node=$
-					}
-				]
-				\node (0) {};
-				\node (A1) [below=of 0] {A};
-				\node (A2) [below=of A1] {A};
-				\node (A3) [below=of A2] {A};
-				
-				\newlength\Offset \setlength\Offset{.75cm}
-				\coordinate(p1) at ($(A2.south) - (0,\Offset)$);
-				%
-				\coordinate (A2l) at ($(p1) - (\Offset,0)$);
-				\coordinate (A1l) at ($(A2l) - (\Offset,0)$);
-				\coordinate (0l) at ($(A1l) - (\Offset,0)$);
-				%
-				\coordinate (A2r) at ($(p1) + (\Offset,0)$);
-				\coordinate (A1r) at ($(A2r) + (\Offset,0)$);
-				\coordinate (0r) at ($(A1r) + (\Offset,0)$) ;
-				
-				\coordinate (A3l) at ($(A3.south) - (\Offset,\Offset)$);
-				\coordinate (A2l2) at ($(A3l) - (\Offset,0)$);
-				%
-				\coordinate (A3r) at ($(A3.south) + (\Offset,-\Offset)$);
-				\coordinate (A2r2) at ($(A3r) + (\Offset,0)$);
-				
-				\node (dots) [below=\Offset of A3] {\vdots};
-				
-				\node (A4) [below=\Offset of dots] {A};
-				\coordinate (A4l) at ($(A3l) - (0,2*\Offset)$);
-				\coordinate (A4r) at ($(A3r) - (0,2*\Offset)$);
-				
-				\draw (0.south) edge (0l.center) edge (0r.center)
-					(A1.south) edge (A1l.center) edge (A1r.center)
-					(A2.south) edge (A2l2.center) edge (A2r2.center)
-					(A3.south) edge (A3l.center) edge (A3r.center)
-					(A4.south) edge (A4l.center) edge (A4r.center)
-				;
-				\draw (0l.center) edge node[below] {u} (A1l.center)
-					(A1l.center)  edge node[below] {v} (A2l.center)
-					(A2r.center)  edge node[below] {x} (A1r.center)
-					(A1r.center)  edge node[below] {y} (0r.center)
-					(A2l2.center) edge node[below] {v} (A3l.center)
-					(A3r.center)  edge node[below] {x} (A2r2.center)
-					(A4l.center)  edge node[below] {w} (A4r.center)
-				;
-			\end{tikzpicture}
-			\caption{$uv^iwx^iy\in L$}
-		\end{subfigure}
-		\begin{subfigure}[b]{.28\linewidth}\centering
-			\begin{tikzpicture}[node distance=.5cm, on grid,
-					every node/.style={
-						execute at begin node=$,
-						execute at end node=$
-					},
-					widebox/.style={draw, minimum width=.75cm, minimum height=.35cm, inner sep=0pt}
-				]
-				\node (S) {S};
-				\node[inner sep=2pt] (A) [below=of S.south, xshift=.2cm] {A};
-				\coordinate (Ap) at (A.south west);
-				\node[widebox] (w) [below=of Ap] {w};
-				\node[widebox] (u) at ($(Ap)!2!(w.north west)+.5*(-.75,-.3)$) {u};
-				\node[widebox] (y) at ($(Ap)!2!(w.north east)+.5*(.75,-.3)$) {y};
-				
-				\draw (S.south) edge (u.north west) edge (y.north east)
-					(Ap) edge (u.north east) edge (y.north west) edge (w.north)
-					($(S.south) - (.25,.6)$) edge (S.south) edge (Ap)
-				;
-			\end{tikzpicture}
-			\caption{$\curvearrowright uwy\in L$}
-		\end{subfigure}
-		\begin{subfigure}[b]{.33\linewidth}\centering
-			\begin{tikzpicture}[>=stealth,
-				widebox/.style={draw, minimum width=.75cm, minimum height=.35cm, inner sep=0pt}
-				,dot/.style={inner sep=0pt,outer sep=0pt,label={center:\scalebox{.75}{\textbullet}}}
-				]
-				
-				\node[dot,label={above right:$S$}] (v1) at (0,-1) {};
-				\node[dot] (v2) at (-0.25,-1.6) {};
-				\node[dot,label={above right:$A$}] (v3) at (0,-2) {};
-				\node[dot] (v4) at (-0.5,-2.5) {};
-				\node[dot,label={above right:$A$}] (v5) at (0,-3) {};
-				\node[widebox] (v6) at (-1.5,-3.5) {$u$};
-				\node[widebox] (v7) at (-.75,-3.5) {$v$};
-				\node[widebox] (v8) at (0,-3.5) {$w$};
-				\node[widebox] (v9) at (.75,-3.5) {$x$};
-				\node[widebox] (v10) at (1.5,-3.5) {$y$};
-				
-				\draw  (v1) edge (v2);
-				\draw  (v2) edge (v3);
-				\draw  (v3) edge (v4);
-				\draw  (v4) edge (v7.north west);
-				\draw  (v4) edge (v5);
-				\draw  (v3) edge (v10.north west);
-				\draw  (v5) edge (v8.north west);
-				\draw  (v5) edge (v8.north east);
-				\draw  (v1) edge (v6.north west);
-				\draw  (v1) edge (v10.north east);
-				\node[align=left, text height=3em,inner sep=2pt] at (2.1,-1.5) {$A\rightarrow BC$\small{ist Binärbaum}} edge[->,shorten >=.1cm] (v3);
-				\node[inner sep=0pt] at (2.75,-3.5) {$A\rightarrow a$} edge[->] (v10);
-				\node (v11) at (0,-4) {$z$};
-				\draw[semithick]
-				let \p1 = (v6.west), \p2 = (v11), \p3 = (v10.east) in 
-				 (\x1,\y2) edge[{Bar[]<}-] (v11) (v11) edge[-{>Bar[]}] (\x3,\y2);
-			\end{tikzpicture}
-			\caption{$\exists$ Pfad mit Länge $\geq k$}
-		\end{subfigure}
-		\caption{Schema zu \autoref{satz:PL für CFL}}
-	\end{figure}\vspace{-2em}\qedhere
-\end{proof}
-
-\begin{lemma} %\rlnote{Lemma \# 4.3?}
-	$\mathcal{L}_2 \subsetneq \mathcal{L}_1$
-\end{lemma}
-\begin{proof}
-	Sei $L=\{L=\{a^nb^nc^n \mid n\geq 1\}$.\\
-	$L$ ist nicht kontextfrei. Verwende \ac{PL}. Angenommen $L$ sei kontextfrei.
-	Sei dann $n$ die Konstante aus dem \ac{PL}.
-	
-	Wähle $z=a^nb^nc^n$ und somit $|z| = 3n \ge n$.
-  Nach PL ist $z = uvwxy$ mit $|vx| \ge 1$ und $|vwx| \le n$.
-
-  Durch $|vwx| \le n$ ergeben sich folgende Möglichkeiten:
-  \begin{itemize}
-  \item $vwx = a^j$: 
-    Für $i=0$ ist $vwx=w$ mit $|w| < j$.
-    Anzahl der $a$ stimmt nicht mehr mit $n$ überein.
-  \item $vwx = a^kb^j$:
-    \begin{itemize}
-    \item Falls $v = a^{k'}$, $x = b^{j'}$: Für $i=0$ stimmt die Anzahl der $a$ nicht mehr mit $n$ überein.
-    \item Falls $v$ ein Gemisch aus $a$ und $b$ enthält.
-      Für $i\ge 2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
-    \item Falls $x$ ein Gemisch aus $a$ und $b$ enthält.
-      Für $i \ge2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
-    \end{itemize}
-  \item $vwx = b^j$: analog Fall $a^j$
-  \item $vwx = b^kc^j$: analog Fall $a^kb^j$
-  \item $vwx = c^j$: analog Fall $a^j$
-  \end{itemize}
-  In jeder der Möglichkeiten lässt sich durch Pumpen ein Wort $w \not \in L$ finden.
-  Daher kann $L$ nicht kontextfrei sein.
-\end{proof}
-
-\begin{Bsp} Die Sprache
-  \begin{displaymath}
-    L = \{ww \mid w \in \{a,b\}^*\}
-  \end{displaymath}
-  ist kontextsensitiv aber nicht kontextfrei.
-
-  Sei $n$ die Konstante aus dem PL
-
-  Betrachte $z = a^nb^na^nb^n \in L$ mit $|z| = 4n \ge n$.
-  Nach PL ist $z = uvwxy$ mit $|vx| \ge 1$ und $|vwx| \le n$.
-
-  Es ergeben sich folgende Möglichkeiten:
-  \begin{itemize}
-  \item $vwx = a^j$, $j \le n$.
-    Für $i=0$ ist $vwx=w$ mit $|w| < j$.
-    Anzahl der $a$ stimmt nicht mehr mit $n$ überein.
-  \item $vwx = a^kb^j$, $k+j \le n$.
-
-    \begin{itemize}
-    \item Falls $v = a^{k'}$, $x = b^{j'}$: Für $i=0$ stimmt die Anzahl der $a$ nicht mehr mit $n$ überein.
-    \item Falls $v$ ein Gemisch aus $a$ und b enthält.
-      Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
-    \item Falls $x$ ein Gemisch aus $a$ und b enthält.
-      Für $i>2$ würde eine Folge $a^n$ durch eine $b$-Folge unterbrochen.
-    \end{itemize}
-  \item $vwx = b^j$ analog Fall $a^j$
-  \item $vwx = b^ka^j$ analog Fall $a^kb^j$
-  \end{itemize}
-\end{Bsp}
-
-\draftnote{9.12.16}
-
-}
-
 
 
 %%% Local Variables:
