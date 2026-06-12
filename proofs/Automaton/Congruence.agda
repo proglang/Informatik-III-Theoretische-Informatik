@@ -13,13 +13,62 @@ open import Relation.Binary.PropositionalEquality using
   (_≡_; _≢_; refl; sym; trans; cong; cong₂; dcong; subst)
 open import Relation.Nullary using (¬_; contradiction)
 open import Relation.Unary using (_∈_; _∉_) renaming (_≐′_ to  _≐_; _⊆′_ to  _⊆_)
+open import Function using (id)
 
 open import Language
 open import Isomorphism using (Iso; _↔_)
 
 open import Automaton as DET
 
-module _ {Σ} {A : Automaton{ℓ} Σ} where
+module Equiv {ℓ}{A : Set ℓ}(_≈_ : A → A → Set) (≈-refl : ∀ {q} → q ≈ q) where
+
+  record Part (R : A → Set) p : Set (lsuc ℓ) where
+    field
+      rep   : A
+      rep∈  : rep ∈ R
+      rep≈  : p ≈ rep
+
+  -- set of representatives of equivalence classes
+
+  record Class (X : A → Set) : Set ℓ where
+    constructor ⟨_,_,_⟩
+    field
+      elem   : A
+      elem∈  : elem ∈ X
+      closed : ∀ x → (x ∈ X) ↔ (elem ≈ x)
+
+  ≈-class : (X : A → Set) → Set _
+  ≈-class X = ∃[ p ] p ∈ X × ∀ q → (q ∈ X) ↔ (p ≈ q)
+
+  -- equivalence class of a state p
+
+  [_]≈ : A → A → Set
+  [ p ]≈ = λ q → p ≈ q
+
+  is-≈-class : ∀ p → ≈-class ([ p ]≈)
+  is-≈-class p₀ = p₀ , ≈-refl , (λ q → (λ z → z) , λ z → z)
+
+  is-Class : ∀ {p} → Class ([ p ]≈)
+  is-Class {p} = record
+    { elem = p
+    ; elem∈ = ≈-refl
+    ; closed = λ x → id , id
+    }
+
+  record Reps : Set (lsuc ℓ)  where
+    field
+      Q′    : Set
+      R     : A → Set
+      disj  : ([p] [q] : ΣΣ A R) → [p] .proj₁ ≈ [q] .proj₁ → [p] .proj₁ ≡ [q] .proj₁
+      part  : ∀ p → ∃[ q ] q ∈ R × p ≈ q
+      -- part′ : ∀ p → Part R p -- equivalent alternative
+      iso   : Iso Q′ (ΣΣ A R)
+
+  postulate
+    reps-of : Reps
+
+
+module A-congruence {Σ} {A : Automaton{ℓ} Σ} where
   open Automaton A
 
   _≈_ : Q → Q → Set
@@ -47,18 +96,9 @@ module _ {Σ} {A : Automaton{ℓ} Σ} where
   ≈-final p q p∈ p≈q = p≈q ε .proj₁ p∈
 
   -- equivalence classes
+
+  open Equiv _≈_ ≈-refl
   
-  ≈-class : (X : Q → Set) → Set _
-  ≈-class X = ∃[ p ] p ∈ X × ∀ q → (q ∈ X) ↔ (p ≈ q)
-  
-  -- equivalence class of a state p
-
-  [_]≈ : Q → Q → Set
-  [ p ]≈ = λ q → p ≈ q
-
-  is-≈-class : ∀ p → ≈-class ([ p ]≈)
-  is-≈-class p₀ = p₀ , ≈-refl , (λ q → (λ z → z) , λ z → z)
-
 
   ≈-automaton : Automaton Σ
   ≈-automaton = record {
@@ -67,38 +107,19 @@ module _ {Σ} {A : Automaton{ℓ} Σ} where
     qinit = [ qinit ]≈ , is-≈-class _ ;
     F = λ{ ([q] , q , [q]-class) → q ∈ F} }
 
-  -- set of representatives of equivalence classes
-  record Part (R : Q → Set) p : Set (lsuc ℓ) where
-    field
-      rep  : Q
-      rep∈ : rep ∈ R
-      rep≈ : p ≈ rep
-
-  record Reps : Set (lsuc ℓ)  where
-    field
-      Q′    : Set
-      R     : Q → Set
-      disj  : ([p] [q] : ΣΣ Q R) → [p] .proj₁ ≈ [q] .proj₁ → [p] .proj₁ ≡ [q] .proj₁
-      part  : ∀ p → ∃[ q ] q ∈ R × p ≈ q
-      iso   : Iso Q′ (ΣΣ Q R)
-
-  postulate
-    reps-of : Reps
-
   rep-automaton : Automaton Σ
   rep-automaton =
     let open Reps reps-of
         open Iso iso
     in
-    record {
-      Q = Q′ ;
-      δ = λ [q] a → let qin = fwd [q] .proj₁
-                        qoutrep , qoutrep∈R , qrep≈ = part (δ qin a)
-                    in  bwd (qoutrep , qoutrep∈R) ;
-      qinit = let qinitrep , qinit∈R , qrep≈ = part qinit
-              in  bwd (qinitrep , qinit∈R) ;
-      F = λ q′ → let qf , rf = fwd q′
-                 in  F qf
+    record
+      { Q      = Q′
+      ; δ      = λ [q] a → let qin = fwd [q] .proj₁
+                               qoutrep , qoutrep∈R , qrep≈ = part (δ qin a)
+                           in  bwd (qoutrep , qoutrep∈R)
+      ; qinit  = let qinitrep , qinit∈R , qrep≈ = part qinit
+                 in  bwd (qinitrep , qinit∈R)
+      ; F      = λ q′ → let qf , rf = fwd q′ in F qf
       }
 
   open Automaton rep-automaton renaming (Lang to Lang≈; Q to Q≈; δ to δ≈; δ̃ to δ̃≈; F to F≈; qinit to qinit≈)
