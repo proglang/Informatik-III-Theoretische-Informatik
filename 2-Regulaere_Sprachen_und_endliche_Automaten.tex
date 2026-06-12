@@ -395,11 +395,10 @@ Der Produktautomat für den Durchschnitt von $A_1$ und $A_\mathsf{even}$ hat die
 
 
 \begin{Satz}\label{satz:2.Produktautomat}
-  Für beliebige \ac{DEA}s $A_1$ und $A_2$ akzeptiert der entsprechende Produktautomat für Durchschnitt die Sprache $L(A_1)\cap L(A_1)$.
-%   Reguläre Sprachen sind abgeschlossen unter der Schnittoperation. (D.h.\ für zwei gegebene reguläre Sprachen $L_1$, $L_2$ über $\Sigma$ ist auch der Schnitt $L_1\cap L_2$ eine reguläre Sprache.)
+  Für beliebige \ac{DEA}s $A_1$ und $A_2$ akzeptiert der entsprechende Produktautomat für Durchschnitt die Sprache $L(A_1)\cap L(A_2)$.
 \end{Satz}
 
-
+\input{proofs/regular-intersection-proof}
 
 % \begin{Satz}\label{satz:2.ClosedIntersection}
 %   Reguläre Sprachen sind abgeschlossen unter der Schnittoperation. (D.h.\ für zwei gegebene reguläre Sprachen $L_1$, $L_2$ über $\Sigma$ ist auch der Schnitt $L_1\cap L_2$ eine reguläre Sprache.)
@@ -407,31 +406,31 @@ Der Produktautomat für den Durchschnitt von $A_1$ und $A_\mathsf{even}$ hat die
 
 % Der folgende Beweis ist ein typi
 
-\begin{proof}\footnote{Dieser erste Beweis ist außergewöhnlich detailliert. In den folgenden Beweisen werden wir einfache Umformungen zusammenfassen.}
-Seien $A_1=(\Sigma, Q_1,\delta_1,\qinit_1,F_1)$ und $A_2=(\Sigma, Q_2,\delta_2,\qinit_2,F_2)$ \ac{DEA}s und
-$A_\cap=(\Sigma, Q_\cap,\delta_\cap,\qinit_\cap,F_\cap)$ der zugehörige Produktautomat für den Durchschnitt.
-Wir zeigen zunächst per Induktion über $w$, dass für alle $w\in\Sigma^*$, für alle $q_1\in Q_1$ und für alle $q_2\in Q_2$ die folgende Gleichung $\varphi(w)$ gilt.
-$$\varphi(w) := \tilde{\delta}_\cap((q_1,q_2),w) = (\tilde{\delta}_1(q_1,w), \tilde{\delta}_2(q_2,w))$$
-Der Induktionsanfang $\varphi(\Eps)$ folgt dabei direkt aus \autoref{def:2.deltaschlange}.
-$$\tilde{\delta}_\cap((q_1,q_2),\Eps) = (q_1,q_2)$$
-Den Induktionsschritt $\varphi(w)\rightsquigarrow \varphi(a.w)$ zeigen wir mit Hilfe der folgenden Umformungen, wobei $a\in\Sigma$ ein beliebiges Zeichen und $w\in\Sigma^*$ ein beliebiges Wort. 
-\begin{eqnarray*}
-  \tilde{\delta}_\cap((q_1,q_2),aw) 
-    & \stackrel{\text{\autoref{def:2.deltaschlange}}}{=} & \tilde{\delta}_\cap(\delta_\cap((q_1,q_2),a),w)\\
-    & \stackrel{\text{Def.\ }\delta_\cap}{=} & \tilde{\delta}_\cap (\big(\delta_1(q_1,a),\delta_2(q_2,a)\big),w)\\
-    & \stackrel{\text{I.V.}}{=} & \big(\tilde{\delta}_1 (\delta_1(q_1,a),w), \tilde{\delta}_2(\delta_2(q_2,a),w)\big)\\
-    & \stackrel{\text{\autoref{def:2.deltaschlange}}}{=} & \big(\tilde{\delta}_1(q_1,aw), \tilde{\delta}_2(q_2,aw)\big)
-\end{eqnarray*}
-Schließlich zeigen wir $L(A_\cap)=L(A_1)\cap L(A_2)$ mit Hilfe der folgenden Umformungen für ein beliebiges $w\in\Sigma^*$.
-\begin{eqnarray*}
-  w\in L(A_\cap)
-  & \stackrel{\text{\autoref{def:2.sprache}}}{\mathsf{gdw}} & \tilde{\delta}_\cap(\qinit_\cap,w)\in F_\cap\\
-  & \stackrel{\text{Def.\ }\qinit_\cap}{\mathsf{gdw}} & \tilde{\delta}_\cap((\qinit_1,\qinit_2),w)\in F_\cap\\
-  & \stackrel{}{\mathsf{gdw}} & (\tilde{\delta}_1(\qinit_1,w),\tilde{\delta}_2(\qinit_2,w))\in F_\cap\\
-  & \stackrel{\text{Def.\ }F_\cap}{\mathsf{gdw}} & \tilde{\delta}_1(\qinit_1,w)\in F_1 \text{ und } \tilde{\delta}_2(\qinit_2,w)\in F_2\\
-  & \stackrel{\text{\autoref{def:2.sprache}}}{\mathsf{gdw}} & w\in L(A_1) \text{ und } w\in L(A_2)
-\end{eqnarray*}
-\end{proof}
+% \begin{proof}\footnote{Dieser erste Beweis ist außergewöhnlich detailliert. In den folgenden Beweisen werden wir einfache Umformungen zusammenfassen.}
+% Seien $A_1=(\Sigma, Q_1,\delta_1,\qinit_1,F_1)$ und $A_2=(\Sigma, Q_2,\delta_2,\qinit_2,F_2)$ \ac{DEA}s und
+% $A_\cap=(\Sigma, Q_\cap,\delta_\cap,\qinit_\cap,F_\cap)$ der zugehörige Produktautomat für den Durchschnitt.
+% Wir zeigen zunächst per Induktion über $w$, dass für alle $w\in\Sigma^*$, für alle $q_1\in Q_1$ und für alle $q_2\in Q_2$ die folgende Gleichung $\varphi(w)$ gilt.
+% $$\varphi(w) := \tilde{\delta}_\cap((q_1,q_2),w) = (\tilde{\delta}_1(q_1,w), \tilde{\delta}_2(q_2,w))$$
+% Der Induktionsanfang $\varphi(\Eps)$ folgt dabei direkt aus \autoref{def:2.deltaschlange}.
+% $$\tilde{\delta}_\cap((q_1,q_2),\Eps) = (q_1,q_2)$$
+% Den Induktionsschritt $\varphi(w)\rightsquigarrow \varphi(a.w)$ zeigen wir mit Hilfe der folgenden Umformungen, wobei $a\in\Sigma$ ein beliebiges Zeichen und $w\in\Sigma^*$ ein beliebiges Wort. 
+% \begin{eqnarray*}
+%   \tilde{\delta}_\cap((q_1,q_2),aw) 
+%     & \stackrel{\text{\autoref{def:2.deltaschlange}}}{=} & \tilde{\delta}_\cap(\delta_\cap((q_1,q_2),a),w)\\
+%     & \stackrel{\text{Def.\ }\delta_\cap}{=} & \tilde{\delta}_\cap (\big(\delta_1(q_1,a),\delta_2(q_2,a)\big),w)\\
+%     & \stackrel{\text{I.V.}}{=} & \big(\tilde{\delta}_1 (\delta_1(q_1,a),w), \tilde{\delta}_2(\delta_2(q_2,a),w)\big)\\
+%     & \stackrel{\text{\autoref{def:2.deltaschlange}}}{=} & \big(\tilde{\delta}_1(q_1,aw), \tilde{\delta}_2(q_2,aw)\big)
+% \end{eqnarray*}
+% Schließlich zeigen wir $L(A_\cap)=L(A_1)\cap L(A_2)$ mit Hilfe der folgenden Umformungen für ein beliebiges $w\in\Sigma^*$.
+% \begin{eqnarray*}
+%   w\in L(A_\cap)
+%   & \stackrel{\text{\autoref{def:2.sprache}}}{\mathsf{gdw}} & \tilde{\delta}_\cap(\qinit_\cap,w)\in F_\cap\\
+%   & \stackrel{\text{Def.\ }\qinit_\cap}{\mathsf{gdw}} & \tilde{\delta}_\cap((\qinit_1,\qinit_2),w)\in F_\cap\\
+%   & \stackrel{}{\mathsf{gdw}} & (\tilde{\delta}_1(\qinit_1,w),\tilde{\delta}_2(\qinit_2,w))\in F_\cap\\
+%   & \stackrel{\text{Def.\ }F_\cap}{\mathsf{gdw}} & \tilde{\delta}_1(\qinit_1,w)\in F_1 \text{ und } \tilde{\delta}_2(\qinit_2,w)\in F_2\\
+%   & \stackrel{\text{\autoref{def:2.sprache}}}{\mathsf{gdw}} & w\in L(A_1) \text{ und } w\in L(A_2)
+% \end{eqnarray*}
+% \end{proof}
 
 
 
