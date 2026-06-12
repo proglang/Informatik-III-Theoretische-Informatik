@@ -1,0 +1,82 @@
+\begin{proof}[Beschreibung des Agda-Beweises von \texttt{Intersection.correct}]
+Seien
+$A_1=(\Sigma,Q_1,\delta_1,\qinit_1,F_1)$ und
+$A_2=(\Sigma,Q_2,\delta_2,\qinit_2,F_2)$ zwei \ac{DEA}s.
+Der Produktautomat $A_\cap$ hat Zustandsmenge $Q_1\x Q_2$,
+Startzustand $(\qinit_1,\qinit_2)$, Übergangsfunktion
+\[
+  \delta_\cap((q_1,q_2),a)
+  =
+  (\delta_1(q_1,a),\delta_2(q_2,a))
+\]
+und Endzustände $F_\cap=F_1\x F_2$.
+
+Die zentrale Aussage des Agda-Beweises ist
+\texttt{Intersection.left-right}.
+Sie zeigt für alle $q_1\in Q_1$, $q_2\in Q_2$ und alle Wörter
+$w\in\Sigma^*$ die Äquivalenz
+\[
+  \tilde{\delta}_\cap((q_1,q_2),w)\in F_\cap
+  \quad\Longleftrightarrow\quad
+  \tilde{\delta}_1(q_1,w)\in F_1
+  \text{ und }
+  \tilde{\delta}_2(q_2,w)\in F_2 .
+\]
+Wir führen eine Induktion über $w$ durch.
+
+I.A. ($w=\Eps$):
+Nach Definition von $\tilde{\delta}$ gilt
+\[
+  \tilde{\delta}_\cap((q_1,q_2),\Eps)=(q_1,q_2).
+\]
+Da $F_\cap=F_1\x F_2$ ist, gilt
+\[
+  (q_1,q_2)\in F_\cap
+  \quad\Longleftrightarrow\quad
+  q_1\in F_1 \text{ und } q_2\in F_2.
+\]
+Das ist genau die gewünschte Aussage für $\Eps$.
+Im Agda-Beweis sind beide Richtungen dieser Äquivalenz deshalb die
+Identitätsfunktion.
+
+I.S. ($w\rightsquigarrow aw$):
+Sei $a\in\Sigma$ und $w\in\Sigma^*$.
+Dann gilt:
+\begin{eqnarray*}
+  &&\tilde{\delta}_\cap((q_1,q_2),aw)\in F_\cap\\
+  &\stackrel{\text{Def.\ }\tilde{\delta}}{\mathsf{gdw}}&
+    \tilde{\delta}_\cap(\delta_\cap((q_1,q_2),a),w)\in F_\cap\\
+  &\stackrel{\text{Def.\ }\delta_\cap}{\mathsf{gdw}}&
+    \tilde{\delta}_\cap((\delta_1(q_1,a),\delta_2(q_2,a)),w)\in F_\cap\\
+  &\stackrel{\text{I.V.}}{\mathsf{gdw}}&
+    \tilde{\delta}_1(\delta_1(q_1,a),w)\in F_1
+    \text{ und }
+    \tilde{\delta}_2(\delta_2(q_2,a),w)\in F_2\\
+  &\stackrel{\text{Def.\ }\tilde{\delta}}{\mathsf{gdw}}&
+    \tilde{\delta}_1(q_1,aw)\in F_1
+    \text{ und }
+    \tilde{\delta}_2(q_2,aw)\in F_2.
+\end{eqnarray*}
+Damit ist \texttt{Intersection.left-right} bewiesen.
+
+Für \texttt{Intersection.correct} wird diese Aussage nur noch auf die
+Startzustände angewendet.
+Für ein beliebiges Wort $w\in\Sigma^*$ erhalten wir:
+\begin{eqnarray*}
+  w\in L(A_\cap)
+  &\stackrel{\text{Def.\ Sprache}}{\mathsf{gdw}}&
+    \tilde{\delta}_\cap((\qinit_1,\qinit_2),w)\in F_\cap\\
+  &\stackrel{\text{\texttt{left-right}}}{\mathsf{gdw}}&
+    \tilde{\delta}_1(\qinit_1,w)\in F_1
+    \text{ und }
+    \tilde{\delta}_2(\qinit_2,w)\in F_2\\
+  &\stackrel{\text{Def.\ Sprache}}{\mathsf{gdw}}&
+    w\in L(A_1) \text{ und } w\in L(A_2)\\
+  &\stackrel{\text{Def.\ }\cap}{\mathsf{gdw}}&
+    w\in L(A_1)\cap L(A_2).
+\end{eqnarray*}
+Also gilt $L(A_\cap)=L(A_1)\cap L(A_2)$.
+In Agda wird die punktweise Äquivalenz durch
+die Hilfsfunktion für die Verteilung von $\forall$ über $\times$ in die
+beiden Inklusionen der Sprachgleichheit umgepackt.
+\end{proof}
