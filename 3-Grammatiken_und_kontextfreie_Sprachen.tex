@@ -1169,7 +1169,7 @@ return $S\in M_{1n}$
 	Jeder Knoten ist mit einer Regel beschriftet deren linke Seite ein Nichtterminalsymbol ist.
 	Es muss also mindestens ein Nichtterminalsymbol $A$ mehrmals als linke Seite einer Regel vorkommen.
 	
-  Folge $\zeta$ Rückwärts vom Blatt in Richtung Wurzel, bis sich eine linke Regelseite $A$ das erste Mal wiederholt. 
+  Folge $\zeta$ rückwärts vom Blatt in Richtung Wurzel, bis sich eine linke Regelseite $A$ das erste Mal wiederholt. 
   Das geschieht nach $\le |N|$ Schritten.
 %   Wir nennen den Knoten 
   Teile $z = uvwxy$ wie in \autoref{zerlegung} skizziert. Es gilt:
@@ -1178,7 +1178,7 @@ return $S\in M_{1n}$
         Angenommen, $\zeta$ verläuft durch den $B$-Nachfolger.
         Somit muss $C \stackrel{*}{\vdash} x$ gelten. In \ac{CNF} ist $C \stackrel{*}{\vdash} \Eps$ nicht möglich und somit ist $|x| \ge 1$.
         Der Fall, dass $\zeta$ durch den $C$-Nachfolger verläuft, ist analog.
-      \item $|vwx| \le 2^{|N|} = n$, da der obere Knoten dessen linke Regelseite mit $A$ beschrftet ist höchstens $|N|$ Schritte von der Blattebene entfernt und $\mathcal{T}$ ein Binärbaum ist.
+      \item $|vwx| \le 2^{|N|} = n$, da der obere Knoten dessen linke Regelseite mit $A$ beschriftet ist, höchstens $|N|$ Schritte von der Blattebene entfernt und $\mathcal{T}$ ein Binärbaum ist.
       \item Für die Aussage $\forall i\in\N: uv^iwx^iy\in L$ unterscheiden wir drei Fälle:
       \begin{itemize}
 				\item $i=0$: Aus dem "`unteren"' $A$ haben wir $w$ abgeleitet,
@@ -1355,7 +1355,7 @@ Die Sprache $L=\{a^nb^nc^n \mid n\geq 1\}$ ist nicht kontextfrei.
 \end{lemma}
 \begin{proof}
 	Wir nehmen an, $L$ wäre kontextfrei.
-	Sei $n\in\N$ mit $n>0$ \expl{(die Zahl aus dem \ac{PL})}.
+	Sei $n\in\N$ mit $n>0$ die Konstante aus dem \ac{PL}.
 	Wir betrachten $z=a^nb^nc^n$. \expl{Es gilt also $|z| = 3n \ge n$.}
 	Sei $z = uvwxy$ eine Zerlegung mit $|vx| \ge 1$ und $|vwx| \le n$.
 	\expl{Wir zeigen nun, dass $\forall i\in\N: uv^iwx^iy\in L$ nicht gilt (und folgern, dass unsere Annahme falsch war).}
@@ -1454,10 +1454,40 @@ Mit Hilfe von \autoref{bsp:5.planbncn} folgern wir $\cht \subsetneq \cho$.
  	Die \ac{CFL} sind \emph{nicht} unter Komplement ($\overline{\!\phantom{i}\cdot\!\phantom{i}}$) abgeschlossen.
 \end{Satz}
 \begin{proof}
-Angenommen, CFL wäre abgeschlossen unter $\overline{\!\phantom{i}\cdot\!\phantom{i}}$.\\
-		Falls $L_1,L_2\in \acs*{CFL}$, dann ist $\overline{L}_1,\overline{L}_2\in\acs*{CFL}$ nach Annahme.\\
-		$\Rightarrow \overline{L}_1\cup \overline{L}_2\in\acs*{CFL}$ wegen Abschluss unter "`$\cup$"'.\\
-		$\Rightarrow \overline{\overline{L}_1\cup \overline{L}_2} = L_1\cap L_2\in\acs*{CFL}$ -- Widerspruch zu Nicht-Abschluss unter "`$\cap$"'. \qedhere
+  Angenommen, CFL wäre abgeschlossen unter $\overline{\!\phantom{i}\cdot\!\phantom{i}}$.\\
+  Falls $L_1,L_2\in \acs*{CFL}$, dann ist $\overline{L}_1,\overline{L}_2\in\acs*{CFL}$ nach Annahme.\\
+  $\Rightarrow \overline{L}_1\cup \overline{L}_2\in\acs*{CFL}$ wegen Abschluss unter "`$\cup$"'.\\
+  $\Rightarrow \overline{\overline{L}_1\cup \overline{L}_2} = L_1\cap L_2\in\acs*{CFL}$ -- Widerspruch zu Nicht-Abschluss unter "`$\cap$"'. \qedhere 
+\end{proof}
+
+\begin{Satz}
+  Die \ac{CFL} sind abgeschlossen unter Schnitt mit der \ac{REG}.
+\end{Satz}
+\begin{proof}
+  Sei $L$ eine CFL, $R$ eine reguläre Sprache, $\G = (\Sigma, N, P, S)$ eine CFG in CNF mit $L(\G) = L$
+  und $\A =(\Sigma, Q,\delta,\qinit,F)$ ein \ac{NEA} mit $L(\A) = R$.
+
+  Konstruiere $\G' = (\Sigma, N', P', S')$ wie folgt:
+  \begin{itemize}
+  \item $N' = Q\times N \times Q \dotcup \{ S' \}$,
+  \item $P'$ enthält folgende Regeln
+    \begin{itemize}
+    \item $S' \to (\qinit, S, q_f)$, für jedes $q_f \in F$;
+    \item $(q_0, A, q_2) \to (q_0, B, q_1) (q_1, C, q_2)$, für alle $q_0, q_1, q_2 \in Q$, $A \to BC \in P$;
+    \item $(q , A, q') \to a$, für alle $q\in Q$, $q' \in\delta (q, a)$, $A \to a \in P$.
+    \end{itemize}
+  \end{itemize}
+  Jede Ableitung $S' \vdash^*_{\G'} w$ kann durch Löschen der $Q$-Komponenten und
+  Überspringen des ersten Ableitungsschritts in eine $\G$-Ableitung
+  transformiert werden.
+  Ebenso können wir aus der Ableitung einen akzeptierenden Lauf von
+  $\A$ auf $w$ extrahieren.
+  Also ist $w \in L \cap R$.
+
+  Umgekehrt: Gegeben einen $\G$-Ableitungsbaum $\T$ für $w$ und einen akzeptierenden
+  Lauf von $\A$ auf $w$, konstruiere einen $\G'$-Ableitungsbaum
+  für $w$ durch eine in-order Traversierung von $\T$. Der Lauf gibt an
+  den Produktionen an den Blättern eindeutig den jeweiligen Folgezustand vor.
 \end{proof}
 
 \subsection{Einschub: Typ-3-Sprachen}

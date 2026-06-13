@@ -92,7 +92,7 @@ In diesem Kapitel befassen wir uns zunächst nur mit nichtdeterministischen Kell
 
 \begin{Bsp}
 \label{bsp:pda-wwr}
-Wir beschreiben den in \autoref{pdaEvenPalindrome} abgebildeten Kellerautomaten formal wie folgt.
+Formale Beschreibung des in \autoref{pdaEvenPalindrome} abgebildeten Kellerautomaten.
         \begin{align}
                 \Sigma &= \{0,1\} &\qquad&\text{Eingabealphabet} \notag\\
                 \Gamma &= \{0,1,\#\} &&\text{Kelleralphabet} \notag\\
@@ -102,7 +102,7 @@ Wir beschreiben den in \autoref{pdaEvenPalindrome} abgebildeten Kellerautomaten 
                 \delta(q_1,a,a) &= \{(q_1,\Eps)\}\\
                 \delta(q_1,\Eps,\#) &= \{(q_1,\Eps)\}
         \end{align}
-Hat die graphische Darstellung eines Kellerautomaten sehr viele Transitionen müssen wir diese nicht alle explizit Zeichnen.
+Hat die graphische Darstellung eines Kellerautomaten sehr viele Transitionen müssen wir diese nicht alle explizit zeichnen.
 Statt dessen können wir auch wie in \autoref{pdaEvenPalindromeNotEplicit}
 Variablen verwenden um mehrere Transitionen zusammenzufassen.
         
@@ -143,13 +143,7 @@ Im Weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
 \datenote{12.12.2018}
   Wir schreiben $(q,w,\gamma) \ConfRel^n (q',w',\gamma')$, wenn $\K$ in $n \in \mathbb{N}$ Schritten von Konfiguration $(q,w,\gamma)$ in Konfiguration $(q',w',\gamma')$ gelangt.
 
-  Wir schreiben ${\ConfRel^*}$ für die reflexive, transitive Hülle\footnote{
-  Zur Erinnerung: Die reflexive, transitive Hülle einer binrären Relation $R$ 
-  ist die kleinste Obermenge von $R$ die reflexiv und transitiv ist.
-  Bsp.  Die reflexive, transitive Hülle der direkter-Nachfolger-Relation 
-  $\{(a,b)\in\mathbb{Z}\times\mathbb{Z}\mid b = a + 1\}$
-  ist die kleinergleich Relation ``$\leq$''.
-  }
+  Wir schreiben ${\ConfRel^*}$ für die reflexive, transitive Hülle
   von ${\ConfRel}$.
   Falls $(q,w,\gamma) \ConfRel^* (q',w',\gamma')$, so existiert also $n \in \mathbb{N}$, sodass $(q,w,\gamma) \ConfRel^n (q',w',\gamma')$.
   
@@ -157,7 +151,7 @@ Im Weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
   \begin{displaymath}
                 L(\K) = \{ w\in\Sigma^* \mid \exists q\in Q: (\qinit,w,\Zinit) \ConfRel^{\!\!*} (q,\Eps,\Eps) \}
   \end{displaymath}
-  Wir nennen eine Konfiguration der Form $(q,\Eps,\Eps)$ mit $q\in Q$ eine \emph{akzeptierende Konfiguration}.
+  Eine  \emph{akzeptierende Konfiguration} hat die Form $(q,\Eps,\Eps)$ mit $q\in Q$.
 \end{Def}
 
 \begin{Bsp*}
@@ -181,7 +175,7 @@ Im Weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
 
   Zum Führen des Beweises benötigen wir das folgende Lemma.
 
-\begin{lemma}[Mehr Keller -- mehr Möglichkeiten.]\label{lem:4.mehrKeller}
+\begin{lemma}\label{lem:4.mehrKeller}
 Für alle $q,q' \in Q,\enspace w \in \Sigma^*,\enspace Z \in \Gamma$ und $n \in \N$ gilt:
   \begin{displaymath}
     \text{Wenn } (q,w,Z) \ConfRel^n (q', \Eps, \Eps), \text{dann } \forall v \in \Sigma^*, \gamma \in \Gamma^*: (q, wv, Z\gamma) \ConfRel^n (q', v, \gamma).
@@ -915,5 +909,5 @@ in Vorlesung Compilerbau.
 }
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "Info_3_Skript_WS2016-17"
+%%% TeX-master: "Info_3_Skript_SS2026"
 %%% End:(\dots)
