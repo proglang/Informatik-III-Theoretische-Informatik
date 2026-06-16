@@ -1439,32 +1439,33 @@ Mit Hilfe von \autoref{bsp:5.planbncn} folgern wir $\cht \subsetneq \cho$.
 	\end{align*}
 \end{proof}
 
-\begin{Satz}
- 	Die \ac{CFL} sind \emph{nicht} unter Schnitt ($\cap$) abgeschlossen.
+\begin{Satz}\label{thm:cfl-not-closed-intersection}
+  \ac{CFL} ist \emph{nicht} abgeschlossen unter Durchschnitt ($\cap$).
 \end{Satz}
 \begin{proof}
  für $n\geq 1$
 		\[ \underbrace{\{a^nb^nc^m \mid n,m\geq 1 \}}_{\in \acs{CFL}} \cap \underbrace{\{a^mb^nc^n \mid m,n\geq 1 \}}_{\in \acs{CFL}} = \underbrace{\{a^nb^nc^n\}}_{\notin \acs{CFL}} \]
-		Also \ac{CFL} nicht abgeschlossen unter $\cap$.
-		(siehe \autoref{bsp:5.planbncn})
+		Also \ac{CFL} ist nicht abgeschlossen unter Durchschnitt
+		(siehe \autoref{bsp:5.planbncn}).
 \end{proof}
 
 
 \begin{Satz}
- 	Die \ac{CFL} sind \emph{nicht} unter Komplement ($\overline{\!\phantom{i}\cdot\!\phantom{i}}$) abgeschlossen.
+ 	\ac{CFL} ist \emph{nicht} unter Komplement
+        ($\overline{\!\phantom{i}\cdot\!\phantom{i}}$) abgeschlossen.
 \end{Satz}
 \begin{proof}
-  Angenommen, CFL wäre abgeschlossen unter $\overline{\!\phantom{i}\cdot\!\phantom{i}}$.\\
+  Angenommen, CFL wäre abgeschlossen unter Komplement.\\
   Falls $L_1,L_2\in \acs*{CFL}$, dann ist $\overline{L}_1,\overline{L}_2\in\acs*{CFL}$ nach Annahme.\\
   $\Rightarrow \overline{L}_1\cup \overline{L}_2\in\acs*{CFL}$ wegen Abschluss unter "`$\cup$"'.\\
-  $\Rightarrow \overline{\overline{L}_1\cup \overline{L}_2} = L_1\cap L_2\in\acs*{CFL}$ -- Widerspruch zu Nicht-Abschluss unter "`$\cap$"'. \qedhere 
+  $\Rightarrow \overline{\overline{L}_1\cup \overline{L}_2} = L_1\cap L_2\in\acs*{CFL}$ -- Widerspruch zu \autoref{thm:cfl-not-closed-intersection}. \qedhere 
 \end{proof}
 
 \begin{Satz}
-  Die \ac{CFL} sind abgeschlossen unter Schnitt mit der \ac{REG}.
+  \ac{CFL} ist abgeschlossen unter Schnitt mit der \ac{REG}.
 \end{Satz}
 \begin{proof}
-  Sei $L$ eine CFL, $R$ eine reguläre Sprache, $\G = (\Sigma, N, P, S)$ eine CFG in CNF mit $L(\G) = L$
+  Sei $L\in$ CFL, $R$ eine reguläre Sprache, $\G = (\Sigma, N, P, S)$ eine CFG in CNF mit $L(\G) = L$
   und $\A =(\Sigma, Q,\delta,\qinit,F)$ ein \ac{NEA} mit $L(\A) = R$.
 
   Konstruiere $\G' = (\Sigma, N', P', S')$ wie folgt:

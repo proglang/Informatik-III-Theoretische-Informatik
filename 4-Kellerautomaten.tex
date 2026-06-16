@@ -81,12 +81,12 @@ In diesem Kapitel befassen wir uns zunächst nur mit nichtdeterministischen Kell
         $$(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta).$$
         Dabei ist
         \begin{itemize}
-		\item $\Sigma$ ein Alphabet, das wir auch \emph{Eingabealphabet} nennen,
-                \item $Q$ eine endliche Menge, deren Elemente wir \emph{Zustände} nennen,
-                \item $\Gamma$ ein Alphabet, das wir auch \emph{Kelleralphabet} nennen,
-                \item $\qinit\in Q$ ein Zustand, den wir Startzustand nennen,
-                \item $\Zinit\in\Gamma$ ein Zeichen, das wir \emph{Kellerbodensymbol} nennen,
-                \item $\delta: Q\x(\Sigma\cup\{\Eps\})\x\Gamma \-> \mathcal{P}(Q\x\Gamma^*)$ eine Funktion, die wir \emph{Transitionsfunktion} nennen. \qedhere
+		\item $\Sigma$, das \emph{Eingabealphabet},
+                \item $Q$ eine endliche Menge von \emph{Zuständen},
+                \item $\Gamma$, das \emph{Kelleralphabet},
+                \item $\qinit\in Q$, der Startzustand,
+                \item $\Zinit\in\Gamma$, das \emph{Kellerbodensymbol},
+                \item $\delta: Q\x(\Sigma\cup\{\Eps\})\x\Gamma \-> \mathcal{P}(Q\x\Gamma^*)$ die \emph{Transitionsfunktion}. \qedhere
         \end{itemize}
 \end{Def}
 
@@ -145,13 +145,16 @@ Im Weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
 
   Wir schreiben ${\ConfRel^*}$ für die reflexive, transitive Hülle
   von ${\ConfRel}$.
-  Falls $(q,w,\gamma) \ConfRel^* (q',w',\gamma')$, so existiert also $n \in \mathbb{N}$, sodass $(q,w,\gamma) \ConfRel^n (q',w',\gamma')$.
+  % Falls $(q,w,\gamma) \ConfRel^* (q',w',\gamma')$, so existiert also
+  % $n \in \mathbb{N}$, sodass $(q,w,\gamma) \ConfRel^n
+  % (q',w',\gamma')$. 
+
+  Eine  \emph{akzeptierende Konfiguration} hat die Form $(q,\Eps,\Eps)$ mit $q\in Q$.
   
-        Die von $\K$ \emph{akzeptierte Sprache} ist
+  Die von $\K$ \emph{akzeptierte Sprache} ist
   \begin{displaymath}
                 L(\K) = \{ w\in\Sigma^* \mid \exists q\in Q: (\qinit,w,\Zinit) \ConfRel^{\!\!*} (q,\Eps,\Eps) \}
   \end{displaymath}
-  Eine  \emph{akzeptierende Konfiguration} hat die Form $(q,\Eps,\Eps)$ mit $q\in Q$.
 \end{Def}
 
 \begin{Bsp*}
@@ -200,50 +203,66 @@ Sei $\mathcal{G} = (\Sigma,N,P,S)$ eine kontextfreie Grammatik für $L$ in \ac{C
                 \end{itemize}
 Wir zeigen nun, dass $L(\K) = L(\mathcal{G})$.
 \begin{itemize}
- \item Beweisrichtung "`$\supseteq$"'
- 
- Sei $w\in L(\mathcal{G})$, dann gilt $S\stackrel{*}{\vdash} w$.
- Wir wollen zeigen dass $(\qinit, w, S) \ConfRel^* (\qinit, \Eps, \Eps)$ folgt und beweisen dafür via vollständige Induktion über die Länge der Ableitung die folgende stärkere Eigenschaft.
-     \begin{displaymath}
-      \forall A \in N: \text{ wenn } A \stackrel{*}{\vdash} w, \text{dann } (\qinit, w, A) \ConfRel^* (\qinit, \Eps, \Eps)
-    \end{displaymath}
-  I.A.: $n=1$: Es gibt nur zwei Arten von Regeln, die für Ableitungen der Länge 1 in Frage kommen:
+\item Beweisrichtung "`$\supseteq$"'
+  
+  Sei $w\in L(\mathcal{G})$, dann gilt $S\vdash^* w$.
+  Wir wollen zeigen, dass $(\qinit, w, S) \ConfRel^* (\qinit, \Eps,
+  \Eps)$ folgt und beweisen dafür mittels Induktion über den
+  zugehörigen Ableitungsbaum $\T$ mit $w= Y (\T)$ die folgende
+  stärkere Eigenschaft. 
+  \begin{displaymath}
+    \forall A \in N: \text{ wenn } \T \in \operatorname{Abl}(A)
+    \text{ mit } w = Y (\T), \text{dann }
+    (\qinit, w, A) \ConfRel^* (\qinit, \Eps, \Eps) 
+  \end{displaymath}
+  Der Ableitungsbaum für $w$ hat die Form $\T = \pi (\T_1\dots\T_n)$ und wir
+  führen eine Fallunterscheidung nach der Form der Produktionen $\pi$
+  durch.
   \begin{itemize}
-        \item $S \to \Eps$.
-        Per Konstruktion gilt $(\qinit, \Eps) \in \delta(\qinit, \Eps, S)$ und somit $(\qinit, \Eps, S) \ConfRel (\qinit, \Eps, \Eps)$.
-      \item $A \to a$, $a \in \Sigma$.
-        Per Konstruktion gilt $(\qinit, a) \in \delta(\qinit, \Eps, A)$ und $(\qinit, \Eps) \in \delta(\qinit, a, a)$.
+  \item $\pi = S \to \Eps$ mit $n=0$. 
+    Nach Konstruktion gilt $(\qinit, \Eps) \in \delta(\qinit, \Eps,
+    S)$ und somit $(\qinit, \Eps, S) \ConfRel (\qinit, \Eps, \Eps)$. 
+  \item $\pi = A \to a$, $a \in \Sigma$ mit $n=0$.
+    Nach Konstruktion gilt $(\qinit, a) \in \delta(\qinit, \Eps, A)$
+    und $(\qinit, \Eps) \in \delta(\qinit, a, a)$. 
 
-        Somit gilt $(\qinit, a, A) \ConfRel (\qinit, a, a) \ConfRel (\qinit, \Eps, \Eps)$.
-   \end{itemize}
-   
-   I.S.: $n\rightsquigarrow n+1$: In diesem Fall verwendet der erste Ableitungsschritt eine Regel der Form $\pi = A \to BC$ mit $B,C \in N$.
-   Wir betrachten den zugehörigen Ableitungsbaum $\mathcal{T} = \pi(\mathcal{T}_1, \mathcal{T}_2)$, $\mathcal{T}_1 \in \operatorname{Abl}(B)$, $\mathcal{T}_2 \in \operatorname{Abl}(C)$, $w = Y(\mathcal{T}_1)Y(\mathcal{T}_2)$.
+    Somit gilt $(\qinit, a, A) \ConfRel (\qinit, a, a) \ConfRel
+    (\qinit, \Eps, \Eps)$.
+  \item $\pi = A \to BC$ mit $B,C \in N$ und $n=2$.
+   Also ist $\mathcal{T} = \pi(\mathcal{T}_1, \mathcal{T}_2)$,
+   $\mathcal{T}_1 \in \operatorname{Abl}(B)$, $\mathcal{T}_2 \in
+   \operatorname{Abl}(C)$, $w = u_1u_2$ mit $u_1 = Y(\mathcal{T}_1)$,
+   $u_2 = Y(\mathcal{T}_2)$. 
 
-        Per Konstruktion gilt $(\qinit, BC) \in \delta(\qinit, \Eps, A)$. 
+   Nach Konstruktion gilt $(\qinit, BC) \in \delta(\qinit, \Eps, A)$. 
 
-        Ferner gilt per I.V., dass $(\qinit, Y(\mathcal{T}_1), B) \ConfRel^* (\qinit, \Eps, \Eps)$ und $(\qinit, Y(\mathcal{T}_2), C) \ConfRel^* (\qinit, \Eps, \Eps)$.
+   Nach I.V. gilt $(\qinit, u_1, B) \ConfRel^* (\qinit, \Eps, \Eps)$
+   und $(\qinit, u_2, C) \ConfRel^* (\qinit, \Eps, \Eps)$. 
 
         Mit \autoref{lem:4.mehrKeller} folgt schließlich:
         \begin{align*}
-          (\qinit, w, A) = (\qinit, Y(\mathcal{T}_1)Y(\mathcal{T}_2), A) &\ConfRel (\qinit, Y(\mathcal{T}_1)Y(\mathcal{T}_2), BC) \\
-          &\ConfRel^* (\qinit, Y(\mathcal{T}_2), C) \\
+          (\qinit, w, A) = (\qinit, u_1u_2, A)
+          &\ConfRel (\qinit, u_1u_2, BC) \\
+          &\ConfRel^* (\qinit, u_2, C) \\
           &\ConfRel^* (\qinit, \Eps, \Eps).
         \end{align*}
+  \end{itemize}
  \item Beweisrichtung  "`$\subseteq$"'
  
  Sei $w\in L(\K)$, dann gilt $(\qinit, w, S) \ConfRel^* (\qinit, \Eps, \Eps)$.
- Wir wollen $S \stackrel{*}{\vdash} w$ folgern und beweisen dafür via vollständige Induktion über die Anzahl der Berechnungsschritte $n$ die folgende Aussage:
+ Wir wollen $S \vdash^* w$ folgern und beweisen dafür mittels
+ vollständiger Induktion über die Anzahl der Berechnungsschritte $n$
+ die folgende Aussage: 
      \begin{displaymath}
-      \forall n \in \mathbb{N}: \forall w \in \Sigma^*, \alpha \in \Gamma^*: \text{ wenn } (\qinit, w, \alpha) \ConfRel^n (\qinit, \Eps, \Eps), \text{dann } \alpha \stackrel{*}{\vdash} w
+      \forall n \in \mathbb{N}: \forall w \in \Sigma^*, \alpha \in \Gamma^*: \text{ wenn } (\qinit, w, \alpha) \ConfRel^n (\qinit, \Eps, \Eps), \text{dann } \alpha \vdash^* w
     \end{displaymath}
     
     \begin{description}
     \item[I.A.] $n = 0$.
       $w = \Eps$, $\alpha = \Eps$: Es gilt $\Eps \stackrel{*}{\vdash} \Eps$.
 
-  \item[I.S.] $n > 0$, $\alpha = Z\alpha'$: Es gilt
-    $(\qinit,w,Z\alpha') \ConfRel (\qinit, w', \beta\alpha') \ConfRel^{n-1} (\qinit, \Eps, \Eps)$, \linebreak
+  \item[I.S.] $n\rightsquigarrow n+1$, $\alpha = Z\alpha'$: Es gilt
+    $(\qinit,w,Z\alpha') \ConfRel (\qinit, w', \beta\alpha') \ConfRel^n (\qinit, \Eps, \Eps)$, \linebreak
     $\delta(\qinit, x, Z) \ni (\qinit, \beta)$, $x \in \Sigma \cup \{\varepsilon\}$.
 
     Es gibt zwei Fälle für $Z$:
@@ -252,12 +271,14 @@ Wir zeigen nun, dass $L(\K) = L(\mathcal{G})$.
 %
       Es folgt $\beta = \Eps$, $w = aw'$ und $x = a$.
 
-      Per I.V.\ gilt $\alpha' \stackrel{*}{\vdash} w'$ und somit auch $\alpha = a\alpha' \stackrel{*}{\vdash}aw' = w$.
+      Nach I.V.\ gilt $\alpha' \vdash^* w'$ und somit auch $\alpha =
+      a\alpha' \vdash^* aw' = w$. 
     \item $Z = A$ mit $A \to \beta \in P$.
 %
       Es folgt $w = w'$ und $x = \varepsilon$.
 
-      Per I.V.\ gilt $\beta\alpha' \stackrel{*}{\vdash} w'$ und somit auch $A\alpha \vdash \beta\alpha' \stackrel{*}{\vdash} w' = w$.
+      Nach I.V.\ gilt $\beta\alpha' \vdash^* w'$ und somit auch
+      $A\alpha \vdash \beta\alpha' \vdash^* w' = w$. 
       \qedhere
     \end{itemize}
     \end{description}
@@ -276,14 +297,31 @@ Das folgende Lemma beantwortet diese Frage.
         gilt: Falls $(q',\gamma)\in\delta(q,x,Z)$, dann $|\gamma| \le 2$.
 \end{lemma}
 \begin{proof}
-        Sei $(q',\gamma)\in\delta(q,x,Z)$ mit $\gamma = Z_n\dots Z_1$ für $n>2$:
+        Für jede Transition der Form $(q',\gamma)\in\delta(q,x,Z)$ mit
+        $\gamma = Z_n\dots Z_1$ und $n>2$:
         \begin{itemize}
-        \item   neue Zustände $q_2\dots q_{n-1}$
-        \item Ersetze $(q',\gamma)$ durch $(q_2, Z_2Z_1)$
-        \item Definiere $\delta(q_i, \Eps, Z_i) = \{ (q_{i+1}, Z_{i+1}Z_i) \}$, für $2\le i < n-1$
-        \item Definiere $\delta(q_{n-1}, \Eps, Z_{n-1}) = \{ (q', Z_nZ_{n-1}) \}$
+        \item Erzeuge neue Zustände $q_2\dots q_{n-1}$;
+        \item Ersetze $(q',\gamma)$ durch $(q_2, Z_2Z_1)$;
+        \item Definiere
+          $\delta(q_i, \Eps, Z) =
+          \begin{cases}
+           \{ (q_{i+1}, Z_{i+1}Z_i) \} & \text{falls }x = \Eps\text{
+             und }Z = Z_i \\
+           \emptyset & \text{sonst;}
+         \end{cases}
+         $
+        \item Setze $\delta(q_{n-1}, x, Z) =
+          \begin{cases}
+            \{ (q', Z_nZ_{n-1}) \} & \text{falls }x = \Eps\text{ und
+            }Z = Z_{n-1}
+            \\
+            \emptyset & \text{falls }x\in\Sigma\text{ oder }Z\ne
+            Z_{n-1}
+            \text.
+          \end{cases}
+          $
         \end{itemize}
-        Wiederhole bis alle Transitionen die gewünschte Form haben.
+        Wiederhole, bis alle Transitionen die gewünschte Form haben.
         Die Sprache des \ac{NPDA} ändert sich durch diese Transformation nicht (ohne Beweis).\qedhere
 \end{proof}
 
@@ -411,7 +449,7 @@ Das folgende Lemma beantwortet diese Frage.
     $[\qinit, \Zinit, q']$ ableiten können und der \ac{NPDA} genau die Wörter $w$ akzeptiert, für die  $(\qinit, w, \Zinit)$ in eine akzeptierende Konfiguration überführt werden kann.
     
     Es bleibt zu zeigen, dass die Eigenschaft \eqref{eq:npdaToCfgProp} gilt.
-    Wir zeigen dafür via Induktion über $n$ dass für alle $n\in\N$ die folgende Eigenschaft gilt:
+    Wir zeigen dafür mittels Induktion über $n$ dass für alle $n\in\N$ die folgende Eigenschaft gilt:
 	\begin{equation}
         \forall n'< n:\quad [q,Z,q']\stackrel{n'}{\vdash} w \text{ gdw } (q,w,Z) \ConfRel^{n'} (q',\Eps,\Eps) \tag{$*$}
     \end{equation}
