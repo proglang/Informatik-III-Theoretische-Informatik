@@ -90,9 +90,9 @@ In diesem Kapitel befassen wir uns zunächst nur mit nichtdeterministischen Kell
         \end{itemize}
 \end{Def}
 
-\begin{Bsp}
-\label{bsp:pda-wwr}
-Formale Beschreibung des in \autoref{pdaEvenPalindrome} abgebildeten Kellerautomaten.
+\begin{Bsp}\label{bsp:pda-wwr}
+  Formale Beschreibung des in \autoref{pdaEvenPalindrome} abgebildeten
+  Kellerautomaten. 
         \begin{align}
                 \Sigma &= \{0,1\} &\qquad&\text{Eingabealphabet} \notag\\
                 \Gamma &= \{0,1,\#\} &&\text{Kelleralphabet} \notag\\
@@ -103,10 +103,10 @@ Formale Beschreibung des in \autoref{pdaEvenPalindrome} abgebildeten Kellerautom
                 \delta(q_1,\Eps,\#) &= \{(q_1,\Eps)\}
         \end{align}
 Hat die graphische Darstellung eines Kellerautomaten sehr viele Transitionen müssen wir diese nicht alle explizit zeichnen.
-Statt dessen können wir auch wie in \autoref{pdaEvenPalindromeNotEplicit}
+Statt dessen können wir auch wie in \autoref{fig:pdaEvenPalindromeNotEplicit}
 Variablen verwenden um mehrere Transitionen zusammenzufassen.
         
-\begin{figure}[H]\centering
+\begin{figure}[tp]\centering
    \begin{center}
   \begin{tikzpicture}[node distance = 3cm]
     \node[state] (0) at (0,0) {$q_0$};
@@ -123,9 +123,10 @@ Variablen verwenden um mehrere Transitionen zusammenzufassen.
 \end{center}
 	\caption{Zustandsdiagramm der Kellerautomaten aus \autoref{pdaEvenPalindrome}. 
 	Statt alle Transitionen explizit zu zeichnen verwenden wir die Variablen $a$ und $Z$ um eine Menge von Transitionen durch eine einzige Kante zu repräsentieren. }
-	\label{pdaEvenPalindromeNotEplicit}
+	\label{fig:pdaEvenPalindromeNotEplicit}
 \end{figure}
 \end{Bsp}
+\datenote{17.06.2026}
 
 
 Im Weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
@@ -136,12 +137,13 @@ Im Weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
     \mathop{\ConfRel} \subseteq \Konf(\K) \times \Konf(\K) 
   \end{displaymath}
   ist definiert durch
-        \begin{align*}
-                (q,aw,Z\gamma) &\ConfRel (q',w,\beta\gamma) &&\text{falls }\delta(q,a,Z)\ni(q',\beta)\\
-                (q,w,Z\gamma) &\ConfRel (q',w,\beta\gamma) &&\text{falls }\delta(q,\Eps,Z)\ni(q',\beta).
-        \end{align*}
-\datenote{12.12.2018}
-  Wir schreiben $(q,w,\gamma) \ConfRel^n (q',w',\gamma')$, wenn $\K$ in $n \in \mathbb{N}$ Schritten von Konfiguration $(q,w,\gamma)$ in Konfiguration $(q',w',\gamma')$ gelangt.
+  \begin{align*}
+    (q,aw,Z\gamma) &\ConfRel (q',w,\beta\gamma) &&\text{falls }\delta(q,a,Z)\ni(q',\beta)\\
+    (q,w,Z\gamma) &\ConfRel (q',w,\beta\gamma) &&\text{falls }\delta(q,\Eps,Z)\ni(q',\beta).
+  \end{align*}
+  Wir schreiben $(q,w,\gamma) \ConfRel^n (q',w',\gamma')$, wenn $\K$
+  in $n \in \mathbb{N}$ Schritten von Konfiguration $(q,w,\gamma)$ zur
+  Konfiguration $(q',w',\gamma')$ gelangt. 
 
   Wir schreiben ${\ConfRel^*}$ für die reflexive, transitive Hülle
   von ${\ConfRel}$.
@@ -173,13 +175,13 @@ Im Weiteren sei $\K=(\Sigma,Q,\Gamma,\qinit,\Zinit,\delta)$ ein \ac{NPDA}.
 \end{Bsp*}
 
 \begin{lemma}\label{lem:4.cfgToNpda}
- Zu jeder \ac{CFG} $\mathcal{G}$ gibt es einen \ac{NPDA} $\mathcal{K}$, sodass $L(\mathcal{K})=L(\mathcal{G})$.
+ Zu jeder kontextfreien Sprache $L$ gibt es einen \ac{NPDA} $\mathcal{K}$, sodass $L(\mathcal{K})=L$.
 \end{lemma}
 
-  Zum Führen des Beweises benötigen wir das folgende Lemma.
+Zum Führen des Beweises benötigen wir folgende Lemmas.
 
 \begin{lemma}\label{lem:4.mehrKeller}
-Für alle $q,q' \in Q,\enspace w \in \Sigma^*,\enspace Z \in \Gamma$ und $n \in \N$ gilt:
+  Für alle $q,q' \in Q,\enspace w \in \Sigma^*,\enspace Z \in \Gamma$ und $n \in \N$ gilt:
   \begin{displaymath}
     \text{Wenn } (q,w,Z) \ConfRel^n (q', \Eps, \Eps), \text{dann } \forall v \in \Sigma^*, \gamma \in \Gamma^*: (q, wv, Z\gamma) \ConfRel^n (q', v, \gamma).
     \qedhere
@@ -189,6 +191,16 @@ Für alle $q,q' \in Q,\enspace w \in \Sigma^*,\enspace Z \in \Gamma$ und $n \in 
 Übungsaufgabe.
 \end{proof}
 
+\begin{lemma}\label{lem:einbettung-ableitung}
+  Sei $\G= (\Sigma, N, P, S)$ eine \ac{CFG} und $\beta \vdash^*_\G
+  \gamma$ eine Ableitung.
+
+  Dann ist auch  $\alpha\beta\delta \vdash^* \alpha\gamma\delta$ eine
+  Ableitung, für alle $\alpha, \delta \in (N \cup \Sigma)^*$.
+\end{lemma}
+\begin{proof}
+  Übung oder selbst.
+\end{proof}
 
   
 \begin{proof}[von \autoref{lem:4.cfgToNpda}]
@@ -205,18 +217,20 @@ Wir zeigen nun, dass $L(\K) = L(\mathcal{G})$.
 \begin{itemize}
 \item Beweisrichtung "`$\supseteq$"'
   
-  Sei $w\in L(\mathcal{G})$, dann gilt $S\vdash^* w$.
+  Sei $w\in L(\mathcal{G})$, dann gilt $S\vdash^* w$ bzw.\ $w=Y(\T)$
+  für ein $\T \in \operatorname{Abl}(S)$. Hierfür schreiben wir
+  abkürzend $\T \in \operatorname{Abl}(S, w)$.
   Wir wollen zeigen, dass $(\qinit, w, S) \ConfRel^* (\qinit, \Eps,
   \Eps)$ folgt und beweisen dafür mittels Induktion über den
-  zugehörigen Ableitungsbaum $\T$ mit $w= Y (\T)$ die folgende
+  zugehörigen Ableitungsbaum $\T$ die folgende
   stärkere Eigenschaft. 
   \begin{displaymath}
-    \forall A \in N: \text{ wenn } \T \in \operatorname{Abl}(A)
-    \text{ mit } w = Y (\T), \text{dann }
+    \forall A \in N: \text{ wenn } \T \in \operatorname{Abl}(A, w),
+    \text{dann }
     (\qinit, w, A) \ConfRel^* (\qinit, \Eps, \Eps) 
   \end{displaymath}
   Der Ableitungsbaum für $w$ hat die Form $\T = \pi (\T_1\dots\T_n)$ und wir
-  führen eine Fallunterscheidung nach der Form der Produktionen $\pi$
+  führen eine Fallunterscheidung nach der Produktion $\pi$
   durch.
   \begin{itemize}
   \item $\pi = S \to \Eps$ mit $n=0$. 
@@ -228,11 +242,10 @@ Wir zeigen nun, dass $L(\K) = L(\mathcal{G})$.
 
     Somit gilt $(\qinit, a, A) \ConfRel (\qinit, a, a) \ConfRel
     (\qinit, \Eps, \Eps)$.
-  \item $\pi = A \to BC$ mit $B,C \in N$ und $n=2$.
-   Also ist $\mathcal{T} = \pi(\mathcal{T}_1, \mathcal{T}_2)$,
-   $\mathcal{T}_1 \in \operatorname{Abl}(B)$, $\mathcal{T}_2 \in
-   \operatorname{Abl}(C)$, $w = u_1u_2$ mit $u_1 = Y(\mathcal{T}_1)$,
-   $u_2 = Y(\mathcal{T}_2)$. 
+  \item $\pi = A \to BC$ mit $B,C \in N$ und $n=2$.\\
+   Also ist $\T = \pi(\T_1, \T_2)$,
+   $\T_1 \in \operatorname{Abl}(B, u_1)$, $\T_2 \in
+   \operatorname{Abl}(C, u_2)$ mit $w = u_1u_2$. 
 
    Nach Konstruktion gilt $(\qinit, BC) \in \delta(\qinit, \Eps, A)$. 
 
@@ -261,9 +274,11 @@ Wir zeigen nun, dass $L(\K) = L(\mathcal{G})$.
     \item[I.A.] $n = 0$.
       $w = \Eps$, $\alpha = \Eps$: Es gilt $\Eps \stackrel{*}{\vdash} \Eps$.
 
-  \item[I.S.] $n\rightsquigarrow n+1$, $\alpha = Z\alpha'$: Es gilt
-    $(\qinit,w,Z\alpha') \ConfRel (\qinit, w', \beta\alpha') \ConfRel^n (\qinit, \Eps, \Eps)$, \linebreak
-    $\delta(\qinit, x, Z) \ni (\qinit, \beta)$, $x \in \Sigma \cup \{\varepsilon\}$.
+  \item[I.S.] $n\rightsquigarrow n+1$, $\alpha = Z\alpha'$: Betrachte
+    den ersten Schritt der Berechnung
+    $$(\qinit,w,Z\alpha') \ConfRel (\qinit, w', \beta\alpha') \ConfRel^n (\qinit, \Eps, \Eps),$$ 
+    mit $\delta(\qinit, x, Z) \ni (\qinit, \beta)$, $x \in \Sigma \cup
+    \{\varepsilon\}$. 
 
     Es gibt zwei Fälle für $Z$:
     \begin{itemize}
@@ -271,8 +286,9 @@ Wir zeigen nun, dass $L(\K) = L(\mathcal{G})$.
 %
       Es folgt $\beta = \Eps$, $w = aw'$ und $x = a$.
 
-      Nach I.V.\ gilt $\alpha' \vdash^* w'$ und somit auch $\alpha =
-      a\alpha' \vdash^* aw' = w$. 
+      Nach I.V.\ gilt $\alpha' \vdash^* w'$ und mit
+      \autoref{lem:einbettung-ableitung} auch $\alpha =
+      a\alpha' \vdash^* aw' = w$.  
     \item $Z = A$ mit $A \to \beta \in P$.
 %
       Es folgt $w = w'$ und $x = \varepsilon$.
@@ -285,6 +301,8 @@ Wir zeigen nun, dass $L(\K) = L(\mathcal{G})$.
 \end{itemize}
 \end{proof}
 
+\clearpage
+\datenote{NEXT-UP}
 Bei einem \ac{NPDA} nehmen wir in jedem Schritt ein Zeichen vom Kellerspeicher herunter,
 aber dürfen beliebig viele Symbole auf den Kellerspeicher zurücklegen.
 Was wäre, wenn die Höhe des Kellers pro Schritt höchstens um eins größer werden könnte?
