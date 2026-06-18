@@ -69,6 +69,13 @@ record CFG (Σ : Set) : Set₁ where
   Sentential : Set
   Sentential = Word Symbol
 
+  CNF : Set
+  CNF = ∀ {A α}
+      → (α ∈ P A)
+      → (α ≡ ε → A ≡ S)
+      ⊎ (∃[ a ] α ≡ [ inj₂ a ])
+      ⊎ ∃[ B ] ∃[ C ] α ≡ inj₁ B ∷ inj₁ C ∷ ε
+
   infix 4 _⇒_
   -- _⇒*_
 
@@ -155,5 +162,8 @@ module _ {Σ : Set} {G : Set₁} ⦃ grammarG : Grammar {Σ} G ⦄ where
   module Generated (g : G) where
     open Derivation g
 
+    Generates : Sentential g → Language Σ
+    Generates α w = α ⇒* terminals g w
+
     Lang : Language Σ
-    Lang w = start g ⇒* terminals g w
+    Lang = Generates (start g)
