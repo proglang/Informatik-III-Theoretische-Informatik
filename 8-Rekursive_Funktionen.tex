@@ -4,8 +4,28 @@
 \newcommand{\sub}{\textrm{sub}}
 \newcommand{\pred}{\textrm{pred}}
 
+Turingmaschinen beschreiben Berechnungen durch einzelne
+Konfigurationsübergänge. In diesem Kapitel nehmen wir eine funktionale
+Perspektive ein: Aus wenigen einfachen Funktionen über $\N$ erzeugen wir durch
+fest vorgegebene Konstruktionsprinzipien immer größere Klassen berechenbarer
+Funktionen.
+
+Zunächst führt primitive Rekursion ausschließlich zu totalen Funktionen. Durch
+Minimierung kommt partielle Berechenbarkeit hinzu, und wir erhalten genau die
+mit Turingmaschinen berechenbaren Funktionen. Die Programmiersprachen LOOP und
+WHILE stellen anschließend eine Verbindung zwischen diesen abstrakten
+Funktionsklassen und konkreten Berechnungsabläufen her. Zum Abschluss zeigt die
+Ackermannfunktion, dass nicht jede totale berechenbare Funktion bereits primitiv
+rekursiv ist.
+
 \emph{Notation:} Mit $f: A \to B$ bezeichnen wir eine \emph{totale}
-Funktion von $A$ nach $B$ und mit $f:A\hookrightarrow B$ eine \emph{partielle} Funktion von $A$ nach $B$. 
+Funktion von $A$ nach $B$ und mit $f:A\hookrightarrow B$ eine
+\emph{partielle} Funktion von $A$ nach $B$. Jede totale Funktion kann
+auch als partielle Funktion betrachtet werden.
+
+Als erstes Konstruktionsprinzip betrachten wir die primitive Rekursion. Dabei
+wird das erste Argument schrittweise aufgebaut, während die übrigen Argumente
+als Parameter unverändert bleiben.
 
 \begin{Def}[Schema der primitiven Rekursion]
 	\begin{align*}
@@ -21,8 +41,12 @@ Funktion von $A$ nach $B$ und mit $f:A\hookrightarrow B$ eine \emph{partielle} F
 	\[ f =: PR(g,h) \]
 	aus $g$ und $h$ durch primitive Rekursion definiert.
 \end{Def}
+Die Rekursionsgleichungen sollen nicht nur eine Berechnungsvorschrift andeuten,
+sondern tatsächlich genau eine totale Funktion festlegen. Dies ist Inhalt des
+folgenden Lemmas.
 \begin{lemma}[name={[$PR(g,h)$ ist wohldefiniert.]}]
-	$PR(g,h)$ ist wohldefiniert.
+  \label{lemma:rekursive-funktionen-1}
+  $PR(g,h)$ ist wohldefiniert.
 \end{lemma}
 \begin{proof}
 	Seien $g:\N^k\to\N$ und $h:\N^{k+2}\to\N$ wie in der Definition.
@@ -120,6 +144,8 @@ Funktion von $A$ nach $B$ und mit $f:A\hookrightarrow B$ eine \emph{partielle} F
 		$\overline{x}$ auch $f(n,\overline{x})=f'(n,\overline{x})$.
 	\end{description}
 \end{proof}
+Mit dem wohldefinierten Rekursionsschema können wir nun die erste
+Funktionsklasse durch Basisfunktionen und Abschlussoperationen festlegen.
 \begin{Def}[name={[\acs*{PREC}]}]\label{def:PREC}
 	Die \acf{PREC} über $\N$ ist induktiv definiert:
 	\begin{enumerate}
@@ -148,6 +174,8 @@ Funktion von $A$ nach $B$ und mit $f:A\hookrightarrow B$ eine \emph{partielle} F
 		dann ist auch $PR(g,h)\in\ac{PREC}$ \quad(Rekursion) \qedhere
 	\end{enumerate}
 \end{Def}
+Die folgenden Konstruktionen zeigen, wie sich vertraute arithmetische
+Operationen allein aus diesen Bausteinen zusammensetzen lassen.
 \begin{Bsp*}\
   \begin{enumerate}
   \item Addition $\in\ac{PREC}$
@@ -182,9 +210,14 @@ Funktion von $A$ nach $B$ und mit $f:A\hookrightarrow B$ eine \emph{partielle} F
     \end{align*}
   \end{enumerate}
 \end{Bsp*}
+Um mehrere natürliche Zahlen gemeinsam durch eine einzige natürliche Zahl zu
+codieren, benötigen wir Paarfunktionen.
 \begin{Def}
   Eine \emph{Paarfunktion} ist eine bijektive Funktion $p : \N^2 \to \N$.
 \end{Def}
+Die Cantorsche Paarfunktion liefert eine konkrete primitiv rekursive
+Paarfunktion; auch ihre beiden Umkehrprojektionen lassen sich primitiv rekursiv
+berechnen.
 \begin{Bsp}
   Die Cantorsche Paarfunktion $cp$ ist wie folgt definiert.
   \begin{align*}
@@ -250,29 +283,103 @@ Funktion von $A$ nach $B$ und mit $f:A\hookrightarrow B$ eine \emph{partielle} F
   \end{align*}
 
 \end{Bsp}
+Alle bisherigen Konstruktionen terminieren für jede Eingabe. Diese Totalität
+ist eine grundlegende, aber zugleich einschränkende Eigenschaft der primitiven
+Rekursion.
 \begin{Beobachtung}
 	Alle primitiv rekursiven Funktionen sind total.\\
-	Aber: $\exists$ totale Funktion, die nicht primitiv rekursiv ist.
+	Aber: $\exists$ totale Funktionen, die nicht primitiv rekursiv sind.
 \end{Beobachtung}
+Um auch nicht terminierende Berechnungen zu beschreiben, führen wir nun eine
+potenziell partielle Suchoperation ein. Sie sucht die erste Nullstelle, darf
+dabei aber keinen undefinierten früheren Funktionswert überspringen.
 \begin{Def}[Minimierung]\label{def:Minimierung}
-	Sei $f:\N^{k+1}\hookrightarrow\N$\\
-	dann ist $\mu f:= g\in\N^k\hookrightarrow\N$\\
-	definiert durch:
-	\begin{align*}
-		g(\overline{x}) &= \min\{n \mid f(n,\overline{x})=0\text{ und }\forall j<n: f(j,\overline{x})\text{ def. und }\neq 0\} \tag*{\qedhere}\\[.5em]
-		\text{Falls }f(n,\overline{x}) &\neq 0\ \forall n: g(\overline{x})\text{ undef.}\\
-		\text{Falls }f(n,\overline{x}) &=0\text{ aber }\exists j< n\ f(j,\overline{x})\text{ undef.}\\
-		&\curvearrowright g(\overline{x})\text{ undef.}
-	\end{align*}
+	Sei $f:\N^{k+1}\hookrightarrow\N$ partiell. Für
+	$\overline{x}\in\N^k$ sei
+	\[
+		C_f(\overline{x})
+		:=\{n\in\N \mid f(n,\overline{x})=0\text{ und }
+		\forall j<n:\ f(j,\overline{x})\downarrow\ne0\}.
+	\]
+	Dabei bedeutet $f(j,\overline{x})\downarrow$, dass
+	$f(j,\overline{x})$ definiert ist. Die \emph{Minimierung} von $f$ ist
+	durch die folgende Vorschrift gegeben:
+	\[
+		(\mu f)(\overline{x})
+		=
+		\begin{cases}
+			\min C_f(\overline{x}), & C_f(\overline{x})\ne\emptyset,\\
+			\text{undefiniert}, & C_f(\overline{x})=\emptyset.
+		\end{cases}
+	\]
 \end{Def}
+
+Da die Ausgangsfunktion partiell sein darf, ist zu prüfen, ob diese Vorschrift
+wirklich eine eindeutig bestimmte partielle Funktion liefert.
+\begin{Satz}[name={Wohldefiniertheit der Minimierung}]
+	\label{satz:Minimierung-wohldefiniert}
+	Die Vorschrift aus \autoref{def:Minimierung} bestimmt zu jeder partiellen
+	Funktion $f:\N^{k+1}\hookrightarrow\N$ eindeutig eine partielle Funktion
+	$\mu f:\N^k\hookrightarrow\N$.
+\end{Satz}
+\begin{proof}
+	Sei $\overline{x}\in\N^k$ fest. Falls
+	$C_f(\overline{x})=\emptyset$ ist, weist die Vorschrift
+	$\overline{x}$ keinen Funktionswert zu. Andernfalls besitzt
+	$C_f(\overline{x})$ nach dem Wohlordnungsprinzip für $\N$ ein eindeutig
+	bestimmtes kleinstes Element.
+
+	Tatsächlich kann $C_f(\overline{x})$ sogar höchstens ein Element enthalten:
+	Wären $n,m\in C_f(\overline{x})$ mit $n<m$, so wäre einerseits
+	$f(n,\overline{x})=0$. Andererseits würde $m\in C_f(\overline{x})$ wegen
+	$n<m$ gerade $f(n,\overline{x})\downarrow\ne0$ verlangen, ein Widerspruch.
+
+	Somit wird jedem $\overline{x}$ entweder genau ein Wert aus $\N$ oder kein
+	Wert zugewiesen. Die Vorschrift definiert also eine partielle Funktion.
+	Sowohl ihr Definitionsbereich
+	$\{\overline{x}\mid C_f(\overline{x})\ne\emptyset\}$ als auch ihr Wert auf
+	diesem Definitionsbereich sind durch $f$ festgelegt. Daher ist diese
+	partielle Funktion eindeutig bestimmt.
+\end{proof}
+
+Aus dem Beweis ergeben sich unmittelbar die folgenden nützlichen Fälle für
+definierte und undefinierte Minimierungen.
+\begin{Beobachtung}
+	Für $\overline{x}\in\N^k$ folgen unmittelbar aus der Definition:
+	\begin{enumerate}
+	\item Gibt es kein $n\in\N$, für das $f(n,\overline{x})$ definiert und
+		gleich $0$ ist, so ist $(\mu f)(\overline{x})$ undefiniert.
+	\item Sei $n_0$ das kleinste $n$, für das $f(n,\overline{x})$ definiert und
+		gleich $0$ ist. Gibt es ein $j<n_0$, für das $f(j,\overline{x})$
+		undefiniert ist, so ist $(\mu f)(\overline{x})$ undefiniert.
+	\item Gilt $f(n,\overline{x})=0$ und
+		$f(j,\overline{x})\downarrow\ne0$ für alle $j<n$, so gilt
+		$(\mu f)(\overline{x})=n$.
+	\end{enumerate}
+\end{Beobachtung}
+
+Für die folgende Klassendefinition verwenden wir auch Komposition und primitive
+Rekursion auf partiellen Funktionen.
+\begin{Bemerkung}
+  Die Konstruktionen aus \autoref{def:PREC} können genauso auch für
+  partielle Funktionen definiert und verwendet werden. Dabei nimmt man
+  an, dass ein Funktionsaufruf nur dann definiert ist, falls auch sein
+  Argument eine definierten Wert hat. Ebenso kann
+  \autoref{lemma:rekursive-funktionen-1} für partielle Funktionen bewiesen werden.
+\end{Bemerkung}
+
+Ergänzen wir die primitiven rekursiven Konstruktionen um Minimierung, so
+erhalten wir die Klasse der $\mu$-rekursiven Funktionen.
 \begin{Def}[name={[\acs*{muREC}]}]
   Die \acf{muREC} über $\N$ ist die
-  kleinste Klasse von Funktionen, die die Basisfunktionen (1,2,3 aus
-  der \autoref{def:PREC}) enthalten und abgeschlossen ist unter
+  kleinste Menge von Funktionen, die die Basisfunktionen (1,2,3 aus
+  der \autoref{def:PREC}) enthält und abgeschlossen ist unter
   \hyperref[itm:Komposition]{Komposition \ref*{itm:Komposition}},
   \hyperref[itm:Rekursion]{Rekursion \ref*{itm:Rekursion}} und
-  \hyperref[def:Minimierung]{Minimierung}  
+  \hyperref[def:Minimierung]{Minimierung}.
 \end{Def}
+Diese algebraisch definierte Klasse stimmt mit dem zuvor durch Maschinen
+gewonnenen Berechenbarkeitsbegriff überein.
 \begin{Satz}[name={[\acs*{muREC} $\hat=$ Klasse der \acs*{TM}-berechenbaren Fkt.]}]
 	\ac{muREC} stimmt mit der Klasse der \ac{TM}-berechenbaren Funktionen über $\N$ überein.
 \end{Satz}
@@ -334,10 +441,176 @@ Funktion von $A$ nach $B$ und mit $f:A\hookrightarrow B$ eine \emph{partielle} F
 		(analog zur universellen \ac{TM}). \qedhere
 	\end{itemize}
 \end{proof}
-\begin{Satz}[Kleene]
-	Für jede Funktion $F: \N^k\hookrightarrow\N$ mit $F\in\ac{muREC}$ gibt es zwei primitiv rekursive Funktionen $p,q:\N^{k+1}\->\N$, sodass $f(\overline{x})=p(\overline{x},\mu q(\overline{x}))$
+Die bisherigen Konstruktionsprinzipien beschreiben Funktionen auf abstrakte
+Weise. LOOP-Programme geben ihnen ein einfaches imperatives Berechnungsmodell
+mit ausschließlich beschränkten Schleifen gegenüber.
+\begin{Def}[name={LOOP-Programme}]\label{def:LOOP-Programme}
+  Ein LOOP-Programm arbeitet mit Registern
+  $x_1,x_2,\dots$, deren Werte natürliche Zahlen sind. Die Menge der
+  LOOP-Programme ist induktiv durch die folgende Syntax definiert:
+  \[
+    \begin{array}{rcll}
+      P,Q &::=& x_i := x_i+1
+      & \text{(Inkrementierung)},\\
+          &\mid& x_i := x_i\dotminus 1
+      & \text{(Dekrementierung mit Abschneiden bei $0$)},\\
+          &\mid& P;Q
+      & \text{(sequenzielle Ausführung)},\\
+          &\mid& \texttt{LOOP }x_i\texttt{ DO }P\texttt{ END}
+      & \text{(beschränkte Schleife)}.
+    \end{array}
+  \]
+\end{Def}
+Die Syntax legt zunächst nur die erlaubten Programme fest. Ihre Bedeutung
+definieren wir als Transformation des gesamten Registerzustands.
+\begin{Def}[Semantik eines LOOP-Programms]
+  Sei $P$ ein LOOP-Programm und $k \ge \max\{ i \mid x_i \text{ kommt in $P$ vor} \}$. Dann definiert $P$ eine Funktion $\llbracket P \rrbracket_k : \N^k \to \N^k$ wie folgt.
+  \begin{itemize}
+  \item $\llbracket x_i := x_i+1 \rrbracket_k (a_1, \dots, a_i, \dots, a_k) =
+    (a_1, \dots, a_i+1, \dots, a_k)$
+  \item $\llbracket x_i := x_i\dotminus 1 \rrbracket_k (a_1, \dots, a_i, \dots, a_k) =
+    (a_1, \dots, a_i\dotminus 1, \dots, a_k)$
+  \item $\llbracket P;Q \rrbracket_k (\overline{a}) =
+    \llbracket Q \rrbracket_k (\llbracket P \rrbracket_k (\overline{a}))$
+  \item $\llbracket \texttt{LOOP }x_i\texttt{ DO }P\texttt{ END} \rrbracket_k
+    (\overline{a}) = \llbracket P \rrbracket_k^{(a_i)} (\overline{a})$
+  \end{itemize}
+
+
+  Ein LOOP-Programm $P$ \emph{berechnet} eine Funktion $f:\N^n\to\N$,
+  wenn mit
+  \[
+    k=\max\bigl(\{n\}\cup\{i\mid x_i\text{ kommt in }P\text{ vor}\}\bigr)
+    \qquad\text{und}\qquad
+    \operatorname{init}_k(\overline{a})=(a_1,\dots,a_n,0,\dots,0)\in\N^k
+  \]
+  für jede Eingabe $\overline{a}\in\N^n$ gilt:
+  \[
+    f(\overline{a})
+    =\pi^k_1\bigl(\llbracket P\rrbracket_k
+      (\operatorname{init}_k(\overline{a}))\bigr).
+  \]
+\end{Def}
+
+In Worten: Die Zuweisungen und die sequenzielle Ausführung haben ihre übliche
+Bedeutung. Bei der Ausführung von
+$\texttt{LOOP }x_i\texttt{ DO }P\texttt{ END}$ wird der Wert $n$ von $x_i$
+beim Eintritt in die Schleife einmal gelesen und anschließend $P$ genau
+$n$-mal ausgeführt. Änderungen von $x_i$ innerhalb von $P$ beeinflussen die
+Anzahl der Schleifendurchläufe nicht.
+
+Die Definition der Semantik von LOOP-Programmen ist
+\emph{kompositionell}, weil Semantik einer zusammengesetzten Anweisung
+als Funktion der Semantik ihrer Teilanweisungen definiert ist.
+
+\begin{Satz}
+  Eine Funktion $f : \N^k \to \N$ ist LOOP-berechenbar genau dann,
+  wenn sie primitiv rekursiv ist.
 \end{Satz}
-$\curvearrowright$ Jede berechenbare Funktion über $\N$ kann mit einem Programm aus der \acf{WHILE} berechnet werden.
+
+Beschränkte Schleifen terminieren stets und können daher nur totale Funktionen
+berechnen. Für allgemeine partielle Berechnungen erweitern wir die Sprache um
+eine Schleife mit datenabhängiger Abbruchbedingung.
+\begin{Def}[Syntax von WHILE-Programmen]
+  Ein WHILE-Programm arbeitet mit Registern
+  $x_1,x_2,\dots$, deren Werte natürliche Zahlen sind. Die Menge der
+  WHILE-Programme ist induktiv durch die folgende Syntax definiert:
+  \[
+    \begin{array}{rcll}
+      P,Q &::=& x_i := x_i+1
+      & \text{(Inkrementierung)},\\
+          &\mid& x_i := x_i\dotminus 1
+      & \text{(Dekrementierung mit Abschneiden bei $0$)},\\
+          &\mid& P;Q
+      & \text{(sequenzielle Ausführung)},\\
+          &\mid& \texttt{LOOP }x_i\texttt{ DO }P\texttt{ END}
+      & \text{(beschränkte Schleife)},\\
+          &\mid& \texttt{WHILE }x_i\ne0\texttt{ DO }P\texttt{ END}
+                 & \text{(unbeschränkte Schleife)}.
+    \end{array}
+  \]
+\end{Def}
+Da eine unbeschränkte Schleife nicht terminieren muss, ist ihre Semantik im
+Allgemeinen nur eine partielle Funktion auf Registerzuständen.
+\begin{Def}[Semantik von WHILE-Programmen]
+  Die Semantik wird durch strukturelle Rekursion über WHILE-Programme als
+  partielle Funktion
+  $\llbracket P\rrbracket_k:\N^k\hookrightarrow\N^k$ definiert. Für
+  Inkrementierung und Dekrementierung gelten die Gleichungen aus der
+  LOOP-Semantik. Sequenzielle Ausführung und beschränkte Schleifen werden
+  durch
+  \begin{align*}
+    \llbracket P;Q\rrbracket_k
+      &=\llbracket Q\rrbracket_k\circ\llbracket P\rrbracket_k,\\
+    \llbracket \texttt{LOOP }x_i\texttt{ DO }P\texttt{ END}\rrbracket_k
+      (\overline{a})
+      &=\llbracket P\rrbracket_k^{(a_i)}(\overline{a})
+  \end{align*}
+  definiert, wobei Komposition und Iteration nun partiell sein können.
+
+  Für die unbeschränkte Schleife sei
+  \[
+    H_{P,i}(\overline{a})
+    :=\bigl\{n\in\N\bigm|
+      \llbracket P\rrbracket_k^{(n)}(\overline{a})\downarrow
+      \text{ und }
+      \pi_i^k\bigl(\llbracket P\rrbracket_k^{(n)}(\overline{a})\bigr)=0
+    \bigr\}.
+  \]
+  Dann ist
+  \[
+    \llbracket \texttt{WHILE }x_i\ne0\texttt{ DO }P\texttt{ END}
+    \rrbracket_k(\overline{a}) =
+    \begin{cases}
+      \llbracket P\rrbracket_k^{(m)}(\overline{a}),
+        & H_{P,i}(\overline{a})\ne\emptyset
+          \text{ und }m=\min H_{P,i}(\overline{a}),\\
+      \text{undefiniert}, & H_{P,i}(\overline{a})=\emptyset.
+    \end{cases}
+  \]
+  Ist $m=\min H_{P,i}(\overline{a})$, so ist die $i$-te Komponente von
+  $\llbracket P\rrbracket_k^{(\ell)}(\overline{a})$ für alle $\ell<m$ von
+  $0$ verschieden und von
+  $\llbracket P\rrbracket_k^{(m)}(\overline{a})$ gleich $0$.
+
+  Ein WHILE-Programm $P$ \emph{berechnet} die partielle Funktion
+  $f:\N^n\hookrightarrow\N$, falls mit $k$ und
+  $\operatorname{init}_k$ wie in der LOOP-Semantik für alle
+  $\overline{a}\in\N^n$ die Gleichheit partieller Ausdrücke
+  \[
+    f(\overline{a})
+    =\pi^k_1\bigl(\llbracket P\rrbracket_k
+      (\operatorname{init}_k(\overline{a}))\bigr)
+  \]
+  gilt. Insbesondere ist $f(\overline{a})$ genau dann undefiniert, wenn die
+  Ausführung von $P$ auf $\operatorname{init}_k(\overline{a})$ nicht
+  terminiert.
+\end{Def}
+\begin{Satz}
+  Eine partielle Funktion $f : \N^k \hookrightarrow \N$ ist
+  WHILE-berechenbar genau dann,
+  wenn sie $\mu$-rekursiv ist.
+\end{Satz}
+
+Eine genauere Normalform zeigt, dass für jede $\mu$-rekursive Funktion eine
+einzige unbeschränkte Suche genügt; davor und danach stehen nur primitiv
+rekursive Berechnungen.
+\begin{Satz}[name={Kleenes Normalformtheorem}]
+	Für jede partielle Funktion $F:\N^k\hookrightarrow\N$ mit
+	$F\in\ac{muREC}$ gibt es primitiv rekursive Funktionen
+	$p:\N\to\N$ und $q:\N^{k+1}\to\N$, sodass
+	\[
+		F(\overline{x})=p\bigl((\mu q)(\overline{x})\bigr)
+	\]
+	als Gleichheit partieller Funktionen gilt.
+\end{Satz}
+Zusammen mit der Äquivalenz von $\mu$-Rekursion und Turing-Berechenbarkeit folgt
+insbesondere: Jede berechenbare Funktion über $\N$ kann mit einem Programm aus
+der \acf{WHILE} berechnet werden, die maximal eine WHILE-Anweisung
+verwendet.
+
+Zum Abschluss kehren wir zu den totalen Funktionen zurück. Die Ackermannfunktion
+ist berechenbar, wächst jedoch zu schnell, um primitiv rekursiv zu sein.
 \begin{Def}[name={[Ackermannfunktion]}]
 	Die \emph{Ackermannfunktion}
 	\begin{align*}
@@ -347,6 +620,8 @@ $\curvearrowright$ Jede berechenbare Funktion über $\N$ kann mit einem Programm
 		y>0:\ &A(x,y)=A(x-1,A(x.y-1)) \tag*{\qedhere}
 	\end{align*}
 \end{Def}
+Um diese Behauptung zu präzisieren, vergleichen wir die Wachstumsraten
+primitiv rekursiver Funktionen mit der Ackermannfunktion.
 \begin{Satz}
 	Sei $\A$ die Menge der Funktionen, die durch $A$ majorisiert werden.
 	\[ \text{Es gilt: }\ac{PREC}\subseteq \A \]\vspace{-2em}
@@ -414,6 +689,7 @@ $\curvearrowright$ Jede berechenbare Funktion über $\N$ kann mit einem Programm
 		\end{align*}
 	\end{enumerate}
 \end{proof}
+Der Majorisierungssatz liefert unmittelbar die gewünschte echte Trennung.
 \begin{Korollar}
 	Die Ackermannfunktion $A$ ist nicht primitiv rekursiv.
 \end{Korollar}
