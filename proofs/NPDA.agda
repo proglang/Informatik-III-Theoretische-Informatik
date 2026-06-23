@@ -1,7 +1,8 @@
 module NPDA where
 
-open import Data.List using (_∷_; _++_; [_]) renaming (List to Word; [] to ε)
+open import Data.List using (_∷_; _++_; [_]; length) renaming (List to Word; [] to ε)
 open import Data.Maybe using (Maybe; just; nothing)
+open import Data.Nat using (ℕ; zero; suc; _≤_)
 open import Data.Product using (∃-syntax; _×_; _,_; swap; proj₁; proj₂) renaming (Σ to ΣΣ)
 open import Data.Sum using (_⊎_; inj₁; inj₂)
 open import Relation.Binary.PropositionalEquality using
@@ -46,11 +47,17 @@ record NPDA (Σ : Set) : Set₁ where
       → C₁ ⇒ C₂ → C₂ ⇒* C₃
       → C₁ ⇒* C₃
 
+  accepts-at : Q → Word Γ → Q → Language Σ
+  accepts-at q γ q′ = ｛ w ∣ (q , w , γ) ⇒* (q′ , ε , ε) ｝
+
   accepts : Q → Word Γ → Language Σ
-  accepts q γ = ｛ w ∣ ∃[ q′ ] (q , w , γ) ⇒* (q′ , ε , ε) ｝
+  accepts q γ = ｛ w ∣ ∃[ q′ ] accepts-at q γ q′ w ｝
 
   Lang : Language Σ
   Lang = accepts qinit [ Zinit ]
+
+  2bounded : Set
+  2bounded = ∀ q x Z q′ γ → (q′ , γ) ∈ δ q x Z → length γ ≤ 2
 
   -- experimental; probably useless
 

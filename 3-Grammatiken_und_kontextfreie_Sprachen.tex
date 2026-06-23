@@ -750,7 +750,7 @@ Kettenregeln mit $|\mathcal{G}'|\in O(|\mathcal{G}|^2)$ berechnet.
     Fahre fort mit Schritt \ref{alg:unit-step-dg}.
   \item \label{alg:unit-step-dag}
     
-    Sortiere die Knoten des nun azyklischen Graphen\footnotemark $G$ topologisch\footnotemark als $A_1, \ldots, A_n$, sodass $A_n$ auf keiner linken Seite einer Kettenregel vorkommt.
+    Sortiere die Knoten des nun azyklischen Graphen $G$ topologisch\footnotemark als $A_1, \ldots, A_n$, sodass $A_n$ auf keiner linken Seite einer Kettenregel vorkommt.
   \item $\mathbf{for}~j = n-1, \ldots, 1$ \label{alg:unit-step-chain}
     \begin{itemize}
     \item[] $\mathbf{for}~\mathbf{each}~A_j \to A_k \in P'$
@@ -770,8 +770,6 @@ Kettenregeln mit $|\mathcal{G}'|\in O(|\mathcal{G}|^2)$ berechnet.
 \caption{Algorithmus \textsc{Unit}}
 \label{fig:algorithmus-unit}
   \end{figure}
-\footnotetext{\ac{DAG} (engl.\ \emph{directed acyclic graph}).}
-
 \footnotetext{Topologisches Sortieren ist ein aus der Informatik 2 Vorlesung bekannter Begriff und bezeichnet das Erweitern einer gegebenen partiellen Ordnung zu einer totalen Ordnung.}
 
 \begin{Bsp}
@@ -1140,7 +1138,6 @@ return $S\in M_{1n}$
                 &\exists u,v,w,x,y\in\Sigma^* :\\
                 &z = uvwxy,\ |vwx| \leq n,\ |vx| \geq 1\\
                 \text{und }& \forall i\in\N: uv^iwx^iy\in L
-        \qedhere
         \end{alignat*}
 \end{Satz}
 \begin{lemma}\label{lemma:Binärbaum}

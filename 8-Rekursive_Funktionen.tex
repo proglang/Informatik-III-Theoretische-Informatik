@@ -1,9 +1,17 @@
-\section[Rekursive Funktionen]{Rekursive Funktionen\datenote{10.02.16}}
+\section[Rekursive Funktionen]{Rekursive Funktionen}
+\label{sec:rekursive-funktionen}
+
+\newcommand{\sub}{\textrm{sub}}
+\newcommand{\pred}{\textrm{pred}}
+
+\emph{Notation:} Mit $f: A \to B$ bezeichnen wir eine \emph{totale}
+Funktion von $A$ nach $B$ und mit $f:A\hookrightarrow B$ eine \emph{partielle} Funktion von $A$ nach $B$. 
+
 \begin{Def}[Schema der primitiven Rekursion]
 	\begin{align*}
-		\text{Sei } \mathcal{G}&: \N^k \-> \N \qquad,\ k\geq 0\\
-		h&: \N^{k+R}\->\N\\
-		\text{Sei } f&: \N^{k+1}\->\N\text{ eine Funktion, die folgende Gleichungen erfüllt:}\\
+		\text{Sei } g&: \N^k \-> \N \qquad,\ k\geq 0\\
+		h&: \N^{k+2}\->\N\\
+		\text{Falls eine Funktion } f&: \N^{k+1}\->\N\text{ die folgenden Gleichungen erfüllt:}\\
 		f(0,\overline{x}) &= g(\overline{x}) \qquad,\ \overline{x}\in\N^k\\
 		\begin{split}
 			f(n+1,\overline{x}) &= h(f(n,\overline{x}),n,\overline{x})
@@ -17,77 +25,238 @@
 	$PR(g,h)$ ist wohldefiniert.
 \end{lemma}
 \begin{proof}
+	Seien $g:\N^k\to\N$ und $h:\N^{k+2}\to\N$ wie in der Definition.
+	Wir definieren $F\subseteq(\N\times\N^k)\times\N$ als die von den
+	folgenden Regeln induktiv erzeugte Relation:
+	\[
+		\frac{\strut}{((0,\overline{x}),g(\overline{x}))\in F}
+		\qquad
+		\frac{((n,\overline{x}),y)\in F}
+		     {((n+1,\overline{x}),h(y,n,\overline{x}))\in F}.
+	\]
+	Dabei besteht $F$ genau aus den Tupeln, die sich durch endlich viele
+	Anwendungen dieser Regeln herleiten lassen. Insbesondere gelten die
+	folgenden Inversionseigenschaften:
 	\begin{align*}
-		\text{Angenommen } f&=PR(g,h)\\
-		\text{und } f' &= PR(g,h)\\
-	\shortintertext{d.h. $f$ und $f'$ erfüllen \eqref{eq:rekursives f}.}
-		\text{Zeige } \forall n\in\N,&\ \forall \overline{x}\in\N^k:\\
-		f(n,\overline{x}) &= f'(n,\overline{x})\\
-		\text{I.A. }n=0: f(0,\overline{x}) &\overset{\eqref{eq:rekursives f}}= g(\overline{x}) \overset{\eqref{eq:rekursives f}}= f'(0,\overline{x})\\
-		\text{I.S. }n\->n+1: f(n+1,\overline{x}) &\overset{\eqref{eq:rekursives f}}= h(f(n,\overline{x}),n,\overline{x})\\
-		&\overset{\text{I.V.}}= h(f'(n,\overline{x}),n,\overline{x})\\
-		&\overset{\eqref{eq:rekursives f}}= f'(n+1,\overline{x}) \tag*{\qedhere}
+		((0,\overline{x}),y)\in F
+		&\quad\Longrightarrow\quad y=g(\overline{x}),\\
+		((n+1,\overline{x}),y)\in F
+		&\quad\Longrightarrow\quad
+		\exists z\in\N:\
+		((n,\overline{x}),z)\in F
+		\ \land\ y=h(z,n,\overline{x}).
 	\end{align*}
+
+	\begin{description}
+	\item[Totalität]
+		Wir zeigen durch Induktion über $n$, dass für alle
+		$\overline{x}\in\N^k$ ein $y\in\N$ mit
+		$((n,\overline{x}),y)\in F$ existiert.
+		Für $n=0$ liefert die erste Regel das Element
+		$((0,\overline{x}),g(\overline{x}))$.
+		Gibt es für $n$ ein $y$ mit $((n,\overline{x}),y)\in F$, so liefert
+		die zweite Regel
+		$((n+1,\overline{x}),h(y,n,\overline{x}))\in F$.
+
+	\item[Funktionalität]
+		Wir zeigen ebenfalls durch Induktion über $n$, dass aus
+		\[
+			((n,\overline{x}),y)\in F
+			\quad\text{und}\quad
+			((n,\overline{x}),y')\in F
+		\]
+		stets $y=y'$ folgt.
+		Für $n=0$ ergeben die Inversionseigenschaften
+		$y=g(\overline{x})=y'$.
+		Für den Induktionsschritt gibt es $z,z'\in\N$ mit
+		\begin{align*}
+			((n,\overline{x}),z)&\in F,
+			&y&=h(z,n,\overline{x}),\\
+			((n,\overline{x}),z')&\in F,
+			&y'&=h(z',n,\overline{x}).
+		\end{align*}
+		Nach Induktionsvoraussetzung ist $z=z'$ und damit auch $y=y'$.
+	\end{description}
+
+	Da $F$ total und funktional ist, definiert
+	\[
+		f(n,\overline{x})=y
+		\quad\Longleftrightarrow\quad
+		((n,\overline{x}),y)\in F
+	\]
+	eine totale Funktion $f:\N^{k+1}\to\N$.
+
+	\begin{description}
+	\item[Rekursionsgleichungen]
+		Nach der ersten Erzeugungsregel gilt
+		$((0,\overline{x}),g(\overline{x}))\in F$ und somit
+		$f(0,\overline{x})=g(\overline{x})$.
+		Aus $((n,\overline{x}),f(n,\overline{x}))\in F$ folgt nach der zweiten
+		Regel
+		\[
+			((n+1,\overline{x}),
+			h(f(n,\overline{x}),n,\overline{x}))\in F.
+		\]
+		Aufgrund der Funktionalität von $F$ gilt daher
+		\[
+			f(n+1,\overline{x})
+			=h(f(n,\overline{x}),n,\overline{x}).
+		\]
+		Damit erfüllt $f$ beide Gleichungen aus \eqref{eq:rekursives f}.
+
+	\item[Eindeutigkeit]
+		Sei $f':\N^{k+1}\to\N$ eine weitere Funktion, die
+		\eqref{eq:rekursives f} erfüllt. Ihr Graph
+		\[
+			G_{f'}
+			:=\{((n,\overline{x}),f'(n,\overline{x}))
+			\mid n\in\N,\ \overline{x}\in\N^k\}
+		\]
+		ist unter beiden Erzeugungsregeln abgeschlossen: Dies folgt für die
+		erste Regel aus der Anfangsgleichung und für die zweite Regel aus der
+		Rekursionsgleichung von $f'$.
+		Da $F$ die kleinste unter diesen Regeln abgeschlossene Relation ist,
+		gilt $F\subseteq G_{f'}$. Folglich ist für alle $n$ und
+		$\overline{x}$ auch $f(n,\overline{x})=f'(n,\overline{x})$.
+	\end{description}
 \end{proof}
-\begin{Def}[name={[$\PREC$ primitiv rekursiven Funktionen über $\N$]}]\label{def:PREC}
-	Die $\PREC$ der \emph{primitiv rekursiven Funktionen} über $\N$, ist induktiv definiert:
+\begin{Def}[name={[\acs*{PREC}]}]\label{def:PREC}
+	Die \acf{PREC} über $\N$ ist induktiv definiert:
 	\begin{enumerate}
 	\item\label{itm:Nullfunktion} $\forall k\in\N:
 		\begin{aligned}[t]
 			&\mathcal{O}^k : \N^k\->\N\\
 			&\mathcal{O}^k(\overline{x}) = 0\\
 		\end{aligned}$\\
-		$\mathcal{O}^k\in\PREC$ (die Nullfunktion)
+		$\mathcal{O}^k\in\ac{PREC}$ (die Nullfunktion)
 	\item\label{itm:Projektion} $\forall k\geq1: \forall 1\leq j\leq k:
 		\begin{aligned}[t]
 			&\pi^k_j : \N^k\->\N\\
 			\pi^k_j(x_1,\dots,x_k) = x_j
 		\end{aligned}$\\
-		$\pi^k_j\in\PREC$ (Projektionen)
-	\item\label{itm:Nachfolgerfunktion} $S:\N\->\N\ \in\PREC$ (Nachfolgerfunktion)
+		$\pi^k_j\in\ac{PREC}$ (Projektionen)
+	\item\label{itm:Nachfolgerfunktion} $S:\N\->\N\ \in\ac{PREC}$ (Nachfolgerfunktion)
 	\pagebreak[3]
-	\item\label{itm:Komposition} Feld $g:\N^k\->\N\ \PREC$
+	\item\label{itm:Komposition} Falls $g:\N^k\->\N\ \in\ac{PREC}$
 		\begin{align*}
-			\forall 1\leq i\leq k: h_i:\N^m\->\N \quad&\in\PREC\\
-			\text{dann ist }g\circ[h_1,\dots,h_k]:\N^m\->\N \quad&\in\PREC\\
+			\forall 1\leq i\leq k: h_i:\N^m\->\N \quad&\in\ac{PREC}\\
+			\text{dann ist }g\circ[h_1,\dots,h_k]:\N^m\->\N \quad&\in\ac{PREC}\\
 			(g\circ[h_1,\dots,h_k])(\overline{x}) = g(h_1(\overline{x}),\dots,h_k(\overline{x})) \quad\x&\in\N^m
 		\end{align*}
 		(Funktionskomposition)
-	\item\label{itm:Rekursion} Falls $g:\N^k\->\N$ und $h:\N^{k+2}\->\N\quad\in\PREC$\\
-		dann ist auch $PR(g,h)\in\PREC$ \quad(Rekursion) \qedhere
+	\item\label{itm:Rekursion} Falls $g:\N^k\->\N$ und $h:\N^{k+2}\->\N\quad\in\ac{PREC}$\\
+		dann ist auch $PR(g,h)\in\ac{PREC}$ \quad(Rekursion) \qedhere
 	\end{enumerate}
 \end{Def}
 \begin{Bsp*}\
-	\begin{enumerate}
-	\item Addition $\in\PREC$
-		\begin{align*}
-			\add(0,x) &=x\\
-			\add(n+1,x) &= \add(n,x)+1\\
-			&= h(\add(n,x),n,x)\\
-			\add &= PR(g,h)\\
-			\text{mit }g(x) &= x \quad ; g=\pi'_1\\
-			h(y,n,x) &= y+1 \quad ; h= S\circ \pi^S_1\\
-			\add &= PR(\pi'_1,S\circ\pi^3_1)
-		\end{align*}
-	\item Multiplikation:
-		\begin{alignat*}{2}
-			&&\mult&: \N^2\->\N\\
-			&&\mult(0,x) &=0\\
-			&&\mult(n+1,x) &= \add(x,\mult(n,x))\\
-			&&\mult &= PR(g,h)\\
-			\text{mit}&\ & g&= \mathcal{O}^1\\
-			&&h(y,n,x) &= \add(x,y)\\
-			\text{d.h.}&& h &=\add\circ[\pi^3_3,\pi^3_1]
-		\end{alignat*}
-	\end{enumerate}
+  \begin{enumerate}
+  \item Addition $\in\ac{PREC}$
+    \begin{align*}
+      \add(0,x) &=x\\
+      \add(n+1,x) &= \add(n,x)+1\\
+                &= h(\add(n,x),n,x)\\
+      \add &= PR(g,h)\\
+      \text{mit }g(x) &= x \quad ; g=\pi^1_1\\
+      h(y,n,x) &= y+1 \quad ; h= S\circ \pi^3_1\\
+      \add &= PR(\pi^1_1,S\circ\pi^3_1)
+    \end{align*}
+  \item Multiplikation
+    \begin{alignat*}{2}
+      &&\mult&: \N^2\->\N\\
+      &&\mult(0,x) &=0\\
+      &&\mult(n+1,x) &= \add(x,\mult(n,x))\\
+      &&\mult &= PR(g,h)\\
+      \text{mit}&\ & g&= \mathcal{O}^1\\
+      &&h(y,n,x) &= \add(x,y)\\
+      \text{d.h.}&& h &=\add\circ[\pi^3_3,\pi^3_1]
+    \end{alignat*}
+  \item Subtraktion auf natürlichen Zahlen ist
+    nicht total. Stattdessen verwenden wir die \emph{Monus} Operation
+    definiert durch $x \dotminus y = \max (x-y, 0)$ hier definiert als
+    \sub. Vorher definieren wir die Vorgängerfunktion \pred.
+    \begin{align*}
+      \pred&: \N \to \N &
+      \pred&= PR (\mathcal{O}^0, \pi^2_2) \\
+      \sub&: \N^2 \to \N &
+      \sub&= PR (\pi^1_1, \pred \circ \pi^3_1) \circ [\pi^2_2, \pi^2_1]
+    \end{align*}
+  \end{enumerate}
 \end{Bsp*}
+\begin{Def}
+  Eine \emph{Paarfunktion} ist eine bijektive Funktion $p : \N^2 \to \N$.
+\end{Def}
+\begin{Bsp}
+  Die Cantorsche Paarfunktion $cp$ ist wie folgt definiert.
+  \begin{align*}
+    tr & : \N \to \N  & tr (0) &= 0 & tr(n+1) &= n+1 + tr(n) \\
+    cp & : \N^2 \to \N & cp (x, y) &= tr (x+y) + y
+  \end{align*}
+  Offenbar ist diese Funktion primitiv rekursiv:
+  \begin{align*}
+    tr &= PR (\mathcal{O}^0, \add \circ [S\circ \pi^2_2, \pi^2_1])\\
+    cp &= \add \circ [tr\circ[\add], \pi^2_2]
+  \end{align*}
+  Die diagonale Aufzählung von $\N^2$ durch $cp$ ist in
+  \autoref{fig:cantor-pairing} dargestellt.
+
+  \begin{figure}[tp]
+    \centering
+    \begin{tikzpicture}[
+      x=1.35cm,
+      y=1.05cm,
+      >=Stealth,
+      pair/.style={circle, draw, fill=white, minimum size=7mm, inner sep=1pt},
+      diagonal/.style={->, thick, blue!65, shorten >=4mm, shorten <=4mm}
+    ]
+      \draw[->] (-0.45,0) -- (4.65,0) node[right] {$x$};
+      \draw[->] (0,-0.45) -- (0,4.65) node[above] {$y$};
+
+      \foreach \x in {0,...,4}
+        \node[below=5mm] at (\x,0) {$\x$};
+      \foreach \y in {0,...,4}
+        \node[left=5mm] at (0,\y) {$\y$};
+
+      \foreach \s in {1,...,4}
+        \draw[diagonal] (\s,0) -- (0,\s);
+
+      \foreach \x in {0,...,4}{
+        \foreach \y in {0,...,4}{
+          \pgfmathtruncatemacro{\cpvalue}{(\x+\y)*(\x+\y+1)/2+\y}
+          \node[pair] at (\x,\y) {$\cpvalue$};
+        }
+      }
+    \end{tikzpicture}
+    \caption{Die Cantorsche Paarfunktion
+      $cp(x,y)=tr(x+y)+y$. Die Pfeile zeigen die Aufzählungsrichtung auf
+      den Diagonalen $x+y=\text{konstant}$.}
+    \label{fig:cantor-pairing}
+  \end{figure}
+
+  Die beiden Projektionen $px, py : \N \to \N$ mit den Eigenschaften
+  (für alle $x, y, n \in \N$)
+  \begin{align*}
+    x &= px (cp (x, y)) & y &= py (cp (x, y)) & n & = cp (px (n), py (n))
+  \end{align*}
+  sind ebenfalls primitiv rekursiv.
+
+  Dazu definiere eine primitiv rekursive Funktion $untr : \N \to \N$,
+  sodass $m = untr(n)$ impliziert $tr(m)\le n$ und $n <
+  tr(m+1)$. (Übung oder selbst)
+
+  Dann setze
+  \begin{align*}
+    py (n) &= n \dotminus tr (untr (n)) &
+    px (n) &= untr (n) \dotminus py (n)
+  \end{align*}
+
+\end{Bsp}
 \begin{Beobachtung}
 	Alle primitiv rekursiven Funktionen sind total.\\
 	Aber: $\exists$ totale Funktion, die nicht primitiv rekursiv ist.
 \end{Beobachtung}
 \begin{Def}[Minimierung]\label{def:Minimierung}
-	Sei $f:\N^{k+1}-\->\N$\\
-	dann ist $\mu f:= g\in\N^k-\->\N$\\
+	Sei $f:\N^{k+1}\hookrightarrow\N$\\
+	dann ist $\mu f:= g\in\N^k\hookrightarrow\N$\\
 	definiert durch:
 	\begin{align*}
 		g(\overline{x}) &= \min\{n \mid f(n,\overline{x})=0\text{ und }\forall j<n: f(j,\overline{x})\text{ def. und }\neq 0\} \tag*{\qedhere}\\[.5em]
@@ -96,22 +265,79 @@
 		&\curvearrowright g(\overline{x})\text{ undef.}
 	\end{align*}
 \end{Def}
-\begin{Def}[name={[Klasse der $\mu$-rekursiven Funktionen]}]
-	Die Klasse der \emph{$\mu$-rekursiven Funktionen} über $\N$ ist die kleinste Klasse von Funktionen, die die Basisfunktionen (1,2,3 aus der \autoref{def:PREC}) enthalten und abgeschlossen ist unter \hyperref[itm:Komposition]{Komposition \ref*{itm:Komposition}} \hyperref[itm:Rekursion]{Rekursion \ref*{itm:Rekursion}} und \hyperref[def:Minimierung]{Minimierung}
+\begin{Def}[name={[\acs*{muREC}]}]
+  Die \acf{muREC} über $\N$ ist die
+  kleinste Klasse von Funktionen, die die Basisfunktionen (1,2,3 aus
+  der \autoref{def:PREC}) enthalten und abgeschlossen ist unter
+  \hyperref[itm:Komposition]{Komposition \ref*{itm:Komposition}},
+  \hyperref[itm:Rekursion]{Rekursion \ref*{itm:Rekursion}} und
+  \hyperref[def:Minimierung]{Minimierung}  
 \end{Def}
-\begin{Satz}[name={[$\mu$-Funktionen-Klasse $\hat=$ Klasse der \acs*{TM}-berechenbaren Fkt.]}]
-	Die Klasse der $\mu$-Funktionen stimmt mit der Klasse der \ac{TM}-berechenbaren Funktionen über $\N$ überein.
+\begin{Satz}[name={[\acs*{muREC} $\hat=$ Klasse der \acs*{TM}-berechenbaren Fkt.]}]
+	\ac{muREC} stimmt mit der Klasse der \ac{TM}-berechenbaren Funktionen über $\N$ überein.
 \end{Satz}
 \begin{proof}\
 	\begin{itemize}
-	\item simuliere \rlerror*{URM = unbeschränkte Registermaschine?}{URM} mit $\mu$-Rekursion.
-	\item simuliere $\mu$-Rekursion mit $\ac{TM}$ (analog zur universellen \ac{TM}) \qedhere
+	\item[$\supseteq$] Sei $M$ eine deterministische \ac{TM}, die eine partielle
+		Funktion $f:\N^k\hookrightarrow\N$ berechnet. Wir skizzieren, wie die
+		Berechnung von $M$ durch eine Funktion aus \ac{muREC} simuliert wird.
+		\begin{enumerate}
+		\item Zustände, Bandsymbole, endliche Wörter und damit Konfigurationen
+			$(v,q,w)$ von $M$ werden durch natürliche Zahlen codiert. Die Codierung
+			kann so gewählt werden, dass die benötigten Codierungs- und
+			Decodierungsfunktionen primitiv rekursiv sind.
+		\item Da $M$ fest ist, sind die Funktionen
+			\[
+			\mathsf{start}_{M}:\N^k\->\N
+			\qquad\text{und}\qquad
+			\mathsf{step}_{M}:\N\->\N
+			\]
+			primitiv rekursiv. Sie liefern den Code der Startkonfiguration bzw. den
+			Code der eindeutigen Folgekonfiguration. Für Haltekonfigurationen setzen
+			wir $\mathsf{step}_{M}(c)=c$.
+		\item Durch primitive Rekursion ist auch
+			\begin{align*}
+			\mathsf{conf}_{M}(0,\overline{x})
+				&=\mathsf{start}_{M}(\overline{x}),\\
+			\mathsf{conf}_{M}(n+1,\overline{x})
+				&=\mathsf{step}_{M}(\mathsf{conf}_{M}(n,\overline{x}))
+			\end{align*}
+			primitiv rekursiv. $\mathsf{conf}_{M}(n,\overline{x})$ codiert die
+			Konfiguration nach $n$ Schritten.
+		\item Die charakteristische Funktion $\mathsf{halt}_{M}$ der Codes von
+			Haltekonfigurationen ist primitiv rekursiv; dabei gelte
+			$\mathsf{halt}_{M}(c)=0$ genau für Haltekonfigurationen. Damit ist auch
+			\[
+			H_{M}(n,\overline{x})
+			:=\mathsf{halt}_{M}(\mathsf{conf}_{M}(n,\overline{x}))
+			\]
+			primitiv rekursiv. Durch Minimierung erhalten wir
+			\[
+			t_{M}(\overline{x})
+			:=(\mu H_{M})(\overline{x}).
+			\]
+			$\mu$-rekursiv. Diese Funktion ist genau dann undefiniert, wenn $M$ auf
+			$\overline{x}$ nicht hält.
+		\item Schließlich sei $\mathsf{out}_{M}$ die primitiv rekursive Funktion,
+			die aus dem Code einer Haltekonfiguration die codierte Ausgabe liest. Dann
+			gilt
+			\[
+			f(\overline{x})=
+			\mathsf{out}_{M}\bigl(
+			\mathsf{conf}_{M}(t_{M}(\overline{x}),\overline{x})
+			\bigr).
+			\]
+			Die rechte Seite entsteht durch Minimierung und Komposition aus primitiv
+			rekursiven Funktionen; folglich ist $f\in\ac{muREC}$.
+		\end{enumerate}
+	\item[$\subseteq$] simuliere $\mu$-Rekursion mit einer \ac{TM}
+		(analog zur universellen \ac{TM}). \qedhere
 	\end{itemize}
 \end{proof}
 \begin{Satz}[Kleene]
-	Für jede $\mu$-rekursive Funktion $F: \N^k-\->\N$ gibt es zwei primitiv rekursive Funktionen $p,q:\N^{k+1}\->\N$, sodass $f(\overline{x})=p(\overline{x},\mu q(\overline{x}))$
+	Für jede Funktion $F: \N^k\hookrightarrow\N$ mit $F\in\ac{muREC}$ gibt es zwei primitiv rekursive Funktionen $p,q:\N^{k+1}\->\N$, sodass $f(\overline{x})=p(\overline{x},\mu q(\overline{x}))$
 \end{Satz}
-$\curvearrowright$ Jede berechenbare Funktion über $\N$ kann mit einer WHILE-Schleife programmiert werden.
+$\curvearrowright$ Jede berechenbare Funktion über $\N$ kann mit einem Programm aus der \acf{WHILE} berechnet werden.
 \begin{Def}[name={[Ackermannfunktion]}]
 	Die \emph{Ackermannfunktion}
 	\begin{align*}
@@ -123,15 +349,15 @@ $\curvearrowright$ Jede berechenbare Funktion über $\N$ kann mit einer WHILE-Sc
 \end{Def}
 \begin{Satz}
 	Sei $\A$ die Menge der Funktionen, die durch $A$ majorisiert werden.
-	\[ \text{Es gilt: }\PREC\subseteq \A \]\vspace{-2em}
+	\[ \text{Es gilt: }\ac{PREC}\subseteq \A \]\vspace{-2em}
 \end{Satz}
 \begin{proof}
 	$A=\{f:\N^k\->\N \mid \exists n \forall\overline{x}:f(\overline{x})< A(m,\max\overline{x})\}$.\\
-	Induktion über $\PREC$:
+	Induktion über $\ac{PREC}$:
 	\begin{enumerate}
 	\item $\mathcal{O}(\overline{x})=0 < A(0,\max\overline{x})=\max \overline{x}+1,\quad \mathcal{O}\in\A$
-	\item $S(x)=\A+1 < x+2 = A(\uuline{1},x)$, also $S\in \mathcal A$
-	\item $\pi^k_j(x_1,\dots,x_k) = x_j\leq \max\overline{x} < \max \overline{x} +1 = A(\uuline{0},\max \overline{x})$, also $\pi^k_j\in\A$
+	\item $S(x)=\A+1 < x+2 = A(\underline{1},x)$, also $S\in \mathcal A$
+	\item $\pi^k_j(x_1,\dots,x_k) = x_j\leq \max\overline{x} < \max \overline{x} +1 = A(\underline{0},\max \overline{x})$, also $\pi^k_j\in\A$
 	\item\ \vspace{-2em}
 		\begin{align*}
 			&\left.\begin{array}{rr<{{}}@{}l}
@@ -152,7 +378,7 @@ $\curvearrowright$ Jede berechenbare Funktion über $\N$ kann mit einer WHILE-Sc
 			&< A(s,\max(g_1(\overline{x}),\dots,g_m(\overline{x}))\\
 			&< A(s,\max(A(r_1,\max\overline{x}), \dots, A(r_m,\max\overline{x}))\\
 			&= A(s,A(r_j,\max\overline{x}))\\
-			&\overset!< A(\uuline{s+r_j+2},\max\overline{x})\\
+			&\overset!< A(\underline{s+r_j+2},\max\overline{x})\\
 			\text{Also }f\in\A
 		\end{align*}
 	\item Sei $g:\N^k\->\N,\ h:\N^[k+2]\->\N\qquad \in\A$
@@ -183,7 +409,7 @@ $\curvearrowright$ Jede berechenbare Funktion über $\N$ kann mit einer WHILE-Sc
 			\text{Nun setze }w &=\max(n,\overline{x})\\
 			f(n,\overline{x}) < A(q,n+\max\overline{x})\\
 			&\leq A(q,2w)\\
-			&\overset!< A(\uuline{q+2},w)\\
+			&\overset!< A(\underline{q+2},w)\\
 			\text{Also }f\in\A \tag*{\qedhere}
 		\end{align*}
 	\end{enumerate}
@@ -192,5 +418,11 @@ $\curvearrowright$ Jede berechenbare Funktion über $\N$ kann mit einer WHILE-Sc
 	Die Ackermannfunktion $A$ ist nicht primitiv rekursiv.
 \end{Korollar}
 \begin{proof}
-	$A\notin\A$
+  $A\notin\A$
 \end{proof}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "Info_3_Skript_SS2026"
+%%% End:

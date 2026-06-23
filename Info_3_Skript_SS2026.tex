@@ -17,6 +17,8 @@
 % Compiled with pdflatex -enable-write18 -synctex=1 -interaction=nonstopmode --shell-escape %.tex
 %\RequirePackage[l2tabu,orthodox]{nag}
 \documentclass[11pt,paper=a4,titlepage,headsepline,ngerman,listof=totoc]{scrartcl}
+% Faster compilation: one section / file.
+\includeonly{1-Vorspann_Sprachen,2-Regulaere_Sprachen_und_endliche_Automaten,3-Grammatiken_und_kontextfreie_Sprachen,4-Kellerautomaten,8-Rekursive_Funktionen}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -24,7 +26,7 @@
 \usepackage{babel}
 \usepackage{needspace}
 %
-\usepackage{acronym}
+\usepackage[noforwardlinks]{acronym}
 \usepackage{amsmath,amsfonts,amssymb}
 \usepackage{array}
 \usepackage{booktabs} % Better rules: \toprule, \midrule, \bottomrule
@@ -71,6 +73,14 @@
 %\usepackage{xhfill}
 
 % References
+% A partial PDF cannot contain destinations from omitted chapters. Load
+% hyperref in draft mode for partial builds; full builds retain hyperlinks.
+\makeatletter
+\if@partsw
+	\PassOptionsToPackage{draft}{hyperref}
+	\PassOptionsToPackage{draft}{bookmark}
+\fi
+\makeatother
 \usepackage[bookmarksnumbered,colorlinks=false,linkbordercolor={0 0 0},pdfborder={0 0 0}]{hyperref}
 %\usepackage{hypcap}
 \usepackage[hypcap]{caption} % \captionof + hypcap = link at begin of figure etc.
@@ -163,7 +173,7 @@
 \usepackage{scrlayer-scrpage}
 \automark[subsection]{section}
 \pagestyle{scrheadings}
-\clearscrheadfoot
+\clearpairofpagestyles
 \setkomafont{pageheadfoot}{\normalfont\sffamily}
 \ohead{\pagemark}
 \ihead{\rightmark}
@@ -241,6 +251,16 @@
 \declaretheorem[style=basic,sibling=Satz,name=Lemma]{lemma}
 \declaretheorem[style=definition,sibling=Satz,name=Korollar]{Korollar}
 \declaretheorem[style=definition,numbered=no,name=Korollar]{Korollar*}
+% Hyperref's default theorem anchors omit the parent counter even though the
+% printed theorem numbers include it. Make PDF destinations unique by section
+% and subsection.
+\renewcommand*{\theHBeobachtung}{\thesection.\arabic{subsection}.\arabic{Beobachtung}}
+\renewcommand*{\theHBsp}{\thesection.\arabic{subsection}.\arabic{Bsp}}
+\renewcommand*{\theHDef}{\thesection.\arabic{subsection}.\arabic{Def}}
+\renewcommand*{\theHsubDef}{\theHDef.\arabic{subDef}}
+\renewcommand*{\theHSatz}{\thesection.\arabic{subsection}.\arabic{Satz}}
+\renewcommand*{\theHlemma}{\thesection.\arabic{subsection}.\arabic{Satz}}
+\renewcommand*{\theHKorollar}{\thesection.\arabic{subsection}.\arabic{Satz}}
 \let\proof=\relax
 \AtBeginDocument{% For \proofname as of babel.
 	\declaretheorem[style=proofstyle,name=\proofname,numbered=no]{proof}
@@ -308,12 +328,8 @@
 \DeclareMathOperator\state{state}
 \DeclareMathOperator\tape{tape}
 \DeclareMathOperator\CLIQUE{CLIQUE}
-\DeclareMathOperator\PREC{PREC} % Def. 8.2
 \DeclareMathOperator\add{add} % Bsp. zu 8.2
 \DeclareMathOperator\mult{mult} % Bsp. zu 8.2
-
-% Faster compilation: one section / file.
-\includeonly{1-Vorspann_Sprachen,2-Regulaere_Sprachen_und_endliche_Automaten,3-Grammatiken_und_kontextfreie_Sprachen,4-Kellerautomaten}
 
 %========================%
 \begin{document}
@@ -397,7 +413,7 @@ Der Latex Quellcode des Skriptes ist in einem Git Repositorium verfügbar.\\
 \include{5-Turing_und_Church}
 \include{6-Berechenbarkeit}
 \include{7-Komplexitaetstheorie}
-% \include{8-Rekursive_Funktionen}
+\include{8-Rekursive_Funktionen}
 \iffalse
 \printindex
 
@@ -408,7 +424,7 @@ Der Latex Quellcode des Skriptes ist in einem Git Repositorium verfügbar.\\
 \listoffigures
 \fi
 \addsec{Abkürzungsverzeichnis}
-\begin{acronym}[MPCP]
+\begin{acronym}[WHILE]
 	\acro{3SAT}{Erfüllbarkeitsproblem der Aussagenlogik in 3CNF}
 	\acro{AL}{Aussagenlogik}
 	\acro{CFL}{Menge der kontextfreien Sprachen}
@@ -426,6 +442,7 @@ Der Latex Quellcode des Skriptes ist in einem Git Repositorium verfügbar.\\
 	\acro{EA}{endlicher Automat}
 	\acro{LBA}{Linear Bounded Automaton}
 	\acro{MPCP}{Das modifizierte \acs*{PCP}}
+	\acro{muREC}[\ensuremath{\mu\mathrm{REC}}]{Menge der \ensuremath{\mu}-rekursiven Funktionen}
 	\acro{ND}{Nicht-Determinismus}
 	\acro{NEA}{nichtdeterministischer endlicher Automat}
 	\acro{NFA}{\acroextra{engl.: }nondeterministic finite automaton}
@@ -438,12 +455,15 @@ Der Latex Quellcode des Skriptes ist in einem Git Repositorium verfügbar.\\
 	\acro{PCP}{Das Postsche Korrespondenzproblem}
 	\acro{PDA}{pushdown automaton\acroextra{ (Kellerautomat)}}
 	\acro{PL}{Pumping Lemma}
+	\acro{PREC}[\ensuremath{\operatorname{PREC}}]{Menge der primitiv rekursiven Funktionen}
 	\acro{RE}[\textit{RE}]{Menge der regulären Ausdrücke}
 	\acro{REG}[\textit{REG}]{Menge der regulären Sprachen}
 	\acro{RM}{Registermaschine}
 	\acro{SAT}{Erfüllbarkeitsproblem der Aussagenlogik}
 	\acro{TM}{Turingmaschine}
 	\acro{TT}{Turingtabelle}
+	\acro{URM}{unbeschränkte Registermaschine}
+	\acro{WHILE}{Menge der WHILE-Programme}
 \end{acronym}
 \listoffixmes
 

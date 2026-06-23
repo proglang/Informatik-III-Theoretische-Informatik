@@ -336,7 +336,6 @@ Wir definieren den \emph{Produktautomaten für Durchschnitt} als den \ac{DEA} $A
 \end{Def}
 
 
-\datenote{28.04.26}
 Im folgenden Beispiel sei $A_1$ der \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$, dessen graphische Repräsentation nahezu mit $A_{\mathtt{Macaron}}$ identisch ist.
 
 \begin{center}
@@ -360,7 +359,7 @@ Im folgenden Beispiel sei $A_1$ der \ac{DEA} über dem Alphabet $\Sigma=\{0,1\}$
 
 
 \begin{Bsp}\label{bsp:2.schnitt}
-Der Produktautomat für den Durchschnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende graphische Repräsentation, wobei wir um Platz zu sparen "`$q_{ij}$"' statt "`$(q_i, q_j)$"' schreiben.
+Der Produktautomat für den Durchschnitt von $A_1$ und $A_\mathsf{even}$ hat die folgende graphische Repräsentation, wobei wir um Platz zu sparen "`$q_{ij}$"' statt "`$(q_i, q_j)$"' schreiben.\datenote{28.04.26}
 
 \begin{center}
 \begin{tikzpicture}[node distance = 3cm]
@@ -705,10 +704,8 @@ Wir formalisieren das "`Verschmelzen"' von Zuständen wie folgt.
                      \qedhere
         \end{align*}
 \end{Def}
-\datenote{29.04.26}
-
 \begin{Bsp}
-Der Äquivalenzklassenautomat $\A_\equiv$ zum \ac{DEA} aus \autoref{bsp:2.schnitt} hat das folgende Zustandsdiagramm.
+Der Äquivalenzklassenautomat $\A_\equiv$ zum \ac{DEA} aus \autoref{bsp:2.schnitt} hat das folgende Zustandsdiagramm.\datenote{29.04.26}
  % \eqref{bsp:3.1}:
 \begin{center}
    \captionsetup{type=figure}
@@ -922,9 +919,8 @@ Sei $\Sigma=\{0,1\}$. Die Sprache $L=\{w\in\Sigma^*\mid \text{vorletztes Zeichen
         \qedhere
         \end{align*}
 \end{Bsp}
-\datenote{05.05.2026}
 \begin{Bsp}
-      Für ein beliebiges Alphabet $\Sigma$ gilt:
+      Für ein beliebiges Alphabet $\Sigma$ gilt:\datenote{05.05.2026}
       \begin{enumerate}
        \item Die Sprache $L=\{\Eps\}$ hat genau zwei Äquivalenzklassen bezüglich der Nerode-Relation.
       Eine Äquivalenzklasse ist $\{\Eps\}$, die andere ist $\Sigma^+$.
@@ -1285,7 +1281,7 @@ Im Folgenden sei $\calN$ immer ein \acs*{NEA}.
 \begin{Def}[Akzeptanz]
 	Ein Wort $w\in\Sigma^*$ wird von $\calN$ \emph{akzeptiert}, falls $\calN$ einen initialen und akzeptierenden Lauf über $w$ hat.
 	Die von $\calN$ akzeptierte Sprache ist die Menge der von $\calN$ akzeptierten Wörter, d.h.\
-	$$L(\calN)=\{ w\in\Sigma^* \mid \exists\text{ initialer, akzeptierender Lauf von $\calN$ über }w \} \text. \qedhere$$
+	$$L(\calN)=\{ w\in\Sigma^* \mid \exists\text{ initialer, akzeptierender Lauf von $\calN$ über }w \} \text.$$
 \end{Def}
 
 
