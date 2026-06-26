@@ -18,7 +18,7 @@ open import Grammar.DerivationHelpers
 import Grammar.DerivationTree as DerivationTree
 import Grammar.Leftmost-Derivation as Leftmost-Derivation
 
--- grammar from NPDA
+-- NPDA from grammar
 
 module _ {Σ : Set} (𝓖 : CFG Σ) where
 

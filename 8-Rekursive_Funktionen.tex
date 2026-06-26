@@ -10,11 +10,11 @@ Perspektive ein: Aus wenigen einfachen Funktionen über $\N$ erzeugen wir durch
 fest vorgegebene Konstruktionsprinzipien immer größere Klassen berechenbarer
 Funktionen.
 
-Zunächst führt primitive Rekursion ausschließlich zu totalen Funktionen. Durch
-Minimierung kommt partielle Berechenbarkeit hinzu, und wir erhalten genau die
-mit Turingmaschinen berechenbaren Funktionen. Die Programmiersprachen LOOP und
-WHILE stellen anschließend eine Verbindung zwischen diesen abstrakten
-Funktionsklassen und konkreten Berechnungsabläufen her. Zum Abschluss zeigt die
+Zunächst führt primitive Rekursion ausschließlich zu totalen Funktionen.
+Die Sprache LOOP liefert dafür ein imperatives Berechnungsmodell. Durch
+Minimierung kommt partielle Berechenbarkeit hinzu; die Sprache WHILE bildet das
+imperative Gegenstück. Anschließend vergleichen wir diese
+Berechenbarkeitsbegriffe mit Turingmaschinen. Zum Abschluss zeigt die
 Ackermannfunktion, dass nicht jede totale berechenbare Funktion bereits primitiv
 rekursiv ist.
 
@@ -22,6 +22,10 @@ rekursiv ist.
 Funktion von $A$ nach $B$ und mit $f:A\hookrightarrow B$ eine
 \emph{partielle} Funktion von $A$ nach $B$. Jede totale Funktion kann
 auch als partielle Funktion betrachtet werden.
+
+\subsection{Primitive Rekursion}
+\label{sec:primitive-rekursion}
+
 
 Als erstes Konstruktionsprinzip betrachten wir die primitive Rekursion. Dabei
 wird das erste Argument schrittweise aufgebaut, während die übrigen Argumente
@@ -38,15 +42,15 @@ als Parameter unverändert bleiben.
 		\end{split} \numbereq\label{eq:rekursives f}
 	\end{align*}
 	Dann sei
-	\[ f =: PR(g,h) \]
+		\[ f =: \PR(g,h) \]
 	aus $g$ und $h$ durch primitive Rekursion definiert.
 \end{Def}
 Die Rekursionsgleichungen sollen nicht nur eine Berechnungsvorschrift andeuten,
 sondern tatsächlich genau eine totale Funktion festlegen. Dies ist Inhalt des
 folgenden Lemmas.
-\begin{lemma}[name={[$PR(g,h)$ ist wohldefiniert.]}]
+\begin{lemma}[name={[$\PR(g,h)$ ist wohldefiniert.]}]
   \label{lemma:rekursive-funktionen-1}
-  $PR(g,h)$ ist wohldefiniert.
+  $\PR(g,h)$ ist wohldefiniert.
 \end{lemma}
 \begin{proof}
 	Seien $g:\N^k\to\N$ und $h:\N^{k+2}\to\N$ wie in der Definition.
@@ -144,70 +148,126 @@ folgenden Lemmas.
 		$\overline{x}$ auch $f(n,\overline{x})=f'(n,\overline{x})$.
 	\end{description}
 \end{proof}
-Mit dem wohldefinierten Rekursionsschema können wir nun die erste
-Funktionsklasse durch Basisfunktionen und Abschlussoperationen festlegen.
-\begin{Def}[name={[\acs*{PREC}]}]\label{def:PREC}
-	Die \acf{PREC} über $\N$ ist induktiv definiert:
+Mit dem wohldefinierten Rekursionsschema können wir nun zunächst eine Sprache
+primitiv rekursiver Terme festlegen. Ihre Gesamtheit bezeichnen wir als
+\acf{PREC}; ihre Bedeutung als Funktionen definieren wir anschließend getrennt.
+\begin{Def}[name={Syntax der \acs*{PREC}}]\label{def:PREC}
+	Die Mengen $\ac{PREC}^k$ der \emph{primitiv rekursiven Terme der Stelligkeit
+	$k$} sind für alle $k\in\N$ simultan als die kleinste Familie von Mengen
+	definiert, welche die folgenden Bedingungen erfüllt:
 	\begin{enumerate}
-	\item\label{itm:Nullfunktion} $\forall k\in\N:
-		\begin{aligned}[t]
-			&\mathcal{O}^k : \N^k\->\N\\
-			&\mathcal{O}^k(\overline{x}) = 0\\
-		\end{aligned}$\\
-		$\mathcal{O}^k\in\ac{PREC}$ (die Nullfunktion)
-	\item\label{itm:Projektion} $\forall k\geq1: \forall 1\leq j\leq k:
-		\begin{aligned}[t]
-			&\pi^k_j : \N^k\->\N\\
-			\pi^k_j(x_1,\dots,x_k) = x_j
-		\end{aligned}$\\
-		$\pi^k_j\in\ac{PREC}$ (Projektionen)
-	\item\label{itm:Nachfolgerfunktion} $S:\N\->\N\ \in\ac{PREC}$ (Nachfolgerfunktion)
-	\pagebreak[3]
-	\item\label{itm:Komposition} Falls $g:\N^k\->\N\ \in\ac{PREC}$
-		\begin{align*}
-			\forall 1\leq i\leq k: h_i:\N^m\->\N \quad&\in\ac{PREC}\\
-			\text{dann ist }g\circ[h_1,\dots,h_k]:\N^m\->\N \quad&\in\ac{PREC}\\
-			(g\circ[h_1,\dots,h_k])(\overline{x}) = g(h_1(\overline{x}),\dots,h_k(\overline{x})) \quad\x&\in\N^m
-		\end{align*}
-		(Funktionskomposition)
-	\item\label{itm:Rekursion} Falls $g:\N^k\->\N$ und $h:\N^{k+2}\->\N\quad\in\ac{PREC}$\\
-		dann ist auch $PR(g,h)\in\ac{PREC}$ \quad(Rekursion) \qedhere
+	\item\label{itm:Nullfunktion}
+		Für jedes $k\in\N$ gilt $\mathcal{O}^k\in\ac{PREC}^k$.
+	\item\label{itm:Projektion}
+		Für $k\geq1$ und $1\leq j\leq k$ gilt
+		$\pi_j^k\in\ac{PREC}^k$.
+	\item\label{itm:Nachfolgerfunktion}
+		$\mathcal{S}\in\ac{PREC}^1$.
+	\item\label{itm:Komposition}
+		Sind $t\in\ac{PREC}^m$ und
+		$u_1,\dots,u_m\in\ac{PREC}^k$, so gilt
+		\[
+			t\circ[u_1,\dots,u_m]\in\ac{PREC}^k.
+		\]
+	\item\label{itm:Rekursion}
+		Sind $t\in\ac{PREC}^k$ und $u\in\ac{PREC}^{k+2}$, so gilt
+		\[
+			\PR(t,u)\in\ac{PREC}^{k+1}.
+		\]
 	\end{enumerate}
+	Die Menge aller primitiv rekursiven Terme ist
+	\[
+		\ac{PREC}:=\bigcup_{k\in\N}\ac{PREC}^k.
+	\]
+\end{Def}
+
+Die Stelligkeit eines Terms ist bereits durch seine syntaktische Bildung
+bestimmt. Nun interpretieren wir jeden Term durch eine totale Funktion derselben
+Stelligkeit.
+\begin{Def}[name={Semantik der \acs*{PREC}}]\label{def:PREC-Semantik}
+	Für jedes $k\in\N$ ist die Semantikabbildung
+	\[
+		\llbracket\,\cdot\,\rrbracket_k:
+		\ac{PREC}^k\to(\N^k\to\N)
+	\]
+	durch strukturelle Rekursion über primitiv rekursive Terme definiert:
+	\begin{align*}
+		\llbracket\mathcal{O}^k\rrbracket_k(\overline{x})
+			&=0,\\
+		\llbracket\pi_j^k\rrbracket_k(x_1,\dots,x_k)
+			&=x_j,\\
+		\llbracket\mathcal{S}\rrbracket_1(x)
+			&=x+1,\\
+		\llbracket t\circ[u_1,\dots,u_m]\rrbracket_k(\overline{x})
+			&=\llbracket t\rrbracket_m\bigl(
+				\llbracket u_1\rrbracket_k(\overline{x}),\dots,
+                   \llbracket u_m\rrbracket_k(\overline{x})\bigr),
+                   && t \in \ac{PREC}^m, u_i \in \ac{PREC}^k,
+          \\
+		\llbracket \PR(t,u)\rrbracket_{k+1}
+			&=\PR\bigl(\llbracket t\rrbracket_k,
+                   \llbracket u\rrbracket_{k+2}\bigr)
+                   && t\in\ac{PREC}^k, u\in\ac{PREC}^{k+2}.
+	\end{align*}
+        Die Semantik einer Menge von Termen schreiben wir als
+	\begin{align*}
+		\llbracket\ac{PREC}^k\rrbracket_k
+			&:=\{\llbracket t\rrbracket_k\mid t\in\ac{PREC}^k\},\\
+		\llbracket\ac{PREC}\rrbracket
+			&:=\bigcup_{k\in\N}\llbracket\ac{PREC}^k\rrbracket_k.
+	\end{align*}
+	Die Funktionen in $\llbracket\ac{PREC}\rrbracket$ heißen
+	\emph{primitiv rekursiv}.
 \end{Def}
 Die folgenden Konstruktionen zeigen, wie sich vertraute arithmetische
 Operationen allein aus diesen Bausteinen zusammensetzen lassen.
 \begin{Bsp*}\
   \begin{enumerate}
-  \item Addition $\in\ac{PREC}$
+  \item Der Term
+    \[
+      \mathsf{add}
+      :=\PR\bigl(\pi_1^1,\mathcal{S}\circ[\pi_1^3]\bigr)
+      \in\ac{PREC}^2
+    \]
+    bezeichnet die Addition. Für
+    $\add:=\llbracket\mathsf{add}\rrbracket_2$ gilt nämlich
     \begin{align*}
       \add(0,x) &=x\\
-      \add(n+1,x) &= \add(n,x)+1\\
-                &= h(\add(n,x),n,x)\\
-      \add &= PR(g,h)\\
-      \text{mit }g(x) &= x \quad ; g=\pi^1_1\\
-      h(y,n,x) &= y+1 \quad ; h= S\circ \pi^3_1\\
-      \add &= PR(\pi^1_1,S\circ\pi^3_1)
+      \add(n+1,x) &= \add(n,x)+1.
     \end{align*}
-  \item Multiplikation
-    \begin{alignat*}{2}
-      &&\mult&: \N^2\->\N\\
-      &&\mult(0,x) &=0\\
-      &&\mult(n+1,x) &= \add(x,\mult(n,x))\\
-      &&\mult &= PR(g,h)\\
-      \text{mit}&\ & g&= \mathcal{O}^1\\
-      &&h(y,n,x) &= \add(x,y)\\
-      \text{d.h.}&& h &=\add\circ[\pi^3_3,\pi^3_1]
-    \end{alignat*}
-  \item Subtraktion auf natürlichen Zahlen ist
+  \item Unter Verwendung des Additionsterms erhalten wir den
+    Multiplikationsterm
+    \[
+      \mathsf{mult}
+      :=\PR\bigl(\mathcal{O}^1,
+        \mathsf{add}\circ[\pi_3^3,\pi_1^3]\bigr)
+      \in\ac{PREC}^2.
+    \]
+    Für $\mult:=\llbracket\mathsf{mult}\rrbracket_2$ gilt
+    \begin{align*}
+      \mult(0,x) &=0,\\
+      \mult(n+1,x) &= \add(x,\mult(n,x)).
+    \end{align*}
+  \item\datenote{24.06.2026}
+    Subtraktion auf natürlichen Zahlen ist
     nicht total. Stattdessen verwenden wir die \emph{Monus} Operation
     definiert durch $x \dotminus y = \max (x-y, 0)$ hier definiert als
-    \sub. Vorher definieren wir die Vorgängerfunktion \pred.
+    \sub. Dazu definieren wir zunächst die Terme
     \begin{align*}
-      \pred&: \N \to \N &
-      \pred&= PR (\mathcal{O}^0, \pi^2_2) \\
-      \sub&: \N^2 \to \N &
-      \sub&= PR (\pi^1_1, \pred \circ \pi^3_1) \circ [\pi^2_2, \pi^2_1]
+      \mathsf{pred}
+        &:=\PR(\mathcal{O}^0,\pi_2^2)
+        &&\in\ac{PREC}^1,\\
+      \mathsf{sub}
+        &:=\PR\bigl(\pi_1^1,\mathsf{pred}\circ[\pi_1^3]\bigr)
+          \circ[\pi_2^2,\pi_1^2]
+        &&\in\ac{PREC}^2.
     \end{align*}
+    Ihre Semantiken $\pred:=\llbracket\mathsf{pred}\rrbracket_1$ und
+    $\sub:=\llbracket\mathsf{sub}\rrbracket_2$ erfüllen
+    \[
+      \pred(0)=0,\qquad \pred(n+1)=n,\qquad
+      \sub(x,y)=x\dotminus y.
+    \]
   \end{enumerate}
 \end{Bsp*}
 Um mehrere natürliche Zahlen gemeinsam durch eine einzige natürliche Zahl zu
@@ -218,20 +278,6 @@ codieren, benötigen wir Paarfunktionen.
 Die Cantorsche Paarfunktion liefert eine konkrete primitiv rekursive
 Paarfunktion; auch ihre beiden Umkehrprojektionen lassen sich primitiv rekursiv
 berechnen.
-\begin{Bsp}
-  Die Cantorsche Paarfunktion $cp$ ist wie folgt definiert.
-  \begin{align*}
-    tr & : \N \to \N  & tr (0) &= 0 & tr(n+1) &= n+1 + tr(n) \\
-    cp & : \N^2 \to \N & cp (x, y) &= tr (x+y) + y
-  \end{align*}
-  Offenbar ist diese Funktion primitiv rekursiv:
-  \begin{align*}
-    tr &= PR (\mathcal{O}^0, \add \circ [S\circ \pi^2_2, \pi^2_1])\\
-    cp &= \add \circ [tr\circ[\add], \pi^2_2]
-  \end{align*}
-  Die diagonale Aufzählung von $\N^2$ durch $cp$ ist in
-  \autoref{fig:cantor-pairing} dargestellt.
-
   \begin{figure}[tp]
     \centering
     \begin{tikzpicture}[
@@ -264,6 +310,29 @@ berechnen.
       den Diagonalen $x+y=\text{konstant}$.}
     \label{fig:cantor-pairing}
   \end{figure}
+\begin{Bsp}
+  Die Cantorsche Paarfunktion $cp$ ist wie folgt definiert.
+  \begin{align*}
+    tr & : \N \to \N  & tr (0) &= 0 & tr(n+1) &= n+1 + tr(n) \\
+    cp & : \N^2 \to \N & cp (x, y) &= tr (x+y) + y
+  \end{align*}
+  Diese Funktionen werden von den folgenden primitiv rekursiven Termen
+  bezeichnet:
+  \begin{align*}
+    \mathsf{tr}
+      &:=\PR\bigl(\mathcal{O}^0,
+        \mathsf{add}\circ[\mathcal{S}\circ[\pi_2^2],\pi_1^2]\bigr)
+      \in\ac{PREC}^1,\\
+    \mathsf{cp}
+      &:=\mathsf{add}\circ[
+        \mathsf{tr}\circ[\mathsf{add}],\pi_2^2]
+      \in\ac{PREC}^2,\\
+    tr&=\llbracket\mathsf{tr}\rrbracket_1,
+      &cp&=\llbracket\mathsf{cp}\rrbracket_2.
+  \end{align*}
+  Die diagonale Aufzählung von $\N^2$ durch $cp$ ist in
+  \autoref{fig:cantor-pairing} dargestellt.
+
 
   Die beiden Projektionen $px, py : \N \to \N$ mit den Eigenschaften
   (für alle $x, y, n \in \N$)
@@ -283,13 +352,163 @@ berechnen.
   \end{align*}
 
 \end{Bsp}
-Alle bisherigen Konstruktionen terminieren für jede Eingabe. Diese Totalität
-ist eine grundlegende, aber zugleich einschränkende Eigenschaft der primitiven
-Rekursion.
-\begin{Beobachtung}
-	Alle primitiv rekursiven Funktionen sind total.\\
-	Aber: $\exists$ totale Funktionen, die nicht primitiv rekursiv sind.
-\end{Beobachtung}
+
+\subsection{LOOP Berechenbarkeit}
+\label{sec:loop-berechenbarkeit}
+
+Die bisherigen Konstruktionsprinzipien beschreiben Funktionen auf abstrakte
+Weise. LOOP-Programme stellen ihnen ein einfaches imperatives Berechnungsmodell
+mit ausschließlich beschränkten Schleifen gegenüber.
+\begin{Def}[name={LOOP-Programme}]\label{def:LOOP-Programme}
+  Für jedes $k\geq1$ ist $\mathrm{LOOP}^k$ die Menge der Programme, die nur
+  die Register $x_1,\dots,x_k$ verwenden. Ihre Syntax ist induktiv definiert
+  durch
+  \[
+    \begin{array}{rcll}
+      P,Q &::=& x_i := x_i+1
+      & \text{(Inkrementierung)},\\
+          &\mid& x_i := x_i\dotminus 1
+      & \text{(Dekrementierung mit Abschneiden bei $0$)},\\
+          &\mid& P;Q
+      & \text{(sequenzielle Ausführung)},\\
+          &\mid& \texttt{LOOP }x_i\texttt{ DO }P\texttt{ END}
+      & \text{(beschränkte Schleife)}.
+    \end{array}
+  \]
+  Dabei gilt in jeder Regel $1\leq i\leq k$. Die Menge aller LOOP-Programme ist
+  \[
+    \mathrm{LOOP}:=\bigcup_{k\geq1}\mathrm{LOOP}^k.
+  \]
+\end{Def}
+Die Syntax legt zunächst nur die erlaubten Programme fest. Ihre Bedeutung
+definieren wir als Transformation des gesamten Registerzustands.
+\begin{Def}[Semantik eines LOOP-Programms]\label{def:LOOP-Semantik}
+  Für jedes $k\geq1$ ist die Semantikabbildung
+  \[
+    \llbracket\,\cdot\,\rrbracket_k:
+    \mathrm{LOOP}^k\to(\N^k\to\N^k)
+  \]
+  durch strukturelle Rekursion wie folgt definiert:
+  \begin{itemize}
+  \item $\llbracket x_i := x_i+1 \rrbracket_k (a_1, \dots, a_i, \dots, a_k) =
+    (a_1, \dots, a_i+1, \dots, a_k)$
+  \item $\llbracket x_i := x_i\dotminus 1 \rrbracket_k (a_1, \dots, a_i, \dots, a_k) =
+    (a_1, \dots, a_i\dotminus 1, \dots, a_k)$
+  \item $\llbracket P;Q \rrbracket_k (\overline{a}) =
+    \llbracket Q \rrbracket_k (\llbracket P \rrbracket_k (\overline{a}))$
+  \item $\llbracket \texttt{LOOP }x_i\texttt{ DO }P\texttt{ END} \rrbracket_k
+    (\overline{a}) = \llbracket P \rrbracket_k^{(a_i)} (\overline{a})$
+  \end{itemize}
+
+
+  Für $0\leq n\leq k$ sei
+  \[
+    \operatorname{init}_{n,k}:\N^n\to\N^k,
+    \qquad
+    \operatorname{init}_{n,k}(a_1,\dots,a_n)
+      =(a_1,\dots,a_n,0,\dots,0).
+  \]
+  Dabei werden rechts $k-n$ Nullen angefügt.
+  Ein Programm $P\in\mathrm{LOOP}^k$ \emph{berechnet} eine Funktion
+  $f:\N^n\to\N$, wenn
+  \[
+    f=\pi_1^k\circ\llbracket P\rrbracket_k
+      \circ\operatorname{init}_{n,k}.
+  \]
+  Eine Funktion heißt \emph{LOOP-berechenbar}, wenn sie von einem solchen
+  Programm berechnet wird.
+\end{Def}
+
+In Worten: Die Zuweisungen und die sequenzielle Ausführung haben ihre übliche
+Bedeutung. Bei der Ausführung von
+$\texttt{LOOP }x_i\texttt{ DO }P\texttt{ END}$ wird der Wert $r$ von $x_i$
+beim Eintritt in die Schleife einmal gelesen und anschließend $P$ genau
+$r$-mal ausgeführt. Änderungen von $x_i$ innerhalb von $P$ beeinflussen die
+Anzahl der Schleifendurchläufe nicht.
+
+Die Definition der Semantik von LOOP-Programmen ist
+\emph{kompositionell}, weil Semantik einer zusammengesetzten Anweisung
+als Funktion der Semantik ihrer Teilanweisungen definiert ist.
+
+Die arithmetischen Operationen aus den vorangegangenen Beispielen lassen sich
+bereits durch sehr kurze LOOP-Programme berechnen.
+\Needspace{18\baselineskip}
+\begin{Bsp}
+  Die beiden Eingaben $x,y$ stehen jeweils in $x_1,x_2$; die Ausgabe wird aus
+  $x_1$ gelesen.
+  \begin{description}
+  \item[Addition]
+    Das Programm
+    \[
+      P_{\mathsf{add}}
+      :=\texttt{LOOP }x_2\texttt{ DO }x_1:=x_1+1\texttt{ END}
+      \in\mathrm{LOOP}^2
+    \]
+    erfüllt
+    \[
+      \llbracket P_{\mathsf{add}}\rrbracket_2(x,y)=(x+y,y).
+    \]
+    Also berechnet $P_{\mathsf{add}}$ die Addition.
+
+  \item[Subtraktion (Monus)]
+    Analog gilt für
+    \[
+      P_{\mathsf{sub}}
+      :=\texttt{LOOP }x_2\texttt{ DO }
+        x_1:=x_1\dotminus1\texttt{ END}
+      \in\mathrm{LOOP}^2
+    \]
+    die Gleichung
+    \[
+      \llbracket P_{\mathsf{sub}}\rrbracket_2(x,y)
+      =(x\dotminus y,y).
+    \]
+    Somit berechnet $P_{\mathsf{sub}}$ die abgeschnittene Subtraktion.
+
+  \item[Multiplikation]
+    Hier verwenden wir $x_3$ als Arbeitsregister. Es enthält im initialen
+    Zustand $\operatorname{init}_{2,3}(x,y)=(x,y,0)$ den Wert $0$. Sei
+    \[
+      \begin{aligned}
+      P_{\mathsf{mult}}:={}&
+        \texttt{LOOP }x_1\texttt{ DO }x_3:=x_3+1\texttt{ END};\\
+      & \texttt{LOOP }x_1\texttt{ DO }
+          x_1:=x_1\dotminus1\texttt{ END};\\
+      & \texttt{LOOP }x_2\texttt{ DO LOOP }x_3\texttt{ DO }
+          x_1:=x_1+1\texttt{ END END}.
+      \end{aligned}
+    \]
+    Dann ist $P_{\mathsf{mult}}\in\mathrm{LOOP}^3$. Die drei Programmteile
+    transformieren den initialen Zustand nacheinander gemäß
+    \[
+      (x,y,0)\longmapsto(x,y,x)\longmapsto(0,y,x)
+      \longmapsto(xy,y,x).
+    \]
+    Folglich gilt
+    \[
+      \pi_1^3\bigl(
+        \llbracket P_{\mathsf{mult}}\rrbracket_3
+        (\operatorname{init}_{2,3}(x,y))\bigr)=xy,
+    \]
+    also berechnet $P_{\mathsf{mult}}$ die Multiplikation.
+  \end{description}
+\end{Bsp}
+
+Diese Beispiele illustrieren eine Richtung des folgenden
+Charakterisierungssatzes.
+\begin{Satz}
+  Eine Funktion $f : \N^n \to \N$ ist LOOP-berechenbar genau dann,
+  wenn sie primitiv rekursiv ist.
+\end{Satz}
+
+\clearpage\datenote{NEXT-UP}
+\subsection{$\mu$-rekursive Funktionen}
+\label{sec:mu-rekurs-funkt}
+
+
+Primitive Rekursion und die dazu äquivalenten LOOP-Programme liefern für jede
+Eingabe einen Funktionswert. Diese Totalität ist grundlegend, schränkt den
+Berechenbarkeitsbegriff aber zugleich ein.
 Um auch nicht terminierende Berechnungen zu beschreiben, führen wir nun eine
 potenziell partielle Suchoperation ein. Sie sucht die erste Nullstelle, darf
 dabei aber keinen undefinierten früheren Funktionswert überspringen.
@@ -358,36 +577,187 @@ definierte und undefinierte Minimierungen.
 	\end{enumerate}
 \end{Beobachtung}
 
-Für die folgende Klassendefinition verwenden wir auch Komposition und primitive
-Rekursion auf partiellen Funktionen.
+Für die Semantik $\mu$-rekursiver Terme verwenden wir auch Komposition und
+primitive Rekursion auf partiellen Funktionen.
 \begin{Bemerkung}
-  Die Konstruktionen aus \autoref{def:PREC} können genauso auch für
-  partielle Funktionen definiert und verwendet werden. Dabei nimmt man
-  an, dass ein Funktionsaufruf nur dann definiert ist, falls auch sein
-  Argument eine definierten Wert hat. Ebenso kann
-  \autoref{lemma:rekursive-funktionen-1} für partielle Funktionen bewiesen werden.
+  Die semantischen Konstruktionen aus \autoref{def:PREC-Semantik} können
+  genauso auch für partielle Funktionen definiert und verwendet werden. Dabei
+  ist ein Funktionsaufruf nur dann definiert, wenn alle seine Argumente
+  definiert sind. Ebenso lässt sich
+  \autoref{lemma:rekursive-funktionen-1} für partielle Funktionen formulieren.
 \end{Bemerkung}
 
-Ergänzen wir die primitiven rekursiven Konstruktionen um Minimierung, so
-erhalten wir die Klasse der $\mu$-rekursiven Funktionen.
-\begin{Def}[name={[\acs*{muREC}]}]
-  Die \acf{muREC} über $\N$ ist die
-  kleinste Menge von Funktionen, die die Basisfunktionen (1,2,3 aus
-  der \autoref{def:PREC}) enthält und abgeschlossen ist unter
-  \hyperref[itm:Komposition]{Komposition \ref*{itm:Komposition}},
-  \hyperref[itm:Rekursion]{Rekursion \ref*{itm:Rekursion}} und
-  \hyperref[def:Minimierung]{Minimierung}.
+Ergänzen wir die Syntax der primitiv rekursiven Terme um Minimierung, erhalten
+wir die \acf{muREC}, eine Sprache, deren Terme auch partielle Funktionen
+bezeichnen können.
+\begin{Def}[name={Syntax der \acs*{muREC}}]\label{def:muREC-Syntax}
+  Die Mengen $\ac{muREC}^k$ der \emph{$\mu$-rekursiven Terme der Stelligkeit
+  $k$} sind simultan als die kleinste Familie von Mengen definiert, welche alle
+  Bildungsregeln aus \autoref{def:PREC} erfüllt, wenn darin jede Menge
+  $\ac{PREC}^{\ell}$ durch $\ac{muREC}^{\ell}$ ersetzt wird, und zusätzlich
+  unter folgender Regel abgeschlossen ist:
+  \[
+    \frac{t\in\ac{muREC}^{k+1}}{\mu t\in\ac{muREC}^{k}}.
+  \]
+  Die Menge aller $\mu$-rekursiven Terme ist
+  \[
+    \ac{muREC}:=\bigcup_{k\in\N}\ac{muREC}^k.
+  \]
 \end{Def}
-Diese algebraisch definierte Klasse stimmt mit dem zuvor durch Maschinen
-gewonnenen Berechenbarkeitsbegriff überein.
+
+Die Semantik erweitert nun die Semantik der primitiv rekursiven Terme. Daher
+muss nur die Bedeutung des neuen Minimierungsterms festgelegt werden.
+\begin{Def}[name={Semantik der \acs*{muREC}}]\label{def:muREC-Semantik}
+  Für jedes $k\in\N$ setzt die Semantikabbildung
+  \[
+    \llbracket\,\cdot\,\rrbracket_k:
+    \ac{muREC}^k\to(\N^k\hookrightarrow\N)
+  \]
+  die Semantik aus \autoref{def:PREC-Semantik} fort. Für die aus
+  \autoref{def:PREC} übernommenen Syntaxfälle gelten dieselben
+  Semantikgleichungen, nun für partielle Funktionen. Für den zusätzlichen
+  Syntaxfall gilt
+  \[
+    \llbracket\mu t\rrbracket_k
+    =\mu\bigl(\llbracket t\rrbracket_{k+1}\bigr)
+    \qquad(t\in\ac{muREC}^{k+1}).
+  \]
+  Wir setzen
+  \begin{align*}
+    \llbracket\ac{muREC}^k\rrbracket_k
+      &:=\{\llbracket t\rrbracket_k\mid t\in\ac{muREC}^k\},\\
+    \llbracket\ac{muREC}\rrbracket
+      &:=\bigcup_{k\in\N}\llbracket\ac{muREC}^k\rrbracket_k.
+  \end{align*}
+  Die Funktionen in $\llbracket\ac{muREC}\rrbracket$ heißen
+  \emph{$\mu$-rekursiv}.
+\end{Def}
+
+\subsection{WHILE Berechenbarkeit}
+\label{sec:while-berech}
+
+
+Die Minimierung hat den funktionalen Formalismus um partielle Berechnungen
+erweitert. Auf Programmebene erreichen wir dasselbe mit der \acf{WHILE}: Dazu
+erweitern wir LOOP um eine Schleife mit datenabhängiger Abbruchbedingung.
+\begin{Def}[Syntax von WHILE-Programmen]\label{def:WHILE-Programme}
+  Für jedes $k\geq1$ ist $\mathrm{WHILE}^k$ die Menge der WHILE-Programme, die
+  nur die Register $x_1,\dots,x_k$ verwenden. Ihre Syntax ist induktiv
+  definiert durch
+  \[
+    \begin{array}{rcll}
+      P,Q &::=& x_i := x_i+1
+      & \text{(Inkrementierung)},\\
+          &\mid& x_i := x_i\dotminus 1
+      & \text{(Dekrementierung mit Abschneiden bei $0$)},\\
+          &\mid& P;Q
+      & \text{(sequenzielle Ausführung)},\\
+          &\mid& \texttt{LOOP }x_i\texttt{ DO }P\texttt{ END}
+      & \text{(beschränkte Schleife)},\\
+          &\mid& \texttt{WHILE }x_i\ne0\texttt{ DO }P\texttt{ END}
+                 & \text{(unbeschränkte Schleife)}.
+    \end{array}
+  \]
+  Dabei gilt in jeder Regel $1\leq i\leq k$. Die Menge aller WHILE-Programme ist
+  \[
+    \mathrm{WHILE}:=\bigcup_{k\geq1}\mathrm{WHILE}^k.
+  \]
+\end{Def}
+Da eine unbeschränkte Schleife nicht terminieren muss, ist ihre Semantik im
+Allgemeinen nur eine partielle Funktion auf Registerzuständen.
+\begin{Def}[Semantik von WHILE-Programmen]\label{def:WHILE-Semantik}
+  Für jedes $k\geq1$ ist die Semantikabbildung
+  \[
+    \llbracket\,\cdot\,\rrbracket_k:
+    \mathrm{WHILE}^k\to(\N^k\hookrightarrow\N^k)
+  \]
+  durch strukturelle Rekursion definiert. Für Inkrementierung und
+  Dekrementierung gelten die Gleichungen aus \autoref{def:LOOP-Semantik}.
+  Sequenzielle Ausführung und beschränkte Schleifen werden durch
+  \begin{align*}
+    \llbracket P;Q\rrbracket_k
+      &=\llbracket Q\rrbracket_k\circ\llbracket P\rrbracket_k,\\
+    \llbracket \texttt{LOOP }x_i\texttt{ DO }P\texttt{ END}\rrbracket_k
+      (\overline{a})
+      &=\llbracket P\rrbracket_k^{(a_i)}(\overline{a})
+  \end{align*}
+  definiert, wobei Komposition und Iteration nun partiell sein können.
+
+  Für die unbeschränkte Schleife sei
+  \[
+    H_{P,i}(\overline{a})
+    :=\bigl\{n\in\N\bigm|
+      \llbracket P\rrbracket_k^{(n)}(\overline{a})\downarrow
+      \text{ und }
+      \pi_i^k\bigl(\llbracket P\rrbracket_k^{(n)}(\overline{a})\bigr)=0
+    \bigr\}.
+  \]
+  Dann ist
+  \[
+    \llbracket \texttt{WHILE }x_i\ne0\texttt{ DO }P\texttt{ END}
+    \rrbracket_k(\overline{a}) =
+    \begin{cases}
+      \llbracket P\rrbracket_k^{(m)}(\overline{a}),
+        & H_{P,i}(\overline{a})\ne\emptyset
+          \text{ und }m=\min H_{P,i}(\overline{a}),\\
+      \text{undefiniert}, & H_{P,i}(\overline{a})=\emptyset.
+    \end{cases}
+  \]
+  Ist $m=\min H_{P,i}(\overline{a})$, so ist die $i$-te Komponente von
+  $\llbracket P\rrbracket_k^{(\ell)}(\overline{a})$ für alle $\ell<m$ von
+  $0$ verschieden und von
+  $\llbracket P\rrbracket_k^{(m)}(\overline{a})$ gleich $0$.
+
+  Für $0\leq n\leq k$ \emph{berechnet} ein Programm
+  $P\in\mathrm{WHILE}^k$ die partielle Funktion
+  $f:\N^n\hookrightarrow\N$, wenn als Gleichheit partieller Funktionen
+  \[
+    f=\pi_1^k\circ\llbracket P\rrbracket_k
+      \circ\operatorname{init}_{n,k}
+  \]
+  gilt, wobei $\operatorname{init}_{n,k}$ wie in
+  \autoref{def:LOOP-Semantik} definiert ist. Insbesondere ist
+  $f(\overline{a})$ genau dann undefiniert, wenn die Ausführung von $P$ auf
+  $\operatorname{init}_{n,k}(\overline{a})$ nicht terminiert.
+  Eine partielle Funktion heißt \emph{WHILE-berechenbar}, wenn sie von einem
+  solchen Programm berechnet wird.
+\end{Def}
+\begin{Satz}
+  Eine partielle Funktion $f : \N^n \hookrightarrow \N$ ist
+  WHILE-berechenbar genau dann,
+  wenn sie $\mu$-rekursiv ist.
+\end{Satz}
+
+Eine genauere Normalform zeigt, dass für jede $\mu$-rekursive Funktion eine
+einzige unbeschränkte Suche genügt; davor und danach stehen nur primitiv
+rekursive Berechnungen.
+\begin{Satz}[name={Kleenes Normalformtheorem}]
+	Für jede partielle Funktion $F:\N^k\hookrightarrow\N$ mit
+	$F\in\llbracket\ac{muREC}\rrbracket$ gibt es primitiv rekursive Funktionen
+	$p:\N\to\N$ und $q:\N^{k+1}\to\N$, sodass
+	\[
+		F(\overline{x})=p\bigl((\mu q)(\overline{x})\bigr)
+	\]
+	als Gleichheit partieller Funktionen gilt.
+\end{Satz}
+
+\subsection{Turing Äquivalenz}
+\label{sec:turing-aquivalenz}
+
+
+Mit $\mu$-Rekursion und WHILE-Programmen haben wir nun zwei äquivalente
+Beschreibungen partieller Berechnungen. Als Nächstes vergleichen wir diesen
+Berechenbarkeitsbegriff mit dem Modell der Turingmaschine.
 \begin{Satz}[name={[\acs*{muREC} $\hat=$ Klasse der \acs*{TM}-berechenbaren Fkt.]}]
-	\ac{muREC} stimmt mit der Klasse der \ac{TM}-berechenbaren Funktionen über $\N$ überein.
+	$\llbracket\ac{muREC}\rrbracket$ stimmt mit der Klasse der
+	\ac{TM}-berechenbaren Funktionen über $\N$ überein.
 \end{Satz}
 \begin{proof}\
 	\begin{itemize}
 	\item[$\supseteq$] Sei $M$ eine deterministische \ac{TM}, die eine partielle
 		Funktion $f:\N^k\hookrightarrow\N$ berechnet. Wir skizzieren, wie die
-		Berechnung von $M$ durch eine Funktion aus \ac{muREC} simuliert wird.
+			Berechnung von $M$ durch die Semantik eines Terms aus \ac{muREC}
+			simuliert wird.
 		\begin{enumerate}
 		\item Zustände, Bandsymbole, endliche Wörter und damit Konfigurationen
 			$(v,q,w)$ von $M$ werden durch natürliche Zahlen codiert. Die Codierung
@@ -435,251 +805,151 @@ gewonnenen Berechenbarkeitsbegriff überein.
 			\bigr).
 			\]
 			Die rechte Seite entsteht durch Minimierung und Komposition aus primitiv
-			rekursiven Funktionen; folglich ist $f\in\ac{muREC}$.
+			rekursiven Funktionen; folglich ist
+			$f\in\llbracket\ac{muREC}\rrbracket$.
 		\end{enumerate}
-	\item[$\subseteq$] simuliere $\mu$-Rekursion mit einer \ac{TM}
+	\item[$\subseteq$] Simuliere WHILE-Programm mit einer \ac{TM}
 		(analog zur universellen \ac{TM}). \qedhere
 	\end{itemize}
 \end{proof}
-Die bisherigen Konstruktionsprinzipien beschreiben Funktionen auf abstrakte
-Weise. LOOP-Programme geben ihnen ein einfaches imperatives Berechnungsmodell
-mit ausschließlich beschränkten Schleifen gegenüber.
-\begin{Def}[name={LOOP-Programme}]\label{def:LOOP-Programme}
-  Ein LOOP-Programm arbeitet mit Registern
-  $x_1,x_2,\dots$, deren Werte natürliche Zahlen sind. Die Menge der
-  LOOP-Programme ist induktiv durch die folgende Syntax definiert:
-  \[
-    \begin{array}{rcll}
-      P,Q &::=& x_i := x_i+1
-      & \text{(Inkrementierung)},\\
-          &\mid& x_i := x_i\dotminus 1
-      & \text{(Dekrementierung mit Abschneiden bei $0$)},\\
-          &\mid& P;Q
-      & \text{(sequenzielle Ausführung)},\\
-          &\mid& \texttt{LOOP }x_i\texttt{ DO }P\texttt{ END}
-      & \text{(beschränkte Schleife)}.
-    \end{array}
-  \]
-\end{Def}
-Die Syntax legt zunächst nur die erlaubten Programme fest. Ihre Bedeutung
-definieren wir als Transformation des gesamten Registerzustands.
-\begin{Def}[Semantik eines LOOP-Programms]
-  Sei $P$ ein LOOP-Programm und $k \ge \max\{ i \mid x_i \text{ kommt in $P$ vor} \}$. Dann definiert $P$ eine Funktion $\llbracket P \rrbracket_k : \N^k \to \N^k$ wie folgt.
-  \begin{itemize}
-  \item $\llbracket x_i := x_i+1 \rrbracket_k (a_1, \dots, a_i, \dots, a_k) =
-    (a_1, \dots, a_i+1, \dots, a_k)$
-  \item $\llbracket x_i := x_i\dotminus 1 \rrbracket_k (a_1, \dots, a_i, \dots, a_k) =
-    (a_1, \dots, a_i\dotminus 1, \dots, a_k)$
-  \item $\llbracket P;Q \rrbracket_k (\overline{a}) =
-    \llbracket Q \rrbracket_k (\llbracket P \rrbracket_k (\overline{a}))$
-  \item $\llbracket \texttt{LOOP }x_i\texttt{ DO }P\texttt{ END} \rrbracket_k
-    (\overline{a}) = \llbracket P \rrbracket_k^{(a_i)} (\overline{a})$
-  \end{itemize}
 
+Aus Kleenes Normalformtheorem und den Äquivalenzen mit WHILE-Programmen und
+Turingmaschinen folgt insbesondere: Jede berechenbare Funktion über $\N$ kann
+durch ein WHILE-Programm berechnet werden, das höchstens eine WHILE-Anweisung
+enthält.
 
-  Ein LOOP-Programm $P$ \emph{berechnet} eine Funktion $f:\N^n\to\N$,
-  wenn mit
-  \[
-    k=\max\bigl(\{n\}\cup\{i\mid x_i\text{ kommt in }P\text{ vor}\}\bigr)
-    \qquad\text{und}\qquad
-    \operatorname{init}_k(\overline{a})=(a_1,\dots,a_n,0,\dots,0)\in\N^k
-  \]
-  für jede Eingabe $\overline{a}\in\N^n$ gilt:
-  \[
-    f(\overline{a})
-    =\pi^k_1\bigl(\llbracket P\rrbracket_k
-      (\operatorname{init}_k(\overline{a}))\bigr).
-  \]
-\end{Def}
+\subsection{Die Ackermannfunktion}
+\label{sec:die-ackerm}
 
-In Worten: Die Zuweisungen und die sequenzielle Ausführung haben ihre übliche
-Bedeutung. Bei der Ausführung von
-$\texttt{LOOP }x_i\texttt{ DO }P\texttt{ END}$ wird der Wert $n$ von $x_i$
-beim Eintritt in die Schleife einmal gelesen und anschließend $P$ genau
-$n$-mal ausgeführt. Änderungen von $x_i$ innerhalb von $P$ beeinflussen die
-Anzahl der Schleifendurchläufe nicht.
-
-Die Definition der Semantik von LOOP-Programmen ist
-\emph{kompositionell}, weil Semantik einer zusammengesetzten Anweisung
-als Funktion der Semantik ihrer Teilanweisungen definiert ist.
-
-\begin{Satz}
-  Eine Funktion $f : \N^k \to \N$ ist LOOP-berechenbar genau dann,
-  wenn sie primitiv rekursiv ist.
-\end{Satz}
-
-Beschränkte Schleifen terminieren stets und können daher nur totale Funktionen
-berechnen. Für allgemeine partielle Berechnungen erweitern wir die Sprache um
-eine Schleife mit datenabhängiger Abbruchbedingung.
-\begin{Def}[Syntax von WHILE-Programmen]
-  Ein WHILE-Programm arbeitet mit Registern
-  $x_1,x_2,\dots$, deren Werte natürliche Zahlen sind. Die Menge der
-  WHILE-Programme ist induktiv durch die folgende Syntax definiert:
-  \[
-    \begin{array}{rcll}
-      P,Q &::=& x_i := x_i+1
-      & \text{(Inkrementierung)},\\
-          &\mid& x_i := x_i\dotminus 1
-      & \text{(Dekrementierung mit Abschneiden bei $0$)},\\
-          &\mid& P;Q
-      & \text{(sequenzielle Ausführung)},\\
-          &\mid& \texttt{LOOP }x_i\texttt{ DO }P\texttt{ END}
-      & \text{(beschränkte Schleife)},\\
-          &\mid& \texttt{WHILE }x_i\ne0\texttt{ DO }P\texttt{ END}
-                 & \text{(unbeschränkte Schleife)}.
-    \end{array}
-  \]
-\end{Def}
-Da eine unbeschränkte Schleife nicht terminieren muss, ist ihre Semantik im
-Allgemeinen nur eine partielle Funktion auf Registerzuständen.
-\begin{Def}[Semantik von WHILE-Programmen]
-  Die Semantik wird durch strukturelle Rekursion über WHILE-Programme als
-  partielle Funktion
-  $\llbracket P\rrbracket_k:\N^k\hookrightarrow\N^k$ definiert. Für
-  Inkrementierung und Dekrementierung gelten die Gleichungen aus der
-  LOOP-Semantik. Sequenzielle Ausführung und beschränkte Schleifen werden
-  durch
-  \begin{align*}
-    \llbracket P;Q\rrbracket_k
-      &=\llbracket Q\rrbracket_k\circ\llbracket P\rrbracket_k,\\
-    \llbracket \texttt{LOOP }x_i\texttt{ DO }P\texttt{ END}\rrbracket_k
-      (\overline{a})
-      &=\llbracket P\rrbracket_k^{(a_i)}(\overline{a})
-  \end{align*}
-  definiert, wobei Komposition und Iteration nun partiell sein können.
-
-  Für die unbeschränkte Schleife sei
-  \[
-    H_{P,i}(\overline{a})
-    :=\bigl\{n\in\N\bigm|
-      \llbracket P\rrbracket_k^{(n)}(\overline{a})\downarrow
-      \text{ und }
-      \pi_i^k\bigl(\llbracket P\rrbracket_k^{(n)}(\overline{a})\bigr)=0
-    \bigr\}.
-  \]
-  Dann ist
-  \[
-    \llbracket \texttt{WHILE }x_i\ne0\texttt{ DO }P\texttt{ END}
-    \rrbracket_k(\overline{a}) =
-    \begin{cases}
-      \llbracket P\rrbracket_k^{(m)}(\overline{a}),
-        & H_{P,i}(\overline{a})\ne\emptyset
-          \text{ und }m=\min H_{P,i}(\overline{a}),\\
-      \text{undefiniert}, & H_{P,i}(\overline{a})=\emptyset.
-    \end{cases}
-  \]
-  Ist $m=\min H_{P,i}(\overline{a})$, so ist die $i$-te Komponente von
-  $\llbracket P\rrbracket_k^{(\ell)}(\overline{a})$ für alle $\ell<m$ von
-  $0$ verschieden und von
-  $\llbracket P\rrbracket_k^{(m)}(\overline{a})$ gleich $0$.
-
-  Ein WHILE-Programm $P$ \emph{berechnet} die partielle Funktion
-  $f:\N^n\hookrightarrow\N$, falls mit $k$ und
-  $\operatorname{init}_k$ wie in der LOOP-Semantik für alle
-  $\overline{a}\in\N^n$ die Gleichheit partieller Ausdrücke
-  \[
-    f(\overline{a})
-    =\pi^k_1\bigl(\llbracket P\rrbracket_k
-      (\operatorname{init}_k(\overline{a}))\bigr)
-  \]
-  gilt. Insbesondere ist $f(\overline{a})$ genau dann undefiniert, wenn die
-  Ausführung von $P$ auf $\operatorname{init}_k(\overline{a})$ nicht
-  terminiert.
-\end{Def}
-\begin{Satz}
-  Eine partielle Funktion $f : \N^k \hookrightarrow \N$ ist
-  WHILE-berechenbar genau dann,
-  wenn sie $\mu$-rekursiv ist.
-\end{Satz}
-
-Eine genauere Normalform zeigt, dass für jede $\mu$-rekursive Funktion eine
-einzige unbeschränkte Suche genügt; davor und danach stehen nur primitiv
-rekursive Berechnungen.
-\begin{Satz}[name={Kleenes Normalformtheorem}]
-	Für jede partielle Funktion $F:\N^k\hookrightarrow\N$ mit
-	$F\in\ac{muREC}$ gibt es primitiv rekursive Funktionen
-	$p:\N\to\N$ und $q:\N^{k+1}\to\N$, sodass
-	\[
-		F(\overline{x})=p\bigl((\mu q)(\overline{x})\bigr)
-	\]
-	als Gleichheit partieller Funktionen gilt.
-\end{Satz}
-Zusammen mit der Äquivalenz von $\mu$-Rekursion und Turing-Berechenbarkeit folgt
-insbesondere: Jede berechenbare Funktion über $\N$ kann mit einem Programm aus
-der \acf{WHILE} berechnet werden, die maximal eine WHILE-Anweisung
-verwendet.
-
-Zum Abschluss kehren wir zu den totalen Funktionen zurück. Die Ackermannfunktion
-ist berechenbar, wächst jedoch zu schnell, um primitiv rekursiv zu sein.
+Zum Abschluss kehren wir von partiellen Berechnungen zu totalen Funktionen
+zurück. Dabei gilt:
+\begin{Beobachtung}
+	Alle primitiv rekursiven Funktionen sind total.\\
+	Aber: $\exists$ totale Funktionen, die nicht primitiv rekursiv sind.
+\end{Beobachtung}
+Die Ackermannfunktion ist das zentrale Beispiel für die zweite Aussage: Sie ist
+berechenbar, wächst jedoch zu schnell, um primitiv rekursiv zu sein.
 \begin{Def}[name={[Ackermannfunktion]}]
-	Die \emph{Ackermannfunktion}
-	\begin{align*}
-		&A:\N^2\->\N\\
-		&A(0,y)=y+1\\
-		x>0:\ &A(x,y)=A(x-1,1)\\
-		y>0:\ &A(x,y)=A(x-1,A(x.y-1)) \tag*{\qedhere}
-	\end{align*}
+  Die \emph{Ackermannfunktion}
+  \begin{align*}
+    &A:\N^2\->\N&&\\
+    &A(0,y)&&=y+1\\
+    &A(x+1,0)&&=A(x,1)\\
+    &A(x+1,y+1)&&=A(x,A(x+1,y)) \tag*{\qedhere}
+  \end{align*}
 \end{Def}
-Um diese Behauptung zu präzisieren, vergleichen wir die Wachstumsraten
-primitiv rekursiver Funktionen mit der Ackermannfunktion.
+Zunächst einige Monotonieeigenschaften der Ackermannfunktion.
+\begin{lemma}
+  Für alle $x, y \in \N$ gelten folgende Ungleichheiten:
+  \begin{align*}
+    y &< A (x, y) \\
+    A(x,y) & < A(x, y+1) \\
+    A(x, y+1) & \le A (x+1, y) \\
+    A (x, y) & < A (x+1, y) \\
+    A (x, 2y) & < A (x+2, y)
+  \end{align*}
+\end{lemma}
+Um nachzuweisen, dass $A$ nicht primitiv rekursiv ist, vergleichen wir die
+Wachstumsraten primitiv rekursiver Funktionen mit der Ackermannfunktion.
 \begin{Satz}
 	Sei $\A$ die Menge der Funktionen, die durch $A$ majorisiert werden.
-	\[ \text{Es gilt: }\ac{PREC}\subseteq \A \]\vspace{-2em}
+	\[ \text{Es gilt: }\llbracket\ac{PREC}\rrbracket\subseteq \A \]\vspace{-2em}
 \end{Satz}
 \begin{proof}
-	$A=\{f:\N^k\->\N \mid \exists n \forall\overline{x}:f(\overline{x})< A(m,\max\overline{x})\}$.\\
-	Induktion über $\ac{PREC}$:
+	$\A=\{f:\N^k\->\N \mid \exists n \forall\overline{x}:f(\overline{x})< A(n,\max\overline{x})\}$.\\
+	Strukturelle Induktion über die Terme aus $\ac{PREC}$:
 	\begin{enumerate}
-	\item $\mathcal{O}(\overline{x})=0 < A(0,\max\overline{x})=\max \overline{x}+1,\quad \mathcal{O}\in\A$
-	\item $S(x)=\A+1 < x+2 = A(\underline{1},x)$, also $S\in \mathcal A$
-	\item $\pi^k_j(x_1,\dots,x_k) = x_j\leq \max\overline{x} < \max \overline{x} +1 = A(\underline{0},\max \overline{x})$, also $\pi^k_j\in\A$
-	\item\ \vspace{-2em}
+	\item $\llbracket\mathcal{O}^k\rrbracket_k(\overline{x})=0
+		< A(0,\max\overline{x})=\max \overline{x}+1$, also
+		$\llbracket\mathcal{O}^k\rrbracket_k\in\A$.
+	\item $\llbracket\mathcal{S}\rrbracket_1(x)=x+1
+		< x+2 = A(\underline{1},x)$,
+		also $\llbracket\mathcal{S}\rrbracket_1\in\A$.
+	\item $\llbracket\pi^k_j\rrbracket_k(x_1,\dots,x_k)
+		= x_j\leq \max\overline{x} < \max \overline{x} +1
+		= A(\underline{0},\max \overline{x})$, also
+		$\llbracket\pi^k_j\rrbracket_k\in\A$.
+	\item
+		Seien $t\in\ac{PREC}^m$ und
+		$u_1,\dots,u_m\in\ac{PREC}^k$. Setze
+		$h=\llbracket t\rrbracket_m$ und
+		$g_i=\llbracket u_i\rrbracket_k$. Nach Induktionsvoraussetzung gilt
+		$g_1,\dots,g_m,h\in\A$. Daher existieren $r_1,\dots,r_m,s_0$ mit
 		\begin{align*}
-			&\left.\begin{array}{rr<{{}}@{}l}
-				\text{Sei } & g_1,\dots,g_m : &\N^k\;\->\N\\
-				& h : &\N^m\->\N
-			\end{array}\right\rbrace \in\A\\
 			&\begin{array}{rr@{}>{{}}l@{\qquad}r@{\;}l}
-				\text{also } &g_i(\overline{x}) &< A(r_i,\max\overline{x}) & r_i &\exists \text{ nach I.V.}\\
-				&h(\overline{x}) &< A(s,\max\overline{y}) &s &\exists \text{ nach I.V.}
+				&g_i(\overline{x}) &< A(r_i,\max\overline{x}) & 1\leq i\leq m,\\
+				&h(\overline{y}) &< A(s_0,\max\overline{y}).
 			\end{array}
 		\end{align*}
-		\newpage
-		Betrachte $f= h\circ [g_i,\dots,g_m]$\\
-		Wähle $j$ sodass $r_j=\max r_i$\\
-		$\curvearrowright\ g_i(x) < A(r_j,\max\overline{x})$
+		Betrachte
+		$f=h\circ[g_1,\dots,g_m]
+		=\llbracket t\circ[u_1,\dots,u_m]\rrbracket_k$.\\
+		Setze $r=\max\{r_1,\dots, r_m, s_0+1\}$.\\
+		Setze $s=r - 1$ (es gilt $s_0\le s$).\\
+		$\curvearrowright\ \forall i.\ g_i(\overline{x}) < A(r,\max\overline{x})$.
 		\begin{align*}
-			\text{Dann }f(\overline{x}) &= h(g_1(\overline{x}),\dots,g_m(\overline{x})\\
-			&< A(s,\max(g_1(\overline{x}),\dots,g_m(\overline{x}))\\
-			&< A(s,\max(A(r_1,\max\overline{x}), \dots, A(r_m,\max\overline{x}))\\
-			&= A(s,A(r_j,\max\overline{x}))\\
-			&\overset!< A(\underline{s+r_j+2},\max\overline{x})\\
-			\text{Also }f\in\A
+			\text{Dann }f(\overline{x}) &= h(g_1(\overline{x}),\dots,g_m(\overline{x}))\\
+			&< A(s_0,\max(g_1(\overline{x}),\dots,g_m(\overline{x})))\\
+			&\le A(s,\max(g_1(\overline{x}),\dots,g_m(\overline{x})))\\
+			&< A(s,\max(A(r_1,\max\overline{x}), \dots, A(r_m,\max\overline{x})))\\
+			&= A(s,A(s+1,\max\overline{x}))\\
+			&= A(s+1,\max\overline{x} + 1)\\
+			&\le A(\underline{s+2},\max\overline{x})\\
+			\text{Also }f\in\A.
 		\end{align*}
-	\item Sei $g:\N^k\->\N,\ h:\N^[k+2]\->\N\qquad \in\A$
+	\item Seien $t\in\ac{PREC}^k$ und $u\in\ac{PREC}^{k+2}$. Setze
+		$g=\llbracket t\rrbracket_k$ und $h=\llbracket u\rrbracket_{k+2}$.
+		Nach Induktionsvoraussetzung gilt $g,h\in\A$.
 		\begin{align*}
-			\curvearrowright \exists r,s :{}& g(\overline{x}< A(r,\max\overline{x}))\\
-			& h(\overline{y}< A(s,\max\overline{y}))
+			\curvearrowright \exists r,s :{}& g(\overline{x})< A(r,\max\overline{x})\\
+                                                        & h(\overline{y})< A(s,\max\overline{y})
 		\end{align*}
-		Sei $f= PR(g,h)$. Zeige $f\in\A$\\
+		Sei $f=\PR(g,h)=\llbracket \PR(t,u)\rrbracket_{k+1}$.
+		Zeige $f\in\A$.\\
+
+
+                %%%%%%%%% dieser "einfachere" Ansatz funktioniert nicht!
+		% Zeige $\forall n\in\N: f(n,\overline{x}) < A(q,\max(n, \overline x))$, wobei $q$ nicht von $n$ oder $\overline{x}$ abhängt.\\
+		% Wähle $q=\max(r,s)+1$.
+		
+		% Induktion über $n$:
+		% \begin{description}
+		% \item[$n=0:$]\qquad $f(0,\overline{x}) = g(\overline{x}) < A(r,\max\overline{x}) < A(q,\max(0, \overline{x}))$
+		% \item[$n\->n+1:$]\ \vspace{-2em}
+		% 	\begin{align*}
+		% 		f(n+1,\overline{x}) &= h(f(n,\overline{x}),n,\overline{x}) < A(s,z) &&,\ z=\max(f(n,\overline{x}),n,\overline{x})\\
+		% 		\text{nach I.V.\,:}\quad f(n,\overline{x}) &< A(q,\max(n,\overline{x}))\\
+		% 		\max(n,\overline{x}) &< A(q,\max(n,\overline{x}))\\
+		% 		\curvearrowright z &< A(q,\max(n,\overline{x}))\\
+		% 		f(n+1,\overline{x}) &< A(s,z)\\
+		% 		&< A(s,A(q,\max(n,\overline{x})))\\
+		% 		&\leq A(q-1,A(q,\max(n,\overline{x})))\\
+                %                                     &= A(q,\max(n,\overline{x})+1) \\
+                %                                     &\le A (q+1,\max(n,\overline{x})) \\
+                %                                     &\le A (q+1,\max(n+1,\overline{x})) \tag*{\qedhere}
+		% 	\end{align*}
+		% \end{description}
+
+                %%%%%%%%
 		Zunächst $\forall n\in\N: f(n,\overline{x}) < A(q,n+\max\overline x)$, wobei $q$ nicht von $n$ oder $\overline{x}$ abhängt.\\
 		Wähle $q=\max(r,s)+1$.
 		
 		Induktion über $n$:
 		\begin{description}
-		\item[$n=0:$]\qquad $f(0,\overline{x}) = g(\overline{x}) < A(r,\max\overline{x}) < A(g,\max x)$
+		\item[$n=0:$]\qquad $f(0,\overline{x}) = g(\overline{x}) < A(r,\max\overline{x}) < A(q,\max \overline{x})$
 		\item[$n\->n+1:$]\ \vspace{-2em}
 			\begin{align*}
 				f(n+1,\overline{x}) &= h(f(n,\overline{x}),n,\overline{x}) < A(s,z) &&,\ z=\max(f(n,\overline{x}),n,\overline{x})\\
-				\text{nach I.V.\,:}\quad f(n,\overline{x}) &< A(g,n+\max\overline{x})\\
+				\text{nach I.V.\,:}\quad f(n,\overline{x}) &< A(q,n+\max\overline{x})\\
 				\max(n,\overline{x}) \leq n+\max\overline{x} &< A(q,n+\max\overline{x})\\
 				\curvearrowright z &< A(q,n+\max\overline{x})\\
 				f(n+1,\overline{x}) &< A(s,z)\\
 				&< A(s,A(q,n+\max\overline{x}))\\
 				&\leq A(q-1,A(q,n+\max\overline{x}))\\
-				&= A(q,A(q,n+1+\max\overline{x})) \tag*{\qedsymbol\ Ind. $n$}
+				&= A(q,n+1+\max\overline{x}) \tag*{\qedsymbol\ Ind. $n$}
 			\end{align*}
 		\end{description}
+                %%%%%%%%%%%
 		\begin{align*}
 			\text{Nun setze }w &=\max(n,\overline{x})\\
 			f(n,\overline{x}) < A(q,n+\max\overline{x})\\
