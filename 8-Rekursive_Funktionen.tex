@@ -165,7 +165,7 @@ primitiv rekursiver Terme festlegen. Ihre Gesamtheit bezeichnen wir als
 		$\mathcal{S}\in\ac{PREC}^1$.
 	\item\label{itm:Komposition}
 		Sind $t\in\ac{PREC}^m$ und
-		$u_1,\dots,u_m\in\ac{PREC}^k$, so gilt
+		$u_1,\dots,u_m\in\ac{PREC}^k$, für $m, k \in\N$, so gilt
 		\[
 			t\circ[u_1,\dots,u_m]\in\ac{PREC}^k.
 		\]
@@ -494,14 +494,82 @@ bereits durch sehr kurze LOOP-Programme berechnen.
   \end{description}
 \end{Bsp}
 
-Diese Beispiele illustrieren eine Richtung des folgenden
+\clearpage\datenote{NEXT-UP}
+\subsection{Eigenschaften primitiv-rekursiver Funktionen}
+\label{sec:eigensch-prim-rekurs}
+
+
+Die Beispiele illustrieren eine Richtung des folgenden
 Charakterisierungssatzes.
 \begin{Satz}
-  Eine Funktion $f : \N^n \to \N$ ist LOOP-berechenbar genau dann,
+  Eine Funktion $f : \N^k \to \N$ ist LOOP-berechenbar genau dann,
   wenn sie primitiv rekursiv ist.
 \end{Satz}
 
-\clearpage\datenote{NEXT-UP}
+Obwohl primitiv rekursive Funktionen nur einen Teil der totalen Funktionen berechnen,
+ist es dennoch nicht möglich, sie effektiv zu vergleichen.
+
+\begin{Satz}\label{thm:pr-equality-undecidable}
+  Gegeben zwei primitiv rekursive Funktionen $f, g : \N^k \to \N$.
+  Das Prädikat $P (f, g) := \forall \overline{a}\in\N^k. f (\overline{a}) = g (\overline{a})$
+  ist unentscheidbar.
+\end{Satz}
+\begin{proof}
+  Wir betrachten die Funktion $h: \N^k \to \N$ definiert durch
+  $h (\overline{a}) = (f (\overline{a}) \dotminus g (\overline{a})) +
+  (g (\overline{a}) \dotminus f (\overline{a})) $.
+  Es gilt, dass $Q(h) := \forall \overline{a}\in\N^k. h (\overline{a}) = 0$ genau dann, wenn
+  $P (f,g )$.
+
+  Wir zeigen nun, dass $Q(h)$ unentscheidbar ist durch Reduktion auf das Halteproblem
+  von Turingmaschinen. Dazu  sei $M$ eine deterministische \ac{TM}. Wir skizzieren,
+  wie die Berechnung von $M$ \emph{für endlich viele Schritte} durch eine primitiv rekursive
+  Funktion bewerkstelligt werden kann.
+  \begin{enumerate}
+  \item Zustände, Bandsymbole, endliche Wörter und damit Konfigurationen
+    $(v,q,w)$ von $M$ werden durch natürliche Zahlen codiert. Die Codierung
+    kann so gewählt werden, dass die benötigten Codierungs- und
+    Decodierungsfunktionen primitiv rekursiv sind (iterierte Paarfunktion).
+  \item Da $M$ fest ist, sind die Funktionen
+    \[
+      \mathsf{start}_{M}:\N^k\->\N
+      \qquad\text{und}\qquad
+      \mathsf{step}_{M}:\N\->\N
+    \]
+    primitiv rekursiv. Sie liefern den Code der Startkonfiguration bzw. den
+    Code der eindeutigen Folgekonfiguration. Für Haltekonfigurationen setzen
+    wir $\mathsf{step}_{M}(c)=c$.
+  \item Durch primitive Rekursion ist auch
+    \begin{align*}
+      \mathsf{conf}_{M}(0,\overline{x})
+      &=\mathsf{start}_{M}(\overline{x}),\\
+      \mathsf{conf}_{M}(n+1,\overline{x})
+      &=\mathsf{step}_{M}(\mathsf{conf}_{M}(n,\overline{x}))
+    \end{align*}
+    primitiv rekursiv. $\mathsf{conf}_{M}(n,\overline{x})$ codiert die
+    Konfiguration nach $n$ Schritten.
+  \item Die charakteristische Funktion $\mathsf{halt}_{M}$ der Codes von
+    Haltekonfigurationen ist primitiv rekursiv; dabei sei
+    $\mathsf{halt}_{M}(c)=0$ genau für Haltekonfigurationen. Dann ist
+    \[
+      H_{M}(n,\overline{x})
+      :=\mathsf{halt}_{M}(\mathsf{conf}_{M}(n,\overline{x}))
+    \]
+    primitiv rekursiv.
+  \item Definiere nun eine weitere primitiv rekursive Funktion
+    $h_M (n, \overline{x}) = 1 \dotminus H_{M}(n,\overline{x})$. Es
+    gilt, dass $\forall n, \overline{x}. h_M (n, \overline{x}) = 0$ 
+    genau dann, wenn für alle $n$ die TM $M$ keine Haltekonfiguration erreicht.
+    Dass heißt, $M$ terminiert auf keiner Eingabe.
+    Diese Eigenschaft ist äquivalent zum Halteproblem und damit unentscheidbar.
+  \end{enumerate}
+  
+  
+\end{proof}
+
+Daher kann es keine syntaktische Normalform geben, durch die ein solcher Vergleich ja
+durchgeführt werden könnte.
+
 \subsection{$\mu$-rekursive Funktionen}
 \label{sec:mu-rekurs-funkt}
 
@@ -615,7 +683,10 @@ muss nur die Bedeutung des neuen Minimierungsterms festgelegt werden.
   \]
   die Semantik aus \autoref{def:PREC-Semantik} fort. Für die aus
   \autoref{def:PREC} übernommenen Syntaxfälle gelten dieselben
-  Semantikgleichungen, nun für partielle Funktionen. Für den zusätzlichen
+  Semantikgleichungen, nun für partielle Funktionen. Dabei ist zu
+  beachten, dass die Komposition \emph{strikt} ist. Das heißt, wenn
+  irgendeine Komponentenfunktion kein Ergebnis liefert, dann liefert
+  die gesamte Komposition kein Ergebnis. Für den zusätzlichen
   Syntaxfall gilt
   \[
     \llbracket\mu t\rrbracket_k
@@ -757,30 +828,10 @@ Berechenbarkeitsbegriff mit dem Modell der Turingmaschine.
 	\item[$\supseteq$] Sei $M$ eine deterministische \ac{TM}, die eine partielle
 		Funktion $f:\N^k\hookrightarrow\N$ berechnet. Wir skizzieren, wie die
 			Berechnung von $M$ durch die Semantik eines Terms aus \ac{muREC}
-			simuliert wird.
+			simuliert wird. Die meisten Teile entsprechen der Konstruktion
+                        aus dem Beweis von \autoref{thm:pr-equality-undecidable} und
+                        wir geben nur den neuen Teil an.
 		\begin{enumerate}
-		\item Zustände, Bandsymbole, endliche Wörter und damit Konfigurationen
-			$(v,q,w)$ von $M$ werden durch natürliche Zahlen codiert. Die Codierung
-			kann so gewählt werden, dass die benötigten Codierungs- und
-			Decodierungsfunktionen primitiv rekursiv sind.
-		\item Da $M$ fest ist, sind die Funktionen
-			\[
-			\mathsf{start}_{M}:\N^k\->\N
-			\qquad\text{und}\qquad
-			\mathsf{step}_{M}:\N\->\N
-			\]
-			primitiv rekursiv. Sie liefern den Code der Startkonfiguration bzw. den
-			Code der eindeutigen Folgekonfiguration. Für Haltekonfigurationen setzen
-			wir $\mathsf{step}_{M}(c)=c$.
-		\item Durch primitive Rekursion ist auch
-			\begin{align*}
-			\mathsf{conf}_{M}(0,\overline{x})
-				&=\mathsf{start}_{M}(\overline{x}),\\
-			\mathsf{conf}_{M}(n+1,\overline{x})
-				&=\mathsf{step}_{M}(\mathsf{conf}_{M}(n,\overline{x}))
-			\end{align*}
-			primitiv rekursiv. $\mathsf{conf}_{M}(n,\overline{x})$ codiert die
-			Konfiguration nach $n$ Schritten.
 		\item Die charakteristische Funktion $\mathsf{halt}_{M}$ der Codes von
 			Haltekonfigurationen ist primitiv rekursiv; dabei gelte
 			$\mathsf{halt}_{M}(c)=0$ genau für Haltekonfigurationen. Damit ist auch
