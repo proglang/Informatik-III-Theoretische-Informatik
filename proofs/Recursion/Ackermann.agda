@@ -26,11 +26,6 @@ A-incr-y zero    y        = n<1+n y
 A-incr-y (suc x) zero     = A>0 x 1
 A-incr-y (suc x) (suc y)  = ≤-<-trans (A-incr-y (suc x) y)
                                      (A-incr-y x (A (suc x) y))
-
-A-incr-y1 : ∀ y → suc y < A 1 y
-A-incr-y1 zero = s≤s (s≤s z≤n)
-A-incr-y1 (suc y) = s≤s (A-incr-y1 y)
-
 -- Property (2)
 A-mono-y1 : ∀ x y → A x y < A x (suc y)
 A-mono-y1 zero y = n<1+n (suc y)
@@ -40,6 +35,7 @@ A-mono-yk : ∀ x y k → A x y < A x (suc k + y)
 A-mono-yk x y zero = A-mono-y1 x y
 A-mono-yk x y (suc k) = <-trans (A-mono-yk x y k) (A-mono-y1 x (suc k + y))
 
+-- unused
 A-mono-y : ∀ x y₁ y₂ → y₁ < y₂ → A x y₁ < A x y₂
 A-mono-y x y₁ y₂ y₁<y₂
   with m≤n⇒∃[o]m+o≡n y₁<y₂
