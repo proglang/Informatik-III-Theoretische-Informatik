@@ -1,10 +1,11 @@
 module Recursion.Ackermann where
 
 open import Agda.Builtin.Equality using (_≡_; refl)
-open import Data.Nat using (ℕ; suc; zero; _+_; _≤_; _<_; z≤n; s≤s)
+open import Data.Nat using (ℕ; suc; zero; _+_; _*_;_^_;_∸_; _≤_; _<_; z≤n; s≤s)
 open import Data.Nat.Properties using (+-identityʳ; +-comm; n<1+n; m≤n⇒∃[o]m+o≡n;
   <-trans; <⇒≤; <-≤-trans; ≤-<-trans; ≤-refl; ≤-trans)
 open import Data.Product using (∃; _,_; proj₁; proj₂)
+open import Relation.Binary.PropositionalEquality using (cong; trans)
 
 -- the ackermann function
 
@@ -61,3 +62,19 @@ A-mono-x x y = <-≤-trans (A-mono-y1 x y) (A-move-xy x y)
 
 -- proofs inspired by these lecture notes
 -- https://www.ruhr-uni-bochum.de/lmi/lehre/materialien/ti/vorlesung/ackermann.pdf
+
+-- closed forms
+
+A1y : ∀ y → A 1 y ≡ suc (suc y)
+A1y zero = refl
+A1y (suc y) = cong suc (A1y y)
+
+A2y : ∀ y → A 2 y ≡ suc (suc (suc (y * 2)))
+A2y zero = refl
+A2y (suc y) = trans (A1y (A 2 y)) (cong suc (cong suc (A2y y)))
+
+A3y : ∀ y → A 3 y ≡ 2 ^ (suc (suc (suc y))) ∸ 3
+A3y zero = refl
+A3y (suc y) = {!!}
+-- use equational reasoning here
+

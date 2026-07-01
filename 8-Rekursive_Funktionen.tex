@@ -494,7 +494,7 @@ bereits durch sehr kurze LOOP-Programme berechnen.
   \end{description}
 \end{Bsp}
 
-\clearpage\datenote{NEXT-UP}
+\datenote{30.06.2026}
 \subsection{Eigenschaften primitiv-rekursiver Funktionen}
 \label{sec:eigensch-prim-rekurs}
 
@@ -793,33 +793,22 @@ Allgemeinen nur eine partielle Funktion auf Registerzuständen.
   Eine partielle Funktion heißt \emph{WHILE-berechenbar}, wenn sie von einem
   solchen Programm berechnet wird.
 \end{Def}
-\begin{Satz}
+\begin{Satz}\label{satz:while-murec}
   Eine partielle Funktion $f : \N^n \hookrightarrow \N$ ist
   WHILE-berechenbar genau dann,
   wenn sie $\mu$-rekursiv ist.
 \end{Satz}
 
-Eine genauere Normalform zeigt, dass für jede $\mu$-rekursive Funktion eine
-einzige unbeschränkte Suche genügt; davor und danach stehen nur primitiv
-rekursive Berechnungen.
-\begin{Satz}[name={Kleenes Normalformtheorem}]
-	Für jede partielle Funktion $F:\N^k\hookrightarrow\N$ mit
-	$F\in\llbracket\ac{muREC}\rrbracket$ gibt es primitiv rekursive Funktionen
-	$p:\N\to\N$ und $q:\N^{k+1}\to\N$, sodass
-	\[
-		F(\overline{x})=p\bigl((\mu q)(\overline{x})\bigr)
-	\]
-	als Gleichheit partieller Funktionen gilt.
-\end{Satz}
-
-\subsection{Turing Äquivalenz}
+\subsection{Turingäquivalenz}
 \label{sec:turing-aquivalenz}
+\datenote{01.07.2026}
 
 
 Mit $\mu$-Rekursion und WHILE-Programmen haben wir nun zwei äquivalente
 Beschreibungen partieller Berechnungen. Als Nächstes vergleichen wir diesen
 Berechenbarkeitsbegriff mit dem Modell der Turingmaschine.
 \begin{Satz}[name={[\acs*{muREC} $\hat=$ Klasse der \acs*{TM}-berechenbaren Fkt.]}]
+\label{satz:murec-tm}
 	$\llbracket\ac{muREC}\rrbracket$ stimmt mit der Klasse der
 	\ac{TM}-berechenbaren Funktionen über $\N$ überein.
 \end{Satz}
@@ -839,12 +828,13 @@ Berechenbarkeitsbegriff mit dem Modell der Turingmaschine.
 			H_{M}(n,\overline{x})
 			:=\mathsf{halt}_{M}(\mathsf{conf}_{M}(n,\overline{x}))
 			\]
-			primitiv rekursiv. Durch Minimierung erhalten wir
+			primitiv rekursiv. Durch Minimierung erhalten wir die $\mu$-rekursive
+			partielle Funktion
 			\[
 			t_{M}(\overline{x})
 			:=(\mu H_{M})(\overline{x}).
 			\]
-			$\mu$-rekursiv. Diese Funktion ist genau dann undefiniert, wenn $M$ auf
+			Diese Funktion ist genau dann undefiniert, wenn $M$ auf
 			$\overline{x}$ nicht hält.
 		\item Schließlich sei $\mathsf{out}_{M}$ die primitiv rekursive Funktion,
 			die aus dem Code einer Haltekonfiguration die codierte Ausgabe liest. Dann
@@ -859,12 +849,52 @@ Berechenbarkeitsbegriff mit dem Modell der Turingmaschine.
 			rekursiven Funktionen; folglich ist
 			$f\in\llbracket\ac{muREC}\rrbracket$.
 		\end{enumerate}
-	\item[$\subseteq$] Simuliere WHILE-Programm mit einer \ac{TM}
-		(analog zur universellen \ac{TM}). \qedhere
+	\item[$\subseteq$] Sei umgekehrt
+		$f:\N^n\hookrightarrow\N$ eine Funktion aus
+		$\llbracket\ac{muREC}\rrbracket$. Nach \autoref{satz:while-murec} gibt es
+		ein $k\geq n$ und ein Programm $P\in\mathrm{WHILE}^k$, das $f$ berechnet.
+		Es genügt also, WHILE-Programme durch Turingmaschinen zu simulieren.
+
+		Wir codieren eine WHILE-Konfiguration als $k$ Registerinhalte, etwa auf
+		$k$ Bändern oder auf einem Band mit Trennzeichen. Zu jedem
+		$P\in\mathrm{WHILE}^k$ konstruieren wir dann strukturell eine \ac{TM}
+		$M_P$, die dieselbe partielle Registertransformation berechnet.
+		\begin{enumerate}
+		\item Die Grundanweisungen
+			$x_i:=0$, $x_i:=x_i+1$ und $x_i:=x_i\dotminus1$ werden durch endliche
+			Turingmaschinen-Makros realisiert, die nur das $i$-te Registerband
+			ändern.
+		\item Eine Sequenz $P;Q$ wird durch Hintereinanderschalten der Maschinen
+			$M_P$ und $M_Q$ simuliert.
+		\item Für
+			$\texttt{WHILE }x_i\ne0\texttt{ DO }P\texttt{ END}$ testet die Maschine
+			zunächst Register $i$. Ist es $0$, hält sie mit der aktuellen
+			Registerbelegung. Ist es ungleich $0$, führt sie $M_P$ aus und springt
+			anschließend zurück zum Test. Divergiert eine Iteration von $P$ oder
+			wird der Test nie mit Wert $0$ erreicht, so divergiert auch die
+			konstruierte \ac{TM}.
+		\end{enumerate}
+		Damit berechnet $M_P$ genau $\llbracket P\rrbracket_k$. Die vollständige
+		Maschine für $f$ initialisiert zusätzlich die Register
+		$x_{n+1},\dots,x_k$ mit $0$ und gibt nach Terminierung das Register $x_1$
+		aus. Also ist $f$ \ac{TM}-berechenbar. \qedhere
 	\end{itemize}
 \end{proof}
 
-Aus Kleenes Normalformtheorem und den Äquivalenzen mit WHILE-Programmen und
+Zum Abschluss der Turing-Äquivalenz halten wir noch eine Normalform fest. Sie
+zeigt, dass für jede $\mu$-rekursive Funktion eine einzige unbeschränkte Suche
+genügt; davor und danach stehen nur primitiv rekursive Berechnungen.
+\begin{Satz}[name={Kleenes Normalformtheorem}]
+	Für jede partielle Funktion $F:\N^k\hookrightarrow\N$ mit
+	$F\in\llbracket\ac{muREC}\rrbracket$ gibt es primitiv rekursive Funktionen
+	$p:\N\to\N$ und $q:\N^{k+1}\to\N$, sodass
+	\[
+		F(\overline{x})=p\bigl((\mu q)(\overline{x})\bigr)
+	\]
+	als Gleichheit partieller Funktionen gilt.
+\end{Satz}
+
+Aus diesem Normalformtheorem und den Äquivalenzen mit WHILE-Programmen und
 Turingmaschinen folgt insbesondere: Jede berechenbare Funktion über $\N$ kann
 durch ein WHILE-Programm berechnet werden, das höchstens eine WHILE-Anweisung
 enthält.
@@ -889,6 +919,59 @@ berechenbar, wächst jedoch zu schnell, um primitiv rekursiv zu sein.
     &A(x+1,y+1)&&=A(x,A(x+1,y)) \tag*{\qedhere}
   \end{align*}
 \end{Def}
+Für kleine Argumente ergeben sich die folgenden Werte und geschlossenen Formen.
+\[
+\begin{array}{c@{\qquad}ccccc@{\qquad}l}
+\toprule
+x & A(x,0) & A(x,1) & A(x,2) & A(x,3) & A(x,4)
+  & y\mapsto A(x,y) \\
+\midrule
+0 & 1 & 2 & 3 & 4 & 5 & y+1 \\
+1 & 2 & 3 & 4 & 5 & 6 & y+2 \\
+2 & 3 & 5 & 7 & 9 & 11 & 2y+3 \\
+3 & 5 & 13 & 29 & 61 & 125 & 2^{y+3}-3 \\
+\bottomrule
+\end{array}
+\]
+
+\begin{Satz}\label{satz:ackermann-murec}
+  Die Ackermannfunktion $A$ ist $\mu$-rekursiv, also
+  $A\in\llbracket\ac{muREC}^2\rrbracket_2$.
+\end{Satz}
+\begin{proof}[Beweisskizze]
+  Nach \autoref{satz:while-murec} genügt es, ein WHILE-Programm für $A$ zu
+  skizzieren. Das Programm wertet die rekursive Definition mit einem Stack aus.
+  Der aktuelle Wert steht in einem Register $r$, der Stack $s$ enthält die noch
+  ausstehenden ersten Argumente von Ackermann-Aufrufen. Wir codieren den Stack
+  mit der Paarungsfunktion: Der leere Stack ist $0$, und
+  \[
+    \operatorname{push}(m,s)=cp(m,s)+1.
+  \]
+  Für $s>0$ liefert
+  $\operatorname{pop}(s)=(px(s\dotminus1),py(s\dotminus1))$ das oberste Element
+  und den Reststack. Diese Stackoperationen sind primitiv rekursiv und damit
+  insbesondere WHILE-berechenbar.
+
+  Initialisiere $r:=y$ und $s:=\operatorname{push}(x,0)$. Solange $s\ne0$ gilt,
+  wird ein Element $m$ vom Stack genommen und einer der folgenden Schritte
+  ausgeführt:
+  \begin{description}
+  \item[$m=0$:] Setze $r:=r+1$.
+  \item[$m>0$ und $r=0$:] Lege $m\dotminus1$ auf den Stack und setze $r:=1$.
+  \item[$m>0$ und $r>0$:] Lege zuerst $m\dotminus1$ und danach $m$ auf den
+    Stack und setze $r:=r\dotminus1$.
+  \end{description}
+  Die Fallunterscheidungen sind WHILE-Syntaxzucker: Tests auf $0$ beziehungsweise
+  auf Ungleichheit zu $0$ lassen sich mit Hilfsregistern und WHILE-Schleifen
+  ausdrücken.
+
+  Jeder Schleifendurchlauf ersetzt den obersten noch ausstehenden Aufruf genau
+  entsprechend einer der drei Definitionsgleichungen von $A$. Die Stackmaschine
+  führt daher eine Tiefensuche durch den endlichen Auswertungsbaum der
+  Ackermann-Rekursion aus. Bei leerem Stack steht in $r$ der Wert $A(x,y)$; das
+  Programm kopiert $r$ abschließend nach $x_1$. Somit ist $A$ WHILE-berechenbar
+  und folglich $\mu$-rekursiv.
+\end{proof}
 Zunächst einige Monotonieeigenschaften der Ackermannfunktion.
 \begin{lemma}
   Für alle $x, y \in \N$ gelten folgende Ungleichheiten:
@@ -903,11 +986,10 @@ Zunächst einige Monotonieeigenschaften der Ackermannfunktion.
 Um nachzuweisen, dass $A$ nicht primitiv rekursiv ist, vergleichen wir die
 Wachstumsraten primitiv rekursiver Funktionen mit der Ackermannfunktion.
 \begin{Satz}
-	Sei $\A$ die Menge der Funktionen, die durch $A$ majorisiert werden.
+	Sei $\A=\{f:\N^k\->\N \mid \exists n \forall\overline{x}:f(\overline{x})< A(n,\max\overline{x})\}$ die Menge der Funktionen, die durch $A$ majorisiert werden. 
 	\[ \text{Es gilt: }\llbracket\ac{PREC}\rrbracket\subseteq \A \]\vspace{-2em}
 \end{Satz}
 \begin{proof}
-	$\A=\{f:\N^k\->\N \mid \exists n \forall\overline{x}:f(\overline{x})< A(n,\max\overline{x})\}$.\\
 	Strukturelle Induktion über die Terme aus $\ac{PREC}$:
 	\begin{enumerate}
 	\item $\llbracket\mathcal{O}^k\rrbracket_k(\overline{x})=0
